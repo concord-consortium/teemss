@@ -74,6 +74,7 @@ public class LineGraph extends Graph2D
     Bin binArray [];
 
     TextLine yExpLabel = new TextLine("", TextLine.UP);
+    TextLine xExpLabel = new TextLine("", TextLine.RIGHT);
 
     boolean axisFlipped = false;
     Object [][] graphLayout = new Object[3][3];
@@ -132,6 +133,7 @@ public class LineGraph extends Graph2D
     public void free()
     {
 	if(yExpLabel != null)yExpLabel.free();
+	if(xExpLabel != null)xExpLabel.free();
 	if(yaxis != null)yaxis.free();
 	if(xaxisArray != null){
 	    for(int i=0; i<xaxisArray.length; i++){
@@ -732,6 +734,11 @@ public class LineGraph extends Graph2D
 	}
 
 	drawXaxis(g);
+
+	if(xaxis.labelExp != 0){
+	    xExpLabel.setText("10^" + xaxis.labelExp);
+	    xExpLabel.draw(g, width-30, height-10);
+	}
 
     }
 
