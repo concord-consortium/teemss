@@ -75,7 +75,7 @@ public class CCProbe extends ExtraMainWindow
 			lbDB = new LabBookCatalog("LabBook");
 		} else {
 			lbDB = new LabBookFile("LabBook");
-			GraphSettings.MAX_COLLECTIONS = 5;
+			GraphSettings.MAX_COLLECTIONS = 4;
 		}
 
 		if(myHeight < 180){
