@@ -375,7 +375,7 @@ private waba.ui.Container		contentPane;
 		popup = new Popup(this);
 		popup.popup();
 		waba.ui.MainWindow mw = waba.ui.MainWindow.getMainWindow();
-		if(mw instanceof org.concord.waba.ExtraMainWindow){
+		if(mw instanceof ExtraMainWindow){
 			((ExtraMainWindow)mw).setDialog(this);
 		}
 	}

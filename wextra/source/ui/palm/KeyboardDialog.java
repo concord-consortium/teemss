@@ -146,7 +146,7 @@ public final class KeyboardDialog extends Dialog
 				if (key != -1) insertKey(key);
 			} else {
 				char c = st.charAt(0);
-				//				if (isShift || isCaps) c = extra.io.DataStream.toUpperCase(c);
+				//				if (isShift || isCaps) c = DataStream.toUpperCase(c);
 				insertKey(c); 
 				cancelShift();
 			}

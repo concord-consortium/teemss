@@ -318,7 +318,7 @@ public boolean isControlHDialogOwned(Control c){
 
   /**
    * Adds a component to this application.  See RelativeContainer for details
-   * @see extra.ui.RelativeContainer#add(Control,int,int,int,int,Control)
+   * @see RelativeContainer#add(Control,int,int,int,int,Control)
    */
   public void add(Control control,int x,int y)
   {
@@ -327,7 +327,7 @@ public boolean isControlHDialogOwned(Control c){
 
   /**
    * Adds a component to this application.  See RelativeContainer for details
-   * @see extra.ui.RelativeContainer#add(Control,int,int,int,int,Control)
+   * @see RelativeContainer#add(Control,int,int,int,int,Control)
    */
   public void add(Control control,int x,int y,Control relative)
   {
@@ -336,7 +336,7 @@ public boolean isControlHDialogOwned(Control c){
 
   /**
    * Adds a component to this application.  See RelativeContainer for details
-   * @see extra.ui.RelativeContainer#add(Control,int,int,int,int,Control)
+   * @see RelativeContainer#add(Control,int,int,int,int,Control)
    */
   public void add(Control control,int x,int y,int width,int height)
   {
@@ -345,7 +345,7 @@ public boolean isControlHDialogOwned(Control c){
 
   /**
    * Adds a component to this application.  See RelativeContainer for details
-   * @see extra.ui.RelativeContainer#add(Control,int,int,int,int,Control)
+   * @see RelativeContainer#add(Control,int,int,int,int,Control)
    */
   public void add(Control control,int x,int y,int width,int height,Control relative)
   {
@@ -354,7 +354,7 @@ public boolean isControlHDialogOwned(Control c){
 
   /**
    * Adds a component to this application.  See RelativeContainer for details
-   * @see extra.ui.RelativeContainer#add(Control,int,int,int,int,Control)
+   * @see RelativeContainer#add(Control,int,int,int,int,Control)
    */
   public void add(Control control)
   {
@@ -363,7 +363,7 @@ public boolean isControlHDialogOwned(Control c){
 
   /**
    * Temporarily removes a component to this application.  See RelativeContainer for details
-   * @see extra.ui.RelativeContainer#add(Control,int,int,int,int,Control)
+   * @see RelativeContainer#add(Control,int,int,int,int,Control)
    */
   public void remove(Control control)
   {
@@ -372,7 +372,7 @@ public boolean isControlHDialogOwned(Control c){
 
   /**
    * Permanently removes a component to this application.  See RelativeContainer for details
-   * @see extra.ui.RelativeContainer#add(Control,int,int,int,int,Control)
+   * @see RelativeContainer#add(Control,int,int,int,int,Control)
    */
   public void removePermanently(Control control)
   {

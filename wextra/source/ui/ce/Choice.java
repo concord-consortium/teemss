@@ -115,7 +115,7 @@ public class Choice extends List{
 		}
 	    
 		if(c == null) return;
-		popup=new extra.ui.Popup(this,w);
+		popup=new Popup(this,w);
 		popup.popup(x,y,expandedWidth+10,textHeight*numDisplayed+3+initialYOffset);
 	}
 

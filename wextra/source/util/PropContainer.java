@@ -1,4 +1,6 @@
 package org.concord.waba.extra.util;
+
+import org.concord.waba.extra.io.*;
 import waba.util.Vector;
 
 public class PropContainer
@@ -141,7 +143,7 @@ public class PropContainer
 		return false;
 	}
 
-	public void writeExternal(extra.io.DataStream out)
+	public void writeExternal(DataStream out)
 	{
 		out.writeInt(countProperties());
 		for(int i = 0; i < countProperties(); i++){
@@ -150,7 +152,7 @@ public class PropContainer
 		}
 	}
 
-	public void readExternal(extra.io.DataStream in)
+	public void readExternal(DataStream in)
 	{
 		int temp = in.readInt();
 		if(temp < 1) return;

@@ -14,7 +14,7 @@
  * Moved packages and modified to use the new DataStream class
  *
  ****************************************************************************/
-package org.concord.extra.io;
+package org.concord.waba.extra.io;
 
 /**
  * An interface for all objects that support loading and saving themselves

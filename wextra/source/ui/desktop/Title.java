@@ -13,7 +13,6 @@ package org.concord.waba.extra.ui;
 
 import waba.fx.*;
 import waba.ui.*;
-import extra.ui.*;
 
 /**
  * A standard palm title bar.  Doesn't do anything, just sits at the top of the screen and

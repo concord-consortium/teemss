@@ -1,5 +1,4 @@
-SRC_DIRS = cc_extra/event cc_extra/icons cc_extra/ui cc_extra/ui/_plat_ cc_extra/util extra/ui extra/io extra/util \
-	wababin
+SRC_DIRS = source/ui source/ui/_plat_ source/util source/io source/event icons source/wababin 
 SKIP_FILES = 
 
 PLATFORMS = ce desktop palm
@@ -19,7 +18,7 @@ icons: $(PLATFORMS:%=classes/%/icons)
 
 $(PLATFORMS:%=classes/%/icons): 
 	mkdir -p $@
-	cp cc_extra/icons/*.bmp $@
+	cp icons/*.bmp $@
 
 clean:
 	rm -rf classes

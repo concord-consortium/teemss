@@ -9,8 +9,6 @@
  ****************************************************************************/
 package org.concord.waba.extra.util;
 
-import extra.util.Maths;
-
 public class FFT
 {
 	private final static int DIM_FFT = 32;
@@ -46,7 +44,7 @@ public class FFT
 	 * if isign == 1 then direct FFT
 	 * if isign == -1 then inverse FFT
 	 *Example:
-	 * you should import class extra.util.Maths
+	 * you should import class Maths
 	 *
 	 *int	dataDim = 256 ;
 	 *float []data = new float[dataDim*2];//you should allocate double size

@@ -231,7 +231,7 @@ class DrawArea extends Control{
 		this.embeddedState = embeddedState;
 		close();
 	}
-	public void writeExternal(extra.io.DataStream out){
+	public void writeExternal(DataStream out){
 		out.writeInt(DATA_PATH);
 		if(pathList == null){
 			out.writeBoolean(false);
@@ -258,7 +258,7 @@ class DrawArea extends Control{
 			pen.writeExternal(out);
 		}
 	}
-	public void readExternal(extra.io.DataStream in){
+	public void readExternal(DataStream in){
 		int temp = in.readInt();
 		if(temp != DATA_PATH) return;
 		pathList = null;
@@ -547,7 +547,7 @@ class CCDrawPath{
 		points = null;
 		dirty = true;
 	}
-	public CCDrawPath(extra.io.DataStream in){
+	public CCDrawPath(DataStream in){
 		//		int temp = in.readInt();
 		//		if(temp != BEGIN_PATH_ITEM) return;
 		type = in.readInt();
@@ -571,7 +571,7 @@ class CCDrawPath{
 		//		}
 	}
 	
-	public void writeExternal(extra.io.DataStream out){
+	public void writeExternal(DataStream out){
 		//		out.writeInt(BEGIN_PATH_ITEM);
 		out.writeInt(type);
 		out.writeByte(wPen);

@@ -19,7 +19,7 @@ import waba.sys.Vm;
 /**
  * A simple extension to MainWindow which adds a title if desired plus
  * the functionality of RelativeContainer.  At the moment you need to extend
- * this class for your main app to use the extra.ui.List control but hopefully that
+ * this class for your main app to use the List control but hopefully that
  * won't always be the case.
  *
  * @author     <A HREF="mailto:rnielsen@cygnus.uwa.edu.au">Rob Nielsen</A>,
@@ -352,7 +352,7 @@ public abstract class ExtraMainWindow extends MainWindow
 
 	/**
    * Adds a component to this application.  See RelativeContainer for details
-   * @see extra.ui.RelativeContainer#add(Control,int,int,int,int,Control)
+   * @see RelativeContainer#add(Control,int,int,int,int,Control)
    */
 	public void add(Control control,int x,int y)
 	{
@@ -361,7 +361,7 @@ public abstract class ExtraMainWindow extends MainWindow
 
 	/**
    * Adds a component to this application.  See RelativeContainer for details
-   * @see extra.ui.RelativeContainer#add(Control,int,int,int,int,Control)
+   * @see RelativeContainer#add(Control,int,int,int,int,Control)
    */
 	public void add(Control control,int x,int y,Control relative)
 	{
@@ -370,7 +370,7 @@ public abstract class ExtraMainWindow extends MainWindow
 
 	/**
    * Adds a component to this application.  See RelativeContainer for details
-   * @see extra.ui.RelativeContainer#add(Control,int,int,int,int,Control)
+   * @see RelativeContainer#add(Control,int,int,int,int,Control)
    */
 	public void add(Control control,int x,int y,int width,int height)
 	{
@@ -379,7 +379,7 @@ public abstract class ExtraMainWindow extends MainWindow
 
 	/**
    * Adds a component to this application.  See RelativeContainer for details
-   * @see extra.ui.RelativeContainer#add(Control,int,int,int,int,Control)
+   * @see RelativeContainer#add(Control,int,int,int,int,Control)
    */
 	public void add(Control control,int x,int y,int width,int height,Control relative)
 	{
@@ -388,7 +388,7 @@ public abstract class ExtraMainWindow extends MainWindow
 
 	/**
    * Adds a component to this application.  See RelativeContainer for details
-   * @see extra.ui.RelativeContainer#add(Control,int,int,int,int,Control)
+   * @see RelativeContainer#add(Control,int,int,int,int,Control)
    */
 	public void add(Control control)
 	{
@@ -397,7 +397,7 @@ public abstract class ExtraMainWindow extends MainWindow
 
 	/**
    * Temporarily removes a component to this application.  See RelativeContainer for details
-   * @see extra.ui.RelativeContainer#add(Control,int,int,int,int,Control)
+   * @see RelativeContainer#add(Control,int,int,int,int,Control)
    */
 	public void remove(Control control)
 	{
@@ -406,7 +406,7 @@ public abstract class ExtraMainWindow extends MainWindow
 
 	/**
    * Permanently removes a component to this application.  See RelativeContainer for details
-   * @see extra.ui.RelativeContainer#add(Control,int,int,int,int,Control)
+   * @see RelativeContainer#add(Control,int,int,int,int,Control)
    */
 	public void removePermanently(Control control)
 	{

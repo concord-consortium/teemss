@@ -1,5 +1,7 @@
 package org.concord.waba.extra.ui;
 
+import org.concord.waba.extra.io.*;
+
 public class CCPen{
 	public byte w = 1;
 	public byte h = 1;
@@ -17,7 +19,7 @@ public class CCPen{
 		green 	= 0;
 		blue 		= 0;
 	}
-	public void writeExternal(extra.io.DataStream out){
+	public void writeExternal(DataStream out){
 		out.writeInt(BEGIN_PEN_ITEM);
 		out.writeByte(w);
 		out.writeByte(h);
@@ -28,7 +30,7 @@ public class CCPen{
 		out.writeInt(END_PEN_ITEM);
 	}
 	
-	public void readExternal(extra.io.DataStream in){
+	public void readExternal(DataStream in){
 		int temp = in.readInt();
 		if(temp != BEGIN_PEN_ITEM) return;
 		w = in.readByte();
