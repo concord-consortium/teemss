@@ -19,6 +19,7 @@ package graph;
 
 import waba.fx.*;
 import waba.ui.*;
+import extra.util.*;
 
 public class TextLine extends Object {
     // Constant
@@ -70,14 +71,27 @@ public class TextLine extends Object {
     public int edge;
 	boolean palm = false;
 
+	public TextLine(float v, Font f){
+		if(waba.sys.Vm.getPlatform().equals("PalmOS")) palm = true;
+
+		font = f;
+		fontMet = MainWindow.getMainWindow().getFontMetrics(font);
+
+		setText(v);
+	}
+
+	public TextLine(float v){
+		this(v, MainWindow.defaultFont);
+		font = null;
+    }
 
     public TextLine(String s, Font f) {
 		if(waba.sys.Vm.getPlatform().equals("PalmOS")) palm = true;
 
-		text = s;
 		font = f;
 		fontMet = MainWindow.getMainWindow().getFontMetrics(font);
-		parseText();	
+
+		setText(s);
     }
 
     public TextLine(String s){
@@ -203,9 +217,25 @@ public class TextLine extends Object {
 		return true;
     }
 
+	float fVal = Maths.NaN;
+	int fMinDigits = -1;
+	int fMaxDigits = -1;
+	public void setText(float v)
+	{
+		if(v == fVal && fMinDigits == minDigits && 
+		   fMaxDigits == maxDigits){
+			return;
+		} else {
+			fVal = v;
+			fMaxDigits = maxDigits;
+			fMinDigits = minDigits;
+			setText(fToString(v));
+		}
+	}
+
     public void setText(String s)
     {
-		if(text.equals(s)) return;
+		if(text != null && text.equals(s)) return;
 		text = s;
 		parseText();
 		if(buffer != null) buffer.free();

@@ -259,6 +259,9 @@ public class Axis
 			}
 		}
 		majTicLabels = null;
+		ticOffsets = null;
+		numTics = 0;
+		
 
 		if(axisLabel != null)axisLabel.free();
 		axisLabel = null;
@@ -435,6 +438,14 @@ public class Axis
 			label.minDigits = 0;
 			label.maxDigits = 0;
 		}
+		if(majTicLabels != null){
+			for(int i=0; i<majTicLabels.length; i++){
+				if(majTicLabels[i] != null){
+					majTicLabels[i].minDigits = label.minDigits;
+					majTicLabels[i].maxDigits = label.maxDigits;
+				}
+			}
+		}
 
     }
 	
@@ -443,6 +454,8 @@ public class Axis
     float ticStep = (float)1;
     int [] ticOffsets = null;
     TextLine [] majTicLabels = null;
+	int numTics = 0;
+
     int maxLabelSize;
 
     void computeTicArrays()
@@ -462,35 +475,47 @@ public class Axis
 
 		// To be super efficient we should not reallocate
 		// if we don't have to
-		ticOffsets = new int[maxNumTics];
-
-		if(majTicLabels != null){
-			for(i=0; i<majTicLabels.length; i++){
-				if(majTicLabels[i] != null){
-					majTicLabels[i].free();
+		if(majTicLabels == null || ticOffsets == null || 
+		   ticOffsets.length < maxNumTics){
+			ticOffsets = new int[maxNumTics];
+			if(majTicLabels != null){
+				TextLine [] newLabels = new TextLine[maxNumTics];
+				Vm.copyArray(majTicLabels, 0, newLabels, 0, majTicLabels.length);
+				for(i=majTicLabels.length; i<newLabels.length; i++){
+					newLabels[i] = null;
 				}
+				majTicLabels = newLabels;
+			} else {
+				majTicLabels = new TextLine[maxNumTics];
 			}
 		}
-		majTicLabels = new TextLine[maxNumTics];
+		numTics = maxNumTics;
 
 		float curPos = firstTic;
 		float curLabelVal = firstLabelTic;
 		float max = min + range;
 		i = 0;
 
-		int offset = i;
 		TextLine curLabel;
 		int newLabelSize, newLabelMinOff, newLabelMaxOff;
 
 		if(orient == X_SCREEN_AXIS){
 			maxLabelSize = 0;
-			while(i < ticOffsets.length){
-				ticOffsets[i-offset] = (int)((curPos - min) * scale);
+			while(i < numTics){
+				ticOffsets[i] = (int)((curPos - min) * scale);
 				if(i % (numMinTics + 1) == 0){
 					// Its a major tic
 					// make TextLine
-					majTicLabels[i - offset] = curLabel = 
-						new TextLine(label.fToString(curLabelVal));
+					if(majTicLabels[i] == null){
+						majTicLabels[i] = curLabel = 
+							new TextLine("");
+						curLabel.minDigits = label.minDigits;
+						curLabel.maxDigits = label.maxDigits;
+						curLabel.setText(curLabelVal);
+					} else {
+						curLabel = majTicLabels[i];
+						curLabel.setText(curLabelVal);
+					}
 					newLabelSize = curLabel.height;
 					newLabelMinOff = curLabel.getXOffset(labelEdge);
 					newLabelMaxOff = newLabelMinOff + newLabelSize;
@@ -499,7 +524,17 @@ public class Axis
 					if(newLabelMinOff < minLabelOff)
 						minLabelOff = newLabelMinOff;
 				} else {
-					majTicLabels[i - offset] = null;
+					if(majTicLabels[i] != null){
+						// push the label up one space
+						// so it can be used later
+						if(i+1 < majTicLabels.length &&
+						   majTicLabels[i+1] == null){
+							majTicLabels[i+1] = majTicLabels[i];
+						} else {
+							majTicLabels[i].free();
+						}
+						majTicLabels[i] = null;
+					}
 				}
 				i++;
 				curLabelVal += lTicStep;
@@ -507,13 +542,21 @@ public class Axis
 			}
 		} else {
 			maxLabelSize = 0;
-			while(i < ticOffsets.length){
-				ticOffsets[i-offset] = (int)((curPos - min) * scale);
+			while(i < numTics){
+				ticOffsets[i] = (int)((curPos - min) * scale);
 				if(i % (numMinTics + 1) == 0){
 					// Its a major tic
 					// make TextLine
-					majTicLabels[i - offset] = curLabel = 
-						new TextLine(label.fToString(curLabelVal));
+					if(majTicLabels[i] == null){
+						majTicLabels[i] = curLabel = 
+							new TextLine("");
+						curLabel.minDigits = label.minDigits;
+						curLabel.maxDigits = label.maxDigits;
+						curLabel.setText(curLabelVal);
+					} else {
+						curLabel = majTicLabels[i];
+						curLabel.setText(curLabelVal);
+					}
 					newLabelSize = curLabel.width;
 					newLabelMinOff = curLabel.getYOffset(labelEdge);
 					newLabelMaxOff = newLabelMinOff + newLabelSize;
@@ -523,7 +566,17 @@ public class Axis
 						minLabelOff = newLabelMinOff;
 
 				} else {
-					majTicLabels[i - offset] = null;
+					if(majTicLabels[i] != null){
+						// push the label up one space
+						// so it can be used later
+						if(i+1 < majTicLabels.length &&
+						   majTicLabels[i+1] == null){
+							majTicLabels[i+1] = majTicLabels[i];
+						} else {
+							majTicLabels[i].free();
+						}
+						majTicLabels[i] = null;
+					}
 				}
 				i++;
 				curPos += ticStep;
@@ -547,7 +600,10 @@ public class Axis
 		axisDir = 1;
 		if(scale < (float)0) axisDir = -1;
 		setDispOffset(dispMin, 0);
-		setStepSize();
+		int ticSpacing = (int)(axisDir*majTicStep*scale);
+		if(!eScale || (ticSpacing < minMajTicSpacing/2) || (ticSpacing > minMajTicSpacing*4)){
+			setStepSize();
+		}
 		needCalcTics = true;
 		notifyListeners(SCALE_CHANGE);
     }
@@ -621,7 +677,7 @@ public class Axis
 
 		// Find first valid tic
 		int i = 0;
-		while((i < ticOffsets.length) && 
+		while((i < numTics) && 
 			  (ticOffsets[i]*axisDir < dispOffset*axisDir))
 			i++;
 
@@ -654,7 +710,7 @@ public class Axis
 
 
 			// draw tic marks and labels
-			while((i < ticOffsets.length) &&
+			while((i < numTics) &&
 				  ((curPos = ticOffsets[i])*axisDir <= endPos*axisDir)){
 				if(majTicLabels[i] == null){
 					g.drawLine(curPos, ticDir, curPos, minTicEndOff);
@@ -709,7 +765,7 @@ public class Axis
 			g.translate(gridDir, axisDir - dispOffset);
 
 			// draw tic marks and labels	    
-			while((i < ticOffsets.length) &&
+			while((i < numTics) &&
 				  ((curPos = ticOffsets[i])*axisDir <= endPos*axisDir)){
 				if(majTicLabels[i] == null){
 					g.drawLine(ticDir, curPos, minTicEndOff, curPos);
