@@ -30,13 +30,14 @@ release: tag $(DEP_NAMES) ReleaseSystem
 	cd ../ReleaseSystem/ && $(MAKE) release-sub TAG=$(shell cat tag) MODULE=$(MODULE)
 
 build-tag:
+	rm $(basename $(VERSION_TEMPLATE))
+	cvs update $(basename $(VERSION_TEMPLATE))
 	$(MAKE) cvs-diff
 	$(call MAKE_DEP, cvs-diff)
 	$(update_build)
 	$(MAKE) 
 	$(call MAKE_DEP, )
 	mv new_build build
-	mv new_version version
 	echo $(subst .,_,$(VERSION_EXP))_$(BUILD_EXP) > tag
 	#cvs commit -m "build checkin" $(basename $(VERSION_TEMPLATE)) build version tag
 	$(MAKE) cvs-tag
