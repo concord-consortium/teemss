@@ -177,8 +177,68 @@ public class Vm
 	 * @param wait whether to wait for the command to complete execution before returning
 	 */
 	public static int exec(String command, String args, int launchCode, boolean wait)
-	{
+    {
+	  if(wait){
+		int dbID = Palm.DmFindDatabase(0, command);
+
+		if (dbID != 0){	// Error Check: Make sure the application is installed.		  
+		  IntHolder resultP = new IntHolder();
+		  // Launch app as a SUBROUTINE
+		  // SysAppLaunch(UInt16 cardNo, LocalID dbID, UInt16 launchFlags, UInt16 cmd, MemPtr cmdPBP, UInt32 *resultP)
+		  if(command.equals("CCBEAM")){
+			char [] argChars = args.toCharArray();
+			waba.util.Vector argsV = new waba.util.Vector();
+			int startChar = 0;
+			for(int i=0; i<argChars.length; i++){
+			  if(argChars[i] == ','){
+				argsV.add(new String(argChars, startChar, i - startChar));
+				startChar = i + 1;
+			  }
+			}
+			if(startChar < argChars.length){
+			  argsV.add(new String(argChars, startChar, argChars.length - startChar));
+			}
+			/* 
+			   typedef struct {                              element size total size
+			   UInt16 cardNo; // card number of the database      2           2 
+			   LocalID dbID; // LocalID of the database           4           6
+			   char description[256];                           256         262
+			   UInt32 goToCreator;                                4         266
+			   ExgGoToType goToParams;                            4         270
+			   } BeamParamsType;
+
+			   typedef struct {
+			   UInt16 dbCardNo;                                   2         272
+			   LocalID dbID;                                      4         276
+			   UInt16 recordNum;                                  2         278
+			   UInt32 uniqueID;                                   4         282 
+			   UInt32 matchCustom;                                4         286
+			   } ExgGoToType;
+			*/
+			// we'll give it a few extra bytes just for safety
+			int memHandle = Palm.MemHandleNew(300);			
+			// check for out of memory problem
+			if(memHandle == 0) return -1;
+			int memPtr = Palm.MemHandleLock(memHandle);
+
+			int sendDbID = Palm.DmFindDatabase(0, (String)argsV.get(0));
+			Palm.nativeSetShort(memPtr, (short)0);
+			Palm.nativeSetInt(memPtr+2, sendDbID);
+		    char [] description = ((String)argsV.get(1)).toCharArray();
+			for(int i=0; i<description.length; i++){
+			  Palm.nativeSetByte(memPtr+6+i, (byte)description[i]);
+			}
+			Palm.nativeSetByte(memPtr+6+description.length, (byte)0);
+			int err = Palm.SysAppLaunch(0, dbID, 0, launchCode, memPtr, resultP);
+		  } else {
+			int err = Palm.SysAppLaunch(0, dbID, 0, launchCode, args, resultP);
+		  }
+		
+		}
 		return 0;
+	  } else {
+		return 0;
+	  }
 	}
 
 
