@@ -1,0 +1,4 @@
+#! /bin/bash
+java -cp ../../jars/bsf.jar:../../jars/js.jar:../../jars/xalan.jar:../../jar/xerces.jar org.apache.xalan.xslt.Process -in ccprobe-labbook.xml -xsl ccprobe-labbook.xsl -out labbook.xml
+
+
