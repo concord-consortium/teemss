@@ -32,6 +32,7 @@ private waba.ui.Container		contentPane;
 	java.awt.Window awtWindow = (java.awt.Window)getAWTCanvas().getParent();
 	if(awtWindow instanceof java.awt.Dialog){
 		javaDialog = ((java.awt.Dialog)awtWindow);
+		if(title != null) javaDialog.setTitle(title);
 	}else if(awtWindow instanceof java.awt.Frame){
 		System.out.println("Error Creating a dialog, got a Fraom parent not Dialog parent");
 	}

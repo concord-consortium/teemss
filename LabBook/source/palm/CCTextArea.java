@@ -231,6 +231,7 @@ Dialog					confirmDialogDeleteCurrent = null;
 				}
  				layoutComponents();
 				setText(getText());
+ 				layoutComponents();
    			}
     		currObjPropDialog = null;
     		return;
@@ -681,12 +682,13 @@ Dialog					confirmDialogDeleteCurrent = null;
 	}
 	
 	
-	void openCompProp(LBCompDesc compDesc){
+	void openCompProp(LBCompDesc compDesc, String name){
 		if(currObjPropControl == null){
-			currObjPropControl = new EmbedObjectPropertyControl(null);
+			currObjPropControl = new EmbedObjectPropertyControl(null,name);
 			currObjPropControl.layout(true);
 		}
 		if(currObjPropControl != null){
+			currObjPropControl.setName(name);
 			EmbedObjectPropertyControl.lastAlighnLeft 	= (compDesc.alignment == LBCompDesc.ALIGNMENT_LEFT);
 			EmbedObjectPropertyControl.lastWrap 		= compDesc.wrapping;
 			EmbedObjectPropertyControl.lastLink 		= compDesc.link;
@@ -863,7 +865,8 @@ Dialog					confirmDialogDeleteCurrent = null;
 			}
 			if(getPropertyMode()){
 				if(compDesc != null){
-					openCompProp(compDesc);
+					LabObjectView objView = (LabObjectView)compDesc.getObject();
+					openCompProp(compDesc,objView.getLabObject().name);
 				}
 				return;
 			}

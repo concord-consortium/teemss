@@ -189,14 +189,14 @@ String [] fileStrings = {"Load Note..."};
 		if(!didLayout) layout(false);
 
 		if(showDone){
-			edit.setRect(0,0,width - 1,height-15);
-			doneButton.setRect(width-31,height-15,30,15);
+			edit.setRect(0,15,width - 1,height);
+			doneButton.setRect(width-31,0,30,15);
 		} else {
 			edit.setRect(0,0,width - 1,height);
 		}
-		insertButton.setRect(1,height-15,30,15);
-		upButton.setRect(35,height-15,20,15);
-		downButton.setRect(60,height-15,30,15);
+		insertButton.setRect(1,1,30,15);
+		upButton.setRect(35,1,20,15);
+		downButton.setRect(60,1,30,15);
 		tArea.setText(tArea.getText());
 		tArea.layoutComponents();
 	}
