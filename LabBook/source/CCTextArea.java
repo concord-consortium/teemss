@@ -37,7 +37,8 @@ EmbedObjectPropertyControl		objProperty;
 			TreeNode curNode = view.treeControl.getSelected();
 			obj = dict.getObj(curNode);	
 			if(obj == null) return;
-			LabObjectView objView = obj.getView(null,false);
+			boolean isLink = objProperty.linkCheck.getChecked();
+			LabObjectView objView = (isLink)?obj.getMinimizedView():obj.getView(null,false);
 			if(objView == null) return;
 			extra.ui.Dimension d = objView.getPreferredSize();
 			if(d == null) return;
@@ -96,7 +97,7 @@ EmbedObjectPropertyControl		objProperty;
 	 	  		LBCompDesc cdesc = new LBCompDesc(0,wc,hc,alighn,wrap,objProperty.linkCheck.getChecked());
 	 	  		objProperty.lastLink = objProperty.linkCheck.getChecked();
 	 	  		cdesc.setObject(obj);
-				listener.dialogClosed(new DialogEvent(this,null,null,cdesc,DialogEvent.OBJECT));
+				if(listener != null) listener.dialogClosed(new DialogEvent(this,null,null,cdesc,DialogEvent.OBJECT));
 			}
 			hide();
 		}
@@ -264,7 +265,7 @@ public final static int	yTextBegin = 2;
 				waba.sys.Vm.copyArray(components,0,newComponents,0,nComponents);
 			}
 			components = newComponents;
-			LabObjectView view = labObject.getView(this,false);
+			LabObjectView view = (obj.link)?labObject.getMinimizedView():labObject.getView(this,false);
 			view.setEmbeddedState(true);
 			components[nComponents] = obj;
 			components[nComponents].setObject(view);
@@ -562,7 +563,7 @@ public final static int	yTextBegin = 2;
 				}else{
 					LabObject lobj = subDictionary.getObj(i);
 					if(lobj != null){
-						cntrl = lobj.getView(this,false);
+						cntrl = (c.link)?lobj.getMinimizedView():lobj.getView(this,false);
 						((LabObjectView)cntrl).setEmbeddedState(true);
 
 						c.setObject(cntrl);
@@ -771,9 +772,11 @@ public final static int	yTextBegin = 2;
 						removeCursor();
 						if(!getPropertyMode()){
 							if(cntrlDesc.link){
-								object.setShowMenus(true);
+								LabObject lobj = object.getLabObject();
+								LabObjectView realView = lobj.getView(this,false);
+								if(realView != null) realView.setShowMenus(true);
 								if(owner != null){
-									owner.addChoosenLabObjView(object);
+									owner.addChoosenLabObjView(realView);
 								}
 							}
 						}
