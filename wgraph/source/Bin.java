@@ -260,7 +260,7 @@ public class Bin
 	void resetPts()
 	{
 		if(curXscale != 0f && dT != 0f){
-			denom = (int) (1000f/curXscale/dT);
+			denom = (int) (10000f/curXscale/dT);
 		} else {
 			denom = 1;
 		}

@@ -125,38 +125,53 @@ public class GraphViewLine extends GraphView
 					xAxisDown = yAxisDown = graphDown = annotDown = false;
 					Object obj = lGraph.getObjAtPoint(pe.x, pe.y);
 					if(obj == lGraph.xaxis){
-						xAxisDown = true;			
+						xAxisDown = true;
+						if(pe.x < lGraph.xOriginOff + lGraph.dwWidth/20){
+							pe.x = lGraph.xOriginOff + lGraph.dwWidth/20;
+						}
 					} else if(obj == lGraph.yaxis) {
 						yAxisDown = true;
-					} else if(obj != null){
+						if(pe.y > lGraph.yOriginOff - lGraph.dwHeight/20){
+							pe.y = lGraph.yOriginOff - lGraph.dwHeight/20;
+						}
+					} else if(obj == lGraph){
+						Annotation oldAnnot = selAnnot;
+						if(selAnnot != null){
+							selAnnot.selected = false;
+							selAnnot = null;
+						}
+
+						if(mode == ANNOT_MODE){
+							curAnnot = lGraph.addAnnot("" + curChar, pe.x);
+							curChar++;
+							if(curAnnot != null){
+								postEvent(new ControlEvent(1002, this));
+								curAnnot.selected = true;
+								selAnnot = curAnnot;
+								postEvent(new ControlEvent(1003, this));								
+							}
+							draw();
+						} else {
+							selAnnot = null;
+							graphDown = true;
+							if(oldAnnot != null) postEvent(new ControlEvent(1003, this));								
+						}
+					} else {
+						// This should be the annotion section
 						Annotation oldAnnot = selAnnot;
 						if(selAnnot != null){
 							selAnnot.selected = false;
 						}
-						if(mode == ANNOT_MODE){
-							curAnnot = lGraph.addAnnot("" + curChar, pe.x);
-							curChar++;
-							draw();
-							if(curAnnot != null)
-								postEvent(new ControlEvent(1002, this));
-							return;
-						} else {
-							if(obj == lGraph){
-								selAnnot = null;
-								graphDown = true;
-							} else {
-								selAnnot = lGraph.getAnnotAtPoint(pe.x, pe.y);
-								if(selAnnot != null){
-									selAnnot.selected = true;
-									lGraph.annots.del(lGraph.annots.find(selAnnot));
-									lGraph.annots.add(selAnnot);
-									annotDown = true;
-								} 
-								draw();
-				    
-							}
-							if(oldAnnot != selAnnot) postEvent(new ControlEvent(1003, this));
-						}
+						selAnnot = lGraph.getAnnotAtPoint(pe.x, pe.y);
+						if(selAnnot != null){
+							selAnnot.selected = true;
+							lGraph.annots.del(lGraph.annots.find(selAnnot));
+							lGraph.annots.add(selAnnot);
+							annotDown = true;
+						} 
+						draw();
+
+						if(oldAnnot != selAnnot) postEvent(new ControlEvent(1003, this));
 					}
 					downX = pe.x;
 					downY = pe.y;
@@ -194,27 +209,25 @@ public class GraphViewLine extends GraphView
 
 					} else if(dragY > 2 || dragX > 2){ 
 						if(yAxisDown){
-							if(lGraph.yOriginOff - pe.y > 20){
-								yChange = (float)(lGraph.yOriginOff - pe.y)/ (float)(lGraph.yOriginOff - downY);
+							if(pe.y > lGraph.yOriginOff - lGraph.dwHeight/20) pe.y = lGraph.yOriginOff - lGraph.dwHeight/20;
+							yChange = (float)(lGraph.yOriginOff - pe.y)/ (float)(lGraph.yOriginOff - downY);
 				
-								if(e.type == PenEvent.PEN_DRAG){
-									lGraph.setYscaleEst(lGraph.yaxis.scale * yChange);
-								} else {
-									lGraph.setYscale(lGraph.yaxis.scale * yChange);
-								}				
-								draw();
-							}
+							if(e.type == PenEvent.PEN_DRAG){
+								lGraph.setYscaleEst(lGraph.yaxis.scale * yChange);
+							} else {
+								lGraph.setYscale(lGraph.yaxis.scale * yChange);
+							}				
+							draw();
 						}else if(xAxisDown && graph == lGraph){
-							if(pe.x - lGraph.xOriginOff > 20){
-								xChange = (float)(lGraph.xOriginOff - pe.x)/ (float)(lGraph.xOriginOff - downX);
+							if(pe.x < lGraph.xOriginOff + lGraph.dwWidth/20) pe.x = lGraph.xOriginOff + lGraph.dwWidth/20;
+							xChange = (float)(lGraph.xOriginOff - pe.x)/ (float)(lGraph.xOriginOff - downX);
 
-								if(e.type == PenEvent.PEN_DRAG){
-									lGraph.setXscaleEst(lGraph.xScale * xChange);
-								} else {
-									lGraph.setXscale(lGraph.xScale * xChange);
-								}
-								draw();
+							if(e.type == PenEvent.PEN_DRAG){
+								lGraph.setXscaleEst(lGraph.xScale * xChange);
+							} else {
+								lGraph.setXscale(lGraph.xScale * xChange);
 							}
+							draw();
 						}
 					}
 		     
