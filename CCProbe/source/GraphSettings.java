@@ -98,6 +98,8 @@ public class GraphSettings
 		// Is this necessary???
 		setYUnit(ds.getUnit(gv.getSession()));
 		
+
+
 		xUnit = xaxis.getUnit();
 
 		// update the yaxis labels just to be safe
@@ -320,10 +322,14 @@ public class GraphSettings
 	{
 		switch(dataEvent.type){
 		case DataEvent.DATA_READY_TO_START:
+			// We could get the dt here and then
+			// set the graph time precision here
+			gv.setTimeStep(dataEvent.getDataDesc().getDt());
 			//			startGraph();
 			return;
 		case DataEvent.DATA_COLLECTING:
-			if(gv != null) gv.update(dataEvent.getTime());
+			if(gv != null) gv.update();
+			//dataEvent.getTime());
 			break;
 		case DataEvent.DATA_STOPPED:
 			if(started) stopDataDelivery(true);

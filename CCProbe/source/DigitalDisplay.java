@@ -36,11 +36,13 @@ public class DigitalDisplay extends Container
     int OUTER_PADDING = 4;
     Vector bins = new Vector();
     Vector disps = new Vector();
+	Vector fConvertors = new Vector();
     FontMetrics fm;
     Font _font;
 
     public DigitalDisplay(Font f)
     {
+		FloatConvert.makeLookup();
 		_font = f;
 		fm = getFontMetrics(f);
     }
@@ -49,8 +51,19 @@ public class DigitalDisplay extends Container
     {
 		bins.add(bin);
 		LabelBuf curDisp = new LabelBuf("");
+		curDisp.setAlignment(LabelBuf.RIGHT);
 		add(curDisp);
-		curDisp.setRect(0,0,fm.getTextWidth("-0.00"),fm.getHeight());
+		
+		FloatConvert fc = new FloatConvert();
+		fConvertors.add(fc);
+		int prec = bin.getPrecision();
+		if(prec != bin.UNKNOWN_PRECISION){
+			fc.setPrecision(prec);
+		} else {
+			fc.setPrecision(-2);
+		}
+
+		curDisp.setRect(0,0,fm.getTextWidth("-0.00E0"),fm.getHeight());
 		disps.add(curDisp);
 		repaint();
     }
@@ -60,6 +73,8 @@ public class DigitalDisplay extends Container
 		int index = bins.find(bin);
 		if(index < 0) return;
 		bins.del(index);
+		fConvertors.del(index);
+
 		LabelBuf curDisp = (LabelBuf)disps.get(index);
 		remove(curDisp);
 		curDisp.free();
@@ -121,7 +136,20 @@ public class DigitalDisplay extends Container
     public void update()
     {
 		for(int i=0; i<bins.getCount(); i++){
-			((LabelBuf)disps.get(i)).setText(((DecoratedValue)bins.get(i)).getValue() + "");
+			FloatConvert fc = (FloatConvert)fConvertors.get(i);
+
+			DecoratedValue bin = (DecoratedValue)bins.get(i);
+
+			fc.setVal(bin.getValue());
+
+			int prec = bin.getPrecision();
+			if(prec != bin.UNKNOWN_PRECISION){
+				fc.setPrecision(prec);
+			} else {
+				fc.setPrecision(fc.getExponent() - 3);
+			}
+			
+			((LabelBuf)disps.get(i)).setText(fc.getString(fc.getExponent()/3*3));
 		}
     }
 }

@@ -156,6 +156,7 @@ public class LObjCalculusTrans extends LObjSubDict
 
 	public CCUnit 	getUnit(LabBookSession session){return null;}
 	public boolean 	setUnit(CCUnit unit){return false;}
+	public int getPrecision(){ return -2; }
 
 	public String getQuantityMeasured(LabBookSession session)
 	{return "";}

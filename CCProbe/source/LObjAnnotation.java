@@ -85,7 +85,7 @@ public class LObjAnnotation extends LObjSubDict
 
 	public float getTime()
 	{
-		if(annot != null) return annot.time;
+		if(annot != null) return annot.getTime();
 		else return time;
 	}
 

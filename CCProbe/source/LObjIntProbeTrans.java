@@ -10,6 +10,7 @@ import org.concord.waba.extra.ui.*;
 
 import org.concord.LabBook.*;
 import org.concord.ProbeLib.*;
+import org.concord.waba.graph.*;
 
 public class LObjIntProbeTrans extends LObjSubDict
 	implements DataSink, DataSource, DataListener
@@ -143,6 +144,12 @@ public class LObjIntProbeTrans extends LObjSubDict
 		if(dataSource == null) return null;
 		return dataSource.getQuantityUnit(type);
 	}
+
+	public int getPrecision()
+	{
+		if(dataSource == null) return DecoratedValue.UNKNOWN_PRECISION;
+		return dataSource.getPrecision();
+	}		
 
 	public boolean 	setUnit(CCUnit unit){return false;}
 

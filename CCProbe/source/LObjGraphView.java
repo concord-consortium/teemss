@@ -13,17 +13,28 @@ import org.concord.waba.extra.util.*;
 import org.concord.LabBook.*;
 import org.concord.ProbeLib.*;
 
-class TimeBin implements DecoratedValue
+class TimeBin extends DecoratedValue
 {
-    float time = 0f;
-	CCUnit unit = CCUnit.getUnit(CCUnit.UNIT_CODE_S);
+	DecoratedValue dv = null;
+
+	TimeBin(int precision)
+	{
+		time = 0f;
+		unit = CCUnit.getUnit(CCUnit.UNIT_CODE_S);
+		setPrecision(precision);
+	}
 
     public String getLabel(){return "Time";}
-    public float getValue(){return time;}
-    public void setValue(float t){time = t;}
-    public Color getColor(){return null;}
-    public float getTime(){return 0f;}
-	public CCUnit getUnit(){return unit;}
+    public float getValue()
+	{
+		if(dv == null) return 0f;
+		return dv.getTime();
+	}
+
+	public void setDecoratedValue(DecoratedValue dv)
+	{
+		this.dv = dv;
+	}
 }
 
 public class LObjGraphView extends LabObjectView
@@ -45,7 +56,7 @@ public class LObjGraphView extends LabObjectView
     Menu menu = new Menu("Edit");
 	int curViewIndex = 1;
 
-    TimeBin timeBin = new TimeBin();
+    TimeBin timeBin = new TimeBin(-1);
 
     DigitalDisplay dd;
 	DecoratedValue curAnnot = null;
@@ -68,6 +79,13 @@ public class LObjGraphView extends LabObjectView
 	private Vector externalToolListeners = null;
 
 	GraphSettings curGS = null;
+
+	CCColor [] lineColors = {new CCColor(255, 0, 0), 
+							 new CCColor(0, 255, 0),
+							 new CCColor(0, 0, 255),
+							 new CCColor(255, 255, 0),
+							 new CCColor(255, 0, 255),
+							 new CCColor(0, 255, 255),};
 
     public LObjGraphView(ViewContainer vc, LObjGraph g, 
 						 LObjDictionary curDict, LabBookSession session)
@@ -349,18 +367,24 @@ public class LObjGraphView extends LabObjectView
 		super.close();
     }
 
+    public void setTimeStep(float step)
+	{
+		int exp = FloatConvert.getExp(step);
+		timeBin.setPrecision(exp - 1);
+	}
+
 	int numStarted = 0;
 	public void startGraph(Bin curBin)
 	{
 		av.addBin(curBin);
 		dd.addBin(curBin);
+		timeBin.setDecoratedValue(curBin);
 		numStarted++;
 		av.lgView.autoScroll = true;
 	}
 
-	public void update(float time){
+	public void update(){
 		av.update();			
-		timeBin.setValue(time);
 		dd.update();
 	}
 
@@ -421,8 +445,8 @@ public class LObjGraphView extends LabObjectView
 			curAnnot = selAnnot;
 
 			if(curAnnot != null){
-				timeBin.setValue(selAnnot.time);
-				dd.addBin(curAnnot);
+				timeBin.setDecoratedValue(selAnnot);
+				dd.addBin(selAnnot);
 			}
 				
 			dd.update();
@@ -531,7 +555,7 @@ public class LObjGraphView extends LabObjectView
 		av.reset();
 	
 		// Clear curBin and set time to 0
-		timeBin.setValue(0f);
+		timeBin.setDecoratedValue(null);
 
 		numStarted = 0;
 

@@ -7,6 +7,7 @@ import org.concord.waba.graph.*;
 import org.concord.waba.extra.io.*;
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
+import org.concord.waba.extra.util.*;
 
 import org.concord.LabBook.*;
 import org.concord.ProbeLib.*;
@@ -302,6 +303,9 @@ public class LObjDataSet extends LObjSubDict
 		unit = u;
 		return true;
 	}
+
+	// Hack for now until we can change the labbook
+	public int getPrecision(){ return -3; }
 
 	public String getQuantityMeasured(LabBookSession session)
 	{return label;}

@@ -11,7 +11,7 @@ import org.concord.waba.extra.ui.*;
 import org.concord.ProbeLib.*;
 import org.concord.ProbeLib.probes.*;
 import org.concord.LabBook.*;
-
+import org.concord.waba.graph.*;
 
 public class LObjProbeDataSource extends LObjSubDict
 	implements DataSource, ProbListener, DialogListener
@@ -134,6 +134,12 @@ public class LObjProbeDataSource extends LObjSubDict
 		return retValue;
 	}
 
+	public int getPrecision()
+	{
+		if (probe == null) return DecoratedValue.UNKNOWN_PRECISION;
+		return probe.getPrecision();
+	}
+
 	boolean started = false;
 	public void startDataDelivery(LabBookSession session){
 		if(probe == null || started) return;
@@ -156,7 +162,6 @@ public class LObjProbeDataSource extends LObjSubDict
 			started = false;
 		}
 	}
-
 	
 	public void setCalibrationListener(DataListener calibrationListener){
 		if(probe != null && calibrationListener != null){

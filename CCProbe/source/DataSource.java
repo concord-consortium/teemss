@@ -28,6 +28,8 @@ public interface DataSource
 	public CCUnit 	getUnit(LabBookSession session);
 	public boolean 	setUnit(CCUnit unit);
 
+	public int getPrecision();
+
 	public String getQuantityMeasured(LabBookSession session);
 
 	public String getSummary(LabBookSession session);
