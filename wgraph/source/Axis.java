@@ -228,9 +228,6 @@ public class Axis
 
     public void setRange(float min, float range)
     {
-		if(defaultMin == Maths.NaN) defaultMin = min;
-		if(defaultMax == Maths.NaN) defaultMax = min+range;
-
 		setDispMin(min);
 		setRange(range);
     }
@@ -645,6 +642,7 @@ public class Axis
 			setStepSize();
 		}
 		needCalcTics = true;
+		if(Maths.isNaN(defaultMax)) defaultMax = getDispMax();
 		notifyListeners(SCALE_CHANGE);
     }
 
@@ -671,6 +669,8 @@ public class Axis
     public void setDispOffset(float startMin, int newDO, boolean cache)
     {
 		dispMin = startMin + (float)newDO / scale;
+		if(Maths.isNaN(defaultMin)) defaultMin = dispMin;
+
 		dispOffset = (int)((dispMin - min) * scale);
 	
 		if(cache ||
@@ -985,7 +985,7 @@ public class Axis
 
 	public void getDefaults()
 	{
-		if(defaultMin != Maths.NaN && defaultMax != Maths.NaN){
+		if(!Maths.isNaN(defaultMin) && !Maths.isNaN(defaultMax)){
 			setRange(defaultMin, defaultMax-defaultMin);
 		}
 	}
