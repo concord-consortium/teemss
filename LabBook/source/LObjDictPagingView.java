@@ -116,20 +116,20 @@ public class LObjDictPagingView extends LabObjectView
 		if(!didLayout) layout(false);
 	
 		int curX = 2;
-		backButton.setRect(curX, height-16, 25, 15);
+		backButton.setRect(curX, 0, 25, 15);
 		curX += 27;
-		nextButton.setRect(curX, height-16, 25, 15);
+		nextButton.setRect(curX, 0, 25, 15);
 		curX+=27;
 		int choiceWidth = width - curX - 2;
 		if(choiceWidth > 120) choiceWidth = 120;
-		objectChoice.setRect(curX, height-16, choiceWidth, 15);
+		objectChoice.setRect(curX, 0, choiceWidth, 15);
 		curX += choiceWidth;
-//		if(editStatus) delButton.setRect(width-50, height-15, 25, 15);
+//		if(editStatus) delButton.setRect(width-50, 0, 25, 15);
 		if(showDone){
-			doneButton.setRect(width-25, height-16, 25, 15);
+			doneButton.setRect(width-25, 0, 25, 15);
 		}
 		if(lObjView != null){
-			lObjView.setRect(0,0,width, height-15);
+			lObjView.setRect(0,15,width, height-15);
 			Debug.println("Adding lObjView at: " + x + ", " + y +
 						  ", " + width + ", " + height);
 		}
@@ -232,7 +232,7 @@ public class LObjDictPagingView extends LabObjectView
 	    
 			lObjView = obj.getView(this, editStatus);
 			lObjView.layout(false);
-			lObjView.setRect(x,y,width,height-15);
+			lObjView.setRect(0,15,width,height-15);
 			add(lObjView);
 		}
     }
@@ -281,7 +281,7 @@ public class LObjDictPagingView extends LabObjectView
 
 		lObjView.layout(false);
 		if(width > 0 || height > 15){
-			lObjView.setRect(0,0,width,height-15);
+			lObjView.setRect(0,15,width,height-15);
 			Debug.println("Adding lObjView at: " + x + ", " + y +
 						  ", " + width + ", " + height);
 		}

@@ -49,6 +49,11 @@ public abstract class LObjSubDict extends LabObject
 		super.readExternal(in);
     }
 
+	public int getNumObjs()
+	{
+		return dict.getChildCount() - 1;
+	}
+
     public void setObj(LabObject obj, int id)
     {
 		// This assumes the dict doesn't have a template

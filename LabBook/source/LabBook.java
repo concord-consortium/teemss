@@ -377,8 +377,12 @@ public class LabBook
 
 		// We didn't find it so we need to parse it from the file
 		byte [] buffer = db.readObjectBytes(lObjPtr.devId, lObjPtr.objId);
-		if(buffer == null) return null;
-
+		if(buffer == null){
+			System.out.println("LB: null buffer");
+			System.out.println("LB: error: devId: " + lObjPtr.devId +
+							   " objId: " + lObjPtr.objId);
+			return null;
+		}
 		// set bufferStream buffer
 		// read buffer by
 		bsIn.setBuffer(buffer);
@@ -393,6 +397,8 @@ public class LabBook
 		if(lObj == null){
 			Debug.println("error: objectType: " + objectType + " devId: " + lObjPtr.devId +
 						  " objId: " + lObjPtr.objId);
+			System.out.println("LB: error: objectType: " + objectType + " devId: " + lObjPtr.devId +
+							   " objId: " + lObjPtr.objId);
 			return null;
 		}
 		lObj.ptr = lObjPtr;
@@ -459,7 +465,9 @@ public class LabBook
 
     public LabObject importPtr(LabObjectPtr ptr, LabBookDB oldDB)
     {
+		System.out.println("LB: importPtr: " + ptr.debug());
 		LabObject obj = load(ptr);
+		System.out.println("LB: importPtr: obj: " + obj + " oldDB: " + oldDB);
 		obj.ptr = new LabObjectPtr(curDeviceId, oldDB.getNewObjId(),
 								   obj);
 		store(obj);

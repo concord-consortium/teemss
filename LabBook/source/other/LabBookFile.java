@@ -52,6 +52,7 @@ public class LabBookFile implements LabBookDB
 		ds = new DataStream(file);
 
 		if(newDB){
+			System.out.println("LBF: newDB");
 			curDevId = 0;
 			nextObjId = 0;
 			rootDevId = 0;
@@ -61,7 +62,9 @@ public class LabBookFile implements LabBookDB
 			curDevId = ds.readInt();
 			nextObjId = ds.readInt();
 			rootDevId = ds.readInt();
+			System.out.println("LBF: rootDevId: " + rootDevId);
 			rootObjId = ds.readInt();
+			System.out.println("LBF: rootObjId: " + rootObjId);
 		}
 
 		if(!readIndex()){

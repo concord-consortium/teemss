@@ -143,13 +143,19 @@ public class LObjDictionary extends LabObject
 		}
     }
 
+	public void removeAll()
+	{
+		objects = new Vector();
+		store();
+	}
+
     public void remove(TreeNode node)
     {
 		Debug.println("Removing node");
 		int index = getIndex(node);
 		if(index >= 0 && index < objects.getCount()){
 			objects.del(index);
-			lBook.store(this);
+			store();
 			// Should tell the labbook we don't care about this obj any more
 		}
     }
@@ -159,7 +165,7 @@ public class LObjDictionary extends LabObject
 		if(index < 0 || index >= objects.getCount()) return;
 	
 		objects.del(index);
-		lBook.store(this);
+		store();
     }
 
     public int getChildCount()
