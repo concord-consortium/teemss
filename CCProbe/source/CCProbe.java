@@ -7,26 +7,60 @@ import org.concord.waba.extra.event.*;
 import org.concord.LabBook.*;
 import org.concord.CCProbe.*;
 
-public class CCProbe extends MainView
+
+class PtrWindow
 {
+	PtrWindow(LabObjectPtr ptr, LabObjectPtr dictPtr, boolean edit)
+	{
+		this.ptr = ptr;
+		this.dictPtr = dictPtr;
+		this.edit = edit;
+	}
+
+	LabObjectPtr ptr;
+	LabObjectPtr dictPtr;
+
+	boolean edit;
+}
+
+public class CCProbe extends ExtraMainWindow
+    implements ViewContainer, MainView, CCApplHandlerListener
+{
+    LabBook labBook;
 	LabBookSession mainSession;
+	LabBookSession curWinSession = null;
+    MenuBar menuBar;
+    Menu file;
     Menu edit;
+    TreeControl treeControl;
+    TreeModel treeModel;
     Title 		title;
+    
+    
+    Container me = new Container();
+    LabObjectView lObjView = null;
+    int myHeight;
 	int yOffset = 0;
-	int newIndex = 0;
+	Vector fileMenuStrings = new Vector();
+	
+    int newIndex = 0;
 
     String aboutTitle = "About CCProbe";
+	String [] fileStrings;
+	Vector fileListeners = new Vector();
+
     String [] creationTypes = {"Folder", "Notes", "Data Collector", 
 							   "Drawing","UnitConvertor","Image"};
 
 	int		[]creationID = {0x00010100};
-
     public void onStart()
     {
-		super.onStart();
-
+    	CCApplHandler applHandler = CCApplHandlerFactory.getCCApplHandler();
+    	if(applHandler != null) applHandler.registerHandlers(this);
+    	
 		LObjDictionary loDict = null;
 
+		LabBook.init();
 		LabBook.registerFactory(new DataObjFactory());
 
 		// Dialog.showImages = false;
@@ -35,7 +69,17 @@ public class CCProbe extends MainView
 		graph.Bin.START_DATA_SIZE = 25000;
 		graph.LargeFloatArray.MaxNumChunks = 25;
 
+		menuBar = new MenuBar();
+
+		// Notice the width and height will change here
+		setMenuBar(menuBar);
+		waba.fx.Rect myRect = content.getRect();
+		myHeight = myRect.height;
 		int dictHeight = myHeight;
+
+		me.setRect(0,0,width,myHeight);
+
+		add(me);
 
 		LabBookDB lbDB;
 		String plat = waba.sys.Vm.getPlatform();
@@ -70,23 +114,31 @@ public class CCProbe extends MainView
 			// Error;
 			exit(0);
 		}
+		file = new Menu("File");
 		
-		String [] fileStrings;
+		file.add(aboutTitle);
 		if(!plat.equals("PalmOS")){
-			int i=0;
-			fileStrings = new String [4];
-			fileStrings[i++] = aboutTitle;
+			file.add("-");
 			if(plat.equals("Java")){
-				fileStrings[i++] = "Serial Port Setup..";
+				file.add("Serial Port Setup..");
 			}
-			fileStrings[i++] = "-";
-			fileStrings[i++] = "Exit";
+			file.add("Exit");
+			fileStrings = new String [4];
+			fileStrings[0] = aboutTitle;
+			fileStrings[1] = "-";
+			fileStrings[2] = "Serial Port Setup..";
+			fileStrings[3] = "Exit";
 		} else {
 			fileStrings = new String [1];
 			fileStrings[0] = aboutTitle;			
 		}
 		
-		addFileMenuItems(fileStrings, null);
+
+		file.addActionListener(this);
+		menuBar.add(file);
+
+		labBook = new LabBook();
+		LabObject.lBook = labBook;
 
 		Debug.println("Openning");
 		labBook.open(lbDB);
@@ -113,9 +165,61 @@ public class CCProbe extends MainView
 
     }
 
+	public MainView getMainView()
+	{
+		return this;
+	}
+
+    public void addMenu(LabObjectView source, Menu menu)
+    {
+		if(menu != null) menuBar.add(menu);
+    }
+
+    public void delMenu(LabObjectView source, Menu menu)
+    {
+		if(menu != null) menuBar.remove(menu);
+    }
+
+	void updateFileMenu()
+	{		
+		int i;
+		file.removeAll();
+		for(i=0; i < fileMenuStrings.getCount(); i++){
+			String [] items = (String [])fileMenuStrings.get(i);
+			for(int j=0; j < items.length; j++){
+				file.add(items[j]);
+			}
+				file.add("-");
+
+		}		
+		
+		for(i = 0; i < fileStrings.length; i++){
+			file.add(fileStrings[i]);
+		}
+	}
+
+	public void addFileMenuItems(String [] items, ActionListener source)
+	{
+		fileMenuStrings.insert(0, items);
+		updateFileMenu();		
+		fileListeners.add(source);
+	}
+
+
+	public void removeFileMenuItems(String [] items, ActionListener source)
+	{
+		int index = fileMenuStrings.find(items);
+		if(index < 0) return;
+		fileMenuStrings.del(index);
+		updateFileMenu();
+		index = fileListeners.find(source);
+		if(index < 0) return;
+		fileListeners.del(index);
+	}
+
 	public String [] getCreateNames()
 	{
-		String  []createNames = creationTypes;
+	String  []createNames = creationTypes;
 		if(creationID != null){
 			for(int i = 0; i < creationID.length; i++){
 				int factoryType = (creationID[i] & 0xFFFF0000);
@@ -204,6 +308,13 @@ public class CCProbe extends MainView
 		}
 	}
 
+    public void done(LabObjectView source)
+	{
+		if(source == curFullView){
+			closeTopWindowView();
+		}
+	}
+
     public void reload(LabObjectView source)
     {
 		if(source != lObjView) Debug.println("Error source being removed");
@@ -238,7 +349,7 @@ public class CCProbe extends MainView
 		String command;
 		Debug.println("Got action: " + e.getActionCommand());
 
-		if(e.getSource() == file){			
+		if(e.getSource() == file){
 			command = e.getActionCommand();
 			if(command.equals("Exit")){
 				Debug.println("commiting");
@@ -256,7 +367,9 @@ public class CCProbe extends MainView
 			} else if(command.equals("Serial Port Setup..")){
 				DataExport.showSerialDialog();
 			} else {
-				super.actionPerformed(e);
+				for(int i=0; i<fileListeners.getCount(); i++){
+					((ActionListener)fileListeners.get(i)).actionPerformed(e);
+				}
 			}
 		}
     }
@@ -274,4 +387,143 @@ public class CCProbe extends MainView
 			labBook.close();
 		}
     }
+
+	public void onEvent(Event ev)
+	{
+		if(ev.target == this && ev.type == ControlEvent.TIMER){
+			removeTimer(winChangeTimer);
+			winChangeTimer = null;
+			showLastWindow();
+		}
+	}
+
+	LabObjectView curFullView = null;
+
+	Timer winChangeTimer = null;
+
+	public void closeTopWindowView()
+	{
+		// The order is important here because closeTopWin
+		// calls setShowMenus which checks lObjView to decide which 
+		// menus to show.
+
+		if(fullViews != null &&
+		   fullViews.getCount() > 0){
+
+			curFullView.setShowMenus(false);
+			curFullView.close();
+			remove(curFullView);
+			curFullView = null;
+	    
+			// release it's session
+			if(curWinSession != null) curWinSession.release();
+
+			setFocus(null);
+
+			fullViews.del(fullViews.getCount()-1);			
+
+			if(winChangeTimer == null){
+				winChangeTimer = addTimer(50);		
+			}
+		}
+	}
+
+	private void showLastWindow()
+	{
+		if(fullViews.getCount() > 0){
+			Object newTopWin = fullViews.get(fullViews.getCount()-1);
+			if(!(newTopWin instanceof PtrWindow)) return;
+
+			PtrWindow pWin = (PtrWindow)newTopWin;
+			LabObjectPtr ptr = pWin.ptr;
+					
+			curWinSession = labBook.getSession();
+
+			LabObject lObj = curWinSession.load(pWin.ptr);					
+			LObjDictionary dict = (LObjDictionary)curWinSession.load(pWin.dictPtr);
+
+			curFullView = lObj.getView(this, pWin.edit, dict, curWinSession);
+
+			curFullView.layout(true);
+			curFullView.setRect(0,0,width,myHeight);
+
+			curFullView.setShowMenus(true);
+			add(curFullView);
+		} else {
+			lObjView.setShowMenus(true);
+			add(me);
+			if(lObjView instanceof LObjDictionaryView){
+				((LObjDictionaryView)lObjView).updateWindow();
+			}
+		}
+	}
+
+	/*
+	 *  This function requires a special LabObject
+	 *  if the labObject has been loaded by the caller
+	 *  the caller needs to not release the objects session
+	 *
+	 *  However once the the View of this object is closed the
+	 *  the object will be in a weird state, because it might have
+	 *  loaded objects in the View's session.  So the object should
+	 *  probably just be released before this is called.  But it is
+	 *  trick releasing the object because it might have references
+	 *  in the callers session.  Ugh..
+	 *
+	 *  if the caller comes from a previous showFullWindowObj 
+	 *  this will be taken care of automatically
+	 */
+	Vector fullViews = new Vector();
+	public void showFullWindowObj(boolean edit, LObjDictionary dict,  LabObjectPtr ptr)
+	{
+		LabObject obj;
+
+		LabObjectPtr dictPtr = null;
+		if(dict != null) dictPtr = dict.getVisiblePtr();
+
+		if(curFullView == null){
+			// This was called by a window or timer that isn't managed
+			// by us 
+			lObjView.setShowMenus(false);
+			remove(me);
+		} else {
+			curFullView.setShowMenus(false);
+			if(curFullView.getContainer() != this) return; //throw new RuntimeException("error")
+
+			// close the view
+			curFullView.close();
+				
+			if(curWinSession != null){
+				// we need to release it's session
+				// first we save the objects pointer
+				// incase this object is owned by the session
+				// (it ought to be)
+
+				 curWinSession.release();
+
+			}
+			remove(curFullView);	
+			curFullView = null;		
+		}
+
+		setFocus(null);
+
+		fullViews.add(new PtrWindow(ptr, dictPtr, edit));		
+		
+		if(winChangeTimer == null){
+			winChangeTimer = addTimer(50);
+		}
+	}
+	
+	public void handleQuit(){
+		java.awt.Toolkit.getDefaultToolkit().beep();
+		System.exit(0);
+	}
+	public void handlePrefs(){
+		java.awt.Toolkit.getDefaultToolkit().beep();
+		System.out.println("handlePrefs");
+	}
+	public void handleAbout(){
+		Dialog.showAboutDialog(aboutTitle,AboutMessages.getMessage());
+	}
 }
