@@ -14,6 +14,8 @@ import org.concord.waba.extra.event.*;
 
 public interface DataSink
 {
+	/*
 	public void addDataSource(DataSource ds);
 	public void removeDataSource(DataSource ds);
+	*/
 }

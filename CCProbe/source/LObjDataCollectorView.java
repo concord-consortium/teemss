@@ -276,15 +276,12 @@ public class LObjDataCollectorView extends LabObjectView
 
     public void done(LabObjectView source) {}
 
-	public int getPreferredWidth(waba.fx.FontMetrics fm){
+	public int getPreferredWidth(){
 		return -1;
 	}
 
-	public int getPreferredHeight(waba.fx.FontMetrics fm){
+	public int getPreferredHeight(){
 		return -1;
 	}
 
-	public extra.ui.Dimension getPreferredSize(){
-		return null;
-	}
 }

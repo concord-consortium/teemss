@@ -225,5 +225,12 @@ CCUnit		currentUnit = null;
 		return me;
 	}
 
+	public void getRootSources(Vector sources)
+	{
+		if(sources != null){
+			sources.add(this);
+		}
+	}
+
 }
 

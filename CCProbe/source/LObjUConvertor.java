@@ -228,25 +228,13 @@ class LObjUConvertorView extends LabObjectView
 		
 		
 	}
-	public int getPreferredWidth(waba.fx.FontMetrics fm){
+	public int getPreferredWidth(){
 		return 100;
 	}
 
-	public int getPreferredHeight(waba.fx.FontMetrics fm){
+	public int getPreferredHeight(){
 		return 120;
 	}
-
-	private extra.ui.Dimension preferrDimension;
-	public extra.ui.Dimension getPreferredSize(){
-		if(preferrDimension == null){
-			preferrDimension = new extra.ui.Dimension(getPreferredWidth(null),getPreferredHeight(null));
-		}else{
-			preferrDimension.width = getPreferredWidth(null);
-			preferrDimension.height = getPreferredHeight(null);
-		}
-		return preferrDimension;
-	}
-
 
 	public void setRect(int x, int y, int width, int height){
 		super.setRect(x,y,width,height);

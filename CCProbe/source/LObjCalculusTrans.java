@@ -21,7 +21,7 @@ public class LObjCalculusTrans extends LObjSubDict
 	DataEvent dEvent = new DataEvent();
 	DataDesc dDesc = new DataDesc();
 	Vector dataListeners = new Vector();
-	Vector dataSources = new Vector();
+	DataSource dataSource = null;
 
 	int chPerSample;
 
@@ -98,47 +98,42 @@ public class LObjCalculusTrans extends LObjSubDict
 		}
 	}
 
-	public void addDataSource(DataSource ds)
+	public void setDataSource(DataSource ds)
 	{
-		if(dataSources == null) dataSources = new waba.util.Vector();
-		if(dataSources.find(ds) < 0){
-			dataSources.add(ds);
-			ds.addDataListener(this);
-		}
-	}
-	public void removeDataSource(DataSource ds)
-	{
-		if(dataSources == null) return;
-		int index = dataSources.find(ds);
-		if(index >= 0){
-			dataSources.del(index);
-			ds.removeDataListener(this);
+		if(dataSource != ds){
+			if(dataSource != null){
+				dataSource.removeDataListener(this);
+			}
+			dataSource = ds;
+			if(dataSource != null){
+				dataSource.addDataListener(this);
+			}
 		}
 	}
 
-	DataSource getDS(int i)
+	DataSource getDataSource()
 	{
-		return (DataSource)dataSources.get(i);
+		return dataSource;
 	}
 
 	public void closeEverything()
 	{
-		for(int i=0; i < dataSources.getCount(); i++){
-			getDS(i).closeEverything();
+		if(dataSource != null){
+			dataSource.closeEverything();
 		}
 	}
 
 	public void startDataDelivery()
 	{
-		for(int i=0; i < dataSources.getCount(); i++){
-			getDS(i).startDataDelivery();
+		if(dataSource != null){
+			dataSource.startDataDelivery();
 		}
 	}
 
 	public void stopDataDelivery()
 	{
-		for(int i=0; i < dataSources.getCount(); i++){
-			getDS(i).stopDataDelivery();
+		if(dataSource != null){
+			dataSource.stopDataDelivery();
 		}
 	}
 
@@ -149,5 +144,11 @@ public class LObjCalculusTrans extends LObjSubDict
 
 	public String getSummary(){return "";}
 
-
+	// add the root sources to the passed in vector
+	public void getRootSources(Vector sources)
+	{
+		if(dataSource != null && sources != null){
+			dataSource.getRootSources(sources);
+		}
+	}
 }

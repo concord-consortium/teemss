@@ -431,4 +431,11 @@ public class LObjDataSet extends LObjSubDict
 			ds.writeByte(3);
 		}
     }
+
+	public void getRootSources(Vector sources)
+	{
+		if(sources != null){
+			sources.add(this);
+		}
+	}
 }

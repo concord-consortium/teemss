@@ -54,15 +54,4 @@ public class LObjProbeDataSourceProp extends LabObjectView
 		pds.notifyObjListeners(new LabObjEvent(pds, 0));
 		return;
 	}  	
-	public int getPreferredWidth(waba.fx.FontMetrics fm){
-		return -1;
-	}
-
-	public int getPreferredHeight(waba.fx.FontMetrics fm){
-		return -1;
-	}
-
-	public extra.ui.Dimension getPreferredSize(){
-		return null;
-	}
 }

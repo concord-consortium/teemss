@@ -15,6 +15,8 @@ import org.concord.waba.extra.event.*;
 public interface DataSource
 {
 
+	public void getRootSources(Vector sources);
+
 	public void addDataListener(DataListener l);
 	public void removeDataListener(DataListener l);
 
