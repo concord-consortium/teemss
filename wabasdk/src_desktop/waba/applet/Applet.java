@@ -298,7 +298,6 @@ public static void main(String args[])
 
 		}
 
-/*dima
 	if (insets == null)
 
 		insets = new java.awt.Insets(0, 0, 0, 0);
@@ -310,13 +309,11 @@ public static void main(String args[])
 		java.awt.Dimension df = frame.getSize();
 		
 		frame.setLocation(d.width/2 - df.width/2,d.height/2 - df.height/2);
-*/		
+		
 		
 	applet.init();
-	if (frame != null){
-		frame.show();
-	}
-	
+	if (frame != null) frame.show();
+
 	}
 
 }
