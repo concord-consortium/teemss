@@ -92,17 +92,22 @@ public class LObjIntProbeTrans extends LObjSubDict
 		}
 	}
 
-	DataSource getDataSource(LabBookSession session)
+	void setupDataSource(LabBookSession session)
 	{
 		LabObject obj = getObj(0, session);
 		if(obj != null && obj instanceof DataSource){
 			if(dataSource != null && dataSource != obj){
 				dataSource.setModeDataListener(null, type);
 			}
-			if(dataSource != obj){
-				dataSource = (LObjProbeDataSource)obj; 
-				dataSource.setModeDataListener(this, type);
-			}
+			dataSource = (LObjProbeDataSource)obj; 
+			dataSource.setModeDataListener(this, type);
+		}
+	}
+
+	DataSource getDataSource(LabBookSession session)
+	{
+		LabObject obj = getObj(0, session);
+		if(obj != null && obj instanceof DataSource){
 			dataSource = (LObjProbeDataSource)obj; 
 			return dataSource;
 		}
@@ -120,7 +125,7 @@ public class LObjIntProbeTrans extends LObjSubDict
 
 	public void startDataDelivery(LabBookSession session)
 	{
-		getDataSource(session);
+		setupDataSource(session);
 		if(dataSource != null){
 			dataSource.startDataDelivery(session);
 		}
@@ -130,6 +135,7 @@ public class LObjIntProbeTrans extends LObjSubDict
 	{
 		if(dataSource != null){
 			dataSource.stopDataDelivery();
+			dataSource.setModeDataListener(null, type);
 		}
 	}
 
