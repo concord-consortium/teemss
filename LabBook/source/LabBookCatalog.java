@@ -14,8 +14,6 @@ public class LabBookCatalog
 
     int [] objIndex = null;
 
-    Vector objects = new Vector();
-
     int curDevId;
     int nextObjId;
     int rootDevId;
