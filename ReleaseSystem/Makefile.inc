@@ -42,8 +42,8 @@ ifneq ($(POST_BUILD_CMDS),)
 endif
 
 build-tag:
-	rm $(basename $(VERSION_TEMPLATE))
-	cvs update $(basename $(VERSION_TEMPLATE))
+	rm $(basename $(VERSION_TEMPLATES))
+	cvs update $(basename $(VERSION_TEMPLATES))
 	@$(MAKE) --no-print-directory cvs-diff
 	@$(call MAKE_DEP, cvs-diff)
 	@$(MAKE) --no-print-directory cvs-update
@@ -53,7 +53,7 @@ build-tag:
 	$(MAKE) 
 	mv new_build build
 	echo $(MODULE)_$(subst .,_,$(VERSION_EXP))_`cat build` > tag
-	cvs commit -m "build checkin" $(basename $(VERSION_TEMPLATE)) build version tag
+	cvs commit -m "build checkin" $(basename $(VERSION_TEMPLATES)) build version tag
 	$(call MAKE_DEP, cvs-tag)
 	$(MAKE) cvs-tag
 ifneq ($(POST_BUILD_CMDS),)
@@ -87,10 +87,11 @@ MINOR2_VER =  $(subst .,,$(suffix $(VERSION_EXP)))
 
 update-build:
 	@expr $(BUILD_EXP) + 1 > new_build
-	sed -e s/_BUILD_VER_/`cat new_build`/ -e s/_MAJOR_VER_/$(MAJOR_VER)/ \
+	for CUR_TEMPLATE in $(VERSION_TEMPLATES); do \
+		sed -e s/_BUILD_VER_/`cat new_build`/ -e s/_MAJOR_VER_/$(MAJOR_VER)/ \
 -e s/_MINOR1_VER_/$(MINOR1_VER)/ -e s/_MINOR2_VER_/$(MINOR2_VER)/ \
-< $(VERSION_TEMPLATE) > $(basename $(VERSION_TEMPLATE))
-
+< $$CUR_TEMPLATE > `echo $$CUR_TEMPLATE | sed -e 's/\.[^\.]*$$//g'`; \
+    done
 
 set-version:
 	@echo "The old version was (build" $(BUILD_EXP)")"
