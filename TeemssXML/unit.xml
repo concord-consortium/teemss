@@ -5030,7 +5030,7 @@
       VoltageCurrent probe.</step><step>Connect the two Genecons together.
       Then connect the VoltageCurrent probe leads to the Genecon leads as
       shown in the diagram. Use only the red and black leads.<ext-image
-      name="07_mt" /></step><step>Start the software to read voltage.<datacollector-link
+      name="07_mt" /></step><step>Start the software to read voltage. Use one Genecon to drive the other, or each try to oppose the other. Stop recording. Look at the graph. <datacollector-link
       type="dc-voltage-current-voltage" /></step><query-response
       layout="paragraph" title="relate" type="describe"><query-description></query-description><querys><query
       drawing-response="true" note-response="false">Sketch your graph.</query><query
