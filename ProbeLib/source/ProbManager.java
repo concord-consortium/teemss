@@ -8,13 +8,10 @@ public static ProbManager pb = null;
 CCInterfaceManager im;
 
 protected CCProb[]				probsArray = null;
-protected ProbManagerListener[]	listenersArray;
 
-protected 	static ProbManagerEvent   pmEvent = new ProbManagerEvent();
 	protected ProbManager(int interfaceType){
 		im = CCInterfaceManager.getInterfaceManager(interfaceType);
 		im.setProbManager(this);
-		pmEvent.setProbManager(this);
 	}
 	public static ProbManager getProbManager(int interfaceType){
 		if(pb == null){
@@ -24,65 +21,6 @@ protected 	static ProbManagerEvent   pmEvent = new ProbManagerEvent();
 	}
 	
 	public void probChanged(ProbEvent e){
-	}
-	
-	protected void notifyListeners(int type,Object info){
-		if(listenersArray == null || listenersArray.length < 1) return;
-		pmEvent.setType(type);
-		pmEvent.setInfo(info);
-		boolean registration = ((type == ProbManagerEvent.PM_REGISTERED) || (type == ProbManagerEvent.PM_UNREGISTERED));
-		for(int i = 0; i < listenersArray.length; i++){
-			ProbManagerListener l = listenersArray[i];
-			if(registration){
-				l.pmRegistration(pmEvent);
-			}else{
-				l.pmActionPerformed(pmEvent);
-			}
-		}
-	}
-	
-	public int findListener(ProbManagerListener l){
-		int retValue = -1;
-		if(listenersArray == null || l == null  || listenersArray.length < 1) return retValue;
-		for(int i = 0; i < listenersArray.length; i++){
-			if(listenersArray[i] == l){
-				retValue = i;
-				break;
-			}
-		}
-		return retValue;
-	}
-	
-	
-	public void addProbManagerListener(ProbManagerListener l){
-		if(listenersArray == null){
-			listenersArray = new ProbManagerListener[1];
-			listenersArray[0] = l;
-		}else{
-			if(findListener(l) < 0){
-				ProbManagerListener []newArray = new ProbManagerListener[listenersArray.length + 1];
-				waba.sys.Vm.copyArray(listenersArray,0,newArray,0,listenersArray.length);
-				newArray[listenersArray.length] = l;
-				listenersArray = newArray;
-			}
-		}
-	}
-	
-	
-	public void removeProbManagerListener(ProbManagerListener l){
-		int index = findListener(l);
-		if(index >= 0){
-			if(listenersArray.length == 1){
-				listenersArray = null;
-			}else{
-				for(int i = index + 1; i < listenersArray.length; i++){
-					listenersArray[i - 1] = listenersArray[i];
-				}
-				ProbManagerListener []newArray = new ProbManagerListener[listenersArray.length - 1];
-				waba.sys.Vm.copyArray(listenersArray,0,newArray,0,listenersArray.length);
-				listenersArray = newArray;
-			}
-		}
 	}
 	
 	public int findProb(CCProb prob){
@@ -114,7 +52,6 @@ protected 	static ProbManagerEvent   pmEvent = new ProbManagerEvent();
 		}
 		if(probAdded){
 			prob.addProbListener(this);
-			notifyListeners(ProbManagerEvent.PM_REGISTERED,prob);
 		}
 		syncModeWithProb();
 	}
@@ -132,7 +69,6 @@ protected 	static ProbManagerEvent   pmEvent = new ProbManagerEvent();
 				probsArray = newArray;
 			}
 			prob.removeProbListener(this);
-			notifyListeners(ProbManagerEvent.PM_UNREGISTERED,prob);
 		}
 	}
 	
@@ -189,15 +125,6 @@ protected 	static ProbManagerEvent   pmEvent = new ProbManagerEvent();
 		return null;
 	}
 	
-	public void addDataListenerToProb(String name,DataListener l){
-		CCProb p = getProbByName(name);
-		if(p!=null) p.addDataListener(l);
-	}
-	public void removeDataListenerFromProb(String name,DataListener l){
-		CCProb p = getProbByName(name);
-		if(p!=null) p.removeDataListener(l);
-	}
-	
 	public boolean idle(DataEvent e){
 	    for(int i = 0; i < getNumbProbs(); i++){
 			probsArray[i].idle(e);//need offset important, but not relevant right now
@@ -249,7 +176,6 @@ protected 	static ProbManagerEvent   pmEvent = new ProbManagerEvent();
 		}
 */
 		syncModeWithProb();
-		notifyListeners(ProbManagerEvent.PM_START,null);
 
 		im.start();
 	}
@@ -264,7 +190,6 @@ protected 	static ProbManagerEvent   pmEvent = new ProbManagerEvent();
 */
 		if(im == null) return;
 		im.stop();
-		notifyListeners(ProbManagerEvent.PM_STOP,null);
 	}
 }
 
