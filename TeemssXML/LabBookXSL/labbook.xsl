@@ -8,6 +8,8 @@
   doctype-public="-//Concord.ORG//DTD LabBook Description//EN" 
   doctype-system="../../XML2LabBook/labbook.dtd"/>
 
+<xsl:include href="about-teemss.xml"/>
+
 <xsl:strip-space elements="*"/>
 
 <xsl:template match="/">
@@ -16,9 +18,13 @@
 
 <xsl:template match="project">
   <LABBOOK>
-    <xsl:copy-of select="document('ccprobe.xml')"/>
+    <xsl:copy-of select="document('../../CCProbe/CCProbeXML/ccprobe.xml')"/>
     <FOLDER ID="{title}" name="{title}">
-      <xsl:copy-of select="document('about-teemss.xml')"/>
+      <xsl:call-template name="about-teemss">
+        <xsl:with-param name="varDateModified">
+          <xsl:value-of select="project-info"/>
+        </xsl:with-param>
+      </xsl:call-template>
       <xsl:apply-templates select="unit"/>
     </FOLDER>
   </LABBOOK>

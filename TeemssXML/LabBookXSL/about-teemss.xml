@@ -1,5 +1,9 @@
+<?xml version='1.0'?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                version='1.0'>
 
-<!--  file: about-teemss.xml, TEEMSS project include folder -->
+<xsl:template name="about-teemss">
+  <xsl:param name="varDateModified"/>
 
 <FOLDER ID="about-teemss-folder" name="About TEEMSS">
 
@@ -17,7 +21,10 @@
 <SUPERNOTES ID="labbook-version" name="About This LabBook">
   <EMBOBJ object="teemss_titlebar.bmp"/>
   <SNPARAGRAPH linkcolor="0000FF">
-     This is v1.0b1 of the TEEMSS project LabBook, date: February 2, 2002..
+     This is the TEEMSS project Spring 2002 LabBook.
+  </SNPARAGRAPH>
+  <SNPARAGRAPH>
+      <xsl:value-of select="$varDateModified"/>
   </SNPARAGRAPH>
 </SUPERNOTES>
 
@@ -315,3 +322,8 @@
   </FOLDER>
   <FOLDER ID="saved-datasets" name="Saved Data Sets"></FOLDER>
 </FOLDER>
+
+</xsl:template>
+
+</xsl:stylesheet>
+
