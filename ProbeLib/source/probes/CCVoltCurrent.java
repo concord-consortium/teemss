@@ -255,11 +255,12 @@ public class CCVoltCurrent extends CCProb{
 			return true;
 		}else{
 			int  	chPerSample = e.dataDesc.chPerSample;
-			int	dataIndex = 0;
+			int	dataIndex;
 			dEvent.intTime = e.intTime;
 
 			boolean ret = true;
 			if(dataListeners != null){
+				dataIndex = 0;
 				// this is current
 				for(int i = 0; i < ndata; i+=chPerSample){
 					intData[i] = dataEvent[nOffset+i];
@@ -274,6 +275,7 @@ public class CCVoltCurrent extends CCProb{
 			}
 
 			if(voltListener != null){
+				dataIndex = 0;
 				for(int i = 0; i < ndata; i+=chPerSample){
 					intData[i] = dataEvent[nOffset+i];
 					if(chPerSample == 2){
@@ -287,6 +289,7 @@ public class CCVoltCurrent extends CCProb{
 			}
 
 			if(powerListener != null){
+				dataIndex = 0;
 				for(int i = 0; i < ndata; i+=chPerSample){
 					intData[i] = dataEvent[nOffset+i];
 					if(chPerSample == 2){
@@ -305,6 +308,7 @@ public class CCVoltCurrent extends CCProb{
 			}
 
 			if(energyListener != null){
+				dataIndex = 0;
 				for(int i = 0; i < ndata; i+=chPerSample){
 					intData[i] = dataEvent[nOffset+i];
 					if(chPerSample == 2){

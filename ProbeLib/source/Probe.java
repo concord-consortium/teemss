@@ -124,8 +124,10 @@ DataListener calibrationListener = null;
 	}
 	
 	public void addDataListener(DataListener l){
-		if(dataListeners == null) dataListeners = new waba.util.Vector();	   
-		if(dataListeners.find(l) < 0) dataListeners.add(l);
+		if(dataListeners == null){ dataListeners = new waba.util.Vector();	   }
+		if(dataListeners.find(l) < 0){
+			dataListeners.add(l);
+		}
 	}
 	public void removeDataListener(DataListener l){
 		if(dataListeners == null) return;
