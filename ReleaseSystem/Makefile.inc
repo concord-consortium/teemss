@@ -10,7 +10,7 @@
 _DIR_NAMES = $(DEP_NAMES) ReleaseSystem
 
 define MAKE_DEP
-$(foreach el,$(_DIR_NAMES),$(MAKE) -C --no-print-directory ../$(el) TAG=`cat tag` $(1)
+$(foreach el,$(_DIR_NAMES),$(MAKE) --no-print-directory -C ../$(el) TAG=`cat tag` $(1)
 )
 endef
 
