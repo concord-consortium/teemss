@@ -568,8 +568,7 @@ public static QTManager qtManager = null;
 		LObjDataCollector dc = (LObjDataCollector)labObject;
 		waba.util.Vector dataSources = new waba.util.Vector(1);
 		LObjProbeDataSource newDS = 
-			LObjProbeDataSource.getProbeDataSource(probeId, dc.getInterfaceID(),
-												   CCProb.INTERFACE_PORT_A);
+			LObjProbeDataSource.getProbeDataSource(probeId, dc.getInterfaceID());
 		dataSources.add(newDS);
 
 		LObjCalculusTrans trans = null;
