@@ -55,11 +55,6 @@ int				firstIndex,secondIndex;
 		return "Voltage " + "Ch. " + curChannel;
 	}
 
-    public boolean idle(org.concord.waba.extra.event.DataEvent e){
-		dEvent.type = e.type;
-		notifyDataListeners(dEvent);
-		return true;
-    }
     public boolean startSampling(org.concord.waba.extra.event.DataEvent e){
 		dEvent.type = e.type;
 		dDesc.setDt(e.getDataDesc().getDt());
