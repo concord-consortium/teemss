@@ -20,10 +20,10 @@ public class SerialPortFactory
 		if(macOS){
 			String osVersion = System.getProperty("os.version");
 			if(osVersion == null) return null;
+			if(osVersion.startsWith("10")) return new WinSerialPortImpl(number,baudRate,bits,parity,stopBits);
 			if(!loadLibrarySuccess){
 				return new JDirectSerialPort(number,baudRate,bits,parity,stopBits);
 			}
-			if(osVersion.startsWith("10")) return null;//X
 			return new SerialPortImpl(number,baudRate,bits,parity,stopBits);//native lib requires in extensions
 		}
 		return new WinSerialPortImpl(number,baudRate,bits,parity,stopBits);
