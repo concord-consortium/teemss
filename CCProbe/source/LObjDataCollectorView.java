@@ -130,8 +130,9 @@ public class LObjDataCollectorView extends LabObjectView
 		add(title2Label);
 
 		doneB = new Button("Done");
-		add(doneB);
-
+		if(showDone){
+			add(doneB);
+		}
 
 		add(gv);
     }
