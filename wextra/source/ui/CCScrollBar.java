@@ -16,9 +16,7 @@ public class CCScrollBar extends Control{
 
 	Image	pattern;
 
-
 	int	cValue = 0;
-
 
 	int		minValue = 0;
 	int		maxValue = 0;
@@ -33,7 +31,7 @@ public class CCScrollBar extends Control{
 	int incValue 		= 0;
 	int pageIncValue 	= 0;
 	boolean	forceNotify = false;
-	boolean isWinCE = false;
+
 	public CCScrollBar(ScrollListener listener){
 		this.listener = listener;
 		rBody 		= new Rect(0,0,0,0);
@@ -41,8 +39,6 @@ public class CCScrollBar extends Control{
 		rIncrement 	= new Rect(0,0,0,0);
 		rValue 		= new Rect(0,0,0,0);
 		value = this.minValue;
-		isWinCE = (waba.sys.Vm.getPlatform().equals("WinCE"));
-
 	}
 	public void setMinMaxValues(int minValue,int maxValue){
 		this.minValue = minValue;
@@ -71,8 +67,7 @@ public class CCScrollBar extends Control{
 		if(this.allAreaValue < this.visAreaValue) this.allAreaValue = this.visAreaValue;
 		if(rValue == null) return;
     	if(this.allAreaValue > this.visAreaValue){
-			int wsb = (isWinCE)?11:7;
-			int dh = 1 + ((wsb+1) / 2);
+			int dh = 1 + ((width+1) / 2);
     		float fh = 1.0f - (float)(this.allAreaValue - this.visAreaValue)/(float)(this.allAreaValue + this.visAreaValue);
     		int h = (int)((float)rBody.height*fh + 0.5f);
     		if(h < dh) h = dh;
@@ -271,19 +266,18 @@ public class CCScrollBar extends Control{
 	}
     
     public void setRect(int x, int y, int width, int height){
-		int wsb = (isWinCE)?11:7;
-		int dh = 2 + ((wsb+1) / 2);
-    	super.setRect(x,y,wsb,height);
-    	CCUtil.setRect(rBody,2,dh,wsb - 4,height - 2*dh);
-    	CCUtil.setRect(rDecrement,0,0,wsb,dh);
-    	CCUtil.setRect(rIncrement,0,height-dh,wsb,dh);
+		super.setRect(x, y, width, height);
+
+		int dh = 2 + ((width+1) / 2);
+    	CCUtil.setRect(rBody,2,dh,width - 4,height - 2*dh);
+    	CCUtil.setRect(rDecrement,0,0,width,dh);
+    	CCUtil.setRect(rIncrement,0,height-dh,width,dh);
     	setRValueRect();
     }
     public void setRValueRect(){
     	if(rValue == null) return;
     	if(allAreaValue > visAreaValue){
-			int wsb = (isWinCE)?11:7;
-			int dh = 1 + ((wsb+1) / 2);
+			int dh = 1 + ((width+1) / 2);
     		int h = (int)((float)rBody.height*(float)visAreaValue/(float)allAreaValue + 0.5f);
     		if(h < dh) h = dh;
     		CCUtil.setRect(rValue,rBody.x,rBody.y + cValue,rBody.width,h);
@@ -315,11 +309,10 @@ public class CCScrollBar extends Control{
     	if(g == null) return;
     	Rect rForDraw = (up)?rDecrement:rIncrement;
     	if(rForDraw == null) return;
-		int wsb = (isWinCE)?11:7;
-		int dh = (wsb+1) / 2;
+		int dh = (width+1) / 2;
     	int yStart = rForDraw.y + 1;
-    	int xStart = (up)?rForDraw.x+((wsb-1) / 2):rForDraw.x;
-    	int l = (up)?0:wsb - 1;
+    	int xStart = (up)?rForDraw.x+((width-1) / 2):rForDraw.x;
+    	int l = (up)?0:width - 1;
     	int delta = (up)?1:-1;
     	g.setColor(0,0,0);
     	boolean press = (up)?(pressState == -1):(pressState == 1);
