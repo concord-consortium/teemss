@@ -22,6 +22,7 @@
 
 package org.concord.waba.extra.ui;
 
+import org.concord.waba.extra.event.*;
 
 
 import waba.ui.*;
@@ -52,7 +53,7 @@ import extra.ui.*;
 
  */
 
-public abstract class  ExtraMainWindow extends MainWindow implements java.awt.event.ActionListener
+public abstract class  ExtraMainWindow extends MainWindow implements ActionListener
 
 {
 
@@ -699,6 +700,7 @@ public boolean isControlHDialogOwned(Control c){
   public void setDialog(Dialog d){
   	popupDialog = d;
   }
+
 }
 
 

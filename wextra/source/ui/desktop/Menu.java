@@ -22,7 +22,7 @@
 
 package org.concord.waba.extra.ui;
 
-
+import org.concord.waba.extra.event.*;
 
 
 
@@ -32,7 +32,7 @@ public class Menu implements java.awt.event.ActionListener
 
 java.awt.Menu menu;
 
-java.awt.event.ActionListener actionListener = null;
+    ActionListener actionListener = null;
 
   public Menu()
 
@@ -42,11 +42,11 @@ java.awt.event.ActionListener actionListener = null;
 
   }
 
-  public Menu(String name)
+  public Menu(String label)
 
   {
 
-	menu = new java.awt.Menu(name);
+	menu = new java.awt.Menu(label);
 
 	menu.addActionListener(this);
 
@@ -58,13 +58,13 @@ java.awt.event.ActionListener actionListener = null;
 
     public void setName(String name) {
 
-	    menu.setName(name);
+	    menu.setLabel(name);
 
     }
 
     public String getName() {
 
-        return menu.getName();
+        return menu.getLabel();
 
     }
 
@@ -94,7 +94,7 @@ java.awt.event.ActionListener actionListener = null;
 
   public java.awt.Menu getAWTMenu() {return menu;}
 
-  public void 	addActionListener(java.awt.event.ActionListener l){
+  public void 	addActionListener(ActionListener l){
 
   	if(actionListener == null){
 
@@ -104,7 +104,7 @@ java.awt.event.ActionListener actionListener = null;
 
   }
 
-  public void 	removeActionListener(java.awt.event.ActionListener l){
+  public void 	removeActionListener(ActionListener l){
 
   	if(actionListener == l){
 
@@ -117,13 +117,11 @@ java.awt.event.ActionListener actionListener = null;
 	public void actionPerformed(java.awt.event.ActionEvent e){
 
 		if(actionListener != null){
-
-			actionListener.actionPerformed(new java.awt.event.ActionEvent(this,e.getID(),e.getActionCommand(),e.getModifiers()));
+			actionListener.actionPerformed(new ActionEvent(this,null,e.getActionCommand()));
 
 		}
 
 	}
-
 
 
 }
