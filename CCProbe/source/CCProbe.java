@@ -27,15 +27,15 @@ public class CCProbe extends ExtraMainWindow
 	String [] fileStrings;
 	Vector fileListeners = new Vector();
 
-    String [] creationTypes = {"Folder", "Notes", "Questions", "Data Collector", 
-							   "Drawing","UnitConvertor","Image","DataSource"};
+    String [] creationTypes = {"Folder", "Notes", "Data Collector", 
+							   "Drawing","UnitConvertor","Image"};
 
 	int		[]creationID = {0x00100100};
     public void onStart()
     {
 		LabBook.init();
 		LabBook.registerFactory(new DataObjFactory());
-		LabBook.registerFactory(new TestFactory());
+		//		LabBook.registerFactory(new TestFactory());
 
 		// Dialog.showImages = false;
 		// ImagePane.showImages = false;
