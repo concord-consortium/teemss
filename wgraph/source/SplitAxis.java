@@ -1,4 +1,4 @@
-package graph;
+package org.concord.waba.graph;
 
 import waba.ui.*;
 import waba.fx.*;

@@ -15,7 +15,7 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-package graph;
+package org.concord.waba.graph;
 
 import waba.ui.*;
 import waba.fx.*;
@@ -140,12 +140,6 @@ public class GraphViewLine extends GraphView
 				needMoreScrolling = false;
 			}
 
-			/*
-				lGraph.scrollNoCache(myScrollStep, 0);
-				drawn = false;
-				super.plot(myG);
-			}
-			*/
 			lGraph.scroll(0,0);
 		} else {
 

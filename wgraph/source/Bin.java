@@ -15,7 +15,7 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-package graph;
+package org.concord.waba.graph;
 
 import waba.ui.*;
 import waba.fx.*;
@@ -69,6 +69,23 @@ public class Bin
 	int drawnDenom;
 
 	Annotation delAnnot = null;
+	ActionEvent annotEvent = new ActionEvent(this, null, null);
+	public final static int ANNOT_ADDED = 4000;
+	public final static int ANNOT_DELETED = 4001;
+	public final static int ANNOTS_CLEARED = 4002;
+	Vector binListeners = new Vector();
+
+	public static final int CONNECTED_POINT 		= 0;
+	public static final int NOT_CONNECTED_POINT 	= 1;
+
+	int connectedDotMode = CONNECTED_POINT;
+
+    int lastCalcValue = 0;
+    public float dT = 0f;
+    int sampSize = 1;
+	public float maxVisY = 0f;
+	public float minVisY = 0f;
+	boolean visible = true;
 
     public Bin(Axis xAx, Axis yAx)
     {
@@ -166,12 +183,6 @@ public class Bin
 		notifyListeners(ANNOT_DELETED);
 		delAnnot = null;
 	}
-
-	ActionEvent annotEvent = new ActionEvent(this, null, null);
-	public final static int ANNOT_ADDED = 4000;
-	public final static int ANNOT_DELETED = 4001;
-	public final static int ANNOTS_CLEARED = 4002;
-	Vector binListeners = new Vector();
 
 	public void addActionListener(ActionListener al)
 	{
@@ -288,8 +299,6 @@ public class Bin
 		needRecalc = false;
     }
 
-    int lastCalcValue = 0;
-
     public boolean update(boolean recalc)
     {
 		int i;
@@ -389,8 +398,6 @@ public class Bin
 		return true;
     }
 
-    public float dT = 0f;
-    int sampSize = 1;
     public boolean dataReceived(DataEvent dataEvent)
     {
 		if(lfArray.getCount() == 0 && dataEvent.numbSamples > 0){
@@ -507,7 +514,6 @@ public class Bin
 		return dEvent;
     }
 
-	boolean visible = true;
 	public void setVisible(boolean val)
 	{
 		visible = val;
@@ -562,54 +568,108 @@ public class Bin
 			int yNum = (int)(yaxis.scale*(float)FIXED_PT_DENOM/curYscale);
 			lastY = points[i++] * yNum / FIXED_PT_DENOM;
 			i++;
-			for(; i<lastOffset;){
-				drawnRemainderSum = drRemainderSum;
-				drawnPtRemainderSum = ptRemainderSum;
-				while(ptRemainderSum/denom == 0){
-					ptRemainderSum += remainder;
-					drRemainderSum += remainder;
-				}
+			
+			if(connectedDotMode == CONNECTED_POINT){
+				for(; i<lastOffset;){
+					drawnRemainderSum = drRemainderSum;
+					drawnPtRemainderSum = ptRemainderSum;
+					while(ptRemainderSum/denom == 0){
+						ptRemainderSum += remainder;
+						drRemainderSum += remainder;
+					}
 				
-				newX = lastX + drRemainderSum/drawnDenom;
-				curY = points[i++] * yNum / FIXED_PT_DENOM;
-				i++;
+					newX = lastX + drRemainderSum/drawnDenom;
+					curY = points[i++] * yNum / FIXED_PT_DENOM;
+					i++;
 					
-				if(newX > (xOffset - 1) && newX <= (xOffset + xa.dispLen)){
-					g.drawLine(lastX, lastY, newX, curY);
-				}				
+					if(newX > (xOffset - 1) && newX <= (xOffset + xa.dispLen)){
+						g.drawLine(lastX, lastY, newX, curY);
+					}				
 
-				lastY = curY;
-				drawnCurX = lastX;		
-				lastX = newX;
+					lastY = curY;
+					drawnCurX = lastX;		
+					lastX = newX;
 				
-				ptRemainderSum %= denom;
-				drRemainderSum %= drawnDenom;
+					ptRemainderSum %= denom;
+					drRemainderSum %= drawnDenom;
+				}
+			} else {
+				for(; i<lastOffset;){
+					drawnRemainderSum = drRemainderSum;
+					drawnPtRemainderSum = ptRemainderSum;
+					while(ptRemainderSum/denom == 0){
+						ptRemainderSum += remainder;
+						drRemainderSum += remainder;
+					}
+				
+					newX = lastX + drRemainderSum/drawnDenom;
+					curY = points[i++] * yNum / FIXED_PT_DENOM;
+					i++;
+					
+					if(newX > (xOffset - 1) && newX <= (xOffset + xa.dispLen)){
+						g.fillRect(newX, curY, 2, 2);
+					}				
+
+					lastY = curY;
+					drawnCurX = lastX;		
+					lastX = newX;
+				
+					ptRemainderSum %= denom;
+					drRemainderSum %= drawnDenom;
+				}
 			}
 		} else {
 			lastY = points[i++];
 			i++;
-			for(;i<lastOffset;){
-				drawnRemainderSum = drRemainderSum;
-				drawnPtRemainderSum = ptRemainderSum;
-				while(ptRemainderSum/denom == 0){
-					ptRemainderSum += remainder;
-					drRemainderSum += remainder;
-				}
+			
+			if(connectedDotMode == CONNECTED_POINT){
+				for(;i<lastOffset;){
+					drawnRemainderSum = drRemainderSum;
+					drawnPtRemainderSum = ptRemainderSum;
+					while(ptRemainderSum/denom == 0){
+						ptRemainderSum += remainder;
+						drRemainderSum += remainder;
+					}
 				
-				newX = lastX + drRemainderSum/drawnDenom;
-				curY = points[i++];
-				i++;
+					newX = lastX + drRemainderSum/drawnDenom;
+					curY = points[i++];
+					i++;
 				
-				if(newX > (xOffset - 1) && newX <= (xOffset + xa.dispLen)){
-					g.drawLine(lastX, lastY, newX, curY);
-				}
+					if(newX > (xOffset - 1) && newX <= (xOffset + xa.dispLen)){
+						g.drawLine(lastX, lastY, newX, curY);
+					}
 
-				lastY = curY;
-				drawnCurX = lastX;		
-				lastX = newX;
+					lastY = curY;
+					drawnCurX = lastX;		
+					lastX = newX;
 				
-				ptRemainderSum %= denom;
-				drRemainderSum %= drawnDenom;
+					ptRemainderSum %= denom;
+					drRemainderSum %= drawnDenom;
+				}
+			} else {
+				for(;i<lastOffset;){
+					drawnRemainderSum = drRemainderSum;
+					drawnPtRemainderSum = ptRemainderSum;
+					while(ptRemainderSum/denom == 0){
+						ptRemainderSum += remainder;
+						drRemainderSum += remainder;
+					}
+				
+					newX = lastX + drRemainderSum/drawnDenom;
+					curY = points[i++];
+					i++;
+				
+					if(newX > (xOffset - 1) && newX <= (xOffset + xa.dispLen)){
+						g.fillRect(newX, curY, 2, 2);
+					}
+
+					lastY = curY;
+					drawnCurX = lastX;		
+					lastX = newX;
+				
+					ptRemainderSum %= denom;
+					drRemainderSum %= drawnDenom;
+				}
 			}
 		}
 		
@@ -618,8 +678,6 @@ public class Bin
 		lastDrawnPoint = numPoints - 1;
 	}
 
-	public float maxVisY = 0f;
-	public float minVisY = 0f;
     public boolean calcVisibleRange()
     {
 		int i;
@@ -671,7 +729,28 @@ public class Bin
 		return true;
     }
 
+	public void setColor(int r,int g,int b){//dima bin color support
+ 		if(color == null || color.length != 3) return;
+ 		color[0] = r;
+ 		color[1] = g;
+ 		color[2] = b;
+ 	}
 
+ 	public void setColor(int []col){//dima bin color support
+ 		if(col == null || col.length != 3) return;
+ 		if(color == null || color.length != 3) return;
+ 		color[0] = col[0];
+ 		color[1] = col[1];
+ 		color[2] = col[2];
+ 	}
+
+ 	public int getConnectedDotMode(){return connectedDotMode;}
+ 	public void setConnectedDotMode(int connectedDoteMode){
+ 		if(this.connectedDotMode == connectedDotMode) return;
+ 		if(connectedDotMode < CONNECTED_POINT || 
+		   connectedDotMode > NOT_CONNECTED_POINT) return; 		
+		this.connectedDotMode = connectedDotMode;
+ 	}
 }
 
 

@@ -15,7 +15,7 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-package graph;
+package org.concord.waba.graph;
 
 import waba.ui.*;
 import waba.fx.*;
@@ -269,7 +269,7 @@ public class LineGraph extends Graph2D
     public void addBin(Bin newBin)
     {
 		bins.add(newBin);
-		newBin.color = lineColors[0];
+		if(newBin.color == null) newBin.color = lineColors[0];
 
 		// hack need to fix the autoscroll code
 		// so I can fix this
