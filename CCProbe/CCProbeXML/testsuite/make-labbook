@@ -1,11 +1,17 @@
 #! /bin/bash
 
-if [ $workingcopy ]
-then echo "using \$workingcopy: " $workingcopy
-else echo "********please set \$workingcopy*****" ; exit 
+if ! [ $workingcopy ]
+then echo "********please set \$workingcopy to ccprobe project root*****" ; exit 
 fi
 
-java  -cp $workingcopy/wextra/classes/desktop:$workingcopy/wabasdk/classes:$workingcopy/wgraph/classes/other:$workingcopy/LabBook/classes/other:$workingcopy/ProbeLib/classes/other:$workingcopy/CCProbe/classes/other:$workingcopy/XML2LabBook/jars/QTJava.zip:../jars/bsf.jar:../jars/js.jar:../jars/xalan.jar:../jar/xerces.jar:$workingcopy/XML2LabBook/classes/other xml2labbook.XML2LabBook $1 labbook.xml 
+if [ $1 ]
+then labbook=$1
+else labbook="labbook.xml"
+fi
+
+$workingcopy/XML2LabBook/build-labbook $labbook
+
+
 
 
 
