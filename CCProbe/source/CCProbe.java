@@ -51,8 +51,9 @@ public class CCProbe extends ExtraMainWindow
 		setMenuBar(menuBar);
 		waba.fx.Rect myRect = content.getRect();
 		myHeight = myRect.height;
+		int dictHeight = myHeight;
 
-		me.setRect(x,y,width,myHeight);
+		me.setRect(0,0,width,myHeight);
 
 		add(me);
 
@@ -71,7 +72,7 @@ public class CCProbe extends ExtraMainWindow
 
 		if(myHeight < 180){
 			yOffset = 10;
-			myHeight -= 10;
+			dictHeight -= 10;
 			Title title = new Title("CCProbe");
 			title.setRect(0,0,width, 10);
 			me.add(title);
@@ -113,7 +114,7 @@ public class CCProbe extends ExtraMainWindow
 
 		}
 		LabObjectView view = (LabObjectView)loDict.getView(this, true);
-		view.setRect(x,yOffset,width,myHeight);
+		view.setRect(x,yOffset,width,dictHeight);
 		view.setShowMenus(true);
 		me.add(view);
 		lObjView = view;
@@ -332,7 +333,7 @@ public class CCProbe extends ExtraMainWindow
 			else remove(curFullView);
 
 			view.layout(true);
-			view.setRect(0,0,width,height);
+			view.setRect(0,0,width,myHeight);
 			view.setShowMenus(true);
 			add(view);
 			curFullView = view;
