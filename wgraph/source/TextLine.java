@@ -68,7 +68,6 @@ public class TextLine extends Object {
     protected int textWidth = 0;
     protected int textHeight = 0;
 
-    public int edge;
 	boolean palm = false;
 
 	public TextLine(float v, Font f){
@@ -112,6 +111,10 @@ public class TextLine extends Object {
 		font = null;
 		direction = d;
     }
+
+	public TextLine(){
+		fontMet = MainWindow.getMainWindow().getFontMetrics(MainWindow.defaultFont);
+	}		
 
     public void free()
     {
@@ -241,6 +244,7 @@ public class TextLine extends Object {
 		if(buffer != null) buffer.free();
 		if(bufG != null)bufG.free();
 		buffer = null;
+		updateBuffer();
     }
 
     /* Draw starting at the upper left hand corner
@@ -263,28 +267,23 @@ public class TextLine extends Object {
 		return;
     }
 
-    public void draw(Graphics _g, int x, int y)
-    {
+	public void updateBuffer()
+	{
 		Image offsI = null;
 		Image rotImage = null;
 		Graphics offsG = null;
 		Graphics rotG = null;
 		Graphics g = null;
 
-		if(text == null || text.equals("")) return;
-
-		if(buffer != null){
-			_g.copyRect(buffer, 0, 0, width, height, x, y); 	    
+		if(width <= 0 || height <= 0){
+			buffer = null;
 			return;
 		}
-
-
 		buffer = new Image(width, height);
 		g = bufG = new Graphics(buffer);
 
 		if(direction == RIGHT){
 			drawRight(g, 0, 0);
-			_g.copyRect(buffer, 0, 0, width, height, x, y); 	    
 			return;
 		}
 
@@ -305,6 +304,25 @@ public class TextLine extends Object {
 
 		g.drawImage(rotImage, 0, 0);
 		rotImage.free();
+
+	}
+
+    public void draw(Graphics _g, int x, int y)
+    {
+		Image offsI = null;
+		Image rotImage = null;
+		Graphics offsG = null;
+		Graphics rotG = null;
+		Graphics g = null;
+
+		if(text == null || text.equals("")) return;
+
+		if(buffer != null){
+			_g.copyRect(buffer, 0, 0, width, height, x, y); 	    
+			return;
+		}
+
+		updateBuffer();
 
 		_g.copyRect(buffer, 0, 0, width, height, x, y);
 
