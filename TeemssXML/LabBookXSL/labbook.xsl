@@ -63,7 +63,7 @@
 </xsl:template>
 
 <xsl:template match="intro">
-  <SUPERNOTES ID="{../@name}-intro" name="Introduction">
+  <SUPERNOTES ID="{../@name}-intro" name="Introduction" locked="true">
     <EMBOBJ object="teemss_titlebar.bmp"/>
     <SNPARAGRAPH linkcolor="0000FF">
       <xsl:value-of select="../title"/> Introduction
@@ -81,7 +81,7 @@
 </xsl:template>
 
 <xsl:template match="think" mode="investigate">
-  <SUPERNOTES ID="{../@name}-think" name="Thinking About the Question">
+  <SUPERNOTES ID="{../@name}-think" name="Thinking About the Question" locked="true">
     <EMBOBJ object="teemss_titlebar.bmp"/>
     <SNPARAGRAPH linkcolor="0000FF">
       Thinking About the Question
@@ -105,7 +105,7 @@
 </xsl:template>
 
 <xsl:template match="materials">
-  <SUPERNOTES ID="{../@name}-materials" name="Materials">
+  <SUPERNOTES ID="{../@name}-materials" name="Materials" locked="true">
     <EMBOBJ object="teemss_titlebar.bmp"/>
     <SNPARAGRAPH linkcolor="0000FF">
       <xsl:value-of select="../title"/> Materials
@@ -120,7 +120,7 @@
 </xsl:template>
 
 <xsl:template match="safety">
-  <SUPERNOTES ID="{../@name}-safety" name="Safety">
+  <SUPERNOTES ID="{../@name}-safety" name="Safety" locked="true">
     <EMBOBJ object="teemss_titlebar.bmp"/>
     <SNPARAGRAPH linkcolor="0000FF">
       <xsl:value-of select="../title"/> Safety
@@ -155,7 +155,7 @@
 
 
 <xsl:template match="hints">
-  <SUPERNOTES ID="{../@name}-hints" name="Technical Hints">
+  <SUPERNOTES ID="{../@name}-hints" name="Technical Hints" locked="true">
     <EMBOBJ object="teemss_titlebar.bmp"/>
     <SNPARAGRAPH linkcolor="0000FF">
       <xsl:value-of select="../title"/> Technical Hints
@@ -170,7 +170,7 @@
 </xsl:template>
 
 <xsl:template match="further">
-  <SUPERNOTES ID="{../@name}-further" name="Further Investigations">
+  <SUPERNOTES ID="{../@name}-further" name="Further Investigations" locked="true">
     <EMBOBJ object="teemss_titlebar.bmp"/>
     <SNPARAGRAPH linkcolor="0000FF">
       <xsl:value-of select="../title"/>: Further Investigations
@@ -181,7 +181,7 @@
 </xsl:template>
 
 <xsl:template match="analysis" mode="investigate">
-  <SUPERNOTES ID="{../@name}-analysis" name="Analysis">
+  <SUPERNOTES ID="{../@name}-analysis" name="Analysis" locked="true">
     <EMBOBJ object="teemss_titlebar.bmp"/>
     <SNPARAGRAPH linkcolor="0000FF">
       <xsl:value-of select="../title"/> Analysis
@@ -201,7 +201,7 @@
 </xsl:template>
 
 <xsl:template match="trial" mode="investigate">
-  <xsl:element name="SUPERNOTES">
+  <SUPERNOTES locked="true">
     <xsl:attribute name="ID">
       <xsl:value-of select="../@name"/>_trial_<xsl:number value="position()" format="I"/>
     </xsl:attribute>
@@ -223,17 +223,17 @@
       </xsl:choose>
     </xsl:for-each>
     <SNPARAGRAPH/>
-  </xsl:element>
+  </SUPERNOTES>
 </xsl:template>
 
 <xsl:template match="trial" mode="response">
-  <xsl:element name="FOLDER">
+  <FOLDER>
     <xsl:attribute name="ID">
       <xsl:value-of select="../@name"/>_trial_<xsl:number value="position()" format="I"/>_response</xsl:attribute>
     <xsl:attribute name="name">Trial <xsl:number value="position()" format="I"/> Responses      
     </xsl:attribute>
     <xsl:apply-templates select="steps" mode="response"/>
-  </xsl:element>
+  </FOLDER>
 </xsl:template>
 
 <xsl:template match="instructions">
@@ -366,24 +366,21 @@
     </xsl:when>
   </xsl:choose>
   <SNPARAGRAPH/>
-    <xsl:element name="EMBOBJ">
+    <EMBOBJ link="true" linkcolor="FF0000">
       <xsl:attribute name="object">
         <xsl:value-of select="ancestor::investigation/@name"/>_<xsl:value-of select="name(ancestor::*[../../investigation])"/>_<xsl:number level="any"/>_<xsl:number/>
       </xsl:attribute>
-    <xsl:attribute name="link">true</xsl:attribute>
-    <xsl:attribute name="linkcolor">FF0000</xsl:attribute>
-  </xsl:element>
+    </EMBOBJ>
   <SNPARAGRAPH/>
 </xsl:template>
 
 
 <xsl:template match="query-response" mode="response">
-  <xsl:element name="SUPERNOTES">
+  <SUPERNOTES locked="true">
     <xsl:attribute name="ID">
       <xsl:value-of select="ancestor::investigation/@name"/>_<xsl:value-of select="name(ancestor::*[../../investigation])"/>_<xsl:number level="any"/>_<xsl:number value="position()"/>
     </xsl:attribute>
     <xsl:attribute name="name">
-
 <xsl:text>Question </xsl:text>
 <xsl:call-template name="query-response-position"/>
  <xsl:text>. </xsl:text>
@@ -406,7 +403,7 @@
     <SNPARAGRAPH/>
     <xsl:apply-templates select="querys" mode="response"/>
     <SNPARAGRAPH/>
-  </xsl:element>
+  </SUPERNOTES>
 </xsl:template>
 
 
@@ -501,13 +498,13 @@
   <xsl:if test="preceding-sibling::node()[(self::text() and normalize-space(.)!='') or self::*]">
     <SNPARAGRAPH/>
   </xsl:if>
-  <xsl:element name="EMBOBJ">
+  <EMBOBJ>
     <IMAGE name="@name" locked="true">
       <xsl:attribute name="ID">Image_<xsl:number level="any"/>       
       </xsl:attribute>
       <xsl:attribute name="url">../images/<xsl:value-of select="ancestor::unit/@name"/>/<xsl:value-of select="ancestor::investigation/@name"/>/<xsl:value-of select="@name"/>/PALM_TINY_<xsl:value-of select="@name"/>.bmp</xsl:attribute>
     </IMAGE>
-  </xsl:element>
+  </EMBOBJ>
 </xsl:template>
 
 
