@@ -56,6 +56,8 @@ public abstract class Probe extends PropContainer
 	PropObject port = null;
 	protected static String speedUnit = " per second";
 
+	protected int precision = DecoratedValue.UNKNOWN_PRECISION;
+
 	protected Probe(boolean init, String name, int interfaceT){
 		super("Properties");
 		setName(name);
@@ -233,6 +235,8 @@ public abstract class Probe extends PropContainer
 	}
 	public int getUnit(){return unit;}
 	public boolean setUnit(int unit){this.unit = unit;return true;}
+
+	public int getPrecision(){return precision; }
 
 	public void writeExternal(DataStream out){
 		out.writeInt(interfaceType);
