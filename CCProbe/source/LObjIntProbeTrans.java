@@ -157,13 +157,11 @@ public class LObjIntProbeTrans extends LObjSubDict
 
 	public void writeExternal(DataStream out)
 	{
-		super.writeExternal(out);
 		out.writeInt(type);
 	}
 
 	public void readExternal(DataStream in)
 	{
-		super.readExternal(in);
 		type = in.readInt();
 	}
 }

@@ -236,13 +236,11 @@ CCUnit		currentUnit = null;
 
     public void writeExternal(extra.io.DataStream out)
     {
-		super.writeExternal(out);
     	ProbFactory.storeProbeToStream(probe,out);
     }
 
     public void readExternal(extra.io.DataStream in)
     {
-		super.readExternal(in);
     	CCProb probe = ProbFactory.createProbeFromStream(in);
 		probe.setInterfaceType(interfaceType);
 		setProbe(probe);

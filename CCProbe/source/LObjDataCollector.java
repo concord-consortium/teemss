@@ -88,13 +88,11 @@ public class LObjDataCollector extends LObjSubDict
 	}
     public void readExternal(DataStream ds)
     {
-		super.readExternal(ds);
 		numDataSources = ds.readInt();
     }
 
     public void writeExternal(DataStream ds)
     {
-		super.writeExternal(ds);
 		ds.writeInt(numDataSources);
     }
     

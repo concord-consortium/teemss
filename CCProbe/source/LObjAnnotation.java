@@ -94,7 +94,6 @@ public class LObjAnnotation extends LObjSubDict
 
     public void readExternal(DataStream ds)
     {
-		super.readExternal(ds);
 		label = ds.readString();
 		time = ds.readFloat();
 		value = ds.readFloat();
@@ -103,7 +102,6 @@ public class LObjAnnotation extends LObjSubDict
 
     public void writeExternal(DataStream ds)
     {
-		super.writeExternal(ds);
 		ds.writeString(getLabel());
 		ds.writeFloat(getTime());
 		ds.writeFloat(getValue());

@@ -34,7 +34,6 @@ public class LObjUConvertor extends LabObject
 
     public void writeExternal(DataStream out)
     {
-		super.writeExternal(out);
 		out.writeFloat(lastLeftNumber);
 		out.writeFloat(lastRightNumber);
 		out.writeInt(lastCatIndex);
@@ -45,7 +44,6 @@ public class LObjUConvertor extends LabObject
 
     public void readExternal(DataStream in)
     {
-		super.readExternal(in);	
 		lastLeftNumber = in.readFloat();
 		lastRightNumber = in.readFloat();
 		lastCatIndex = in.readInt();

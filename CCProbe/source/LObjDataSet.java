@@ -309,8 +309,6 @@ public class LObjDataSet extends LObjSubDict
     // should not actually load its objects when it is loaded
     public void readExternal(DataStream ds)
     {
-		super.readExternal(ds);
-
 		byte type = ds.readByte() ;
 		int majorType = type & 0x0f;
 
@@ -370,8 +368,6 @@ public class LObjDataSet extends LObjSubDict
     {
 		LObjDataSet child;
 		int chunkPos = 0;
-
-		super.writeExternal(ds);
 
 		if(myBin == null && dEvent == null){
 			// header flag

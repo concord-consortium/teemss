@@ -171,4 +171,7 @@ public class LObjCalculusTrans extends LObjSubDict
 			dataSource.getRootSources(sources);
 		}
 	}
+
+	public void readExternal(DataStream in){}
+	public void writeExternal(DataStream out){}
 }

@@ -240,7 +240,6 @@ public class LObjGraph extends LObjSubDict
 
     public void readExternal(DataStream ds)
     {
-		super.readExternal(ds);
 		title = ds.readString();
 		numDataSources = ds.readInt();
 		if(numDataSources <= 0) return;
@@ -279,7 +278,6 @@ public class LObjGraph extends LObjSubDict
 
     public void writeExternal(DataStream ds)
     {
-		super.writeExternal(ds);
 		ds.writeString(title);
 
 		if(numDataSources <= 0 ||
