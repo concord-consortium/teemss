@@ -97,9 +97,12 @@ public class LObjDataCollector extends LObjSubDict
 		}
 	}
 
+	LObjDataCollectorView dcv = null;
+
     public LabObjectView getView(ViewContainer vc, boolean edit, LObjDictionary curDict)
     {
-		return new LObjDataCollectorView(vc, this, curDict);
+		dcv = new LObjDataCollectorView(vc, this, curDict);
+		return dcv;
     }
     public LabObjectView getPropertyView(ViewContainer vc, LObjDictionary curDict){
 		return new LObjDataCollectorProp(vc, this, curDict);

@@ -38,8 +38,19 @@ public 		waba.util.Vector 	dataListeners = null;
     	return null;
     }
     
-    public LabObjectView getPropertyView(ViewContainer vc, boolean edit,LObjDictionary curDict){
-    	return null;
+    public LabObjectView getPropertyView(ViewContainer vc, LObjDictionary curDict){
+		return new LObjProbeDataSourceProp(vc, this);
+    }
+
+    public void showProp()
+    {
+		MainWindow mw = MainWindow.getMainWindow();
+		if(mw instanceof ExtraMainWindow){
+			LObjProbeDataSourceProp pdsProp = (LObjProbeDataSourceProp) getPropertyView(null, null);
+			ViewDialog vDialog = new ViewDialog((ExtraMainWindow)mw, null, "Properties", pdsProp);
+			vDialog.setRect(0,0,150,150);
+			vDialog.show();
+		}
     }
 
 	public void addDataListener(DataListener l){
@@ -197,6 +208,7 @@ public 		waba.util.Vector 	dataListeners = null;
 			}
 		}
 	}
+
 
 	public void addProbListener(ProbListener l){
 		if(probListeners == null) probListeners = new waba.util.Vector();

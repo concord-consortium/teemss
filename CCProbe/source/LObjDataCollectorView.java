@@ -13,7 +13,7 @@ import org.concord.waba.extra.probware.*;
 import org.concord.LabBook.*;
 	
 public class LObjDataCollectorView extends LabObjectView
-    implements ActionListener, DialogListener, ViewContainer
+    implements ActionListener, ViewContainer, LabObjListener
 {
     LObjDataCollector dc;
     LObjGraphView gv;
@@ -99,14 +99,15 @@ public class LObjDataCollectorView extends LabObjectView
 		}
 		stopping = false;
     }
-    
-    public void dialogClosed(DialogEvent e)
-    {
-		Debug.println("Got closed");	
-		gv.updateProp();
-		setTitle2(graph.title);		
-		dc.store();
-    }
+
+	public void labObjChanged(LabObjEvent e)
+	{
+		if(e.getObject() != dc){
+			gv.updateProp();
+			setTitle2(graph.title);		
+			dc.store();
+		}
+	}		
 
     LObjGraph graph = null;
 
@@ -126,13 +127,12 @@ public class LObjDataCollectorView extends LabObjectView
 		Vector dataSources = dc.getDataSources();
 		for(int i=0; i<dataSources.getCount(); i++){
 			DataSource ds = (DataSource)dataSources.get(i);
-			/*
+			
 			if(ds instanceof LObjProbeDataSource){
 				LObjProbeDataSource pDS = (LObjProbeDataSource)ds;
-			    pDS.getProbe().setInterfaceType(dc.interfaceId);
-				pDS.setProbe(pDS.getProbe());
+				pDS.addLabObjListener(this);
 			}
-			*/
+			
 			graph.addDataSource(ds);
 		}
 
@@ -196,9 +196,7 @@ public class LObjDataCollectorView extends LabObjectView
 				}
 
 				LObjProbeDataSource pds = (LObjProbeDataSource)dc.dataSources.get(0);
-				CCProb p = pds.getProbe();
-
-				p.calibrateMe((ExtraMainWindow)(MainWindow.getMainWindow()), this, dc.interfaceId);
+				pds.showProp();
 
 				Debug.println("Callllll");
 			} else if(e.getActionCommand().equals("Save Profile...")){
@@ -221,7 +219,7 @@ public class LObjDataCollectorView extends LabObjectView
 				} 
 				*/
 			}
-		} 
+		}
     }
 
     public void close()
@@ -233,6 +231,7 @@ public class LObjDataCollectorView extends LabObjectView
 		gv.close();
 
 		dc.closeSources();
+		dc.dcv = null;
 
 		super.close();
     }
