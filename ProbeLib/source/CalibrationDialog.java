@@ -349,12 +349,6 @@ DeviationControl	devControl;
 				}else if (event.target == bStop){
 					doStop();
 				}
-				if(listener != null){
-					String message = ((CCButton)event.target).getText();
-					Object info = probe;
-					int infoType = org.concord.waba.extra.event.DialogEvent.OBJECT;
-					listener.dialogClosed(new org.concord.waba.extra.event.DialogEvent(this,null,message,info,infoType));
-				}
 				if((event.target == bClose) || (event.target == bApply)){				
 					doStop();
 					if(event.target == bClose){
@@ -398,6 +392,12 @@ DeviationControl	devControl;
 							probe.calibrationDone(row1,row2,calibrated);
 						}
 					}
+				}
+				if(listener != null){
+					String message = ((CCButton)event.target).getText();
+					Object info = probe;
+					int infoType = org.concord.waba.extra.event.DialogEvent.OBJECT;
+					listener.dialogClosed(new org.concord.waba.extra.event.DialogEvent(this,null,message,info,infoType));
 				}
 				return;
 			}
