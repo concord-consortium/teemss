@@ -188,9 +188,11 @@ public class Bin
     void notifyListeners(int type)
 	{
 		annotEvent.type = type;
-		for(int i=0; i<binListeners.getCount(); i++){
-			ActionListener al = (ActionListener)binListeners.get(i);
-			al.actionPerformed(annotEvent);
+		if(binListeners != null){
+			for(int i=0; i<binListeners.getCount(); i++){
+				ActionListener al = (ActionListener)binListeners.get(i);
+				al.actionPerformed(annotEvent);
+			}
 		}
 	}
 
