@@ -313,7 +313,7 @@ CCScrollBar				scrollBar;
 		}
 		
 		int yStart = (needInserButton)?34:17;
-		if(!nameEditWasAdded && !nameEditAsLabelWasAdded){
+		if((getViewType() == LObjDictionary.PAGING_VIEW) || (!nameEditWasAdded && !nameEditAsLabelWasAdded)){
 			yStart -= 16;
 		}
 		
@@ -322,7 +322,7 @@ CCScrollBar				scrollBar;
 		if(nameLabel != null) nameLabel.setRect(1,1,30,15);
 		int editW = (showDone)?width - 62:width - 32;
 		if(nameEdit != null){
-			if(nameEditWasAdded) 	nameEdit.setRect(30, 1, editW, 15);
+			if(nameEditWasAdded && (getViewType() == LObjDictionary.TREE_VIEW)) 	nameEdit.setRect(30, 1, editW, 15);
 			else					nameEdit.setRect(0, 0, 0, 0);
 		}
 		if(nameEditAsLabel != null){
@@ -340,7 +340,7 @@ CCScrollBar				scrollBar;
 				scrollBar.setRect(rEdit.width - wsb - 1,1,wsb, rEdit.height - 2);
 			}
 		}
-		if(needInserButton)	insertButton.setRect(1,17,30,15);
+		if(needInserButton)	insertButton.setRect(1,yStart - 17,30,15);
 //		upButton.setRect(35,17,20,15);
 //		downButton.setRect(60,17,30,15);
 		waba.util.Vector oldLines = tArea.lines;
