@@ -496,8 +496,7 @@ public void _doPaint(int x, int y, int width, int height)
 	}
 	public WinCanvas getAWTCanvas(){return _winCanvas;}
 	public void wasAWTAddNotify(){
-	    
-	    java.awt.Window awtWindow = (java.awt.Window)getAWTCanvas().getParent();
+	    java.awt.Container awtWindow = (java.awt.Container)getAWTCanvas().getParent();
 	    java.awt.Insets insets 	= awtWindow.getInsets();
 	    java.awt.Dimension d 	= awtWindow.getSize();
 	

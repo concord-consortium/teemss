@@ -48,6 +48,17 @@ public class Frame extends java.awt.Frame
 
 {
 
+	public void addNotify(){
+		super.addNotify();
+	    java.awt.Insets insets 	= getInsets();
+	    java.awt.Dimension df 	= getSize();
+		setSize(df.width + insets.left + insets.right,df.height + insets.top + insets.bottom);
+		java.awt.Dimension d = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+		df = getSize();
+		
+		setLocation(d.width/2 - df.width/2,d.height/2 - df.height/2);
+	}
+
     public boolean handleEvent(java.awt.Event event)
 
 	{
@@ -76,11 +87,11 @@ public class Frame extends java.awt.Frame
 
     public void paint(java.awt.Graphics g)
     {
-	if(visWidth != -1){
-	    java.awt.Insets insets = getInsets();
-	    setSize(visWidth+insets.right+insets.left,visHeight+insets.top+insets.bottom);
-	    visWidth = -1;
-	}
+		if(visWidth != -1){
+		    java.awt.Insets insets = getInsets();
+		    setSize(visWidth+insets.right+insets.left,visHeight+insets.top+insets.bottom);
+		    visWidth = -1;
+		}
     }
 
 }
