@@ -443,14 +443,8 @@ public class GraphSettings
 
     public boolean calcVisibleRange()
     {
-		int i,j,k;
-		int lastOffset;
-		int [] binPoints;
-		int curX, curMinY, curMaxY;
-		int minY, maxY;
-		float minYf, maxYf;
+		int k;
 		Bin bin;
-		Axis xa;
 		boolean setRanges = false;
 
 	    maxVisY = (float)-(0x7FFFFFF);
@@ -458,45 +452,14 @@ public class GraphSettings
 
 		for(k=0; k<bins.getCount(); k++){
 			bin = (Bin)bins.get(k);
-			xa = bin.xaxis;
-
-			if(xa.drawnX == -1 || bin.numPoints <= 1) continue;
-	    			
-			binPoints = bin.points;
-			lastOffset = bin.numPoints*3;
-	    
-			minY = (0x7FFFFFF);
-			maxY = -(0x7FFFFFF);
-
-			int xOffset = (int)((xa.dispMin - bin.refX) * xa.scale);		
-			for(i=0; i<lastOffset;){
-				curX = binPoints[i++];
-				curMinY = binPoints[i++] - (binPoints[i] & 0xFFFF);					
-				curMaxY = binPoints[i-1] + (binPoints[i] >> 16);
-				i++;
-		
-				if(curX > (xOffset - 1) && curX <= (xOffset + xa.dispLen)){
-					if(curMaxY > maxY) maxY = curMaxY;
-					if(curMinY < minY) minY = curMinY;
-				}		
-			}	    
-			
-			minYf = ((float)minY / yaxis.scale + bin.refY);
-			maxYf = ((float)maxY / yaxis.scale + bin.refY);
-			float temp;
-			if(minYf > maxYf){
-				temp = minYf;
-				minYf = maxYf;
-				maxYf = temp;
+			if(bin.calcVisibleRange()){
+				if(bin.minVisY < minVisY) minVisY = bin.minVisY;
+				if(bin.maxVisY > maxVisY) maxVisY = bin.maxVisY;
+				
+				setRanges = true;
 			}
+		}
 
-			if(minYf < minVisY) minVisY = minYf;
-			if(maxYf > maxVisY) maxVisY = maxYf;
-
-			setRanges = true;
-		}		
-
-		
 		return setRanges;
     }
 
