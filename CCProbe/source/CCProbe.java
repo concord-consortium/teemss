@@ -156,7 +156,6 @@ public class CCProbe extends MainView implements CCApplHandlerListener
 
 	public void registerHandlers(){
 		if(!handlersWasRegistered){
-    		System.out.println("handlersWasRegistered");
     		handlersWasRegistered = true;
     		CCApplHandler applHandler = CCApplHandlerFactory.getCCApplHandler();
     		if(applHandler != null) applHandler.registerHandlers(this);
@@ -301,7 +300,6 @@ public class CCProbe extends MainView implements CCApplHandlerListener
 	}
 	public void handlePrefs(){
 		java.awt.Toolkit.getDefaultToolkit().beep();
-		System.out.println("handlePrefs");
 	}
 	public void handleAbout(){
 		Dialog.showAboutDialog(aboutTitle,AboutMessages.getMessage());
