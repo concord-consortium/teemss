@@ -184,8 +184,8 @@
       the area you selected.<shared-image name="17_th_zoomed"
       screenshot="true" /></step></steps></instruction><instruction
       title="default axes">To return to the original axis settings, tap
-      Default Axes in the Tools list.<shared-image name="32_th_defaultaxes" screenshot="true"/> 
-      </instruction><instruction
+      Default Axes in the Tools list.<shared-image name="32_th_defaultaxes"
+      screenshot="true" /></instruction><instruction
       title="Changing graph properties "><steps><step>To change graph
       properties, tap the Palm menu icon at the bottom left corner, then the
       Edit menu item. Tap Graph Properties. <shared-image
@@ -3250,14 +3250,15 @@
       10cm at the higher end. Mark two distances up the ramp, one twice as far
       as the other. Place the cart on the ramp with the back wheels on the
       upper mark. <ext-image name="03_pk" /></step><step>Start the software to
-      read a velocity versus time graph. <datacollector-link type="dc-smartwheel-vel3" />
-      </step><step>Let the cart roll down
-      the ramp and continue along the floor or desk. As soon as it leaves the
-      ramp completely, pick it up and place it with the back wheels on the
-      lower mark. Let the cart roll down the ramp.</step><step>Stop the
-      software immediately after a good roll and save your data.</step><query-response
-      title="velocity" type="describe"><query-description>The cart gained
-      kinetic energy, or energy of motion, as it went down the ramp.</query-description><querys><query
+      read a velocity versus time graph. <datacollector-link
+      type="dc-smartwheel-vel3" /></step><step>Let the cart roll down the ramp
+      and continue along the floor or desk. As soon as it leaves the ramp
+      completely, pick it up and place it on the ramp, but this time with the
+      back wheels on the lower mark. Again, let the cart roll down the ramp
+      and onto the floor.</step><step>Stop the software immediately after a
+      good roll and save your data.</step><query-response title="velocity"
+      type="describe"><query-description>The cart gained kinetic energy, or
+      energy of motion, as it went down the ramp.</query-description><querys><query
       drawing-response="false" note-response="true">What is the maximum
       velocity for each of the two starting heights?</query><query
       drawing-response="false" note-response="true">Calculate the ratio of two
@@ -3794,21 +3795,21 @@
       block of aluminum. The heat cell is placed in insulation to prevent heat
       loss to the environment. <ext-image name="02_he" /></step><step>Remove
       the heat cell from its insulation. Attach the two leads of the Genecon
-      to wires extending from the heat cell. Also connect the voltage leads
-      and the current leads of VoltageCurrent probe to the heat cell. Follow
-      the diagram carefully. Don &#39;t put the heat cell in the insulation
-      yet. <ext-image name="03_he" /></step><step>Start the software to record
-      power. This measures the electrical power, in watts, that you are
+      to wires extending from the heat cell. Also connect the voltage leads of
+      the VoltageCurrent probe to the heat cell. Follow the diagram carefully.
+      Don &#39;t put the heat cell in the insulation yet. <ext-image
+      name="03_he" /></step><step>Start the software to record voltage. In
+      this case, the voltage is proportional to electrical power that you are
       supplying to the heat cell with the Genecon. <datacollector-link
-      type="dc-voltage-current-power" /></step><step>Try cranking at a fairly
-      fast speed and observe the power on your graph. Can you crank at a
-      steady fast rate? Now try to crank at a slower steady rate that produces
-      half as much power.</step><query-response title="trial1" type="describe"><query-description>Practice
+      type="dc-voltage-current-voltage" /></step><step>Try cranking at a
+      fairly fast speed and observe your graph. Can you crank at a steady fast
+      rate? Now try to crank at a slower steady rate that produces half as
+      much voltage.</step><query-response title="trial1" type="describe"><query-description>Practice
       until you can do two rates of cranking, slow and fast, where the faster
-      rate produces twice as much power as the slower rate. Stop collecting
-      data and disconnect the voltage and current leads.</query-description><querys><query
-      drawing-response="false" note-response="true">What is the power of each
-      rate in watts?</query></querys></query-response><step>Connect the
+      rate produces twice as much voltage as the slower rate. Stop collecting
+      data and disconnect the voltage leads.</query-description><querys><query
+      drawing-response="false" note-response="true">What is the average
+      voltage of each rate?</query></querys></query-response><step>Connect the
       Temperature probe to your handheld computer. Refer to Technical Hints to
       connect the Temperature probe. The sensitive part is just the very tip,
       where two wires are welded together.</step><step>Put the tip of the
@@ -3915,9 +3916,10 @@
       small piece of aluminum foil that goes all the way around it. Hold the
       foil in place with a short piece of clear tape. Slide the tip of the
       Temperature probe in between the bulb and the aluminum foil.</step></steps></step><step>Attach
-      one lead of the battery to the mini light, but not the other.<ext-image
-      name="06c_he" /></step><step>Start the software to record temperature.</step><step>Attach
-      the second battery lead and light up the mini light. <datacollector-link
+      one lead of the battery to the mini light, but not the other. Use the
+      alligator clip leads to make the connection.<ext-image name="06c_he" /></step><step>Start
+      the software to record temperature.</step><step>Attach the second
+      battery lead and light up the mini light. <datacollector-link
       type="dc-temperature4" /> <ext-image name="06d_he" /></step><step>Monitor
       the temperature plot. Let it run for 30 seconds, then disconnect the
       second lead and let it run for another 30 seconds. Stop recording.</step><step>Stop
@@ -4460,8 +4462,8 @@
       Voltage/Current probe to the capacitor. Follow the diagram carefully.
       <ext-image name="01b_st" /></step><step>Connect the Voltage/Current
       probe to your handheld computer. Refer to Technical Hints to connect the
-      Voltage/Current probe.</step><step>Start the software to record energy.
-      <datacollector-link type="dc-voltage-current-power" /></step><step>Crank
+      Voltage/Current probe.</step><step>Start the software to record voltage.
+      <datacollector-link type="dc-voltage-current-voltage" /></step><step>Crank
       until you have charged the capacitor.</step><step>Quickly disconnect one
       lead of the Genecon as shown, leaving the Voltage/Current probe
       attached. Wait for about 20 seconds. <ext-image name="01c_st" /></step><step>Re-attach
@@ -4965,21 +4967,18 @@
       changes sunlight directly into electrical energy, which can in turn be
       used for something else. It is not very efficient, but the source of
       energy is free! Connect the Voltage/Current probe to your handheld
-      computer. Refer to Technical Hints to connect the Voltage/Current probe.</step>
-
-      <step>Hook the solar cell to
-      the VoltageCurrent probe. To have a positive current reading, attach the
-      red wire to the yellow clip and the black wire to the green clip. Try it
-      under different light conditions, such as a light bulb, direct sunlight,
-      and indirect light from the sky. Stop the software and save your data.
-      <ext-image name="01_mt" /></step>
-
-     <step>Start
-      the software to read current. <datacollector-link
-      type="dc-voltage-current-current" /></step>
-
-      <query-response layout="paragraph"
-      title="light_source" type="describe"><query-description></query-description><querys><query
+      computer. Refer to Technical Hints to connect the Voltage/Current probe.</step><step>Hook
+      the solar cell to the VoltageCurrent probe. To read current, use only
+      the yellow and green clip leads. To have a positive current reading,
+      attach the red wire of the solar cell to the yellow clip and the black
+      wire of the solar cell to the green clip. Try it under different light
+      conditions, such as a light bulb, direct sunlight, and indirect light
+      from the sky. Stop the software and save your data. <ext-image
+      name="01_mt" /></step><step>Start the software to read current. The
+      current reading will be roughly proportional to the intensity of light
+      hitting the solar cell.<datacollector-link
+      type="dc-voltage-current-current" /></step><query-response
+      layout="paragraph" title="light_source" type="describe"><query-description></query-description><querys><query
       drawing-response="false" note-response="true">What were the best and
       worst light sources?</query></querys><query-static-link>Record your
       observations in Notes on your handheld computer.</query-static-link></query-response><step>Team
@@ -5025,12 +5024,14 @@
       your answers in Notes on your handheld computer.</query-static-link></query-response></steps></trial>
 
       <trial title="Remote lifting"><steps><step>Team up with another group so
-      that you can monitor two Genecons on one handheld computer.</step><step>Connect
-      the VoltageCurrent probe to your handheld computer. Refer to Technical
-      Hints to connect the VoltageCurrent probe.</step><step>Connect the
-      VoltageCurrent probe leads to the Genecon leads as shown in the diagram.
-      <ext-image name="07_mt" /></step><step>Start the software to read
-      energy.<datacollector-link type="dc-voltage-current-energy" /></step><query-response
+      that you can hook two Genecons together and monitor them with one
+      handheld computer.</step><step>Connect the VoltageCurrent probe to your
+      handheld computer. Refer to Technical Hints to connect the
+      VoltageCurrent probe.</step><step>Connect the two Genecons together.
+      Then connect the VoltageCurrent probe leads to the Genecon leads as
+      shown in the diagram. Use only the red and black leads.<ext-image
+      name="07_mt" /></step><step>Start the software to read voltage.<datacollector-link
+      type="dc-voltage-current-voltage" /></step><query-response
       layout="paragraph" title="relate" type="describe"><query-description></query-description><querys><query
       drawing-response="true" note-response="false">Sketch your graph.</query><query
       note-response="true" drawing-response="false">How did the graph relate
@@ -5045,12 +5046,12 @@
       string. Tie one end through the hole in the side of the pulley.<ext-image
       name="08d_mt" /></step><step>Wind up the string onto the pulley. Attach
       a hanging weight. You can use a 50g mass from your kit or a heavier one
-      of your own. A paper clip works as a hook. It has a mass of about 0.3g.
-      <ext-image name="09a_mt" /></step><step>Hold the Genecon with its shaft
-      horizontal and the string hanging down from the pulley. Its leads should
-      still be hooked to the other Genecon, with the Voltage/Current leads in
-      place.</step><step>Restart the software to read energy.<datacollector-link
-      type="dc-voltage-current-energy" /><ext-image name="09b_mt" /></step><step>Crank
+      of your own. A paper clip works as a hook. It has a mass of only about
+      0.3g. <ext-image name="09a_mt" /></step><step>Hold the Genecon with its
+      shaft horizontal and the string hanging down from the pulley. Its leads
+      should still be hooked to the other Genecon, with the VoltageCurrent
+      leads in place.</step><step>Restart the software to read voltage.<datacollector-link
+      type="dc-voltage-current-voltage" /><ext-image name="09b_mt" /></step><step>Crank
       the other Genecon to lift the weight. Also try to lower the weight. If
       the weight is heavy enough, will it fall by itself? Try different
       things, like raising and lowering slowly and quickly.</step><query-response
