@@ -13,6 +13,7 @@ public abstract class LabObject
 	public LabObjectFactory factory;
     public static LabBook lBook;
 	private int refCount = 0;
+	private boolean locked = false;
 
 	public LabObject(int type)
 	{
@@ -29,6 +30,20 @@ public abstract class LabObject
 	public void setName(String name){ this.name = name; }
 
 	public void init(){}
+
+	public final static short FLAG_LOCKED = (short)0x8000;
+	public void setFlags(short flags)
+	{
+		locked = (flags & FLAG_LOCKED) != 0;
+	}
+
+	public short getFlags()
+	{
+		short flags = 0;
+		flags = locked?(short)(flags | FLAG_LOCKED):flags;
+
+		return flags;
+	}
 
     public abstract void readExternal(DataStream in);
 

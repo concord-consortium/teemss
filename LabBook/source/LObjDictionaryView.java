@@ -31,7 +31,7 @@ public class LObjDictionaryView extends LabObjectView
     boolean editStatus = false;
 
 	String [] fileStrings = {"New..", "Open", "Rename..", "Import..", "Export..", "Delete"};
-	String [] palmFileStrings = {"New..", "Open", "Rename..", "Delete"};
+	String [] palmFileStrings = {"New..", "Open", "Beam", "Receive", "Rename..", "Delete"};
 
 
 	CCScrollBar				scrollBar;
@@ -47,6 +47,7 @@ public class LObjDictionaryView extends LabObjectView
 
 		add(me);
 		editMenu.add("Cut");
+		editMenu.add("Copy");
 		editMenu.add("Paste");
 		editMenu.add("Properties...");
 		editMenu.add("Toggle hidden");
@@ -332,6 +333,16 @@ public class LObjDictionaryView extends LabObjectView
 				TreeNode parent = treeControl.getSelectedParent();
 				clipboardNode = curNode;
 				treeModel.removeNodeFromParent(curNode, parent);
+			} else if(e.getActionCommand().equals("Copy")){
+				TreeNode curNode = treeControl.getSelected();
+				LabObjectPtr curPtr = DictTreeNode.getPtr(curNode);
+				LabObjectPtr copyPtr = dict.lBook.copy(curPtr);
+				
+				if(copyPtr.objType == DefaultFactory.DICTIONARY){
+					clipboardNode = new DictTreeNode(copyPtr, session, dict.lBook);
+				} else {
+					clipboardNode = (TreeNode)copyPtr;
+				}
 		    } else if(e.getActionCommand().equals("Paste")){
 				if(clipboardNode != null){
 				    insertAtSelected(clipboardNode);		    
@@ -351,6 +362,28 @@ public class LObjDictionaryView extends LabObjectView
 				newSelected();
 			} else if(e.getActionCommand().equals("Open")){
 				openSelected();
+			} else if(e.getActionCommand().equals("Beam")){
+				TreeNode curNode = treeControl.getSelected();
+				DictTreeNode parent = (DictTreeNode)treeControl.getSelectedParent();
+				if(parent == null) return;
+				
+				LabObject obj = parent.getObj(curNode);
+				
+				LabBookCatalog lbCat = new LabBookCatalog("Beamed");
+
+				dict.lBook.export(obj, lbCat);
+				lbCat.save();
+				lbCat.close();
+			} else if(e.getActionCommand().equals("Receive")){
+				LabBookCatalog bmCat = new LabBookCatalog("Beamed");
+
+				LabObject newObj = dict.lBook.importDB(bmCat);
+				bmCat.close();
+
+				if(newObj != null){
+				    TreeNode newNode = rootNode.getNode(newObj);
+				    insertAtSelected(newNode);
+				}			
 		    } else if(e.getActionCommand().equals("Rename..")){
 				TreeNode selObj = treeControl.getSelected();
 				String [] buttons = {"Cancel", "Ok"};
@@ -368,12 +401,12 @@ public class LObjDictionaryView extends LabObjectView
 
 				fd.show();
 
-				if(fd.getFilePath() == null) return;
+				LabBookDB imDB = LObjDatabaseRef.getDatabase(fd.getFilePath());
 
-				LabBookFile imFile = new LabBookFile(fd.getFilePath());
+				if(imDB == null) return;
 
-				LabObject newObj = dict.lBook.importDB(imFile);
-				imFile.close();
+				LabObject newObj = dict.lBook.importDB(imDB);
+				imDB.close();
 
 				if(newObj != null){
 				    TreeNode newNode = rootNode.getNode(newObj);

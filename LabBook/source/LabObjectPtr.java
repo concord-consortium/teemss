@@ -6,6 +6,9 @@ import org.concord.waba.extra.ui.*;
 
 public class LabObjectPtr implements TreeNode
 {
+	static LabBook lBook;
+	LabBookDB db;
+
     int devId;
     int objId;
     String name;
@@ -14,35 +17,39 @@ public class LabObjectPtr implements TreeNode
 
     LabObject obj = null;
 
-    public LabObjectPtr(int dId, int oId, LabObject o)
+    LabObjectPtr(int dId, int oId, LabObject o, LabBookDB db)
     {
+		this.db = db;
 		devId = dId;
 		objId = oId;
 		obj = o;
 
     }
 
-    public LabObjectPtr(String name)
+    LabObjectPtr(String name, LabBookDB db)
     {
-		devId = -1;
-		objId = -1;
-		obj = null;
+		this(-1, -1, null, db);
 		this.name = name;
     }
 
-    public LabObjectPtr()
+    LabObjectPtr(LabBookDB db)
     {
+		this("", db);
     }
 
-    public static LabObjectPtr readExternal(DataStream in)
-    {
-		LabObjectPtr me = new LabObjectPtr();
-		me.devId = in.readInt();
-		me.objId = in.readInt();
-		return me;
-    }
-    
-    public void writeExternal(DataStream out)
+	LabObjectPtr(DataStream in, LabBookDB db)
+	{
+		this(db);
+		devId = in.readInt();
+		objId = in.readInt();
+	}
+
+	public LabBookSession getSession()
+	{
+		return lBook.getSession(db);		
+	}
+
+    void writeExternalP(DataStream out)
     {
 		out.writeInt(devId);
 		out.writeInt(objId);

@@ -7,8 +7,7 @@ import org.concord.waba.extra.io.*;
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
 
-public class LabBookFile 
-    implements LabBookDB
+public class LabBookFile extends LabBookDB
 {
 
     public LabBookFile(String dud){}
@@ -19,18 +18,16 @@ public class LabBookFile
 
     public boolean getError(){return true;}
  
-    public byte [] readObjectBytes(int devId, int objId){return null;}
+    public byte [] readObjectBytes(LabObjectPtr ptr){return null;}
   
-    public boolean writeObjectBytes(int devId, int objId, byte [] buffer, int start,
-	int count){return false;}
+    public boolean writeObjectBytes(LabObjectPtr ptr, byte [] buffer, int start,
+									int count){return false;}
 
     public int getDevId(){return -1;}
     
     public int getNewObjId(){return -1;}
 
-    public int getRootDevId(){return -1;}
-    public int getRootObjId(){return -1;}
+	public LabObjectPtr getRootPtr(){ return null; }
 
-    public void setRootDevId(int id){}
-    public void setRootObjId(int id){}
+	public void setRootPtr(LabObjectPtr ptr){}
 }

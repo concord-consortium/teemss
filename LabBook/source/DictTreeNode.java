@@ -73,7 +73,8 @@ public class DictTreeNode
 		return ptr;
     }
 
-    public static LabObjectPtr emptyChild = new LabObjectPtr("..empty..");
+    public static LabObjectPtr emptyChild = new LabObjectPtr("..empty..", null);
+
     public TreeNode [] childArray()
 	{
 		LObjDictionary dict = getDict();

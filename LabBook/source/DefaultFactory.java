@@ -21,35 +21,43 @@ public class DefaultFactory
     final public static int DRAWING 			= 9;
     final public static int IMAGE 				= 11;
     final public static int CCTEXTAREA 			= 0x100;
+    final public static int DATABASE_REF 	   	= 0x101;
+    final public static int LINK_PTR 			= 0x102;
 
 	public LabObject constructObj(int objectType)
     {
 		LabObject obj = null;
 		switch(objectType){
-			case DICTIONARY:
-				obj= new LObjDictionary();
-				break;
-			case FORM:
-				obj= new LObjForm();
-				break;
-			case DOCUMENT:
-				obj= new LObjDocument();
-				break;
-			case OUTPUT_SET:
-				obj = null;
-				break;
-			case QUESTION:
-				obj = null;
-				break;
-			case DRAWING:
-				obj= new LObjDrawing();
-				break;
-			case IMAGE:
-				obj= new LObjImage();
-				break;
-			case CCTEXTAREA:
-				obj = new LObjCCTextArea();
-				break;
+		case DICTIONARY:
+			obj= new LObjDictionary();
+			break;
+		case FORM:
+			obj= new LObjForm();
+			break;
+		case DOCUMENT:
+			obj= new LObjDocument();
+			break;
+		case OUTPUT_SET:
+			obj = null;
+			break;
+		case QUESTION:
+			obj = null;
+			break;
+		case DRAWING:
+			obj= new LObjDrawing();
+			break;
+		case IMAGE:
+			obj= new LObjImage();
+			break;
+		case CCTEXTAREA:
+			obj = new LObjCCTextArea();
+			break;
+		case DATABASE_REF:
+			obj = new LObjDatabaseRef();
+			break;
+		case LINK_PTR:
+			obj = new LObjLinkPtr();
+			break;
 		}
 		return obj;
 	}

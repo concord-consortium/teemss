@@ -1,25 +1,47 @@
 package org.concord.LabBook;
 
-public interface LabBookDB 
+import org.concord.waba.extra.io.*;
+
+public abstract class LabBookDB 
 {
-    public boolean save();
-    
-    public void close();
+	protected abstract int getDevId();
+	protected abstract int getNewObjId();
+	public LabObjectPtr getNewLocalObjPtr(LabObject lObj)
+	{
+		if(lObj != null){
+			return new LabObjectPtr(getDevId(), getNewObjId(), lObj, this);
+		} else {
+			return new LabObjectPtr(-1, -1, null, this);
+		}
+	}
 
-    public boolean getError();
+	public LabObjectPtr getNewLocalObjPtr()
+	{
+		return new LabObjectPtr(getDevId(), getNewObjId(), null, this);
+	}
+
+	public void writePtr(LabObjectPtr ptr, DataStream ds)
+	{
+		ptr.writeExternalP(ds);
+	}
+
+	public LabObjectPtr readPtr(DataStream ds)
+	{
+		return new LabObjectPtr(ds, this);
+	}
+
+    public abstract boolean save();
+    
+    public abstract void close();
+
+    public abstract boolean getError();
  
-    public byte [] readObjectBytes(int devId, int objId);
-  
-    public boolean writeObjectBytes(int devId, int objId, byte [] buffer, int start,
-			     int count);
+	public abstract byte [] readObjectBytes(LabObjectPtr lObjPtr);
 
-    public int getDevId();
-    
-    public int getNewObjId();
+	public abstract boolean writeObjectBytes(LabObjectPtr lObjPtr, byte [] buffer, 
+											 int start, int count);
 
-    public int getRootDevId();
-    public int getRootObjId();
+	public abstract LabObjectPtr getRootPtr();
 
-    public void setRootDevId(int id);
-    public void setRootObjId(int id);
+	public abstract void setRootPtr(LabObjectPtr ptr);
 }

@@ -8,7 +8,6 @@ public class LabBook
 {
 //	public static Vector objFactories;
 	public static LabObjectFactory []objFactories = null;
-    int curDeviceId = 0;
 
     /*
      * Need a hash table of the loaded obj. and
@@ -40,14 +39,21 @@ public class LabBook
 
     int objIndex [];
 
-    static LabObjectPtr nullLObjPtr = new LabObjectPtr(-1,-1,null);
     LabObjectPtr rootPtr = null;
 
     LabBookDB db;
 
+    Vector loaded = new Vector();
+
+
 	public static void init()
 	{
 		registerFactory(new DefaultFactory());
+	}
+
+	public LabBook()
+	{
+		LabObjectPtr.lBook = this;
 	}
 
     // Should get a list of the pointer to objects from the 
@@ -57,9 +63,9 @@ public class LabBook
     // this entire array will be loaded at the beginning.
     public void open(LabBookDB db)
     {
-		this.db = db;
-		curDeviceId = db.getDevId();
-		rootPtr = new LabObjectPtr(db.getRootDevId(), db.getRootObjId(), null);
+		this.db = db;		
+
+		rootPtr = db.getRootPtr();
     }
 
     public LabObjectPtr getRoot()
@@ -110,13 +116,13 @@ public class LabBook
 		return newObj;
 	}
 
-	public LabObjectPtr getNullObjPtr(){ return nullLObjPtr; }
+	public LabObjectPtr getNullObjPtr(){ return db.getNewLocalObjPtr(null); }
 
-	public LabObjectPtr registerNew(LabObject lObj)
+	LabObjectPtr registerNew(LabObject lObj, LabBookDB objDB)
 	{
 		Debug.println("Creating new ptr");
-		LabObjectPtr lObjPtr = new LabObjectPtr(curDeviceId, db.getNewObjId(),
-								   lObj);
+		LabObjectPtr lObjPtr = objDB.getNewLocalObjPtr(lObj);
+
 		lObj.ptr = lObjPtr;
 
 		lObj.incRefCount();
@@ -247,17 +253,12 @@ public class LabBook
 				alreadyStored.add(curObjPtr);
 				toBeStored.del(0);
 
-				dsOut.writeShort(curObjPtr.obj.objectType);
-				dsOut.writeString(curObjPtr.obj.getName());
-				if(curObjPtr.obj instanceof LObjDictionary){
-					dsOut.writeShort(((LObjDictionary)curObjPtr.obj).getFlags());
-				}
+				writeHeader(curObjPtr.obj, dsOut);
 
 				// This might call store which will change the toBeStored vector
 				curObjPtr.obj.writeExternal(dsOut);
 				outBuf = bsOut.getBuffer();
-				if(!db.writeObjectBytes(curObjPtr.devId, curObjPtr.objId, 
-										outBuf, 0, outBuf.length)){
+				if(!db.writeObjectBytes(curObjPtr, outBuf, 0, outBuf.length)){
 					toBeStored = new Vector();
 					loaded = new Vector();
 					alreadyStored = null;
@@ -287,17 +288,12 @@ public class LabBook
 		if(index < 0) return false;
 
 		// write object header
-		dsOut.writeShort(lObjPtr.obj.objectType);
-		dsOut.writeString(lObjPtr.obj.getName());
-		if(lObjPtr.obj instanceof LObjDictionary){
-			dsOut.writeShort(((LObjDictionary)lObjPtr.obj).getFlags());
-		}
+		writeHeader(lObjPtr.obj, dsOut);
 
 		// This might call store which will change the toBeStored vector
 		lObjPtr.obj.writeExternal(dsOut);
 		outBuf = bsOut.getBuffer();
-		if(!db.writeObjectBytes(lObjPtr.devId, lObjPtr.objId, 
-								outBuf, 0, outBuf.length)){
+		if(!db.writeObjectBytes(lObjPtr, outBuf, 0, outBuf.length)){
 			return false;
 		}
 
@@ -308,6 +304,14 @@ public class LabBook
 
 		return true;
 	}
+
+	private void writeHeader(LabObject lObj, DataStream dsOut)
+	{
+		dsOut.writeShort(lObj.objectType);
+		dsOut.writeString(lObj.getName());
+		dsOut.writeShort(lObj.getFlags());
+	}
+
 
     public boolean reload(LabObject lObj)
     {
@@ -341,7 +345,7 @@ public class LabBook
 		DataStream dsIn = new DataStream(bsIn);
 
 		// We didn't find it so we need to parse it from the file
-		byte [] buffer = db.readObjectBytes(lObj.ptr.devId, lObj.ptr.objId);
+		byte [] buffer = db.readObjectBytes(lObj.ptr);
 		if(buffer == null) return false;
 
 		// set bufferStream buffer
@@ -357,30 +361,26 @@ public class LabBook
 
 		//need to read the name string
 		String name = dsIn.readString();
-		if(lObj.objectType == DefaultFactory.DICTIONARY){
-			lObj.ptr.flags = dsIn.readShort();			
-		}
+		lObj.ptr.flags = dsIn.readShort();					
 
 		// probably we should update the object name
 		lObj.setName(name);
 
 		// We should check if the object is in the loaded list
 		//	.. loaded.add(lObjPtr);
-		    
+		lObj.setFlags(lObj.ptr.flags);
 		lObj.readExternal(dsIn);
 
 		return true;
 	      
     }
 
-	public LabBookSession getSession()
+	LabBookSession getSession(LabBookDB sessDB)
 	{
-		return new LabBookSession(this);		
+		return new LabBookSession(this, sessDB);		
 	}
 
-    // increase reference count in lab Object
     // check if value of lObjPtr matches a prev. loaded object
-    // or stored object
     // return that object
     // otherwise, 
     // find object in file
@@ -397,17 +397,18 @@ public class LabBook
     // if another object is loaded in the middle of the readExternal
     // this should be ok. Loops won't be formed because the current
     // object is already in the hashtable so it won't be "loaded" again.
+	boolean getObj(LabObjectPtr lObjPtr, LabBookDB ptrDB, 
+				   boolean checkLoaded)
+	{
+		if(lObjPtr.devId == -1 && lObjPtr.objId == -1){
+			lObjPtr.obj = null;
+			return false;
+		}
 
-    Vector loaded = new Vector();
-    LabObject load(LabObjectPtr lObjPtr)
-    {
-		if(lObjPtr.devId == -1 && lObjPtr.objId == -1) return null;
-
-		DataStream dsIn = initPointer(lObjPtr);
+		DataStream dsIn = initPointer(lObjPtr, ptrDB, checkLoaded);
 		if(dsIn == null){
 			// this object was already loaded
-			if(lObjPtr.obj != null) lObjPtr.obj.incRefCount();
-			return lObjPtr.obj;
+			return false;
 		}
 
 		LabObject lObj = null;
@@ -419,21 +420,37 @@ public class LabBook
 		if(lObj == null){
 			Debug.println("error: objectType: " + lObjPtr.objType + " devId: " + lObjPtr.devId +
 						  " objId: " + lObjPtr.objId);
-			return null;
+			lObjPtr.obj = null;
+			return false;
 		}
+
 		lObj.ptr = lObjPtr;
 		lObjPtr.obj = lObj;
 		lObj.setName(lObjPtr.name);
-		lObj.incRefCount();
 
-		// This might be recursive so add this object to the 
-		// loaded array so we don't load it again
-		loaded.add(lObjPtr);
-		    
+		// Note this shouldn't be recursive so we should
+		// add a check for this
+		lObj.setFlags(lObjPtr.flags);
 		lObj.readExternal(dsIn);
 
-		return lObj;
-    }
+		return true;
+	}
+
+    // increase reference count in lab Object
+    LabObject load(LabObjectPtr lObjPtr)
+    {
+		boolean newObj = getObj(lObjPtr, db, true);
+
+		if(lObjPtr.obj != null){
+			lObjPtr.obj.incRefCount();
+
+			// We need to check if we need to add this to the loaded list
+			if(newObj){
+				loaded.add(lObjPtr);		    
+			}
+		}
+		return lObjPtr.obj;
+	}
 
 	/**
 	 * Check if the object this pointer points to is already loaded
@@ -443,24 +460,26 @@ public class LabBook
 	 * returns the datastream of the object data if the object hasn't
 	 * already been loaded, otherwise it returns null
 	 */
-	private DataStream initPointer(LabObjectPtr lObjPtr)
+	private DataStream initPointer(LabObjectPtr lObjPtr, LabBookDB ptrDB,
+								   boolean checkLoaded)
 	{
 		int i;
 		int numLoaded = loaded.getCount();
 		LabObjectPtr curObjPtr;
 
 		// if this is true we have major problems
-		// if(lObjPtr.devId == -1 && lObjPtr.objId == -1) return null;
-		for(i=0; i<numLoaded; i++){
-			curObjPtr = (LabObjectPtr)loaded.get(i);
-			if(curObjPtr.equals(lObjPtr)){
-				lObjPtr.obj = curObjPtr.obj;
-				lObjPtr.objType = lObjPtr.obj.objectType;
-				lObjPtr.name = lObjPtr.obj.getName();
-				if(lObjPtr.obj instanceof LObjDictionary){
-					lObjPtr.flags = ((LObjDictionary)lObjPtr.obj).getFlags();
+		if(lObjPtr.devId == -1 && lObjPtr.objId == -1) return null;
+
+		if(checkLoaded){
+			for(i=0; i<numLoaded; i++){
+				curObjPtr = (LabObjectPtr)loaded.get(i);
+				if(curObjPtr.equals(lObjPtr)){
+					lObjPtr.obj = curObjPtr.obj;
+					lObjPtr.objType = lObjPtr.obj.objectType;
+					lObjPtr.name = lObjPtr.obj.getName();
+					lObjPtr.flags = lObjPtr.obj.getFlags();
+					return null;
 				}
-				return null;
 			}
 		}
 
@@ -468,7 +487,7 @@ public class LabBook
 		DataStream dsIn = new DataStream(bsIn);
 
 		// We didn't find it so we need to parse it from the file
-		byte [] buffer = db.readObjectBytes(lObjPtr.devId, lObjPtr.objId);
+		byte [] buffer = ptrDB.readObjectBytes(lObjPtr);
 		if(buffer == null){
 			return null;
 		}
@@ -478,9 +497,7 @@ public class LabBook
 	
 		lObjPtr.objType = dsIn.readShort();
 		lObjPtr.name = dsIn.readString();
-		if(lObjPtr.objType == DefaultFactory.DICTIONARY){
-			lObjPtr.flags = dsIn.readShort();			
-		}
+		lObjPtr.flags = dsIn.readShort();			
 
 		return dsIn;
 	}
@@ -490,7 +507,7 @@ public class LabBook
 		// if this is true we have major problems
 		if(lObjPtr.devId == -1 && lObjPtr.objId == -1) return false;
 
-		initPointer(lObjPtr);
+		initPointer(lObjPtr, db, true);
 		return true;
 	}
 	/*
@@ -533,36 +550,7 @@ public class LabBook
 
 	public void export(LabObject lObj, LabBookDB db)
     {
-		LabBookDB oldDb = this.db;
-
-		commit();
 		// this might switch the root obj pointer
-		LabObjectPtr lObjPtr = exportAll(lObj);
-		this.db = db;
-		db.setRootDevId(lObjPtr.devId);
-		db.setRootObjId(lObjPtr.objId);
-
-
-
-		commit();
-		this.db = oldDb;	
-    }
-
-	/*
-	  This seems like it might cause problems because
-	  The loaded objects are just getting stored again
-	  but since the pointers are the same we don't have to
-	  worry about any pointer conflicts
-	*/
-	private LabObject export(LabObjectPtr lObjPtr)
-	{
-		LabObject obj = load(lObjPtr);
-		store(obj);
-		return obj;		
-	}
-
-    private LabObjectPtr exportAll(LabObject lObj)
-    {	
 		LabObjectPtr lObjPtr = null;
 		if(lObj instanceof LObjSubDict){
 			// hmm. we need the subDict
@@ -570,122 +558,183 @@ public class LabBook
 		}
 		lObjPtr = lObj.ptr;
 
-		LabObject obj = export(lObjPtr);
-		Vector dictionaries = new Vector();
-				
-		if(obj instanceof LObjDictionary){
-			dictionaries.add(obj);
-		}
+		LabObjectPtr destObjPtr = copyAll(lObjPtr, this.db, db);
 
-		int curDict=0;
-		while(curDict < dictionaries.getCount()){
-			LObjDictionary dict = (LObjDictionary)dictionaries.get(curDict);
-			for(int i=0; i<dict.getChildCount(); i++){
-				
-				obj = export((LabObjectPtr)dict.objects.get(i));
-				if(obj instanceof LObjDictionary){
-					int oldIndex = dictionaries.find(obj);
-					if(oldIndex < 0){
-						// this object hasn't been added to dicts yet
-						dictionaries.add(obj);
-					}
-				}
-			}
-			curDict++;
-		}
-
-		return lObjPtr;
+		db.setRootPtr(destObjPtr);
     }
 
 
     public LabObject importDB(LabBookDB db)
     {
-		LabBookDB oldDb = this.db;
+		LabObjectPtr rootPtr = db.getRootPtr();
+		initPointer(rootPtr, db, false);
 
-		commit();
-		this.db = db;
-		LabObject root = 
-			importAllPtr(new LabObjectPtr(db.getRootDevId(), 
-										  db.getRootObjId(), null), 
-						 oldDb);
-		this.db = oldDb;
-		commit();
-		return root;
-    }
-    
-	Vector importedObjs = null;	
-    public LabObject importPtr(LabObjectPtr ptr, LabBookDB oldDB)
-    {
-		for(int i=0; i<importedObjs.getCount(); i++){
-			LabObjectPtr origPtr = (LabObjectPtr)importedObjs.get(i);
-			if(origPtr.equals(ptr)){
-				return (LabObject)importedObjs.get(i+1);
-			}
-			// skip new object that goes with the origPtr
-			i++;
-		}
-
-		LabObject obj = load(ptr);
-		if(obj == null) return null;
-
-		// we are blasting the pointer from the import file
-		// and replacing it with a pointer from the "current" database
-		// "current == old"
-		obj.ptr = new LabObjectPtr(curDeviceId, oldDB.getNewObjId(),
-								   obj);
-		importedObjs.add(ptr);
-		importedObjs.add(obj);
-		return obj;
+		LabObjectPtr lObjPtr = copyAll(rootPtr, db, this.db);
+		
+		// This is hack it should be fixed
+		return load(lObjPtr);
 	}
 
-    public LabObject importAllPtr(LabObjectPtr ptr, LabBookDB oldDB)
-    {
+	public LabObjectPtr copy(LabObjectPtr lObjPtr)
+	{
+		return copyAll(lObjPtr, db, db);
+	}
+
+	private LabObjectPtr copy(LabObjectPtr lObjPtr, 
+							  LabBookDB srcDB, LabBookDB destDB,
+							  Vector trans)
+	{
+		// check if the old pointer has already been copied
+		// by looking in the translation table
+		// if so return translated pointer
+		int numTrans = trans.getCount();
+		LabObjectPtr curObjPtr;
+
+		// if this is true we have major problems
+		// if(lObjPtr.devId == -1 && lObjPtr.objId == -1) return null;
+		for(int i=0; i<numTrans; i+=2){
+			curObjPtr = (LabObjectPtr)trans.get(i);
+			if(curObjPtr.equals(lObjPtr)){
+				// This pointer has already been translated and written
+				return (LabObjectPtr)trans.get(i+1);
+			}
+		}
+
+		// otherwise get a new pointer from the destDB
+		LabObjectPtr newObjPtr = destDB.getNewLocalObjPtr();
+		newObjPtr.objType = lObjPtr.objType;
+
+		trans.add(lObjPtr);
+		trans.add(newObjPtr);
+
+		if(newObjPtr.objType == DefaultFactory.DICTIONARY){
+			return newObjPtr;
+		}
+
+		byte [] buffer = null;
+		// check if the pointer is currently loaded
+		// the pfObjPtrs passed in need to be initialized which 
+		// means their .obj field will tell if they are loaded
+		if(lObjPtr.obj != null){
+			// the object is loaded  
+			// so we need to tell it write it's state out to a buffer
+			// then we will put this buffer in output database
+			// we need to treat dictionaries specially here because
+			// they need to be translated
+
+			bsOut.setBuffer(null);
+
+			// write object header
+			writeHeader(lObjPtr.obj, dsOut);
+
+			// This might call store which will change the toBeStored vector
+			lObjPtr.obj.writeExternal(dsOut);
+			buffer = bsOut.getBuffer();
+			bsOut.setBuffer(null);
+			
+		} else {
+			// the object isn't loaded so we just get the buffer from
+			// the source DB and copy it to the destDB
+			// we need to treat dictionaries specially here because
+			// they need to be translated
+
+			// We didn't find it so we need to parse it from the file
+			buffer = srcDB.readObjectBytes(lObjPtr);
+		}
+
+		if(buffer == null){
+			// maybe error or maybe empty object 
+			// return null pointer
+			return destDB.getNewLocalObjPtr(null);
+		}
+
+		if(!destDB.writeObjectBytes(newObjPtr, buffer, 0, buffer.length)){
+			return null;
+		}
+
+		return newObjPtr;
+	}
+
+    private LabObjectPtr copyAll(LabObjectPtr lObjPtr, LabBookDB srcDB,
+								 LabBookDB destDB)
+    {	
+		LabObjectPtr retObjPtr = null;
+
+		Vector trans = new Vector();
 		Vector dictionaries = new Vector();
-		importedObjs = new Vector();
+		LabObjectPtr ptr =  retObjPtr = copy(lObjPtr, srcDB, destDB, trans);
 
-		LabObject firstObj = importPtr(ptr, oldDB);
-		LabObject obj = firstObj;
+		if(lObjPtr.objType == DefaultFactory.DICTIONARY){
+			dictionaries.add(lObjPtr);
+			dictionaries.add(ptr);
+		} 
 
-		if(obj instanceof LObjDictionary){
-			dictionaries.add(obj);
+		boolean checkLoaded = false;
+		if(srcDB == this.db){
+			checkLoaded = true;
 		}
 
 		int curDict=0;
 		while(curDict < dictionaries.getCount()){
-			LObjDictionary dict = (LObjDictionary)dictionaries.get(curDict);
-			LabObject child = null;
-			for(int i=0; i<dict.getChildCount(); i++){				
-				child = importPtr((LabObjectPtr)dict.objects.get(i), oldDB);
-				// this is weird I don't know if it is correct
-				if(child == null){
-					dict.objects.set(i, nullLObjPtr);
-				} else {
-					dict.objects.set(i, child.ptr);
-				}
-				if(child instanceof LObjDictionary){
-					int oldIndex = dictionaries.find(child);
-					if(oldIndex < 0){
-						// this object hasn't been added to dicts yet
-						dictionaries.add(child);
-					}
-				}
+			LabObjectPtr dictPtr = (LabObjectPtr)dictionaries.get(curDict);
+
+			// We don't need to check if the dict has already been copied/tanslated
+			// because we do this before we add it to the list
+
+			// better than load would be to not save it in the loaded vect
+			// then we wouldn't have to release it
+			boolean newObj = getObj(dictPtr, srcDB, checkLoaded);
+			LObjDictionary srcDict = (LObjDictionary)dictPtr.obj;
+			if(newObj) dictPtr.obj = null;
+
+			// init, storeNew??
+			LObjDictionary destDict = DefaultFactory.createDictionary();
+			destDict.viewType = srcDict.viewType;
+			destDict.hasMainObject = srcDict.hasMainObject;
+			destDict.hideChildren = srcDict.hideChildren;
+			destDict.setName(srcDict.getName());
+
+			for(int i=0; i<srcDict.getChildCount(); i++){	
+				int oldTransCount = trans.getCount();
+
+				LabObjectPtr srcPtr = (LabObjectPtr)srcDict.objects.get(i);
+				initPointer(srcPtr, srcDB, false);
+
+				ptr = copy(srcPtr, srcDB, destDB, trans);
+				if(ptr.objType == DefaultFactory.DICTIONARY &&
+				   oldTransCount != trans.getCount()){
+					// this is a new dictionary that we haven't
+					// seen before
+					dictionaries.add(srcPtr);
+					dictionaries.add(ptr);
+				} 
+
+				destDict.objects.add(ptr);
 			}
-			curDict++;
+
+			byte [] buffer = null;
+
+			bsOut.setBuffer(null);
+			// write object header
+			writeHeader(destDict, dsOut);
+
+			destDict.writeExternal(dsOut);
+			buffer = bsOut.getBuffer();
+			bsOut.setBuffer(null);
+
+			if(buffer != null){
+				if(!destDB.writeObjectBytes((LabObjectPtr)dictionaries.get(curDict+1), 
+											buffer, 0, buffer.length)){
+					return null;
+				}
+			} else {
+				// empty object ??
+			}
+			curDict+=2;
 		}
 
-		/* We need to store all the objects after we have done
-		   all the loading form the import DB.
-		   these stored objects get put into the loaded vector
-		   so they can conflict with the incoming objects from the
-		   import db.
-		*/
-		for(int i=1; i<importedObjs.getCount(); i+=2){
-			LabObject newObj = (LabObject)importedObjs.get(i);
-			store(newObj);
-		}
-		importedObjs = null;
-		return firstObj;
-	}
+		return retObjPtr;
+    }
 
     public boolean close()
     {

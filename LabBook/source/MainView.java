@@ -204,7 +204,7 @@ public abstract class MainView extends ExtraMainWindow
 			PtrWindow pWin = (PtrWindow)newTopWin;
 			LabObjectPtr ptr = pWin.ptr;
 					
-			curWinSession = labBook.getSession();
+			curWinSession = ptr.getSession();
 
 			LabObject lObj = curWinSession.load(pWin.ptr);					
 			LObjDictionary dict = (LObjDictionary)curWinSession.load(pWin.dictPtr);

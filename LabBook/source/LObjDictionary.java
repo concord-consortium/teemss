@@ -16,6 +16,9 @@ public class LObjDictionary extends LabObject
     boolean hasObjTemplate = false;
     int objTemplateIndex = 0;
 
+    public boolean hideChildren = false;
+    public static boolean globalHide = true;
+
     public LObjDictionary()
     {       
 		super(DefaultFactory.DICTIONARY);
@@ -110,6 +113,8 @@ public class LObjDictionary extends LabObject
 		return null;
     }
     
+	// Should check if the new pointer has the same
+	// DB as us.  If not we should make a link (I think)
     public void add(LabObject lObj)
     {
 		LabObjectPtr lObjPtr;
@@ -118,6 +123,8 @@ public class LObjDictionary extends LabObject
 		insert(lObjPtr, objects.getCount());
     }
 
+	// Should check if the new pointer has the same
+	// DB as us.  If not we should make a link (I think)
     public void insert(LabObjectPtr lObjPtr, int index)
     {
 		// assertion to check for invalid "null pointer insertion"
@@ -127,6 +134,8 @@ public class LObjDictionary extends LabObject
 		lBook.store(this);
     }
 
+	// Should check if the new pointer has the same
+	// DB as us.  If not we should make a link (I think)
     public void insert(LabObject lObj, int index)
     {
 		LabObjectPtr lObjPtr;
@@ -170,25 +179,32 @@ public class LObjDictionary extends LabObject
 		objects = new Vector();
 		int i;
 
-		viewType = (ptr.flags & 0x0F);
-
-		hideChildren = ((ptr.flags & 0x010) == 0x010?true:false);
-		hasMainObject = ((ptr.flags & 0x020) == 0x020?true:false);
-		hasObjTemplate = ((ptr.flags & 0x040) == 0x040?true:false);
-
 		short size = ds.readShort();
-	
+		LabBookDB db = this.ptr.db;
+
 		for(i=0; i<size; i++){
-			LabObjectPtr ptr = LabObjectPtr.readExternal(ds);
+			LabObjectPtr ptr = db.readPtr(ds);
 			objects.add(ptr);
 			Debug.println(" Reading: " + ptr.debug());
 		}
 
     }
 
-	short getFlags()
+	public void setFlags(short flags)
 	{
-		short flags = (short)viewType;
+		super.setFlags(flags);
+
+		viewType = (ptr.flags & 0x0F);
+
+		hideChildren = ((ptr.flags & 0x010) == 0x010?true:false);
+		hasMainObject = ((ptr.flags & 0x020) == 0x020?true:false);
+		hasObjTemplate = ((ptr.flags & 0x040) == 0x040?true:false);
+	}
+
+	public short getFlags()
+	{
+		short flags = super.getFlags();
+		flags = (short)(flags|(viewType & 0x0F));
 		flags = hideChildren?(short)(flags|0x010):flags;
 		flags = hasMainObject?(short)(flags|0x020):flags;
 		flags = hasObjTemplate?(short)(flags|0x040):flags;
@@ -201,13 +217,18 @@ public class LObjDictionary extends LabObject
 		int size = objects.getCount();
 
 		ds.writeShort(size);
+		LabBookDB db = this.ptr.db;
+
 		for(i=0; i<size; i++){
 			LabObjectPtr ptr = (LabObjectPtr)objects.get(i);
-			ptr.writeExternal(ds);
+			db.writePtr(ptr, ds);
 			Debug.println(" Writing: " + ptr.debug());
 		}
     }
 
+	// If object is a linkptr we should de-ref it
+	// But we need to add a function that will get
+	// the link object itself instead of de-reffing it
 	public LabObjectPtr getChildAt(int index)
 	{
 		if(index < 0 || index >= objects.getCount()){
@@ -217,12 +238,16 @@ public class LObjDictionary extends LabObject
 		if(!lBook.readHeader(ptr)){
 			return null;
 		}
+		if(ptr.objType == DefaultFactory.LINK_PTR){
+			lBook.getObj(ptr, ptr.db, false);
+			ptr = ((LObjLinkPtr)ptr.obj).getPointer();
+		}
 		return ptr;
 	}
 
-    public boolean hideChildren = false;
-    public static boolean globalHide = true;
-
+	// If object is a linkptr we should de-ref it
+	// But we need to add a function that will get
+	// the link object itself instead of de-reffing it
     public LabObjectPtr [] childArray()
     {
 		LabObjectPtr [] children;
@@ -239,6 +264,10 @@ public class LObjDictionary extends LabObject
 				children[i] = ptr;
 				continue;
 			} 
+			if(ptr.objType == DefaultFactory.LINK_PTR){
+				lBook.getObj(children[i], children[i].db, false);
+				children[i] = ((LObjLinkPtr)children[i].obj).getPointer();
+			}
 		}
 		return children;
 	}

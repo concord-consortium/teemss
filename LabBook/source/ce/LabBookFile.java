@@ -13,7 +13,7 @@ class FileObject
 	int indexPos;
 }
 
-public class LabBookFile implements LabBookDB
+public class LabBookFile extends LabBookDB
 {
 	String fileName = null;
 
@@ -89,11 +89,17 @@ public class LabBookFile implements LabBookDB
 		return nextObjId++;
     }
 
-    public int getRootDevId(){return rootDevId;}
-    public int getRootObjId(){return rootObjId;}
+	public LabObjectPtr getRootPtr()
+	{
+		return new LabObjectPtr(rootDevId, rootObjId, null, this);
+	}
 
-    public void setRootDevId(int id){ rootDevId = id;}
-    public void setRootObjId(int id){ rootObjId = id;}
+	public void setRootPtr(LabObjectPtr ptr)
+	{
+		rootDevId = ptr.devId;
+		rootObjId = ptr.objId;
+	}
+
 
 	
     public boolean save()
@@ -301,7 +307,7 @@ public class LabBookFile implements LabBookDB
 		ds.writeInt(fObj.filePos);
 	}
 
-	private FileObject findObj(int devId, int objId)
+	private FileObject findObj(LabObjectPtr ptr)
 	{
 		int numObj = objects.getCount();
 		int i;
@@ -309,8 +315,8 @@ public class LabBookFile implements LabBookDB
 		
 		for(i=0; i<numObj; i++){
 			fObj = (FileObject)objects.get(i);
-			if(devId == fObj.devId &&
-			   objId == fObj.objId){
+			if(ptr.devId == fObj.devId &&
+			   ptr.objId == fObj.objId){
 				break;
 			}
 			fObj = null;
@@ -325,14 +331,14 @@ public class LabBookFile implements LabBookDB
 
     // search through object Index       
     // and find object bytes
-    public byte [] readObjectBytes(int devId, int objId)
+    public byte [] readObjectBytes(LabObjectPtr ptr)
     {
 		int curPos = 0;
 		FileObject fObj = null;
 		int objSize = 0;
 		int filePos = -1;
 
-		fObj = findObj(devId, objId);
+		fObj = findObj(ptr);
 		if(fObj == null) return null;
 
 		File file = new File(fileName, File.READ_WRITE);
@@ -355,7 +361,7 @@ public class LabBookFile implements LabBookDB
 
     // In the longer term we will have to write the objects in 
     // peices and keep track of free space in the file.
-    public boolean writeObjectBytes(int devId, int objId, byte [] buffer, int start,
+    public boolean writeObjectBytes(LabObjectPtr ptr, byte [] buffer, int start,
 									int count)
     {
 		int numObj = objects.getCount();
@@ -366,11 +372,11 @@ public class LabBookFile implements LabBookDB
 
 		Debug.println(" Saving " + count + " bytes to fObj");
 
-		if(nextObjId <= objId) nextObjId = objId + 1;
+		if(nextObjId <= ptr.objId) nextObjId = ptr.objId + 1;
 		
 
 
-		fObj = findObj(devId, objId);
+		fObj = findObj(ptr);
 		int objectFilePos = -1;
 		file = new File(fileName, File.READ_WRITE);
 		ds = new DataStream(file);
@@ -380,8 +386,8 @@ public class LabBookFile implements LabBookDB
 			growObjectIndex(file);
 
 			fObj = new FileObject();
-			fObj.devId = devId;
-			fObj.objId = objId;
+			fObj.devId = ptr.devId;
+			fObj.objId = ptr.objId;
 			fObj.indexPos = -1;
 
 			objectFilePos = file.getLength();
@@ -402,8 +408,8 @@ public class LabBookFile implements LabBookDB
 
 		setObjectIndex(fObj, file);
 
-		if(devId == curDevId && nextObjId <= objId){
-			nextObjId = objId;
+		if(ptr.devId == curDevId && nextObjId <= ptr.objId){
+			nextObjId = ptr.objId;
 		}
 
 		file.seek(4);

@@ -42,7 +42,7 @@ public class LObjDictPagingView extends LabObjectView
 		super(vc, (LabObject)d, session);
 		dict = d;
 
-		listSession = d.lBook.getSession();
+		listSession = d.getVisiblePtr().getSession();
 		dictNode = new DictTreeNode(dict.getVisiblePtr(), listSession, dict.lBook);
 
 		index = 0;
@@ -235,7 +235,7 @@ public class LObjDictPagingView extends LabObjectView
 
 			remove(lObjView);
 	    
-			lObjSession = dict.lBook.getSession();
+			lObjSession = dict.getVisiblePtr().getSession();
 			lObjView = obj.getView(this, editStatus, lObjSession);
 			lObjView.layout(false);
 			lObjView.setRect(0,15,width,height-15);
@@ -298,7 +298,7 @@ public class LObjDictPagingView extends LabObjectView
 
 		curObj = obj;
 
-		lObjSession  = dict.lBook.getSession();
+		lObjSession  = obj.getVisiblePtr().getSession();
 		lObjView = obj.getView(this, editStatus, dict, lObjSession);//dima add dict
 
 		if(index < savedStates.getCount() &&

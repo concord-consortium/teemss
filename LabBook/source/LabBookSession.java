@@ -7,12 +7,14 @@ import org.concord.waba.extra.io.*;
 public class LabBookSession
 {
 	LabBook labBook;
+	LabBookDB db;
 
 	Vector labObjects = new Vector();
 
-	public LabBookSession(LabBook lBook)
+	public LabBookSession(LabBook lBook, LabBookDB db)
 	{
 		labBook = lBook;
+		this.db = db;
 	}
 
 	/*
@@ -35,7 +37,7 @@ public class LabBookSession
 
 	public void storeNew(LabObject lObj)
 	{
-		labBook.registerNew(lObj);
+		labBook.registerNew(lObj, db);
 		lObj.firstStore(this);
 		labObjects.add(lObj);
 	}

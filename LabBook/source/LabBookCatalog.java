@@ -7,8 +7,8 @@ import org.concord.waba.extra.io.*;
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
 
-public class LabBookCatalog 
-    implements LabBookDB, DialogListener
+public class LabBookCatalog extends LabBookDB
+    implements DialogListener
 {
     DataStream ds;
 
@@ -63,11 +63,16 @@ public class LabBookCatalog
 	
     }
 
-    public int getRootDevId(){return rootDevId;}
-    public int getRootObjId(){return rootObjId;}
+	public LabObjectPtr getRootPtr()
+	{
+		return new LabObjectPtr(rootDevId, rootObjId, null, this);
+	}
 
-    public void setRootDevId(int id){rootDevId = id;}
-    public void setRootObjId(int id){rootObjId = id;}
+	public void setRootPtr(LabObjectPtr ptr)
+	{
+		rootDevId = ptr.devId;
+		rootObjId = ptr.objId;
+	}
 
     public int getDevId()
     {
@@ -187,9 +192,12 @@ public class LabBookCatalog
 		return true;
     }
 
-	public int findObject(int devId, int objId)
+	public int findObject(LabObjectPtr ptr)
 	{
 		int objIndexVecCount = objIndexVec.getCount();
+		int devId = ptr.devId;
+		int objId = ptr.objId;
+
 		for(int j=0; j < objIndexVecCount - 1; j++){
 			int [] objIndex = (int [])objIndexVec.get(j);
 			for(int i=0; i < objIndex.length; i+=3){
@@ -215,8 +223,11 @@ public class LabBookCatalog
 	int objIndexLen = 0;
 	int objIndexChunkSize = 200;
 
-	int addObject(int devId, int objId, int newRecCount)
+	int addObject(LabObjectPtr ptr, int newRecCount)
 	{
+		int devId = ptr.devId;
+		int objId = ptr.objId;
+
 		if(objIndexVec.getCount() == 0){
 			//			System.out.println("LBC: adding first object");
 			// this is the first object added
@@ -280,13 +291,13 @@ public class LabBookCatalog
 
     // search through object Index       
     // and find object bytes
-    public byte [] readObjectBytes(int devId, int objId)
+    public byte [] readObjectBytes(LabObjectPtr ptr)
     {
 		int i;
 		int objSize = 0;
 		byte [] buffer = null;
 
-		int index = findObject(devId, objId);
+		int index = findObject(ptr);
 		if(index < 0) return null;
 
 		if(!cat.setRecordPos(index)){
@@ -310,14 +321,14 @@ public class LabBookCatalog
 
     // In the longer term we will have to write the objects in 
     // peices and keep track of free space in the file.
-    public boolean writeObjectBytes(int devId, int objId, byte [] buffer, int start,
+    public boolean writeObjectBytes(LabObjectPtr ptr, byte [] buffer, int start,
 									int count)
     {
 		int i;
 
-		if(nextObjId <= objId) nextObjId = objId + 1;
+		if(nextObjId <= ptr.objId) nextObjId = ptr.objId + 1;
 
-		int index = findObject(devId, objId);
+		int index = findObject(ptr);
 		if(index >= 0){
 			if(!cat.setRecordPos(index)){
 				error = true; 
@@ -336,7 +347,7 @@ public class LabBookCatalog
 		}
 
 		// We didn't find the object so add it
-		int newRecPos = addObject(devId, objId, count);
+		int newRecPos = addObject(ptr, count);
 
 		if(newRecPos < 0){
 			return false;

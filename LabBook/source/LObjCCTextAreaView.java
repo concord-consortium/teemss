@@ -301,7 +301,10 @@ public class LObjCCTextAreaView extends LabObjectView
 
 		if(tArea != null){
 			waba.fx.Rect rEdit = edit.getRect();
-			int wsb = (waba.sys.Vm.getPlatform().equals("WinCE"))?11:7;
+			int wsb = 7;
+			if(rEdit.width > 160){
+				wsb = 11;
+			}
 			int delta = (scrollBar != null)?wsb:0;
 			tArea.setRect(1,1,rEdit.width - 2 - delta, rEdit.height - 2);
 			if(scrollBar != null){

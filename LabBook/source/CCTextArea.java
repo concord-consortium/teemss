@@ -580,9 +580,10 @@ public class CCTextArea  extends Container
 					}else if(lines != null && line >= lines.getCount()){
 						yTop += (((CCStringWrapper)lines.get(lines.getCount() - 1)).endRow - firstLine)*getItemHeight();
 					}
-				}else if(line == 0){
+				} else if(line == 0) {
 					yTop -= firstLine*getItemHeight();
 				}	
+
 				if(cntrl != null){
 					if(c.alignment == LBCompDesc.ALIGNMENT_RIGHT){
 						cntrl.setRect(width-insetRight-c.w,yTop,c.w,c.h);
@@ -1406,6 +1407,8 @@ public class CCTextArea  extends Container
 				if(currObjectViewDesc.getObject() instanceof LabObjectView){
 					LabObjectView objView = (LabObjectView)currObjectViewDesc.getObject();
 					Rect rClip = getRect();
+					Rect oldClip = new Rect(0,0,0,0);
+					g.getClip(oldClip);
 					g.setClip(0,0,rClip.width,rClip.height);
 					Rect rObj = objView.getRect();
 					boolean isColor = waba.sys.Vm.isColor();
@@ -1418,10 +1421,12 @@ public class CCTextArea  extends Container
 					g.drawRect(rObj.x,rObj.y,rObj.width,rObj.height);
 									
 					g.setColor(0,0,0);
-					g.clearClip();
+					g.setClip(oldClip.x, oldClip.y, oldClip.width, oldClip.height);
 				}
 			}else if(textWasChosen != null){
 				Rect rClip = getRect();
+				Rect oldClip = new Rect(0,0,0,0);
+				g.getClip(oldClip);
 				g.setClip(0,0,rClip.width,rClip.height);
 				boolean isColor = waba.sys.Vm.isColor();
 				
@@ -1437,7 +1442,7 @@ public class CCTextArea  extends Container
 				g.drawRect(rText.x,rText.y,rText.width,rText.height);
 					
 				g.setColor(0,0,0);
-				g.clearClip();
+				g.setClip(oldClip.x, oldClip.y, oldClip.width, oldClip.height);
 			}
 		}
 	}
