@@ -58,8 +58,137 @@
       means of transferring electrical energy when heat, light, sound,
       and chemical changes are produced;  </skill>
   </skill-list>
+  <tech-hint-list>
+    <tech-hint name="connect smartwheel">
+      <title>Connecting the SmartWheel</title>
+      <heading>To connect the SmartWheel:</heading>
+      <tech-hint-body>
+        <shared-image name="04_swPluggedIn" screenshot="false"/>
+        <steps>
+          <step>Connect the flexible cable from the SmartWheel to the
+            SmartWheel card. Plug the SmartWheel card into Port A of the
+            Interface Box. Be careful not to bend any of the copper
+            prongs, or it won&apos;t work.  <shared-image
+              name="02_th_det" screenshot="false"/>
+          </step>
+          <step>Attach the CCProbe Interface Box to your handheld with
+            the Velcro square. Connect the CCProbe Interface Box to your
+            handheld with the provided connector cable.  <shared-image
+              name="01_th" screenshot="false"/>
+          </step>
+          <step>Tap on the CCProbe icon to open the software. Open or
+            create a SmartWheel data collector. Choose either the linear
+            position or the linear velocity mode.  </step>
+        </steps>
+      </tech-hint-body>
+    </tech-hint>
+    <tech-hint name="attach smartwheel">
+      <title>Attaching the SmartWheel to the air cart</title>
+      <heading>To attach the SmartWheel to the air cart:</heading>	  
+      <tech-hint-body>
+        <steps>
+          <step>Center the SmartWheel in the slot so that it
+            doesn&apos;t rub against the cardboard. Make it exactly
+            parallel to the long edge of the cart. This will make the
+            cart go straight. The aluminum arm goes against the
+            underside of the cardboard, the same as the straw. Mark two
+            screw holes with a pencil or pen, one at each end.  </step>
+          <step>Make holes where the marks are, using a pencil or pen
+            point. Enlarge the holes from both sides, until the screws
+            fit snugly into them. The screws are provided with the SmartWheel.</step>
+          <step>Put the screws first through the cardboard from the
+            other side, and then screw them into the arm of the
+            SmartWheel. Tighten them until the heads squeeze the
+            cardboard a little bit. A paper clip will work as a
+            screwdriver.  </step>
+          <step>The SmartWheel is now ready to use.</step>
+        </steps>
+        <shared-image-sequence>
+          <shared-image name="03a_swMarkHoles" screenshot="false"/>
+          <shared-image name="03b_makeHoles" screenshot="false"/>
+          <shared-image name="03c_swScrews" screenshot="false"/>
+          <shared-image name="03d_swInstalled" screenshot="false"/>
+        </shared-image-sequence>
+      </tech-hint-body>
+    </tech-hint>
+    <tech-hint name="CC LabBook">
+      <title>Using the CC LabBook software  </title>
+      <heading>To use CC LabBook software:</heading>
+      <tech-hint-body/>
+    </tech-hint>
+    <tech-hint name="connect force">
+      <title>Connecting the Force probe</title>
+      <heading>To connect the Force probe:</heading>
+      <tech-hint-body>
+        <shared-image name="01_forceProbe" screenshot="false"/>
+        <steps>
+          <step>Connect the flexible cable from the Force probe to the
+            Force probe card. Plug the Force probe card into Port A of
+            the Interface Box. Be careful not to bend any of the copper
+            prongs, or it won&apos;t work.  <shared-image
+              name="02_th_det" screenshot="false"/>
+          </step>
+          <step>Attach the CCProbe Interface Box to your handheld with
+            the Velcro square. Connect the CCProbe Interface Box to your
+            handheld with the provided connector cable.  <shared-image
+              name="01_th" screenshot="false"/>
+          </step>
+          <step>Tap on the CCProbe icon to open the software. Open or
+            create a Force probe data collector.</step>
+        </steps>
+      </tech-hint-body>
+    </tech-hint>
+    <tech-hint name="attach force">
+      <title>Attaching the Force probe to the air cart </title>
+      <heading>To attach the Force probe to the air cart:</heading>
+      <tech-hint-body>
+        <steps>
+          <step>Remove the bumper and the acrobat from the front end of
+            the air cart. </step>
+          <step>Set the Force probe on the cart, resting on the flat
+            plate that has two threaded holes in it. Mark the two holes
+            on the cardboard with a pen or pencil.  <shared-image
+              name="02a_c2" screenshot="false"/>
+          </step>
+          <step>Punch two holes in the cardboard with your pen or
+            pencil. Enlarge them from both sides so that a screw will
+            just fit through.  <shared-image name="02b_c2" screenshot="false"/>
+          </step>
+          <step>Put the two screws first through the cardboard from the
+            underside, and then screw them into the Force probe plate.
+            Tighten them until the heads squeeze the cardboard a little
+            bit. A paper clip will work as a screwdriver.<shared-image
+              name="02c_c2" screenshot="false"/>
+          </step>
+          <step>Unscrew the larger eyebolt and set it aside. Glue the
+            bumper on the smaller eyebolt.  <shared-image name="02d_c2" screenshot="false"/>
+          </step>
+        </steps>
+      </tech-hint-body>
+    </tech-hint>
+    <tech-hint name="force zero">
+      <title>Setting the Force probe to zero </title>
+      <heading>To set the Force probe to zero:</heading>
+      <tech-hint-body>
+        <steps>
+          <step>Connect the Force probe to the CCProbe Interface and
+            open the CCProbe software. Open a Force data collector. Hold
+            the Force probe in the exact position and orientation where
+            you would like it to read zero.  </step>
+          <step>At the bottom of the screen, click on the Tools
+              menu.<shared-image name="20_th_toolstab" screenshot="true"/>
+          </step>
+          <step>Click on Zero Force Probe in the Tools
+              menu.<shared-image name="21_th_zeroFP" screenshot="true"/>
+          </step>
+          <step>The Force probe will be set to zero. Wait a few seconds
+            and then go ahead with collecting data.  </step>
+        </steps>
+      </tech-hint-body>
+    </tech-hint>
+  </tech-hint-list>
   <unit name="Motions_and_Forces">
-    <title>Motions and Forces</title>
+    <title>Motions and Forces Instructional Unit</title>
     <investigation name="Air_Cart">
       <title>Air Cart</title>
       <teacher-notes>
@@ -202,32 +331,38 @@
         little friction</summary>
       <question> What happens to a vehicle when there&apos;s very little friction?</question>
       <intro>
-        <ext-image name="smallCart"/> In this
+        <ext-image dir="images/AirCart" name="smallCart"/> In this
         activity you will build and test an air cart that operates with
         very little friction.</intro>
       <think>
-        <p> Have you ever wondered why cars stay on the road when they
+        <p>Have you ever wondered why cars stay on the road when they
           round a corner? Why is it more difficult to round those
           corners when the road is wet or covered with ice? Besides the
-          banking of the road (which we will learn about later), the
-          tires provide a frictional surface against the surface of the
-          road. The ideal car provides friction when you need it
-          (turning and braking) but has little when you don&apos;t want
-          it (speeding along in a straight line). </p>
-        <p> It&apos;s not that easy to make a vehicle move with almost
-          no friction. But that&apos;s the goal of this investigation.
-          We want a cart that&apos;s almost friction free so that we can
-          study the forces on moving objects without being confused by
-          the forces due to friction. If a frictionless cart, for
-          example, is pushed across the floor, how far do you think the
-          cart will go? In your group, predict and explain how different
-          forces will affect the motion of a frictionless cart. Write in
-          Notes on your handheld computer your ideas about what might
-          explain your prediction(s). Refer to Technical Hints to see
-          how to use the software. </p>
-      </think>
+          banking of the road, the tires provide a frictional surface
+          against the surface of the road. The ideal car provides
+          friction when you need it (turning and braking) but has little
+          when you don&apos;t want it (speeding along in a straight
+          line).   </p>
+        <query-response layout="paragraph" title="frictionless" type="predict">
+          <query-description>It&apos;s not that easy to make a vehicle
+            move with almost no friction. But that&apos;s the goal of
+            this investigation. We want a cart that&apos;s almost
+            friction free so that we can study the forces on moving
+            objects without being confused by the forces due to
+            friction. Suppose a frictionless cart is pushed across the
+            floor. </query-description>
+          <querys>
+            <query drawing-response="false" note-response="true">How far
+              do you think the cart will go? </query>
+            <query drawing-response="false" note-response="true">What
+              forces will affect the motion of a frictionless cart?</query>
+          </querys>
+          <query-static-link>Explain your predictions in Notes on your
+            handheld computer.</query-static-link>
+        </query-response>Refer to Technical Hints to see how to use the
+        CC LabBook software. </think>
       <materials>
-        <ext-image name="00_cartParts" type="gif"/>
+        <ext-image name="00_cartParts"/>
         <item>CC SmartWheel</item>
         <item>cardboard for cart body (12cm x 40cm)</item>
         <item>cardboard for ramp (30cm x 100cm)</item>
@@ -246,7 +381,7 @@
         <item>books to prop up ramp</item>
         <item>tape</item>
         <item>handheld computer</item>
-        <item>CC Lab Book software</item>
+        <item>CC LabBook software</item>
         <item>hot-melt (or cold-melt) glue gun and glue sticks</item>
         <item>utility knife</item>
         <item>metal straight edge ruler (metric)</item>
@@ -275,9 +410,9 @@
                 wide and 14cm long, starting 4cm from one end of the cart.</step>
               <step> Cut out the slot with a utility knife. Please be
                 very careful! <ext-image-sequence>
-                  <ext-image name="01a_cardboard"/>
-                  <ext-image name="01b_slotCutMark"/>
-                  <ext-image name="01c_slotCutOut"/>
+                  <ext-image dir="images/AirCart" name="01a_cardboard"/>
+                  <ext-image dir="images/AirCart" name="01b_slotCutMark"/>
+                  <ext-image dir="images/AirCart" name="01c_slotCutOut"/>
                 </ext-image-sequence>
               </step>
             </steps>
@@ -291,10 +426,10 @@
                 Let it stick out on either side.  </step>
               <step>Cut off each end of the straw a bit longer than the cardboard.</step>
               <step>The finished straw is now ready for the axle.<ext-image-sequence>
-                  <ext-image name="02a_strawMark"/>
-                  <ext-image name="02b_strawGlued"/>
-                  <ext-image name="02c_strawCut"/>
-                  <ext-image name="02d_strawInstall"/>
+                  <ext-image dir="images/AirCart" name="02a_strawMark"/>
+                  <ext-image dir="images/AirCart" name="02b_strawGlued"/>
+                  <ext-image dir="images/AirCart" name="02c_strawCut"/>
+                  <ext-image dir="images/AirCart" name="02d_strawInstall"/>
                 </ext-image-sequence>
               </step>
             </steps>
@@ -311,16 +446,17 @@
                 pen point. Enlarge the holes from both sides, until the
                 screws fit snugly into them. The screws are provided
                 with the SmartWheel.</step>
-              <step>Put the screws through the cardboard from the other
-                side, and screw them into the arm of the SmartWheel.
-                Tighten them until the heads squeeze the cardboard a
+              <step>Put the screws first through the cardboard from the
+                other                 side, and then screw them into the
+                arm of the SmartWheel.                 Tighten them
+                until the heads squeeze the cardboard a
                 little bit. A paper clip will work as a screwdriver. </step>
               <step>Now the SmartWheel is in place. It can be taken on
                 and off. You will need to do this for the Tracker Investigation.<ext-image-sequence>
-                  <ext-image name="03a_swMarkHoles" type="gif"/>
-                  <ext-image name="03b_makeHoles" type="gif"/>
-                  <ext-image name="03c_swScrews" type="gif"/>
-                  <ext-image name="03d_swInstalled" type="gif"/>
+                  <ext-image dir="images/AirCart" name="03a_swMarkHoles" type="gif"/>
+                  <ext-image dir="images/AirCart" name="03b_makeHoles" type="gif"/>
+                  <ext-image dir="images/AirCart" name="03c_swScrews" type="gif"/>
+                  <ext-image dir="images/AirCart" name="03d_swInstalled" type="gif"/>
                 </ext-image-sequence>
               </step>
             </steps>
@@ -337,17 +473,18 @@
               <step>Slide the axle through the straw and then slide on
                 the other CD ROM wheel. The picture shows the cart
                 upside down.  <ext-image-sequence>
-                  <ext-image name="04a_pressInHub" type="gif"/>
-                  <ext-image                     name="04b_oneWheelAxle" type="gif"/>
-                  <ext-image name="04c_wheelPair" type="gif"/>
+                  <ext-image dir="images/AirCart" name="04a_pressInHub" type="gif"/>
+                  <ext-image dir="images/AirCart"
+                    name="04b_oneWheelAxle" type="gif"/>
+                  <ext-image dir="images/AirCart" name="04c_wheelPair" type="gif"/>
                 </ext-image-sequence>
               </step>
             </steps>
           </instruction>
           <instruction title="Glueing on the bumper">
             <p>Glue the bumper in             the center on the front
-              end that contains the SmartWheel end.<ext-image name="05_bumper"/>
-            </p>
+              end that contains the SmartWheel end.</p>
+            <ext-image name="05_bumper" type="gif"/>
           </instruction>
           <instruction title="Attaching the motor">
             <steps>
@@ -359,8 +496,8 @@
                 holder. Glue it down in the center next to the motor.
                 Leave a little bit of space between the battery holder
                 and the motor.  <ext-image-sequence>
-                  <ext-image name="06a_motor"/>
-                  <ext-image name="06b_batteries"/>
+                  <ext-image dir="images/aircart" name="06a_motor"/>
+                  <ext-image dir="images/AirCart" name="06b_batteries"/>
                 </ext-image-sequence>
               </step>
             </steps>
@@ -368,8 +505,8 @@
           <instruction title="Glueing on the clay holder">
             <p>Glue down the             paper cup in the center right
               behind the SmartWheel slot.             Make a lump of
-              clay so that you can add weight to the cart.  <ext-image name="07_clayHolder"/>
-            </p>
+              clay so that you can add weight to the cart.  </p>
+            <ext-image name="07_clayHolder" type="gif"/>
           </instruction>
           <instruction title="Attaching the acrobat and holder ">
             <steps>
@@ -385,18 +522,17 @@
                 removed when you mount the Force probe on the cart.  </step>
               <step>Put bits of clay into the acrobat&apos;s hands so
                 that it has a good grip. Hang the acrobat on the wire.  <ext-image-sequence>
-                  <ext-image name="08a_wireU"/>
-                  <ext-image name="08b_wireCrimped"/>
-                  <ext-image name="08c_wireAttach"/>
-                  <ext-image name="08d_wireAcrobat"/>
+                  <ext-image dir="images/AirCart" name="08a_wireU"/>
+                  <ext-image dir="images/AirCart" name="08b_wireCrimped"/>
+                  <ext-image dir="images/AirCart" name="08c_wireAttach"/>
+                  <ext-image dir="images/AirCart" name="08d_wireAcrobat"/>
                 </ext-image-sequence>
               </step>
             </steps>
           </instruction>
           <instruction title="Decorating your cart ">
-            <p>Decorate your cart             to your liking...
-                <ext-image name="09_cartDone" type="gif"/>
-            </p>
+            <p>Decorate your cart             to your liking...                 </p>
+            <ext-image name="09_cartDone" type="gif"/>
           </instruction>
         </instructions>
       </trial>
@@ -411,10 +547,10 @@
                 &quot;U&quot; to make the edges stiff and keep the cart
                 from running off the edge. </step>
               <step>Then the cardboard ramp rests easily on a flat surface.<ext-image-sequence>
-                  <ext-image name="10a_rampSize"/>
-                  <ext-image name="10b_rampMark"/>
-                  <ext-image name="10c_rampFold"/>
-                  <ext-image name="10d_rampEnd"/>
+                  <ext-image dir="images/AirCart" name="10a_rampSize"/>
+                  <ext-image dir="images/AirCart" name="10b_rampMark"/>
+                  <ext-image dir="images/AirCart" name="10c_rampFold"/>
+                  <ext-image dir="images/AirCarts" name="10d_rampEnd"/>
                 </ext-image-sequence>
               </step>
             </steps>
@@ -428,64 +564,115 @@
               should you measure how far &quot;up&quot; the cart is when
               you release it? The distance along the ramp from its
               bottom edge to the rear wheels of the cart is a good
-              measure.  <ext-image name="11a_rampSideView"/>
-            </p>
+              measure.  </p>
+            <ext-image name="11a_rampSideView" type="gif"/>
           </step>
-          <step>Experiment with different slopes and distances up the
-            ramp. How does each affect how far the cart will roll? What
-            arrangement is the best for testing the friction of the
-            cart? Write in Notes on your handheld computer your thoughts
-            about the best arrangement of your ramp.  </step>
+          <query-response layout="paragraph" title="slopes" type="explain">
+            <query-description>Experiment with different slopes and
+              distances up the ramp. </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">How
+                do slope and distance affect how far the cart will roll? </query>
+              <query drawing-response="false" note-response="true">What
+                arrangement is the best for testing the friction of the
+                cart? </query>
+            </querys>
+            <query-static-link>Write your thoughts in Notes on your
+              handheld computer. </query-static-link>
+          </query-response>
         </steps>
       </trial>
       <trial title="Performing a coasting test">
         <steps>
-          <step>Propose a way to test the relative friction of the
-            carts, without using the motor and fan. You can use the
-            ramp, however. HINT: Decide on a distance, a way to start
-            together, and a way to compare your cart with at least three
-            other carts. Should they all race together on separate
-            ramps, or race one by one and compare them? Do they get more
-            than one run?  </step>
-          <step>Do you think this is a fair test of the friction of the
-            cart? Explain your prediction in Notes on your handheld
-            computer. Refer to Technical Hints to see how to use the
-            software.  </step>
-          <step>Race your air cart with at least three other carts by
-            rolling them down the ramp. Observe the motion of the
-            acrobat during the race.
-            <datacollector-link type="dc-smartwheel-pos"/>
-          </step>
-          <step>What is your measure of friction? Which one has the
-            least friction? Explain your thoughts and observations in
-            Notes on your handheld computer. Refer to Technical Hints to
-            see how to use the software.  <ext-image name="12_rampRace"/>
-          </step>
+          <query-response layout="paragraph" title="test" type="predict">
+            <query-description>Propose a way to test the relative
+              friction of the carts, without using the motor and fan.
+              You can use the ramp, however. HINT: Decide on a distance,
+              a way to start together, and a way to compare your cart
+              with at least three other carts. </query-description>
+            <querys>
+              <query drawing-response="false"
+                note-response="true">Should they all race together on
+                separate ramps, or race one by one and compare them?</query>
+              <query drawing-response="false" note-response="true">Do
+                they get more than one run?</query>
+              <query drawing-response="false" note-response="true">Do
+                you think this is a fair test of the friction of the
+                cart?  </query>
+            </querys>
+          </query-response>
+          <query-response layout="paragraph" title="race" type="describe">
+            <query-description>Race your air cart with at least three
+              other carts by rolling them down the ramp. Observe the
+              motion of the acrobat during the race.  </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">What
+                is your measure of friction?</query>
+              <query drawing-response="false" note-response="true">Which
+                one has the least friction?</query>
+            </querys>
+          </query-response>
         </steps>
+        <ext-image name="12_rampRace"/>
       </trial>
       <hints>
-        <hint>
-          <title>Opening and using CC software</title>
-          <heading>To open and use CC Lab Book software:</heading>
-          <body>Coming Soon!</body>
-        </hint>
+        <tech-hint-ref ref="CC LabBook"/>
       </hints>
       <analysis>
         <steps>
-          <step> Rank your cart and at least two others in order of how
-            they did on the friction test. What differences in the carts
-            might account for this?</step>
-          <step> When your cart is moving, it has energy of motion. What
-            factors do you think affect its energy? When your cart slows
-            down and stops, where does the energy go? What about when it
-            hits something?</step>
-          <step>What happened to the motion of the acrobat when the cart
-            slowed down? What about when the cart hit something?   </step>
-          <step>In summary, how does a vehicle behave when there&apos;s
-            very little friction? Does it take a lot of force to get it
-            going? To keep it going? </step>
-          <step>What are the sources of friction for these carts? Do you
-            think air resistance plays a role? How could you find out?   </step>
+          <query-response layout="paragraph" title="rank" type="describe">
+            <query-description>Rank your cart and at least two others in
+              order of how they did on the friction test. </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">What
+                differences in the carts might account for the results? </query>
+            </querys>
+          </query-response>
+          <query-response layout="paragraph" title="motion" type="explain">
+            <query-description>When your cart is moving, it has energy
+              of motion. </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">What
+                factors do you think affect its energy?</query>
+              <query drawing-response="false" note-response="true">When
+                your cart slows down and stops, where does the energy go?</query>
+              <query drawing-response="false" note-response="true">When
+                your cart slows down and stops, where does the energy go?</query>
+            </querys>
+          </query-response>
+          <query-response layout="paragraph" title="acrobat" type="describe">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">What
+                happened to the motion of the acrobat when the cart
+                slowed down? </query>
+              <query drawing-response="false" note-response="true">What
+                about when the cart hit something? </query>
+            </querys>
+          </query-response>
+          <query-response layout="paragraph" title="friction" type="explain">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">What
+                are the sources of friction for these carts? </query>
+              <query drawing-response="false" note-response="true">Do
+                you think air resistance plays a role? </query>
+              <query drawing-response="false" note-response="true">How
+                could you find out? </query>
+            </querys>
+          </query-response>
+          <query-response layout="paragraph" title="vehicle" type="explain">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">How
+                does a vehicle behave when there is very little
+                friction? </query>
+              <query drawing-response="false" note-response="true">Does
+                it take a lot of force to get it going?</query>
+              <query drawing-response="false" note-response="true">To
+                keep it going? </query>
+            </querys>
+          </query-response>
         </steps>
       </analysis>
       <further>
@@ -721,27 +908,38 @@
         <ext-image name="smallSmartCart"/>In this activity you will
         explore the relationship between the movement of a cart and the
         shapes of the resulting position and velocity graphs.</intro>
-      <think> Can you tell exactly how far or fast your cart is moving
-        without using a meter stick and stop watch? How do you know
-        it&apos;s speed at any given time? By watching your cart move,
-        is it possible to know when it is slowing down? Would it be more
-        useful to know its speed at each moment, or its position? Could
-        you get one from the other? Discuss these questions with your
-        group and write down some of your ideas in Notes on your
-        handheld computer to share with your group.<p>The following
-          position versus time graph of a cart was made with a
-          SmartWheel. Discuss the motion shown with your group. Did the
-          cart appear to change velocity at anytime? Draw the graph in
-          Notes on your handheld computer and label parts of the graph
-          that you understand or have questions about.   </p>
-        <ext-image name="graconstant" type="jpg"/>
+      <think>
+        <query-response layout="paragraph" title="motion" type="predict">
+          <query-description>Think about how you would describe the
+            motion of your cart to someone. </query-description>
+          <querys>
+            <query drawing-response="false" note-response="true">What is
+              the simplest way to describe its motion? </query>
+            <query drawing-response="false" note-response="true">Would
+              you need to know its position, or velocity, or both?</query>
+            <query drawing-response="false" note-response="true">What
+              tools would you need to measure its motion?</query>
+          </querys>
+          <query-static-link>Write your thoughts in Notes on your
+            handheld computer.</query-static-link>
+        </query-response>
+        <query-response layout="paragraph" title="position" type="describe">
+          <query-description>The following position versus time graph of
+            a cart was made with a SmartWheel. Discuss the motion shown
+            with your group. </query-description>
+          <querys>
+            <query drawing-response="false" note-response="true">Did the
+              cart appear to change velocity at anytime?</query>
+          </querys>
+        </query-response>
+        <ext-image name="05_tr_graph" type="gif"/>
       </think>
       <materials>
         <item>CC SmartWheel probe removed from air cart</item>
         <item>meter stick</item>
-        <item>tape</item>
+        <item>masking tape</item>
         <item>CC SmartWheel probe installed on air cart</item>
-        <item>CC Lab Book software</item>
+        <item>CC LabBook software</item>
         <item>handheld computer</item>
         <item>constructed air cart (see Investigation: Air Cart)  </item>
         <item>2 - new 1.5V AA batteries</item>
@@ -757,14 +955,18 @@
             meter stick so that you can walk along and roll it on the
               floor.<ext-image name="01a_swTaped2"/>
           </step>
+          <step>Place a piece of masking tape on the floor to make a
+            straight line at least 3m long. You will use this line when
+            navigating your SmartWheel.  </step>
           <step>Connect the SmartWheel to your handheld computer. Refer
             to Technical Hints to see how to connect the cables.</step>
-          <step>Start the software and observe the position versus time
-            graph as you roll the SmartWheel along the floor. Refer to
-            Technical Hints to see how to use the software.  <ext-image name="02_swOnWand"/>
+          <step>Start the software. Observe the position versus time
+            graph as you roll the SmartWheel back and forth along the
+            masking tape line on the floor.  <ext-image name="02_swOnWand"/>
           </step>
-          <step>With your team member, take turns making the following
-            motions on the same graph. <steps>
+          <step>With your team member, take turns practicing making the
+            following motions until you have all four motions on the
+            same graph, one after the other. <steps>
               <step>walking forward at a constant velocity</step>
               <step>walking forward, then backward, at constant velocity</step>
               <step>walking forward slowly, then quickly, then stopping</step>
@@ -772,13 +974,29 @@
             </steps>
           </step>
           <step>Save your data to the handheld computer.  </step>
-          <step>Describe the portions of the graph for each set of
-            movements in Notes on your handheld computer.  </step>
+          <query-response layout="list" title="movements" type="describe">
+            <query-description>Draw and describe the graph for each set
+              of movements in Notes on your handheld computer.  </query-description>
+            <querys>
+              <query drawing-response="true"
+                note-response="true">walking forward at a constant velocity</query>
+              <query drawing-response="true"
+                note-response="true">walking forward, then backward, at
+                constant velocity</query>
+              <query drawing-response="true"
+                note-response="true">walking forward slowly, then
+                quickly, then stopping</query>
+              <query drawing-response="true"
+                note-response="true">gradually speeding up, then
+                gradually slowing down</query>
+            </querys>
+          </query-response>
         </steps>
       </trial>
       <trial title="Rolling cart">
         <steps>
-          <step>Reattach the SmartWheel to your cart. </step>
+          <step>Reattach the SmartWheel to your cart. Refer to Technical
+            Hints to see how to attach the SmartWheel to the air cart.  </step>
           <step>Connect the SmartWheel to your handheld computer. Refer
             to Technical Hints to see how to connect the cables.  </step>
           <step>Attach a string to the front of your cart. It can be
@@ -788,15 +1006,33 @@
             cable above the cart so that it doesn&apos;t pull the cart
             one way or the other. One person will need to walk alongside
             the cart while carrying the handheld computer and keeping
-            the wire from obstructing the movement of the
-              cart.<ext-image name="03b_tr"/>
+            the wire from obstructing the movement of the cart as it
+            moves in a straight line.               <ext-image
+              name="03b_tr" type="gif"/>
           </step>
-          <step>Predict the resulting graphs for each of the following
-            motions in Notes on your handheld computer. Observe how the
-            acrobat responded during each motion. </step>
+          <query-response layout="list" title="graphs" type="predict">
+            <query-description>Predict the resulting graphs for each of
+              the following motions in Notes on your handheld computer. </query-description>
+            <querys>
+              <query drawing-response="true"
+                note-response="false">pulling the cart forward at a
+                constant velocity</query>
+              <query drawing-response="true"
+                note-response="false">pulling the cart at a slow
+                constant velocity, then a faster constant velocity, then coasting</query>
+              <query drawing-response="true"
+                note-response="false">gradually speeding up the cart,
+                then coasting</query>
+              <query drawing-response="true"
+                note-response="false">pulling the cart, then letting it
+                bounce off a wall </query>
+            </querys>
+          </query-response>
           <step>Start the software and observe the position versus time
             graph as you make the following motions on the same graph.
-            Refer to Technical Hints to see how to use the software. <steps>
+            Practice until you have all four motions on the same graph,
+            one after the other. Observe how the acrobat responded
+            during each motion.<steps>
               <step>pulling the cart forward at a constant velocity</step>
               <step>pulling the cart at a slow constant velocity, then a
                 faster constant velocity, then coasting</step>
@@ -805,84 +1041,138 @@
             </steps>
           </step>
           <step>Save your data to the handheld computer.</step>
-          <step>Discuss the following questions with your group and
-            write down some of your ideas in Notes on your handheld
-            computer. What do the graphs show you about the motion of
-            the cart? How did the acrobat respond during the constant
-            motion and the changing motion?</step>
+          <query-response layout="list" title="describemovements" type="describe">
+            <query-description>Draw and describe a graph for each set of
+              movements in Notes on your handheld computer.</query-description>
+            <querys>
+              <query drawing-response="true"
+                note-response="true">pulling the cart forward at a
+                constant velocity</query>
+              <query drawing-response="true"
+                note-response="true">pulling the cart at a slow constant
+                velocity, then a faster constant velocity, then coasting</query>
+              <query drawing-response="true"
+                note-response="true">gradually speeding up the cart,
+                then coasting</query>
+              <query drawing-response="true"
+                note-response="true">pulling the cart, then letting it
+                bounce off a wall </query>
+            </querys>
+          </query-response>
+          <query-response layout="paragraph" title="AcrobatRespond" type="describe">
+            <query-description>Discuss the following questions with your
+              group. </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">What
+                do the graphs show you about the motion of the cart?</query>
+              <query drawing-response="false" note-response="true">How
+                did the acrobat respond during the constant motion and
+                the changing motion? </query>
+            </querys>
+            <query-static-link>Write your ideas in Notes on your
+              handheld computer. </query-static-link>
+          </query-response>
         </steps>
       </trial>
       <trial title="Rolling to a stop">
         <steps>
-          <step>Using the ramp to initiate motion of the cart, design a
-            method to slow down the cart and bring it to a stop in
-            exactly 5 seconds as it rolls across a rug or another rough
-            surface. Explain your design in Notes on your handheld
-            computer. </step>
-          <step>In Notes on your handheld computer, predict and sketch
-            the resulting position versus time graph. Share your method
-            with other members of your group.  </step>
+          <query-response layout="paragraph" title="design" type="describe">
+            <query-description>Using the ramp to initiate motion of the
+              cart, design a method to slow down the cart and bring it
+              to a stop in exactly 5 seconds as it rolls across a rug or
+              another rough surface. Share your method with other
+              members of your group.  </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">What
+                is your method? </query>
+            </querys>
+            <query-static-link>Explain your design in Notes on your
+              handheld computer.  </query-static-link>
+          </query-response>
+          <query-response layout="paragraph" title="looklike" type="describe">
+            <query-description/>
+            <querys>
+              <query drawing-response="true" note-response="false">What
+                will the position versus time graph look like? </query>
+            </querys>
+            <query-static-link>Sketch the graph in Notes on your
+              handheld computer.</query-static-link>
+          </query-response>
           <step>Connect the SmartWheel to your handheld computer. Refer
             to Technical Hints to see how to connect the cables.</step>
           <step>Now try your method out. Start the software and observe
             the position versus time graph as you roll the cart down the
-            ramp. Refer to Technical Hints to see how to use the
-            software. Be sure to drape the wire to the SmartWheel so
-            that the cart rolls freely. Observe how the acrobat
-            responded during the motion.</step>
+            ramp. Be sure to drape the wire to the SmartWheel so that
+            the cart rolls freely. Observe how the acrobat responded
+            during the motion.  </step>
           <step>Save your data to the handheld.<ext-image name="04_tr2"/>
           </step>
-          <step>By looking at your position versus time graph, how do
-            you know that your cart slowed down? Did it slow down at the
-            same rate for the entire 5 seconds? If not, when and why did
-            the rate change? Explain your reasoning in Notes on your
-            handheld computer.</step>
+          <query-response layout="paragraph" title="slowdown" type="describe">
+            <query-description>Look at your position versus time graph. </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">How
+                do you know that your cart slowed down?</query>
+              <query drawing-response="false" note-response="true">Did
+                it slow down at the same rate for the entire 5 seconds?</query>
+              <query drawing-response="false" note-response="true">If
+                not, when and why did the rate change? </query>
+            </querys>
+            <query-static-link>Explain your reasoning in Notes on your
+              handheld computer. </query-static-link>
+          </query-response>
         </steps>
       </trial>
       <hints>
-        <hint>
-          <title>Connecting cables from the SmartWheel to the handheld computer</title>
-        </hint>
-        <hint>
-          <title>Attaching SmartWheel to air cart</title>
-        </hint>
-        <hint>
-          <title>Using the CC Lab Book software</title>
-        </hint>
-        <hint>
-          <title>Opening saved data in the CC Lab Book software  </title>
-        </hint>
+        <tech-hint-ref ref="connect smartwheel"/>
+        <tech-hint-ref ref="attach smartwheel"/>
+        <tech-hint-ref ref="CC LabBook"/>
       </hints>
       <analysis>
         <steps>
-          <step>What does the steepness of the position versus time
-            graph           tell you about the velocity of the cart? How
-            can you tell from           the graph whether the cart is
-            going forward or backward?  </step>
-          <step>What is the shape of the distance versus time graphs of
-            a           cart as it moves at:  <steps>
-              <step>constant velocity?  </step>
-              <step>decreasing velocity?</step>
-              <step>increasing velocity?  </step>
-            </steps>
-          </step>
-          <step>Explain the differences of movement of the acrobat
-            during           Trial II and Trial III. What happened to
-            either make it move           or keep it still during each
-            motion?  </step>
-          <step>Display each graph as a velocity versus time graph. See
-            Technical Hints on how to switch between position and
-            velocity           graphs. How are the position and velocity
-            graphs related for           each trial? What is the shape
-            of the velocity versus time           graph of a cart as it
-            moves at:<steps>
-              <step>constant velocity?</step>
-              <step>decreasing velocity?  </step>
-              <step>increasing velocity?</step>
-            </steps>
-          </step>
-          <step>Do you think that if you knew the position of the cart
-            at           every moment, you could know its velocity as well?</step>
+          <query-response layout="paragraph" title="steepness" type="explain">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">What
+                does the steepness of the position versus time graph
+                tell you about the velocity of the cart?</query>
+              <query drawing-response="false" note-response="true">How
+                can you tell from the graph whether the cart is going
+                forward or backward?</query>
+            </querys>
+          </query-response>
+          <query-response layout="list" title="shape" type="describe">
+            <query-description>What is the shape of the distance versus
+              time graphs of a cart as it moves at:  </query-description>
+            <querys>
+              <query drawing-response="true"
+                note-response="false">constant velocity?</query>
+              <query drawing-response="true"
+                note-response="false">decreasing velocity?</query>
+              <query drawing-response="true"
+                note-response="false">increasing velocity?</query>
+            </querys>
+          </query-response>
+          <query-response layout="paragraph" title="keepstill" type="describe">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">How
+                did the acrobat move during Trial II and Trial III? </query>
+              <query drawing-response="false" note-response="true">What
+                happened to either make it move or keep it still during
+                each motion of the cart?</query>
+            </querys>
+          </query-response>
+          <query-response layout="paragraph" title="calculate" type="explain">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">How
+                would you calculate velocity from the position versus
+                time graph? </query>
+              <query drawing-response="false" note-response="true">Do
+                you think that if you knew the position of the cart at
+                every moment, you could know its velocity as well? </query>
+            </querys>
+          </query-response>
         </steps>
       </analysis>
       <further>
@@ -1066,24 +1356,44 @@
         <ext-image name="propellerCartRev"/>In this activity you will
         investigate how friction and the driving force of a propeller
         mounted on an air cart oppose one another.  </intro>
-      <think>If you sneeze in a weightless environment, as some of the
-        astronauts have done, your body would move backwards and
-        upwards. In order for a motion to happen, a force is needed. So,
-        why does an astronaut&apos;s body move when they sneeze? Write
-        (or draw) in Notes on your handheld computer the forces that
-        occur during the sneeze. <p>Picture a propeller or fan blowing
-          air. What is accelerating the air? How does the accelerating
-          air from the propeller relate to your description of the
-          forces found during a sneeze in space? Will your almost
-          frictionless cart move when the propeller is turned on? Will
-          it still move when you add more friction? Write (or draw) in
-          Notes on your handheld computer the forces that you think will
-          make the cart move.   </p>
+      <think>
+        <query-response layout="paragraph" title="astronaut" type="explain">
+          <query-description>If you sneeze in a weightless environment,
+            as some of the astronauts have done, your body would move
+            backwards and upwards. In order for a motion to happen, a
+            force is needed. So, why does an astronaut&apos;s body move
+            when they sneeze?</query-description>
+          <querys>
+            <query drawing-response="true" note-response="true">What are
+              the forces that occur during the sneeze? </query>
+          </querys>
+          <query-static-link>Write (or draw) your thoughts in Notes on
+            your handheld computer. </query-static-link>
+        </query-response>
+        <query-response layout="paragraph" title="fan" type="predict">
+          <query-description>Picture a propeller or fan blowing air.
+            Think about how the accelerating air from the propeller
+            relates to your description of the forces found during a
+            sneeze in space. </query-description>
+          <querys>
+            <query drawing-response="true" note-response="true">What is
+              accelerating the air? </query>
+            <query drawing-response="true" note-response="true">Will
+              your almost frictionless cart move when the propeller is
+              turned on? </query>
+            <query drawing-response="true" note-response="true">Will it
+              still move when you add more friction? </query>
+            <query drawing-response="true" note-response="true">What are
+              the forces that will make the cart move?</query>
+          </querys>
+          <query-static-link>Write (or draw) your ideas in Notes on your
+            handheld computer.  </query-static-link>
+        </query-response>
       </think>
       <materials>
         <item>CC SmartWheel probe installed on air cart</item>
         <item>handheld computer  </item>
-        <item>CC Lab Book software</item>
+        <item>CC LabBook software</item>
         <item>constructed air cart (see Investigation: Air Cart)  </item>
         <item>paper clip</item>
         <item>string or small, thin rubber band  </item>
@@ -1107,10 +1417,16 @@
           <step>Press the propeller onto the shaft of the motor. The
             white dab of paint should face toward the motor.  <ext-image name="01a_pr"/>
           </step>
-          <step>Turn the propeller with your finger. Looking at its
-            shape, can you tell which way the air will blow? How do you
-            know? How would you explain it to another person? Record
-            your explanation in Notes on your handheld computer.  </step>
+          <query-response layout="paragraph" title="finger" type="explain">
+            <query-description>Turn the propeller with your finger. Look
+              at its shape. </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">How
+                can you tell which way the air will blow?</query>
+            </querys>
+            <query-static-link>Record your explanation in Notes on your
+              handheld computer.</query-static-link>
+          </query-response>
           <step>Now test your prediction. Choose the direction the
             propeller should turn to make the air blow away from the
             cart. While holding onto your cart, connect the battery
@@ -1118,15 +1434,30 @@
             to hold them lightly in place.  <ext-image name="03a_motorWire"/>
             <p>If the propeller doesn&apos;t blow away from the cart,
               reverse the wires.  </p>
-            <ext-image name="03b_motorWire"/>
+            <ext-image name="03b_motorWire_rev"/>
           </step>
-          <step>Was your prediction correct? </step>
-          <step>While still holding onto your cart, carefully hold your
-            other hand in front of and behind the propeller while it is
-            on. Do you feel air moving in both locations or only in one?
-            Is this the same as what you predicted? In Notes on your
-            handheld computer, record the difference you observe and why
-            you think it&apos;s that way.</step>
+          <query-response layout="paragraph" title="correct" type="explain">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">Was
+                your prediction correct? If not, write a better
+                explanation. </query>
+            </querys>
+            <query-static-link>Write in Notes on your handheld computer. </query-static-link>
+          </query-response>
+          <query-response layout="paragraph" title="carefully" type="describe">
+            <query-description>While still holding onto your cart,
+              carefully hold your other hand in front of and behind the
+              propeller while it is on. Do you feel air moving in both
+              locations or only in one? Is this the same as what you predicted?</query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">What
+                is the difference you observe and why do you think
+                it&apos;s that way?</query>
+            </querys>
+            <query-static-link>Record your answer in Notes on your
+              handheld computer. </query-static-link>
+          </query-response>
         </steps>
       </trial>
       <trial title="Measuring the motion of a propeller-driven cart">
@@ -1141,26 +1472,26 @@
             along with it, keeping the wire floppy.  <ext-image name="07_pr"/>
           </step>
           <step>Start the software and observe the position versus time
-            graph. Refer to Technical Hints to see how to use the
-            software. </step>
+            graph. </step>
           <step>Start the propeller, holding on to the cart. Let the
             cart go and let it run for as far as you have space. Be sure
             to keep the wire floppy, so that it doesn&apos;t pull or
-            push on the cart.  </step>
-          <step>What is the shape of the position graph? Is it a
-            straight line? Why do you think it&apos;s this shape? What
-            do you think it would look like if your cart could keep
-            going farther? Explain your reasoning in Notes on your
-            handheld computer.</step>
-          <step>Try several times until you get a really good graph,
-            then save your data to the handheld computer.</step>
-          <step>Change the software to show a velocity versus time
-            graph. Refer to Technical Hints on how to switch from
-            position to velocity graphs. How is this different from the
-            position graph? Is the velocity constant? How do you know?
-            What do you think it would look like if your cart could keep
-            going farther? Explain your reasoning in Notes on your
-            handheld computer.  </step>
+            push on the cart. Try several times until you get a really
+            good graph, then save your data to the handheld computer. </step>
+          <query-response layout="paragraph" title="straightline" type="describe">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">What
+                is the shape of the position graph? Is it a straight
+                line? </query>
+              <query drawing-response="false" note-response="true">Why
+                do you think it has this shape?</query>
+              <query drawing-response="false" note-response="true">What
+                would it look like if your cart could keep going farther?</query>
+            </querys>
+            <query-static-link>Explain your reasoning in Notes on your
+              handheld computer. </query-static-link>
+          </query-response>
         </steps>
       </trial>
       <trial title="Adding a friction sled to a propeller-driven cart">
@@ -1179,8 +1510,7 @@
           </step>
           <step>Connect the SmartWheel to your handheld computer. Refer
             to Technical Hints to see how to connect the SmartWheel.  </step>
-          <step>Start the software to measure velocity. Refer to
-            Technical Hints to see how to use the software. Make the
+          <step>Start the software to measure velocity. Make the
             following measurements one after another with the graph
             running. You will then have all of your data on one graph,
             and you can analyze it.  <steps>
@@ -1203,55 +1533,78 @@
         </steps>
       </trial>
       <hints>
-        <hint>
-          <title>Connecting the Force probe</title>
-        </hint>
-        <hint>
-          <title>Using the CC Lab Book software for the Force Probe</title>
-        </hint>
-        <hint>
-          <title>Calibrating the Force probe </title>
-        </hint>
-        <hint>
-          <title>Connecting the SmartWheel </title>
-        </hint>
-        <hint>
-          <title>Using the CC Lab Book software for the SmartWheel </title>
-        </hint>
-        <hint>
-          <title>Opening saved data in the CC Lab Book software</title>
-        </hint>
+        <tech-hint-ref ref="connect smartwheel"/>
+        <tech-hint-ref ref="attach smartwheel"/>
+        <tech-hint-ref ref="CC LabBook"/>
       </hints>
       <analysis>
         <steps>
-          <step>How does a propeller create a force that pushes on a cart?</step>
-          <step>Would a propeller work in outer space, where
-            there&apos;s           no air? If not, how could you make
-            something move in outer           space? </step>
-          <step>Look at your position versus time and velocity versus
-            time           graphs in Trial II. Explain the differences
-            between the           position graph and the velocity graph.
-            How are they different           from graphs where the cart
-            is moving at a constant velocity?  </step>
-          <step>Look at your velocity versus time graph in Trial III.
-            For           each case, describe the graph and what you
-            think is causing it           to have that shape.   <steps>
-              <step>no friction, push cart  </step>
-              <step>no friction, propeller  </step>
-              <step>some friction, push cart</step>
-              <step>some friction, propeller</step>
-              <step>more friction, push cart</step>
-              <step>more friction, propeller</step>
-            </steps>
-          </step>
-          <step>Do you think the graphs are evidence that friction
-            exerts           a force like the propeller, but in the
-            opposite direction?  </step>
-          <step>The rate of change of velocity is the slope of the
-            velocity versus time graph. Do your graphs give evidence
-            that           this slope is proportional to the net force
-            on the cart? Does           this confirm Newton&apos;s
-            Second Law?  </step>
+          <query-response layout="paragraph" title="pushes" type="explain">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">How
+                does a propeller create a force that pushes on a cart? </query>
+            </querys>
+          </query-response>
+          <query-response layout="paragraph" title="outerspace" type="explain">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">Would
+                a propeller work in outer space, where there&apos;s no
+                air? </query>
+              <query drawing-response="false" note-response="true">If
+                not, how could you make something move in outer space?  </query>
+            </querys>
+          </query-response>
+          <query-response layout="paragraph" title="positiontime" type="describe">
+            <query-description>Look at your position versus time graph
+              in Trial II. </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">Is
+                the velocity of the cart constant?</query>
+              <query drawing-response="false" note-response="true">How
+                can you tell? </query>
+            </querys>
+          </query-response>
+          <query-response layout="list" title="velocitytime" type="describe">
+            <query-description>Look at your velocity versus time graph
+              in Trial III. For each case, describe the graph and then
+              write why you think it has that shape.</query-description>
+            <querys>
+              <query drawing-response="true" note-response="true">no
+                friction, push cart</query>
+              <query drawing-response="true" note-response="true">no
+                friction, propeller  </query>
+              <query drawing-response="true" note-response="true">some
+                friction, push cart</query>
+              <query drawing-response="true" note-response="true">some
+                friction, propeller  </query>
+              <query drawing-response="true" note-response="true">more
+                friction, push cart</query>
+              <query drawing-response="true" note-response="true">more
+                friction, propeller</query>
+            </querys>
+          </query-response>
+          <query-response layout="paragraph" title="opposite" type="explain">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">Do
+                you think the graphs are evidence that friction exerts a
+                force like the propeller, but in the opposite direction?</query>
+            </querys>
+          </query-response>
+          <query-response layout="paragraph" title="ratechange" type="explain">
+            <query-description>The rate of change of velocity is the
+              slope of the velocity versus time graph. </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">What
+                is happening to the cart when the slope of the velocity
+                graph is not zero? </query>
+              <query drawing-response="false" note-response="true">What
+                is done to the cart to increase or decrease its rate of
+                change of velocity?  </query>
+            </querys>
+          </query-response>
         </steps>
       </analysis>
       <further>
@@ -1465,20 +1818,26 @@
         was going on during the event. You just see the results of a
         smashed car or a home run or a sore hand. Sometimes you want big
         forces, as with a baseball bat or a karate chop, and sometimes
-        you want to decrease the forces, as with a safety helmet.  <p>In
-          this activity you will use the Force probe to actually measure
-          what happens during a collision. How big are the forces? How
-          long do they last? What features of the colliding objects make
-          the forces bigger or smaller? In your group, explain how you
-          would increase or decrease the forces during a collision.
-          Write or draw in Notes on your handheld computer your ideas
-          about how to do this. </p>
+        you want to decrease the forces, as with a safety helmet.
+          <query-response layout="paragraph" title="forces" type="predict">
+          <query-description>In this activity you will use the Force
+            probe to actually measure what happens during a collision.
+            How big are the forces? How long do they last? What features
+            of the colliding objects make the forces bigger or smaller? </query-description>
+          <querys>
+            <query drawing-response="true" note-response="true">How
+              would you increase or decrease the forces during a
+              collision? </query>
+          </querys>
+          <query-static-link>Write or draw in Notes on your handheld
+            computer your ideas about how to do this. </query-static-link>
+        </query-response>
       </think>
       <materials>
         <item>CC SmartWheel probe</item>
         <item>CC Force probe</item>
         <item>handheld computer</item>
-        <item>CC Lab Book software</item>
+        <item>CC LabBook software</item>
         <item>long rubber band or several cut rubber bands and joined
           together (so when they are cut and joined it has a length of
           1/2m)  </item>
@@ -1499,41 +1858,79 @@
             probe can be used to measure the weight of masses. Connect
             the Force probe to your handheld computer. Refer to
             Technical Hints to see how to connect the cables.   </step>
-          <step>Start the software. Refer to Technical Hints to see how
-            to use the software.</step>
-          <step>Hold the Force probe so that you can hang things from
-            the smaller eye bolt at the end of the arm. Calibrate the
-            force probe to zero in this position. Refer to Technical
-            Hints to see how to calibrate the Force probe.  <ext-image name="01a_c1"/>
+          <step>Start the software. </step>
+          <step> Hold the Force probe so that you can hang things from
+            the smaller eye bolt at the end of the arm. Set the force
+            probe to zero in this position. Refer to Technical Hints to
+            see how to set the Force probe to zero.  <ext-image name="01a_c1"/>
           </step>
           <step>Try weighing something light, such as a paper clip
             hooked to a pen. Expand the force scale so that you can see
-            the change in weight. Refer to Technical Hints to see how to
-            use the software. What is the smallest weight that you can
-            measure?   </step>
-          <step>Weigh something heavy, like a book. Note that the units
-            are in newtons, not kilograms. What is the difference?
-            Explain your reasoning in Notes on your handheld computer.  </step>
+            the change in weight. What is the smallest weight that you
+            can             measure?   </step>
+          <query-response layout="paragraph" title="newtons" type="explain">
+            <query-description>Weigh something heavy, like a book. Note
+              that the units are in newtons, not kilograms. </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">What
+                is the difference between newtons and kilograms?</query>
+            </querys>
+            <query-static-link>Explain your reasoning in Notes on your
+              handheld computer. </query-static-link>
+          </query-response>
           <step>Use a paper clip to make a hook so that you can hang the
             cart from the Force probe. It can be hooked to the bumper,
             around the propeller, or through the cardboard. <ext-image name="01b_c1"/>
           </step>
           <step>Start recording with the software for force. Hang the
             cart from the Force probe for 10 seconds. Remove it and
-            check that the force goes back to zero. Stop recording data.</step>
-          <step>Pick an average value for the weight of the cart and
-            write it down in Notes on your handheld computer. How steady
-            was your reading? How much did it vary and why?</step>
-          <step>If you hang the cart with a rubber band and weigh it,
-            will it be the same? Try it.</step>
-          <step>What variations do you get? Can you get a steady
-            reading? Explain your reasoning in Notes on your handheld
-            computer.  <ext-image name="01c_c1"/>
-          </step>
-          <step>Calculate the mass, in kilograms, of your cart.<p>The
-              conversion is mass (kg) = weight (newtons) / 9.8  </p>
-          </step>
-          <step>Compare this mass to the masses of the other carts.</step>
+            check that the force goes back to zero. Stop recording and
+            save your data.</step>
+          <query-response layout="paragraph" title="steady" type="describe">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">What
+                was the average value for the weight of the cart?</query>
+              <query drawing-response="false" note-response="true">How
+                steady was your reading? </query>
+              <query drawing-response="false" note-response="true">How
+                much did it vary and why?</query>
+            </querys>
+          </query-response>
+          <query-response layout="paragraph" title="hangcart" type="predict">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">If
+                you hang the cart with a rubber band and weigh it, will
+                it be the same? Try it.  </query>
+            </querys>
+          </query-response>
+          <query-response layout="paragraph" title="variations" type="describe">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">What
+                variations do you get? </query>
+              <query drawing-response="false" note-response="true">Can
+                you get a steady reading?</query>
+            </querys>
+          </query-response>
+          <query-response layout="paragraph" title="calculate" type="describe">
+            <query-description>Calculate the mass, in kilograms, of your
+              cart. The conversion is mass (kg) = weight (newtons) / 9.8  </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">What
+                are the weight and the mass? </query>
+            </querys>
+            <query-static-link>Record your answers on Notes in your
+              handheld computer. </query-static-link>
+          </query-response>
+          <query-response layout="paragraph" title="compare" type="explain">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">How
+                does this mass compare to the masses of the other carts.</query>
+            </querys>
+          </query-response>
         </steps>
       </trial>
       <trial title="Colliding a cart with a wall">
@@ -1542,7 +1939,7 @@
             books so that it is at the same height as the bumper of your
             cart. It could also be clamped to a ring stand. Have someone
             hold the Force probe down firmly during the experiment.
-            Unscrew and set aside the larger eye bolt if it&apos;s in
+            Unscrew and set aside the larger eyebolt if it&apos;s in
             the way.  <ext-image name="05a_cartPush"/>
           </step>
           <step>Make sure the motor and propeller are set for pushing
@@ -1551,34 +1948,36 @@
           </step>
           <step>Connect the Force probe to your handheld computer. Refer
             to Technical Hints to see how to connect the cables. </step>
-          <step>Set up the Force probe in fast mode (at least 400 times
-            per second). Refer to Technical Hints to see how to adjust
-            the rate of collection.   </step>
-          <step>Calibrate the force probe to zero in this position.
-            Refer to Technical Hints to see how to calibrate the Force
-            probe.  </step>
+          <step>Start the software.</step>
+          <step>Set the force probe to zero in this position. Refer to
+            Technical Hints to see how to set the Force probe to zero.</step>
           <step>Line up the cart bumper with the Force probe, then roll
             the cart back about 50cm. Mark the distance so that you can
             start the cart in the same place every time.   <ext-image name="02_c1"/>
           </step>
-          <step>Start the propeller motor.</step>
-          <step>Start recording the force, then let the cart go. Refer
-            to Technical Hints to see how to use the software. Make sure
-            it bumps directly into the small eye bolt. Observe the
+          <step>Start the propeller motor. Use the springiness of the
+            wires to hold them lightly in place. </step>
+          <step>Start recording the force, then let the cart go. Make
+            sure it bumps directly into the small eyebolt. Observe the
             behavior of the acrobat during the collision.  </step>
           <step>Stop recording immediately after a good collision and
             save your data to the handheld computer.  </step>
-          <step>Examine the graph. You will need to expand the time
-            scale to see what the force looks like during the collision,
-            since it happens in such a short time. Refer to Technical
-            Hints to see how to use the software.  </step>
-          <step>Answer the following in Notes on your handheld computer:  <steps>
-              <step>What is the shape of the graph? </step>
-              <step>How long did the collision take?  </step>
-              <step>What was the maximum force?  </step>
-              <step>What did the acrobat do during the collision?</step>
-            </steps>
-          </step>
+          <step>Examine the graph. Zoom in on your collision until it
+            fills most of your screen. </step>
+          <query-response layout="list" title="maximum" type="describe">
+            <query-description>Answer the following in Notes on your
+              handheld computer:</query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">What
+                is the shape of the graph? </query>
+              <query drawing-response="false" note-response="true">How
+                long did the collision take?</query>
+              <query drawing-response="false" note-response="true">What
+                was the maximum force?  </query>
+              <query drawing-response="false" note-response="true">What
+                did the acrobat do during the collision?</query>
+            </querys>
+          </query-response>
         </steps>
       </trial>
       <trial title="Adding a bungee cord">
@@ -1592,12 +1991,9 @@
             books so that it is at the same height as the bumper of your
             cart. It could also be clamped to a ring stand. Have someone
             hold the Force probe down firmly during the experiment.
-            Unscrew and set aside the larger eye bolt if it&apos;s in
+            Unscrew and set aside the larger eyebolt if it&apos;s in
             the way.  <ext-image name="05a_cartPush"/>
           </step>
-          <step>Set up the Force probe in fast mode (at least 400 times
-            per second). Refer to Technical Hints to see how to adjust
-            the rate of collection.   </step>
           <step>Cut a long rubber band to make a bungee cord. Attach one
             end to the Force probe and the other end to the cart. Use
             several rubber bands if needed so that the cord is about
@@ -1607,54 +2003,85 @@
             band lying loosely between them. Hook things together with
             paper clips.  <ext-image name="04_c1"/>
           </step>
-          <step>Start recording the force. Refer to Technical Hints to
-            see how to use the software. Give the cart a push so that it
-            stretches the bungee cord and then bounces back. Catch it
-            before it hits the Force probe. Stop recording. Observe the
-            behavior of the acrobat.  </step>
+          <step>Start the software. Start recording the force. Give the
+            cart a push so that it stretches the bungee cord and then
+            bounces back. Catch it before it hits the Force probe. Stop
+            recording. Observe the behavior of the acrobat.  </step>
           <step>Try this several times, and after a good bounce save
             your data to the handheld computer.</step>
-          <step>Examine the graph. You will need to expand the time
-            scale to see what the force looks like during the collision,
-            since it happens in such a short time. Refer to Technical
-            Hints to see how to use the software.  </step>
-          <step>Answer the following in Notes on your handheld computer:  <steps>
-              <step>What is the shape of the plot?</step>
-              <step>How long did the collision take? </step>
-              <step>What was the maximum force? </step>
-              <step>What did the acrobat do during the collision?</step>
-            </steps>
-          </step>
+          <step>Examine the graph. Zoom in on your collision until it
+            fills most of your screen. </step>
+          <query-response layout="list" title="shapeplot" type="describe">
+            <query-description>Answer the following in Notes on your
+              handheld computer:</query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">What
+                is the shape of the plot? </query>
+              <query drawing-response="false" note-response="true">How
+                long did the collision take? </query>
+              <query drawing-response="false" note-response="true">What
+                was the maximum force? </query>
+              <query drawing-response="false" note-response="true">What
+                did the acrobat do during the collision?</query>
+            </querys>
+          </query-response>
         </steps>
       </trial>
       <hints>
-        <hint>
-          <title>Connecting the Force probe</title>
-        </hint>
-        <hint>
-          <title>Using the CC Lab Book software for the Force Probe</title>
-        </hint>
-        <hint>
-          <title>Calibrating the Force probe </title>
-        </hint>
-        <hint>
-          <title>Opening saved data in the CC Lab Book software</title>
-        </hint>
+        <tech-hint-ref ref="connect force"/>
+        <tech-hint-ref ref="attach force"/>
+        <tech-hint-ref ref="force zero"/>
+        <tech-hint-ref ref="CC LabBook"/>
       </hints>
       <analysis>
         <steps>
-          <step>What comparisons can you make between the bumper event
-            and           the rubber band event? How long did each
-            collision take? What           was the shape of the graph?
-            What was the maximum force?</step>
-          <step>What is the relationship between the behavior of the
-            acrobat and the shape and size of the force graph?  </step>
-          <step>Why do you think the forces were different in the two cases?</step>
-          <step>If you were riding on the cart, which collision would
-            you           prefer, a collision with a wall or a collision
-            using a bungee           cord? Why?  </step>
-          <step>How could you decrease the maximum force when the cart
-            hits the Force probe? Explain why your idea would work. </step>
+          <query-response layout="paragraph" title="bumper" type="describe">
+            <query-description>Compare the bumper event and the rubber
+              band event. </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">How
+                long did each collision take?</query>
+              <query drawing-response="false" note-response="true">What
+                was the maximum force? </query>
+              <query drawing-response="true" note-response="false">What
+                was the shape of the graph?</query>
+            </querys>
+          </query-response>
+          <query-response layout="paragraph" title="relationship" type="explain">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">What
+                is the relationship between the behavior of the acrobat
+                and the shape and size of the force graph?  </query>
+            </querys>
+          </query-response>
+          <query-response layout="paragraph" title="bungee" type="explain">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">Why
+                do you think the forces were different for the bumper
+                versus the bungee cord?  </query>
+            </querys>
+          </query-response>
+          <query-response layout="paragraph" title="prefer" type="explain">
+            <query-description>Consider riding on the cart. </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">Which
+                collision would you prefer, a collision with a wall or a
+                collision using a bungee cord? </query>
+              <query drawing-response="false" note-response="true">Why?</query>
+            </querys>
+          </query-response>
+          <query-response layout="paragraph" title="hits" type="explain">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">How
+                could you decrease the maximum force when the cart hits
+                the Force probe?</query>
+              <query drawing-response="false"
+                note-response="true">Explain why your idea would work. </query>
+            </querys>
+          </query-response>
         </steps>
       </analysis>
       <further>
@@ -1860,24 +2287,38 @@
       <intro>
         <ext-image name="2cartCollision"/>In this activity you will
         investigate what happens during a collision between two carts.  </intro>
-      <think>Suppose a heavy ball and a light ball bounce off of each
-        other. Does each one experience the same force? Do they each
-        bounce off with the same velocity they started with? If they
-        change, which one changes more, the heavy or the light one?
-        Explain your reasoning in Notes on your handheld computer.
-          <p>In your group, predict and explain what happens when two
-          objects with different masses, like a heavy and a light ball,
-          collide. What happens when a heavy truck and a small car
-          collide? Is the force on each one the same? What is the
-          resulting motion of each object? Write or draw in Notes on
-          your handheld computer your ideas about what might explain
-          your predictions.  </p>
+      <think>
+        <query-response title="balls" type="predict">
+          <query-description>Suppose two identical balls bounce off of
+            each other. </query-description>
+          <querys>
+            <query drawing-response="false" note-response="true">Does
+              each one experience the same force? </query>
+            <query drawing-response="false" note-response="true">Will
+              they each bounce off with the same velocity they started with?</query>
+          </querys>
+          <query-static-link>Explain your reasoning in Notes on your
+            handheld computer. </query-static-link>
+        </query-response>
+        <query-response title="masses" type="predict">
+          <query-description>In your group, predict and explain what
+            happens when two objects with different masses, like a heavy
+            and a light ball or a heavy truck and a small car collide. </query-description>
+          <querys>
+            <query drawing-response="false" note-response="true">Is the
+              force on each one the same?</query>
+            <query drawing-response="false" note-response="true">What is
+              the resulting motion of each object? </query>
+          </querys>
+          <query-static-link>Write or draw in Notes on your handheld
+            computer your ideas about what might explain your predictions.</query-static-link>
+        </query-response>
       </think>
       <materials>
         <item>CC SmartWheel probe</item>
         <item>CC Force probe</item>
         <item>handheld computer</item>
-        <item>CC Lab Book software</item>
+        <item>CC LabBook software</item>
         <item>2 - long rubber bands (so they have a length of about 30cm
           when cut)  </item>
         <item>constructed air carts (see Investigation: Air Cart)</item>
@@ -1893,26 +2334,43 @@
         <steps>
           <step>Cut two rubber bands and tie them together to make a
             bungee cord about 30 cm long.  </step>
-          <step>Attach one end of the bungee to one Force probe, and the
-            other end to the other Force probe. Use the small eye bolt
-            to attach the rubber bands.   <ext-image name="01a_c2"/>
+          <step>Team up so that each group has two Force probes. Attach
+            one end of the bungee to one Force probe, and the other end
+            to the other Force probe. Use the small eyebolt to attach
+            the rubber bands.   <ext-image name="01a_c2"/>
           </step>
-          <step>Connect the Force probe to your handheld computer. Refer
-            to Technical Hints to see how to connect the cables.   </step>
-          <step>Start the software for the Force probe. Refer to
-            Technical Hints to see how to use the software.   </step>
-          <step>Calibrate the force probe to zero. Refer to Technical
-            Hints to see how to calibrate the Force probe.</step>
-          <step>Each team member will pull on one of the Force probes,
-            much like a tug-of-war. When do you think the two force
-            graphs will be the same, and when will they be different?
-            Record your prediction in Notes on the handheld computer.   </step>
+          <step>Connect each Force probe to its own handheld computer.
+            Refer to Technical Hints to see how to connect the cables.    </step>
+          <query-response layout="paragraph" title="tug" type="predict">
+            <query-description>Each team member will pull on one of the
+              Force probes, much like a tug-of-war. </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">When
+                do you think the two force graphs will be the same?</query>
+              <query drawing-response="false" note-response="true">When
+                do you think the two force graphs will be different? </query>
+            </querys>
+            <query-static-link>Record your prediction in Notes on the
+              handheld computer. </query-static-link>
+          </query-response>
+          <step>Start the software for each Force probe. </step>
+          <step>Set the force probe to zero. Refer to Technical Hints to
+            see how to set the Force probe to zero.  </step>
           <step>Start recording. Vary the amount of pulling, who pulls
-            first, and who doesn&apos;t move.</step>
+            first, and who doesn&apos;t move.  </step>
           <step>Save your data to the handheld computer.  </step>
-          <step>Compare the graphs from the two force probes. What can
-            you conclude? Was your prediction correct? Record your
-            thoughts in Notes on your handheld computer.</step>
+          <query-response title="correct">
+            <query-description>Compare the graphs from the two force
+              probes. </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">What
+                can you conclude?</query>
+              <query drawing-response="false" note-response="true">Was
+                your prediction correct? </query>
+            </querys>
+            <query-static-link>Record your thoughts in Notes on your
+              handheld computer.</query-static-link>
+          </query-response>
         </steps>
       </trial>
       <trial title="Forces on colliding carts">
@@ -1928,40 +2386,57 @@
             pencil. Enlarge them from both sides so that a screw will
             just fit through.  <ext-image name="02b_c2"/>
           </step>
-          <step>Put the two screws through the cardboard from the
-            underside, and screw them into the Force probe plate.
+          <step>Put the two screws first through the cardboard from the
+            underside, and then screw them into the Force probe plate.
             Tighten them until the heads squeeze the cardboard a little
             bit. A paper clip will work as a screwdriver.  <ext-image name="02c_c2"/>
           </step>
-          <step>Screw the larger eye bolt and set it aside. Glue the
-            bumper on the smaller eye bolt.  <ext-image name="02d_c2"/>
+          <step>Unscrew the larger eyebolt and set it aside. Glue the
+            bumper on the smaller eyebolt.   <ext-image name="02d_c2"/>
           </step>
-          <step>Weigh both carts by hanging them from the small eye
-            bolt. Calibrate the force probe to zero. Refer to Technical
-            Hints to see how to calibrate the Force probe.  <ext-image name="03a_c2"/>
+          <step>Connect the Force probe to your handheld computer. Refer
+            to Technical Hints to see how to connect the cables.
+              <ext-image name="03a_c2"/>
           </step>
+          <query-response layout="paragraph" title="twocarts" type="predict">
+            <query-description>Predict what the force graphs will look
+              like if you roll the two carts toward each other.</query-description>
+            <querys>
+              <query drawing-response="true" note-response="true">What
+                if they have about the same velocity? </query>
+              <query drawing-response="true" note-response="true">What
+                if you roll one cart toward the other which is not
+                moving? </query>
+            </querys>
+            <query-static-link>Record (or draw) your predictions in
+              Notes on the handheld computer.</query-static-link>
+          </query-response>
+          <step>Start the software. Set the force probe to zero. Refer
+            to Technical Hints to see how to set the Force probe to
+            zero. Weigh each cart by hanging it from the small eyebolt.  </step>
           <step>Make the carts equal in mass by adding some clay to one
             of them if needed. </step>
-          <step>Predict what the force graphs will look like if you roll
-            the two carts toward each other at about the same velocity.
-            What if you roll one cart toward the other which is not
-            moving? Record your predictions in Notes on the handheld
-            computer.  </step>
-          <step>Each team should start the software for the Force probe.
-            Set the force to fast mode (at least 400 times per second).
-            Refer to Technical Hints to see how to use the software. </step>
-          <step>With the carts horizontal, calibrate the Force probe to
-            zero. Refer to Technical Hints to see how to calibrate the
-            Force probe.  <ext-image name="04a_c2"/>
+          <step>With the carts horizontal, set each Force probe to zero.
+            Refer to Technical Hints to see how to set the Force probe
+            to zero.  <ext-image name="04a_c2"/>
           </step>
           <step>Start recording. Push the carts toward each other at
             about the same velocity, and let them bounce back.  </step>
           <step>Try this again several times. When you get a good run,
             save your data to the handheld.   </step>
-          <step>Look at the force graphs for both teams. Were they the
-            same for both carts? How long did the collision take? What
-            was the maximum force? Record your observations in Notes on
-            your handheld computer.  </step>
+          <query-response title="look" type="describe">
+            <query-description>Look at the force graphs for both teams. </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">Were
+                they the same for both carts?</query>
+              <query drawing-response="false" note-response="true">How
+                long did the collision take? </query>
+              <query drawing-response="false" note-response="true">What
+                was the maximum force? </query>
+            </querys>
+            <query-static-link>Record your observations in Notes on your
+              handheld computer. </query-static-link>
+          </query-response>
         </steps>
       </trial>
       <trial title="Velocities of colliding carts">
@@ -1969,66 +2444,100 @@
           <step>Each team should connect the SmartWheel to their
             handheld computer. Refer to Technical Hints to see how to
             connect the SmartWheel.  </step>
-          <step>Predict what the velocity graphs will look like if one
-            cart is stationary and you roll the other cart against it.
-            What will be the velocity for each cart before and after the
-            collision? What will the velocity graph do just at the
-            moment of collision? Record your predictions in Notes on the
-            handheld computer.  </step>
+          <query-response layout="paragraph" title="stationary" type="predict">
+            <query-description>Predict what the velocity graphs will
+              look like if one cart is stationary and you roll the other
+              cart against it.</query-description>
+            <querys>
+              <query drawing-response="true" note-response="false">What
+                will be the velocity for each cart before and after the
+                collision? </query>
+              <query drawing-response="true" note-response="false">What
+                will the velocity graph do just at the moment of collision?</query>
+            </querys>
+            <query-static-link>Draw your predictions in Notes on the
+              handheld computer. </query-static-link>
+          </query-response>
           <step>Start the software to record a velocity versus time
-            graph. Refer to Technical Hints to see how to use the
-            software.  </step>
+            graph. </step>
           <step>Start recording. Push one cart toward the other and let
-            them bounce. Be sure the bumpers are lined up.<ext-image name="04a_c2"/>
+            them bounce. Be sure the bumpers are lined up.<ext-image name="04b_c2"/>
           </step>
           <step>Try this again several times. When you get a good run,
             save your data to the handheld.   </step>
-          <step>Look at the velocity graphs for both teams. Were they
-            what you predicted? How much did each cart &apos;s velocity
-            change? How did the initial velocity of one cart compare
-            with the final velocity of the other? How long did the
-            collision take? Record your thoughts in Notes on your
-            handheld computer.  </step>
+          <query-response title="values" type="describe">
+            <query-description>Look at the velocity graphs for both
+              teams. </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">Were
+                they what you predicted? </query>
+              <query drawing-response="false" note-response="true">How
+                did the initial velocity of one cart compare with the
+                final velocity of the other?</query>
+              <query drawing-response="true" note-response="false">Draw
+                the velocity graph for each cart, and write in the
+                velocity values. </query>
+            </querys>
+            <query-static-link>Record your drawings and thoughts in
+              Notes on your handheld computer. </query-static-link>
+          </query-response>
         </steps>
       </trial>
       <hints>
-        <hint>
-          <title>Connecting the Force probe</title>
-        </hint>
-        <hint>
-          <title>Using the CC Lab Book software for the Force Probe</title>
-        </hint>
-        <hint>
-          <title>Calibrating the Force probe</title>
-        </hint>
-        <hint>
-          <title>Connecting cables from the SmartWheel to the handheld computer</title>
-        </hint>
-        <hint>
-          <title>Using CC Lab Book software for the SmartWheel</title>
-        </hint>
-        <hint>
-          <title>Opening saved data in the CC Lab Book software</title>
-        </hint>
+        <tech-hint-ref ref="connect force"/>
+        <tech-hint-ref ref="force zero"/>
+        <tech-hint-ref ref="connect smartwheel"/>
+        <tech-hint-ref ref="CC LabBook"/>
       </hints>
       <analysis>
         <steps>
-          <step>Trials I and II are examples of Newton &apos;s famous
-            assertion that &quot;for every action, there is an equal and
-            opposite reaction.&quot; Does it seem to be true in both
-            cases? Is the result surprising? </step>
-          <step>If you were pushing on each other with Force probes
-            instead of pulling, would they still read the same?&quot;  </step>
-          <step>If one of the Force probes were attached to a wall and
-            you           were pulling on the other one, would they read
-            the same force?   </step>
-          <step>If a light cart hit a heavy cart at rest, what would you
-            say now about the force on each one and their speeds after
-            the           collision?  </step>
-          <step>Newton&apos;s Second Law asserts that a force is needed
-            to           change the velocity of an object. The greater
-            the force, the           more quickly the velocity changes.
-            Do your trials support this           theory?  </step>
+          <query-response title="suprising">
+            <query-description>Trials I and II are examples of Newton
+              &apos;s famous assertion that &quot;for every action,
+              there is an equal and opposite reaction.&quot; </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">Does
+                it seem to be true in both cases?</query>
+              <query drawing-response="false" note-response="true">Is
+                the result surprising?  </query>
+            </querys>
+          </query-response>
+          <query-response title="pushing">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">If
+                you were pushing on each other with Force probes instead
+                of pulling, would they still read the same?&quot;  </query>
+            </querys>
+          </query-response>
+          <query-response title="wall">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">If
+                one of the Force probes were attached to a wall and you
+                were pulling on the other one, would they read the same
+                force?   </query>
+            </querys>
+          </query-response>
+          <query-response title="lightcart">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">If a
+                light cart hit a heavy cart at rest, what would you say
+                now about the force on each one and their speeds after
+                the collision?</query>
+            </querys>
+          </query-response>
+          <query-response title="change" type="describe">
+            <query-description>Newton&apos;s Second Law asserts that a
+              force is needed to change the velocity of an object. The
+              greater the force, the more quickly the velocity changes. </query-description>
+            <querys>
+              <query drawing-response="false"
+                note-response="true">Describe an experiment to test this
+                theory. </query>
+            </querys>
+          </query-response>
         </steps>
       </analysis>
       <further>
@@ -2333,9 +2842,7 @@
           </step>
           <step>Start the software and observe the temperature versus
             time graph as you test your two choices of water. Refer to
-            Technical Hints to see how to use the software.
-            <datacollector-link type="dc-temperature1"/>
-          </step>
+            Technical Hints to see how to use the software.</step>
           <step>Clear the graph and start again. Refer to Technical
             Hints to see how to use the software.  </step>
           <step>Make the following measurements one after another with
@@ -2374,9 +2881,7 @@
           <step>Start the temperature graph and run through this series
             of measurements so that you get all of your data on one
             graph. Refer to Technical Hints to see how to use the
-            software.
-            <datacollector-link type="dc-temperature2"/>
-          </step>
+            software.  </step>
           <step>Measure the air temperature.</step>
           <step>Use water from a non-room temperature source. It should
             be at least 10 degrees Celsius different from room
@@ -2415,9 +2920,7 @@
           <step>Start the temperature graph and run through this series
             of measurements so that you obtain all of your data on one
             graph. Refer to Technical Hints to see how to use the
-            software.
-            <datacollector-link type="dc-temperature2"/>
-          </step>
+            software.  </step>
           <step>Measure the air temperature.</step>
           <step>Make a small ball of clay, about the size of a large
             shooter marble. Stick the Temperature probe into the center
