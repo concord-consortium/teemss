@@ -12,14 +12,14 @@ public class CalibrationDialog extends Dialog
 	PropertyPane pPane = null;
 	PropertyView pView = null;
 
-	public CalibrationDialog(ExtraMainWindow owner,DialogListener l,String title, CCProb probe,int interfaceManager){
+	public CalibrationDialog(ExtraMainWindow owner,DialogListener l,String title, CCProb probe){
 		super(title);
 		this.owner = owner;
 		addDialogListener(l);
 		owner.setDialog(this);
 		pView = new PropertyView(this);
 		pPane = new PropertyPane(probe, pView);
-		cPane = new CalibrationPane(probe, interfaceManager, this, pView);
+		cPane = new CalibrationPane(probe, this, pView);
 		pView.addPane(pPane);
 		pView.addPane(cPane);
 	}
