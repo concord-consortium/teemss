@@ -18,7 +18,7 @@ class TreeLine{
     TreeNode parent = null;
 }
 
-public class TreeControl extends Control implements TreeModelListener
+public class TreeControl extends Container implements TreeModelListener
 {
 	public final static int DOUBLE_CLICK = 1555;
 
@@ -33,7 +33,10 @@ public class TreeControl extends Control implements TreeModelListener
 
     TreeLine selected = null;
 
-	int	firstLine = 0;
+	public int	firstLine = 0;
+
+	Vector listeners = new Vector();
+	TreeControlEvent tev;
 
     public TreeControl(TreeModel tm)
     {
@@ -45,6 +48,47 @@ public class TreeControl extends Control implements TreeModelListener
 		myFM = getFontMetrics(myFont);
     }
 
+	public int getAllLines(){
+		if(lines == null) return 0;
+		return lines.getCount();
+	}
+	public int maxVisLines(){
+		if(textHeight < 1) return 0;
+		return height / textHeight;
+	}
+	
+	public void addTreeControlListener(TreeControlListener l){
+		if(l == null) return;
+		if(listeners == null) return;
+		int index = listeners.find(l);
+		if(index >= 0) return;
+		listeners.add(l);
+	}
+	public void removeTreeControlListener(TreeControlListener l){
+		if(l == null) return;
+		if(listeners == null) return;
+		int index = listeners.find(l);
+		if(index < 0) return;
+		listeners.del(index);
+	}
+	
+	public void notifyListeners(int typeEvent){
+		if(listeners == null) return;
+		if(tev == null){
+			tev = new TreeControlEvent(this,typeEvent);
+		}else{
+			tev.type = typeEvent;
+		}
+		for(int i = 0; i < listeners.getCount(); i++){
+			TreeControlListener l = (TreeControlListener)listeners.get(i);
+			if(l != null){
+				l.treeControlChanged(tev);
+			}
+		}
+	}
+	
+	
+	
     boolean sRoot = true;
     public void showRoot(boolean sRoot)
     {
@@ -245,6 +289,7 @@ public class TreeControl extends Control implements TreeModelListener
 				child.parent = line.node;
 				lines.insert(index+i+1, child);		
 			}
+			notifyListeners(TreeControlEvent.TC_EXPAND);
 		}
 	
     }
@@ -266,6 +311,7 @@ public class TreeControl extends Control implements TreeModelListener
 				}
 				lines.del(curIndex);
 			}
+			notifyListeners(TreeControlEvent.TC_COLLAPSE);
 		}
 	
     }
@@ -351,5 +397,6 @@ public class TreeControl extends Control implements TreeModelListener
     {
 		reparse();
 		repaint();
+		notifyListeners(TreeControlEvent.TC_CHANGED);
     }
 }

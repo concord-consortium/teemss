@@ -173,9 +173,6 @@ int pageIncValue 	= 0;
 						scrollType = ScrollEvent.SCROLL_PAGE_INC;
 						setValue(value + pageIncValue);
 					}
-					if(maxValue > minValue){
-						setRValue((int)(0.5f+(float)(value - minValue)*(float)(rBody.height - rValue.height)/(float)(maxValue - minValue)));
-					}
 					setRValueRect();
 					doNotify = (oldValue != value);				
 				}
@@ -252,6 +249,9 @@ int pageIncValue 	= 0;
     	this.value = value;
     	if(this.value < minValue) this.value = minValue;
     	if(this.value > maxValue) this.value = maxValue;
+		if(maxValue > minValue && (rBody != null) && (rValue != null)){
+			setRValue((int)(0.5f+(float)(value - minValue)*(float)(rBody.height - rValue.height)/(float)(maxValue - minValue)));
+		}
     }
     
     public int getValue(){return value;}

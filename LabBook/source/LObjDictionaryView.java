@@ -7,7 +7,7 @@ import extra.util.*;
 import extra.ui.*;
 
 public class LObjDictionaryView extends LabObjectView 
-    implements ActionListener, ViewContainer, DialogListener
+    implements ActionListener, ViewContainer, DialogListener, ScrollListener, TreeControlListener
 {
 	public		boolean viewFromExternal = false;
     TreeControl treeControl;
@@ -34,6 +34,10 @@ public class LObjDictionaryView extends LabObjectView
 	String [] fileStrings = {"New..", "Open", "Rename..", "Import..", "Export..", "Delete"};
 	String [] palmFileStrings = {"New..", "Open", "Rename..", "Delete"};
 
+
+	CCScrollBar				scrollBar;
+
+
     public LObjDictionaryView(ViewContainer vc, LObjDictionary d)
     {
 		super(vc);
@@ -58,6 +62,7 @@ public class LObjDictionaryView extends LabObjectView
 
 		treeModel = new TreeModel(dict);
 		treeControl = new TreeControl(treeModel);
+		treeControl.addTreeControlListener(this);
 		treeControl.showRoot(false);
 		me.add(treeControl);
 
@@ -73,6 +78,8 @@ public class LObjDictionaryView extends LabObjectView
 			buttons.add(delButton, 2, 0);
 			me.add(buttons);
 		}
+ 		if(scrollBar == null)	scrollBar = new CCScrollBar(this);
+		me.add(scrollBar);
     }
 
     public void setRect(int x, int y, int width, int height)
@@ -83,10 +90,14 @@ public class LObjDictionaryView extends LabObjectView
 		me.setRect(0,0, width, height);
 		Debug.println("Setting grid size: " + width + " " + height);
 		if(viewFromExternal){
-			treeControl.setRect(1,1,width-2, height-2);
+			treeControl.setRect(1,1,width-9, height-2);
 		}else{
-			treeControl.setRect(1,24,width-2, height-25);
+			treeControl.setRect(1,24,width-9, height-25);
 			buttons.setRect(1,1,width - 2,22);
+		}
+		if(scrollBar != null){
+			waba.fx.Rect rT = treeControl.getRect();
+			scrollBar.setRect(width-7,rT.y,7, rT.height);
 		}
     }
 
@@ -170,6 +181,25 @@ public class LObjDictionaryView extends LabObjectView
 		}
 		dict.lBook.commit();
     }
+
+	public void redesignScrollBar(){
+		if(scrollBar == null) return;
+		if(treeControl == null) return;
+		int allLines = treeControl.getAllLines();
+		int maxVisLine = treeControl.maxVisLines();
+		scrollBar.setMinMaxValues(0,allLines);
+		scrollBar.setAreaValues(allLines,maxVisLine);
+		scrollBar.setIncValue(1);
+		scrollBar.setPageIncValue((int)(0.8f*maxVisLine+0.5f));
+		scrollBar.setRValueRect();
+		if(allLines > maxVisLine){
+			scrollBar.setValue(treeControl.firstLine);
+		}else{
+			treeControl.firstLine = 0;
+			scrollBar.setValue(0);
+		}
+		repaint();
+	}
 
     Dialog rnDialog = null;
 
@@ -436,7 +466,7 @@ public class LObjDictionaryView extends LabObjectView
 		if(lObjView != null){
 			lObjView.close();
 		}
-
+		if(scrollBar != null) scrollBar.close();
 		super.close();
 		// Commit ???
 		// Store ??
@@ -449,5 +479,14 @@ public class LObjDictionaryView extends LabObjectView
 		return null;
 	}
 
+	public void scrollValueChanged(ScrollEvent se){
+		if(se.target != scrollBar) return;
+		int value = se.getScrollValue();
+		treeControl.firstLine = value;
+		repaint();
+	}
+	public void treeControlChanged(TreeControlEvent ev){
+		redesignScrollBar();
+	}
 
 }
