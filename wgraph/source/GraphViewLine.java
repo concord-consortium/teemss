@@ -125,7 +125,7 @@ public class GraphViewLine extends GraphView
 
 
 	if(autoScroll && 
-	   (bin.numValues > 0) && 
+	   (bin.getNumVals() > 0) && 
 	   (bin.maxX > (lGraph.xaxis.dispMin + (float)lGraph.xaxis.dispLen / lGraph.xScale ) ||
 	   lGraph.xaxis.drawnX == -1)){
 	    // scroll

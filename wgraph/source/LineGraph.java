@@ -505,7 +505,7 @@ public class LineGraph extends Graph2D
 	if(curBin == null) return false;
 
 	// This is a hack 
-	if(curBin.maxX < 0 || curBin.numValues < 3){
+	if(curBin.maxX < 0 || curBin.getNumVals() < 3){
 	    curBin.reset();
 	    return false;
 	}
@@ -841,6 +841,10 @@ public class LineGraph extends Graph2D
 	numXaxis = 1;
 	xaxisStartPos = 0;
 
+	for(i=0; i<numBins; i++){
+	    binArray[i] = null;
+	}
+
 	Object [] binObjs = activeBins.toObjectArray();
 	numBins = binObjs.length;
 
@@ -849,28 +853,12 @@ public class LineGraph extends Graph2D
 	    bin = (Bin)binObjs[i];
 	    binArray[i] = bin;
 	    bin.reset();
+	    bin.xaIndex = 0;
 	}
 	
 
 	// remove annotations
 	annots = new Vector();
-    }
-
-    /*
-     * This doesn't make since in the new 
-     * form of stuff 
-     */
-    public boolean addPoint(float x, float newValues[])
-    {
-	int k;
-	int offset;
-	Bin bin;
-
-	for(k=0; k<numBins; k++){
-	    binArray[k].addPoint(x, newValues[k]);
-	}
-
-	return true;
     }
 
     /*

@@ -31,9 +31,7 @@ public class Bin
     public static int START_DATA_SIZE = 10000;
 
     int [] points;
-    float [] values;
     int numPoints;
-    int numValues;
     int lastPlottedPoint;
     int c;
     int collection;
@@ -51,6 +49,7 @@ public class Bin
     public int xaIndex = 0;
     
     public String label;
+    LargeFloatArray lfArray = new LargeFloatArray();
 
     public Bin(int xIndex)
     {
@@ -59,7 +58,6 @@ public class Bin
 	// We store three ints for each point
 	// (x),(avgY),(maxOff << 16 | -minOff)
 	points = new int [START_DATA_SIZE*3];
-	values = new float [START_DATA_SIZE*2];
 
 	// System.out.println("Creating bin with size:" + START_DATA_SIZE);
 
@@ -73,8 +71,8 @@ public class Bin
 
     public float getValue()
     {
-	if(numValues == 0) return 0f;
-	return values[(numValues-1)*2 + 1] + refY;
+	if(lfArray.getCount() == 0) return 0f;
+	return lfArray.getFloat(lfArray.getCount()-1) + lfArray.ref;
     }
 
     public Color getColor()
@@ -84,14 +82,19 @@ public class Bin
 
     public float getCurX()
     {
-	if(numValues == 0) return 0f;
-	return values[(numValues-1)*2];
+	if(lfArray.getCount() == 0) return 0f;
+	return maxX;
+    }
+
+    public int getNumVals()
+    {
+	return lfArray.getCount();
     }
 
     public void recalc(float xscale, float yscale)
     {
 	int i;
-	int lastOffset = numValues*2;
+	int numValues = lfArray.getCount();
 	int newX, newY;
 	int curPtPos = 0;
 	int avgY;
@@ -99,41 +102,37 @@ public class Bin
 	numPoints = 0;
 	numXs = 0;
 	
-	if(numValues < 2){
+	if(lfArray.getCount() < 2){
 	    return;
 	}
 
 	i=0;
-	curX = (int)(values[i++]* xscale);
-	minPtY = maxPtY = sumY = (int)(values[i++]* yscale);
+	curX = 0;
+	minPtY = maxPtY = sumY = (int)(lfArray.getFloat(0)* yscale);
+	i++;
 	numXs = 1;
 
-	// Set the last value to some non valid x
-	// This will cause the inner loop to break out
-	values[numValues*2] = -100000f;
-	
-	newX = (int)(values[i] * xscale);
-	i++;
-	newY = (int)(values[i] * yscale);
+	newX = (int)(dT * i * xscale);
+	newY = (int)(lfArray.getFloat(i) * yscale);
 	i++;		
 
 	while(true){
-	    while(newX == curX){
+	    while(newX == curX && i < numValues){
 		sumY += newY;
 		numXs++;
 		if(newY > maxPtY) maxPtY = newY;
 		else if(newY < minPtY) minPtY = newY;
 
-		newX = (int)(values[i] * xscale);
-		i++;
-		newY = (int)(values[i] * yscale);
+		newX = (int)(dT * (float)i * xscale);
+		newY = (int)(lfArray.getFloat(i) * yscale);
 		i++;		
+
 	    }
 	    points[curPtPos++] = curX;
 	    avgY = sumY / numXs;
 	    points[curPtPos++] = avgY;
 	    points[curPtPos++] = (maxPtY - avgY) << 16 | (avgY - minPtY);
-	    if(i >= lastOffset) break;
+	    if(i >= numValues) break;
 	    curX = newX;
 	    numXs = 0;
 	    sumY = 0;
@@ -141,7 +140,7 @@ public class Bin
 	}
 
 	numPoints = curPtPos / 3;
-	lastCalcValue = i-2;
+	lastCalcValue = i-1;
     }
 
     int lastCalcValue = 0;
@@ -149,7 +148,7 @@ public class Bin
     public boolean update(float xscale, float yscale)
     {
 	int i;
-	int lastOffset = numValues*2;
+	int numValues = lfArray.getCount();
 	int newX, newY;
 	int curPtPos = (numPoints-1)*3;
 	int avgY;
@@ -159,38 +158,33 @@ public class Bin
 	    return true;
 	}
 
-	if(numValues - lastCalcValue/2 < 1){
+	if(numValues - lastCalcValue < 1){
 	    return false;
 	}
 
 	i=lastCalcValue;
 
-	// Set the last value to some non valid x
-	// This will cause the inner loop to break out
-	values[numValues*2] = -100000f;
-	
-	newX = (int)(values[i] * xscale);
-	i++;
-	newY = (int)(values[i] * yscale);
+	newX = (int)(dT*i * xscale);
+	newY = (int)(lfArray.getFloat(i) * yscale);
 	i++;		
 
 	while(true){
-	    while(newX == curX){
+	    while(newX == curX && i < numValues){
 		sumY += newY;
 		numXs++;
 		if(newY > maxPtY) maxPtY = newY;
 		else if(newY < minPtY) minPtY = newY;
 
-		newX = (int)(values[i] * xscale);
-		i++;
-		newY = (int)(values[i] * yscale);
+		newX = (int)(dT*(float)i * xscale);
+		newY = (int)(lfArray.getFloat(i) * yscale);
 		i++;		
+
 	    }
 	    points[curPtPos++] = curX;
 	    avgY = sumY / numXs;
 	    points[curPtPos++] = avgY;
 	    points[curPtPos++] = (maxPtY - avgY) << 16 | (avgY - minPtY);
-	    if(i >= lastOffset) break;
+	    if(i >= numValues) break;
 	    curX = newX;
 	    numXs = 0;
 	    sumY = 0;
@@ -198,136 +192,42 @@ public class Bin
 	}
 
 	numPoints = curPtPos / 3;
-	lastCalcValue = i-2;
+	lastCalcValue = i-1;
 
 	return true;
     }
 
-
-    public boolean addPoint(float x, float value)
-    {
-	int offset = numValues*2;
-
-	// should check the current config
-	if(offset >= (values.length - 2)){
-	    // x is out of bounds
-	    // **Need to have calling funct do this*** 
-	    // endCollection();
-
-	    return false;
-	}
-	
-	if(offset == 0){
-	    refY = value;
-	}
-
-	if(maxX < x) maxX = x;
-	if(minX > x) minX = x;
-	values[offset] = x - refX;
-	offset++;
-	
-	values[offset] = value - refY;
-	if(maxY < value) maxY = value;
-	if(minY > value) minY = value;
-
-	numValues++;
-
-	return true;
-    }
-
-    public boolean addPoints(int num, float [] data)
-    {
-	int offset = numValues*2;
-	int i;
-	float x, value;
-	int endPos = num*2;
-	
-	if(offset == 0){
-	    refY = data[1];
-	}
-
-	for(i=0; i<endPos; i+=2){
-	    offset= numValues*2;
-
-	    // should check the current config
-	    if(offset >= (values.length - 2)){
-		// x is out of bounds
-		// **Need to have calling funct do this*** 
-		// endCollection();
-		
-		return false;
-	    }
-	
-	    x = data[i];
-	    if(maxX < x) maxX = x;
-	    if(minX > x) minX = x;
-	    values[offset] = x - refX;
-	    offset++;
-	
-	    value = data[i+1];
-	    values[offset] = value - refY;
-	    if(maxY < value) maxY = value;
-	    if(minY > value) minY = value;
-
-	    numValues++;
-	}
-
-	return true;
-    }
 
     float dT = 0f;
     int sampSize = 1;
 
     public boolean dataReceived(DataEvent dataEvent)
     {
-	int offset = numValues*2;
-	int i;
-	float x, value;
-	float [] data = dataEvent.data;
-
-	if(offset == 0){
+	if(lfArray.getCount() == 0){
 	    dT = dataEvent.getDataDesc().getDt();
 	    sampSize = dataEvent.getDataDesc().getChPerSample();
-	    refY = data[dataEvent.dataOffset];
+	    refY = dataEvent.data[dataEvent.dataOffset];
+	    lfArray.ref = refY;
+	    minX = 0;
 	}
 
-	int endPos = dataEvent.numbData*sampSize;
 	float curX = dataEvent.time;
-
-	for(i=0; i<endPos; i+=sampSize){
-	    offset= numValues*2;
-
-	    // should check the current config
-	    if(offset >= (values.length - 2)){
-		// x is out of bounds
-		// **Need to have calling funct do this*** 
-		// endCollection();
-		
-		return false;
-	    }
+	maxX = curX + dT*dataEvent.numbSamples;
+	curX = maxX;
 	
-	    x = curX;
-	    curX += dT;
-	    if(maxX < x) maxX = x;
-	    if(minX > x) minX = x;
-	    values[offset] = x - refX;
-	    offset++;
-	
-	    value = data[i];
-	    values[offset] = value - refY;
-	    if(maxY < value) maxY = value;
-	    if(minY > value) minY = value;
+	boolean ret = lfArray.addFloats(dataEvent.data, dataEvent.dataOffset, 
+				 sampSize, dataEvent.numbSamples);
 
-	    numValues++;
-	}
-
-	return true;
-
+	minY = lfArray.min;
+	maxY = lfArray.max;
+	return ret;
     }
 
     void reset()
     {
 	int i;
+
+	lfArray.clear();
 
 	minX = minY = 1;
 	maxY = -1;
@@ -340,7 +240,6 @@ public class Bin
 	}
 
 	numPoints = 0;
-	numValues = 0;
 	lastPlottedPoint = -1;
 	lastCalcValue = 0;
     }
@@ -349,31 +248,12 @@ public class Bin
     {
 	int i;
 
-	for(i = 0; i < numValues; i++){
-	    if(time - values[i*2] < (float)0.01){
-		value[0] = values[i*2+1] + refY;
-		return true;
-	    }
+	if(time > 0f && time < maxX){
+	    value[0] = lfArray.getFloat((int)(time / dT ));
+	    return true;
 	}
 
 	return false;
-    }
-
-    public int getValues(int start, float [] values, int off, int count)
-    {
-	int i;
-	
-	if(off + count > values.length) count = values.length - off;
-
-	if(count + start > numValues) count = numValues - start;
-
-	if(count < 0) return -1;
-
-	for(i = 0; i < count; i++){
-	    values[i+off] = this.values[start*2 + i*2];
-	}
-
-	return count;
     }
 
     public int numDataChunks(){return 1;}
@@ -383,15 +263,17 @@ public class Bin
 	DataEvent dEvent;
 	DataDesc dDesc = new DataDesc(dT, 1);
 
-	float [] data = new float [numValues];
+	float [] data = lfArray.getFloats(0, lfArray.getCount());
+
+	int numValues = lfArray.getCount();
 	for(int i=0; i<numValues; i++){
-	    data[i] = values[i*2 + 1] + refY;
+	    data[i] += refY;
 	}
 
 	dEvent = new DataEvent(DataEvent.DATA_RECEIVED, 
 			       0f, data , dDesc);
 	dEvent.dataOffset = 0;
-	dEvent.numbData = numValues;
+	dEvent.numbSamples = numValues;
 
 	return dEvent;
     }
