@@ -69,6 +69,25 @@ public abstract class Probe extends PropContainer
 		}
 	}
    	
+	public String getSummary()
+	{
+		String summary;
+
+		summary = "";
+		PropObject [] props = getPropArray();
+		int i;
+		for(i=0; i < props.length-1; i++){
+			if(props[i].getId() != 	PROP_PORT){
+				summary += props[i].getLabel() + "- " + props[i].getValue() + "; ";
+			}
+		}
+		if(props[i].getId() != 	PROP_PORT){
+			summary += props[i].getLabel() + "- " + props[i].getValue();
+		}
+
+		return summary;
+	}
+
 	public int getInterfaceMode(){return interfaceMode;}
 
 	public int 	getInterfaceType(){return interfaceType;}
