@@ -94,7 +94,7 @@ Control	valueKeeper = null;
 
 	
 
-	public float creatFValue(){
+	public float createFValue(){
 
 		if(value != null){
 

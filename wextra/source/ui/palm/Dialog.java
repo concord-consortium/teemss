@@ -19,13 +19,28 @@ public class Dialog extends waba.ui.Container{
  public final static  int  EDIT_INP_DIALOG = 5;
  public final static  int  CHOICE_INP_DIALOG = 6;
 
+private waba.ui.Container		contentPane;
+
+
  public Dialog(String title){
   	this.title = title;
   	font = new waba.fx.Font("Helvetica", waba.fx.Font.BOLD, 12);
+  	contentPane = null;
   }
   public Dialog(){
   	this("");
   }
+  
+  public void setRect(int x,int y,int width,int height){
+    super.setRect(x,y,width,height);
+    if(contentPane == null){
+  	contentPane = new waba.ui.Container();
+    	add(contentPane);
+    }
+    contentPane.setRect(0,15,width,height-15);
+  }
+  
+  public waba.ui.Container getContentPane(){return contentPane;}
   
   public void setTitle(String title){
   	this.title = title;
