@@ -117,7 +117,7 @@ public final static int UNIT_CODE_CMH2O			= 51;
 public final static int UNIT_CODE_TORR				= 52;
 public final static int UNIT_CODE_ANG_VEL			= 53;
 public final static int UNIT_CODE_LINEAR_VEL		= 54;
-public final static int UNIT_CODE_AMPER			= 55;
+public final static int UNIT_CODE_AMPERE			= 55;
 public final static int UNIT_CODE_VOLT			= 56;
 public final static int UNIT_CODE_COULOMB		= 57;
 public final static int UNIT_CODE_MILLIVOLT		= 58;
@@ -195,7 +195,7 @@ private  static CCUnit 	[]unitTable =
 		new CCUnit("rad/s","rad/s",true,UNIT_CAT_MISC,UNIT_CODE_ANG_VEL,UNIT_CODE_ANG_VEL,0,0,-1,0,0,0,0,1,0,1f,0.0f,false),
 		new CCUnit("m/s","m/s",true,UNIT_CAT_MISC,UNIT_CODE_LINEAR_VEL,UNIT_CODE_LINEAR_VEL,1,0,-1,0,0,0,0,0,0,1f,0.0f,false),
 
-		new CCUnit("amper","A",false,UNIT_CAT_ELECTRICITY,UNIT_CODE_AMPER,UNIT_CODE_AMPER,0,0,0,1,0,0,0,0,0,1f,0.0f,false),
+		new CCUnit("ampere","A",false,UNIT_CAT_ELECTRICITY,UNIT_CODE_AMPERE,UNIT_CODE_AMPERE,0,0,0,1,0,0,0,0,0,1f,0.0f,false),
 		new CCUnit("volt","V",true,UNIT_CAT_ELECTRICITY,UNIT_CODE_VOLT,UNIT_CODE_VOLT,2,1,-3,-1,0,0,0,0,0,1f,0.0f,false),
 		new CCUnit("coulomb","Q",true,UNIT_CAT_ELECTRICITY,UNIT_CODE_COULOMB,UNIT_CODE_COULOMB,0,0,1,1,0,0,0,0,0,1f,0.0f,false),
 		new CCUnit("millivolt","mV",true,UNIT_CAT_ELECTRICITY,UNIT_CODE_MILLIVOLT,UNIT_CODE_VOLT,2,1,-3,-1,0,0,0,0,0,0.001f,0.0f,false),

@@ -19,7 +19,7 @@ float					zeroPoint						= 1257f;//	mV
 float					zeroPointCurrent				= zeroPoint;//	
 float					zeroPointVoltage				= zeroPoint;//	
 float					currentResolution		= 700f; //       mV(reading)/A
-float					voltageResolution		= 0.650f/20; //     mV(reading)/(true)V
+float					voltageResolution		= 650f/20; //     mV(reading)/(true)V
 
 int					outputMode 			= VOLTAGE_OUT;
     String [] portNames = {"A", "B"};
@@ -85,10 +85,10 @@ public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
 			}
 			switch(outputMode){
 				case CURRENT_OUT:
-					unit = CCUnit.UNIT_CODE_AMPER;
+					unit = CCUnit.UNIT_CODE_AMPERE;
 					break;
 				case VOLTAGE_OUT:
-					unit = CCUnit.UNIT_CODE_MILLIVOLT;
+					unit = CCUnit.UNIT_CODE_VOLT;
 					break;
 				case WATT_OUT:
 					unit = CCUnit.UNIT_CODE_WATT;
