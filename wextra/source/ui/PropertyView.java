@@ -33,6 +33,14 @@ public class PropertyView extends Container
 		listener = al;
 	}
 
+	public final static int ALIGN_CENTER = 0;
+	public final static int ALIGN_TOP = 1;
+	int align = ALIGN_CENTER;
+	public void setAlignment(int a)
+	{
+		align = a;
+	}
+
 	public void setActionListener(ActionListener al){
 		listener = al;
 	}
@@ -41,6 +49,7 @@ public class PropertyView extends Container
 	{
 		PropertyPane pane = 
 			new PropertyPane(pCont, this);
+		pane.setAlignment(align);
 		propPanes.add(pane);
 	}
 

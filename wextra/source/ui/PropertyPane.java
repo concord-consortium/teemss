@@ -10,6 +10,7 @@ public class PropertyPane extends Container
 	protected boolean setup = false;
 	PropertyView pView = null;
 	boolean forceSetup = false;
+	int align = PropertyView.ALIGN_CENTER;
 
 	public PropertyPane(PropertyView pV)
 	{
@@ -20,6 +21,11 @@ public class PropertyPane extends Container
 	{
 		this(pView);
 		propContainer = pCont;
+	}
+
+	public void setAlignment(int a)
+	{
+		align = a;
 	}
 
 	public String getName(){return propContainer.getName();}
@@ -36,9 +42,13 @@ public class PropertyPane extends Container
 
 	public void setVisible(boolean flag)
 	{
+		/*
+		 * I don't think we need this anymore because the propview
+		 * takes care of it.
 		if(flag){
 			setupPane();
 		}
+		*/
 	}
 
 	public boolean saveVisValue(PropObject po)
@@ -163,13 +173,19 @@ public class PropertyPane extends Container
 		for(int i=0; i< nProperties; i++){
 			po = (PropObject)prop.get(i);
 			if(po.getType() == po.MULTIPLE_SEL_LIST){
-				totalPropHeight += 44;
+				String []possibleValues = po.getVisPossibleValues();
+				MultiList mList = new MultiList(possibleValues);
+				totalPropHeight += mList.getPrefHeight();
 			} else {
 				totalPropHeight += 20;
 			}
 		}
-		int y0 = height / 2  - totalPropHeight / 2;
-		if (y0 < 0) y0 = 0;
+
+		int y0 = 3;
+		if(align == PropertyView.ALIGN_CENTER){
+			y0 = height / 2  - totalPropHeight / 2;
+			if (y0 < 0) y0 = 0;
+		}
 		int x0 = 5;
 
 		int maxLabelWidth = 0;
