@@ -61,3 +61,37 @@ MAJOR
 	the current graph data.
 - UI and underlying structures for selecting different interfaces
 - copy graph data in export format into system clipboard
+
+-----------------------------------------------------------------------------
+
+Date: Mon, 28 Oct 2002 07:45:13 -0500
+To: Stephen Bannasch <stephen@concord.org>, Scott Cytacki <scott@concord.org>,
+   Carolyn Staudt <carolyn@concord.org>
+From: Edmund Hazzard <edmund.hazzard@verizon.net>
+Subject: CCProbe needs
+
+Our filming of 5th/6th graders using Palms and probes at Touchstone School went very well. It should be good material to get our message across, when it comes out next spring. We'll see.
+
+From a technical point of view, things worked well. The kids were able to figure out the Palms and CCProbe quite quickly. They were comfortable and eager. A number of improvements/changes/additions suggested themselves, as the activities unfolded. I'm sure many are on the list already.
+
+1. When you save a dataset, it should ask you to name it right at that point. Doing it later is confusing and a pain. For example, suppose I do three runs with the same probe, and save it three times. I would need to record elsewhere what each run was, then open the menu and recall which of the three "dataset" files was which, then rename them. It's easy to make mistakes.
+
+2. The notes don't have functional capitalization.
+
+3.  The notes and drawings should be named in the same way -- at the time they are saved.
+
+4. Notes and drawing must be closely connected to data graphs. You just can't do good data collection and observation if you must go elsewhere to write down these observations. Which cart was I pulling that time? What did I do differently from a previous run? What did that bump mean? and so forth. It would be ideal to write notes on the graph or next to it, so you could see the graph and write about it at the same time. The present graph notes don't work. Where would they appear?
+
+5. The CCProbe drawing program worked very well. They liked it and used it. I was able to beam datasets and drawings. However, the awkwardness of the naming process limited the usefulness of all this data sending.
+
+6. When you save, then replay a data set, the title does not appear. You must recall which data you are looking at. Not helpful. Perhaps the file name should appear on the graph. The same suggestion applies to drawings and notes.
+I noticed that the Palm Memo Pad solves "names" by taking the first line as the displayed name of the file.
+
+7. You stilll can't do multiple data collection runs on the same graph, on the Palm. But it's a  feature that would have helped us several times.
+
+8. The graph scrolling and resizing was a big hit. But whatever can be done make it happen with less hesitation will be quite valuable.
+
+9. We should think about how to simplify (and speed up!) the process of uploading datasets and drawings to a desktop. I beamed everything to a single Palm with its labbook deleted, and then uploaded that. That wasn't bad, once I figured out where Palm puts the files....
+
+I'm sure you'll put these concerns into a more coherent plan and implement them all as soon as that next grant rolls in.
+
