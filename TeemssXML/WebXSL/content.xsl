@@ -74,12 +74,14 @@ width="158" height="140" border="1"/>
 	</xsl:when>	
 </xsl:choose>
 </p>
-
 </xsl:template>
 
+<xsl:template match="shared-image">
+<img src="../../images/Technical_Hints/{@name}/WEB_{@name}.gif"/>
+</xsl:template>
 
 <xsl:template match="ext-image-sequence">
-	<xsl:for-each select="ext-image">
+	<xsl:for-each select="ext-image | shared-image">
 		<xsl:apply-templates select="."/>
 		<xsl:if test="position()!=last()"><img src="images/arrow.gif"/></xsl:if>
 	</xsl:for-each>
@@ -99,7 +101,7 @@ width="158" height="140" border="1"/>
 
 <xsl:template name="level_label">
 <xsl:variable name="depth">
-<xsl:value-of select="count(ancestor::steps | ancestor::instructions)"/>
+<xsl:value-of select="count(ancestor::steps | ancestor::instructions | ancestor::querys)"/>
 </xsl:variable>
 <xsl:choose>
 <xsl:when test="$depth ='0'">
@@ -108,23 +110,53 @@ width="158" height="140" border="1"/>
 <xsl:when test="$depth ='1'">
 a
 </xsl:when>
+<xsl:when test="$depth ='2'">
+i
+</xsl:when>
 </xsl:choose>
 </xsl:template>
 
+
 <xsl:template match="steps">
+<xsl:call-template name="outline-parent"/>
+</xsl:template>
+
+<xsl:template name="outline-parent">
 <xsl:variable name="type_label">
 <xsl:call-template name="level_label"/>
 </xsl:variable>
 <ol TYPE="{$type_label}" START="1">
-<xsl:apply-templates select="step"/>
+<xsl:for-each select="step | query-response | query">
+<li>
+<xsl:apply-templates select="."/>
+</li>
+</xsl:for-each>
 </ol>
 </xsl:template>
 
 <xsl:template match="instruction/title"/>
+
 <xsl:template match="step">
-<li><p>
+<p>
 <xsl:apply-templates/>
-</p></li>
+</p>
+</xsl:template>
+
+<xsl:template match="query-response">
+<p>
+<xsl:apply-templates/>
+</p>
+</xsl:template>
+
+<xsl:template match="querys">
+<xsl:choose>
+<xsl:when test="ancestor::query-response/@layout = 'paragraph'">
+<xsl:apply-templates/>
+</xsl:when>
+<xsl:otherwise>
+<xsl:call-template name="outline-parent"/>
+</xsl:otherwise>
+</xsl:choose>
 </xsl:template>
 
 <xsl:template match="equation">

@@ -53,7 +53,7 @@
 <!ELEMENT step (%TEXT1; | steps)*>
 
 <!ELEMENT hints (hint+)>
-<!ELEMENT hint (title,heading*,body*)>
+<!ELEMENT hint (title,heading?,body?)>
 <!ELEMENT heading (#PCDATA)>
 <!ELEMENT body %TEXT;>
 <!ELEMENT analysis (data*, steps)>
@@ -76,9 +76,19 @@
 <!ELEMENT query-static-link (#PCDATA)>
 
 <!ELEMENT ext-image EMPTY>
-  <!ATTLIST ext-image type (gif|jpg) "gif">
-  <!ATTLIST ext-image  name CDATA  #REQUIRED>
-<!ELEMENT ext-image-sequence (ext-image+)>
+<!ATTLIST ext-image 
+     type     (gif|jpg)      "gif"
+     name     CDATA          #REQUIRED
+>
+<!ELEMENT shared-image EMPTY>
+<!ATTLIST shared-image 
+     name          CDATA             #REQUIRED
+     screenshot    (true | false)    #IMPLIED
+>
+
+<!ELEMENT ext-image-sequence (ext-image | shared-image)+>
+
+
 <!ELEMENT image EMPTY>
   <!ATTLIST image name CDATA #REQUIRED>
   <!ATTLIST image  dir CDATA #REQUIRED>

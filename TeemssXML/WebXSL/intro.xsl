@@ -17,6 +17,7 @@
 <html>
 <head><title>TEEMSS: <xsl:value-of select="../title"/> 
 Introduction</title>
+<xsl:copy-of select="document('test.xml')"/>
 </head>
 <body>
 

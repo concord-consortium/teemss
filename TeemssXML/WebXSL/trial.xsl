@@ -9,7 +9,11 @@
 <xsl:output method="html" indent="yes"/>
 
 <xsl:template match="/">
-<xsl:apply-templates select="project/unit/investigation/trial"/>
+<xsl:apply-templates select="project/unit/investigation"/>
+</xsl:template>
+
+<xsl:template match="/project/unit/investigation">
+<xsl:apply-templates select="trial"/>
 </xsl:template>
 
 <xsl:template match="trial">
@@ -25,6 +29,8 @@
 Trial <xsl:number value="position()" format="I"/></title>
 </head>
 <body>
+number with in the invest:
+<xsl:value-of select="count(ancestor::investigation/preceding-sibling::investigation)"/>
 <h2><xsl:value-of select="../title"/> 
 Trial <xsl:number value="position()" format="I"/></h2>
 <h3><xsl:value-of select="@title"/></h3>
