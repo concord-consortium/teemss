@@ -5,10 +5,8 @@ String imagePath = null;
 		imagePath = path;
 	}
 	public void onPaint(waba.fx.Graphics g){
-     	try{
 		waba.fx.Image wImage = new waba.fx.Image(imagePath);
 		g.drawImage(wImage,0,0);
 		wImage.free();
-	}catch(Exception e){}
 	}
 }

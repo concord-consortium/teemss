@@ -739,6 +739,7 @@ public boolean isControlHDialogOwned(Control c){
 
   }
 
+    /*
 	protected java.awt.Frame foundAWTFrame(){
 
 		waba.applet.Applet applet = waba.applet.Applet.currentApplet;
@@ -750,6 +751,8 @@ public boolean isControlHDialogOwned(Control c){
 		return frame;
 
 	}
+    */
+
   public void setDialog(Dialog d){
   	popupDialog = d;
   }
