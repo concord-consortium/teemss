@@ -309,6 +309,7 @@ public class List extends Control implements PreferredSize
   
 
 	public void doPopup(){
+		if(getParent() == null) return;
 		popup=new Popup(this);
 		popup.popup(x,y,expandedWidth+10,textHeight*numDisplayed+3+initialYOffset);
 	}
