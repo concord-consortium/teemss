@@ -21,7 +21,7 @@ public class LObjProbeDataSource extends LObjSubDict
 	public waba.util.Vector probListeners = null;
 
     // old CCA2D2 interface
-    // 	static int defaultInterfaceType = CCInterfaceManager.INTERFACE_0;
+	// static int defaultInterfaceType = CCInterfaceManager.INTERFACE_0;
 
     // new CCA2D2v2 interface
 	static int defaultInterfaceType = CCInterfaceManager.INTERFACE_2;

@@ -10,6 +10,7 @@ import org.concord.CCProbe.*;
 
 public class CCProbe extends MainView
 {
+
 	LabBookSession mainSession;
     Menu edit;
     Title 		title;
@@ -22,7 +23,6 @@ public class CCProbe extends MainView
 
 	int		[]creationID = {0x00010100};
 	
-
     public void onStart()
     {
 		super.onStart();
@@ -55,6 +55,7 @@ public class CCProbe extends MainView
 			GraphSettings.MAX_COLLECTIONS = 1;
 			*/
 			lbDB = new LabBookCatalog("LabBook");
+			// lbDB = new LabBookFile("LabBook");
 		} else {
 			lbDB = new LabBookFile("LabBook");
 			GraphSettings.MAX_COLLECTIONS = 4;
@@ -92,10 +93,11 @@ public class CCProbe extends MainView
 
 		Debug.println("Openning");
 		labBook.open(lbDB);
+		LabObjectPtr rootPtr = labBook.getRoot();
+		
+		mainSession = rootPtr.getSession();
 
-		mainSession = labBook.getSession();
-
-		loDict = (LObjDictionary)mainSession.getObj(labBook.getRoot());
+		loDict = (LObjDictionary)mainSession.getObj(rootPtr);
 		if(loDict == null){
 			loDict = DefaultFactory.createDictionary();
 			loDict.setName("Home");
