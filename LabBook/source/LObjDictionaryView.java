@@ -251,17 +251,6 @@ public class LObjDictionaryView extends LabObjectView
 											getMainView().getCreateNames());
 	}
 
-	public void delSelected()
-	{
-		TreeNode curNode;
-		TreeNode parent;	   
-
-		curNode = treeControl.getSelected();
-		if(curNode == null || curNode.toString().equals("..empty..")) return;
-		parent = treeControl.getSelectedParent();
-		treeModel.removeNodeFromParent(curNode, parent);
-	}
-
 	public void openSelected(boolean edit)
 	{
 		TreeNode curNode;
@@ -368,6 +357,11 @@ public class LObjDictionaryView extends LabObjectView
 			session.checkPoint();
 			treeControl.reparse();
 			treeControl.repaint();			
+		} else if(e.getSource() == confirmDialog){
+			if(command.equals("Yes")){
+				functionOnSelected(dialogFName, yieldID);
+			}
+			confirmDialog = null;
 		}
     }
 
@@ -564,11 +558,21 @@ public class LObjDictionaryView extends LabObjectView
 				lbFile.close();
 			}
 		} else if(fName.equals("Delete")){
-			delSelected();
+			if(curNode == null || curNode.toString().equals("..empty..")) return;
+			if(yieldID == 0){
+				showConfirmDialog("Are you sure you want to delete:|" + 
+								  curNode.toString());
+				this.dialogFName = fName;
+				this.yieldID = 1;
+				return;
+			} else {			
+				treeModel.removeNodeFromParent(curNode, parent);
+			}
 		}
 	}
 
 	Dialog waitDialog = null;
+	Dialog confirmDialog = null;
 	public void showWaitDialog(String message)
 	{
 		waitDialog = Dialog.showMessageDialog(null, "Please Wait..",
@@ -579,6 +583,13 @@ public class LObjDictionaryView extends LabObjectView
 	{
 		if(waitDialog != null) waitDialog.hide();
 		waitDialog = null;
+	}
+
+	public void showConfirmDialog(String message)
+	{
+		String [] buttons = {"Yes", "No"};
+		confirmDialog = Dialog.showConfirmDialog(this, "Confirmation", message,
+												 buttons, Dialog.QUEST_DIALOG);
 	}
 
 	public void checkForBeam()
