@@ -27,4 +27,6 @@ release-sub:
 $(REMOTE_ROOT)/$(VER_MODULE) \
 $(ALL_MODULE_NAME)/$(MODULE)/bin/*
 
+clean:
+
 include ../ReleaseSystem/Makefile.inc

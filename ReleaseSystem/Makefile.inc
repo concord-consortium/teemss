@@ -30,6 +30,10 @@ release: tag $(DEP_NAMES) ReleaseSystem
 	# all these files using our tag and try to build it and publish it
 	cd ../ReleaseSystem/ && $(MAKE) release-sub TAG=$(shell cat tag) MODULE=$(MODULE)
 
+build-clean:
+	$(call MAKE_DEP, clean)
+	$(MAKE) clean
+
 build-local:
 	$(call MAKE_DEP, )
 	$(MAKE) 
