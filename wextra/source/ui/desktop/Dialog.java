@@ -5,7 +5,7 @@ package org.concord.waba.extra.ui;
 public class Dialog extends waba.ui.Window{
   extra.ui.Popup popup=null;
   boolean wasDown = false;
-  String title;
+String title;
  waba.fx.Font font;
 protected int widthBorder = 3;
 protected int heightBorder = 3;
@@ -18,6 +18,9 @@ protected int heightBorder = 3;
  public final static  int  QUEST_DIALOG = 4;
  public final static  int  EDIT_INP_DIALOG = 5;
  public final static  int  CHOICE_INP_DIALOG = 6;
+
+private waba.ui.Container		contentPane;
+
 
  public Dialog(String title){
  	super();
@@ -35,6 +38,20 @@ protected int heightBorder = 3;
   public Dialog(){
   	this("");
   }
+  
+  public void setRect(int x,int y,int width,int height){
+    super.setRect(x,y,width,height);
+    if(contentPane == null){
+  	contentPane = new waba.ui.Container();
+    }else{
+    	remove(contentPane);
+    }
+    contentPane.setRect(0,0,width,height);
+    add(contentPane);
+  }
+  
+  public waba.ui.Container getContentPane(){return contentPane;}
+  
   public void setTitle(String title){
   	this.title = title;
 	java.awt.Window awtWindow = (java.awt.Window)getAWTCanvas().getParent();

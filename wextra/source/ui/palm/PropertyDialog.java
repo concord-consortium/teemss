@@ -16,6 +16,8 @@ Container []propertiesPanes =null;
 Container   currentPane =null;
 int 	bHeight = 20;
 ExtraMainWindow owner = null;
+
+
 	public PropertyDialog(ExtraMainWindow owner,DialogListener l,String title, PropContainer propContainer){
 		super(title);
 		this.propContainer = propContainer;
@@ -24,21 +26,24 @@ ExtraMainWindow owner = null;
 		currContainer = 0;
 		addDialogListener(l);
 		owner.setDialog(this);
+
 	}
+
 	public void setButtons(){
+		waba.fx.Rect contentRect = getContentPane().getRect();
 		waba.fx.FontMetrics fm = getFontMetrics(getFont());
 		int bWidthClose	= fm.getTextWidth("Close") + 5;
 		int bWidthCancel 	= fm.getTextWidth("Cancel") + 5;
 		int bWidthApply 	= fm.getTextWidth("Apply") + 5;
 		bClose = new waba.ui.Button("Close");
-		bClose.setRect(width/2 + 5 + bWidthApply/2,height - 5 - bHeight,bWidthClose,bHeight);
-		add(bClose);
+		bClose.setRect(contentRect.width/2 + 5 + bWidthApply/2,contentRect.height - 5 - bHeight,bWidthClose,bHeight);
+		getContentPane().add(bClose);
 		bCancel = new waba.ui.Button("Cancel");
-		bCancel.setRect(width/2 - 5 - bWidthApply/2 - bWidthCancel,height - 5 - bHeight,bWidthCancel,bHeight);
-		add(bCancel);
+		bCancel.setRect(contentRect.width/2 - 5 - bWidthApply/2 - bWidthCancel,contentRect.height - 5 - bHeight,bWidthCancel,bHeight);
+		getContentPane().add(bCancel);
 		bApply = new waba.ui.Button("Apply");
-		bApply.setRect(width/2 - bWidthApply/2 ,height - 5 - bHeight,bWidthApply,bHeight);
-		add(bApply);
+		bApply.setRect(contentRect.width/2 - bWidthApply/2 ,contentRect.height - 5 - bHeight,bWidthApply,bHeight);
+		getContentPane().add(bApply);
 	}
 	public void setTabBar(){
 		TabBar tabBar = new TabBar();
@@ -46,8 +51,8 @@ ExtraMainWindow owner = null;
 			MyTab tab = new MyTab(propContainer.getPropertiesContainerName(i));
 			tabBar.add(tab);
 		}
-		tabBar.setRect(widthBorder+2, 15, width - 2*widthBorder - 4, 20);
-		add(tabBar);
+		tabBar.setRect(widthBorder+2, 0, width - 2*widthBorder - 4, 20);
+		getContentPane().add(tabBar);
 	}
 	public void setContent(){
 		setButtons();
@@ -55,20 +60,21 @@ ExtraMainWindow owner = null;
 		setPropertiesPane();
 	}
  	public void setPropertiesPane(){
- 		if(propertiesPanes == null){
+ 		waba.fx.Rect contentRect = getContentPane().getRect();
+		if(propertiesPanes == null){
  			propertiesPanes = new Container[nContainers];
  		}
  		if(currentPane != null){
-			remove(currentPane);
+			getContentPane().remove(currentPane);
  		}
 		waba.util.Vector prop = propContainer.getProperties(currContainer);
 		if(prop == null) return;
 		int nProperties = prop.getCount();
  		if(propertiesPanes[currContainer] == null){
 			propertiesPanes[currContainer] = new Container();
-			int pHeight = height - (40 + bHeight);
-			int pWidth = width - 2*widthBorder;
-			propertiesPanes[currContainer].setRect(widthBorder,35, pWidth ,pHeight);
+			int pHeight = contentRect.height - (25 + bHeight);
+			int pWidth = contentRect.width - 2*widthBorder;
+			propertiesPanes[currContainer].setRect(widthBorder,20, pWidth ,pHeight);
 			int y0 = pHeight / 2  - (nProperties * 20) / 2;
 			if (y0 < 0) y0 = 0;
 			int x0 = 5;
@@ -105,18 +111,10 @@ ExtraMainWindow owner = null;
 				propertiesPanes[currContainer].add(c);
 			}
 		}
-		add(propertiesPanes[currContainer]);
+		getContentPane().add(propertiesPanes[currContainer]);
 		currentPane = propertiesPanes[currContainer];
  	}
-/*
- 	public void onPaint(waba.fx.Graphics g){
- 		super.onPaint(g);
- 		if(propertiesPane == null) return;
- 		Rect r = propertiesPane.getRect();
-		g.drawRect(r.x,r.y,r.width,r.height);
 
- 	}
-*/
 	public void updateProperties(boolean clearKeepers){
     		int nContainers = propContainer.getNumbPropContainers();
 		for(int i = 0; i < nContainers; i++){
