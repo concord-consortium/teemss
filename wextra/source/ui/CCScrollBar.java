@@ -36,6 +36,7 @@ int	pressState = 0;
 int incValue 		= 0;
 int pageIncValue 	= 0;
 boolean	forceNotify = false;
+boolean isWinCE = false;
 	public CCScrollBar(ScrollListener listener){
 		this.listener = listener;
 		rBody 		= new Rect(0,0,0,0);
@@ -43,6 +44,8 @@ boolean	forceNotify = false;
 		rIncrement 	= new Rect(0,0,0,0);
 		rValue 		= new Rect(0,0,0,0);
 		value = this.minValue;
+		isWinCE = (waba.sys.Vm.getPlatform().equals("WinCE"));
+
 	}
 	public void setMinMaxValues(int minValue,int maxValue){
 		this.minValue = minValue;
@@ -71,9 +74,11 @@ boolean	forceNotify = false;
 		if(this.allAreaValue < this.visAreaValue) this.allAreaValue = this.visAreaValue;
 		if(rValue == null) return;
     	if(this.allAreaValue > this.visAreaValue){
+			int wsb = (isWinCE)?11:7;
+			int dh = 1 + ((wsb+1) / 2);
     		float fh = 1.0f - (float)(this.allAreaValue - this.visAreaValue)/(float)(this.allAreaValue + this.visAreaValue);
     		int h = (int)((float)rBody.height*fh + 0.5f);
-    		if(h < 5) h = 5;
+    		if(h < dh) h = dh;
     		if(cValue + h > rBody.height) cValue = rBody.height - h;
     		if(cValue < 0) cValue = 0;
     		CCUtil.setRect(rValue,rBody.x,rBody.y + cValue,rBody.width,h);
@@ -235,17 +240,21 @@ boolean	forceNotify = false;
     }
     
     public void setRect(int x, int y, int width, int height){
-    	super.setRect(x,y,7,height);
-    	CCUtil.setRect(rBody,2,6,3,height - 12);
-    	CCUtil.setRect(rDecrement,0,0,7,6);
-    	CCUtil.setRect(rIncrement,0,height-6,7,6);
+		int wsb = (isWinCE)?11:7;
+		int dh = 2 + ((wsb+1) / 2);
+    	super.setRect(x,y,wsb,height);
+    	CCUtil.setRect(rBody,2,dh,wsb - 4,height - 2*dh);
+    	CCUtil.setRect(rDecrement,0,0,wsb,dh);
+    	CCUtil.setRect(rIncrement,0,height-dh,wsb,dh);
     	setRValueRect();
     }
     public void setRValueRect(){
     	if(rValue == null) return;
     	if(allAreaValue > visAreaValue){
+			int wsb = (isWinCE)?11:7;
+			int dh = 1 + ((wsb+1) / 2);
     		int h = (int)((float)rBody.height*(float)visAreaValue/(float)allAreaValue + 0.5f);
-    		if(h < 5) h = 5;
+    		if(h < dh) h = dh;
     		CCUtil.setRect(rValue,rBody.x,rBody.y + cValue,rBody.width,h);
     	}else{
     		CCUtil.setRect(rValue,rBody.x,rBody.y,rBody.width,rBody.height);
@@ -275,9 +284,11 @@ boolean	forceNotify = false;
     	if(g == null) return;
     	Rect rForDraw = (up)?rDecrement:rIncrement;
     	if(rForDraw == null) return;
+		int wsb = (isWinCE)?11:7;
+		int dh = (wsb+1) / 2;
     	int yStart = rForDraw.y + 1;
-    	int xStart = (up)?rForDraw.x+3:rForDraw.x;
-    	int l = (up)?0:6;
+    	int xStart = (up)?rForDraw.x+((wsb-1) / 2):rForDraw.x;
+    	int l = (up)?0:wsb - 1;
     	int delta = (up)?1:-1;
     	g.setColor(0,0,0);
     	boolean press = (up)?(pressState == -1):(pressState == 1);
@@ -285,7 +296,7 @@ boolean	forceNotify = false;
     		CCUtil.fillRect(g,rForDraw);
     		g.setColor(255,255,255);
     	}
-    	for(int i = 0; i < 4; i++){
+    	for(int i = 0; i < dh; i++){
     		g.drawLine(xStart,yStart,xStart+l,yStart);
     		yStart++;
     		xStart -= delta;

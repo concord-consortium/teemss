@@ -152,6 +152,7 @@ CCScrollBar				scrollBar;
 
 	public void setRect(int x, int y, int width, int height){
 		super.setRect(x,y,width,height);
+		int wsb = (waba.sys.Vm.getPlatform().equals("WinCE"))?7:11;
 				
 		if(!didLayout) layout(showDone);
 
@@ -160,14 +161,14 @@ CCScrollBar				scrollBar;
 		}
 		
 		if(getEmbeddedState()){
-			edit.setRect(0,0,width-8,height);
+			edit.setRect(0,0,width-wsb-1,height);
 			if(scrollBar != null){
-				scrollBar.setRect(width - 7,0,7, height);
+				scrollBar.setRect(width - wsb,0,wsb, height);
 			}
 		}else{
-			edit.setRect(0,17,width-8,height-19);
+			edit.setRect(0,17,width-wsb-1,height-19);
 			if(scrollBar != null){
-				scrollBar.setRect(width - 7,17,7, height-19);
+				scrollBar.setRect(width - wsb,17,wsb, height-19);
 			}
 			if(nameLabel != null) nameLabel.setRect(1,1,30,15);
 			int editW = (showDone)?width - 62:width - 32;

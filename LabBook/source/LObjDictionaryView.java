@@ -106,15 +106,16 @@ public class LObjDictionaryView extends LabObjectView
     {
 		super.setRect(x,y,width,height);
 		if(!didLayout) layout(false);
+		int wsb = (waba.sys.Vm.getPlatform().equals("WinCE"))?7:11;
 	
 		me.setRect(0,0, width, height);
 		Debug.println("Setting grid size: " + width + " " + height);
 		if(viewFromExternal){
-			treeControl.setRect(1,1,width-9, height-2);
+			treeControl.setRect(1,1,width-wsb-2, height-2);
 		}else{
 			int buttWidth = 35;
 			int choiceWidth = 40;
-			treeControl.setRect(1,19,width-9, height-20);
+			treeControl.setRect(1,19,width-wsb-2, height-20);
 			folderChoice.setRect(1,1,choiceWidth,17);
 			int buttonsWidth = width - 2 - choiceWidth - 1;
 			buttons.setRect(choiceWidth+1,1,buttonsWidth,17);
@@ -130,7 +131,7 @@ public class LObjDictionaryView extends LabObjectView
 		}
 		if(scrollBar != null){
 			waba.fx.Rect rT = treeControl.getRect();
-			scrollBar.setRect(width-7,rT.y,7, rT.height);
+			scrollBar.setRect(width-wsb,rT.y,wsb, rT.height);
 		}
 		redesignScrollBar();
     }

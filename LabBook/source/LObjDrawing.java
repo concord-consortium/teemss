@@ -45,7 +45,7 @@ public LObjDrawingView view = null;
 	
     }
 }
-class LObjDrawingView extends LabObjectView implements ScrollListener
+class LObjDrawingView extends LabObjectView
 {
 	Edit 					nameEdit;
 	Label					nameLabel;
@@ -55,7 +55,6 @@ class LObjDrawingView extends LabObjectView implements ScrollListener
     Button doneButton = null;
 	boolean	scribbleWasAdded = false;
 	
-	CCScrollBar				scrollBar;
 	
     public LObjDrawingView(ViewContainer vc, LObjDrawing d)
     {
@@ -136,16 +135,6 @@ class LObjDrawingView extends LabObjectView implements ScrollListener
 	    	doneButton = new Button("Done");
 	    	add(doneButton);
 		} 
-		if(scrollBar == null) scrollBar = new CCScrollBar(this);
-		if(scrollBar != null){
-			scrollBar.setMinMaxValues(20,100);
-			scrollBar.setAreaValues(200,100);
-			scrollBar.setIncValue(5);
-			scrollBar.setPageIncValue(40);
-			scrollBar.setValue(20);
-		}
-		
-		add(scrollBar);
     }
 
 
@@ -174,11 +163,7 @@ class LObjDrawingView extends LabObjectView implements ScrollListener
 		}
 		
 		if(scribble != null){ 
-//			scribble.setRect(2,curY,width-4, dHeight);
-			scribble.setRect(2,curY,width-11, dHeight);
-		}
-		if(scrollBar != null){
-			scrollBar.setRect(width-7,curY + 19,7, dHeight - 20);
+			scribble.setRect(2,curY,width-4, dHeight);
 		}
     }
 
@@ -187,7 +172,6 @@ class LObjDrawingView extends LabObjectView implements ScrollListener
     	scribble.close();
 		super.close();
 		
-		if(scrollBar != null) scrollBar.close();
 		
     	if(nameEdit != null){
     		getLabObject().name = nameEdit.getText();
@@ -227,8 +211,5 @@ class LObjDrawingView extends LabObjectView implements ScrollListener
 		return preferrDimension;
 	}
 	
-	public void scrollValueChanged(ScrollEvent se){
-		if(se.target != scrollBar) return;
-	}
 }
 

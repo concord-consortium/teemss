@@ -264,10 +264,11 @@ CCScrollBar				scrollBar;
 
 		if(tArea != null){
 			waba.fx.Rect rEdit = edit.getRect();
-			int delta = (scrollBar != null)?7:0;
+			int wsb = (waba.sys.Vm.getPlatform().equals("WinCE"))?7:11;
+			int delta = (scrollBar != null)?wsb:0;
 			tArea.setRect(1,1,rEdit.width - 2 - delta, rEdit.height - 2);
 			if(scrollBar != null){
-				scrollBar.setRect(rEdit.width - 8,1,7, rEdit.height - 2);
+				scrollBar.setRect(rEdit.width - wsb - 1,1,wsb, rEdit.height - 2);
 			}
 		}
 		insertButton.setRect(1,17,30,15);
