@@ -546,7 +546,7 @@ protected ProbManager	pb = null;
 				// Return a reasonable resolution
 				syncChannels = true;
 			}else if(mode == DIG_COUNT_MODE){
-	   			curStepTime += timeStepSize;
+//	   			curStepTime += timeStepSize;
 	   			valueData[curDataPos++] = value;
 			}
 			if(syncChannels){
@@ -566,7 +566,7 @@ protected ProbManager	pb = null;
 		if(curDataPos > 0){
 		    int numSamp = curDataPos/dDesc.chPerSample;
 		    dEvent.setNumbSamples(numSamp);
-		    curStepTime += timeStepSize*numSamp;
+		   curStepTime += timeStepSize*numSamp;
 		    
 		    dEvent.setData(valueData);
 
