@@ -30,9 +30,11 @@ public class LObjDictionary extends LabObject
 	   	 	if(mo != null){
 				return mo.getPropertyView(vc, curDict);
 	    	} else return null;
+		} else {
+			return new LObjDictionaryProp(vc, this);
 		}
-		return null;
     }
+
     public LabObjectView getView(ViewContainer vc, boolean edit, LObjDictionary curDict)
     {
 		if(hasMainObject){
