@@ -189,7 +189,8 @@ public class LabBookCatalog
 
 	public int findObject(int devId, int objId)
 	{
-		for(int j=0; j < objIndexVec.getCount(); j++){
+		int objIndexVecCount = objIndexVec.getCount();
+		for(int j=0; j < objIndexVecCount - 1; j++){
 			int [] objIndex = (int [])objIndexVec.get(j);
 			for(int i=0; i < objIndex.length; i+=3){
 				if(objIndex[i] == devId &&
@@ -197,6 +198,16 @@ public class LabBookCatalog
 					return objIndex[i+2];
 				} 
 			}
+		}
+		if(objIndexVecCount - 1 >= 0){
+			int [] objIndex = (int [])objIndexVec.get(objIndexVecCount - 1);
+			int endPoint = (objIndexLen % objIndexChunkSize) * 3;
+			for(int i=0; i < endPoint; i+=3){
+				if(objIndex[i] == devId &&
+				   objIndex[i+1] == objId){
+					return objIndex[i+2];
+				} 
+			}			
 		}
 		return -1;
 	}
@@ -207,6 +218,7 @@ public class LabBookCatalog
 	int addObject(int devId, int objId, int newRecCount)
 	{
 		if(objIndexVec.getCount() == 0){
+			//			System.out.println("LBC: adding first object");
 			// this is the first object added
 			// initialize the index record
 			cat.addRecord(20);
