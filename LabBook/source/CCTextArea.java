@@ -633,6 +633,7 @@ private CCStringWrapper textWasChoosen = null;
 			Sound.beep();
 			return;
 		}
+		Vector oldVectorLines = lines;
 		removeCursor();
 		if(iStr == null) return;
 		int nStr = iStr.length();
@@ -673,6 +674,7 @@ private CCStringWrapper textWasChoosen = null;
 		if(newRows > oldRows){
 			curState.cursorRow += (newRows - oldRows);
 		}
+		restoreTextProperty(oldVectorLines,lineIndex,(newRows - oldRows));
 /*
 		int newLines = (lines == null)?0:lines.getCount();
 		int addLines = newLines - oldLines;
@@ -698,13 +700,15 @@ private CCStringWrapper textWasChoosen = null;
 		if(lines == null){
 			setText("");
 		}else{
+			Vector oldLines = lines;
 			int lineIndex = getLineIndex(curState.cursorRow + firstLine);
 			String str = "";
 			for(int i = 0; i < lines.getCount(); i++){
 				if(i == lineIndex) str += " \n";
 				str += (((CCStringWrapper)lines.get(i)).getStr() + "\n");
 			}
-			setText(str);
+			setText(str);//temporary
+			restoreTextProperty(oldLines,lineIndex,1);
 		}
 		layoutComponents();
 		notifyListeners(0);
@@ -797,6 +801,22 @@ private CCStringWrapper textWasChoosen = null;
 		repaint();
 	}
 
+	public void restoreTextProperty(Vector oldLines,int insertAtIndex,int addLines){
+		if(lines == null) return;
+		if(oldLines == null) return;
+		if(oldLines.getCount() >= lines.getCount()) return;
+		for(int i = 0; i < lines.getCount(); i++){
+			if(i >= insertAtIndex && i < insertAtIndex + addLines) continue;
+			int oldIndex = (i < insertAtIndex)?i:i-addLines;
+			CCStringWrapper oldWrapper = (CCStringWrapper)oldLines.get(oldIndex);
+			CCStringWrapper newWrapper = (CCStringWrapper)lines.get(i);
+			newWrapper.rColor = oldWrapper.rColor;
+			newWrapper.gColor = oldWrapper.gColor;
+			newWrapper.bColor = oldWrapper.bColor;
+			newWrapper.link = oldWrapper.link;
+			newWrapper.indexInDict = oldWrapper.indexInDict;
+		}
+	}
 
 	public void restoreTextProperty(Vector oldLines){
 		if(lines == null) return;
