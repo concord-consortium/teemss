@@ -161,11 +161,9 @@ String [] fileStrings = {"Load Note..."};
 			tArea.dict 		= doc.curDict;
 			tArea.subDictionary = doc;
 		}
-		edit.add(tArea);
 //		edit.add(tArea, 1, RelativeContainer.BELOW, 
 //		RelativeContainer.REST, RelativeContainer.REST);
 		insertButton = new Button("Insert");
-		add(edit);
 		add(insertButton);
 		upButton = new Button("Up");
 		downButton = new Button("Down");
@@ -178,6 +176,8 @@ String [] fileStrings = {"Load Note..."};
 			doneButton = new Button("Done");
 			add(doneButton);
 		} 
+		add(edit);
+		edit.add(tArea);
 	}
 
 	public int getHeight(){
