@@ -72,6 +72,7 @@ ExtraMainWindow owner = null;
 		setPropertiesPane();
 	}
  	public void setPropertiesPane(){
+		waba.fx.FontMetrics fm = getFontMetrics(MainWindow.defaultFont);
  		waba.fx.Rect contentRect = getContentPane().getRect();
 		if(propertiesPanes == null){
  			propertiesPanes = new Container[nContainers];
@@ -91,8 +92,37 @@ ExtraMainWindow owner = null;
 			int y0 = pHeight / 2  - (nProperties * 20) / 2;
 			if (y0 < 0) y0 = 0;
 			int x0 = 5;
+
+			PropObject po;
+			int maxLabelWidth = 0;
+			int curLabelWidth = 0;
+			int maxPrefValWidth = 0;
+
+			for(int i=0; i< nProperties; i++){
+				po = (PropObject)prop.get(i);
+				curLabelWidth = fm.getTextWidth(po.getName());
+				if(curLabelWidth > maxLabelWidth) maxLabelWidth = curLabelWidth;
+				if(po.prefWidth > maxPrefValWidth) maxPrefValWidth = po.prefWidth;
+			}
+
+			int labelStartX;
+			int spaceSize = 2;
+			if((maxLabelWidth + 2 + maxPrefValWidth) > pWidth - 2){
+				int diff = (maxLabelWidth + 2 + maxPrefValWidth) - pWidth + 2;
+				maxLabelWidth -= diff/2;
+				maxPrefValWidth -= diff/2;
+				labelStartX = 1;
+				spaceSize = 2;
+			} else {
+				int diff = pWidth - (maxLabelWidth + 2 + maxPrefValWidth) - 2;
+				if(diff > 10) spaceSize = 10;
+				else spaceSize = diff;
+				labelStartX = (pWidth - (maxLabelWidth + spaceSize + maxPrefValWidth))/2; 
+			}
+							
 			for(int i = 0; i < nProperties; i++){
-				PropObject po = (PropObject)prop.get(i);
+				po = (PropObject)prop.get(i);
+
 				String name = po.getName();
 				String value = po.getValue();
 				waba.ui.Label lName = new waba.ui.Label(name);
@@ -117,8 +147,12 @@ ExtraMainWindow owner = null;
 					c = ch;
 				}
 				po.setValueKeeper(c);
-				lName.setRect(width/2 - 65,y0,60,16);
-				c.setRect(width/2 + 5,y0,60,16);
+				lName.setRect(labelStartX,y0,maxLabelWidth,16);
+				if(po.prefWidth < maxPrefValWidth){
+					c.setRect(labelStartX+maxLabelWidth+spaceSize,y0,po.prefWidth,16);
+				} else {
+					c.setRect(labelStartX+maxLabelWidth+spaceSize,y0,maxPrefValWidth,16);
+				}
 				y0 += 20;
 				propertiesPanes[currContainer].add(lName);
 				propertiesPanes[currContainer].add(c);
