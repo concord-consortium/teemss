@@ -525,7 +525,7 @@ public void onEvent(Event event)
 		case ControlEvent.FOCUS_IN:
 
 			{
-
+			System.out.println("EDITOR ControlEvent.FOCUS_IN");
 			drawg = createGraphics();
 
 			hasFocus = true;
