@@ -44,7 +44,7 @@
 <!ELEMENT think    (%TEXT3;)*>
 <!ELEMENT safety (item+)>
 <!ELEMENT materials (ext-image?,item+)>
-<!ELEMENT trial (instructions | steps)*>
+<!ELEMENT trial (%TEXT1; | instructions | steps)*>
   <!ATTLIST trial title   CDATA #REQUIRED>
 <!ELEMENT instructions (instruction+)>
 <!ELEMENT instruction (%TEXT1; | steps)*>
