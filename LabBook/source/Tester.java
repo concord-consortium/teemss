@@ -22,6 +22,7 @@ public class Tester extends ExtraMainWindow
     public void onStart()
     {
 	Dialog.showImages = false;
+	ImagePane.showImages = false;
 
 	if(waba.sys.Vm.getPlatform().equals("PalmOS")){
 	    graph.Bin.START_DATA_SIZE = 1000;
@@ -114,8 +115,11 @@ public class Tester extends ExtraMainWindow
     public void onExit(int code)
     {
 	Debug.println("closing");
-	if(labBook != null)
+	if(labBook != null){
+	    labBook.store(loDict);
+	    labBook.commit();
 	    labBook.close();
+	}
     }
 
 }

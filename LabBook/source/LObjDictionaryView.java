@@ -30,7 +30,7 @@ public class LObjDictionaryView extends LabObjectView
 
     PropContainer creationProps = new PropContainer();
     PropContainer subCreateProps = creationProps.createSubContainer("Sub");
-    String [] creationTypes = {"Dictionary", "Document", "Questions", "Data Collector", "Drawing"};
+    String [] creationTypes = {"Folder", "Notes", "Questions", "Data Collector", "Drawing"};
     PropObject newObjType = new PropObject("Type", creationTypes);
 
     boolean editStatus = false;
@@ -107,14 +107,16 @@ public class LObjDictionaryView extends LabObjectView
 
 	    } else if(e.target == delButton){
 		curNode = treeControl.getSelected();
-		if(curNode == null) return;
+		if(curNode == null || curNode.toString().equals("..empty..")) return;
 		parent = treeControl.getSelectedParent();
 		treeModel.removeNodeFromParent(curNode, parent);
 	    } else if(e.target == openButton){
 		curNode = treeControl.getSelected();
+		if(curNode == null || curNode.toString().equals("..empty..")) return;
 		showPage(curNode, false);
 	    } else if(e.target == editButton){
 		curNode = treeControl.getSelected();
+		if(curNode == null || curNode.toString().equals("..empty..")) return;
 		showPage(curNode, true);
 	    } else if(e.target == doneButton){
 		if(container != null){
@@ -133,9 +135,9 @@ public class LObjDictionaryView extends LabObjectView
 	    if(command.equals("Create")){
 		String objType = (String)e.getInfo();
 		LabObject newObj = null;
-		if(objType.equals("Dictionary")){
+		if(objType.equals("Folder")){
 		    newObj = new LObjDictionary();
-		} else if(objType.equals("Document")){
+		} else if(objType.equals("Notes")){
 		    newObj = new LObjDocument();
 		} else if(objType.equals("Questions")){
 		    newObj = LObjQuestion.makeNewQuestionSet();
@@ -168,15 +170,28 @@ public class LObjDictionaryView extends LabObjectView
 	    }
 	} else if(e.getSource() == rnDialog){
 	    if(command.equals("Ok")){
-		LabObject selObj = (LabObject)treeControl.getSelected();
-		if(selObj != null){
-		    selObj.name = (String)e.getInfo();
-		    treeControl.repaint();
-		    // repaint??
-		} else {
+		// This is a bug
+	       
+		TreeNode selObj = treeControl.getSelected();
+		if(selObj == null){
 		    dict.name = (String)e.getInfo();
-		    treeControl.repaint();
+		    return;
 		}
+
+		if(selObj instanceof LabObject){
+		    ((LabObject)selObj).name = (String)e.getInfo();
+		    treeControl.repaint();
+		    dict.lBook.store(((LabObject)selObj));
+		    // repaint??
+		} else if(selObj instanceof LabObjectPtr){
+		    LabObject obj = dict.lBook.load((LabObjectPtr)selObj);
+		    if(obj != null){
+			obj.name = (String)e.getInfo();
+			dict.lBook.store(obj);
+		    }
+		}
+		treeControl.reparse();
+		treeControl.repaint();
 	    }
 	}		   
     }
@@ -201,10 +216,11 @@ public class LObjDictionaryView extends LabObjectView
 	    }
 	} else if(e.getSource() == editMenu){	    
 	    if(e.getActionCommand().equals("Rename...")){
-		LabObject selObj = (LabObject)treeControl.getSelected();
+		TreeNode selObj = treeControl.getSelected();
+		if(selObj.toString().equals("..empty..")) return;
 		String [] buttons = {"Cancel", "Ok"};
 		if(selObj != null){
-		    rnDialog = Dialog.showInputDialog(this, "Rename Object", "Old Name was " + selObj.name,
+		    rnDialog = Dialog.showInputDialog(this, "Rename Object", "Old Name was " + selObj.toString(),
 						      buttons,Dialog.EDIT_INP_DIALOG);
 		} else {
 		    rnDialog = Dialog.showInputDialog(this, "Rename Parent", "Old Name was " + dict.name,

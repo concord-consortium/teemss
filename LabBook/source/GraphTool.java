@@ -162,8 +162,8 @@ public class GraphTool extends Container
 		time = dataEvent.time;
 	    } else {	     
 		lg.update();
-		curVal.setText(convertor.fToString(val));
-		curTime.setText(convertor.fToString(time) + "s");
+		//		curVal.setText(val +"");
+		// curTime.setText(time + "s");
 	    }
 	} else {
 	    if(!curBin.dataReceived(dataEvent)){
@@ -172,8 +172,8 @@ public class GraphTool extends Container
 		return;		
 	    }
 	    lg.update();
-	    curVal.setText(convertor.fToString(dataEvent.data[dataEvent.dataOffset]));
-	    curTime.setText(convertor.fToString(dataEvent.time) + "s");
+	    curVal.setText(dataEvent.data[dataEvent.dataOffset] + "");
+	    curTime.setText(dataEvent.time + "s");
 	}
     }
 
