@@ -22,6 +22,9 @@ public final static int		SAMPLING_DIG_MODE = 2;
 
 public int unit = CCUnit.UNIT_CODE_UNKNOWN;
 
+public DataDesc	dDesc = new DataDesc();
+public DataEvent	dEvent = new DataEvent();
+
 DataListener calibrationListener = null;
 	protected CCProb(){
 		this("unknown");
@@ -66,7 +69,12 @@ DataListener calibrationListener = null;
 		}
 	}
 	public abstract void setDataDescParam(int chPerSample,float dt);
-	
+    
+    public DataDesc getDataDesc()
+    {
+	return dDesc;
+    }
+
 	public void setName(String name){this.name = name;}
 	public String getName(){return name;}
 	

@@ -6,8 +6,6 @@ import org.concord.waba.extra.probware.*;
 
 
 public class CCLightIntens extends CCProb{
-public DataDesc	dDesc = new DataDesc();
-public DataEvent	dEvent = new DataEvent();
 float  			[]lightData = new float[1];
 float  			dtChannel = 0.0f;
 	CCLightIntens(){

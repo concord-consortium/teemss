@@ -21,6 +21,7 @@ protected int heightBorder = 3;
 
 private waba.ui.Container		contentPane;
 
+    public static boolean showImages = true;
 
  public Dialog(String title){
  	super();
@@ -53,6 +54,11 @@ private waba.ui.Container		contentPane;
     contentPane.setRect(0,0,width,height);
     add(contentPane);
   }
+
+    public boolean contains(int x, int y){
+	return super.contains(x,y);
+    }
+
   public void wasAWTAddNotify(){
   	super.wasAWTAddNotify();
 	java.awt.Window awtWindow = (java.awt.Window)getAWTCanvas().getParent();
@@ -193,11 +199,11 @@ private waba.ui.Container		contentPane;
 	d.addDialogListener(l);
 	d.show();
   }
-  public static void showInputDialog(org.concord.waba.extra.event.DialogListener l,String title,String message,String []buttonTitles,int messageType){
-  	showInputDialog(l,title,message,buttonTitles,messageType,null);
+  public static Dialog showInputDialog(org.concord.waba.extra.event.DialogListener l,String title,String message,String []buttonTitles,int messageType){
+  	return showInputDialog(l,title,message,buttonTitles,messageType,null);
   }
-  public static void showInputDialog(org.concord.waba.extra.event.DialogListener l,String title,String message,String []buttonTitles,int messageType,String []choices){
-   	if(buttonTitles == null) return;
+  public static Dialog showInputDialog(org.concord.waba.extra.event.DialogListener l,String title,String message,String []buttonTitles,int messageType,String []choices){
+   	if(buttonTitles == null) return null;
  	Dialog d = new Dialog(title);
   	waba.fx.FontMetrics fm = d.getFontMetrics(d.getFont());
 	int messageWidth 	= fm.getTextWidth(message);
@@ -212,35 +218,43 @@ private waba.ui.Container		contentPane;
 	int bHeight = 20;
 	int mHeight = fm.getHeight();
 	int h = bHeight + 10 + (15 + 2*mHeight);
+	if(choices != null &&
+	   choices.length > 2) h += mHeight*(choices.length-2);
+
 	d.setRect(50,50,w,h);
+	waba.ui.Container cp = d.getContentPane();
+
 	int xButtonCurr = w/2 - bWidth/2;
 	for(int i = 0; i < buttonTitles.length; i++){
 		waba.ui.Button b = new waba.ui.Button(buttonTitles[i]);
 		int bW = fm.getTextWidth(buttonTitles[i]) + 6;
 		b.setRect(xButtonCurr+3,h - 5 - bHeight,bW ,bHeight);
 		xButtonCurr += (bW + 6);
-		d.add(b);
+		cp.add(b);
 	}
 
 	waba.ui.Label label = new waba.ui.Label(message,waba.ui.Label.CENTER);
 	label.setRect(10 + w/2 - messageWidth/2,5,messageWidth,mHeight);
-	d.add(label);
+	cp.add(label);
 
 	int editWidth =w - 10 - 10;
 	if(messageType == EDIT_INP_DIALOG){
 		d.inpControl = new waba.ui.Edit();
 		d.inpControl.setRect(20,10 + mHeight ,d.width - 24,mHeight+5);
-		d.add(d.inpControl);
+		cp.add(d.inpControl);
 	}else if(messageType == CHOICE_INP_DIALOG){
 		d.inpControl = new Choice(choices);
 		d.inpControl.setRect(20,10 + mHeight ,d.width - 24,mHeight+5);
-		d.add(d.inpControl);
+		cp.add(d.inpControl);
 	}
-	ImagePane ip = new ImagePane("cc_extra/icons/QuestionSmall.bmp");
-	ip.setRect(d.widthBorder + 2,2,16,16);
-	d.add(ip);
+	if(showImages){
+	    ImagePane ip = new ImagePane("cc_extra/icons/QuestionSmall.bmp");
+	    ip.setRect(d.widthBorder + 2,2,16,16);
+	    cp.add(ip);
+	}
 	d.addDialogListener(l);
 	d.show();
+	return d;
   }
   
    public void drawBorder(waba.fx.Graphics g){

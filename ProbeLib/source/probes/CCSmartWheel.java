@@ -6,8 +6,6 @@ import org.concord.waba.extra.probware.*;
 
 
 public class CCSmartWheel extends CCProb{
-public DataDesc	dDesc = new DataDesc();
-public DataEvent	dEvent = new DataEvent();
 float  			[]wheelData = new float[2];
 float  			dtChannel = 0.0f;
 int				nTicks = 400;

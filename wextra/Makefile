@@ -6,8 +6,8 @@ PLATFORMS = ce desktop palm
 
 main: $(PLATFORMS)
 
-$(PLATFORMS): $(PLATFORMS:%=classes/%)
+$(PLATFORMS): classes $(PLATFORMS:%=classes/%)
 	javac -g -classpath /home/scytacki/cvstest/wabasdk/classes -d classes/$@ $(filter-out $(SKIP_FILES), $(wildcard $(SRC_DIRS:%=%/*.java)))
 
-$(PLATFORMS:%=classes/%) classes:
+classes $(PLATFORMS:%=classes/%):
 	mkdir $@

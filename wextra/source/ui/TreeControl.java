@@ -61,9 +61,12 @@ public class TreeControl extends Control implements TreeModelListener
 	TreeLine line;
 	int curY = 0;
 
+	g.setColor(0,0,0);
+	g.drawRect(0,0,width,height);
+
 	if(numLines == 0) return;
 
-	g.setColor(0,0,0);
+	g.translate(1,1);
 	for(int i = 0; i<numLines; i++){
 	    line = (TreeLine)lines.get(i);
 	    if(line.node == null) {
@@ -85,6 +88,7 @@ public class TreeControl extends Control implements TreeModelListener
 	    }
 	    curY += textHeight;
 	}
+	g.translate(-1,-1);
     }
 
     public TreeNode getSelected()
@@ -187,17 +191,22 @@ public class TreeControl extends Control implements TreeModelListener
 	TreeLine line;
 	int i;
 
-	for(i=0; i < lines.getCount(); i++){
-	    line = (TreeLine)lines.get(i);
-	    if(line.node == parent){
-		if(line.expanded){
-		    reparse();
-		    //collapse(i,lines);
-		    //expand(i,lines);
-		} else {
-		    expand(i,lines);
+	if(!sRoot &&
+	   parent == tm.getRoot()){
+	    reparse();
+	} else {
+	    for(i=0; i < lines.getCount(); i++){
+		line = (TreeLine)lines.get(i);
+		if(line.node == parent){
+		    if(line.expanded){
+			reparse();
+			//collapse(i,lines);
+			//expand(i,lines);
+		    } else {
+			expand(i,lines);
+		    }
+		    break;
 		}
-		break;
 	    }
 	}
 
@@ -225,8 +234,17 @@ public class TreeControl extends Control implements TreeModelListener
 
 	TreeNode curNode = tm.getRoot();
 	newLine = new TreeLine(curNode);
+
 	newLines.add(newLine);
-	
+
+	if(!sRoot){
+	    newLine.expanded = false;
+	    newLine.depth = -1;
+	    expand(0, newLines);
+	    newLines.del(0);
+	}
+ 
+
 	while(true){
 	    
 	    for(i=0; i < newLines.getCount(); i++){

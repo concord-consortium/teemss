@@ -34,8 +34,6 @@ protected ProbManager	pb = null;
 	
 	public void start(){
 		port = new SerialPort(1,9600);
-		timer = addTimer(getRightMilliseconds());
-		startTimer = Vm.getTimeStamp();
 		if((port == null) || !port.isOpen()) return;
 		port.setFlowControl(false);
 	    	setByteStreamProperties();
@@ -47,6 +45,8 @@ protected ProbManager	pb = null;
 		dDesc.setChPerSample(2);
 		dEvent.setDataOffset(1);
 		dEvent.setDataDesc(dDesc);
+		startTimer = Vm.getTimeStamp();
+		timer = addTimer(getRightMilliseconds());
 		//System.out.println("start");
 	}
 	public void stop(){

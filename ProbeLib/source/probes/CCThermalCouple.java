@@ -6,8 +6,6 @@ import org.concord.waba.extra.probware.*;
 
 
 public class CCThermalCouple extends CCProb{
-public DataDesc	dDesc = new DataDesc();
-public DataEvent	dEvent = new DataEvent();
 float  			[]tempData = new float[3];
 float  			dtChannel = 0.0f;
 public final static int		CELSIUS_TEMP_OUT = 1;

@@ -3,11 +3,11 @@ import extra.util.DataDesc;
 
 public class DataEvent extends waba.ui.Event{
 public static final int DATA_RECEIVED = 1000;
-float 	[]data = null;
+public float 	[]data = null;
 DataDesc	dataDesc = null;
-int		numbData = 1;
-int		dataOffset = 0;
-float		time;
+public int		numbData = 1;
+public int		dataOffset = 0;
+public float		time;
 	public DataEvent(){
 		this(0.0f);
 	}
