@@ -9,7 +9,9 @@ public class PropObject
 	public static int MULTIPLE_SEL_LIST = 3;
 	public static int CHECK = 4;
 
-	String 	name;
+	String 	label;
+	String  name;
+	int id;
 
 	// Actual Values
 	String 	[]possibleValues;
@@ -35,8 +37,11 @@ public class PropObject
 		cookie = null;
 		readExternal(in);
 	}
-	public 	PropObject(String name,String []possibleValues,int defaultIndex){
-		this.name = name;
+
+	public 	PropObject(String label, String name, int id, String []possibleValues,int defaultIndex){
+		this.label = label;
+		this.id = id;
+		this.name = name;		
 		this.possibleValues = possibleValues;
 		visPossibleValues = possibleValues;
 		if(possibleValues != null && possibleValues.length > 0){
@@ -47,17 +52,17 @@ public class PropObject
 			visIndex = index;
 		} 
 	}
-	public 	PropObject(String name,String []possibleValues){
-		this(name,possibleValues,0);
+	public 	PropObject(String label, String name, int id, String []possibleValues){
+		this(label, name, id, possibleValues,0);
 	}
-	public 	PropObject(String name,String value){
-		this(name,null,0);
+	public 	PropObject(String label, String name, int id,String value){
+		this(label,name,id,null,0);
 		setValue(value);
 	}
-	public 	PropObject(String name){
-		this(name,null,0);
+	public 	PropObject(String label, String name, int id){
+		this(label, name, id, null,0);
 	}
-	public PropObject(String name, boolean flag){
+	public PropObject(String label, String name, int id, boolean flag){
 		this(name,null,0);
 		type = CHECK;
 		visChecked = checked = flag;
@@ -270,10 +275,12 @@ public class PropObject
 	public String [] getVisPossibleValues(){ return visPossibleValues;}
 
 	public String getName(){ return name;}
-
+	public String getLabel(){ return label;}
+	public int getId(){ return id;}
+	
 	public void writeExternal(extra.io.DataStream out){
-		out.writeBoolean(name != null);
-		if(name != null) out.writeString(name);
+		out.writeInt(id);
+		out.writeInt(type);
 		out.writeBoolean(value != null);
 		if(value != null) out.writeString(value);
 		out.writeFloat(getFValue(value));
@@ -286,8 +293,14 @@ public class PropObject
 			}
 		}
 	}
-	public void readExternal(extra.io.DataStream in){
-		name = (in.readBoolean())?in.readString():null;
+
+	public static int readExternalId(extra.io.DataStream in)
+	{
+		return in.readInt();
+	}
+	public void readExternalUpdate(extra.io.DataStream in)
+	{
+		type = in.readInt();
 		value = (in.readBoolean())?in.readString():null;
 		if(value != null) visValue = new String(value);
 		float fval = in.readFloat();
@@ -310,5 +323,10 @@ public class PropObject
 			visPossibleValues = possibleValues;
 		}
 		if(possibleValues != null) type = CHOICE;
+	}
+
+	public void readExternal(extra.io.DataStream in){
+		id = in.readInt();
+		readExternalUpdate(in);
 	}
 }

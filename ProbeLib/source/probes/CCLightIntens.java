@@ -17,7 +17,9 @@ float				BLow = -4.0f;
 public final static int		HIGH_LIGHT_MODE 			= 0;
 public final static int		LOW_LIGHT_MODE 			= 1;
 int				lightMode = HIGH_LIGHT_MODE;
-public final static String [] propNames = {"Range", "Speed"};
+
+	PropObject rangeProp = new PropObject("Range", "Range", PROP_RANGE, rangeNames);
+	PropObject speedProp = new PropObject("Speed", "Speed", PROP_SPEED, speed1Names);
 
 	public static String [] rangeNames = {"Bright Light", "Dim Light"};
 	public static String [] speed1Names = {3 + speedUnit, 200 + speedUnit, 400 + speedUnit};
@@ -37,9 +39,10 @@ public final static String [] propNames = {"Range", "Speed"};
 		dEvent.setData(lightData);
 		dEvent.setIntData(lightIntData);
 
+		addProperty(rangeProp);
+		addProperty(speedProp);
+
 		if(init){
-			addProperty(new PropObject(propNames[0], rangeNames));
-			addProperty(new PropObject(propNames[1], speed1Names));
 			lightMode = 0;
 
 			calibrationDesc = new CalibrationDesc();
@@ -61,12 +64,11 @@ public final static String [] propNames = {"Range", "Speed"};
 	public boolean visValueChanged(PropObject po)
 	{
 		int index = po.getVisIndex();
-		if(po.getName().equals(propNames[0])){
-			PropObject speed = getProperty(propNames[1]);
+		if(po == rangeProp){
 			if(index == 0){
-				speed.setVisPossibleValues(speed1Names);
+				speedProp.setVisPossibleValues(speed1Names);
 			} else {
-				speed.setVisPossibleValues(speed2Names);
+				speedProp.setVisPossibleValues(speed2Names);
 			}
 		}
 
@@ -75,7 +77,7 @@ public final static String [] propNames = {"Range", "Speed"};
 
 	public CalibrationDesc getCalibrationDesc()
 	{
-		int lightMode = getProperty(propNames[0]).getIndex();
+		int lightMode = rangeProp.getIndex();
 
 		CalibrationParam cp = calibrationDesc.getCalibrationParam(0);
 		if(cp != null) cp.setAvailable(lightMode == HIGH_LIGHT_MODE);
@@ -91,7 +93,7 @@ public final static String [] propNames = {"Range", "Speed"};
 
 	public int getInterfaceMode()
 	{
-		int speedIndex = getProperty(propNames[1]).getIndex();
+		int speedIndex = speedProp.getIndex();
 
 		if(speedIndex == 0){
 			interfaceMode = CCInterfaceManager.A2D_24_MODE;
@@ -104,7 +106,7 @@ public final static String [] propNames = {"Range", "Speed"};
 			activeChannels = 1;
 		}
 
-		lightMode = getProperty(propNames[0]).getIndex();
+		lightMode = rangeProp.getIndex();
 
 		return interfaceMode;
 	}

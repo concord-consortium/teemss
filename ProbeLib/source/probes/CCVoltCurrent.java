@@ -14,7 +14,11 @@ public class CCVoltCurrent extends CCProb{
 	public final static int		VOLTAGE_OUT 			= 1;
 	public final static int		POWER_OUT 			= 2;
 	public final static int		ENERGY_OUT 			= 3;
-	public final static String [] propNames = {"Mode", "Range", "Speed", "Version"};
+
+	PropObject modeProp = new PropObject("Mode", "Mode", PROP_MODE, modeNames, 1);
+	PropObject rangeProp = new PropObject("Range", "Range", PROP_RANGE, rangeNames);
+	PropObject speedProp = new PropObject("Speed", "Speed", PROP_SPEED, speed2Names);
+	PropObject versionProp = new PropObject("Version", "Version", PROP_VERSION, versionNames);
 
 	float					zeroPointCurrent				= 1257f;//	
 	float					zeroPointVoltage				= 1257f;//	
@@ -26,7 +30,7 @@ public class CCVoltCurrent extends CCProb{
 	public static String [] rangeNames = {"unknown"};
 	public static String [] speed1Names = {3 + speedUnit, 200 + speedUnit, 400 + speedUnit};
 	public static String [] speed2Names = {3 + speedUnit, 200 + speedUnit};
-	String [] versionNames = {"1.0", "2.0"};
+	public static String [] versionNames = {"1.0", "2.0"};
    
 	int 				curChannel = 0;
 
@@ -47,12 +51,12 @@ public class CCVoltCurrent extends CCProb{
 		dEvent.setData(data);
 		dEvent.setIntData(intData);
 
-		if(init){
-			addProperty(new PropObject(propNames[0], modeNames, 1));
-			addProperty(new PropObject(propNames[1], rangeNames));
-			addProperty(new PropObject(propNames[2], speed2Names));
-			addProperty(new PropObject(propNames[3], versionNames));
-		
+		addProperty(modeProp);
+		addProperty(rangeProp);
+		addProperty(speedProp);
+		addProperty(versionProp);
+
+		if(init){		
 			calibrationDesc = new CalibrationDesc();
 			calibrationDesc.addCalibrationParam(new CalibrationParam(0,zeroPointCurrent));
 			calibrationDesc.addCalibrationParam(new CalibrationParam(1,currentResolution));
@@ -63,7 +67,7 @@ public class CCVoltCurrent extends CCProb{
 
 	public int getUnit()
 	{
-		int outputMode = getProperty(propNames[0]).getIndex();
+		int outputMode = modeProp.getIndex();
 
 		switch(outputMode){
 		case CURRENT_OUT:
@@ -106,18 +110,15 @@ public class CCVoltCurrent extends CCProb{
 
 	public boolean visValueChanged(PropObject po)
 	{
-		PropObject mode = getProperty(propNames[0]);
-		PropObject version = getProperty(propNames[3]);
-		if(po == mode || po == version){
-			int mIndex = mode.getVisIndex();
-			int vIndex = version.getVisIndex();
+		if(po == modeProp || po == versionProp){
+			int mIndex = modeProp.getVisIndex();
+			int vIndex = versionProp.getVisIndex();
 			   
-			PropObject speed = getProperty(propNames[2]);
 			if((mIndex == 0 && vIndex == 0)  ||
 			   (mIndex == 1 && vIndex == 1)){
-				speed.setVisPossibleValues(speed1Names);
+				speedProp.setVisPossibleValues(speed1Names);
 			} else {
-				speed.setVisPossibleValues(speed2Names);
+				speedProp.setVisPossibleValues(speed2Names);
 			}
 		}
 
@@ -126,8 +127,8 @@ public class CCVoltCurrent extends CCProb{
 
 	public int getInterfaceMode()
 	{
-		outputMode = getProperty(propNames[0]).getIndex();
-		int vIndex = getProperty(propNames[3]).getIndex();
+		outputMode = modeProp.getIndex();
+		int vIndex = versionProp.getIndex();
 		if(vIndex == 0){
 			version = 1;
 			voltOff = 1;
@@ -138,7 +139,7 @@ public class CCVoltCurrent extends CCProb{
 			currentOff = 1;
 		}
 
-		int speedIndex = getProperty(propNames[1]).getIndex();
+		int speedIndex = speedProp.getIndex();
 		if(speedIndex == 0){
 			interfaceMode = CCInterfaceManager.A2D_24_MODE;
 			activeChannels = 2;

@@ -79,9 +79,9 @@ CCUnit		currentUnit = null;
 		PropObject [] props = p.getPropArray();
 		int i;
 		for(i=0; i < props.length-1; i++){
-			summary += props[i].getName() + "- " + props[i].getValue() + "; ";
+			summary += props[i].getLabel() + "- " + props[i].getValue() + "; ";
 		}
-		summary += props[i].getName() + "- " + props[i].getValue() + ")";
+		summary += props[i].getLabel() + "- " + props[i].getValue() + ")";
 
 		return summary;
 	}

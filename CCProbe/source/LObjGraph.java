@@ -85,14 +85,8 @@ public class LObjGraph extends LObjSubDict
 		xAxisVector.add(xaxis);
 		yAxisVector.add(yaxis);
 
-		xaxis.init();
 		xaxis.setRange(XMIN, XMAX-XMIN);
-		xaxis.free();
-
-		yaxis.init();
 		yaxis.setRange(YMIN, YMAX-YMIN);	
-		yaxis.free();
-
 	}
 
 	public void addYAxis()

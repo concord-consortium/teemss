@@ -14,12 +14,13 @@ int				firstIndex,secondIndex;
 public final static int		SAMPLING_24BIT_MODE = 0;
 public final static int		SAMPLING_10BIT_MODE = 1;
 
-
-	String [] propNames = {"Sampling", "Channel #", "Speed"};
-
 	String	[]samplingModes =  {"24 Bit","10 Bit"};
     String [] channelNames = {"0", "1"};
     String [] speedNames = {3 + speedUnit};
+
+	PropObject sampProp = new PropObject("Sampling", "Sampling", PROP_SAMPLING, samplingModes);
+	PropObject chanProp = new PropObject("Channel #", "Channel", PROP_CHAN_NUM, channelNames);
+	PropObject speedProp = new PropObject("Speed", "Speed", PROP_SPEED, speedNames);
 
 	PropObject speed = null;
     int curChannel = 0;
@@ -39,11 +40,9 @@ public final static int		SAMPLING_10BIT_MODE = 1;
 		dEvent.setData(rawData);
 		dEvent.setIntData(rawIntData);
 
-		if(init){
-			addProperty(new PropObject("Sampling",samplingModes));
-			addProperty(new PropObject("Channel #", channelNames));			
-			addProperty(new PropObject("Speed", speedNames));
-		}
+		addProperty(sampProp);
+		addProperty(chanProp);
+		addProperty(speedProp);
 
 		unit = CCUnit.UNIT_CODE_VOLT;			
 	}
@@ -112,9 +111,10 @@ public final static int		SAMPLING_10BIT_MODE = 1;
 
 	public boolean visValueChanged(PropObject po)
 	{
-		PropObject sampMode = getProperty(propNames[0]);
-		PropObject chNum = getProperty(propNames[1]);
-		PropObject speed = getProperty(propNames[2]);
+		PropObject sampMode = sampProp;
+		PropObject chNum = chanProp;
+		PropObject speed = speedProp;
+
 		int index = po.getVisIndex();
 		if(po == sampMode){
 			if(index == 0){
@@ -147,8 +147,8 @@ public final static int		SAMPLING_10BIT_MODE = 1;
 	// it is started
 	public int getInterfaceMode()
 	{
-		int modeIndex = getProperty(propNames[0]).getIndex();
-		int chIndex = getProperty(propNames[1]).getIndex();
+		int modeIndex = sampProp.getIndex();
+		int chIndex = chanProp.getIndex();
 		if(modeIndex == 0){
 			interfaceMode = CCInterfaceManager.A2D_24_MODE;
 			if(chIndex == 0){

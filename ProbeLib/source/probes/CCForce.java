@@ -15,12 +15,15 @@ int  			[]forceIntData = new int[CCInterfaceManager.BUF_SIZE];
 	public final static String [] speed1Names = {3 + speedUnit, 200 + speedUnit, 400 + speedUnit};
 	public final static String [] speed2Names = {3 + speedUnit, 200 + speedUnit};
 
-	public final static String [] propNames = {"Mode", "Range", "Speed"};
 	public int curChannel = 1;
 float	A = 0.01734f;
 float B = -25.31f;
 
-	CCForce(boolean init, String name, int interfaceT){
+	PropObject modeProp = new PropObject("Mode", "Mode", PROP_MODE, modeNames);
+	PropObject rangeProp = new PropObject("Range", "Range", PROP_RANGE, range1Names);
+	PropObject speedProp = new PropObject("Speed", "Speed", PROP_SPEED, speed2Names);
+
+	protected CCForce(boolean init, String name, int interfaceT){
 		super(init, name, interfaceT);
 		probeType = ProbFactory.Prob_Force;
 	    activeChannels = 1;
@@ -32,11 +35,11 @@ float B = -25.31f;
 		dEvent.setData(forceData);
 		dEvent.setIntData(forceIntData);
 
-		if(init){
-			addProperty(new PropObject(propNames[0], modeNames));
-			addProperty(new PropObject(propNames[1], range1Names));
-			addProperty(new PropObject(propNames[2], speed2Names));
-		
+		addProperty(modeProp);
+		addProperty(rangeProp);
+		addProperty(speedProp);
+
+		if(init){		
 			calibrationDesc = new CalibrationDesc();
 			calibrationDesc.addCalibrationParam(new CalibrationParam(0,A));
 			calibrationDesc.addCalibrationParam(new CalibrationParam(1,B));
@@ -51,19 +54,17 @@ float B = -25.31f;
 	public boolean visValueChanged(PropObject po)
 	{
 		int index = po.getVisIndex();
-		if(po.getName().equals(propNames[1])){
-			PropObject speed = getProperty(propNames[2]);
+		if(po == rangeProp){
 			if(index == 0){
-				speed.setVisPossibleValues(speed2Names);
+				speedProp.setVisPossibleValues(speed2Names);
 			} else if(index == 1){
-				speed.setVisPossibleValues(speed1Names);
+				speedProp.setVisPossibleValues(speed1Names);
 			}
-		} else if(po.getName().equals(propNames[0])){
-			PropObject range = getProperty(propNames[1]);
+		} else if(po == modeProp){
 			if(index == 0){
-				range.setVisPossibleValues(range1Names);
+				rangeProp.setVisPossibleValues(range1Names);
 			} else if(index == 1){
-				range.setVisPossibleValues(range2Names);
+				rangeProp.setVisPossibleValues(range2Names);
 			}
 		} 
 		return true;
@@ -71,8 +72,8 @@ float B = -25.31f;
 
 	public int getInterfaceMode()
 	{
-		int rangeIndex = getProperty(propNames[1]).getIndex();
-		int speedIndex = getProperty(propNames[2]).getIndex();
+		int rangeIndex = rangeProp.getIndex();
+		int speedIndex = speedProp.getIndex();
 
 		curChannel = 1-rangeIndex;
 

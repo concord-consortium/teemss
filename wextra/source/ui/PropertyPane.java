@@ -170,7 +170,7 @@ public class PropertyPane extends Container
 
 		for(int i=0; i< nProperties; i++){
 			po = (PropObject)prop.get(i);
-			curLabelWidth = fm.getTextWidth(po.getName());
+			curLabelWidth = fm.getTextWidth(po.getLabel());
 			if(curLabelWidth > maxLabelWidth) maxLabelWidth = curLabelWidth;
 			if(po.prefWidth > maxPrefValWidth) maxPrefValWidth = po.prefWidth;
 		}
@@ -193,7 +193,7 @@ public class PropertyPane extends Container
 		for(int i = 0; i < nProperties; i++){
 			po = (PropObject)prop.get(i);
 
-			String name = po.getName();
+			String name = po.getLabel();
 			String value = po.getVisValue();
 			Label lName = new Label(name);
 			Control c1 = null;

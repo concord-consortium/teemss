@@ -27,7 +27,7 @@ class TimeBin implements DecoratedValue
 }
 
 public class LObjGraphView extends LabObjectView
-    implements ActionListener, LabObjListener
+    implements ActionListener, LabObjListener, DialogListener
 {
     LObjGraph graph;
     AnnotView av = null;
@@ -183,7 +183,8 @@ public class LObjGraphView extends LabObjectView
 
 		addMark = new Button("Mark");
 
-		String [] toolsChoices = {TOOL_DEL_MARK_NAME, "Toggle Scrolling", TOOL_AUTO_ZOOM_NAME, TOOL_ZOOM_SELECT_NAME};
+		String [] toolsChoices = {TOOL_ZOOM_SELECT_NAME, TOOL_ANNOT_MARK_NAME, TOOL_DEL_MARK_NAME, 
+								  "Toggle Scrolling", TOOL_AUTO_ZOOM_NAME, };
 		toolsChoice = new Choice(toolsChoices);
 		toolsChoice.setName("Tools");
 		add(toolsChoice);
@@ -456,6 +457,7 @@ public class LObjGraphView extends LabObjectView
 					Annotation a = av.getSelectedAnnot();
 					GraphSettings gs = graph.getCurGraphSettings();
 					LObjAnnotation lObjA = gs.findAnnot(a);
+					lObjA.showPropDialog(this);
 				}
 			}
 		}else if(e.target == clear &&
@@ -464,6 +466,11 @@ public class LObjGraphView extends LabObjectView
 		}
 
     }
+
+	public void dialogClosed(DialogEvent e)
+	{
+		repaint();
+	}
 
     public void clear()
     {

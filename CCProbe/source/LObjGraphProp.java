@@ -72,6 +72,8 @@ public class LObjGraphProp extends LabObjectView
 
 	public void setupProperties()
 	{
+		int id = 0;
+
 		GraphSettings curGS = graph.getCurGraphSettings();
 		if(curGS == null) return;
 
@@ -88,13 +90,13 @@ public class LObjGraphProp extends LabObjectView
 				}
 			}
 			int defIndex = graph.getCurGraphSettings().dsIndex;
-			propDataSources = new PropObject("Data", dsStrings, defIndex);
+			propDataSources = new PropObject("Data", "Data", id++, dsStrings, defIndex);
 			propDataSources.prefWidth = 120;
 			propDataSources.setType(PropObject.CHOICE_SETTINGS);
 			propDataSources.setSettingsButtonName("Setup");
 			
 			if(dsStrings.length > 1){
-				propVisibleSources = new PropObject("Visible", dsStrings);
+				propVisibleSources = new PropObject("Visible", "Visible", id++, dsStrings);
 				propVisibleSources.prefWidth = 120;
 				propVisibleSources.setType(PropObject.MULTIPLE_SEL_LIST);
 				for(int i=0; i<dsStrings.length; i++){
@@ -102,32 +104,32 @@ public class LObjGraphProp extends LabObjectView
 				}
 			}
 			
-			propTitle = new PropObject("Title", graph.title);
+			propTitle = new PropObject("Title", "Title", id++, graph.title);
 			propTitle.prefWidth = 120;
 
-			propAutoTitle = new PropObject("Auto", graph.autoTitle);
+			propAutoTitle = new PropObject("Auto", "Auto", id++, graph.autoTitle);
 			
 			propsGraph.addProperty(propDataSources);
 			if(propVisibleSources != null) propsGraph.addProperty(propVisibleSources);
 			propsGraph.addProperty(propTitle);
 			propsGraph.addProperty(propAutoTitle);
 
-			propXmin = new PropObject("Min", curGS.getXMin() + "");
-			propXmax = new PropObject("Max", curGS.getXMax() + "");
-			propXlabel = new PropObject("Label", curGS.getXLabel());
+			propXmin = new PropObject("Min", "Min", id++, curGS.getXMin() + "");
+			propXmax = new PropObject("Max", "Max", id++, curGS.getXMax() + "");
+			propXlabel = new PropObject("Label", "Label", id++, curGS.getXLabel());
 			propXlabel.prefWidth = 100;
-			propAutoXlabel = new PropObject("Auto", curGS.getXAuto());
+			propAutoXlabel = new PropObject("Auto", "Auto", id++, curGS.getXAuto());
 
 			propsXAxis.addProperty(propXmax);
 			propsXAxis.addProperty(propXmin);
 			propsXAxis.addProperty(propXlabel);
 			propsXAxis.addProperty(propAutoXlabel);
 
-			propYmin = new PropObject("Min", curGS.getYMin() + "");
-			propYmax = new PropObject("Max", curGS.getYMax() + "");
+			propYmin = new PropObject("Min", "Min", id++, curGS.getYMin() + "");
+			propYmax = new PropObject("Max", "Max", id++, curGS.getYMax() + "");
 
-			propYlabel = new PropObject("Label", curGS.getYLabel());
-			propAutoYlabel = new PropObject("Auto", curGS.getYAuto());
+			propYlabel = new PropObject("Label", "Label", id++, curGS.getYLabel());
+			propAutoYlabel = new PropObject("Auto", "Auto", id++, curGS.getYAuto());
 
 			propYlabel.prefWidth = 100;
 			propsYAxis.addProperty(propYmax);

@@ -62,7 +62,7 @@ public class LObjDataCollectorView extends LabObjectView
 			}
 		}
 		if(rootSources.getCount() > 0){
-			menu.add("Probe Settings..");
+			menu.add("Probe Properties..");
 		}
 
 		menu.add("Save Profile..");
@@ -207,7 +207,7 @@ public class LObjDataCollectorView extends LabObjectView
 		Debug.println("Got action: " + e.getActionCommand());
 
 		if(e.getSource() == menu){
-			if(e.getActionCommand().equals("Probe Settings..")){
+			if(e.getActionCommand().equals("Probe Properties..")){
 				stop(true);
 
 				LObjProbeDataSource pds = (LObjProbeDataSource)rootSources.get(0);

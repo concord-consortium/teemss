@@ -12,12 +12,15 @@ float  			dtChannel = 0.0f;
 int				nTicks = 660;
 float				radius = 0.06f;
 float				koeff = 2f*Maths.PI;
-public final static String	wheelModeString = "Output Mode";
-public final static String	[]wheelModes =  {"Ang. Vel.","Lin. Vel.", "Lin. Pos."};
-public final static int		ANG_MODE_OUT 		= 0;
-public final static int		LINEAR_MODE_OUT 	= 1;
+
+	PropObject modeProp = new PropObject("Output Mode", "Mode", PROP_MODE, wheelModes,
+										 LIN_POS_MODE_OUT);
+
+	public final static String	[]wheelModes =  {"Ang. Vel.","Lin. Vel.", "Lin. Pos."};
+	public final static int		ANG_MODE_OUT 		= 0;
+	public final static int		LINEAR_MODE_OUT 	= 1;
     public final static int     LIN_POS_MODE_OUT        = 2;
-int					outputMode = LIN_POS_MODE_OUT;
+	int	 outputMode = LIN_POS_MODE_OUT;
 
 	CCSmartWheel(boolean init, String name, int interfaceT){
 		super(init, name, interfaceT);
@@ -34,9 +37,9 @@ int					outputMode = LIN_POS_MODE_OUT;
 		dEvent.setData(wheelData);
 		dEvent.setIntData(wheelIntData);
 
-		if(init){
-			addProperty(new PropObject(wheelModeString,wheelModes,LIN_POS_MODE_OUT)); 
+		addProperty(modeProp);
 
+		if(init){
 			calibrationDesc = new CalibrationDesc();
 			calibrationDesc.addCalibrationParam(new CalibrationParam(0,radius));
 		}		
@@ -44,8 +47,7 @@ int					outputMode = LIN_POS_MODE_OUT;
 	
 	public int getUnit()
 	{
-		PropObject wheelMode = getProperty(wheelModeString);
-		int oMode = wheelMode.getIndex();
+		int oMode = modeProp.getIndex();
 
 		switch(oMode){
 		case LINEAR_MODE_OUT:
@@ -66,8 +68,7 @@ int					outputMode = LIN_POS_MODE_OUT;
 
 	public int getInterfaceMode()
 	{
-		PropObject wheelMode = getProperty(wheelModeString);
-		outputMode = wheelMode.getIndex();
+		outputMode = modeProp.getIndex();
 		return interfaceMode;
 	}
 

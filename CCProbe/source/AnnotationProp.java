@@ -52,13 +52,14 @@ public class AnnotationProp extends LabObjectView
 
 	public void setupProperties()
 	{
+		int id= 0;
 		if(props == null){
 			props = new PropContainer("Annot");
 			
-			propName = new PropObject("Name", annot.name);
-			propLabel = new PropObject("Label", annot.getLabel());
-			propTime = new PropObject("Time", "" + annot.getTime());
-			propValue = new PropObject("Value", "" + annot.getValue());
+			propName = new PropObject("Name", "Name", id++,  annot.name);
+			propLabel = new PropObject("Label", "Label", id++, annot.getLabel());
+			propTime = new PropObject("Time", "Time", id++, "" + annot.getTime());
+			propValue = new PropObject("Value", "Value", id++, "" + annot.getValue());
 
 			props.addProperty(propName);
 			props.addProperty(propLabel);

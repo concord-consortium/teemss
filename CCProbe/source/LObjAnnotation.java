@@ -26,11 +26,27 @@ public class LObjAnnotation extends LObjSubDict
 	}
 
 	public void setup(Annotation a, LObjDataSet dSet, int bIndex)
-	{
+	{		
 		annot = a;
+		if(a != null){
+			name = annot.getLabel();
+		}
 		setObj(dSet, 0);
 		binIndex = bIndex;
 	}
+
+    public ViewDialog showPropDialog(DialogListener dl)
+    {
+		MainWindow mw = MainWindow.getMainWindow();
+		if(mw instanceof ExtraMainWindow){
+		    AnnotationProp aProp = (AnnotationProp) getPropertyView(null, null);
+			ViewDialog vDialog = new ViewDialog((ExtraMainWindow)mw, dl, "Properties", aProp);
+			vDialog.setRect(0,0,159,159);
+			vDialog.show();
+			return vDialog;
+		}
+		return null;
+    }
 
     public LabObjectView getPropertyView(ViewContainer vc,LObjDictionary curDict)
 	{

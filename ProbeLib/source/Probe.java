@@ -42,6 +42,14 @@ protected	int	probeType = ProbFactory.Prob_Undefine;
 	public final static int DIG_COUNT_MODE = 3;
 	*/
 
+	public final static int PROP_PORT = 0;
+	public final static int PROP_MODE = 1;
+	public final static int PROP_RANGE = 2;
+	public final static int PROP_SPEED = 3;
+	public final static int PROP_SAMPLING = 4;
+	public final static int PROP_CHAN_NUM = 5;
+	public final static int PROP_VERSION = 6;
+
 DataListener calibrationListener = null;
 
 	String [] portNames = {"A", "B"};
@@ -55,13 +63,12 @@ DataListener calibrationListener = null;
 		pEvent.setProb(this);
 		interfaceType = interfaceT;
 		interfaceMode = CCInterfaceManager.A2D_24_MODE;
-		if(init && interfaceType == CCInterfaceManager.INTERFACE_2){
-			port = new PropObject("Port", portNames);
+		if(interfaceType == CCInterfaceManager.INTERFACE_2){
+			port = new PropObject("Port", "Port", PROP_PORT, portNames);
 			addProperty(port);
 		}
 	}
-	
-	
+   	
 	public int getInterfaceMode(){return interfaceMode;}
 
 	public int 	getInterfaceType(){return interfaceType;}
@@ -178,14 +185,14 @@ DataListener calibrationListener = null;
 	public void setName(String name){this.name = name;}
 	public String getName(){return name;}
 	
-	protected boolean setPValue(PropObject p,String value){
-		if(!super.setPValue(p, value)) return false;
+	public void apply()
+	{
+		super.apply();
 
-		pEvent.setInfo(p);
+		pEvent.setInfo(this);
 		notifyProbListeners(pEvent);
-		return true;
 	}
-	
+
 	public void  calibrationDone(float []row1,float []row2,float []calibrated){}
 	
 	public void calibrateMe(ExtraMainWindow owner,DialogListener l,int interfaceType){
@@ -210,10 +217,10 @@ DataListener calibrationListener = null;
 		out.writeInt(PROPERTIES_PROB_END);
 		writeInternal(out);
 	}
+
 	protected void writeInternal(extra.io.DataStream out){
 	}
 	protected void readInternal(extra.io.DataStream in){
-		port = getProperty("Port");
 	}
 	
 	public void readExternal(extra.io.DataStream in){

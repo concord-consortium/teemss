@@ -34,6 +34,18 @@ public class PropContainer
 		return null;
 	}
 
+	public PropObject findProperty(int id)
+	{
+		for(int i = 0; i < properties.getCount(); i++){
+			PropObject po = (PropObject)properties.get(i);
+			if(po == null) continue;
+			if(id == po.getId()){
+				return po;
+			}
+		}
+		return null;
+	}
+
 	public PropObject findPropObjWithCookie(Object cookie)
 	{
 		for(int i = 0; i < properties.getCount(); i++){
@@ -46,10 +58,12 @@ public class PropContainer
 		return null;
 	}
 
+	/*
 	public PropObject getProperty(int index){
 		if(index < 0 || index >= properties.getCount()) return null;
 		return (PropObject)properties.get(index);
 	}
+	*/
 
 	public int countProperties(){
 		return properties.getCount();
@@ -60,11 +74,15 @@ public class PropContainer
 		if(p == null) return null;
 		return p.getValue();
 	}
+
+	/*
 	public String getPropertyValue(int index){
 		PropObject p = getProperty(index);
 		if(p == null) return null;
 		return p.getValue();
 	}
+	*/
+
 	public float getPropertyValueAsFloat(String nameProperty){
 		PropObject p = getProperty(nameProperty);
 		if(p == null) return 0.0f;
@@ -117,9 +135,12 @@ public class PropContainer
 	public boolean setPropertyValue(String nameProperty,String value){
 		return setPValue(getProperty(nameProperty),value);
 	}
+
+	/*
 	public boolean setPropertyValue(int index,String value){
 		return setPValue(getProperty(index),value);
 	}
+	*/
 
 	public boolean visValueChanged(PropObject po)
 	{
@@ -128,38 +149,29 @@ public class PropContainer
 
 	public void writeExternal(extra.io.DataStream out)
 	{
-		if(properties.getCount() > 0){
-			out.writeBoolean(true);
-
-			out.writeInt(countProperties());
-			for(int i = 0; i < countProperties(); i++){
-				PropObject p = getProperty(i);
-				out.writeBoolean(p != null);
-				if(p == null){
-					continue;
-				}
-				p.writeExternal(out);
-			}
-		} else {
-			out.writeBoolean(false);
+		out.writeInt(countProperties());
+		for(int i = 0; i < countProperties(); i++){
+			PropObject p = (PropObject)properties.get(i);
+			if(p != null) p.writeExternal(out);
 		}
 	}
 
 	public void readExternal(extra.io.DataStream in)
 	{
-		if(in.readBoolean()){
-			int temp = in.readInt();
-			if(temp < 1) return;
-			properties = new Vector(temp);
-			for(int i = 0; i < temp; i++){
-				if(in.readBoolean()){
-					PropObject p = new PropObject(in);
-					properties.add(p);
-					setPropertyValue(i,p.getValue());
-				} else {
-					properties.add(null);
-				}
-			}
+		int temp = in.readInt();
+		if(temp < 1) return;
+		
+		//		properties = new Vector(temp);
+		for(int i = 0; i < temp; i++){
+			int propId = PropObject.readExternalId(in);
+			PropObject p = findProperty(propId);
+			if(p != null){
+				p.readExternalUpdate(in);
+			} else {
+				p = new PropObject(in);
+				properties.add(p);
+				//				setPropertyValue(i,p.getValue());
+			} 
 		}
 	}
 }

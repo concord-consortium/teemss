@@ -12,9 +12,13 @@ float  			dtChannel = 0.0f;
 public final static int		CELSIUS_TEMP_OUT = 0;
 public final static int		FAHRENHEIT_TEMP_OUT = 1;
 public final static int		KELVIN_TEMP_OUT = 2;
+
+	PropObject modeProp = new PropObject("Output Mode", "Mode", PROP_MODE, 
+										 tempModes, CELSIUS_TEMP_OUT);
+
 int				outputMode = CELSIUS_TEMP_OUT;
-public final static String	tempModeString = "Output Mode";
 public final static String	[]tempModes =  {"C","F","K"};
+
 float AC = 17.084f;
 float BC = -0.25863f;
 float CC = 0.011012f;
@@ -35,9 +39,9 @@ float FC = 0.0f;
 		dEvent.setData(tempData);
 		dEvent.setIntData(tempIntData);
 
-		if(init){
-			addProperty(new PropObject(tempModeString,tempModes,CELSIUS_TEMP_OUT)); 
+		addProperty(modeProp);
 
+		if(init){
 			calibrationDesc = new CalibrationDesc();
 			calibrationDesc.addCalibrationParam(new CalibrationParam(0,FC));			
 		}
@@ -45,8 +49,7 @@ float FC = 0.0f;
 
 	public int getUnit()
 	{
-		PropObject tempMode = getProperty(tempModeString);
-		int oMode = tempMode.getIndex();
+		int oMode = modeProp.getIndex();
 		
 		switch(oMode){
 		case FAHRENHEIT_TEMP_OUT:
@@ -66,8 +69,7 @@ float FC = 0.0f;
 
 	public int getInterfaceMode()
 	{
-		PropObject tempMode = getProperty(tempModeString);
-		int outputMode = tempMode.getIndex();
+		int outputMode = modeProp.getIndex();
 		return interfaceMode;
 	}
 
