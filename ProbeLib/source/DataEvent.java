@@ -55,7 +55,7 @@ public int	 	[]intData = null;
 	public int getNumbSamples(){return numbSamples;}
 	public int getDataOffset(){return dataOffset;}
 	public float getDeltaT(){return (dataDesc == null)?0.0f:dataDesc.getDt();}
-	public float getTime(){return (float)getIntTime()*getDeltaT();}//for backward compatibility
+	public float getTime(){return (float)intTime*getDeltaT();}//for backward compatibility
 	public void  setTime(float val){
 		setIntTime((int)(val/getDeltaT()+0.5f));
 	}

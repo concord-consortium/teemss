@@ -512,7 +512,7 @@ public class CCInterfaceManager extends Control{
 			numBytes = 2;
 			MASK = (byte)(0x80);
 			bitsPerByte = 7;
-			timeStepSize = (float)0.01;
+			timeStepSize = 0.01f;
 			readSize = 100;
 			break;
 		}
@@ -615,7 +615,6 @@ public class CCInterfaceManager extends Control{
 				// Return a reasonable resolution
 				syncChannels = true;
 			}else if(mode == DIG_COUNT_MODE){
-	   			curStepTime++;
 				if(value > 128) value -= 256;
 	   			valueData[curDataPos++] = value;
 			}
@@ -641,8 +640,14 @@ public class CCInterfaceManager extends Control{
 
 
 			pb.dataArrived(dEvent);
+
+			// We need to update the time of this second event
+			// The first event's time was set to the begining of the
+			// the data that it collected
 			dEvent.setType(DataEvent.DATA_COLLECTING);
+			dEvent.setIntTime(curStepTime-1);
 			pb.idle(dEvent);
+
 			dEvent.setType(DataEvent.DATA_RECEIVED);
 
 		}
@@ -689,7 +694,6 @@ public class CCInterfaceManager extends Control{
 			curDataPos = 0;
 			dEvent.setIntTime(curStepTime);
 			
-
 			while(curPos < endPos){
 				// Check if the buf has enough space
 				// if not this means a partial package was read
@@ -738,6 +742,8 @@ public class CCInterfaceManager extends Control{
 		}
 		// Should have a special error condition
 		if(ret < 0) return WARN_SERIAL_ERROR;
+
+		dEvent.setIntTime(curStepTime-1);
 		dEvent.setType(DataEvent.DATA_COLLECTING);
 		pb.idle(dEvent);
 		dEvent.setType(DataEvent.DATA_RECEIVED);
@@ -829,6 +835,7 @@ public class CCInterfaceManager extends Control{
 		// Should have a special error condition
 		if(ret < 0) return WARN_SERIAL_ERROR;
 
+		dEvent.setIntTime(curStepTime-1);
 		dEvent.setType(DataEvent.DATA_COLLECTING);
 		pb.idle(dEvent);
 		dEvent.setType(DataEvent.DATA_RECEIVED);

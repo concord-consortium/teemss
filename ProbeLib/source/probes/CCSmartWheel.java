@@ -108,7 +108,7 @@ float				koeff = 2f*Maths.PI;
     public boolean startSampling(DataEvent e){
 		dEvent.type = e.type;
 		dDesc.setDt(e.getDataDesc().getDt());
-		dDesc.setChPerSample(e.getDataDesc().getChPerSample());
+
 		dDesc.setTuneValue(e.getDataDesc().getTuneValue());
 		if(calibrationListener != null){
 			dDesc.setChPerSample(2);
@@ -121,6 +121,7 @@ float				koeff = 2f*Maths.PI;
 		dt = dDesc.getDt();
 		dEvent.setData(wheelData);
 		dEvent.setIntData(wheelIntData);
+		dEvent.setIntTime(0);
 
 		calFactor = -(koeff/(float)nTicks/dt);
 		posCalFactor = -(koeff/(float)nTicks) * dDesc.tuneValue  * radius;
@@ -144,7 +145,6 @@ float				koeff = 2f*Maths.PI;
     	
 	public boolean dataArrived(DataEvent e){
 		dEvent.type = e.type;
-		float t0 = e.getTime();
 		int[] data = e.getIntData();
 		int nOffset = e.dataOffset;
 		
@@ -159,12 +159,13 @@ float				koeff = 2f*Maths.PI;
 		    calibrated = wheelData[0]*calFactor;
 		    wheelData[1] = wheelData[0] ;
 		    wheelData[0] = calibrated * radius*koeff;
-		    dEvent.setTime(t0);
+		    dEvent.setTime(e.getTime());
 		    return super.dataArrived(dEvent);
 		}
 
-		dEvent.intTime = e.intTime;
-		dEvent.numbSamples = e.numbSamples;
+		// note this is the time at the begining of the event
+		dEvent.intTime = e.getIntTime();
+		dEvent.numbSamples = e.getNumbSamples();
 		dEvent.setData(wheelData);
 
 		boolean ret = true;
