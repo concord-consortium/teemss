@@ -204,7 +204,8 @@ public class LabBookCatalog extends LabBookDB
 		curChunkRecIds = new short [objIndexChunkSize];
 		objIndexVec.add(curChunkObjIds);
 		objIndexVec.add(curChunkRecIds);
-		readIndexChunk(curChunkObjIds, curChunkRecIds, bitBuffer, (length % objIndexChunkSize));
+		readIndexChunk(curChunkObjIds, curChunkRecIds, bitBuffer, 
+					   (length % objIndexChunkSize));
 
 		// Just to be clear :)
 		bitBuffer = null;

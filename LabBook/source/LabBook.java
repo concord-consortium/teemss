@@ -759,6 +759,7 @@ public class LabBook
 			curDict+=2;
 		}
 
+		return retObjPtr;
     }
 
     public boolean close()
