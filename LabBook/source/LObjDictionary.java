@@ -102,22 +102,26 @@ public class LObjDictionary extends LabObject
 		insert(lObj, objects.getCount());
     }
 
-    public void insert(LabObjectPtr lObj, int index)
+    public void insert(LabObjectPtr lObjPtr, int index)
     {
-		LabObject newObj = lBook.load(lObj);
+		LabObject newObj = lBook.load(lObjPtr);
 		if(newObj instanceof LObjDictionary){
-			objects.insert(index, lObj);
+			objects.insert(index, lObjPtr);
 		} else if(newObj instanceof LObjSubDict){
 			LObjSubDict newSD = (LObjSubDict)newObj;
 			if(newSD.dict == null){
 				// we might just have to create the dictionary here.
 				// but theorectially this shouldn't happen.
+				// but maybe the user doesn't want a dictionary 
+				// for this sub dict (see LObjDataSet)
+				// so in this case just insert the subdict
+				objects.insert(index, lObjPtr);
 			} else {
 				objects.insert(index, lBook.store(newSD.dict));
 				newSD.dict.name = newSD.name;
 			}
 		} else {
-			objects.insert(index, lObj);
+			objects.insert(index, lObjPtr);
 		}
 		lBook.store(this);
     }
@@ -233,12 +237,15 @@ public class LObjDictionary extends LabObject
 			LObjSubDict newObj = (LObjSubDict)obj;
 			
 			// we'll assume this object has been initiaizled
-			return newObj.dict;
-		} else {
-			LabObjectPtr ptr = lBook.store(obj);
-			ptr.name = obj.name;
-			return ptr;
-		}	
+			if(newObj.dict != null){
+				return newObj.dict;
+			} 
+		} 
+
+		// default
+		LabObjectPtr ptr = lBook.store(obj);
+		ptr.name = obj.name;
+		return ptr;
     }
 
     public boolean hideChildren = false;

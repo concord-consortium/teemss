@@ -318,9 +318,10 @@ public class LObjGraphView extends LabObjectView
 					dSet.addBin((Bin)bins.get(i));
 				}
 				LObjGraph graph = (LObjGraph)dc.getObj(0);
-				dSet.name = graph.name;
+
 				if(dataDict != null){
 					dataDict.add(dSet);
+					dSet.store();
 				} else {
 					// for now it is an error
 					// latter it should ask the user for the name

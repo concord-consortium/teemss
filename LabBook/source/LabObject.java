@@ -121,4 +121,12 @@ public abstract class LabObject
     public LabObject copy(){return null;}
 
     public void store(){lBook.store(this);}
+
+	public void storeNow()
+	{
+		LabObjectPtr ptr = lBook.store(this);
+		if(ptr != null){
+			lBook.commit(ptr);
+		}
+	}
 }

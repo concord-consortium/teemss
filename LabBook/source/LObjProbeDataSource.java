@@ -63,7 +63,11 @@ public 		waba.util.Vector 	dataListeners = null;
 		if(index >= 0) dataListeners.del(index);
 	}
 
-	public CCUnit 	getUnit(){return currentUnit;}
+	public CCUnit 	getUnit()
+	{
+		if(probe != null) return CCUnit.getUnit(probe.getUnit());
+		else return null;
+	}
 
 	public void startDataDelivery(){
 		if(probe == null) return;

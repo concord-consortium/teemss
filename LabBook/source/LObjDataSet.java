@@ -39,11 +39,8 @@ public class LObjDataSet extends LObjSubDict
     public static LObjDataSet makeNewDataSet()
     {
 		LObjDataSet me = new LObjDataSet();
-		LObjDictionary dict = new LObjDictionary();
-		dict.setMainObj(me);
-		dict.name = "DataSet";
-		me.name = "DataSetHeader";
-		dict.hideChildren = true;
+		me.initSubDict();
+		me.name = "DataSet";
 		return me;	
     }
 
@@ -54,10 +51,15 @@ public class LObjDataSet extends LObjSubDict
 		LObjDataSet first = new LObjDataSet(b, 0);
 		first.numBinChunks = numBinChunks;
 		setObj(first, numChunks + 1);
+		first.storeNow();
+		first.chunkIndex = -1;
 		numChunks++;
 
 		for(int i=1; i<numBinChunks; i++){
-			setObj(new LObjDataSet(b, i), numChunks + 1);				
+			LObjDataSet curChunk = new LObjDataSet(b, i);
+			setObj(curChunk, numChunks + 1);				
+			curChunk.storeNow();
+			curChunk.chunkIndex = -1;
 			numChunks++;
 		}
     }
@@ -165,7 +167,7 @@ public class LObjDataSet extends LObjSubDict
 				chunkIndex = 0;
 				numBinChunks = ds.readInt();
 				label = ds.readString();
-			}  else {
+			}  else {				
 				chunkIndex = ds.readInt();
 			}
 
@@ -222,9 +224,15 @@ public class LObjDataSet extends LObjSubDict
 	 
 				ds.writeInt(numBinChunks);
 				ds.writeString(label);
-			} else {
+
+				(new Exception()).printStackTrace();
+
+			} else if(chunkIndex > 0){
 				ds.writeByte(2);
 				ds.writeInt(chunkIndex);
+			} else {
+				(new Exception()).printStackTrace();
+				return;
 			}
 
 			dataEvent = myBin.getDataChunk(chunkIndex);
