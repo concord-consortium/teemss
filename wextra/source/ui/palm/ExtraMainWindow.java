@@ -388,6 +388,34 @@ public boolean isControlHDialogOwned(Control c){
 	return retValue;
 }
 
+	/** Called by the system to draw the children of the container. */
+	public void paintChildren(Graphics g, int x, int y, int width, int height)
+	{
+		if(popupDialog == null){
+			super.paintChildren(g, x, y, width, height);
+			return;
+		}
+
+		
+		Rect dRect = popupDialog.getRect();
+		int pDx2 = dRect.width + dRect.x;
+		int pDy2 =  dRect.height + dRect.y;			
+		if(dRect.x <= x && dRect.y <= y &&
+		   (pDx2 >= (x + width)) &&
+		   (pDy2  >= (y + height))){
+			
+			// Draw the dialog and everything after it
+			Control oldChildren = children;
+			children = popupDialog;
+			super.paintChildren(g, x, y, width, height);
+			children = oldChildren;
+
+		} else {
+			super.paintChildren(g, x, y, width, height);
+		}
+	}
+	
+
 
   /**
 
@@ -452,6 +480,8 @@ public boolean isControlHDialogOwned(Control c){
     if (!doubleBuffered)
 
     {
+
+		
 
       super._doPaint(x,y,width,height);
       needsPaint = false;

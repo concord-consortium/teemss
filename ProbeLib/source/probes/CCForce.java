@@ -35,7 +35,7 @@ float B = -25.31f;
 		if(init){
 			addProperty(new PropObject(propNames[0], modeNames));
 			addProperty(new PropObject(propNames[1], range1Names));
-			addProperty(new PropObject(propNames[2], speed1Names));
+			addProperty(new PropObject(propNames[2], speed2Names));
 		
 			calibrationDesc = new CalibrationDesc();
 			calibrationDesc.addCalibrationParam(new CalibrationParam(0,A));
@@ -54,9 +54,9 @@ float B = -25.31f;
 		if(po.getName().equals(propNames[1])){
 			PropObject speed = getProperty(propNames[2]);
 			if(index == 0){
-				speed.setVisPossibleValues(speed1Names);
-			} else if(index == 1){
 				speed.setVisPossibleValues(speed2Names);
+			} else if(index == 1){
+				speed.setVisPossibleValues(speed1Names);
 			}
 		} else if(po.getName().equals(propNames[0])){
 			PropObject range = getProperty(propNames[1]);

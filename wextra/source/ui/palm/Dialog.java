@@ -18,6 +18,9 @@ public class Dialog extends waba.ui.Container{
  public final static  int  QUEST_DIALOG = 4;
  public final static  int  EDIT_INP_DIALOG = 5;
  public final static  int  CHOICE_INP_DIALOG = 6;
+	
+	static waba.util.Vector openDialogs = new waba.util.Vector();
+
 
 private waba.ui.Container		contentPane;
 
@@ -25,7 +28,7 @@ private waba.ui.Container		contentPane;
 
  public Dialog(String title){
   	this.title = title;
-  	font = new waba.fx.Font("Helvetica", waba.fx.Font.BOLD, 12);
+  	font = waba.ui.MainWindow.defaultFont;
   	contentPane = null;
   }
   public Dialog(){
@@ -69,25 +72,25 @@ private waba.ui.Container		contentPane;
   	Dialog d = new Dialog(title);
   	waba.fx.FontMetrics fm = d.getFontMetrics(d.getFont());
 	int bHeight = 15;
-	int h = bHeight + 20;
+	int h = bHeight+2;
 	int maxWith = 10;
 	String	bstring = "Done";
 	int mHeight = fm.getHeight();
 	if(messages != null){
 		for(int i = 0; i < messages.length; i++){
-			if(maxWith < (fm.getTextWidth(messages[i]) + 5)){
-				maxWith = fm.getTextWidth(messages[i]) + 5;
+			if(maxWith < (fm.getTextWidth(messages[i]) + 1)){
+				maxWith = fm.getTextWidth(messages[i]) + 1;
 			}
 			 h += (2+mHeight);
 		}
 	}
 	int w = maxWith;
-	d.setRect(0,0,w,h);
+	d.setRect(0,0,w+d.widthBorder*2,h+15+d.heightBorder);
 	waba.ui.Container cp = d.getContentPane();
 	waba.ui.Button b = new waba.ui.Button(bstring);
 	cp.add(b);
 	int bW = fm.getTextWidth(bstring) + 6;
-	b.setRect(w/2 - bW/2,h - 19 - bHeight,bW ,bHeight);
+	b.setRect(w/2 - bW/2,h - bHeight-1,bW ,bHeight);
 	if(messages != null){
 		int yLabel = 2;
 		for(int i = 0; i < messages.length; i++){
@@ -313,6 +316,7 @@ private waba.ui.Container		contentPane;
      	drawTitle(g);
  }
  
+
  	public waba.ui.Window getWabaWindow(){return waba.ui.MainWindow.getMainWindow();}
 	public void show(){
 		if(popup != null) return;
@@ -321,6 +325,7 @@ private waba.ui.Container		contentPane;
 		waba.ui.MainWindow mw = waba.ui.MainWindow.getMainWindow();
 		if(mw instanceof org.concord.waba.extra.ui.ExtraMainWindow){
 			((org.concord.waba.extra.ui.ExtraMainWindow)mw).setDialog(this);
+			openDialogs.add(this);
 		}
 /*
 		if(inpControl != null &&
@@ -336,6 +341,12 @@ private waba.ui.Container		contentPane;
 		waba.ui.MainWindow mw = waba.ui.MainWindow.getMainWindow();
 		if(mw instanceof org.concord.waba.extra.ui.ExtraMainWindow){
 			((org.concord.waba.extra.ui.ExtraMainWindow)mw).setDialog(null);
+			int index = openDialogs.find(this);
+			if(index >= 0) openDialogs.del(index);
+			if(openDialogs.getCount() > 0){
+				Dialog topD = (Dialog)openDialogs.get(openDialogs.getCount() -1);
+				((org.concord.waba.extra.ui.ExtraMainWindow)mw).setDialog(topD);
+			} 
 		}
 	}
   public void onEvent(waba.ui.Event event){
