@@ -368,7 +368,7 @@ public class LabBook
 		DataStream dsIn = initPointer(lObjPtr);
 		if(dsIn == null){
 			// this object was already loaded
-			lObjPtr.obj.incRefCount();
+			if(lObjPtr.obj != null) lObjPtr.obj.incRefCount();
 			return lObjPtr.obj;
 		}
 
