@@ -17,7 +17,6 @@ public class CCProbe extends MainView
     Menu edit;
     Title 		title;
 	int yOffset = 0;
-	int objViewHeight = 0;
     int newIndex = 0;
 
     String aboutTitle = "About CCProbe";
@@ -25,20 +24,18 @@ public class CCProbe extends MainView
 							   "Drawing","UnitConvertor","Image"};
 
 	String [] palmFileStrings = {"Beam LabBook", aboutTitle};
-	String [] javaFileStrings = {"Open LabBook..", 
-								 aboutTitle, "Serial Port Setup..", "-",
+	String [] javaFileStrings = {aboutTitle, "Serial Port Setup..", "-",
 								 "Exit"};
 	String [] ceFileStrings = {aboutTitle, "-", "Exit"};
 
 	int		[]creationID = {0x00010100};
-	LObjDictionaryView loDictView = null;
-	File labBookFile = null;
-	Label fileNameLabel = null;
-
+	
     public void onStart()
     {
 		super.onStart();
     	
+		LObjDictionary loDict = null;
+
 		LabBook.registerFactory(new DataObjFactory());
 
 		// Dialog.showImages = false;
@@ -47,7 +44,7 @@ public class CCProbe extends MainView
 		graph.Bin.START_DATA_SIZE = 25000;
 		graph.LargeFloatArray.MaxNumChunks = 25;
 
-		objViewHeight = myHeight;
+		int dictHeight = myHeight;
 
 		LabBookDB lbDB;
 		String plat = waba.sys.Vm.getPlatform();
@@ -66,7 +63,6 @@ public class CCProbe extends MainView
 			*/
 			// GraphSettings.MAX_COLLECTIONS = 1;			
 			lbDB = new LabBookCatalog("LabBook");
-			labBookFile = new File("LabBook.PDB", File.DONT_OPEN);
 			// Dialog.showImages = false;
 			// lbDB = new LabBookFile("LabBook"); 
 		} else {
@@ -74,50 +70,25 @@ public class CCProbe extends MainView
 			GraphSettings.MAX_COLLECTIONS = 4;
 		}
 
+		if(myHeight < 180){
+			yOffset = 13;
+			dictHeight -= 13;
+			if(title == null) title = new Title("CCProbe");
+			title.setRect(0,0,width, 13);
+			me.add(title);
+		}
+
 		if(lbDB.getError()){
 			// Error;
 			exit(0);
 		}
 		
-		if(myHeight < 180){
-			// Add a palm title if this is a small window
-			yOffset = 13;
-			objViewHeight -= 13;
-			if(title == null) title = new Title("CCProbe");
-			title.setRect(0,0,width, 13);
-			me.add(title);
-		} else if(myHeight > 300){
-			objViewHeight -= 13;
-		}
-
 		if(plat.equals("PalmOS")){
 			addFileMenuItems(palmFileStrings, null);
 		} else if(plat.equals("Java")){
 			addFileMenuItems(javaFileStrings, null);
 		} else {
 			addFileMenuItems(ceFileStrings, null);
-		}
-
-		if(myHeight > 300){
-			fileNameLabel = new Label("");
-			fileNameLabel.setRect(x, yOffset+objViewHeight, width, 13);
-			me.add(fileNameLabel);
-		}
-
-		openLabBookDB(lbDB);
-		
-		if(plat.equals("PalmOS")){
-			loDictView.checkForBeam();
-		}
-
-    }
-
-	public void openLabBookDB(LabBookDB lbDB)
-	{
-		LObjDictionary loDict = null;
-
-		if(labBook == null){
-			setLabBook(new LabBook());
 		}
 
 		Debug.println("Openning");
@@ -134,28 +105,22 @@ public class CCProbe extends MainView
 			labBook.store(loDict);
 
 		}
-
-		if(loDictView != null){
-			me.remove(loDictView);
-		}
-
-		lObjView = loDict.getView(this, true, mainSession);
-		loDictView = (LObjDictionaryView)lObjView;
+		LabObjectView view = (LabObjectView)loDict.getView(this, true, mainSession);
 		
-		lObjView.setRect(x,yOffset,width,objViewHeight);
-		lObjView.setShowMenus(true);
-		me.add(lObjView);
+		view.setRect(x,yOffset,width,dictHeight);
+		view.setShowMenus(true);
+		me.add(view);
+		lObjView = view;
 		newIndex = loDict.getChildCount();
 
-		if(fileNameLabel != null){
-			fileNameLabel.setText(labBookFile.getPath());
+		if(plat.equals("PalmOS")){
+			((LObjDictionaryView)view).checkForBeam();
 		}
     }
 
-
 	public String [] getCreateNames()
 	{
-		String  []createNames = creationTypes;
+	String  []createNames = creationTypes;
 		if(creationID != null){
 			for(int i = 0; i < creationID.length; i++){
 				int factoryType = (creationID[i] & 0xFFFF0000);
@@ -271,17 +236,15 @@ public class CCProbe extends MainView
 
 		waba.fx.Rect myRect = content.getRect();
 		myHeight = myRect.height;
-		objViewHeight = myHeight;
+		int dictHeight = myHeight;
 		if(myHeight < 180){
 			yOffset = 13;
-			objViewHeight -= 13;
+			dictHeight -= 13;
 			if(title == null) title = new Title("CCProbe");
 			title.setRect(0,0,width, 13);
 			me.add(title);
-		} else if(myHeight > 300) {
-			objViewHeight -= 13;
 		}
-		replacement.setRect(x,yOffset,width,objViewHeight);
+		replacement.setRect(x,yOffset,width,dictHeight);
 		replacement.setShowMenus(true);
 		me.add(replacement);
 		lObjView = replacement;
@@ -307,32 +270,6 @@ public class CCProbe extends MainView
 														Dialog.INFO_DIALOG);
 			} else if(command.equals("Serial Port Setup..")){
 				DataExport.showSerialDialog();
-			} else if(command.equals("Open LabBook..")){
-				// Show them the pick file dialog
-				FileDialog fd = FileDialog.getFileDialog(FileDialog.FILE_LOAD, null);
-				fd.show();
-
-				if(fd.getFilePath() == null){
-					// They hit cancel on the file dialog
-					return;
-				}
-
-				LabBookDB lbDB = LObjDatabaseRef.getDatabase(fd.getFilePath());
-				
-				if(lbDB.getError()){
-					// Error;
-					Dialog.showMessageDialog(null, "Error..",
-											 "This LabBook file is invalid",
-											 "Close", Dialog.ERR_DIALOG);
-					return;
-				}
-		
-				// Once they have picked a file
-				onExit();
-
-				// Open a new labBook using their file
-				labBookFile = new File(fd.getFilePath(), File.DONT_OPEN);
-				openLabBookDB(lbDB);
 			} else {
 				super.actionPerformed(e);
 			}
@@ -354,60 +291,23 @@ public class CCProbe extends MainView
 			labBook.commit();
 			String plat = waba.sys.Vm.getPlatform();
 			if(plat.equals("Java")){
-				Dialog messDialog = 
-					Dialog.showMessageDialog(null, "Please Wait..",
-											 "Please Wait... saving the LabBook",
-											 "Cancel", Dialog.INFO_DIALOG);
+				Dialog.showMessageDialog(null, "Please Wait..",
+										 "Please Wait... saving the LabBook",
+										 "Cancel", Dialog.INFO_DIALOG);
 
+				// This is dangerous but I don't see another way to do it
+				File oldLabFile = new File("LabBook.PDB", File.DONT_OPEN);
+				oldLabFile.delete();
+
+				LabBookCatalog lbCat = new LabBookCatalog("LabBook");
 				LabObjectPtr rootPtr = labBook.getRoot();
 				mainSession = rootPtr.getSession();
 
 				LObjDictionary loDict = (LObjDictionary)mainSession.getObj(rootPtr);
-				
-				// Note if the loDict is null then this won't make a labBook
-				// We ought to also do this if there are no changes.
-				File origLabBookFile = null;
-
-				if(loDict != null ){ 
-					LabBookDB tmpDB = null;
-					File tmpLabBookFile = null;
-					if(labBook.getDB() instanceof LabBookCatalog){
-						// This is dangerous but I don't see another way to do it
-						labBookFile.delete();
-
-						origLabBookFile = new File("LabBook.PDB", File.DONT_OPEN);
-						if(origLabBookFile.exists()){
-							origLabBookFile.rename("_tmp_LabBook.PDB");
-							origLabBookFile = new File("_tmp_LabBook.PDB", File.DONT_OPEN);
-						} else {
-							origLabBookFile = null;
-						}
-
-						tmpDB = (LabBookDB)new LabBookCatalog("LabBook");
-						tmpLabBookFile = new File("LabBook.PDB", File.DONT_OPEN);
-					} else {
-						tmpDB = (LabBookDB)new LabBookFile("_tmp_LabBook");
-						tmpLabBookFile = new File("_tmp_LabBook", File.DONT_OPEN);
-					}
-
-					labBook.export(loDict, tmpDB);
-					tmpDB.save();
-					tmpDB.close();
-
-
-					if(labBook.getDB() instanceof LabBookFile){
-						// This is dangerous but I don't see another way to do it
-						labBookFile.delete();
-					}
-
-					tmpLabBookFile.rename(labBookFile.getPath());
-					if(origLabBookFile != null){
-						origLabBookFile.rename("LabBook.PDB");
-					}
-				}
+				labBook.export(loDict, lbCat);
+				lbCat.save();
+				lbCat.close();
 				labBook = null;
-
-				messDialog.hide();
 			} else {
 				labBook.close();
 				labBook = null;			

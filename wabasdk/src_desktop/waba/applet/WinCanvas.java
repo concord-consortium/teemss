@@ -26,27 +26,6 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 
-class WinCanvasEvent
-{
-	int type;
-	int key;
-	int x;
-	int y;
-	int modifiers;
-	int timestamp;
-
-	WinCanvasEvent(int type, int key, int x, int y,
-				   int modifiers, int timestamp)
-	{
-		this.type = type;
-		this.key = key;
-		this.x = x;
-		this.y = y;
-		this.modifiers = modifiers;
-		this.timestamp = timestamp;					
-	}
-}
-
 public class WinCanvas extends java.awt.Canvas 
 	implements KeyListener, MouseListener, MouseMotionListener, Runnable
 {
@@ -161,24 +140,12 @@ public class WinCanvas extends java.awt.Canvas
 		postWabaEvent(wabaType, 0, e.getX(), e.getY(), wMods, (int)e.getWhen());
 	}
 
-	waba.util.Vector wabaEvents = new waba.util.Vector();
-
 	public void postWabaEvent(int type, int key, int x, int y,
 							  int modifiers, int timestamp)
-	{		
+	{
 		synchronized(Applet.uiLock){
-			win._postEvent(type, key, x, y, 
-						   modifiers, timestamp);
+			win._postEvent(type, key, x, y, modifiers, timestamp);
 		}
-
-		/*
-		WinCanvasEvent e = new WinCanvasEvent(type, key, x, y,
-											  modifiers, timestamp);
-		synchronized(this){
-			wabaEvents.add(e);
-			notifyAll();
-		}
-		*/
 	}
 
 	public void update(java.awt.Graphics g)
@@ -186,9 +153,7 @@ public class WinCanvas extends java.awt.Canvas
 		paint(g);
 	}
 
-	Object paintMonitor = new Object();
 	java.awt.Rectangle paintClipRect = null;
-
 	public void paint(java.awt.Graphics g)
 	{
 		// getClipRect() is missing in the Kaffe distribution for Linux
@@ -196,26 +161,21 @@ public class WinCanvas extends java.awt.Canvas
 		try { r = g.getClipBounds(); }
 		catch (NoSuchMethodError e) { r = g.getClipRect(); }
 
-		synchronized(this){
-			if(r != null){
+		if(r != null){
+			synchronized(this){
 				if(paintClipRect != null){
 					paintClipRect = paintClipRect.union(r);
 				} else {
 					paintClipRect = r;
 				}
-			} else {
-				paintClipRect = getBounds();
+				notifyAll();
 			}
-			notifyAll();
 		}
-	   
 	}
 
 	/**
 	 * 	We have a seperate painting thread that just waits to be notified
-	 *  when the a new paint has been called.  The wait has a timeout for 
-	 *  deadlock protection.  If it timeouts and the paintrect is null.  Then
-	 *  it just loops again.
+	 *  when the a new paint has been called.
 	 *  Notice in the paint that if there is a paint waiting then it 
 	 *  takes the union of the clipping rects
 	 *
@@ -231,10 +191,9 @@ public class WinCanvas extends java.awt.Canvas
 		
 		while(true){
 			synchronized(this){
-				if(paintClipRect == null &&
-				   wabaEvents.getCount() == 0){
+				if(paintClipRect == null){
 					try{
-						wait(500);
+						wait();
 					} catch (InterruptedException e){
 						e.printStackTrace();
 					}
@@ -248,19 +207,6 @@ public class WinCanvas extends java.awt.Canvas
 				}
 				if(r != null){
 					win._doPaint(r.x, r.y, r.width, r.height);
-				}
-
-				WinCanvasEvent e = null;
-				synchronized(this){
-					if(wabaEvents.getCount() > 0){
-						e = (WinCanvasEvent)wabaEvents.get(0);
-						wabaEvents.del(0);
-					}
-				}
-
-				if(e != null){
-					win._postEvent(e.type, e.key, e.x, e.y, 
-								   e.modifiers, e.timestamp);
 				}
 			}
 		}

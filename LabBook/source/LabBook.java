@@ -68,11 +68,6 @@ public class LabBook
 		rootPtr = db.getRootPtr();
     }
 
-	public LabBookDB getDB()
-	{
-		return db;
-	}
-
     public LabObjectPtr getRoot()
     {
 		return rootPtr;
