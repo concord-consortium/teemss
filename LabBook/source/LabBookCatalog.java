@@ -176,11 +176,7 @@ public class LabBookCatalog
 		int pos = 0;
 		int i;
 
-		for(i=0; i<length; i++){
-			objIndex[pos++] = ds.readInt();
-			objIndex[pos++] = ds.readInt();
-			objIndex[pos++] = ds.readInt();
-		}
+		ds.readInts(objIndex, 0, length*3);
 
 		cat.setRecordPos(-1);
 		return true;
@@ -210,11 +206,12 @@ public class LabBookCatalog
 				objSize = cat.getRecordSize();
 				buffer = new byte [objSize];
 				cat.readBytes(buffer, 0, objSize);
-				cat.setRecordPos(-1);		
+				cat.setRecordPos(-1);
+				return buffer;
 			}
 		}
 	
-		return buffer;
+		return null;
     }
 
     // check if this object already exists

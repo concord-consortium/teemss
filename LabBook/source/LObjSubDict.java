@@ -63,7 +63,7 @@ public abstract class LObjSubDict extends LabObject
     {
 		// This assumes the dict doesn't have a template
 		id++;
-	
+		if(dict == null) return;
 	
 		if(dict.getChildCount() <= id){
 			for(int i=dict.getChildCount(); i<id; i++){
