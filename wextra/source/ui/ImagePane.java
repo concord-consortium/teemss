@@ -4,12 +4,20 @@ String imagePath = null;
 
     public static boolean showImages = true;
 
-	public ImagePane(String path){
-		imagePath = path;
-	}
-	public void onPaint(waba.fx.Graphics g){
-		waba.fx.Image wImage = new waba.fx.Image(imagePath);
-		g.drawImage(wImage,0,0);
-		wImage.free();
-	}
+    protected ImagePane(){};
+
+    public ImagePane(String path){
+	imagePath = path;
+    }
+
+    public void onPaint(waba.fx.Graphics g){
+	waba.fx.Image wImage = getImage();
+	g.drawImage(wImage,0,0);
+	wImage.free();
+    }
+
+    protected waba.fx.Image getImage()
+    {
+	return new waba.fx.Image(imagePath);
+    }
 }

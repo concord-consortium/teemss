@@ -131,7 +131,7 @@ private waba.ui.Container		contentPane;
 	waba.ui.Label label = new waba.ui.Label(message,waba.ui.Label.CENTER);
 	label.setRect(10 + w/2 - messageWidth/2,20,messageWidth,mHeight);
 	cp.add(label);
-	String imagePath = "cc_extra/icons/";
+	String imagePath = "";
 	switch(messageType){
 		default:
 		case DEF_DIALOG:
@@ -149,7 +149,7 @@ private waba.ui.Container		contentPane;
 			break;
 	}
 	if(showImages){
-	    ImagePane ip = new ImagePane(imagePath);
+	    ImagePane ip = (ImagePane)new Icon(imagePath);
 	    ip.setRect(d.widthBorder + 2,17,16,16);
 	    cp.add(ip);
 	}
@@ -178,7 +178,7 @@ private waba.ui.Container		contentPane;
 	waba.ui.Label label = new waba.ui.Label(message,waba.ui.Label.CENTER);
 	label.setRect(10 + w/2 - messageWidth/2,20,messageWidth,mHeight);
 	cp.add(label);
-	String imagePath = "cc_extra/icons/";
+	String imagePath = "";
 	switch(messageType){
 		default:
 		case DEF_DIALOG:
@@ -196,7 +196,7 @@ private waba.ui.Container		contentPane;
 			break;
 	}
 	if(showImages){
-		ImagePane ip = new ImagePane(imagePath);
+		ImagePane ip = (ImagePane)new Icon(imagePath);
 		ip.setRect(d.widthBorder + 2,17,16,16);
 		cp.add(ip);
 	}
@@ -254,7 +254,7 @@ private waba.ui.Container		contentPane;
 		cp.add(d.inpControl);
 	}
 	if(showImages){
-	    ImagePane ip = new ImagePane("cc_extra/icons/QuestionSmall.bmp");
+	    ImagePane ip = (ImagePane)new Icon("QuestionSmall.bmp");
 	    ip.setRect(d.widthBorder + 2,17,16,16);
 	    cp.add(ip);
 	}

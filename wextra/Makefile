@@ -11,3 +11,9 @@ $(PLATFORMS): classes $(PLATFORMS:%=classes/%)
 
 classes $(PLATFORMS:%=classes/%):
 	mkdir $@
+
+icons: $(PLATFORMS:%=classes/%/icons)
+
+$(PLATFORMS:%=classes/%/icons): 
+	mkdir -p $@
+	cp cc_extra/icons/*.bmp $@

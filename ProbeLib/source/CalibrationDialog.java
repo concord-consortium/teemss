@@ -507,7 +507,7 @@ ImagePane ip = null;
 waba.fx.Image bufIm = null;
 	public DeviationControl(float maxValue){
 		this.maxValue = Maths.abs(maxValue);
-		ip = new ImagePane("cc_extra/icons/deviation.bmp");
+		ip = (ImagePane) new Icon("deviation.bmp");
 		ip.setRect(0,0,23,23);
 		add(ip);
 	}
