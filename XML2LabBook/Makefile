@@ -26,7 +26,7 @@ JAR_BUILD := other
 
 CLASSPATH := $(CLASSPATH):${WGRAPH_DIR}:${LABBOOK_DIR}:${CCPROBE_DIR}:${PROBELIB_DIR}:jars/QTJava.zip:jars/crimson.jar:jars/xalan.jar
 
-all: dependencies main jar
+all: dependencies main
 test: dependencies main
 
 LabBook:
