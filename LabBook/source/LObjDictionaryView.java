@@ -495,7 +495,6 @@ public class LObjDictionaryView extends LabObjectView
 
 		dict.store();
 
-		if(addedMenus) delMenus();
 		getMainView().showFullWindowView(lObjView);
     }
 
@@ -561,10 +560,14 @@ public class LObjDictionaryView extends LabObjectView
 				return;
 			}
 
-			getMainView().showFullWindowView(null);
-			treeControl.reparse();
-			if(showMenus) addMenus();
+			// The order is important here because closeTopWin
+			// calls setShowMenus which checks lObjView to decide which 
+			// menus to show.
 			lObjView = null;
+
+			getMainView().closeTopWindowView();
+
+			treeControl.reparse();
 /*
 			pathTree = null;
 			

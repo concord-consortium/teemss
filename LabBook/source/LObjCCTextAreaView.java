@@ -57,7 +57,7 @@ CCScrollBar				scrollBar;
 			tArea.setText(tArea.getText());
 			tArea.restoreCursor(true);
 			// If we are embedded this will be a problem
-			getMainView().showFullWindowView(this);
+			getMainView().closeTopWindowView();
 			if(showMenus) addMenus();
 			lObjView = null;
 		}
@@ -71,8 +71,9 @@ CCScrollBar				scrollBar;
 	public void delMenus(){
 		if(container != null){
 			if(menu != null) container.getMainView().delMenu(this, menu);
-			if(menuEdit != null) container.getMainView().delMenu(this, menuEdit);
+			if(menuEdit != null) container.getMainView().delMenu(this, menuEdit);			
 			container.getMainView().removeFileMenuItems(fileStrings, this);
+			if(tArea != null) tArea.delMenus();
 		}
 	}
 	public void addMenus(){

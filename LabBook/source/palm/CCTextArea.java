@@ -105,7 +105,7 @@ EmbedObjectPropertyControl		objProperty;
 
 
 
-public class CCTextArea  extends Container implements ViewContainer, MainView, DialogListener{
+public class CCTextArea  extends Container implements ViewContainer, DialogListener{
 //CCStringWrapper		[] lines;
 Vector				lines = null;
 FontMetrics 		fm = null;
@@ -187,32 +187,10 @@ public final static int	yTextBegin = 2;
 	}
 
 	public MainView getMainView(){
-		return this;
-	}
-    public void addMenu(LabObjectView source, Menu menu){
-    	if(mainView != null) mainView.addMenu(source,menu);
-    }
-
-    public void delMenu(LabObjectView source, Menu menu){
-    	if(mainView != null) mainView.delMenu(source,menu);
-    }
-
-	public void addFileMenuItems(String [] items, org.concord.waba.extra.event.ActionListener source){
-    	if(mainView != null) mainView.addFileMenuItems(items,source);
-	}
-
-	public void removeFileMenuItems(String [] items, org.concord.waba.extra.event.ActionListener source){
-    	if(mainView != null) mainView.removeFileMenuItems(items,source);
-	}
-
-	public String [] getCreateNames(){
-		return null;
-	}
-
-	public void createObj(String name, LObjDictionaryView dView){
+		return owner.getMainView();
 	}
 	
-	public void showFullWindowView(LabObjectView view){
+	public void delMenus(){
     	if(mainView != null){
 			if(currObjectViewDesc != null){
 				Object o = currObjectViewDesc.getObject();
@@ -221,9 +199,7 @@ public final static int	yTextBegin = 2;
 					ov.setShowMenus(false);
 				}
 			}
-			owner.setShowMenus(view == null);
-			mainView.showFullWindowView((view == null)?owner:view);
-    	}
+		}
 	}
 
 	static boolean propertyMode = false;
