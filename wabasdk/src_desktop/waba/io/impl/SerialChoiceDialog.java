@@ -18,22 +18,22 @@ java.awt.Choice choice = null;
 		save.addActionListener(this);
 		buttonPanel.add(save);
 		add(buttonPanel,java.awt.BorderLayout.SOUTH);
-				
 		choice = new java.awt.Choice();
 		int index = -1;
 		for(java.util.Enumeration pe = SerialManager.getSerialPorts();pe.hasMoreElements();){
 			SerialPortDesc portDesc = (SerialPortDesc)pe.nextElement();
-			choice.add(portDesc.name);
 			if(!portDesc.name.startsWith("Infrared") && !portDesc.name.startsWith("Internal")){
+				choice.add(portDesc.name);
 				index = portDesc.index;
 			}
 		}
-		if(index >=0){
+		if(choice.getItemCount() < 1) save.setEnabled(false);
+		System.out.println("choice.getItemCount() "+choice.getItemCount()+" index "+index);
+		if(index >=0 && index <=choice.getItemCount()){
 			choice.select(index);
 		}
 		
 		choice.addItemListener(this);
-		
 		add(choice,java.awt.BorderLayout.CENTER);
 
 		setResizable(false);

@@ -21,7 +21,25 @@ private int		inpBuffer = 0;
 		this.parity 	= parity;
 		this.stopBits 	= stopBits;
 		System.out.println("SerialPortImpl");
-		initPort(number,baudRate,bits,parity,stopBits);
+		SerialManager.checkAvailableSerialPorts();
+		SerialPortDesc sPort = SerialManager.getAssignedPort();
+		if(sPort == null){
+			java.awt.Frame f = SerialManager.getMainFrame();
+			if(f != null){
+				SerialChoiceDialog dialog = new SerialChoiceDialog(f);
+				sPort = SerialManager.getAssignedPort();
+			}
+		}
+		String inPort = null,outPort = null;
+		if(sPort == null){
+			String portPrefix = "."+(char)('A'+number);
+			inPort = portPrefix+"In";
+			outPort = portPrefix+"Out";
+		}else{
+			inPort = sPort.inpName;
+			outPort = sPort.outName;
+		}
+		initPort1(inPort,outPort,baudRate,bits,parity,stopBits);
 	}
 	public int getBaudRate() 	{return baudRate;}
 	public int getBits() 		{return bits;}
@@ -37,6 +55,7 @@ private int		inpBuffer = 0;
 	private void 	setInpBuffer(int v) {inpBuffer = v;}
 
 	public native void initPort(int number, int baudRate, int bits, boolean parity, int stopBits);
+	public native void initPort1(String inPort, String outPort, int baudRate, int bits, boolean parity, int stopBits);
 
 	public native boolean close();
 
