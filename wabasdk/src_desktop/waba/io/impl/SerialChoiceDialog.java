@@ -36,9 +36,9 @@ java.awt.Choice choice = null;
 		choice.addItemListener(this);
 		add(choice,java.awt.BorderLayout.CENTER);
 
-		setResizable(false);
 		pack();
 		show();
+		setResizable(false);
 	}
 	
 	public void actionPerformed(java.awt.event.ActionEvent ae){

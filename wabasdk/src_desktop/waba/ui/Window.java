@@ -82,16 +82,6 @@ public Window()
 	jWindow.add("Center", _winCanvas);
 	_winCanvas.requestFocus();
 	}
-	public void setVisible(boolean visible){
-		java.awt.Window awtWindow = (java.awt.Window)_winCanvas.getParent();
-		awtWindow.setVisible(visible);
-	}
-	public void show(){
-		setVisible(true);
-	}
-	public void hide(){
-		setVisible(false);
-	}
 
 public java.awt.Graphics createAWTGraphics()
 	{
@@ -258,6 +248,8 @@ public void _doPaint(int x, int y, int width, int height)
 		}
 	}
 	public void setRect(int x, int y, int width, int height){
+		System.out.println("Window setRect: x: " + x + " y: " + y + 
+						   "width: " + width + " height: " + width);
 		java.awt.Container awtContainer = (java.awt.Container)_winCanvas.getParent();
 		awtContainer.setSize(width,height);
 		awtContainer.setLocation(x,y);
@@ -265,6 +257,7 @@ public void _doPaint(int x, int y, int width, int height)
 //		super.setRect(x,y,width,height);
 	}
 	public WinCanvas getAWTCanvas(){return _winCanvas;}
+
 	public void wasAWTAddNotify(){
 	    java.awt.Container awtWindow = (java.awt.Container)getAWTCanvas().getParent();
 	    java.awt.Insets insets 	= awtWindow.getInsets();
