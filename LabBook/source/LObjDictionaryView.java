@@ -560,7 +560,8 @@ public class LObjDictionaryView extends LabObjectView
 		} else if(fName.equals("Delete")){
 			if(curNode == null || curNode.toString().equals("..empty..")) return;
 			if(yieldID == 0){
-				showConfirmDialog("Are you sure you want to delete:|" + 
+				showConfirmDialog("Are you sure you| " +
+								  "want to delete:| " + 
 								  curNode.toString());
 				this.dialogFName = fName;
 				this.yieldID = 1;
