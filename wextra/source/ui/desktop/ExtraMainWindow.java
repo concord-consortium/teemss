@@ -403,10 +403,11 @@ public abstract class  ExtraMainWindow extends MainWindow implements ActionListe
     	if(applHandler != null) applHandler.registerHandlers(this);
 	}
 
-	public void wasAWTAddNotify(){
-		super.wasAWTAddNotify();
+	
+	public void readyForRegistering(){
 		registerHandlers();
 	}
+	
 
 }
 
