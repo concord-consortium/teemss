@@ -8,17 +8,15 @@ import org.concord.CCProbe.*;
 
 class PtrWindow
 {
-	PtrWindow(LabObjectPtr ptr, LObjDictionary dict, boolean edit)
+	PtrWindow(LabObjectPtr ptr, LabObjectPtr dictPtr, boolean edit)
 	{
 		this.ptr = ptr;
-		this.dict = dict;
+		this.dictPtr = dictPtr;
 		this.edit = edit;
 	}
 
 	LabObjectPtr ptr;
-
-	// is this going to be valid???
-	LObjDictionary dict;
+	LabObjectPtr dictPtr;
 
 	boolean edit;
 }
@@ -419,9 +417,11 @@ public class CCProbe extends ExtraMainWindow
 				LabObjectPtr ptr = pWin.ptr;
 					
 				curWinSession = labBook.getSession();
-				LabObject lObj = curWinSession.load((LabObjectPtr)pWin.ptr);					
 
-				LabObjectView view = lObj.getView(this, pWin.edit, pWin.dict, curWinSession);
+				LabObject lObj = curWinSession.load(pWin.ptr);					
+				LObjDictionary dict = (LObjDictionary)curWinSession.load(pWin.dictPtr);
+
+				LabObjectView view = lObj.getView(this, pWin.edit, dict, curWinSession);
 
 				view.layout(true);
 				view.setRect(0,0,width,myHeight);
@@ -508,6 +508,6 @@ public class CCProbe extends ExtraMainWindow
 		curFullView = view;
 		
 		
-		fullViews.add(new PtrWindow(obj.getVisiblePtr(), dict, edit));		
+		fullViews.add(new PtrWindow(obj.getVisiblePtr(), dictPtr, edit));		
 	}
 }
