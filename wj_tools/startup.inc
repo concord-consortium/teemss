@@ -4,6 +4,12 @@
 
         code
 
+;;; Store offset to PilotMain it might be more than 
+;;; 32k away.
+PilotMain_offset:
+	dc.l	PilotMain-PilotMain_offset
+
+
 proc __Startup__()
 local pappi.l
 local prevGlobals.l
