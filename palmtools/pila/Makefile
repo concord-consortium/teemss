@@ -2,7 +2,7 @@
 # Pila makefile
 #
 
-CC       = cc
+CC       = gcc
 #CFLAGS   = -g -Dunix
 CFLAGS   = -Dunix -pipe -Wall -O2
 LDFLAGS  =
