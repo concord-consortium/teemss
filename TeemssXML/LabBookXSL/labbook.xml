@@ -501,8 +501,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <EMBOBJ>
 <IMAGE ID="Image_9" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Air_Cart/02d_strawInstall/PALM_TINY_02d_strawInstall.bmp"/>
-</EMBOBJ>
-<SNPARAGRAPH linkcolor="0000FF">Attaching the SmartWheel to the Cart</SNPARAGRAPH>
+</EMBOBJ></SUPERNOTES><SUPERNOTES ID="Air_Cart_trial_I_part2" name="Trial I, Part 2"><SNPARAGRAPH linkcolor="0000FF">Building an air cart, Part 2</SNPARAGRAPH><SNPARAGRAPH/><SNPARAGRAPH linkcolor="0000FF">Attaching the SmartWheel to the Cart</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. Center the SmartWheel in the slot so that it doesn't rub against the cardboard. Make it exactly parallel to the long edge of the cart. This will make the cart go straight. The aluminum arm goes against the same side of the cardboard as the straw. Mark two screw holes with a pencil or pen, one at each end.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -545,7 +544,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <EMBOBJ>
 <IMAGE ID="Image_16" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Air_Cart/04c_wheelPair/PALM_TINY_04c_wheelPair.bmp"/>
-</EMBOBJ></SUPERNOTES><SUPERNOTES ID="Air_Cart_trial_I_part2" name="Trial I, Part 2"><SNPARAGRAPH linkcolor="0000FF">Building an air cart, Part 2</SNPARAGRAPH><SNPARAGRAPH/><SNPARAGRAPH linkcolor="0000FF">Glueing on the bumper</SNPARAGRAPH>
+</EMBOBJ></SUPERNOTES><SUPERNOTES ID="Air_Cart_trial_I_part3" name="Trial I, Part 3"><SNPARAGRAPH linkcolor="0000FF">Building an air cart, Part 3</SNPARAGRAPH><SNPARAGRAPH/><SNPARAGRAPH linkcolor="0000FF">Glueing on the bumper</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>Glue the bumper in the center on the front end that contains the SmartWheel end.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -565,8 +564,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <EMBOBJ>
 <IMAGE ID="Image_19" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Air_Cart/06b_batteries/PALM_TINY_06b_batteries.bmp"/>
-</EMBOBJ>
-<SNPARAGRAPH linkcolor="0000FF">Glueing on the clay holder</SNPARAGRAPH>
+</EMBOBJ></SUPERNOTES><SUPERNOTES ID="Air_Cart_trial_I_part4" name="Trial I, Part 4"><SNPARAGRAPH linkcolor="0000FF">Building an air cart, Part 4</SNPARAGRAPH><SNPARAGRAPH/><SNPARAGRAPH linkcolor="0000FF">Glueing on the clay holder</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>Glue down the paper cup in the center right behind the SmartWheel slot. Make a lump of clay so that you can add weight to the cart.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1530,20 +1528,20 @@ projects contributing to the development of CCProbeware are:
 <FOLDER name="Responses" ID="Motions_and_Forces_response">
 <FOLDER view="paging" name="Air Cart Responses" ID="Air_Cart-response">
 <FOLDER ID="Air_Cart_think_response" name="Think About Responses ">
-<SUPERNOTES ID="Air_Cart_think_1_1" name="Air_Cart_think_1_1">
+<SUPERNOTES ID="Air_Cart_think_1_1" name="investigation think1">
 <EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">It's not that easy to make a vehicle move with almost no friction. But that's the goal of this investigation. We want a cart that's almost friction free so that we can study the forces on moving objects without being confused by the forces due to friction. Suppose a frictionless cart is pushed across the floor.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>How far do you think the cart will go?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ w="140" h="80">
+<EMBOBJ w="140" h="60">
 <NOTES ID="query_note_1" name="query_note_1"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>What forces will affect the motion of a frictionless cart?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ w="140" h="80">
+<EMBOBJ w="140" h="60">
 <NOTES ID="query_note_2" name="query_note_2"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
@@ -1554,44 +1552,44 @@ projects contributing to the development of CCProbeware are:
 <FOLDER ID="Air_Cart_trial_I_response" name="Trial I Responses      &#10;    "/>
 <FOLDER ID="Air_Cart_trial_II_response" name="Trial II Responses      &#10;    "/>
 <FOLDER ID="Air_Cart_trial_III_response" name="Trial III Responses      &#10;    "/>
-<FOLDER ID="Air_Cart_analysis_response&#10;    " name="Analysis Responses "/>
+<FOLDER ID="Air_Cart_analysis_response" name="Analysis Responses"/>
 </FOLDER>
 <FOLDER view="paging" name="Tracker Responses" ID="Tracker-response">
 <FOLDER ID="Tracker_think_response" name="Think About Responses ">
-<SUPERNOTES ID="Tracker_think_10_1" name="Tracker_think_10_1">
+<SUPERNOTES ID="Tracker_think_10_1" name="investigation think1">
 <EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Think about how you would describe the motion of your cart to someone.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>What is the simplest way to describe its motion?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ w="140" h="80">
+<EMBOBJ w="140" h="60">
 <NOTES ID="query_note_22" name="query_note_22"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>Would you need to know its position, or velocity, or both?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ w="140" h="80">
+<EMBOBJ w="140" h="60">
 <NOTES ID="query_note_23" name="query_note_23"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>What tools would you need to measure its motion?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ w="140" h="80">
+<EMBOBJ w="140" h="60">
 <NOTES ID="query_note_24" name="query_note_24"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 </SUPERNOTES>
-<SUPERNOTES ID="Tracker_think_11_2" name="Tracker_think_11_2">
+<SUPERNOTES ID="Tracker_think_11_2" name="investigation think2">
 <EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">The following position versus time graph of a cart was made with a SmartWheel. Discuss the motion shown with your group.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>Did the cart appear to change velocity at anytime?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ w="140" h="80">
+<EMBOBJ w="140" h="60">
 <NOTES ID="query_note_25" name="query_note_25"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
@@ -1602,61 +1600,76 @@ projects contributing to the development of CCProbeware are:
 <FOLDER ID="Tracker_trial_I_response" name="Trial I Responses      &#10;    "/>
 <FOLDER ID="Tracker_trial_II_response" name="Trial II Responses      &#10;    "/>
 <FOLDER ID="Tracker_trial_III_response" name="Trial III Responses      &#10;    "/>
-<FOLDER ID="Tracker_analysis_response&#10;    " name="Analysis Responses "/>
+<FOLDER ID="Tracker_analysis_response" name="Analysis Responses"/>
 </FOLDER>
 <FOLDER view="paging" name="Propeller Responses" ID="Propeller-response">
 <FOLDER ID="Propeller_think_response" name="Think About Responses ">
-<SUPERNOTES ID="Propeller_think_23_1" name="Propeller_think_23_1">
+<SUPERNOTES ID="Propeller_think_23_1" name="investigation think1">
 <EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">If you sneeze in a weightless environment, as some of the astronauts have done, your body would move backwards and upwards. In order for a motion to happen, a force is needed. So, why does an astronaut's body move when they sneeze?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>What are the forces that occur during the sneeze?</SNPARAGRAPH>
-<SNPARAGRAPH>drawing</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="100">
+<DRAWING ID="query_drawing_54" name="think1"/>
+</EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
-<EMBOBJ w="140" h="80">
+<EMBOBJ w="140" h="60">
 <NOTES ID="query_note_54" name="query_note_54"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 </SUPERNOTES>
-<SUPERNOTES ID="Propeller_think_24_2" name="Propeller_think_24_2">
+<SUPERNOTES ID="Propeller_think_24_2" name="investigation think2">
 <EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Picture a propeller or fan blowing air. Think about how the accelerating air from the propeller relates to your description of the forces found during a sneeze in space.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>What is accelerating the air?</SNPARAGRAPH>
-<SNPARAGRAPH>drawing</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="100">
+<DRAWING ID="query_drawing_55" name="think1"/>
+</EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
-<EMBOBJ w="140" h="80">
+<EMBOBJ w="140" h="60">
 <NOTES ID="query_note_55" name="query_note_55"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>Will your almost frictionless cart move when the propeller is turned on?</SNPARAGRAPH>
-<SNPARAGRAPH>drawing</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="100">
+<DRAWING ID="query_drawing_56" name="think2"/>
+</EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
-<EMBOBJ w="140" h="80">
+<EMBOBJ w="140" h="60">
 <NOTES ID="query_note_56" name="query_note_56"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>Will it still move when you add more friction?</SNPARAGRAPH>
-<SNPARAGRAPH>drawing</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="100">
+<DRAWING ID="query_drawing_57" name="think3"/>
+</EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
-<EMBOBJ w="140" h="80">
+<EMBOBJ w="140" h="60">
 <NOTES ID="query_note_57" name="query_note_57"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>What are the forces that will make the cart move?</SNPARAGRAPH>
-<SNPARAGRAPH>drawing</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="100">
+<DRAWING ID="query_drawing_58" name="think4"/>
+</EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
-<EMBOBJ w="140" h="80">
+<EMBOBJ w="140" h="60">
 <NOTES ID="query_note_58" name="query_note_58"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
@@ -1667,19 +1680,22 @@ projects contributing to the development of CCProbeware are:
 <FOLDER ID="Propeller_trial_I_response" name="Trial I Responses      &#10;    "/>
 <FOLDER ID="Propeller_trial_II_response" name="Trial II Responses      &#10;    "/>
 <FOLDER ID="Propeller_trial_III_response" name="Trial III Responses      &#10;    "/>
-<FOLDER ID="Propeller_analysis_response&#10;    " name="Analysis Responses "/>
+<FOLDER ID="Propeller_analysis_response" name="Analysis Responses"/>
 </FOLDER>
 <FOLDER view="paging" name="Collision I Responses" ID="Collision_I-response">
 <FOLDER ID="Collision_I_think_response" name="Think About Responses ">
-<SUPERNOTES ID="Collision_I_think_35_1" name="Collision_I_think_35_1">
+<SUPERNOTES ID="Collision_I_think_35_1" name="investigation think1">
 <EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">In this activity you will use the Force probe to actually measure what happens during a collision. How big are the forces? How long do they last? What features of the colliding objects make the forces bigger or smaller?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>How would you increase or decrease the forces during a collision?</SNPARAGRAPH>
-<SNPARAGRAPH>drawing</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="100">
+<DRAWING ID="query_drawing_79" name="think1"/>
+</EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
-<EMBOBJ w="140" h="80">
+<EMBOBJ w="140" h="60">
 <NOTES ID="query_note_79" name="query_note_79"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
@@ -1690,44 +1706,44 @@ projects contributing to the development of CCProbeware are:
 <FOLDER ID="Collision_I_trial_I_response" name="Trial I Responses      &#10;    "/>
 <FOLDER ID="Collision_I_trial_II_response" name="Trial II Responses      &#10;    "/>
 <FOLDER ID="Collision_I_trial_III_response" name="Trial III Responses      &#10;    "/>
-<FOLDER ID="Collision_I_analysis_response&#10;    " name="Analysis Responses "/>
+<FOLDER ID="Collision_I_analysis_response" name="Analysis Responses"/>
 </FOLDER>
 <FOLDER view="paging" name="Collision II Responses" ID="Collision_II-response">
 <FOLDER ID="Collision_II_think_response" name="Think About Responses ">
-<SUPERNOTES ID="Collision_II_think_49_1" name="Collision_II_think_49_1">
+<SUPERNOTES ID="Collision_II_think_49_1" name="investigation think1">
 <EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Suppose two identical balls bounce off of each other.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>Does each one experience the same force?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ w="140" h="80">
+<EMBOBJ w="140" h="60">
 <NOTES ID="query_note_106" name="query_note_106"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>Will they each bounce off with the same velocity they started with?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ w="140" h="80">
+<EMBOBJ w="140" h="60">
 <NOTES ID="query_note_107" name="query_note_107"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 </SUPERNOTES>
-<SUPERNOTES ID="Collision_II_think_50_2" name="Collision_II_think_50_2">
+<SUPERNOTES ID="Collision_II_think_50_2" name="investigation think2">
 <EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">In your group, predict and explain what happens when two objects with different masses, like a heavy and a light ball or a heavy truck and a small car collide.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>Is the force on each one the same?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ w="140" h="80">
+<EMBOBJ w="140" h="60">
 <NOTES ID="query_note_108" name="query_note_108"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>What is the resulting motion of each object?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ w="140" h="80">
+<EMBOBJ w="140" h="60">
 <NOTES ID="query_note_109" name="query_note_109"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
@@ -1738,7 +1754,7 @@ projects contributing to the development of CCProbeware are:
 <FOLDER ID="Collision_II_trial_I_response" name="Trial I Responses      &#10;    "/>
 <FOLDER ID="Collision_II_trial_II_response" name="Trial II Responses      &#10;    "/>
 <FOLDER ID="Collision_II_trial_III_response" name="Trial III Responses      &#10;    "/>
-<FOLDER ID="Collision_II_analysis_response&#10;    " name="Analysis Responses "/>
+<FOLDER ID="Collision_II_analysis_response" name="Analysis Responses"/>
 </FOLDER>
 </FOLDER>
 </FOLDER>
@@ -2848,40 +2864,40 @@ projects contributing to the development of CCProbeware are:
 <FOLDER name="Responses" ID="Energy_response">
 <FOLDER view="paging" name="Heat Flow Responses" ID="Heat_Flow-response">
 <FOLDER ID="Heat_Flow_think_response" name="Think About Responses ">
-<SUPERNOTES ID="Heat_Flow_think_62_1" name="Heat_Flow_think_62_1">
+<SUPERNOTES ID="Heat_Flow_think_62_1" name="investigation think1">
 <EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">We are constantly dealing with things at different temperatures. Sometimes we want the heat to flow faster (cooking) and sometimes we want to prevent its flow (sleeping bags). In your group, discuss other situations when you would want to alter heat flow.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>What are three such situations?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ w="140" h="80">
+<EMBOBJ w="140" h="60">
 <NOTES ID="query_note_130" name="query_note_130"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>How does energy flow change over time?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ w="140" h="80">
+<EMBOBJ w="140" h="60">
 <NOTES ID="query_note_131" name="query_note_131"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 </SUPERNOTES>
-<SUPERNOTES ID="Heat_Flow_think_63_2" name="Heat_Flow_think_63_2">
+<SUPERNOTES ID="Heat_Flow_think_63_2" name="investigation think2">
 <EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Sometimes we prefer uniform temperatures (a non-drafty room) and sometimes we prefer contrast (hot syrup on ice cream).</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>Can you think of other times when you want uniform or non-uniform temperatures?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ w="140" h="80">
+<EMBOBJ w="140" h="60">
 <NOTES ID="query_note_132" name="query_note_132"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>Which condition (uniform or non-uniform) is easier to keep for the longest period of time?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ w="140" h="80">
+<EMBOBJ w="140" h="60">
 <NOTES ID="query_note_133" name="query_note_133"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
@@ -2892,35 +2908,35 @@ projects contributing to the development of CCProbeware are:
 <FOLDER ID="Heat_Flow_trial_I_response" name="Trial I Responses      &#10;    "/>
 <FOLDER ID="Heat_Flow_trial_II_response" name="Trial II Responses      &#10;    "/>
 <FOLDER ID="Heat_Flow_trial_III_response" name="Trial III Responses      &#10;    "/>
-<FOLDER ID="Heat_Flow_analysis_response&#10;    " name="Analysis Responses "/>
+<FOLDER ID="Heat_Flow_analysis_response" name="Analysis Responses"/>
 </FOLDER>
 <FOLDER view="paging" name="Potential and Kinetic Energy  Responses" ID="Potential_Kinetic_Energy-response">
 <FOLDER ID="Potential_Kinetic_Energy_think_response" name="Think About Responses "/>
 <FOLDER ID="Potential_Kinetic_Energy_trial_I_response" name="Trial I Responses      &#10;    "/>
 <FOLDER ID="Potential_Kinetic_Energy_trial_II_response" name="Trial II Responses      &#10;    "/>
 <FOLDER ID="Potential_Kinetic_Energy_trial_III_response" name="Trial III Responses      &#10;    "/>
-<FOLDER ID="Potential_Kinetic_Energy_analysis_response&#10;    " name="Analysis Responses "/>
+<FOLDER ID="Potential_Kinetic_Energy_analysis_response" name="Analysis Responses"/>
 </FOLDER>
 <FOLDER view="paging" name="Heating with Electricity  Responses" ID="Heating_With_Electricity-response">
 <FOLDER ID="Heating_With_Electricity_think_response" name="Think About Responses "/>
 <FOLDER ID="Heating_With_Electricity_trial_I_response" name="Trial I Responses      &#10;    "/>
 <FOLDER ID="Heating_With_Electricity_trial_II_response" name="Trial II Responses      &#10;    "/>
 <FOLDER ID="Heating_With_Electricity_trial_III_response" name="Trial III Responses      &#10;    "/>
-<FOLDER ID="Heating_With_Electricity_analysis_response&#10;    " name="Analysis Responses "/>
+<FOLDER ID="Heating_With_Electricity_analysis_response" name="Analysis Responses"/>
 </FOLDER>
 <FOLDER view="paging" name="Forms of Energy: Single Transformations  Responses" ID="Single_Transformations-response">
 <FOLDER ID="Single_Transformations_think_response" name="Think About Responses "/>
 <FOLDER ID="Single_Transformations_trial_I_response" name="Trial I Responses      &#10;    "/>
 <FOLDER ID="Single_Transformations_trial_II_response" name="Trial II Responses      &#10;    "/>
 <FOLDER ID="Single_Transformations_trial_III_response" name="Trial III Responses      &#10;    "/>
-<FOLDER ID="Single_Transformations_analysis_response&#10;    " name="Analysis Responses "/>
+<FOLDER ID="Single_Transformations_analysis_response" name="Analysis Responses"/>
 </FOLDER>
 <FOLDER view="paging" name="Forms of Energy: Multiple Transformations  Responses" ID="Multiple_Transformations-response">
 <FOLDER ID="Multiple_Transformations_think_response" name="Think About Responses "/>
 <FOLDER ID="Multiple_Transformations_trial_I_response" name="Trial I Responses      &#10;    "/>
 <FOLDER ID="Multiple_Transformations_trial_II_response" name="Trial II Responses      &#10;    "/>
 <FOLDER ID="Multiple_Transformations_trial_III_response" name="Trial III Responses      &#10;    "/>
-<FOLDER ID="Multiple_Transformations_analysis_response&#10;    " name="Analysis Responses "/>
+<FOLDER ID="Multiple_Transformations_analysis_response" name="Analysis Responses"/>
 </FOLDER>
 </FOLDER>
 </FOLDER>
@@ -3070,25 +3086,4 @@ projects contributing to the development of CCProbeware are:
 </DATACOLLECTOR>
 </FOLDER>
 </FOLDER>
-
-<SUPERNOTES ID="linktest" name="linktest">
-    <SNPARAGRAPH/>
-    <SNPARAGRAPH>1. linking from a SNPARAGRAPH</SNPARAGRAPH>
-    <SNPARAGRAPH/>
-    <SNPARAGRAPH link="true" linkcolor="FF0000" object="Air_Cart_think_1_1">
-      snparagraph text link:Air_Cart_think_1_1
-    </SNPARAGRAPH>
-    <SNPARAGRAPH/>
-    <SNPARAGRAPH>2. linking from a EMBOBJ</SNPARAGRAPH>
-    <SNPARAGRAPH/>
-    <EMBOBJ object="Air_Cart_think_1_1" link="true" linkcolor="FF0000"/>
-    <SNPARAGRAPH/>
-    <SNPARAGRAPH>3. linking from a OBJ-REF in an EMBOBJ</SNPARAGRAPH>
-    <SNPARAGRAPH/>
-    <EMBOBJ link="true" linkcolor="FF0000"><OBJ-REF ref="Air_Cart_think_1_1"/></EMBOBJ>
-    <SNPARAGRAPH/>
-    <SNPARAGRAPH>...end of supernote ...</SNPARAGRAPH>
-</SUPERNOTES>
-
-
 </LABBOOK>

@@ -151,21 +151,18 @@
       <xsl:value-of select="../title"/> Analysis
     </SNPARAGRAPH>
     <SNPARAGRAPH/>
-    <xsl:apply-templates/>
+    <xsl:apply-templates select="steps"/>
   </SUPERNOTES>
 </xsl:template>
 
 <xsl:template match="analysis" mode="response">
   <xsl:element name="FOLDER">
     <xsl:attribute name="ID">
-      <xsl:value-of select="../@name"/>_analysis_response
-    </xsl:attribute>
-    <xsl:attribute name="name">Analysis Responses </xsl:attribute>
-<!--    <xsl:apply-templates select="query-response" mode="response"/>
--->
+      <xsl:value-of select="../@name"/>_analysis_response</xsl:attribute>
+    <xsl:attribute name="name">Analysis Responses</xsl:attribute>
+<!--    <xsl:apply-templates select="steps" mode="response"/>    -->
   </xsl:element>
 </xsl:template>
-
 
 <xsl:template match="trial" mode="investigate">
   <xsl:element name="SUPERNOTES">
@@ -199,7 +196,9 @@
 </xsl:template>
 
 <xsl:template match="instruction">
-  <xsl:if test="position()=5">---aircart-insert---</xsl:if>
+  <xsl:if test="position()=3">---aircart-insert-part2---</xsl:if>
+  <xsl:if test="position()=5">---aircart-insert-part3---</xsl:if>
+  <xsl:if test="position()=7">---aircart-insert-part4---</xsl:if>
   <SNPARAGRAPH linkcolor="0000FF"><xsl:value-of select="@title"/></SNPARAGRAPH>
   <SNPARAGRAPH/>
   <xsl:apply-templates/>
@@ -302,9 +301,9 @@
     <xsl:attribute name="link">true</xsl:attribute>
     <xsl:attribute name="linkcolor">FF0000</xsl:attribute>
   </xsl:element>
-
   <SNPARAGRAPH/>
 </xsl:template>
+
 
 <xsl:template match="query-response" mode="response">
   <xsl:element name="SUPERNOTES">
@@ -313,10 +312,9 @@
     </xsl:attribute>
 
     <xsl:attribute name="name">
-      <xsl:value-of select="ancestor::investigation/@name"/>_<xsl:value-of select="name(ancestor::*[../../investigation])"/>_<xsl:number level="any"/>_<xsl:number value="position()"/>
+      <xsl:value-of select="name(ancestor::investigation)"/><xsl:text> </xsl:text><xsl:value-of select="name(ancestor::*[../../investigation])"/> <xsl:number value="position()"/>
     </xsl:attribute>
     <EMBOBJ object="teemss_titlebar.bmp"/>
-
     <SNPARAGRAPH linkcolor="0000FF">
       <xsl:apply-templates select="query-description"/>
     </SNPARAGRAPH>
@@ -345,13 +343,22 @@
       <xsl:value-of select="normalize-space(.) "/>
     </SNPARAGRAPH>
     <xsl:if test="@drawing-response='true'">
-      <SNPARAGRAPH>drawing</SNPARAGRAPH><SNPARAGRAPH/>
+      <SNPARAGRAPH/>
+        <xsl:element name="EMBOBJ">
+          <xsl:attribute name="w">140</xsl:attribute>
+          <xsl:attribute name="h">100</xsl:attribute>
+          <xsl:element name="DRAWING">
+            <xsl:attribute name="ID">query_drawing_<xsl:number level="any"/></xsl:attribute>
+            <xsl:attribute name="name"><xsl:value-of select="ancestor::investigation/@title"/> <xsl:value-of select="name(ancestor::*[../../investigation])"/> <xsl:number value="position()"/></xsl:attribute>
+          </xsl:element>
+        </xsl:element>
+      <SNPARAGRAPH/>
     </xsl:if>
     <xsl:if test="@note-response='true'">
       <SNPARAGRAPH/>
         <xsl:element name="EMBOBJ">
           <xsl:attribute name="w">140</xsl:attribute>
-          <xsl:attribute name="h">80</xsl:attribute>
+          <xsl:attribute name="h">60</xsl:attribute>
           <xsl:element name="NOTES">
             <xsl:attribute name="ID">query_note_<xsl:number level="any"/></xsl:attribute>
             <xsl:attribute name="name">query_note_<xsl:number level="any"/></xsl:attribute>
