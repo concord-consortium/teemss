@@ -19,7 +19,7 @@ int		index = 0;
 	public CalibrationParam(int index,float defaultValue){
 		this.index = index;
 		this.defaultValue = defaultValue;
-		valid = false;
+		setValueToDefault();
 	}
 	public int getIndex(){return index;}
 	

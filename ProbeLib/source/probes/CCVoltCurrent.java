@@ -15,7 +15,7 @@ public final static int		WATT_OUT 			= 2;
 public final static int		ENERGY_OUT 			= 3;
 public final static String [] propNames = {"Port", "Output mode"};
 
-float					zeroPoint						= 1250f;//	mV
+float					zeroPoint						= 1257f;//	mV
 float					zeroPointCurrent				= zeroPoint;//	
 float					zeroPointVoltage				= zeroPoint;//	
 float					currentResolution		= 700f; //       mV(reading)/A
@@ -133,13 +133,12 @@ public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
 				data[0] = (dataEvent[nOffset+1] - zeroPointVoltage)/voltageResolution;
 				break;
 		}
-		data[1] = data[nOffset];
-		data[2] = data[nOffset+1];
+		data[1] = dataEvent[nOffset];
+		data[2] = dataEvent[nOffset+1];
 	}else{
 		int  	chPerSample = e.dataDesc.getChPerSample();
 		for(int i = 0; i < ndata; i+=chPerSample){
 			dEvent.setTime(t0 + dtChannel*(float)i);
-			// System.out.println("amper "+dataEvent[nOffset+i]+" voltage "+dataEvent[nOffset+i+1]);
 			switch(outputMode){
 				case CURRENT_OUT:
 					data[0] = (dataEvent[nOffset+i] - zeroPointCurrent)/currentResolution;
@@ -147,7 +146,7 @@ public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
 					break;
 				case VOLTAGE_OUT:
 					data[0] = (dataEvent[nOffset+i +1] - zeroPointVoltage)/voltageResolution;
-					// System.out.println("voltage "+data[0]);
+//					System.out.println("voltage "+data[0]);
 					break;
 				case WATT_OUT:
 				case ENERGY_OUT:
@@ -178,6 +177,8 @@ public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
 			}
 		}else if(outputMode == VOLTAGE_OUT){
 			zeroPointVoltage = row2[0]  - calibrated[0]*voltageResolution;
+			
+			
 			zeroPoint = zeroPointVoltage;
 			if(calibrationDesc != null){
 				CalibrationParam p = calibrationDesc.getCalibrationParam(0);

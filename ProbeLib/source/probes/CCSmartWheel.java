@@ -37,9 +37,9 @@ int					outputMode = DEFAULT_MODE_OUT;
 		setPropertyValue(0,samplingModes[CCProb.SAMPLING_DIG_MODE]);
 		setPropertyValue(1,wheelModes[LIN_POS_MODE_OUT]);
 		
-		/*		calibrationDesc = new CalibrationDesc();
+		calibrationDesc = new CalibrationDesc();
 		calibrationDesc.addCalibrationParam(new CalibrationParam(0,radius));
-		*/
+		
 		unit = CCUnit.UNIT_CODE_ANG_VEL;
 		outputMode = DEFAULT_MODE_OUT;
 		fromConstructor = false;

@@ -221,7 +221,6 @@ DataListener calibrationListener = null;
 			for(int i = 0; i < temp; i++){
 				if(in.readBoolean()) properties[i] = new PropObject(in);
 				setPropertyValue(i,properties[i].getValue());
-
 			}
 		}
 		temp = in.readInt();//PROPERTIES_PROB_END
