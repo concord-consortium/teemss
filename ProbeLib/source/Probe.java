@@ -114,6 +114,13 @@ DataListener calibrationListener = null;
 			}
 		}
 	}
+
+     public boolean idle(DataEvent e){
+		notifyDataListeners(e);
+		return true;
+     }
+   	
+
 	public abstract void setDataDescParam(int chPerSample,float dt);
     
     public DataDesc getDataDesc()

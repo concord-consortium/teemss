@@ -88,10 +88,6 @@ public static String [] modelNames = {"High Range", "Low range"};
 	}
 	
 	public int  getActiveCalibrationChannels(){return 1;}
-    	public boolean idle(DataEvent e){
-		dEvent.type = e.type;
-	    	return true;
-    	}
     	public boolean startSampling(DataEvent e){
 		dEvent.type = e.type;
 		dDesc.setDt(e.getDataDesc().getDt());
