@@ -157,11 +157,6 @@ CCUnit		currentUnit = null;
 		pb.registerProb(probe);
 	}
 	
-	public void addProbManagerListener(ProbManagerListener l){
-		ProbManager pb = ProbManager.getProbManager(probe.getInterfaceType());
-		if(pb != null) pb.addProbManagerListener(l);
-	}
-	
 	public void closeEverything(){
 		if(probe != null){
 			probe.removeProbListener(this);
