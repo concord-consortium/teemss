@@ -12,6 +12,9 @@ public final static int Prob_VoltCurrent    = 5;
 
     public static String [] probeNames = {"Temperature", "Light", "SmartWheel", "RawData","Force","Voltage/Current"};
 	public static CCProb createProbeFromStream(extra.io.DataStream in){
+		boolean validProbe = in.readBoolean();
+		if(!validProbe) return null;
+
 		int portType 		= in.readInt();
 		int interfacePort 	= in.readInt();
 		CCProb probe = createProb(portType,interfacePort);
