@@ -261,6 +261,20 @@
 	</GRAPH>
       </DATACOLLECTOR>
 
+      <DATACOLLECTOR ID="dc-force5" name="Measure Force" >
+       <PROBE ID="dc-f5" probe="Force">
+         <PROP name="Mode" value="End of Arm"/>
+         <PROP name="Range" value="+/- 20N"/>
+         <PROP name="Speed" value="3 per second"/>
+       </PROBE>
+       <GRAPH current-line="0" title="">
+         <XAXIS min="0" max="25"/>
+         <YAXIS min="-1" max="20"/>
+         <LINE xaxis="0" yaxis="0" datasource="dc-f5"/>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+
       <DATACOLLECTOR ID="dc-smartwheel-pos1" name="Measure Position" >
         <PROBE ID="dc-sw-pos1" probe="SmartWheel">
          <PROP name="Port" value="A"/>

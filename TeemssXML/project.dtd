@@ -51,6 +51,7 @@
          dc-force2 |
          dc-force3 |
          dc-force4 |
+	 dc-force5 |
          dc-smartwheel-pos1 |
          dc-smartwheel-pos2 |
          dc-smartwheel-vel1 |

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE project PUBLIC "-//CONCORD.ORG//DTD Param Description//EN"
-"file:../project.dtd">
+"file:project.dtd">
 <project name="teemss">
   <title>TEEMSS</title>
 
@@ -183,6 +183,8 @@
       screenshot="true" /></step><step>The graph will reappear showing just
       the area you selected.<shared-image name="17_th_zoomed"
       screenshot="true" /></step></steps></instruction><instruction
+      title="default axes">To return to the original axis settings, tap
+      Default Axes in the Tools list.<shared-image name="32_th_defaultaxes" /></instruction><instruction
       title="Changing graph properties "><steps><step>To change graph
       properties, tap the Palm menu icon at the bottom left corner, then the
       Edit menu item. Tap Graph Properties. <shared-image
@@ -2360,7 +2362,7 @@
       same?</query><query drawing-response="false" note-response="true">When
       do you think the two force graphs will be different?</query></querys><query-static-link>Record
       your prediction in Notes on the handheld computer.</query-static-link></query-response><step>Start
-      the software for each Force probe. <datacollector-link type="dc-force1" /></step><step>Set
+      the software for each Force probe. <datacollector-link type="dc-force5" /></step><step>Set
       the force probe to zero. Refer to Technical Hints to see how to set the
       Force probe to zero.</step><step>Start recording. Vary the amount of
       pulling, who pulls first, and who doesn&#39;t move.</step><step>Save
@@ -2449,7 +2451,7 @@
 
       <analysis>
         <steps>
-          <query-response title="suprising">
+          <query-response title="surprising">
             <query-description>Trials I and II are examples of Newton &#39;s
             famous assertion that &#34;for every action, there is an equal and
             opposite reaction.&#34;</query-description>
@@ -3958,8 +3960,8 @@
               <query drawing-response="false" note-response="true">What does
               the slope of the line tell you?</query>
 
-              <query drawing-response="false" note-response="true">Is it the
-              same for fast and slow cranking?</query>
+              <query drawing-response="false" note-response="true">Is the
+              slope the same for fast and slow cranking?</query>
             </querys>
           </query-response>
 
@@ -4591,8 +4593,8 @@
               <query drawing-response="false" note-response="true">How much
               was it increased?</query>
 
-              <query drawing-response="false" note-response="true">Could you
-              calculate it?</query>
+              <query drawing-response="false" note-response="true">Try to
+              calculate the increase.</query>
             </querys>
           </query-response>
 
@@ -4601,7 +4603,7 @@
 
             <querys>
               <query drawing-response="false" note-response="true">List some
-              devices that use lenses to focus light?</query>
+              devices that use lenses to focus light.</query>
             </querys>
           </query-response>
 
@@ -4614,7 +4616,7 @@
 
               <query drawing-response="false" note-response="true">Do you
               think it matters if the heat cell is black instead of plain
-              aluminum? conversion.</query>
+              aluminum?</query>
 
               <query drawing-response="false" note-response="true">What is an
               example of heat being converted into light?</query>
@@ -5022,9 +5024,9 @@
       <ext-image name="07_mt" /></step><step>Start the software to read
       energy.<datacollector-link type="dc-voltage-current-energy" /></step><query-response
       layout="paragraph" title="relate" type="describe"><query-description></query-description><querys><query
-      drawing-response="true" note-response="false">Sketch your graph.
-      </query><query note-response="true" drawing-response="false">How did the
-      graph relate to what you were doing with the Genecons?</query><query
+      drawing-response="true" note-response="false">Sketch your graph.</query><query
+      note-response="true" drawing-response="false">How did the graph relate
+      to what you were doing with the Genecons?</query><query
       drawing-response="false" note-response="true">What are the energy
       transformations happening here?</query></querys><query-static-link><ext-image
       name="08a_mt" /></query-static-link></query-response><step>Now attach a
@@ -5048,7 +5050,7 @@
       handheld computer.</query-description><querys><query
       drawing-response="true" note-response="false">Sketch the graph.</query><query
       note-response="true" drawing-response="false">Record the order in which
-      you did things. </query></querys><query-static-link>Use Notes on your
+      you did things.</query></querys><query-static-link>Use Notes on your
       handheld computer.</query-static-link></query-response></steps></trial>
 
       <hints>
