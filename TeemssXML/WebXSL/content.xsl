@@ -9,6 +9,7 @@
 	<lxslt:script lang="javascript">
 	function copy(xslPC, elem)
 	{	
+		try{
 		source = new java.io.FileInputStream(
 			elem.getAttribute("source", xslPC.getContextNode(),xslPC.getTransformer()));
 		target = new java.io.FileOutputStream(
@@ -20,12 +21,19 @@
 		}
 		source.close();
 		target.close();
+		} catch ( e ) {
+			java.lang.System.err.println(e);
+		}
 		return null;
     }
 
-	function getImageDir(imagesDir1, imagesDir2, imageName)
+	function getImageDir(imagesDir, imageName)
 	{
-		var children = (new java.io.File("images/" + imagesDir1 + "/" + imagesDir2)).listFiles();
+		var children = (new java.io.File("images/" + imagesDir)).listFiles();
+		if(children == null) {
+			java.lang.System.err.println("error: no files in: " + imagesDir);
+			return "InvalidImageName";
+		}
 		var i;
 		for (i=0; i &lt; children.length; i++){
 			if(children[i].getName().startsWith(imageName)){
@@ -33,8 +41,10 @@
 			}
 		}
 		if(i &lt; children.length){
-			return imagesDir1 + "/" + imagesDir2 + "/" + children[i].getName();
+			return imagesDir + "/" + children[i].getName();
 		} else {
+			java.lang.System.err.println("error: can't find: " + imageName + " in:");
+			java.lang.System.err.println("\t" + imagesDir);
 			return "InvalidImageName";
 		}
 	}	
@@ -53,7 +63,7 @@
 </xsl:template>
 
 <xsl:template match="ext_image">
-<cc-ext:copy source="images/{cc-ext:getImageDir(string(ancestor::unit/@name),string(ancestor::investigation/@name),string(@name))}/WEB_{@name}.{@type}" target="html/images/auto_{@name}.{@type}"/>
+<cc-ext:copy source="images/{cc-ext:getImageDir(concat(string(ancestor::unit/@name),'/',string(ancestor::investigation/@name)),string(@name))}/WEB_{@name}.{@type}" target="html/images/auto_{@name}.{@type}"/>
 <p>
 <xsl:choose>
 	<xsl:when test="@type='gif'">
