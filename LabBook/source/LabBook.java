@@ -72,9 +72,9 @@ public class LabBook
     {
 		return rootPtr;
     }
-
 	
-	public static LabObjectFactory findFactoryByType(int factoryType){
+	public static LabObjectFactory findFactoryByType(int factoryType)
+	{
 		if(objFactories == null || objFactories.length < 1) return null;
 		for(int i = 0; i < objFactories.length; i++){
 			if(factoryType == objFactories[i].getFactoryType()){
@@ -308,6 +308,7 @@ public class LabBook
 	private void writeHeader(LabObject lObj, DataStream dsOut)
 	{
 		dsOut.writeShort(lObj.objectType);
+		dsOut.writeShort(lObj.getVersion());
 		dsOut.writeShort(lObj.getFlags());
 		dsOut.writeString(lObj.getName());
 	}
@@ -359,6 +360,9 @@ public class LabBook
 			return false;
 		}
 
+		// read version
+		lObj.ptr.version = dsIn.readShort();
+
 		// read flags
 		lObj.ptr.flags = dsIn.readShort();					
 
@@ -370,6 +374,7 @@ public class LabBook
 
 		// We should check if the object is in the loaded list
 		//	.. loaded.add(lObjPtr);
+		lObj.setVersion(lObj.ptr.version);
 		lObj.setFlags(lObj.ptr.flags);
 		lObj.readExternal(dsIn);
 
@@ -432,6 +437,7 @@ public class LabBook
 
 		// Note this shouldn't be recursive so we should
 		// add a check for this
+		lObj.setVersion(lObjPtr.version);
 		lObj.setFlags(lObjPtr.flags);
 		lObj.readExternal(dsIn);
 
@@ -479,6 +485,7 @@ public class LabBook
 					lObjPtr.obj = curObjPtr.obj;
 					lObjPtr.objType = lObjPtr.obj.objectType;
 					lObjPtr.name = lObjPtr.obj.getName();
+					lObjPtr.version = lObjPtr.obj.getVersion();
 					lObjPtr.flags = lObjPtr.obj.getFlags();
 					return null;
 				}
@@ -502,6 +509,7 @@ public class LabBook
 		bsIn.setBuffer(buffer);
 	
 		lObjPtr.objType = dsIn.readShort();
+		lObjPtr.version = dsIn.readShort();
 		lObjPtr.flags = dsIn.readShort();
 		if(readAllBytes){
 			lObjPtr.name = dsIn.readString();

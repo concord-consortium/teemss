@@ -13,6 +13,7 @@ public class LabObjectPtr implements TreeNode
     int objId;
     String name;
     short objType = -1;
+	short version = -1;
 	short flags = 0;
 
     LabObject obj = null;

@@ -14,6 +14,7 @@ public abstract class LabObject
     public static LabBook lBook;
 	private int refCount = 0;
 	private boolean locked = false;
+	private short version = 0;
 
 	public LabObject(int type)
 	{
@@ -43,6 +44,15 @@ public abstract class LabObject
 		flags = locked?(short)(flags | FLAG_LOCKED):flags;
 
 		return flags;
+	}
+
+	public void setVersion(short version)
+	{
+		this.version = version;
+	}
+	public short getVersion()
+	{
+		return version;
 	}
 
     public abstract void readExternal(DataStream in);

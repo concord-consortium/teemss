@@ -14,6 +14,7 @@ public class LabBookCatalog extends LabBookDB
 
 	Vector objIndexVec = new Vector();
 
+	int version = 0;
     int curDevId;
     int nextObjId;
     int rootDevId;
@@ -126,7 +127,7 @@ public class LabBookCatalog extends LabBookDB
 			return false;
 		}
     
-		cat.skipBytes(4);
+		cat.skipBytes(8);
 		ds.writeInt(nextObjId);
 		ds.writeInt(rootDevId);
 		ds.writeInt(rootObjId);
@@ -169,6 +170,7 @@ public class LabBookCatalog extends LabBookDB
 	
 		if(!cat.setRecordPos(0)) return false;
 
+		version = ds.readInt();
 		curDevId = ds.readInt();
 		nextObjId = ds.readInt();
 		rootDevId = ds.readInt();
@@ -230,7 +232,8 @@ public class LabBookCatalog extends LabBookDB
 			//			System.out.println("LBC: adding first object");
 			// this is the first object added
 			// initialize the index record
-			cat.addRecord(20);
+			cat.addRecord(24);
+			ds.writeInt(version);
 			ds.writeInt(curDevId);
 			ds.writeInt(nextObjId);
 			ds.writeInt(rootDevId);
@@ -266,7 +269,7 @@ public class LabBookCatalog extends LabBookDB
 		if(!cat.setRecordPos(0)) return -1;
 		cat.resizeRecord(cat.getRecordSize() + 8);
 
-		cat.skipBytes(4);
+		cat.skipBytes(8);
 		ds.writeInt(nextObjId);
 
 		cat.skipBytes(8);
