@@ -1,0 +1,34 @@
+#! /bin/sh
+
+destination="/Users/stephen/cvsroot/releases/complete/ccprobe-macosx"
+download="/Users/stephen/cvsroot/releases/download/ccprobe-macosx"
+bin="/Users/stephen/cvsroot/CCProbe/bin"
+components="/Users/stephen/cvsroot/releases/components/ccprobe-macosx"
+doc="/Users/stephen/cvsroot/releases/doc"
+labbook="/Users/stephen/cvsroot/Xml/LabBookXSL"
+
+rm -rf $destination/*
+rm -rf $download/*
+
+cp $bin/CCProbe.jar  $destination
+cp $doc/ccprobe-macosx/* $destination
+cp $doc/all/* $destination
+cp $labbook/LabBook.PDB $destination
+cp $components/* $destination
+
+echo $destination
+ls -l $destination
+
+osascript make-macosx.applescript
+
+rm -f $download/CCProbe.sea
+
+echo $download
+ls -l $download
+
+
+
+
+
+
+

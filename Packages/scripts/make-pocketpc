@@ -1,0 +1,35 @@
+#! /bin/sh
+
+destination="/Users/stephen/cvsroot/releases/complete/ccprobe-pocketpc"
+download="/Users/stephen/cvsroot/releases/download/ccprobe-pocketpc"
+bin="/Users/stephen/cvsroot/CCProbe/bin"
+components="/Users/stephen/cvsroot/releases/components/ccprobe-pocketpc"
+doc="/Users/stephen/cvsroot/releases/doc"
+labbook="/Users/stephen/cvsroot/Xml/LabBookXSL"
+
+rm -rf $destination/*
+rm -rf $download/*
+
+cp $bin/CCProbe.wrp  $destination
+cp $bin/CCProbe.lnk  $destination
+cp $doc/ccprobe-pocketpc/* $destination
+cp $doc/all/* $destination
+cp $labbook/LabBook.PDB $destination
+cp $components/* $destination
+
+echo $destination
+ls -l $destination
+
+osascript make-pocketpc.applescript
+
+rm $download/CCProbe.sit
+
+echo $download
+ls -l $download
+
+
+
+
+
+
+

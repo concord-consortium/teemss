@@ -1,0 +1,34 @@
+#! /bin/sh
+
+destination="/Users/stephen/cvsroot/releases/complete/ccprobe-macos-classic"
+download="/Users/stephen/cvsroot/releases/download/ccprobe-macos-classic"
+bin="/Users/stephen/cvsroot/CCProbe/bin"
+components="/Users/stephen/cvsroot/releases/components/ccprobe-macos-classic"
+doc="/Users/stephen/cvsroot/releases/doc"
+labbook="/Users/stephen/cvsroot/Xml/LabBookXSL"
+
+rm -f $destination/*
+rm -f $download/*
+
+cp $bin/CCProbe.jar  $destination
+cp $doc/ccprobe-macos-classic/* $destination
+cp $doc/all/* $destination
+cp $labbook/LabBook.PDB $destination
+cp $components/* $destination
+
+echo $destination
+ls -l $destination
+
+osascript make-macos-classic.applescript
+
+rm -f $download/CCProbe.sea
+
+echo $download
+ls -l $download
+
+
+
+
+
+
+

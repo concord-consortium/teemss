@@ -1,0 +1,31 @@
+#! /bin/sh
+
+destination="/Users/stephen/cvsroot/releases/complete/ccprobe-windows"
+download="/Users/stephen/cvsroot/releases/download/ccprobe-windows"
+bin="/Users/stephen/cvsroot/CCProbe/bin"
+components="/Users/stephen/cvsroot/releases/components/ccprobe-windows"
+doc="/Users/stephen/cvsroot/releases/doc"
+labbook="/Users/stephen/cvsroot/Xml/LabBookXSL"
+
+rm -f $destination/*
+rm -f $download/*
+
+cp $bin/CCProbe.jar  $destination
+cp $doc/ccprobe-windows/* $destination
+cp $doc/all/* $destination
+cp $labbook/LabBook.PDB $destination
+cp $components/* $destination
+
+echo $destination
+ls -l $destination
+
+osascript make-windows.applescript
+
+echo $download
+ls -l $download
+
+
+
+
+
+

@@ -1,0 +1,105 @@
+CCProbe Package Release System
+
+There is a shell script for automating the process for building and
+archiving a package of components for each platform.  The script
+copies the waba code from ./CCProbe/bin/, the labbook from
+./Xml/LabBookXSL/, components from ./releases/components/<platform>/,
+documentation from .release/doc/<platform>/ and from
+./releases/doc/all/.  All of these elememts are copied to
+./releases/complete/<platform>/.  This folder contains what will be on
+a users computer after downloading and expanding the archive.  Next
+the directory ./releases/complete/<platform> is archived in a platform
+specific method with the result placed in
+./releases/download/<platform>/.  I use Stuffit Deluxe controlled from
+Applescript order to create binhex stuffit archives for MacOS and
+".exe" stuffit archives for windows.
+
+releases/
+  scripts/
+    make-macos-classic
+    make-macos-classic.applescript
+    make-macosx
+    make-macosx.applescript
+    make-palmos
+    make-palmos.applescript
+    make-pocketpc
+    make-pocketpc.applescript
+    make-unix
+    make-windows
+    make-windows.applescript
+  complete/
+    ccprobe-macos-classic/
+      CCProbe
+      CCProbe.jar
+      CCProbe.properties
+      COPYING
+      LabBook.PDB
+      readme-mac
+    ccprobe-macosx/
+      CCProbe.app
+      CCProbe.jar
+      COPYING
+      LabBook.PDB
+      RXTX.pkg
+      readme-macosx
+    ccprobe-palmos/
+      CCProbe.prc
+      COPYING
+      LabBook.PDB
+      readme-palmos
+    ccprobe-pocketpc/
+      CCProbe.lnk
+      CCProbe.wrp
+      COPYING
+      LabBook.PDB
+      readme-pocketpc.txt
+    ccprobe-unix/
+      CCProbe.lnk
+      CCProbe.wrp
+      COPYING
+      LabBook.PDB
+      readme-unix.txt
+    ccprobe-windows/
+      CCProbe.bat
+      CCProbe.jar
+      CCWabaLauncher.exe
+      COPYING
+      LabBook.PDB
+      readme-windows.txt
+  components/
+    ccprobe-macos-classic/
+    ccprobe-macosx/
+    ccprobe-palmos/
+    ccprobe-pocketpc/
+    ccprobe-unix/
+    ccprobe-windows/
+ download/
+    ccprobe-macos-classic/
+CCProbe.sea.hqx
+    ccprobe-macosx/
+      CCProbe.sea.hqx
+    ccprobe-palmos/
+      CCProbe.exe
+      CCProbe.sea.hqx
+      CCProbe.tgz
+    ccprobe-pocketpc/
+      CCProbe.exe
+    ccprobe-unix/
+      CCProbe.tgz
+    ccprobe-windows/
+      CCProbe.exe
+  doc/
+    all/
+      COPYING
+    ccprobe-macos-classic/
+      readme-mac
+    ccprobe-macosx/
+      readme-macosx
+    ccprobe-palmos/
+      readme-palmos
+    ccprobe-pocketpc/
+      readme-pocketpc
+    ccprobe-unix/
+      readme-unix
+    ccprobe-windows/
+      readme-windows
