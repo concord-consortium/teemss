@@ -493,6 +493,8 @@ public class LObjDictionaryView extends LabObjectView
 		setLabObject((LabObject)dict);
 
 		// we should refresh the display
+		treeControl.reparse();
+		treeControl.repaint();
 	}
 
 	public void redefineFolderChoiceMenu(){
