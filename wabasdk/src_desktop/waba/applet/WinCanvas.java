@@ -40,6 +40,8 @@ public class WinCanvas extends java.awt.Canvas
 		addMouseMotionListener(this);
 	}
 
+	public boolean isFocusTraversable(){return true;}
+
 	public int getWabaModifiers(InputEvent event)
 	{
 		int wMods = 0;
