@@ -320,7 +320,11 @@ public class LObjDataCollectorView extends LabObjectView
 			int index;
 			if(target == collectButton && collectButton.isSelected()){
 				// need to tell the GraphView to start
-				graph.startAll();
+				if(!graph.startAll()){
+					// Couldn't start the graph for some reason
+					// clear the button
+					stop(true);
+				}
 			} else if(target == collectButton && ! collectButton.isSelected()){
 				// need to tell the GraphView to stop
 				stop(true);

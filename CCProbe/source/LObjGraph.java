@@ -374,13 +374,20 @@ public class LObjGraph extends LObjSubDict
 		return copy(0);
 	}
 
-	public void startAll()
+	public boolean startAll()
 	{ 
-		if(graphSettings == null) return;
+		boolean allStarted = true;
+		if(graphSettings == null) return false;
 		for(int i=0; i<graphSettings.getCount(); i++){
 			GraphSettings gs = (GraphSettings)graphSettings.get(i);
-			if(gs != null) gs.startDataDelivery();
+			if(gs != null){
+				if(!gs.startDataDelivery()){
+					allStarted = false;
+					break;
+				}
+			}
 		}
+		return allStarted;
 	}
 
 	public void stopAll()

@@ -52,8 +52,8 @@ public class CCProbe extends MainView
 			/*
 			graph.Bin.START_DATA_SIZE = 4000;
 			graph.LargeFloatArray.MaxNumChunks = 4;
-			GraphSettings.MAX_COLLECTIONS = 1;
 			*/
+			// GraphSettings.MAX_COLLECTIONS = 1;			
 			lbDB = new LabBookCatalog("LabBook");
 			// lbDB = new LabBookFile("LabBook");
 		} else {

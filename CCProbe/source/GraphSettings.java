@@ -216,9 +216,9 @@ public class GraphSettings
 
 	// The last x axis should always be empty
 	// when this function is called
-	public void startDataDelivery()
+	public boolean startDataDelivery()
 	{
-		if(ds == null || gv == null) return;
+		if(ds == null || gv == null) return false;
 
 		// This MAX_COLLECTIONS needs to be centralized somehow
 		if(bins.getCount() < MAX_COLLECTIONS){
@@ -247,7 +247,10 @@ public class GraphSettings
 
 			started = true;
 			ds.startDataDelivery(gv.getSession());
+			return true;
 		}
+
+		return false;
 	}
 
 	public void stopDataDelivery()
@@ -268,7 +271,7 @@ public class GraphSettings
 			curBin.reset();
 			// remove this bin because it hasn't been used yet
 			bins.del(bins.getCount() - 1);
-		} 
+		}
 		gv.stopGraph(curBin);
 	}
 
