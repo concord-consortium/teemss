@@ -265,14 +265,14 @@ public class LObjGraph extends LObjSubDict
 
 	}
 
-	public void exportCurData(Vector annots)
+	public void exportCurData()
 	{
 		GraphSettings curGS = getCurGraphSettings();
 		if(curGS != null){
 			Bin curBin = curGS.getBin();
 			if(curBin != null){
 				curBin.description = title;
-				DataExport.export(curBin, annots);
+				DataExport.export(curBin);
 			}
 		}
 	}

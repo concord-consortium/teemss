@@ -5,5 +5,5 @@ import waba.util.*;
 
 public class DataExport 
 {
-    static public void export(Bin b, Vector points){}
+    static public void export(Bin b){}
 }

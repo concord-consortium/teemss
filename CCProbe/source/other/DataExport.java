@@ -33,13 +33,14 @@ public class DataExport
 		return retValue;
 	} 
 
-    static public void export(Bin b, Vector points)
+    static public void export(Bin b)
     {
 		int i;
 		if(b == null ||
 		   b.time == null) return;
-		//	String name = "Data-" + b.time.year + "_" + b.time.month + "_" + b.time.day + "-" +
-		//	    b.time.hour + "_" + b.time.minute + ".txt";
+
+		Vector points = b.annots;
+
 		String name = createNameFile(b);
 		if(name == null) return;
 		File file = new File(name, File.CREATE);
