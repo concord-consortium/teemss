@@ -189,95 +189,83 @@ public class LabBookCatalog extends LabBookDB
 		rootObjId = ds.readInt();
 
 		int length = ds.readInt();
+
 		objIndexVec = new Vector();
-		int [] curChunkObjIds = null;
+		int numChunks = (nextObjId - 1)/objIndexChunkSize + 1;
 		short [] curChunkRecIds = null;
-		byte [] bitBuffer = new byte[objIndexChunkSize*8];
-		for(int j=0; j < (length - 1)/objIndexChunkSize; j++){
-			curChunkObjIds = new int [objIndexChunkSize];
+		for(int j = 0; j < numChunks; j++){
 			curChunkRecIds = new short [objIndexChunkSize];
-			objIndexVec.add(curChunkObjIds);
 			objIndexVec.add(curChunkRecIds);
-			readIndexChunk(curChunkObjIds, curChunkRecIds, bitBuffer, objIndexChunkSize);
 		}
-		curChunkObjIds = new int [objIndexChunkSize];
-		curChunkRecIds = new short [objIndexChunkSize];
-		objIndexVec.add(curChunkObjIds);
-		objIndexVec.add(curChunkRecIds);
-		readIndexChunk(curChunkObjIds, curChunkRecIds, bitBuffer, 
-					   (length % objIndexChunkSize));
+
+		/**
+		 * This is a bit silly because it has to be backwards compatible.
+		 * the index is stored as an array of ints, but we are going to 
+		 * load it into two arrays.  One of shorts the other of ints.
+		 * Note: this might cause a problem with large recordIds.  The 
+		 * problem will happen because recordIds can be unsigned shorts
+		 * but we are making them shorts.  Currently this isn't a problem
+		 * because of the way we are storing our index of records we can't
+		 * exceed 8,000 objects.  So our recordIds should exceed 8k.
+		 */
+		byte [] bits = new byte[objIndexChunkSize*8];
+
+		int endPos = objIndexChunkSize*8;
+		int offset = 0;
+
+		int numBitChunks = (length - 1) / objIndexChunkSize + 1;
+		for(int j = 0; j < numBitChunks; j++){
+			if(j == numBitChunks - 1){
+				endPos = (length % objIndexChunkSize)*8;
+			} else {
+				endPos = objIndexChunkSize*8;
+			}
+			ds.readBytes(bits,0,endPos);
+			int i=0;
+			int curObjId = -1;
+			for(;i<endPos;){
+				curObjId =  (((bits[i++]&0xFF) << 24) | ((bits[i++]&0xFF) << 16) |
+							 ((bits[i++]&0xFF) << 8) | (bits[i++]&0xFF));
+				// We should optimize this later
+				if(curObjId >= 0 && curObjId < nextObjId){
+					int objChunk = curObjId / objIndexChunkSize;
+					curChunkRecIds = (short [])objIndexVec.get(objChunk);
+					curChunkRecIds[curObjId % objIndexChunkSize ] = 
+						(short)((((bits[i++]&0xFF) << 24) | ((bits[i++]&0xFF) << 16) |
+								 ((bits[i++]&0xFF) << 8) | (bits[i++]&0xFF)));
+				} else {
+					i += 4;
+				}
+			}
+		}
 
 		// Just to be clear :)
-		bitBuffer = null;
-
+		bits = null;
 		objIndexLen = length;
 
 		cat.setRecordPos(-1);
 		return true;
-    }
-
-	/**
-	 * This is a bit silly because it has to be backwards compatible.
-	 * the index is stored as an array of ints, but we are going to 
-	 * load it into two arrays.  One of shorts the other of ints.
-	 * Note: this might cause a problem with large recordIds.  The 
-	 * problem will happen because recordIds can be unsigned shorts
-	 * but we are making them shorts.  Currently this isn't a problem
-	 * because of the way we are storing our index of records we can't
-	 * exceed 8,000 objects.  So our recordIds should exceed 8k.
-	 */
-	public void readIndexChunk(int [] objIds, short [] recIds, byte [] bitBuffer, int len)
-	{
-		int offset = 0;
-		int endPos = len*8;
-
-		if(bitBuffer.length < endPos){
-			// throw intentional null exception
-			String dummy = null;
-			dummy.equals("d");
-		}
-
-		byte [] bits = bitBuffer;
-		ds.readBytes(bits,0,endPos);
-		int i=0;
-		for(;i<endPos;){
-			objIds[offset] = (((bits[i++]&0xFF) << 24) | ((bits[i++]&0xFF) << 16) |
-							  ((bits[i++]&0xFF) << 8) | (bits[i++]&0xFF));
-			recIds[offset++] = (short)((((bits[i++]&0xFF) << 24) | ((bits[i++]&0xFF) << 16) |
-								((bits[i++]&0xFF) << 8) | (bits[i++]&0xFF)));
-		}
-	}
-
+	}		
+		
 	public int findObject(LabObjectPtr ptr)
 	{
 		if(ptr.recId > 0) return (int) ptr.recId;
 
 		int objIndexVecCount = objIndexVec.getCount();
-		if(ptr.devId != curDevId) return -1;
+		if(objIndexVecCount == 0 || ptr.devId != curDevId) return -1;
 		int objId = ptr.objId;
 
-		for(int j=0; j < objIndexVecCount - 2; j+=2){
-			int [] objIds = (int [])objIndexVec.get(j);
-			short [] recIds = (short [])objIndexVec.get(j+1);
-			for(int i=0; i < objIds.length; i++){
-				if(objIds[i] == objId){
-					ptr.recId = recIds[i];
-					return (int)recIds[i];
-				} 
-			}
+		if(objId < 0 || objId >= nextObjId){
+			return -1;
+		} 
+
+		int objChunk = objId / objIndexChunkSize;
+		if(objChunk < 0 || objChunk >= objIndexVecCount){
+			return -1;
 		}
-		if(objIndexVecCount - 2 >= 0){
-			int [] objIds = (int [])objIndexVec.get(objIndexVecCount - 2);
-			short [] recIds = (short [])objIndexVec.get(objIndexVecCount - 1);
-			int endPoint = objIndexLen % objIndexChunkSize;
-			for(int i=0; i < endPoint; i++){
-				if(objIds[i] == objId){
-					ptr.recId = recIds[i];
-					return recIds[i];
-				} 
-			}			
-		}
-		return -1;
+
+		short [] curChunkRecIds = (short [])objIndexVec.get(objChunk);
+		return curChunkRecIds[objId % objIndexChunkSize ];
 	}
 
 	int addObject(LabObjectPtr ptr, int newRecCount)
@@ -304,28 +292,26 @@ public class LabBookCatalog extends LabBookDB
 		if(newRecPos < 0) return newRecPos;
 		cat.setRecordPos(-1);
 
-		// find the chunk where we will store this new record index
-		int curChunkIndex = objIndexLen / objIndexChunkSize;
+		// find the chunk where we will store this new record index		
+		int curChunkIndex = objId / objIndexChunkSize;
+		short [] curChunkRecIds = null;
 
 		// See if we need to make a new chunk
 		// Remember the objIndexVec has two entries per chunk
-		if(curChunkIndex >= objIndexVec.getCount()/2){
+		while(curChunkIndex >= objIndexVec.getCount()){
 			// we need to add a new chunk to the objIndexVec
-			objIndexVec.add(new int [objIndexChunkSize]);
-			objIndexVec.add(new short [objIndexChunkSize]);
+			curChunkRecIds = new short[objIndexChunkSize];
+			for(int i=0; i<objIndexChunkSize; i++){
+				curChunkRecIds[i] = -1;
+			}
+
+			objIndexVec.add(curChunkRecIds);
 		}
 
-		
-		int [] curChunkObjIds = (int []) objIndexVec.get(curChunkIndex*2);
-		short [] curChunkRecIds = (short []) objIndexVec.get(curChunkIndex*2 + 1);
-
-		// find the position in the chunk
-		// these means we have to subtract off all the chunks before this one
-		int objPos = objIndexLen - curChunkIndex*objIndexChunkSize;
+		curChunkRecIds = (short []) objIndexVec.get(curChunkIndex);
 
 		// store the object info in the chunk
-		curChunkObjIds[objPos] = objId;
-		curChunkRecIds[objPos] = (short)newRecPos;
+		curChunkRecIds[objId % objIndexChunkSize] = (short)newRecPos;
 
 		// Prepare to store the object info in the catalog
 		if(!cat.setRecordPos(0)) return -1;
