@@ -230,7 +230,7 @@ public class Bin
 			}
 		}
 
-		maxX = dT*dataEvent.numbSamples;
+		maxX += dT*dataEvent.numbSamples;
 	
 		boolean ret = lfArray.addFloats(dataEvent.data, dataEvent.dataOffset, 
 										sampSize, dataEvent.numbSamples);
