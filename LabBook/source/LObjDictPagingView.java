@@ -93,7 +93,6 @@ public class LObjDictPagingView extends LabObjectView
 		add(objectChoice);
 
 		listSession.release();
-//		if(editStatus) add(delButton);
 	
 		showObject();
     }
@@ -220,13 +219,6 @@ public class LObjDictPagingView extends LabObjectView
 			remove(lObjView);
 			listSession.release();
 		}
-		/*
-		if(curObj != null) { 
-			int objRefCount = session.release(curObj);
-			//			System.out.println("LODP: showObject: released old object new refC: " +
-			//				   objRefCount);
-		}
-		*/		
 
 		TreeNode curNode = dictNode.getChildAt(index);
 		LabObject obj = null;
@@ -268,9 +260,6 @@ public class LObjDictPagingView extends LabObjectView
 		}
 		lObjView.setShowMenus(showMenus);
 		add(lObjView);
-
-		// do I need this
-		// repaint();
     }
 
     public void close()

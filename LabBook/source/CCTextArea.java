@@ -8,113 +8,11 @@ import waba.sys.*;
 import waba.util.Vector;
 import extra.io.*;
 
-class CCTextAreaChooser extends LabBookChooser
-{
-	EmbedObjectPropertyControl		objProperty;
-
-	public CCTextAreaChooser(ExtraMainWindow owner,LObjDictionary dict,
-							 ViewContainer viewContainer,DialogListener l,
-							 LabBookSession session)
-	{
-		super(owner,dict,viewContainer,l, session);
-	}
-
-	public void setContent()
-	{
-		Rect r = getContentPane().getRect();
-		super.setContent();
-		if(view != null) view.setRect(0,0,r.width,r.height - 52);
-		if(objProperty == null){
-			objProperty = new EmbedObjectPropertyControl(null);
-			objProperty.layout(false);
-			getContentPane().add(objProperty);
-			objProperty.setRect(0,r.height - 55, r.width, 37);
-		}				
-	}
-
-    public void onEvent(Event e){
-    	LabObject  obj = null;
-    	boolean	   doNotify = false;
-    	if(e.type == EmbedObjectPropertyControl.NEED_DEFAULT_SIZE){
-			if(view == null) return;
-			TreeNode curNode = view.treeControl.getSelected();
-			obj = ((DictTreeNode)view.treeControl.getRootNode()).getObj(curNode);	
-			if(obj == null) return;
-			boolean isLink = objProperty.linkCheck.getChecked();
-			LabObjectView objView = (isLink)?obj.getMinimizedView():obj.getView(null,false,session);
-			if(objView == null) return;
-			extra.ui.Dimension d = objView.getPreferredSize();
-			if(d == null) return;
-			if(d.width > 0){
-				objProperty.widthEdit.setText(""+d.width);
-				objProperty.lastW = d.width;
-			}
-			if(d.height > 0){
-				objProperty.heightEdit.setText(""+d.height);
-				objProperty.lastH = d.height;
-			}
-    		return;
-    	}
-    	
-		if(e.type == TreeControl.DOUBLE_CLICK){
-			if(e.target instanceof TreeControl){
-				TreeControl tc = (TreeControl)e.target;
-			    TreeNode curNode = tc.getSelected();
-				obj = ((DictTreeNode)tc.getRootNode()).getObj(curNode);	
-				doNotify = true;
-			}
-
-		}else if(e.type == ControlEvent.PRESSED && e.target == cancelButton){
-			hide();
-		}else if(e.type == ControlEvent.PRESSED && e.target == choiceButton){
-			if(view != null){
-				TreeNode curNode = view.treeControl.getSelected();
-				if(curNode != null){
-					obj = ((DictTreeNode)view.treeControl.getRootNode()).getObj(curNode);	
-				}		
-			}
-			doNotify = true;
-		}
-		if(doNotify){
-			if(obj != null && listener != null && objProperty != null){
-				boolean wrap = objProperty.wrapCheck.getChecked();
-				objProperty.lastWrap = wrap;
-				int alighn = LBCompDesc.ALIGNMENT_LEFT;
-				if(objProperty.alignmentChoice != null){
-					objProperty.lastAlighnLeft = true;
-					if(objProperty.alignmentChoice.getSelected().equals("Right")){
-						objProperty.lastAlighnLeft = false;
-						alighn = LBCompDesc.ALIGNMENT_RIGHT;
-					}
-				}
-				int wc = 10;
-				if(objProperty.widthEdit != null){
-					wc = Convert.toInt(objProperty.widthEdit.getText());
-				}
-				objProperty.lastW = wc;
-				int hc = 10;
-				if(objProperty.heightEdit != null){
-					hc = Convert.toInt(objProperty.heightEdit.getText());
-				}
-				objProperty.lastH = hc;
-	 	  		LBCompDesc cdesc = new LBCompDesc(0,wc,hc,alighn,wrap,objProperty.linkCheck.getChecked());
-	 	  		objProperty.lastLink = objProperty.linkCheck.getChecked();
-	 	  		cdesc.setObject(obj);
-				if(listener != null) listener.dialogClosed(new DialogEvent(this,null,null,cdesc,DialogEvent.OBJECT));
-			}
-			hide();
-		}
-	}
-}
-
 public class CCTextArea  extends Container 
 	implements ViewContainer, DialogListener
 {
-
 	public static final int	version = 12;
 
-
-	//CCStringWrapper		[] lines;
 	public Vector		lines = null;
 	FontMetrics 		fm = null;
 	int 				insetLeft = 5;
@@ -140,7 +38,6 @@ public class CCTextArea  extends Container
 	String				text;
 
 	boolean		needNotifyAboutMenu = true;
-
 
 	EmbedObjectPropertyControl currObjPropControl;
 
@@ -288,12 +185,8 @@ public class CCTextArea  extends Container
 						add(objView);
 					}
 				}
- 				layoutComponents();
- 				Vector oldLines = lines;
-				setText(getText());
-				restoreTextProperty(oldLines);
- 				layoutComponents();
-				notifyListeners(0);
+
+				initLines();
    			}
     		currObjPropDialog = null;
     		return;
@@ -332,11 +225,7 @@ public class CCTextArea  extends Container
 			setObj(labObject,nComponents);
 			view.layout(false);
 			add(view);
-			layoutComponents();
-			Vector oldLines = lines;
-			setText(getText());
-			restoreTextProperty(oldLines);
-			notifyListeners(0);
+			initLines();
 		}else if(e.getSource() == confirmDialogClear){
 			if(e.getActionCommand().equals("Yes")){
 				clearAll();
@@ -539,8 +428,12 @@ public class CCTextArea  extends Container
 			Sound.beep();
 			return;
 		}
-		confirmDialogClear = Dialog.showConfirmDialog(this,"Clearing All","Are you sure? ",dialogButtonTitles,Dialog.QUEST_DIALOG);
+		confirmDialogClear = 
+			Dialog.showConfirmDialog(this,"Clearing All","Are you sure? ",
+									 dialogButtonTitles,Dialog.QUEST_DIALOG);
 	}
+
+	// hmmm...
 	public void clearAll(){
 		setText("");
 		deleteAllObjects(false);
@@ -552,7 +445,9 @@ public class CCTextArea  extends Container
 			Sound.beep();
 			return;
 		}
-		confirmDialogDeleteCurrent = Dialog.showConfirmDialog(this,"Delete Object","Are you sure? ",dialogButtonTitles,Dialog.QUEST_DIALOG);
+		confirmDialogDeleteCurrent = 
+			Dialog.showConfirmDialog(this,"Delete Object","Are you sure? ",
+									 dialogButtonTitles,Dialog.QUEST_DIALOG);
 	}
 	
 	public void deleteCurrentObject(boolean doLayout){
@@ -592,10 +487,7 @@ public class CCTextArea  extends Container
 				}
 			}
 			currObjectViewDesc = null;
-			if(doLayout) layoutComponents();
-			Vector oldLines = lines;
-			setText(getText());
-			restoreTextProperty(oldLines);
+			initLines();
 		}
 	}
 	public void deleteCurrentObject(){
@@ -607,7 +499,9 @@ public class CCTextArea  extends Container
 			Sound.beep();
 			return;
 		}
-		confirmDialogDeleteAll = Dialog.showConfirmDialog(this,"Delete All Objects","Are you sure? ",dialogButtonTitles,Dialog.QUEST_DIALOG);
+		confirmDialogDeleteAll = 
+			Dialog.showConfirmDialog(this,"Delete All Objects","Are you sure? ",
+									 dialogButtonTitles,Dialog.QUEST_DIALOG);
 	}
 	
 	public void requireDeleteChosenParagraph(){
@@ -615,7 +509,9 @@ public class CCTextArea  extends Container
 			Sound.beep();
 			return;
 		}
-		confirmDialogDeleteChosenParagraph = Dialog.showConfirmDialog(this,"Delete Paragraph","Are you sure? ",dialogButtonTitles,Dialog.QUEST_DIALOG);
+		confirmDialogDeleteChosenParagraph = 
+			Dialog.showConfirmDialog(this,"Delete Paragraph","Are you sure? ",
+									 dialogButtonTitles,Dialog.QUEST_DIALOG);
 	}
 	
 	public void deleteAllObjects(){
@@ -634,10 +530,7 @@ public class CCTextArea  extends Container
 				setObj(null,i);
 			}
 			components = null;
-			if(doLayout) layoutComponents();
-			Vector oldLines = lines;
-			setText(getText());
-			restoreTextProperty(oldLines);
+			initLines();
 		}
 	}
 
@@ -654,12 +547,7 @@ public class CCTextArea  extends Container
 			str += (((CCStringWrapper)lines.get(i)).getStr() + "\n");
 		}
 		textWasChosen = null;
-		Vector oldLines = lines;
-		setText(str);//temporary
-		restoreTextProperty(oldLines);
-
-
-
+		initLines();
 	}
 
 	public void setup(waba.util.Vector linesVector,
@@ -668,13 +556,11 @@ public class CCTextArea  extends Container
 		if(linesVector == null) return;
 		int i;
 		textWasChosen = null;
-		String str = "";
 		int linkObjectIndex = 0;
 		initLineDictionary();
 		for(i = 0; i < linesVector.getCount(); i++){
 			CCStringWrapper wrapper = (CCStringWrapper)linesVector.get(i);
 			wrapper.owner = this;
-			str += (wrapper.getStr() + "\n");
 			if(wrapper.link && linkComponents != null){
 				LabObject lObject = (LabObject)linkComponents.get(linkObjectIndex);
 				if(lObject != null){
@@ -683,12 +569,14 @@ public class CCTextArea  extends Container
 				}
 			}
 		}
-		setText(str,false);//temporary
 		lines = linesVector;
-		if(embedComponents == null || embedComponents.getCount() < 1) return;
-		for(i = 0; i < embedComponents.getCount(); i++){
-			addObject((LBCompDesc)embedComponents.get(i));
+
+		if(embedComponents != null && embedComponents.getCount() > 0){
+			for(i = 0; i < embedComponents.getCount(); i++){
+				addObject((LBCompDesc)embedComponents.get(i));
+			}
 		}
+		needInitLines = true;
 	}
 
 	public void insertText(String iStr){
@@ -778,12 +666,6 @@ public class CCTextArea  extends Container
 	}
 	
 	public String getText(){
-		/*		String retValue = "";
-				if(lines == null) return retValue;
-				for(int i = 0; i < lines.length; i++){
-				retValue += (lines[i].getStr() + "\n");
-				}
-				return retValue;*/
 		return text;
 	}
 	public void insertObject(){
@@ -861,7 +743,11 @@ public class CCTextArea  extends Container
 	
 	public void setRect(int x, int y, int width, int height){
 		super.setRect(x,y,width,height);
-		layoutComponents();
+
+		if(needInitLines && loadingTimer == null){
+			// seems like add timer calls onPaint (ick)
+			loadingTimer = addTimer(10);
+		}
 	}
 	
 	
@@ -905,18 +791,8 @@ public class CCTextArea  extends Container
 	public void changeLineContent(String str,CCStringWrapper stringWrapper){
 		if(str == null || stringWrapper == null) return;
 		if(lines == null) return;
-		String newText = "";
-		Vector oldLines = lines;
-		int myInt = -1;
-		for(int i = 0; i < lines.getCount(); i++){
-			newText += (stringWrapper != lines.get(i))?((CCStringWrapper)lines.get(i)).getStr():str;
-			newText += "\n";
-			
-		}
-		setText(newText);
-		restoreTextProperty(oldLines);
-		
-		layoutComponents();
+
+		initLines();
 	}
 
 
@@ -1128,6 +1004,7 @@ public class CCTextArea  extends Container
 			}
 		}
 		layoutComponents();
+		notifyListeners(0);
 	}
 
 
@@ -1156,8 +1033,18 @@ public class CCTextArea  extends Container
 			return;
 		}
 
-		if (ev.type == ev.TIMER && hasCursor){
-			paintCursor(null);
+		if (ev.type == ev.TIMER){
+			if(loadingTimer != null){
+				removeTimer(loadingTimer);
+				loadingTimer = null;
+				if(needInitLines){
+					initLines();
+				}
+				repaint();
+			}
+			if(hasCursor){
+				paintCursor(null);
+			}
 		}
 		else if (ev.type == ev.FOCUS_IN){
 			if(ev.target  == this){
@@ -1202,24 +1089,7 @@ public class CCTextArea  extends Container
 		}else if (ev.type == ev.FOCUS_OUT){
 			if(ev.target  == this){
 				lostFocus();
-			}/*else if(currObjectViewDesc != null){
-			   if(ev.target instanceof Control){
-			   Control c = (Control)ev.target;
-			   while(c != null){
-			   if(c == currObjectViewDesc.getObject()) break;
-			   c = c.getParent();
-			   }
-			   if(c == currObjectViewDesc.getObject()){
-			   System.out.println("ev.FOCUS_OUT 3 ");
-			   Control cntrl = (Control)currObjectViewDesc.getObject();
-			   if((cntrl != null) && (cntrl instanceof LabObjectView)){
-			   LabObjectView object = (LabObjectView)cntrl;
-			   object.close();
-			   }
-			   //				currObjectViewDesc = null;
-			   }
-			   }
-			   }*/
+			}
 		}
 	}
 	public void gotFocus(){
@@ -1460,8 +1330,10 @@ public class CCTextArea  extends Container
 		if(lines != null && fl < nRows - 1 && fl >= 0){
 			removeCursor();
 			firstLine = fl;
-			layoutComponents();
-			if(dorepaint) repaint();
+			if(dorepaint){
+				layoutComponents();
+				repaint();
+			}
 		}
 	}
 
@@ -1561,7 +1433,8 @@ public class CCTextArea  extends Container
 				
 				
 				int rIndex = row - 1 - sw.beginRow;
-				if(rIndex >= 0 && rIndex < sw.delimiters.length / 2){
+				if(rIndex >= 0 && rIndex < sw.delimiters.getCount()){
+					
 					String str = sw.getSubString(rIndex);
 					if(str != null){
 						int lastPos = insetLeft + fm.getTextWidth(str);
@@ -1617,20 +1490,20 @@ public class CCTextArea  extends Container
 		return retValue;
 	}
 	
+
+	Timer loadingTimer = null;
 	public void onPaint(Graphics g){
 		Rect r = getRect();
+		if(loadingTimer != null){
+			g.drawText("Loading", 20,20);
+			return;
+		}
 		g.setColor(255,255,255);
 		g.fillRect(0,0,r.width,r.height);
 		g.setColor(0,0,0);
-		doPaintData(g);
-		
-		
-		
-		//		g.drawRect(0,0,r.width,r.height);
+		doPaintData(g);				
 	}
 	public void doPaintData(Graphics g){
-		if(needInitLines) initLines();
-
 		if(lines == null) return;
 		for (int i = 0; i<lines.getCount(); i++){
 			((CCStringWrapper)lines.get(i)).draw(g,firstLine);
@@ -1691,6 +1564,20 @@ public class CCTextArea  extends Container
 		return wrapper;
 	}
 
+	byte [] charWidthMappers = null;
+	byte [] getCharWidths()
+	{
+		if(charWidthMappers != null) return charWidthMappers;
+
+		FontMetrics fm = getFontMetrics();
+		if(fm == null) return null;
+		charWidthMappers = new byte[256];
+		for(int i = 0; i < 256; i++){
+			charWidthMappers[i] = (byte)fm.getCharWidth((char)(i));
+		}
+		
+		return charWidthMappers;
+	}
 }
 
 class CCTextAreaState{
@@ -1822,7 +1709,6 @@ class TextObjPropertyView extends LabObjectView{
 		if(view != null){
 			view.setRect(2,60,width - 4,height - 77);
 		}
-		
 		
 	}
 	

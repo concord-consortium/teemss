@@ -19,9 +19,6 @@ LObjCCTextArea 			doc;
 Button 					doneButton;
 Button 					insertButton;
 boolean					insertButtonAdded;
-//TimerButton 			upButton;
-//TimerButton 			downButton;
-
 
 Menu 					menu = null;
 Menu 					menuEdit = null;
@@ -35,7 +32,6 @@ Label 					nameEditAsLabel;
 Label					nameLabel;
 boolean					nameEditWasAdded = false;
 boolean					nameEditAsLabelWasAdded = false;
-
 
 CCScrollBar				scrollBar;
 
@@ -205,10 +201,11 @@ CCScrollBar				scrollBar;
 		}
 		tArea = new CCTextArea(this,null,doc.curDict,doc,session);
 		tArea.setup(lines, linkComponents, components);		
-		if(edit != null){
+		if(edit != null){			
 			edit.add(tArea);
 			tAreaWasAdded = true;
 		}
+		doc.store();
 	}
 
     public void readExternal(DataStream in){
@@ -274,19 +271,14 @@ CCScrollBar				scrollBar;
 			remove(insertButton);
 			insertButtonAdded = false;
 		}
-				
-//		upButton = new TimerButton("Up");
-//		downButton = new TimerButton("Down");
-//		add(upButton);
-//		add(downButton);
-
-		
+						
 		if(showDone){
 			if(doneButton == null){
 				doneButton = new Button("Done");
 				add(doneButton);
 			}
 		} 
+		
 		add(edit);
 		
 		if(scrollBar == null) scrollBar = new CCScrollBar(this);
@@ -326,8 +318,6 @@ CCScrollBar				scrollBar;
 			nameEditAsLabel.setRect(30, 1, editW, 15);
 		}
 
-
-
 		if(tArea != null){
 			waba.fx.Rect rEdit = edit.getRect();
 			int wsb = (waba.sys.Vm.getPlatform().equals("WinCE"))?11:7;
@@ -338,9 +328,6 @@ CCScrollBar				scrollBar;
 			}
 		}
 		if(needInserButton)	insertButton.setRect(1,yStart - 17,30,15);
-
-		tArea.initLines();
-		redesignScrollBar();
 	}
 
 	public void close(){
@@ -352,10 +339,13 @@ CCScrollBar				scrollBar;
     		}
 		}
 
-
-
 		if(scrollBar != null) scrollBar.close();
-		super.close();
+		setShowMenus(false);
+		if(session != null) session = null;
+
+		// we don't call super.close() because we don't want to store the object
+		// unless we've actually changed something
+		// super.close();
 	}
 
 	public void onPaint(waba.fx.Graphics g){
@@ -366,16 +356,6 @@ CCScrollBar				scrollBar;
 		}
 	}
 	public void onEvent(Event e){
-	
-/*
-		if(e instanceof ControlEvent && e.type == ControlEvent.TIMER){
-			if(e.target == upButton){
-				if(tArea != null)	tArea.moveUp();
-			}else if(e.target == downButton){
-				if(tArea != null)	tArea.moveDown();
-			}
-		}
-*/	
 		if( e.type == ControlEvent.PRESSED){
 			if(e.target == insertButton){
 				if(tArea != null){
@@ -385,15 +365,7 @@ CCScrollBar				scrollBar;
 				if(container != null){
 					container.done(this);
 				}	    
-			}/*else if(e.target == upButton){
-				if(tArea != null){
-					tArea.moveUp();
-				}	    
-			}else if(e.target == downButton){
-				if(tArea != null){
-					tArea.moveDown();
-				}	    
-			}*/ 
+			} 
 		}
 	}
     public void openFileDialog(){
@@ -447,7 +419,7 @@ CCScrollBar				scrollBar;
 			tArea.setFirstLine(0,false);
 			scrollBar.setValue(0);
 		}
-		tArea.repaint();
+		scrollBar.repaint();
 	}
 	
 	public void scrollValueChanged(ScrollEvent se){
@@ -455,18 +427,8 @@ CCScrollBar				scrollBar;
 		if(tArea != null) tArea.setFirstLine(se.getScrollValue());
 	}
 
-
 	public int getViewType(){
 		return (showDone)?LObjDictionary.TREE_VIEW:LObjDictionary.PAGING_VIEW;
-/*
-		int retValue = LObjDictionary.TREE_VIEW;
-		LabObject labObj =  getLabObject();
-		if(!(labObj instanceof LObjCCTextArea)) return retValue;
-		LObjCCTextArea objTextArea = (LObjCCTextArea)labObj;
-		if(objTextArea.curDict == null) return retValue;
-		retValue = objTextArea.curDict.viewType;
-		return retValue;
-*/
 	}	
 
 }
