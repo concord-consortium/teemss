@@ -94,6 +94,10 @@ public class LObjDataCollectorView extends LabObjectView
 		graph = (LObjGraph)dc.getObj(0);
 		gv = (LObjGraphView)graph.getView(this, false, dataDict);
 		gv.showTitle(false);
+		Vector dataSources = dc.getDataSources();
+		for(int i=0; i<dataSources.getCount(); i++){
+			gv.addDataSource((DataSource)dataSources.get(i));
+		}
 		gv.setDC(dc);
 
 		gv.layout(false);
@@ -109,12 +113,6 @@ public class LObjDataCollectorView extends LabObjectView
 
 
 		add(gv);
-
-		Vector dataSources = dc.getDataSources();
-		for(int i=0; i<dataSources.getCount(); i++){
-			gv.addDataSource((DataSource)dataSources.get(i));
-		}
-
     }
 
 

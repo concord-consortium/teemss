@@ -129,7 +129,7 @@ public class LObjGraphView extends LabObjectView
 		// data source is which
 		ds.addDataListener(this);
 		curDS = ds;
-		if(curDS != null){
+		if(curDS != null){			
 			graph.yUnit = curDS.getUnit();
 			if(graph.name.equals("..auto_title..")){
 				graph.yLabel = curDS.getLabel();
@@ -255,6 +255,7 @@ public class LObjGraphView extends LabObjectView
 
     public void dataReceived(DataEvent dataEvent)
     {
+
 		if(dataEvent.type == DataEvent.DATA_READY_TO_START){
 			numVals = 0;
 			curPtime = 0;

@@ -24,7 +24,7 @@ public class LObjDataCollector extends LObjSubDict
 		me.initSubDict();
 
 		LObjGraph graph = new LObjGraph();
-		graph.name = "Graph";
+		graph.name = "..auto_title..";
 		me.setGraph(graph);
 		return me;
     }
@@ -34,6 +34,7 @@ public class LObjDataCollector extends LObjSubDict
 		String title;
 
 		// What's up with this.
+		Vector dataSources = getDataSources();
 		if(dataSources == null || dataSources.getCount() < 1 ||
 		   !(dataSources.get(0) instanceof LObjProbeDataSource)){
 			return "DS not a valid";
@@ -126,11 +127,6 @@ public class LObjDataCollector extends LObjSubDict
     public void writeExternal(DataStream ds)
     {
 		super.writeExternal(ds);
-		if(dataSources == null){
-			ds.writeInt(0);
-		} else {
-			numDataSources = dataSources.getCount();
-			ds.writeInt(numDataSources);
-		}
+		ds.writeInt(numDataSources);
     }
 }
