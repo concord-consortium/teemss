@@ -501,7 +501,6 @@ public class LObjGraphView extends LabObjectView
 	
 		// Clear curBin and set time to 0
 		timeBin.setValue(0f);
-		dd.update();
 
 		if(graph.graphSettings == null){
 			return;
@@ -511,5 +510,13 @@ public class LObjGraphView extends LabObjectView
 			GraphSettings gs = (GraphSettings)graph.graphSettings.get(i);
 			gs.clear();
 		}
+		numStarted = 0;
+
+		dd.update();
     }
+
+	public void clear(Object cookie, Bin curBin)
+	{
+		dd.removeBin(curBin);		
+	}
 }

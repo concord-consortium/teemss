@@ -21,7 +21,7 @@ DataListener 	calibrationListener = null;
 CCUnit		currentUnit = null;
 public 		waba.util.Vector 	dataListeners = null;
 	public waba.util.Vector probListeners = null;
-	public static int interfaceType = CCInterfaceManager.INTERFACE_2;
+	public static int interfaceType = CCInterfaceManager.INTERFACE_0;
 
     public LObjProbeDataSource()
     {

@@ -34,6 +34,9 @@ public class LObjDataCollectorView extends LabObjectView
     String title1 = "";
 	String  title2 = "";
 
+	String [] fileStrings = {"Save Data..", "Export Data.."};
+	String [] palmFileStrings = {"Save Data.."};
+
     public LObjDataCollectorView(ViewContainer vc, LObjDataCollector dc, 
 							   LObjDictionary curDict)
     {
@@ -52,6 +55,10 @@ public class LObjDataCollectorView extends LabObjectView
 	{
 		if(container != null){
 			container.getMainView().addMenu(this, menu);
+			if(waba.sys.Vm.getPlatform().equals("PalmOS")){
+				fileStrings = palmFileStrings;
+			}
+			container.getMainView().addFileMenuItems(fileStrings, this);
 		}
 	}
 
@@ -59,6 +66,7 @@ public class LObjDataCollectorView extends LabObjectView
 	{
 		if(container != null){
 			container.getMainView().delMenu(this,menu);
+			container.getMainView().removeFileMenuItems(fileStrings, this);
 		}
 	}
 
@@ -85,6 +93,7 @@ public class LObjDataCollectorView extends LabObjectView
 	 *  I'll fix it soon
 	 */
 	boolean stopping = false;
+
     void stop(boolean notifyGraph)
     {
 		if(stopping) return;
@@ -216,6 +225,30 @@ public class LObjDataCollectorView extends LabObjectView
 					dProf.store();
 				} 
 				*/
+			}
+		} else {
+ 			if(e.getActionCommand().equals("Save Data..")){
+				LObjDataSet dSet = DataObjFactory.createDataSet();
+
+				LObjGraph dsGraph = (LObjGraph)graph.copy();
+				dsGraph.name = "Graph";
+
+				dSet.setDataViewer(dsGraph);
+				graph.curGS.saveData(dSet);
+
+				if(dataDict != null){
+					dataDict.add(dSet);
+					dSet.store();
+				} else {
+					// for now it is an error
+					// latter it should ask the user for the name
+				}
+			} else if(e.getActionCommand().equals("Export Data..")){
+				Bin curBin = graph.curGS.getBin();
+				if(curBin != null){
+					curBin.description = graph.title;
+					DataExport.export(curBin, gv.av.lGraph.annots);
+				}
 			}
 		}
     }

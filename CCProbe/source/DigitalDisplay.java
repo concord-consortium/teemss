@@ -59,6 +59,7 @@ public class DigitalDisplay extends Container
     public void removeBin(DecoratedValue bin)
     {
 		int index = bins.find(bin);
+		if(index < 0) return;
 		bins.del(index);
 		LabelBuf curDisp = (LabelBuf)disps.get(index);
 		remove(curDisp);

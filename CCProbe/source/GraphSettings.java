@@ -123,6 +123,20 @@ public class GraphSettings
 		}
 	}
 
+	public void stopGraph()
+	{
+		if(gv != null && started){
+			started = false;
+			Bin newBin = gv.stopGraph(gvCookie, curBin, 
+									  bins.getCount() < MAX_COLLECTIONS,
+									  xaxis);
+			curBin = newBin;
+			if(newBin == null) return;
+			curBin.setUnit(yUnit);
+			curBin.label = "";
+		}
+	}
+
     int numVals = 0;
 
     //    int [] [] pTimes = new int [1000][];
@@ -140,20 +154,6 @@ public class GraphSettings
 		case DataEvent.DATA_STOPPED:
 			stopGraph();
 			break;
-		}
-	}
-
-	public void stopGraph()
-	{
-		if(gv != null && started){
-			started = false;
-			Bin newBin = gv.stopGraph(gvCookie, curBin, 
-									  bins.getCount() < MAX_COLLECTIONS,
-									  xaxis);
-			curBin = newBin;
-			if(newBin == null) return;
-			curBin.setUnit(yUnit);
-			curBin.label = "";
 		}
 	}
 
@@ -250,6 +250,12 @@ public class GraphSettings
 
 	public void clear()
 	{
+		started = false;
+		if(gv != null && curBin != null) gv.clear(gvCookie, curBin);
+		for(int i=0 ; i < bins.getCount(); i++){
+			Bin bin = (Bin)bins.get(i);
+			if(bin != null) bin.free();
+		}
 		bins = new Vector();	
 	}
 	
