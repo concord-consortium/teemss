@@ -1,0 +1,101 @@
+package extra.util;
+
+
+
+public class PropObject
+
+{
+
+String 	name;
+
+String 	[]possibleValues;//default always first:  2,1,2,3 default value 2 possible 1 or 2 or 3
+
+String 	value;
+
+float		fval = 0.0f;
+
+
+
+	public 	PropObject(String name,String []possibleValues,int defaultIndex){
+
+		this.name = name;
+
+		this.possibleValues = possibleValues;
+
+		if(possibleValues != null && possibleValues.length > 0){
+
+			value = possibleValues[defaultIndex];
+
+		}
+
+	}
+
+	public 	PropObject(String name,String []possibleValues){
+
+		this(name,possibleValues,0);
+
+	}
+
+	public 	PropObject(String name){
+
+		this(name,null,0);
+
+	}
+
+	
+
+	public void setValue(String value){
+
+		if(value == null) return;
+
+		boolean inPossibleValue = false;
+
+		if(possibleValues == null){
+
+			inPossibleValue = true;
+
+		}else{
+
+			for(int i = 0;i < possibleValues.length; i++){
+
+				if(value.equals(possibleValues[i])){
+
+					inPossibleValue = true;
+
+					break;
+
+				}
+
+			}
+
+		}
+
+		if(inPossibleValue) this.value = value;
+
+	}
+
+	
+
+	public float creatFValue(){
+
+		if(value != null){
+
+			fval = Convert.toFloat(value);
+
+		}
+
+		return fval;
+
+	}
+
+	public float getFValue(){ return fval;}
+
+	
+
+	public String getValue(){ return value;}
+
+	public String []getPossibleValues(){ return possibleValues;}
+
+	public String getName(){ return name;}
+
+}
