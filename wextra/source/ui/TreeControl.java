@@ -35,6 +35,11 @@ public class TreeControl extends Container implements TreeModelListener
 		myFM = getFontMetrics(myFont);
     }
 
+	public TreeNode getRootNode()
+	{
+		return tm.getRoot();
+	}
+
 	public int getAllLines(){
 		if(lines == null) return 0;
 		return lines.getCount();

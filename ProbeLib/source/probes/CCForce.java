@@ -17,8 +17,8 @@ int  			[]forceIntData = new int[CCInterfaceManager.BUF_SIZE];
 	public final static String [] speed2Names = {3 + speedUnit, 200 + speedUnit};
 
 	public int curChannel = 1;
-float	A = 0.01734f;
-float B = -25.31f;
+	float	A = 0.01734f;
+	float B = -25.31f;
 
 	PropObject modeProp = new PropObject("Mode", "Mode", PROP_MODE, modeNames);
 	PropObject rangeProp = new PropObject("Range", "Range", PROP_RANGE, range1Names, 1);
