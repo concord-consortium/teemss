@@ -308,8 +308,8 @@ public class LabBook
 	private void writeHeader(LabObject lObj, DataStream dsOut)
 	{
 		dsOut.writeShort(lObj.objectType);
-		dsOut.writeString(lObj.getName());
 		dsOut.writeShort(lObj.getFlags());
+		dsOut.writeString(lObj.getName());
 	}
 
 
@@ -345,7 +345,7 @@ public class LabBook
 		DataStream dsIn = new DataStream(bsIn);
 
 		// We didn't find it so we need to parse it from the file
-		byte [] buffer = db.readObjectBytes(lObj.ptr);
+		byte [] buffer = db.readObjectBytes(lObj.ptr, -1);
 		if(buffer == null) return false;
 
 		// set bufferStream buffer
@@ -359,9 +359,11 @@ public class LabBook
 			return false;
 		}
 
-		//need to read the name string
-		String name = dsIn.readString();
+		// read flags
 		lObj.ptr.flags = dsIn.readShort();					
+
+		// need to read the name string
+		String name = dsIn.readString();
 
 		// probably we should update the object name
 		lObj.setName(name);
@@ -405,7 +407,7 @@ public class LabBook
 			return false;
 		}
 
-		DataStream dsIn = initPointer(lObjPtr, ptrDB, checkLoaded);
+		DataStream dsIn = initPointer(lObjPtr, ptrDB, checkLoaded, true);
 		if(dsIn == null){
 			// this object was already loaded
 			return false;
@@ -461,7 +463,7 @@ public class LabBook
 	 * already been loaded, otherwise it returns null
 	 */
 	private DataStream initPointer(LabObjectPtr lObjPtr, LabBookDB ptrDB,
-								   boolean checkLoaded)
+								   boolean checkLoaded, boolean readAllBytes)
 	{
 		int i;
 		int numLoaded = loaded.getCount();
@@ -487,7 +489,11 @@ public class LabBook
 		DataStream dsIn = new DataStream(bsIn);
 
 		// We didn't find it so we need to parse it from the file
-		byte [] buffer = ptrDB.readObjectBytes(lObjPtr);
+		int numBytes = -1;
+		if(!readAllBytes){
+			numBytes = 4; 
+		}
+		byte [] buffer = ptrDB.readObjectBytes(lObjPtr, numBytes);
 		if(buffer == null){
 			return null;
 		}
@@ -496,8 +502,10 @@ public class LabBook
 		bsIn.setBuffer(buffer);
 	
 		lObjPtr.objType = dsIn.readShort();
-		lObjPtr.name = dsIn.readString();
-		lObjPtr.flags = dsIn.readShort();			
+		lObjPtr.flags = dsIn.readShort();
+		if(readAllBytes){
+			lObjPtr.name = dsIn.readString();
+		}
 
 		return dsIn;
 	}
@@ -507,7 +515,7 @@ public class LabBook
 		// if this is true we have major problems
 		if(lObjPtr.devId == -1 && lObjPtr.objId == -1) return false;
 
-		initPointer(lObjPtr, db, true);
+		initPointer(lObjPtr, db, true, true);
 		return true;
 	}
 	/*
@@ -567,7 +575,7 @@ public class LabBook
     public LabObject importDB(LabBookDB db)
     {
 		LabObjectPtr rootPtr = db.getRootPtr();
-		initPointer(rootPtr, db, false);
+		initPointer(rootPtr, db, false, false);
 
 		LabObjectPtr lObjPtr = copyAll(rootPtr, db, this.db);
 		
@@ -639,7 +647,7 @@ public class LabBook
 			// they need to be translated
 
 			// We didn't find it so we need to parse it from the file
-			buffer = srcDB.readObjectBytes(lObjPtr);
+			buffer = srcDB.readObjectBytes(lObjPtr, -1);
 		}
 
 		if(buffer == null){
@@ -708,7 +716,7 @@ public class LabBook
 				int oldTransCount = trans.getCount();
 
 				LabObjectPtr srcPtr = (LabObjectPtr)srcDict.objects.get(i);
-				initPointer(srcPtr, srcDB, false);
+				initPointer(srcPtr, srcDB, false, false);
 				if(localCopy &&
 				   ((srcPtr.flags & LabObject.FLAG_LOCKED) != 0)){
 					// This is locked object so we shouldn't copy it

@@ -331,7 +331,7 @@ public class LabBookFile extends LabBookDB
 
     // search through object Index       
     // and find object bytes
-    public byte [] readObjectBytes(LabObjectPtr ptr)
+    public byte [] readObjectBytes(LabObjectPtr ptr, int numBytes)
     {
 		int curPos = 0;
 		FileObject fObj = null;
@@ -346,6 +346,10 @@ public class LabBookFile extends LabBookDB
 
 		file.seek(fObj.filePos);
 		objSize = ds.readInt();
+		if(numBytes > 0 && numBytes < objSize){
+			objSize = numBytes;
+		}
+
 		byte [] buffer = new byte [objSize];
 		file.readBytes(buffer, 0, objSize);
 

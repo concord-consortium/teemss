@@ -18,7 +18,7 @@ public class LabBookFile extends LabBookDB
 
     public boolean getError(){return true;}
  
-    public byte [] readObjectBytes(LabObjectPtr ptr){return null;}
+    public byte [] readObjectBytes(LabObjectPtr ptr, int numBytes){return null;}
   
     public boolean writeObjectBytes(LabObjectPtr ptr, byte [] buffer, int start,
 									int count){return false;}

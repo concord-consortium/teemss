@@ -148,19 +148,19 @@ public class LabBookCatalog extends LabBookDB
      * The ObjectIndex format is:
      * [ length ]
      * [ subLength ]
-     * [ file pos ] [ device id ] [ object id ]
+     * [ file pos ] [ object id ]
      * ...
      * [ next subIndex file pos ]
      * --------------------
      * [ subLength ]
-     * [ file pos ] [ device id ] [ object id ]
+     * [ file pos ] [ object id ]
      * ...
      * [ next subIndex file pos ]
      * --------------------
      * .............
      * --------------------
      * [ subLength ]
-     * [ file pos ] [ device id ] [ object id ]
+     * [ file pos ] [ object id ]
      * ...
      * [ <-1> ]
      */
@@ -178,13 +178,13 @@ public class LabBookCatalog extends LabBookDB
 		objIndexVec = new Vector();
 		int [] curChunk = null;
 		for(int j=0; j < (length - 1)/objIndexChunkSize; j++){
-			curChunk = new int [objIndexChunkSize * 3];
+			curChunk = new int [objIndexChunkSize * 2];
 			objIndexVec.add(curChunk);
 			ds.readInts(curChunk, 0, curChunk.length);
 		}
-		curChunk = new int [objIndexChunkSize * 3];
+		curChunk = new int [objIndexChunkSize * 2];
 		objIndexVec.add(curChunk);
-		ds.readInts(curChunk, 0, (length % objIndexChunkSize) * 3);
+		ds.readInts(curChunk, 0, (length % objIndexChunkSize) * 2);
 
 		objIndexLen = length;
 
@@ -195,25 +195,23 @@ public class LabBookCatalog extends LabBookDB
 	public int findObject(LabObjectPtr ptr)
 	{
 		int objIndexVecCount = objIndexVec.getCount();
-		int devId = ptr.devId;
+		if(ptr.devId != curDevId) return -1;
 		int objId = ptr.objId;
 
 		for(int j=0; j < objIndexVecCount - 1; j++){
 			int [] objIndex = (int [])objIndexVec.get(j);
-			for(int i=0; i < objIndex.length; i+=3){
-				if(objIndex[i] == devId &&
-				   objIndex[i+1] == objId){
-					return objIndex[i+2];
+			for(int i=0; i < objIndex.length; i+=2){
+				if(objIndex[i] == objId){
+					return objIndex[i+1];
 				} 
 			}
 		}
 		if(objIndexVecCount - 1 >= 0){
 			int [] objIndex = (int [])objIndexVec.get(objIndexVecCount - 1);
-			int endPoint = (objIndexLen % objIndexChunkSize) * 3;
-			for(int i=0; i < endPoint; i+=3){
-				if(objIndex[i] == devId &&
-				   objIndex[i+1] == objId){
-					return objIndex[i+2];
+			int endPoint = (objIndexLen % objIndexChunkSize) * 2;
+			for(int i=0; i < endPoint; i+=2){
+				if(objIndex[i] == objId){
+					return objIndex[i+1];
 				} 
 			}			
 		}
@@ -251,32 +249,30 @@ public class LabBookCatalog extends LabBookDB
 		// See if we need to make a new chunk
 		if(curChunkIndex >= objIndexVec.getCount()){
 			// we need to add a new chunk to the objIndexVec
-			objIndexVec.add(new int [objIndexChunkSize * 3]);
+			objIndexVec.add(new int [objIndexChunkSize * 2]);
 		}
 
 		
 		int [] curChunk = (int []) objIndexVec.get(curChunkIndex);
 		
 		// find the position in the chunk
-		int objPos = (objIndexLen - curChunkIndex*objIndexChunkSize) * 3;
+		int objPos = (objIndexLen - curChunkIndex*objIndexChunkSize) * 2;
 
 		// store the object info in the chunk
-		curChunk[objPos] = devId;
-		curChunk[objPos+1] = objId;
-		curChunk[objPos+2] = newRecPos;
+		curChunk[objPos] = objId;
+		curChunk[objPos+1] = newRecPos;
 
 		// Prepare to store the object info in the catalog
 		if(!cat.setRecordPos(0)) return -1;
-		cat.resizeRecord(cat.getRecordSize() + 12);
+		cat.resizeRecord(cat.getRecordSize() + 8);
 
 		cat.skipBytes(4);
 		ds.writeInt(nextObjId);
 
 		cat.skipBytes(8);
 		ds.writeInt(objIndexLen + 1);
-		cat.skipBytes(objIndexLen*12);
+		cat.skipBytes(objIndexLen*8);
 
-		ds.writeInt(devId);
 		ds.writeInt(objId);
 		ds.writeInt(newRecPos);
 
@@ -291,7 +287,7 @@ public class LabBookCatalog extends LabBookDB
 
     // search through object Index       
     // and find object bytes
-    public byte [] readObjectBytes(LabObjectPtr ptr)
+    public byte [] readObjectBytes(LabObjectPtr ptr, int numBytes)
     {
 		int i;
 		int objSize = 0;
@@ -305,8 +301,11 @@ public class LabBookCatalog extends LabBookDB
 			openErr("read:" + index);
 			return null;
 		}
-		
+				
 		objSize = cat.getRecordSize();
+		if(numBytes > 0 && numBytes < objSize){
+			objSize = numBytes;
+		}
 		buffer = new byte [objSize];
 		cat.readBytes(buffer, 0, objSize);
 		cat.setRecordPos(-1);

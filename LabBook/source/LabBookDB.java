@@ -36,7 +36,8 @@ public abstract class LabBookDB
 
     public abstract boolean getError();
  
-	public abstract byte [] readObjectBytes(LabObjectPtr lObjPtr);
+	// if numBytes is -1 it reads all bytes
+	public abstract byte [] readObjectBytes(LabObjectPtr lObjPtr, int numBytes);
 
 	public abstract boolean writeObjectBytes(LabObjectPtr lObjPtr, byte [] buffer, 
 											 int start, int count);
