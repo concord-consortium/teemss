@@ -40,6 +40,15 @@ public abstract class LabObjectView extends Container
 		else return null;
     }
     
+/***************************************************************************/
+/*	The idea is that a container calls setShowMenus not addMenus.          */
+/*	I also changed the close method, so that it automatically removes the  */
+/*	menus if they haven't already been removed.                            */
+/***************************************************************************/
+/*	If a View is not a container then it probaly just needs to overide     */
+/*	addMenus and delMenus.                                                 */
+/*	If a View _is_ a container then it might need to override setShowMenus.*/
+
 	public void setShowMenus(boolean state)
 	{
 		if(!showMenus && state){
