@@ -16,6 +16,9 @@ public abstract class LObjSubDict extends LabObject
 	lBook.store(dict).writeExternal(out);
     }
 
+
+    // Notice for this to work correctly the dictionary needs to be
+    // loaded before the this object is
     public void readExternal(DataStream in)
     {
 	super.readExternal(in);
@@ -24,6 +27,8 @@ public abstract class LObjSubDict extends LabObject
 
     public void setObj(LabObject obj, int id)
     {
+	// This assumes the dict doesn't have a template
+	id++;
 	if(dict.getChildCount() <= id){
 	    for(int i=dict.getChildCount(); i<id; i++){
 		dict.add(null);
@@ -39,6 +44,8 @@ public abstract class LObjSubDict extends LabObject
 
     public LabObject getObj(int id)
     {
+	// This assumes the dictionary doesn't have a template
+	id++;
 	LabObject obj = (LabObject)dict.getChildAt(id);
 	if(obj == null) Debug.println("Got null obj from subDict");
 

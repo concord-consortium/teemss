@@ -68,7 +68,7 @@ public class LabBook
     {
 	LabObjectPtr lObjPtr;
 	
-	if(lObj == null) return nullLObjPtr;
+ 	if(lObj == null) return nullLObjPtr;
 
 	// Need to check if this object has already been stored
 	if(lObj.ptr != null){
@@ -187,6 +187,63 @@ public class LabBook
 
 	toBeStored = new Vector();
 	loaded = new Vector();
+	alreadyStored = null;
+
+    }
+
+    public boolean reload(LabObject lObj)
+    {
+ 	if(lObj == null) return false;
+
+	// Need to check if this object has already been stored
+	if(lObj.ptr == null){
+	    Debug.println("reload: Null pointer");
+	    return false;
+	}
+	int i;
+	int numLoaded = loaded.getCount();
+	LabObjectPtr curObjPtr;
+
+	for(i=0; i<numLoaded; i++){
+	    curObjPtr = (LabObjectPtr)loaded.get(i);
+	    if(curObjPtr.devId == lObj.ptr.devId && 
+	       curObjPtr.objId == lObj.ptr.objId){
+		break;
+	    }
+	}
+
+	if(i == numLoaded){
+	    // This object hasn't been loaded or there was a commit since it 
+	    // was last loaded.  So it should be loaded using the regular load
+	    Debug.println("reload: Not pre-loaded");
+	    return false;
+	}
+
+	BufferStream bsIn = new BufferStream();
+	DataStream dsIn = new DataStream(bsIn);
+
+	// We didn't find it so we need to parse it from the file
+	byte [] buffer = db.readObjectBytes(lObj.ptr.devId, lObj.ptr.objId);
+	if(buffer == null) return false;
+
+	// set bufferStream buffer
+	// read buffer by
+	bsIn.setBuffer(buffer);
+	
+	int objectType = dsIn.readInt();
+
+	if(lObj.objectType != objectType){
+	    Debug.println("reload: Non-matching object");
+	    return false;
+	}
+
+	// We should check if the object is in the loaded list
+	//	.. loaded.add(lObjPtr);
+		    
+	lObj.readExternal(dsIn);
+
+	return true;
+	      
     }
 
     // increase reference count in lab Object

@@ -7,23 +7,28 @@ import org.concord.waba.extra.probware.probs.*;
 public class LObjDataControl extends LObjSubDict
 {
     int probeId = ProbFactory.Prob_ThermalCouple;
-    LObjGraph graph;
+    //    LObjGraph graph;
     
     public static LObjDataControl makeNew()
     {
 	LObjDataControl me = new LObjDataControl();
 	me.dict = new LObjDictionary();
-	me.dict.mainObject = me;
-	me.graph = new LObjGraph();
-	me.graph.name = "Graph";
-	me.dict.add(me.graph);
+	me.dict.setMainObj(me);
+	LObjGraph graph = new LObjGraph();
+	graph.name = "Graph";
+	me.setGraph(graph);
 	return me;
     }
 
     public void setGraph(LObjGraph g)
     {
-	graph = g;
+	//	graph = g;
 	setObj(g, 0);
+    }
+
+    public void setDataDict(LObjDictionary d)
+    {
+	setObj(d, 1);
     }
 
     public LObjDataControl()
@@ -33,13 +38,18 @@ public class LObjDataControl extends LObjSubDict
 
     public LabObjectView getView(LObjViewContainer vc, boolean edit)
     {
-	return new LObjDataControlView(vc, this);
+	if(edit){
+	    return new LObjDataControlEditView(vc, this);
+	} else {
+	    return new LObjDataControlView(vc, this);
+	}
     }
 
     public void readExternal(DataStream ds)
     {
 	super.readExternal(ds);
-	graph = (LObjGraph)getObj(0);
+	probeId = ds.readInt();
+	//	graph = (LObjGraph)getObj(0);
     }
 
     public void writeExternal(DataStream ds)
@@ -48,10 +58,11 @@ public class LObjDataControl extends LObjSubDict
 	ds.writeInt(probeId);
     }
 
+    /*
     public void setDict(LObjDictionary d)
     {
 	super.setDict(d);
 	if(graph != null) setObj(graph, 0);
     }
-
+    */
 }

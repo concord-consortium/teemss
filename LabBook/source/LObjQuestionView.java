@@ -78,6 +78,8 @@ public class LObjQuestionView extends LabObjectView
 	    if(quest.options != null){
 		TreeNode [] answers = null;
 		TreeNode [] choices = quest.options.childArray();
+		LabObject obj = null;
+
 		if(answer != null &&
 		   answer instanceof LObjDictionary){
 		    answers = ((LObjDictionary)answer).childArray();
@@ -87,12 +89,25 @@ public class LObjQuestionView extends LabObjectView
 		for(int i=0; i<choices.length; i++){
 		    radios[i] = new Radio("");
 		    add(radios[i]);
-		    options[i] = ((LabObject)(choices[i])).getView(null, false);
+		    if(choices[i] instanceof LObjDictionary){
+			obj = (LabObject)choices[i];
+		    } else if(choices[i] instanceof LabObjectPtr){
+			obj = quest.lBook.load((LabObjectPtr)choices[i]);
+		    }
+		    options[i] = obj.getView(null, false);
 		    if(options[i] instanceof LObjDocumentView) ((LObjDocumentView)options[i]).showName = false;
 		    options[i].layout(false);
 		    if(answers != null){
 			for(int j=0; j<answers.length; j++){
-			    if(choices[i] == answers[j]){
+			    // This probably needs to be changed
+			    if((choices[i] instanceof LObjDictionary &&
+				choices[i] == answers[j]) ||
+			       (choices[i] instanceof LabObjectPtr &&
+				answers[j] instanceof LabObjectPtr &&
+				((LabObjectPtr)choices[i]).devId ==
+				((LabObjectPtr)answers[j]).devId &&
+				((LabObjectPtr)choices[i]).objId ==
+				((LabObjectPtr)answers[j]).objId)){
 				radios[i].setChecked(true);
 				break;
 			    }

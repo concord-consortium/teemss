@@ -100,8 +100,8 @@ public class LObjDictPagingView extends LabObjectView
 		} else if(index < childArray.length){
 		    repaint();
 		} else {
-		    if(dict.newObjectTemplate != null){
-			newObj = dict.newObjectTemplate.copy();
+		    if(dict.hasObjTemplate){
+			newObj = dict.getObjTemplate().copy();
 		    } else {
 			newObj = LabObject.getNewObject(defaultNewObjectType);
 		    }
@@ -144,12 +144,12 @@ public class LObjDictPagingView extends LabObjectView
 	}		
     }
 
-    public void addMenu(LabObjectView source, org.concord.waba.extra.ui.Menu menu)
+    public void addMenu(LabObjectView source, Menu menu)
     {
 	if(container != null) container.addMenu(this, menu);
     }
     
-    public void delMenu(LabObjectView source, org.concord.waba.extra.ui.Menu menu)
+    public void delMenu(LabObjectView source, Menu menu)
     {
 	if(container != null) container.delMenu(this, menu);
     }
@@ -180,8 +180,32 @@ public class LObjDictPagingView extends LabObjectView
 	if(childArray == null) return;
 	if(index < 0 || index >= childArray.length) return;
 
+	TreeNode curNode = childArray[index];
+	LabObject obj = null;
+	if(curNode instanceof LabObjectPtr){
+	    if(index == 0 &&
+	       curNode.toString().equals("..empty..")){
+		if(dict.hasObjTemplate){
+		    obj = dict.getObjTemplate().copy();
+		} else {
+		    obj = LabObject.getNewObject(defaultNewObjectType);
+		}
 
-	LabObject obj = (LabObject)(childArray[index]);
+		obj.name = "New" + newIndex;
+		newIndex++;
+		dict.insert(obj, 0);
+		childArray = dict.childArray();
+	    } else {
+		obj = dict.lBook.load((LabObjectPtr)curNode);
+		if(obj == null) Debug.println("showPage: object not in database: dI " +
+						   ((LabObjectPtr)curNode).devId + 
+						   " oI " + ((LabObjectPtr)curNode).objId);
+	    }
+	} else if(curNode instanceof LObjDictionary){	
+	    obj = (LabObject)curNode;
+	}
+
+
 	if(obj == null) return;
        	if(obj == curObj) return;
 
@@ -191,19 +215,6 @@ public class LObjDictPagingView extends LabObjectView
 	}
 		
 	curObj = obj;
-	if(index == 0 &&
-	   obj.name.equals("..empty..")){
-	    if(dict.newObjectTemplate != null){
-		obj = dict.newObjectTemplate.copy();
-	    } else {
-		obj = LabObject.getNewObject(defaultNewObjectType);
-	    }
-
-	    obj.name = "New" + newIndex;
-	    newIndex++;
-	    dict.insert(obj, 0);
-	    childArray = dict.childArray();
-	}
 
 	statusLabel.setText((index + 1) + " of " + childArray.length);
 

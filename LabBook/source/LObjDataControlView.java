@@ -54,7 +54,7 @@ public class LObjDataControlView extends LabObjectView
 	    add(doneButton);
 	} 
 
-	gv = (LObjGraphView)dc.graph.getView(null, false);
+	gv = (LObjGraphView)dc.getObj(0).getView(null, false);
 	gv.layout(false);
 	add(gv);
     }
@@ -98,8 +98,21 @@ public class LObjDataControlView extends LabObjectView
 		gt.curProbe.calibrateMe((ExtraMainWindow)(MainWindow.getMainWindow()), this);
 
 		Debug.println("Callllll");
+	    } else if(e.getActionCommand().equals("Save Data...")){
+		LObjDataSet dSet = LObjDataSet.makeNewDataSet();
+		dSet.setDataViewer(gv.graph);
+		for(int i=0; i<gt.bins.getCount(); i++){
+		    dSet.addBin((Bin)gt.bins.get(i));
+		}
+		LObjDictionary dataDict = (LObjDictionary)dc.getObj(1);
+		if(dataDict != null){
+		    dataDict.add(dSet.dict);
+		    dSet.writeChunks();
+		} else {
+		    // for now it is an error
+		    // latter it should ask the user for the name
+		}
 	    }
-
 	}
     }
 

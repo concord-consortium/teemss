@@ -42,6 +42,7 @@ public class LObjDictionaryView extends LabObjectView
 	lObj =dict;
 	add(me);
 	editMenu.add("Rename...");
+	editMenu.add("Toggle hidden");
 	viewMenu.add("Paging View");
 	editMenu.addActionListener(this);
 	viewMenu.addActionListener(this);
@@ -96,7 +97,7 @@ public class LObjDictionaryView extends LabObjectView
     {
 	if(e.type == ControlEvent.PRESSED){
 	    TreeNode curNode;
-	    TreeNode parent;
+	    TreeNode parent;	   
 
 	    LabObject newObj;
 	    if(e.target == newButton){
@@ -111,10 +112,10 @@ public class LObjDictionaryView extends LabObjectView
 		treeModel.removeNodeFromParent(curNode, parent);
 	    } else if(e.target == openButton){
 		curNode = treeControl.getSelected();
-		showPage((LabObject)curNode, false);
+		showPage(curNode, false);
 	    } else if(e.target == editButton){
 		curNode = treeControl.getSelected();
-		showPage((LabObject)curNode, true);
+		showPage(curNode, true);
 	    } else if(e.target == doneButton){
 		if(container != null){
 		    container.done(this);
@@ -143,19 +144,26 @@ public class LObjDictionaryView extends LabObjectView
 		    LObjDataControl dc = LObjDataControl.makeNew();
 		    newObj = dc.dict;
 		    dc.dict.hideChildren = true;
+		    if(treeControl.getSelected() == null){
+			dc.setDataDict((LObjDictionary)treeModel.getRoot());
+		    } else {
+			dc.setDataDict((LObjDictionary)treeControl.getSelectedParent());
+		    }
 		} else if(objType.equals("Drawing")){
 		    newObj = new LObjDrawing();
 		}
 		if(newObj != null){
 		    TreeNode curNode = treeControl.getSelected();
 		    TreeNode parent = treeControl.getSelectedParent();
-		    newObj.name = "New" + newIndex;
+		    newObj.name = "New" + newIndex;		    
 		    newIndex++;
+		    TreeNode newNode = dict.getNode(newObj);
 		    if(curNode == null){
-			treeModel.insertNodeInto((TreeNode)newObj, treeModel.getRoot(), treeModel.getRoot().getChildCount());
+			treeModel.insertNodeInto(newNode, treeModel.getRoot(), treeModel.getRoot().getChildCount());
 		    } else {
-			treeModel.insertNodeInto((TreeNode)newObj, parent, parent.getIndex(curNode)+1);
+			treeModel.insertNodeInto(newNode, parent, parent.getIndex(curNode)+1);
 		    }
+
 		}
 	    }
 	} else if(e.getSource() == rnDialog){
@@ -202,13 +210,31 @@ public class LObjDictionaryView extends LabObjectView
 		    rnDialog = Dialog.showInputDialog(this, "Rename Parent", "Old Name was " + dict.name,
 						      buttons,Dialog.EDIT_INP_DIALOG);
 		}		    
+	    } else if(e.getActionCommand().equals("Toggle hidden")){
+		LObjDictionary.globalHide = !LObjDictionary.globalHide;
+		if(container != null) container.reload(this);
+
 	    }
 	}
     }
 
-    public void showPage(LabObject obj, boolean edit)
+    public void showPage(TreeNode curNode, boolean edit)
     {
-	if(obj == null) return;
+	LabObject obj = null;
+	
+	if(curNode instanceof LabObjectPtr){
+	    obj = dict.lBook.load((LabObjectPtr)curNode);
+	    if(obj == null) Debug.println("showPage: object not in database: dI " +
+					       ((LabObjectPtr)curNode).devId + 
+					       " oI " + ((LabObjectPtr)curNode).objId);
+	} else if(curNode instanceof LObjDictionary){	
+	    obj = (LabObject)curNode;
+	}
+
+	if(obj == null){
+	    Debug.println("Weirdness in showPage");
+	    return;
+	}
 
 	delMenu(this, viewMenu);
 	delMenu(this, editMenu);
@@ -242,7 +268,13 @@ public class LObjDictionaryView extends LabObjectView
     {
 	if(source == lObjView){
 	    lObjView.close();
+	    dict.lBook.store(lObjView.lObj);
+	    // I might want to do a commit here lets try it....
+	    // of course if we are embedded this might be a problem
+	    dict.lBook.commit();
+
 	    remove(lObjView);
+	    treeControl.reparse();
 	    add(me);
 	    addMenu(this, editMenu);
 	    addMenu(this, viewMenu);

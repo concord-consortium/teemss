@@ -35,7 +35,8 @@ public class LObjOutputSet extends LObjSubDict
     {
 	LObjOutputSet me = new LObjOutputSet();
 	me.dict = new LObjDictionary();
-	me.dict.mainObject = me;
+	me.dict.setMainObj(me);
+	me.dict.name = "";
 	me.name = "OutputSet_obj";
 	me.dict.hideChildren = true;
 	return me;

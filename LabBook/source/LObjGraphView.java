@@ -2,6 +2,7 @@ package org.concord.LabBook;
 
 import graph.*;
 import waba.ui.*;
+import waba.util.*;
 
 public class LObjGraphView extends LabObjectView
 {
@@ -9,6 +10,7 @@ public class LObjGraphView extends LabObjectView
     AnnotView av = null;
 
     Button doneButton = null;
+    Vector bins = null;
 
     public LObjGraphView(LObjViewContainer vc, LObjGraph g)
     {
@@ -16,6 +18,11 @@ public class LObjGraphView extends LabObjectView
 
 	graph = g;
 	lObj = g;	
+    }
+
+    public void addBins(Vector bs)
+    {
+	bins = bs;
     }
 
     public void layout(boolean sDone)
@@ -50,6 +57,12 @@ public class LObjGraphView extends LabObjectView
 	av = new AnnotView(width-2, gHeight);
 	av.setPos(1,curY);
 	av.setRange(graph.xmin, graph.xmax, graph.ymin, graph.ymax);
+	if(bins != null){
+	    for(int i = 0; i < bins.getCount(); i++){
+		av.addBin((Bin)bins.get(i));
+	    }
+	    av.lgView.autoScroll = false;
+	}
 	add(av);
     }
 

@@ -55,6 +55,7 @@ public class GraphTool extends Container
     CCProb curProbe = null;
 
     Bin curBin = null;
+    Vector bins = new Vector();
 
     public GraphTool(AnnotView av, int probeId, 
 		     String units, int w, int h) 
@@ -189,6 +190,7 @@ public class GraphTool extends Container
 		
 		bytesRead.setText((byte)'C' + "");
 		pm.start();
+		bins.add(curBin);
 
 	    } else if(target == modControl[1] && modControl[1].isSelected()){
 		stop();

@@ -28,7 +28,8 @@ public class LObjQuestion extends LObjSubDict
     {
 	LObjQuestion me = new LObjQuestion();
 	me.dict = new LObjDictionary();
-	me.dict.mainObject = me;
+	me.dict.setMainObj(me);
+	me.dict.name = "Question_dict";
 
 	LObjOutputSet output = LObjOutputSet.makeNew();
 
@@ -37,7 +38,7 @@ public class LObjQuestion extends LObjSubDict
 	qsDict.viewType = qsDict.PAGING_VIEW;
 	output.setMainObject((LabObject)qsDict);
 	me.setOutputSet(output);
-	qsDict.newObjectTemplate = me.dict;
+	qsDict.setObjTemplate(me.dict);
 
 	return me.outputSet.dict;
     }
@@ -56,10 +57,11 @@ public class LObjQuestion extends LObjSubDict
 	super.writeExternal(out);
 	out.writeInt(questionType);
 	
-	if(outputSet != (LObjOutputSet)dict.getChildAt(0) ||
-	   questionText != (LObjDocument)dict.getChildAt(1) ||
+	// This is dangerous if we've been commited
+	if(outputSet != (LObjOutputSet)getObj(0) ||
+	   questionText != (LObjDocument)getObj(1) ||
 	   (questionType == MULTIPLE_CHOICE &&
-	    options != (LObjDictionary)dict.getChildAt(2))){
+	    options != (LObjDictionary)getObj(2))){
 	    Debug.println("Question Dict setup wrong");
 	}	
     }
