@@ -45,6 +45,7 @@ to be abstracted but also customizable
 - display time values in bar graph
 - when a selection rectangle is made on the graph display statistics
   including X and Y extent
+- check for data-to-be-saved when leaving datacollector via paging mode next/prev
 
 MAJOR
 
