@@ -5,19 +5,6 @@ import waba.util.*;
 import waba.sys.*;
 import org.concord.waba.extra.event.*;
 
-class TreeLine{
-    TreeLine(TreeNode node)
-    {
-		this.node = node;
-    }
-
-    int depth = 0;
-    boolean expanded = false;
-    boolean selected = false;
-    TreeNode node;
-    TreeNode parent = null;
-}
-
 public class TreeControl extends Container implements TreeModelListener
 {
 	public final static int DOUBLE_CLICK = 1555;
@@ -110,6 +97,8 @@ public class TreeControl extends Container implements TreeModelListener
 		TreeLine line;
 		int curY = 0;
 
+		g.setColor(255,255,255);
+		g.fillRect(0,0,width,height);
 		g.setColor(0,0,0);
 		g.drawRect(0,0,width,height);
 
@@ -176,6 +165,11 @@ public class TreeControl extends Container implements TreeModelListener
 
 		return selected.node;
     }
+
+	public TreeLine getSelectedLine(){
+		if(selected == null) return null;
+		return selected;
+	}
 
     public TreeNode getSelectedParent()
     {
@@ -287,6 +281,7 @@ public class TreeControl extends Container implements TreeModelListener
 				child = new TreeLine(children[i]);
 				child.depth = line.depth+1;
 				child.parent = line.node;
+				child.lineParent = line;
 				lines.insert(index+i+1, child);		
 			}
 			notifyListeners(TreeControlEvent.TC_EXPAND);

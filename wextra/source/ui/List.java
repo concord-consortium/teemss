@@ -96,6 +96,8 @@ public class List extends Control implements PreferredSize
 	 */
 	public String getSelected()
 	{
+		if(options == null) return null;
+		if(selected < 0 || selected >= options.getCount()) return null;
 		return (String)options.get(selected);
 	}
 
@@ -151,6 +153,11 @@ public class List extends Control implements PreferredSize
 		if(fm==null) fm=getFontMetrics(MainWindow.defaultFont);
 		if(fm == null) return null;
 		return new Dimension(getPreferredWidth(fm),getPreferredHeight(fm));
+	}
+
+	public void clear(){
+		options = new Vector();
+		calcSizes();
 	}
 
 	public boolean calcSizes()

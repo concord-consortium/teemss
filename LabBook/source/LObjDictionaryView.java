@@ -26,6 +26,8 @@ public class LObjDictionaryView extends LabObjectView
     Button openButton = new Button("Open");
     Button editButton = new Button("Edit");
     Button delButton = new Button("Del");
+    
+    Choice  folderChoice;
 
     Menu editMenu = new Menu("Edit");
     Menu viewMenu = new Menu("View");
@@ -65,7 +67,15 @@ public class LObjDictionaryView extends LabObjectView
 		treeControl.addTreeControlListener(this);
 		treeControl.showRoot(false);
 		me.add(treeControl);
-
+		folderChoice = new Choice();
+		if(pathTree == null){
+			folderChoice.add("Root");
+		}else{
+			for(int n = 0; n < pathTree.getCount(); n++){
+				folderChoice.add(pathTree.get(n).toString());
+			}
+		}
+		me.add(folderChoice);
 /*
 		if(showDone){
 			buttons = new GridContainer(6,1);
@@ -75,9 +85,9 @@ public class LObjDictionaryView extends LabObjectView
 		}
 */
 		buttons = new Container();
-		if(showDone){
-			buttons.add(doneButton);
-		}
+//		if(showDone){
+//			buttons.add(doneButton);
+//		}
 
 
 		if(!viewFromExternal){
@@ -104,18 +114,21 @@ public class LObjDictionaryView extends LabObjectView
 		if(viewFromExternal){
 			treeControl.setRect(1,1,width-9, height-2);
 		}else{
-			int buttWidth = 30;
+			int buttWidth = 35;
+			int choiceWidth = 40;
 			treeControl.setRect(1,19,width-9, height-20);
-			buttons.setRect(1,1,width - 2,17);
+			folderChoice.setRect(1,1,choiceWidth,17);
+			int buttonsWidth = width - 2 - choiceWidth - 1;
+			buttons.setRect(choiceWidth+1,1,buttonsWidth,17);
 			if(showDone){
-				doneButton.setRect(width - 3 - buttWidth ,1,buttWidth,15);
+//				doneButton.setRect(buttonsWidth - 3 - buttWidth ,1,buttWidth,15);
 			}
 			int xStart = 1;
-			newButton.setRect(xStart,1,buttWidth,15);
-			xStart += (buttWidth + 2);
+			newButton.setRect(xStart,1,buttWidth - 10,15);
+			xStart += (buttWidth + 2 - 10);
 			openButton.setRect(xStart,1,buttWidth,15);
 			xStart += (buttWidth + 2);
-			delButton.setRect(xStart,1,buttWidth,15);
+			delButton.setRect(xStart,1,buttWidth - 10,15);
 		}
 		if(scrollBar != null){
 			waba.fx.Rect rT = treeControl.getRect();
@@ -143,6 +156,24 @@ public class LObjDictionaryView extends LabObjectView
 				if(container != null){
 			    	container.done(this);
 				}
+		    }else if(e.target == folderChoice){
+		    	if(pathTree != null){
+		    		int sel = folderChoice.getSelectedIndex();
+		    		if(sel < 0 || sel >= pathTree.getCount() - 1) return;
+		    		TreeNode node = (TreeNode)pathTree.get(sel);
+		    		int numbToDelete =  pathTree.getCount() - sel - 1;
+		    		if(numbToDelete > 0){
+		    			int ind = pathTree.getCount() - 1;
+		    			for(int i = 0; i < numbToDelete; i++){
+		    				pathTree.del(ind);
+		    				ind--;
+		    			}
+		    			
+		    		}
+		    		if(node != null){
+						showPage(node, false);		
+		    		}
+		    	}
 		    }	    
 		} else if(e.type == TreeControl.DOUBLE_CLICK){
 			if(!viewFromExternal) openSelected();
@@ -361,12 +392,56 @@ public class LObjDictionaryView extends LabObjectView
 			}
 		}
     }
+	static waba.util.Vector pathTree;
 
     public void showPage(TreeNode curNode, boolean edit)
     {
 		LabObject obj = null;
 		
 		obj = dict.getObj(curNode);
+		if(obj instanceof LObjDictionary){
+			if(pathTree == null){
+				pathTree = new waba.util.Vector();
+			}
+			TreeLine selLine = treeControl.getSelectedLine();
+			
+			
+			waba.util.Vector tempVector = new waba.util.Vector();
+			while(selLine != null){
+				TreeNode node = selLine.getNode();
+				if(node != null) tempVector.add(node);
+				selLine = selLine.getLineParent();
+			}
+			
+			if(pathTree.getCount() > 0){
+				pathTree.del(pathTree.getCount() - 1);
+			}
+			
+			if(tempVector.getCount() > 0){
+				for(int i = tempVector.getCount() - 1; i >=0; i--){
+					pathTree.add(tempVector.get(i));
+				}
+			}
+			pathTree.add(curNode);
+			tempVector = null;
+			
+			
+			folderChoice.clear();
+
+			
+/*
+			System.out.println("-------BEGIN---------");
+			for(int n = 0; n < pathTree.getCount(); n++){
+				folderChoice.add(pathTree.get(n).toString());
+				System.out.println(pathTree.get(n));
+			}
+			System.out.println("-------END---------");
+*/
+			folderChoice.calcSizes();
+			folderChoice.repaint();
+			
+		}
+		
 		if(obj == null) Debug.println("showPage: object not in database: " +
 					      ((LabObjectPtr)curNode).debug());
 		showPage(obj,edit);
@@ -391,7 +466,6 @@ public class LObjDictionaryView extends LabObjectView
 	{
 		editStatus = edit;
 		lObjView = obj.getView(this, edit, (LObjDictionary)treeControl.getSelectedParent());
-
 		if(lObjView == null){
 		    return;
 		}
@@ -468,6 +542,11 @@ public class LObjDictionaryView extends LabObjectView
 			treeControl.reparse();
 			if(showMenus) addMenus();
 			lObjView = null;
+			pathTree = null;
+			folderChoice.clear();
+			folderChoice.add("Root");
+			folderChoice.calcSizes();
+			folderChoice.repaint();
 		}
 		//	System.gc();
     }
@@ -511,5 +590,12 @@ public class LObjDictionaryView extends LabObjectView
 	public void treeControlChanged(TreeControlEvent ev){
 		redesignScrollBar();
 	}
-
+	
+	
+/*
+	public void onPaint(waba.fx.Graphics g){
+		if(g == null) return;
+		g.fillRect(0,0,width,height);
+	}
+*/
 }

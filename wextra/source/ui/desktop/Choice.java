@@ -110,6 +110,14 @@ public class Choice extends extra.ui.List{
 				g.drawLine(x2 - 14, 2, x2 - 3, 2);
 			}
 			g.setColor(0, 0, 0);
+			g.setClip(0,0,x2-12,height);
+			if(name != null){
+				g.drawText(name,4,3);
+			} else {
+				String s = getSelected();
+				if(s != null) g.drawText(s,4,3);
+			}
+			g.clearClip();
 			int currL = 7;
 			int currY = 6;
 			int currX = x2 - 12;
@@ -125,6 +133,7 @@ public class Choice extends extra.ui.List{
 				currY++;
 			}
 		}else{
+			  
 		      drawList(g);
 		      g.setColor(0,0,0);
 		      g.drawLine(1,0,width-3,0);
@@ -134,15 +143,12 @@ public class Choice extends extra.ui.List{
 		      g.drawLine(2,height-1,width-3,height-1);
 		      g.drawLine(width-1,2,width-1,height-3);
 		      g.drawLine(1, initialYOffset, width - 2, initialYOffset);
+			  if(name != null){
+				g.drawLine(1,initialYOffset - 2, width-2, initialYOffset - 2);
+				g.drawText(name,4,2);
+			  }
 
 		}
-		g.setColor(0, 0, 0);
-		if(name != null){
-			g.drawText(name,4,3);
-		} else {
-			g.drawText(getSelected(),4,3);
-		}
-
  	}
 
 	public void doPopup(){
