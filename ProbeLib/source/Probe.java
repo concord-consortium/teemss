@@ -196,6 +196,9 @@ DataListener calibrationListener = null;
 	}
 	public int getUnit(){return unit;}
 	public boolean setUnit(int unit){this.unit = unit;return true;}
+
+	public String getLabel(){return name;}
+
 	public void writeExternal(extra.io.DataStream out){
 		out.writeInt(CALIBRATION_PROB_START);
 		out.writeBoolean(calibrationDesc != null);

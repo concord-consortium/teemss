@@ -50,6 +50,11 @@ int				firstIndex,secondIndex;
 		dDesc.setIntChPerSample(chPerSample);
 	}
 
+	public String getLabel()
+	{
+		return "Voltage " + "Ch. " + curChannel;
+	}
+
     public boolean idle(org.concord.waba.extra.event.DataEvent e){
 		dEvent.type = e.type;
 		notifyDataListeners(dEvent);
