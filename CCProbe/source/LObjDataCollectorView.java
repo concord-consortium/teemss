@@ -62,13 +62,14 @@ public class LObjDataCollectorView extends LabObjectView
 		title2Label.setText(t2);
 	}
 
-    void stop()
+    void stop(boolean notifyGraph)
     {
 		dc.stop();
-		collectButton.setSelected(false);    
-		gv.stopGraph();
-
-		repaint();
+		collectButton.setSelected(false);
+		collectButton.repaint();
+		if(notifyGraph){
+			gv.stopGraph();
+		}
     }
     
     public void dialogClosed(DialogEvent e)
@@ -154,9 +155,8 @@ public class LObjDataCollectorView extends LabObjectView
 
 		if(e.getSource() == menu){
 			if(e.getActionCommand().equals("Properties...")){
-				stop();
+				stop(true);
 
-				gv.updateAv2Graph();
 				if(dc.dataSources == null || dc.dataSources.getCount() < 1 ||
 				   !(dc.dataSources.get(0) instanceof LObjProbeDataSource)){
 					return;
@@ -197,7 +197,7 @@ public class LObjDataCollectorView extends LabObjectView
 			container.getMainView().delMenu(this,menu);
 		}
 
-		stop();	
+		stop(true);	
 
 		// need to make sure this unregisters data sources
 		gv.close();
@@ -208,10 +208,10 @@ public class LObjDataCollectorView extends LabObjectView
     }
 
     public void onEvent(Event e)
-    {
-		if(e.target == gv){
+    {		
+		if(e.target == gv){			
 			if(e.type == 1000){
-				stop();
+				stop(false);
 			} else if(e.type == 1001){
 				setTitle2(gv.graph.title);
 			}			
@@ -220,11 +220,11 @@ public class LObjDataCollectorView extends LabObjectView
 			int index;
 			if(target == collectButton && collectButton.isSelected()){
 				// need to tell the GraphView to start
-				gv.startGraph();
 				dc.start();
 			} else if(target == collectButton && ! collectButton.isSelected()){
 				// need to tell the GraphView to stop
-				stop();
+				stop(true);
+
 			} else if(target == doneB){
 				// let our parent know we've been done'd
 				if(container != null){

@@ -112,7 +112,11 @@ public class LObjDataSet extends LObjSubDict
 
 	public void startDataDelivery()
 	{
-		if(dataListener == null || gView == null){
+		DataEvent startEvent = new DataEvent(DataEvent.DATA_READY_TO_START, 0);
+		DataEvent stopEvent = new DataEvent(DataEvent.DATA_STOPPED, 0);
+		
+		if(dataListener == null){
+			System.out.println("DS: un-initialized start");
 			return;
 		}
 
@@ -128,10 +132,10 @@ public class LObjDataSet extends LObjSubDict
 			curChunk = (LObjDataSet)getObj(i+1);
 
 			if(curChunk.chunkIndex == 0){
-				if(!firstTime) gView.stopGraph();
+				if(!firstTime) dataListener.dataStreamEvent(stopEvent);
 
 				firstTime = false;
-				gView.startGraph();
+				dataListener.dataStreamEvent(startEvent);
 				// probably need to set the labels of
 				// the bin, and the units
 			}
@@ -139,6 +143,8 @@ public class LObjDataSet extends LObjSubDict
 			dataListener.dataReceived(curChunk.dEvent);
 			curChunk.dEvent = null;
 		}
+
+		dataListener.dataStreamEvent(stopEvent);
 	}
 
 	public void stopDataDelivery(){}

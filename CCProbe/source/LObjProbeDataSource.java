@@ -154,7 +154,19 @@ public 		waba.util.Vector 	dataListeners = null;
 		currentUnit = CCUnit.getUnit(probe.getUnit());
 	}
 
-	public void notifyDataListeners(DataEvent e){
+	public void notifyDataListenersEvent(DataEvent e){
+		if(calibrationListener != null){
+			calibrationListener.dataStreamEvent(e);
+		}else{
+			if(dataListeners == null) return;
+			for(int i = 0; i < dataListeners.getCount(); i++){
+				DataListener l = (DataListener)dataListeners.get(i);
+				l.dataStreamEvent(e);
+			}
+		}
+	}
+
+	public void notifyDataListenersReceived(DataEvent e){
 		if(calibrationListener != null){
 			calibrationListener.dataReceived(e);
 		}else{
@@ -183,8 +195,13 @@ public 		waba.util.Vector 	dataListeners = null;
 	}
 	
 	public void dataReceived(DataEvent dataEvent){
-		notifyDataListeners(dataEvent);
+		notifyDataListenersReceived(dataEvent);
 	}
+
+	public void dataStreamEvent(DataEvent dataEvent){
+		notifyDataListenersEvent(dataEvent);
+	}
+
     public void probChanged(ProbEvent e){
     	notifyProbListeners(e);
     }

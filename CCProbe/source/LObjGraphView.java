@@ -263,33 +263,15 @@ public class LObjGraphView extends LabObjectView
     //    int [] [] pTimes = new int [1000][];
     int [] [] pTimes = null;
 
-    public void dataReceived(DataEvent dataEvent)
-    {
-
-		if(dataEvent.type == DataEvent.DATA_READY_TO_START){
+	public void dataStreamEvent(DataEvent dataEvent)
+	{
+		switch(dataEvent.type){
+		case DataEvent.DATA_READY_TO_START:
 			numVals = 0;
 			curPtime = 0;
+			startGraph();
 			return;
-		}
-
-		if(dataEvent.type == DataEvent.DATA_RECEIVED){
-			if(av.active){
-				int startPTime = Vm.getTimeStamp();
-				if(!curBin.dataReceived(dataEvent)){
-					postEvent(new ControlEvent(1000, this));
-					// stopGraph();
-					// av.curView.draw();
-					return;		
-				}
-				if(pTimes != null){
-					dataEvent.pTimes[dataEvent.numPTimes++] = Vm.getTimeStamp() - startPTime;		   
-					savePTimes(dataEvent);
-				}
-			}	
-			numVals += dataEvent.numbSamples;
-
-			val = dataEvent.data[dataEvent.dataOffset];
-		} else {
+		case DataEvent.DATA_COLLECTING:
 			int startPTime = Vm.getTimeStamp();
 			if(pTimes != null){
 				pTimes [curPtime] = new int [6];
@@ -322,7 +304,31 @@ public class LObjGraphView extends LabObjectView
 		
 			numVals = 0;
 			curPtime++;
+			break;
+		case DataEvent.DATA_STOPPED:
+			stopGraph();
+			break;
 		}
+	}
+
+    public void dataReceived(DataEvent dataEvent)
+    {
+
+		if(av.active){
+			int startPTime = Vm.getTimeStamp();
+			if(!curBin.dataReceived(dataEvent)){
+				stopGraph();
+				// av.curView.draw();
+				return;		
+			}
+			if(pTimes != null){
+				dataEvent.pTimes[dataEvent.numPTimes++] = Vm.getTimeStamp() - startPTime;		   
+				savePTimes(dataEvent);
+			}
+		}	
+		numVals += dataEvent.numbSamples;
+
+		val = dataEvent.data[dataEvent.dataOffset];
     }
     
     public String pTimeText = ""; 
@@ -567,8 +573,8 @@ public class LObjGraphView extends LabObjectView
 			dd.removeBin(curBin);
 			curBin = av.pause();
 			curBin.setUnit(graph.yUnit);
+			postEvent(new ControlEvent(1000, this));	
 		}
-	
 	}
 
     public void onEvent(Event e)
