@@ -31,6 +31,7 @@ package waba.applet;
  */
 
 import waba.ui.*;
+import waba.sys.*;
 
 	class myWindAdap extends java.awt.event.WindowAdapter
 	{
@@ -74,6 +75,7 @@ public class Applet extends java.applet.Applet
 				width = size().width;
 				height = size().height;
 			}
+		Vm.isApplication = isApplication;
 		currentApplet = this;
 		try
 			{
@@ -97,6 +99,7 @@ public class Applet extends java.applet.Applet
 
 	public void start()
 	{
+		Vm.isApplication = false;
 		currentApplet = this;
 	}
 

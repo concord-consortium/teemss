@@ -77,6 +77,7 @@ import waba.applet.Applet;
 public class Vm
 
 {
+	public static boolean isApplication = true;
 
 private Vm()
 
@@ -429,15 +430,12 @@ public static boolean isOk(String s)
 // added by guich@120
 public static java.io.InputStream openInputStream(String path)
 {
-	boolean isApp = (Applet.currentApplet == null)?true:Applet.currentApplet.isApplication;
 	java.io.InputStream stream = null;
 	try 
 	{	   
-	    if (isApp){
-			//System.out.println("My isApp path: " + (path));
+	    if (isApplication){
 		   stream = new java.io.FileInputStream(path); 
-	   } else
-	   {
+	   } else {
 		   java.net.URL url;	
 		   // See if it is outside the jar file
 		   String archive = Applet.currentApplet.getParameter("archive");
@@ -485,14 +483,12 @@ public static java.io.InputStream openInputStream(String path)
 // added by guich@120
 public static java.io.OutputStream openOutputStream(String path)
 {
-	boolean isApp = (Applet.currentApplet == null)?true:Applet.currentApplet.isApplication;
 	java.io.OutputStream stream = null;
 	try 
 	{	   
-	   if (isApp) // output isnt supported by protocol file://
+	   if (isApplication) { // output isnt supported by protocol file://
 		   stream = new java.io.FileOutputStream(path); 
-	   else
-	   {
+	   } else {
 	      try
 	      {
 		      java.net.URL url;			   
