@@ -283,9 +283,13 @@ CCUnit		currentUnit = null;
 		if(qName.equals(getQuantityMeasured())){
 			return this;
 		} else {
-			LObjIntProbeTrans trans = (LObjIntProbeTrans)DataObjFactory.create(DataObjFactory.INT_PROBE_TRANS);
+			int quantId = getQuantityId(qName);
+			if(quantId < 0) return null;
+
+			LObjIntProbeTrans trans = 
+				(LObjIntProbeTrans)DataObjFactory.create(DataObjFactory.INT_PROBE_TRANS);
 			trans.setDataSource(this);
-			trans.setType(getQuantityId(qName));
+			trans.setType(quantId);
 			return trans;
 		}
 	}

@@ -169,9 +169,12 @@ public class LObjDataCollectorView extends LabObjectView
 
 		gv.layout(false);
 
+		if(title1 == null) title1 = "";
 		title1Label = new Label(title1);
 		add(title1Label);
 
+		String t2 = graph.title;
+		if(t2 == null) t2 = "";
 		title2Label = new Label(graph.title);
 		add(title2Label);
 
