@@ -9,8 +9,9 @@
 # RUN_PLATFORM  (the directory the main class is run from)
 # WARP_PLATFOrM  (probably nothing, palm, or other)
 
-WARP_FORK= superwaba
-FORK_DIR= /home/scytacki/waba/myforks
+JUMP_JAR = /home/scytacki/jump/jar/jump.jar
+export PILAINC=/home/scytacki/pila
+
 WABA_DIR= $(CURDIR)/../wabasdk/classes
 WEXTRAS_DIR= $(CURDIR)/../wextra/classes/desktop
 WABAJUMP_DIR= $(CURDIR)/../wabajump/classes
@@ -30,7 +31,6 @@ WEXTRA_CLASSES-other= $(CURDIR)/../wextra/classes/desktop
 WEXTRA_CLASSES-palm= $(CURDIR)/../wextra/classes/palm
 WEXTRA_CLASSES-ce= $(CURDIR)/../wextra/classes/ce
 
-export PILAINC=/home/scytacki/pila
 
 CLASSPATH=
 PLATFORM_CP= $(subst _CUR_PLATFORM_,$(1),$(CLASSPATH))
@@ -72,13 +72,13 @@ ifeq ($(JUMP_PLATFORM),)
 	javac -classpath $(CLASSPATH):$(call ARCHIVE_CP,palm):$(WABAJUMP_DIR)  \
 -d $(CLASSES_DIR)/$(JUMP_PLATFORM) \
 -O $(wildcard source/*.java)
-	cd $(WJUMP_DIR);java -classpath /home/scytacki/jump/jar/jump.jar:.:$(CLASSPATH):$(call ARCHIVE_CP,palm):$(WABAJUMP_DIR):../$(CLASSES_DIR) \
+	cd $(WJUMP_DIR);java -classpath $(JUMP_JAR):.:$(CLASSPATH):$(call ARCHIVE_CP,palm):$(WABAJUMP_DIR):../$(CLASSES_DIR) \
  	   Jump -mw $(MW_CLASS) 
 else
 	javac -classpath $(call PLATFORM_CP,$(JUMP_PLATFORM)):$(call ARCHIVE_CP,palm):$(WABAJUMP_DIR)  \
 -d $(CLASSES_DIR)/$(JUMP_PLATFORM) \
 -O $(wildcard source/*.java) $(wildcard source/$(JUMP_PLATFORM)/*.java)
-	cd $(WJUMP_DIR);java -classpath /home/scytacki/jump/jar/jump.jar:.:$(call PLATFORM_CP,$(JUMP_PLATFORM)):$(call ARCHIVE_CP,palm):$(WABAJUMP_DIR):../$(CLASSES_DIR)/$(JUMP_PLATFORM) Jump -mw $(MW_CLASS)
+	cd $(WJUMP_DIR);java -classpath $(JUMP_JAR):.:$(call PLATFORM_CP,$(JUMP_PLATFORM)):$(call ARCHIVE_CP,palm):$(WABAJUMP_DIR):../$(CLASSES_DIR)/$(JUMP_PLATFORM) Jump -mw $(MW_CLASS)
 endif
 	cd $(WJUMP_DIR); pila $(MW_CLASS).asm
 	mv $(WJUMP_DIR)/$(MW_CLASS).prc $(BIN_DIR)
