@@ -132,12 +132,16 @@ public class Dialog extends waba.ui.Container{
 	d.addDialogListener(l);
 	d.show();
   }
-  public static void showInputDialog(org.concord.waba.extra.event.DialogListener l,String title,String message,String buttonTitle,int messageType){
-  	Dialog d = new Dialog(title);
+  public static void showInputDialog(org.concord.waba.extra.event.DialogListener l,String title,String message,String []buttonTitles,int messageType){
+   	if(buttonTitles == null) return;
+ 	Dialog d = new Dialog(title);
   	waba.fx.FontMetrics fm = d.getFontMetrics(d.getFont());
 	int messageWidth 	= fm.getTextWidth(message);
 	int titleWidth 		= fm.getTextWidth(title);
-	int bWidth = fm.getTextWidth(buttonTitle) + 10;
+	int bWidth = 0;
+	for(int i = 0; i < buttonTitles.length; i++){
+		bWidth += (fm.getTextWidth(buttonTitles[i]) + 12);
+	}
 	int w = (messageWidth > titleWidth)?messageWidth:titleWidth;
 	if(w < bWidth) w = bWidth;
 	w += 20 + 20;//space + image
@@ -145,9 +149,14 @@ public class Dialog extends waba.ui.Container{
 	int mHeight = fm.getHeight();
 	int h = 15 + bHeight + 10 + (15 + 2*mHeight);
 	d.setRect(50,50,w,h);
-	waba.ui.Button b = new waba.ui.Button(buttonTitle);
-	b.setRect(w/2 - bWidth/2,h - 5 - bHeight,bWidth,bHeight);
-	d.add(b);
+	int xButtonCurr = w/2 - bWidth/2;
+	for(int i = 0; i < buttonTitles.length; i++){
+		waba.ui.Button b = new waba.ui.Button(buttonTitles[i]);
+		int bW = fm.getTextWidth(buttonTitles[i]) + 6;
+		b.setRect(xButtonCurr+3,h - 5 - bHeight,bW ,bHeight);
+		xButtonCurr += (bW + 6);
+		d.add(b);
+	}
 
 	waba.ui.Label label = new waba.ui.Label(message,waba.ui.Label.CENTER);
 	label.setRect(10 + w/2 - messageWidth/2,20,messageWidth,mHeight);
@@ -156,12 +165,12 @@ public class Dialog extends waba.ui.Container{
 	int editWidth =w - 10 - 10;
 	if(messageType == EDIT_INP_DIALOG){
 		d.inpControl = new waba.ui.Edit();
-		d.inpControl.setRect(10 + w/2 - editWidth/2,25 + mHeight ,messageWidth,mHeight+5);
+		d.inpControl.setRect(20,25 + mHeight ,d.width - 24,mHeight+5);
 		d.add(d.inpControl);
 	}else if(messageType == CHOICE_INP_DIALOG){
 		String []items = {"item1","item2","item3","item4","item5","item6"};
 		d.inpControl = new Choice(items);
-		d.inpControl.setRect(10 + w/2 - editWidth/2,25 + mHeight ,messageWidth,mHeight+5);
+		d.inpControl.setRect(20,25 + mHeight ,d.width - 24,mHeight+5);
 		d.add(d.inpControl);
 	}
 	ImagePane ip = new ImagePane("cc_extra/icons/QuestionSmall.bmp");
