@@ -91,6 +91,12 @@
     interface  (0 | 2)       "2"
 >
 
+<!ELEMENT INTPROBETRANS (PROBE)>
+<!ATTLIST INTPROBETRANS
+    ID         ID            #IMPLIED
+    quantity   CDATA         #REQUIRED
+>
+
 <!ELEMENT LINE (PROBE | INTPROBETRANS | EXPOBJECT | OBJ-REF)>
 <!ATTLIST LINE
     xaxis      CDATA        #REQUIRED
