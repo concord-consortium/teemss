@@ -156,6 +156,7 @@ public 			waba.util.Vector 	probListeners = null;
     {
     	probe = ProbFactory.createProbeFromStream(in);
 		super.readExternal(in);
+		setProbe(probe);
     }
 
 	
