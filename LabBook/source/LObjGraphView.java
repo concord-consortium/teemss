@@ -5,9 +5,12 @@ import waba.ui.*;
 import waba.util.*;
 import org.concord.waba.extra.event.*;
 import org.concord.waba.extra.ui.*;
+import org.concord.waba.extra.util.*;
+import extra.util.*;
 
 public class LObjGraphView extends LabObjectView
-    implements ActionListener
+    implements ActionListener, DialogListener
+
 {
     LObjGraph graph;
     AnnotView av = null;
@@ -26,6 +29,15 @@ public class LObjGraphView extends LabObjectView
     Menu menu = new Menu("Graph");
 	int curViewIndex = 1;
 
+    PropertyDialog pDialog = null;
+    PropContainer props = null;
+    PropObject propXmin;
+    PropObject propXmax;
+	PropObject propXlabel;
+    PropObject propYmin;
+    PropObject propYmax;
+	PropObject propYlabel;
+
     public LObjGraphView(LObjViewContainer vc, LObjGraph g)
     {
 		super(vc);
@@ -39,6 +51,68 @@ public class LObjGraphView extends LabObjectView
 
 		graph = g;
 		lObj = g;	
+
+		props = new PropContainer();
+		props.createSubContainer("Y Axis");	
+		props.createSubContainer("X Axis");
+
+		propXmin = new PropObject("Min", graph.xmin + "");
+		propXmax = new PropObject("Max", graph.xmax + "");
+		propXlabel = new PropObject("Label", graph.xLabel);
+		propYmin = new PropObject("Min", graph.ymin + "");
+		propYmax = new PropObject("Max", graph.ymax + "");
+		propYlabel = new PropObject("Label", graph.yLabel);
+
+		props.addProperty(propXmax, "X Axis");
+		props.addProperty(propXmin, "X Axis");
+		props.addProperty(propXlabel, "X Axis");
+
+		props.addProperty(propYmax, "Y Axis");
+		props.addProperty(propYmin, "Y Axis");
+		props.addProperty(propYlabel, "Y Axis");
+    }
+
+    public void dialogClosed(DialogEvent e)
+    {
+		if(!e.getActionCommand().equals("Cancel")){
+			graph.xmin = propXmin.createFValue();
+			graph.xmax = propXmax.createFValue();
+			graph.ymin = propYmin.createFValue();
+			graph.ymax = propYmax.createFValue();
+			av.setRange(graph.xmin, graph.xmax, graph.ymin, graph.ymax);
+
+			graph.yLabel = propYlabel.getValue();
+			graph.xLabel = propXlabel.getValue();
+			av.setYLabel(graph.yLabel, graph.yUnit);
+			av.setXLabel(graph.xLabel, graph.xUnit);
+		}
+
+		if(e.getActionCommand().equals("Close")){
+			av.repaint();
+		}
+    }
+
+    public void showAxisProp()
+    {
+		MainWindow mw = MainWindow.getMainWindow();
+		if(mw instanceof ExtraMainWindow){
+			graph.ymin = av.getYmin();
+			graph.ymax = av.getYmax();
+			graph.xmin = av.getXmin();
+			graph.xmax = av.getXmax();
+
+			propXmin.setValue("" + graph.xmin);
+			propXmax.setValue("" + graph.xmax);
+			propXlabel.setValue(graph.xLabel);
+
+			propYmin.setValue("" + graph.ymin);
+			propYmax.setValue("" + graph.ymax);
+			propYlabel.setValue(graph.yLabel);
+
+			pDialog = new PropertyDialog((ExtraMainWindow)mw, this, "Properties", props);
+			pDialog.setRect(0,0, 140,140);
+			pDialog.show();
+		}
     }
 
     public void actionPerformed(ActionEvent e)
@@ -48,7 +122,7 @@ public class LObjGraphView extends LabObjectView
 
 		if(e.getSource() == menu){
 			if(e.getActionCommand().equals("Change Axis...")){
-				av.lgView.showAxisProp();
+				showAxisProp();
 			} else if(e.getActionCommand().equals("Export Data")){
 				if(bins.getCount() > 0 && bins.get(0) != null){
 					LabBookFile.export((Bin)bins.get(0), null);
@@ -170,7 +244,7 @@ public class LObjGraphView extends LabObjectView
 
 		if(av != null){ remove(av); }
 	
-		av = new AnnotView(width, gHeight);
+		av = new AnnotView(width, gHeight, 6);
 		av.setPos(0,curY);
 		av.setRange(graph.xmin, graph.xmax, graph.ymin, graph.ymax);
 		if(bins != null){

@@ -138,7 +138,7 @@ public class CCProbe extends ExtraMainWindow
 		}
     }
 
-    public void onExit(int code)
+    public void onExit()
     {
 		Debug.println("closing");
 		if(labBook != null){
@@ -146,6 +146,7 @@ public class CCProbe extends ExtraMainWindow
 			labBook.commit();
 			labBook.close();
 		}
+
     }
 
 }
