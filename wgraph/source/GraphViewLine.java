@@ -139,6 +139,7 @@ public class GraphViewLine extends GraphView
 		   (bin.getNumVals() > 0) && 
 		   (bin.getCurX() > (xaxis.dispMin + (float)xaxis.dispLen / xaxis.scale ) ||
 			xaxis.drawnX == -1)){
+
 			// scroll
 			range = lGraph.xaxis.getRange();
 			scrollEnd = bin.getCurX() - range * scrollFract;
@@ -158,6 +159,7 @@ public class GraphViewLine extends GraphView
 			}
 			lGraph.scroll(0,0);
 		} else {
+
 			graph.plot(myG);
 		}
     }

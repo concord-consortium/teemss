@@ -177,6 +177,7 @@ public class Bin
 
 	public void removeActionListener(ActionListener al)
 	{
+		if(binListeners == null) return;
 		int index = binListeners.find(al);
 		if(index >= 0) binListeners.del(index);
 	}
