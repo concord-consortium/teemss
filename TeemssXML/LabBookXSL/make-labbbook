@@ -1,6 +1,8 @@
 #! /bin/bash
 
-java -cp /Users/stephen/Development/XML2LabBook/../wextra/classes/desktop:/Users/stephen/Development/XML2LabBook/../wabasdk/classes::/Users/stephen/Development/XML2LabBook/../wgraph/classes/other:/Users/stephen/Development/XML2LabBook/../LabBook/classes/other:/Users/stephen/Development/XML2LabBook/../CCProbe/classes/other:jars/QTJava.zip:/Users/stephen/Development/XML2LabBook/classes/other xml2labbook.XML2LabBook labbook.xml 
+projectroot=/Users/stephen/Development
+
+java -cp $projectroot/wextra/classes/desktop:$projectroot/wabasdk/classes:$projectroot/wgraph/classes/other:$projectroot/LabBook/classes/other:$projectroot/CCProbe/classes/other:$projectroot/XML2LabBook/jars/QTJava.zip:$projectroot/XML2LabBook/classes/other xml2labbook.XML2LabBook labbook.xml 
 
 
 
