@@ -75,44 +75,48 @@ float B = -25.31f;
 		return  super.setPValue(p,value);
 	}
 
-    int chPerSample = 2;
-
-	public boolean transform(DataEvent e){
+	int chPerSample = 2;
+    	public boolean idle(DataEvent e){
 		dEvent.type = e.type;
-		if(dEvent.type == DataEvent.DATA_READY_TO_START){
-			dDesc.setDt(e.getDataDesc().getDt());
-			dDesc.setChPerSample(e.getDataDesc().getChPerSample());
-			chPerSample = dDesc.chPerSample;
-			if(calibrationListener == null){
-				notifyDataListeners(e);
-			}
-		}else if(dEvent.type == DataEvent.DATA_RECEIVED){
-			dEvent.time = e.time;
-			if(calibrationListener != null){
-				dEvent.numbSamples = 1;
-				forceData[0] = A*e.data[e.dataOffset]+B;
-				forceData[1] = e.data[e.dataOffset];
-				if(activeChannels == 2)
-					forceData[2] = e.data[e.dataOffset+1];
-				else
-					forceData[2]  = 0f;
-			}else{
-				dEvent.numbSamples = e.numbSamples;
-				int ndata = dEvent.numbSamples*dDesc.chPerSample;
-				int dOff = e.dataOffset;
-				float data [] = e.data;
-				for(int i = 0; i < ndata; i+= chPerSample){
-					forceData[i] = A*data[dOff + i]+B;
-				}
-				notifyDataListeners(dEvent);
-			}
-		} else if(dEvent.type == DataEvent.DATA_COLLECTING){
-		    if(calibrationListener != null){
+		if(calibrationListener != null){
 			dEvent.type = DataEvent.DATA_RECEIVED;
 			notifyDataListeners(dEvent);
-		    } else {
+		} else {
 			notifyDataListeners(dEvent);
-		    }
+		}
+	    	return true;
+	}
+    	public boolean startSampling(DataEvent e){
+		dEvent.type = e.type;
+		dDesc.setDt(e.getDataDesc().getDt());
+		dDesc.setChPerSample(e.getDataDesc().getChPerSample());
+		chPerSample = dDesc.chPerSample;
+		if(calibrationListener == null){
+			notifyDataListeners(e);
+		}
+	    	return true;
+    	}
+
+	public boolean dataArrived(DataEvent e){
+		dEvent.type = e.type;
+		dEvent.time = e.time;
+		if(calibrationListener != null){
+			dEvent.numbSamples = 1;
+			forceData[0] = A*e.data[e.dataOffset]+B;
+			forceData[1] = e.data[e.dataOffset];
+			if(activeChannels == 2)
+				forceData[2] = e.data[e.dataOffset+1];
+			else
+				forceData[2]  = 0f;
+		}else{
+			dEvent.numbSamples = e.numbSamples;
+			int ndata = dEvent.numbSamples*dDesc.chPerSample;
+			int dOff = e.dataOffset;
+			float data [] = e.data;
+			for(int i = 0; i < ndata; i+= chPerSample){
+				forceData[i] = A*data[dOff + i]+B;
+			}
+			notifyDataListeners(dEvent);
 		}
 		return true;
 	}

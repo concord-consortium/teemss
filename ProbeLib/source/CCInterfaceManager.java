@@ -31,6 +31,7 @@ int activeChannels = 2;
 int interfaceType = INTERFACE_0;
 
 
+
 protected ProbManager	pb = null;
 	protected CCInterfaceManager(int interfaceType){
 		this.interfaceType = interfaceType;
@@ -55,7 +56,7 @@ protected ProbManager	pb = null;
 		char startC = getStartChar();
 		if(mode == A2D_10_MODE)  dEvent.setData(valueData);
 		dEvent.setType(DataEvent.DATA_READY_TO_START);
-		notifyProbManager(dEvent);
+		pb.startSampling(dEvent);
 		dEvent.setType(DataEvent.DATA_RECEIVED);
 
 		if(!startA2D(startC)){
@@ -101,27 +102,25 @@ protected ProbManager	pb = null;
 	
 	public void onEvent(Event event){
     		if (event.type==ControlEvent.TIMER){
-		    if(!doRightThings()){
-			Dialog.showMessageDialog(null, "Interface Error","Error in interface step", 
+		    if(doRightThings() < 0){
+			Dialog.showMessageDialog(null, "Interface Error","Error in interface step ", 
 						 "Bummer", Dialog.ERR_DIALOG);
 			stop();
 		    }
 		}
 	}
 	
-	protected boolean doRightThings(){
-		if((port == null) || !port.isOpen()) return false;
+	protected int doRightThings(){
 		if(mode == A2D_10_MODE){
 			return step10bit();
 		}else{
 			return stepGeneric();
 		}
-
 	}
 
-	boolean step10bit(){
+	int step10bit(){
 		if(interfaceType == INTERFACE_2) return step10bit_2();
-		if((port == null) || !port.isOpen() || pb == null) return false;
+		if((port == null) || !port.isOpen() || pb == null) return ERROR_PORT;
 		int ret = -1;
 		byte tmp;
 		byte pos;
@@ -185,24 +184,24 @@ protected ProbManager	pb = null;
 			}
 			dEvent.setNumbSamples(curDataPos/dDesc.getChPerSample());
 			dEvent.setData(valueData);
-			pb.transform(dEvent);
+			pb.dataArrived(dEvent);
 			if((ret - curPos) > 0){
 				for(j=0; j<(ret-curPos); j++) buf[j] = buf[curPos + j];
 				bufOffset = j;
 			}
 		}
 		// Should have a special error condition
-		if(ret < 0) return false;
+		if(ret < 0) return WARN_SPEC_CONDITIONS;
 
 		dEvent.setType(DataEvent.DATA_COLLECTING);
-		pb.transform(dEvent);
+		pb.idle(dEvent);
 		dEvent.setType(DataEvent.DATA_RECEIVED);
-		return true;
+		return OK;
     }
 	
 	protected void notifyProbManager(DataEvent e){
 	    
-	    if(pb != null) pb.transform(e);
+	    if(pb != null) pb.dataArrived(e);
 /*
 		if(dataListeners != null){
 			for(int cl = 0; cl < dataListeners.getCount(); cl++){
@@ -213,9 +212,9 @@ protected ProbManager	pb = null;
 */
 	}
 	
-	boolean stepGeneric(){
+	int stepGeneric(){
 		if(interfaceType == INTERFACE_2) return stepGeneric_2();
-		if((port == null) || !port.isOpen()) return false;
+		if((port == null) || !port.isOpen()) return ERROR_PORT;
 		int ret = -1;
 		int offset;
 		byte tmp;
@@ -226,10 +225,13 @@ protected ProbManager	pb = null;
 
 //		response = OK;
 		ret = port.readBytes(buf, bufOffset, readSize);
-		if(ret == 0) return true;
+		if(ret == 0) return OK;
 
 		// Should return some special case
-		if(ret < 0)	return false;
+		if(ret < 0){
+			System.out.println("ret < 0");
+			return WARN_SPEC_CONDITIONS;
+		}
 
 		ret += bufOffset;	    
 		curPos = 0;
@@ -262,7 +264,7 @@ protected ProbManager	pb = null;
 					// set the buf to the next byte
 					for(j=0; j<(ret-curPos); j++) buf[j] = buf[curPos + j];
 					bufOffset = j;
-					return false;
+					return WARN_WRONG_POSITION;
 				}
 				value |= (tmp & (byte)~MASK) << (((numBytes-1)-i)*bitsPerByte);
 			}
@@ -309,7 +311,7 @@ protected ProbManager	pb = null;
 			notifyProbManager(dEvent);
 		}
 		if(clearBufferOffset) bufOffset = 0;
-		return true;
+		return OK;
     }
 
 	public void addDataListener(DataListener l){
@@ -459,8 +461,8 @@ protected ProbManager	pb = null;
 				break;
 		}
 	}
-	boolean stepGeneric_2(){
-		if((port == null) || !port.isOpen()) return false;
+	int stepGeneric_2(){
+		if((port == null) || !port.isOpen()) return ERROR_PORT;
 		int ret = -1;
 		int offset;
 		byte tmp;
@@ -471,8 +473,8 @@ protected ProbManager	pb = null;
 
 //		response = OK;
 		ret = port.readBytes(buf, bufOffset, readSize);
-		if(ret == 0) return true;
-		if(ret < 0)  return false;
+		if(ret == 0) return OK;
+		if(ret < 0)  return WARN_SPEC_CONDITIONS;
 
 		ret += bufOffset;	    
 		curPos = 0;
@@ -505,7 +507,7 @@ protected ProbManager	pb = null;
 					// set the buf to the next byte
 					for(j=0; j<(ret-curPos); j++) buf[j] = buf[curPos + j];
 					bufOffset = j;
-					return false;
+					return WARN_WRONG_POSITION;
 				}
 				value |= (tmp & (byte)~MASK) << (((numBytes-1)-i)*bitsPerByte);
 			}
@@ -553,10 +555,10 @@ protected ProbManager	pb = null;
 			notifyProbManager(dEvent);
 		}
 		if(clearBufferOffset) bufOffset = 0;
-		return true;
+		return OK;
     }
-	boolean step10bit_2(){
-		if((port == null) || !port.isOpen() || pb == null) return false;
+	int step10bit_2(){
+		if((port == null) || !port.isOpen() || pb == null) return ERROR_PORT;
 
 		if(activeChannels == 1) return step10bitFast_2();
 
@@ -621,7 +623,7 @@ protected ProbManager	pb = null;
 
 			dEvent.numbSamples = (curDataPos/activeChannels);
 			curStepTime += dEvent.numbSamples*timeStepSize;
-			pb.transform(dEvent);
+			pb.dataArrived(dEvent);
 			if((ret - curPos) > 0){
 				for(j=0; j<(ret-curPos); j++) buf[j] = buf[curPos + j];
 				bufOffset = j;
@@ -629,15 +631,15 @@ protected ProbManager	pb = null;
 
 		}
 		// Should have a special error condition
-		if(ret < 0) return false;
+		if(ret < 0) return WARN_SPEC_CONDITIONS;
 
 		dEvent.setType(DataEvent.DATA_COLLECTING);
-		pb.transform(dEvent);
+		pb.idle(dEvent);
 		dEvent.setType(DataEvent.DATA_RECEIVED);
-		return true;
+		return OK;
 	}
 
-	boolean step10bitFast_2(){
+	int step10bitFast_2(){
 
 		int ret = -1;
 		byte tmp;
@@ -692,19 +694,19 @@ protected ProbManager	pb = null;
 		    curStepTime += dEvent.numbSamples*timeStepSize;
 			
 		    dEvent.setData(valueData);
-		    pb.transform(dEvent);
+		    pb.dataArrived(dEvent);
 		    if((ret - curPos) > 0){
 			for(j=0; j<(ret-curPos); j++) buf[j] = buf[curPos + j];
 			bufOffset = j;
 		    }
 		}
 		// Should have a special error condition
-		if(ret < 0) return false;
+		if(ret < 0) return WARN_SPEC_CONDITIONS;
 
 		dEvent.setType(DataEvent.DATA_COLLECTING);
-		pb.transform(dEvent);
+		pb.idle(dEvent);
 		dEvent.setType(DataEvent.DATA_RECEIVED);
-		return true;
+		return OK;
 	}
 	
 	char getStartChar_2(){
@@ -779,8 +781,11 @@ protected ProbManager	pb = null;
     	public float		getCurTime(){return curStepTime;}
     	public void		setCurTime(float val){curStepTime = val;}
 
-    	public final static int ERROR = -1;
-    	public final static int OK = 0;
+    	public final static int ERROR_GENERAL			= -1;
+    	public final static int ERROR_PORT				= -2;
+    	public final static int OK 					= 0;
+    	public final static int WARN_WRONG_POSITION	= 1;
+    	public final static int WARN_SPEC_CONDITIONS	= 2;
 
     	public final static int NUMB_CHANNELS = 2;
 	float				[]curData = new float[1+NUMB_CHANNELS];

@@ -3,11 +3,13 @@ import org.concord.waba.extra.event.*;
 import org.concord.waba.extra.probware.probs.CCProb;
 import extra.util.*;
 
-public class ProbManager implements ProbListener{
+public class ProbManager implements ProbListener, Transform{
 public static ProbManager pb = null;
 CCInterfaceManager im;
-protected 	waba.util.Vector 	probs 	= null;
-protected 	waba.util.Vector 	listeners 	= null;
+
+protected CCProb[]				probsArray;
+protected ProbManagerListener[]	listenersArray;
+
 protected 	static ProbManagerEvent   pmEvent = new ProbManagerEvent();
 	protected ProbManager(int interfaceType){
 		im = CCInterfaceManager.getInterfaceManager(interfaceType);
@@ -25,13 +27,12 @@ protected 	static ProbManagerEvent   pmEvent = new ProbManagerEvent();
 	}
 	
 	protected void notifyListeners(int type,Object info){
-		if(listeners == null) return;
+		if(listenersArray == null || listenersArray.length < 1) return;
 		pmEvent.setType(type);
 		pmEvent.setInfo(info);
 		boolean registration = ((type == ProbManagerEvent.PM_REGISTERED) || (type == ProbManagerEvent.PM_UNREGISTERED));
-		for(int i = 0; i < listeners.getCount(); i++){
-			ProbManagerListener l = (ProbManagerListener)listeners.get(i);
-			if(l == null) continue;
+		for(int i = 0; i < listenersArray.length; i++){
+			ProbManagerListener l = listenersArray[i];
 			if(registration){
 				l.pmRegistration(pmEvent);
 			}else{
@@ -40,39 +41,107 @@ protected 	static ProbManagerEvent   pmEvent = new ProbManagerEvent();
 		}
 	}
 	
-	public void addProbManagerListener(ProbManagerListener l){
-		if(listeners == null) listeners = new waba.util.Vector();
-		if(listeners.find(l) < 0) listeners.add(l);
+	public int findListener(ProbManagerListener l){
+		int retValue = -1;
+		if(listenersArray == null || l == null  || listenersArray.length < 1) return retValue;
+		for(int i = 0; i < listenersArray.length; i++){
+			if(listenersArray[i] == l){
+				retValue = i;
+				break;
+			}
+		}
+		return retValue;
 	}
+	
+	
+	public void addProbManagerListener(ProbManagerListener l){
+		if(listenersArray == null){
+			listenersArray = new ProbManagerListener[1];
+			listenersArray[0] = l;
+		}else{
+			if(findListener(l) < 0){
+				ProbManagerListener []newArray = new ProbManagerListener[listenersArray.length + 1];
+				waba.sys.Vm.copyArray(listenersArray,0,newArray,0,listenersArray.length);
+				newArray[listenersArray.length] = l;
+				listenersArray = newArray;
+			}
+		}
+	}
+	
+	
 	public void removeProbManagerListener(ProbManagerListener l){
-		int index = listeners.find(l);
-		if(index >= 0) listeners.del(index);
+		int index = findListener(l);
+		if(index >= 0){
+			if(listenersArray.length == 1){
+				listenersArray = null;
+			}else{
+				for(int i = index + 1; i < listenersArray.length; i++){
+					listenersArray[i - 1] = listenersArray[i];
+				}
+				ProbManagerListener []newArray = new ProbManagerListener[listenersArray.length - 1];
+				waba.sys.Vm.copyArray(listenersArray,0,newArray,0,listenersArray.length);
+				listenersArray = newArray;
+			}
+		}
+	}
+	
+	public int findProb(CCProb prob){
+		int retValue = -1;
+		if(probsArray == null || prob == null  || probsArray.length < 1) return retValue;
+		for(int i = 0; i < probsArray.length; i++){
+			if(probsArray[i] == prob){
+				retValue = i;
+				break;
+			}
+		}
+		return retValue;
 	}
 	
 	public void registerProb(CCProb prob){
-		if(probs == null) probs = new waba.util.Vector();
-		if(probs.find(prob) < 0){
-			probs.add(prob);
+		boolean probAdded = false;
+		if(probsArray == null){
+			probsArray = new CCProb[1];
+			probsArray[0] = prob;
+			probAdded = true;
+		}else{
+			if(findProb(prob) < 0){
+				CCProb []newArray = new CCProb[probsArray.length + 1];
+				waba.sys.Vm.copyArray(probsArray,0,newArray,0,probsArray.length);
+				newArray[probsArray.length] = prob;
+				probsArray = newArray;
+				probAdded = true;
+			}
+		}
+		if(probAdded){
 			prob.addProbListener(this);
 			notifyListeners(ProbManagerEvent.PM_REGISTERED,prob);
 		}
 		syncModeWithProb();
 	}
 	public void unRegisterProb(CCProb prob){
-		int index = probs.find(prob);
+		int index = findProb(prob);
 		if(index >= 0){
+			if(probsArray.length == 1){
+				probsArray = null;
+			}else{
+				for(int i = index + 1; i < probsArray.length; i++){
+					probsArray[i - 1] = probsArray[i];
+				}
+				CCProb []newArray = new CCProb[probsArray.length - 1];
+				waba.sys.Vm.copyArray(probsArray,0,newArray,0,probsArray.length - 1);
+				probsArray = newArray;
+			}
 			prob.removeProbListener(this);
-			probs.del(index);
 			notifyListeners(ProbManagerEvent.PM_UNREGISTERED,prob);
 		}
 	}
 	
 	protected void syncModeWithProb(){
-		if(probs == null) return;
+		if(probsArray == null || probsArray.length < 1) return;
 		String modeValue = null;
 		boolean isTheSame = true;
-		for(int i = 0; i < probs.getCount(); i++){
-			CCProb p = (CCProb)probs.get(i);
+		for(int i = 0; i < probsArray.length; i++){
+			CCProb p = probsArray[i];
 			PropObject po = p.getProperty(CCProb.samplingModeString);
 			String value = po.getValue();
 			if(value == null) continue;
@@ -87,7 +156,7 @@ protected 	static ProbManagerEvent   pmEvent = new ProbManagerEvent();
 		}
 		if(modeValue == null) return;
 		if(!isTheSame) return;
-		CCProb p = (CCProb)probs.get(0);
+		CCProb p = probsArray[0];
 		if(p.samplingModes[CCProb.SAMPLING_24BIT_MODE] != null && modeValue.equals(p.samplingModes[CCProb.SAMPLING_24BIT_MODE])){
 			setMode(CCInterfaceManager.A2D_24_MODE);
 		}else if(p.samplingModes[CCProb.SAMPLING_10BIT_MODE] != null && modeValue.equals(p.samplingModes[CCProb.SAMPLING_10BIT_MODE])){
@@ -98,19 +167,19 @@ protected 	static ProbManagerEvent   pmEvent = new ProbManagerEvent();
 	}
 	
 	public int getNumbProbs(){
-		if(probs == null) return 0;
-		return probs.getCount();
+		if(probsArray == null) return 0;
+		return probsArray.length;
 	}
 	
 	public CCProb getProbByIndex(int i){
 		if(i < 0 || i >= getNumbProbs()) return null;
-		return (CCProb)probs.get(i);
+		return probsArray[i];
 	}
 	
 	protected CCProb getProbByName(String name){
-		if(probs == null) return null;
-		for(int i = 0; i < probs.getCount(); i++){
-			CCProb p = (CCProb)probs.get(i);
+		if(getNumbProbs() < 1) return null;
+		for(int i = 0; i < probsArray.length; i++){
+			CCProb p = probsArray[i];
 			if(p == null) continue;
 			if(name.equals(p.getName())){
 				return p;
@@ -128,12 +197,22 @@ protected 	static ProbManagerEvent   pmEvent = new ProbManagerEvent();
 		if(p!=null) p.removeDataListener(l);
 	}
 	
-    CCProb [] probArray = null;
-    int numProbs = 0;
+    	public boolean idle(DataEvent e){
+	    for(int i = 0; i < getNumbProbs(); i++){
+		probsArray[i].idle(e);//need offset important, but not relevant right now
+	    }
+	    return true;
+	}
+    	public boolean startSampling(DataEvent e){
+	    for(int i = 0; i < getNumbProbs(); i++){
+		probsArray[i].startSampling(e);//need offset important, but not relevant right now
+	    }
+	    return true;
+    	}
 
-    	public boolean transform(DataEvent e){
-	    for(int i = 0; i < numProbs; i++){
-		probArray[i].transform(e);//need offset important, but not relevant right now
+    	public boolean dataArrived(DataEvent e){
+	    for(int i = 0; i < getNumbProbs(); i++){
+		probsArray[i].dataArrived(e);//need offset important, but not relevant right now
 	    }
 	    return true;
     	}
@@ -150,16 +229,6 @@ protected 	static ProbManagerEvent   pmEvent = new ProbManagerEvent();
 		syncModeWithProb();
 		notifyListeners(ProbManagerEvent.PM_START,null);
 
-		if(probs == null){
-		    numProbs = 0;
-		} else {
-		    numProbs = probs.getCount();
-		}
-
-		probArray = new CCProb [probs.getCount()];		
-		for(int i = 0; i < numProbs; i++){
-		    probArray[i] = (CCProb)probs.get(i);
-		}
 		im.start();
 	}
 	public void stop(){

@@ -32,31 +32,35 @@ float  			dtChannel = 0.0f;
 		dDesc.setChPerSample(chPerSample);
 		dtChannel = dt / (float)chPerSample;
 	}
-	public boolean transform(DataEvent e){
+    	public boolean idle(DataEvent e){
 		dEvent.type = e.type;
-		if(e.getType() == DataEvent.DATA_READY_TO_START){
-			dDesc.setDt(e.getDataDesc().getDt());
-			dDesc.setChPerSample(e.getDataDesc().getChPerSample());
-		}
-		if(e.getType() != DataEvent.DATA_RECEIVED){
+		notifyDataListeners(dEvent);
+	    	return true;
+    	}
+    	public boolean startSampling(DataEvent e){
+		dEvent.type = e.type;
+		dDesc.setDt(e.getDataDesc().getDt());
+		dDesc.setChPerSample(e.getDataDesc().getChPerSample());
+		notifyDataListeners(dEvent);
+	    	return true;
+    	}
+	public boolean dataArrived(DataEvent e){
+		dEvent.type = e.type;
+		float t0 = e.getTime();
+		float[] data = e.getData();
+		int nOffset = e.getDataOffset();
+		int ndata = e.getNumbSamples()*dDesc.getChPerSample();
+		dtChannel = dDesc.getDt() / (float)dDesc.getChPerSample();
+		int  	chPerSample = dDesc.getChPerSample();
+		if(ndata < chPerSample) return false;
+				
+		for(int i = 0; i < ndata; i+=chPerSample){
+			dEvent.setTime(t0 + dtChannel*(float)i);
+			float ch1 = data[nOffset+i];
+			float ch2 = data[nOffset+i+1];
+			lightData[0] = ch1;
+//			lightData[0] = ch2;
 			notifyDataListeners(dEvent);
-		}else{
-			float t0 = e.getTime();
-			float[] data = e.getData();
-			int nOffset = e.getDataOffset();
-			int ndata = e.getNumbSamples()*dDesc.getChPerSample();
-			dtChannel = dDesc.getDt() / (float)dDesc.getChPerSample();
-			int  	chPerSample = dDesc.getChPerSample();
-			if(ndata < chPerSample) return false;
-					
-			for(int i = 0; i < ndata; i+=chPerSample){
-				dEvent.setTime(t0 + dtChannel*(float)i);
-				float ch1 = data[nOffset+i];
-				float ch2 = data[nOffset+i+1];
-				lightData[0] = ch1;
-	//			lightData[0] = ch2;
-				notifyDataListeners(dEvent);
-			}
 		}
 		return true;
 	}

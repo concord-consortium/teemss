@@ -89,25 +89,30 @@ int					outputMode = DEFAULT_MODE_OUT;
 
 
 
-	public boolean transform(DataEvent e){
+    	public boolean startSampling(DataEvent e){
 		dEvent.type = e.type;
-		if(e.getType() == DataEvent.DATA_READY_TO_START){
-			dDesc.setDt(e.getDataDesc().getDt());
-			dDesc.setChPerSample(e.getDataDesc().getChPerSample());
-			if(calibrationListener != null){
-				dDesc.setChPerSample(2);
-			}else{
-				dDesc.setChPerSample(1);
-			}
-			dEvent.setNumbSamples(1);
-			dtChannel = dDesc.getDt() / (float)dDesc.getChPerSample();
-			posOffset = 0f;
-			dt = dDesc.getDt();
+		dDesc.setDt(e.getDataDesc().getDt());
+		dDesc.setChPerSample(e.getDataDesc().getChPerSample());
+		if(calibrationListener != null){
+			dDesc.setChPerSample(2);
+		}else{
+			dDesc.setChPerSample(1);
 		}
-		if(e.getType() != DataEvent.DATA_RECEIVED){
-			notifyDataListeners(dEvent);
-			return true;
-		}
+		dEvent.setNumbSamples(1);
+		dtChannel = dDesc.getDt() / (float)dDesc.getChPerSample();
+		posOffset = 0f;
+		dt = dDesc.getDt();
+		notifyDataListeners(dEvent);
+		return true;
+    	}
+    	public boolean idle(DataEvent e){
+		dEvent.type = e.type;
+		notifyDataListeners(dEvent);
+		return true;
+    	}
+    	
+	public boolean dataArrived(DataEvent e){
+		dEvent.type = e.type;
 	    //System.out.println("wheel transform "+e);
 		float t0 = e.time;
 		float[] data = e.data;

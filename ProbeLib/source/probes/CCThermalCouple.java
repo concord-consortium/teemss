@@ -88,23 +88,28 @@ float FC = 0.0f;
 		dDesc.setChPerSample(chPerSample);
 		dtChannel = dt / (float)chPerSample;
 	}
-	public boolean transform(DataEvent e){
+    	public boolean startSampling(DataEvent e){
 		dEvent.type = e.type;
-		if(e.getType() == DataEvent.DATA_READY_TO_START){
-			dDesc.setDt(e.getDataDesc().getDt());
-			dDesc.setChPerSample(e.getDataDesc().getChPerSample());
-			dEvent.setNumbSamples(1);
-			if(calibrationListener != null){
-				dDesc.setChPerSample(3);
-			}else{
-				dDesc.setChPerSample(1);
-			}
-			dtChannel = dDesc.getDt() / (float)dDesc.getChPerSample();
+		dDesc.setDt(e.getDataDesc().getDt());
+		dDesc.setChPerSample(e.getDataDesc().getChPerSample());
+		dEvent.setNumbSamples(1);
+		if(calibrationListener != null){
+			dDesc.setChPerSample(3);
+		}else{
+			dDesc.setChPerSample(1);
 		}
-		if(e.getType() != DataEvent.DATA_RECEIVED){
-			notifyDataListeners(dEvent);
-			return true;
-		}
+		dtChannel = dDesc.getDt() / (float)dDesc.getChPerSample();
+		notifyDataListeners(dEvent);
+		return true;
+    	}
+     	public boolean idle(DataEvent e){
+		dEvent.type = e.type;
+		notifyDataListeners(dEvent);
+		return true;
+     	}
+   	
+	public boolean dataArrived(DataEvent e){
+		dEvent.type = e.type;
 		int nOffset = e.getDataOffset();
 		int ndata = e.getNumbSamples()*dDesc.getChPerSample();
 		int  	chPerSample = dDesc.getChPerSample();

@@ -43,7 +43,13 @@ float  			dtChannel = 0.0f;
 		dtChannel = dt / (float)chPerSample;
 	}
 
-    public boolean transform(DataEvent e)
+    public boolean idle(org.concord.waba.extra.event.DataEvent e){
+	return true;
+    }
+    public boolean startSampling(org.concord.waba.extra.event.DataEvent e){
+ 	return true;
+   }
+    public boolean dataArrived(DataEvent e)
     {
 	if(activeChannels == 2 && curChannel == 1){
 	    e.dataOffset = e.dataOffset + 1;
