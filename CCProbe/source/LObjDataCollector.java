@@ -14,7 +14,7 @@ public class LObjDataCollector extends LObjSubDict
 	int numDataSources = 0;
 	int [][] dsArray;
 
-    int interfaceId = CCInterfaceManager.INTERFACE_0;
+    int interfaceId = CCInterfaceManager.INTERFACE_2;
     int portId = CCProb.INTERFACE_PORT_A;
     //    LObjGraph graph;
 
