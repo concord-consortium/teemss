@@ -6,7 +6,9 @@ public class ConvertExtra
 
 {
 
- 	public static float toFloat(String s){		
+ 	public static float toFloat(String s){
+
+ 		if(s == null || s.length() < 1) return 0.0f;		
 
 		int sign = 1;
 

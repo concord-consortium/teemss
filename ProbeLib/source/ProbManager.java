@@ -2,6 +2,7 @@ package org.concord.waba.extra.probware;
 import org.concord.waba.extra.event.DataEvent;
 import org.concord.waba.extra.event.DataListener;
 import org.concord.waba.extra.probware.probs.CCProb;
+import extra.util.*;
 
 public class ProbManager implements Transform{
 public static ProbManager pb = null;
@@ -23,11 +24,40 @@ protected 	waba.util.Vector 	probs = null;
 		if(probs.find(prob) < 0){
 			probs.add(prob);
 		}
+		syncModeWithProb();
 	}
 	public void unRegisterProb(CCProb prob){
 		int index = probs.find(prob);
 		if(index >= 0){
 			probs.del(index);
+		}
+	}
+	
+	protected void syncModeWithProb(){
+		if(probs == null) return;
+		String modeValue = null;
+		boolean isTheSame = true;
+		for(int i = 0; i < probs.getCount(); i++){
+			CCProb p = (CCProb)probs.get(i);
+			PropObject po = p.getProperty(CCProb.samplingModeString);
+			String value = po.getValue();
+			if(value == null) continue;
+			if(modeValue == null){
+				modeValue = value;
+			}else{
+				if(!modeValue.equals(value)){
+					isTheSame = false;
+					break;
+				}
+			}
+		}
+		if(modeValue == null) return;
+		if(!isTheSame) return;
+		CCProb p = (CCProb)probs.get(0);
+		if(p.samplingModes[CCProb.SAMPLING_24BIT_MODE] != null && modeValue.equals(p.samplingModes[CCProb.SAMPLING_24BIT_MODE])){
+			setMode(CCInterfaceManager.A2D_24_MODE);
+		}else if(p.samplingModes[CCProb.SAMPLING_10BIT_MODE] != null && modeValue.equals(p.samplingModes[CCProb.SAMPLING_10BIT_MODE])){
+			setMode(CCInterfaceManager.A2D_10_MODE);
 		}
 	}
 	
@@ -57,7 +87,7 @@ protected 	waba.util.Vector 	probs = null;
     		return true;
     	}
 	public int getMode(){return im.getMode();}
-	public void setMode(int mode){
+	protected void setMode(int mode){
 		im.setMode(mode);
 	}
 	public void dispose(){
