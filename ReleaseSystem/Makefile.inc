@@ -56,7 +56,7 @@ tag:
 	@exit 1
 
 cvs-diff:
-	cvs -Q diff > /dev/null || (echo The  directory **$(notdir $(CURDIR))** is different than the repository; test)
+	@cvs -Q diff > /dev/null || (echo The  directory **$(notdir $(CURDIR))** is different than the repository; test)
 
 #Tag the dependencies with our tag so we can get them back
 cvs-tag: $(TAG_FILE)
