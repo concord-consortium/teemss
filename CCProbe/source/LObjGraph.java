@@ -137,10 +137,6 @@ public class LObjGraph extends LabObject
 
 			if(gv != null) gv.updateProp();
 		}
-
-		if(e.getActionCommand().equals("Close")){
-			if(gv != null) gv.updateProp();
-		}
     }
 
     public LabObjectView getView(ViewContainer vc, boolean edit, LObjDictionary curDict)
@@ -215,31 +211,6 @@ public class LObjGraph extends LabObject
 		return g;
 	}
 
-	public void updateAv(AnnotView av, boolean draw)
-	{
-		if(curGS == null) return;
-
-		if(curDS != null){
-			curGS.setYUnit(curDS.getUnit());
-			if(autoTitle){
-				curGS.setYLabel(curDS.getLabel());
-				title = curDS.getSummary();
-			}
-		}
-
-		curGS.updateAv();
-
-		if(draw){
-			av.curView.draw();
-			av.update();
-		}
-	}
-
-	void updateGraph()
-	{
-		curGS.updateGS();
-	}
-
 	public void startDataDelivery()
 	{
 		curDS.startDataDelivery();
@@ -248,6 +219,8 @@ public class LObjGraph extends LabObject
 	DataSource curDS;
 	public void addDataSource(DataSource ds)
 	{
+		if(ds == null) return;
+
 		// need to pass in object at this point to identify which 
 		// data source is which
 		if(curGS != null) ds.addDataListener(curGS);

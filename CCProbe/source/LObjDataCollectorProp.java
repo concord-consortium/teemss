@@ -17,6 +17,7 @@ public class LObjDataCollectorProp extends LabObjectView
     Choice probeChoice = null;
     Edit nameEdit = null;
     Label nameLabel = null;
+	Edit numDCs = null;
 
     public LObjDataCollectorProp(ViewContainer vc, LObjDataCollector d,
 								   LObjDictionary curDict)
@@ -43,6 +44,10 @@ public class LObjDataCollectorProp extends LabObjectView
 		probeChoice = new Choice(ProbFactory.getProbNames());	
 		add(probeChoice);
 
+		numDCs = new Edit();
+		numDCs.setText("1");
+		add(numDCs);
+
 		if(showDone){
 			doneButton = new Button("Done");
 			add(doneButton);
@@ -59,6 +64,8 @@ public class LObjDataCollectorProp extends LabObjectView
 
 		probeChoice.setRect(3,30, width-7, 15);
 
+		numDCs.setRect(3, 60, 30, 15);
+
 		if(showDone){
 			doneButton.setRect(width-30,height-15,30,15);
 		} 
@@ -74,6 +81,12 @@ public class LObjDataCollectorProp extends LabObjectView
 		LObjProbeDataSource newDS = LObjProbeDataSource.getProbeDataSource(probeId, dc.interfaceId,
 																		   CCProb.INTERFACE_PORT_A);
 		dataSources.add(newDS);
+		int numSources = waba.sys.Convert.toInt(numDCs.getText());
+
+		for(int i= 1; i < numSources; i++){
+			dataSources.add(null);
+		}
+
 		dc.setDataSources(dataSources);
 
 		GraphSettings gs = graph.getNewGS();

@@ -35,6 +35,10 @@ public class GraphSettings
     Vector bins = new Vector();
 	Bin curBin = null;
 
+	boolean started = false;
+
+	public static int MAX_COLLECTIONS = 10;
+
 	public void init(LObjGraphView gv, Object cookie, Bin bin, 
 					 SplitAxis xAx, ColorAxis yAx)
 	{
@@ -50,56 +54,48 @@ public class GraphSettings
 		xaxis.setAxisLabel(xLabel, xUnit);
 		yaxis.setAxisLabel(yLabel, yUnit);
 
-		xaxis.setRange(xmin, xmax);
-		yaxis.setRange(ymin, ymax);		
-
+		xaxis.setRange(xmin, xmax-xmin);
+		yaxis.setRange(ymin, ymax-ymin);		
 	}
 
 	public void setXValues(float min, float max)
 	{
 		xmin = min;
 		xmax = max;
+		if(xaxis != null) xaxis.setRange(xmin, xmax-xmin);
 	}
 
 	public void setYValues(float min, float max)
 	{
 		ymin = min;
 		ymax = max;
+		if(yaxis != null) yaxis.setRange(ymin, ymax-ymin);
 	}
 
 	public void setXLabel(String label)
 	{
 		xLabel = label;
+		if(xaxis != null) xaxis.setAxisLabel(xLabel, xUnit);
 	}
 
 	public void setYLabel(String label)
 	{
 		yLabel = label;
+		if(yaxis != null) yaxis.setAxisLabel(yLabel, yUnit);
 	}
 
 	public void setYUnit(CCUnit unit)
 	{
+		// Probably want to check if this a valid switch
 		yUnit = unit;
+		if(yaxis != null) yaxis.setAxisLabel(yLabel, yUnit);
+		if(curBin != null) curBin.setUnit(yUnit);
 	}
 
 	public void setXUnit(CCUnit unit)
 	{
 		xUnit = unit;
-	}
-
-
-	public void updateAv()
-	{
-		if(xaxis == null || yaxis == null){
-			return;
-		}
-		xaxis.setAxisLabel(xLabel, xUnit);
-		yaxis.setAxisLabel(yLabel, yUnit);
-
-		xaxis.setRange(xmin, xmax);
-		yaxis.setRange(ymin, ymax);
-
-		if(curBin != null) curBin.setUnit(yUnit);
+		if(xaxis != null) xaxis.setAxisLabel(xLabel, xUnit);
 	}
 
 	public void updateGS()
@@ -114,7 +110,8 @@ public class GraphSettings
 	}
 
 	public void startGraph(){
-		if(bins.getCount() == 0 && curBin != null){
+		if(bins.getCount() < MAX_COLLECTIONS && curBin != null){
+			started = true;
 			bins.add(curBin);
 			curBin.time = new Time();
 
@@ -148,10 +145,12 @@ public class GraphSettings
 
 	public void stopGraph()
 	{
-		if(gv != null){
-			Bin newBin = gv.stopGraph(gvCookie, curBin);
-			if(newBin == null) return;
+		if(gv != null && started){
+			started = false;
+			Bin newBin = gv.stopGraph(gvCookie, curBin, 
+									  bins.getCount() < MAX_COLLECTIONS );
 			curBin = newBin;
+			if(newBin == null) return;
 			curBin.setUnit(yUnit);
 			curBin.label = "";
 		}
@@ -159,10 +158,9 @@ public class GraphSettings
 
     public void dataReceived(DataEvent dataEvent)
     {
-		if(curBin == null) return;
+		if(curBin == null || !started) return;
 		if(!curBin.dataReceived(dataEvent)){
 			stopGraph();
-			// av.curView.draw();
 			return;		
 		}
     }
@@ -187,6 +185,68 @@ public class GraphSettings
 		return null;
 	}
     
+	float maxVisY = 0f;
+	float minVisY = 0f;
+
+    public boolean calcVisibleRange()
+    {
+		int i,j,k;
+		int lastOffset;
+		int [] binPoints;
+		int curX, curMinY, curMaxY;
+		int minY, maxY;
+		float minYf, maxYf;
+		Bin bin;
+		Axis xa;
+		boolean setRanges = false;
+
+	    maxVisY = (float)-(0x7FFFFFF);
+		minVisY = (float)(0x7FFFFFF);
+
+		for(k=0; k<bins.getCount(); k++){
+			bin = (Bin)bins.get(k);
+			xa = bin.xaxis;
+
+			if(xa.drawnX == -1 || bin.numPoints <= 1) continue;
+	    			
+			binPoints = bin.points;
+			lastOffset = bin.numPoints*3;
+	    
+			minY = (0x7FFFFFF);
+			maxY = -(0x7FFFFFF);
+
+			int xOffset = (int)((xa.dispMin - bin.refX) * xa.scale);		
+			for(i=0; i<lastOffset;){
+				curX = binPoints[i++];
+				curMinY = binPoints[i++] - (binPoints[i] & 0xFFFF);					
+				curMaxY = binPoints[i-1] + (binPoints[i] >> 16);
+				i++;
+		
+				if(curX > (xOffset - 1) && curX <= (xOffset + xa.dispLen)){
+					if(curMaxY > maxY) maxY = curMaxY;
+					if(curMinY < minY) minY = curMinY;
+				}		
+			}	    
+			
+			minYf = ((float)minY / yaxis.scale + bin.refY);
+			maxYf = ((float)maxY / yaxis.scale + bin.refY);
+			float temp;
+			if(minYf > maxYf){
+				temp = minYf;
+				minYf = maxYf;
+				maxYf = temp;
+			}
+
+			if(minYf < minVisY) minVisY = minYf;
+			if(maxYf > maxVisY) maxVisY = maxYf;
+
+			setRanges = true;
+		}		
+
+		
+		return setRanges;
+    }
+
 	public void clear()
 	{
 		bins = new Vector();	

@@ -76,8 +76,7 @@ public class LObjDataCollectorView extends LabObjectView
     {
 		Debug.println("Got closed");	
 		gv.updateProp();
-		setTitle2(graph.title);
-		
+		setTitle2(graph.title);		
 		dc.store();
     }
 

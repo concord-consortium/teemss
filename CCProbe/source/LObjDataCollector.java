@@ -36,7 +36,8 @@ public class LObjDataCollector extends LObjSubDict
 	{
 		if(dataSources == null) return;
 		for(int i=0; i<dataSources.getCount(); i++){
-			((LabObject)dataSources.get(i)).store();			
+			LabObject obj = (LabObject)dataSources.get(i);
+			if(obj != null) obj.store();
 		}
 		super.store();		
 	}
@@ -75,10 +76,7 @@ public class LObjDataCollector extends LObjSubDict
 	{ 
 		for(int i=0; i<dataSources.getCount(); i++){
 			DataSource ds = (DataSource)dataSources.get(i);
-			if(ds instanceof LObjProbeDataSource){
-				LObjProbeDataSource pDS = (LObjProbeDataSource)ds;
-			}
-			((DataSource) dataSources.get(i)).startDataDelivery();
+			if(ds != null) ds.startDataDelivery();
 		}
 
 	}
@@ -86,14 +84,16 @@ public class LObjDataCollector extends LObjSubDict
 	public void stop()
 	{
 		for(int i=0; i<dataSources.getCount(); i++){
-			((DataSource) dataSources.get(i)).stopDataDelivery();
+			DataSource ds = (DataSource)dataSources.get(i);
+			if(ds != null) ds.stopDataDelivery();
 		}
 	}		
 
 	public void closeSources()
 	{
 		for(int i=0; i<dataSources.getCount(); i++){
-			((DataSource) dataSources.get(i)).closeEverything();
+			DataSource ds = (DataSource) dataSources.get(i);
+			if(ds != null) ds.closeEverything();
 		}
 	}
 

@@ -59,6 +59,7 @@ public class CCProbe extends ExtraMainWindow
 		if(plat.equals("PalmOS")){
 			graph.Bin.START_DATA_SIZE = 4000;
 			graph.LargeFloatArray.MaxNumChunks = 4;
+			GraphSettings.MAX_COLLECTIONS = 1;
 			lbDB = new LabBookCatalog("LabBook");
 		} else if(plat.equals("Java")){
 			lbDB = new LabBookCatalog("LabBook");

@@ -31,6 +31,7 @@ public class LObjGraphView extends LabObjectView
 {
     LObjGraph graph;
     AnnotView av = null;
+
 	Choice viewChoice = null;
 	LineGraphMode lgm = null;
 	Button addMark = null;
@@ -86,7 +87,15 @@ public class LObjGraphView extends LabObjectView
 
 	public void updateProp()
 	{
-		graph.updateAv(av, true);
+		if(graph.curGS == null) return;
+		if(graph.curDS != null){
+			graph.curGS.setYUnit(graph.curDS.getUnit());
+			if(graph.autoTitle){
+				graph.curGS.setYLabel(graph.curDS.getLabel());
+				graph.title = graph.curDS.getSummary();
+			}
+		}
+		av.update();
 		postEvent(new ControlEvent(1001, this));
 	}
 
@@ -186,6 +195,9 @@ public class LObjGraphView extends LabObjectView
     }
 
 
+	SplitAxis xaxis = null;
+	ColorAxis yaxis = null;
+	
     public void setRect(int x, int y, int width, int height)
     {
 		super.setRect(x,y,width,height);
@@ -214,7 +226,7 @@ public class LObjGraphView extends LabObjectView
 		curY += dd_height;
 
 		if(showDone){
-			doneButton.setRect(width-30,height-15,30,15);
+			doneButton.setRect(width-30,0,30,15);
 			gHeight -= 16;
 		}
 
@@ -244,8 +256,8 @@ public class LObjGraphView extends LabObjectView
 		}
 
 		for(int i=0; i<graph.graphSettings.getCount(); i++){
-			SplitAxis xaxis = new SplitAxis(Axis.BOTTOM);
-			ColorAxis yaxis = new ColorAxis(Axis.LEFT);
+			xaxis = new SplitAxis(Axis.BOTTOM);
+			yaxis = new ColorAxis(Axis.LEFT);
 			yaxis.setMaxDigits(6);
 
 			// This is just a hack
@@ -257,10 +269,6 @@ public class LObjGraphView extends LabObjectView
 			GraphSettings gs = (GraphSettings)graph.graphSettings.get(i);
 			gs.init(this, (Object)av, curBin, xaxis, yaxis);
 		}
-
-		/*
-		  graph.updateAv(av, curBin, false);
-		*/
 
 		add(av);
 
@@ -280,6 +288,8 @@ public class LObjGraphView extends LabObjectView
 		}
 
 		av.free();
+		if(yaxis != null)yaxis.free();
+		if(xaxis != null)xaxis.free();
 		graph.removeGV();
 		graph.store();
 		super.close();
@@ -287,7 +297,6 @@ public class LObjGraphView extends LabObjectView
 
 	public void startGraph(Object cookie, Bin curBin)
 	{
-		av.active = true;
 		dd.addBin(curBin);
 	}
 
@@ -310,16 +319,14 @@ public class LObjGraphView extends LabObjectView
 	}
 
 	// Right this requires the caller to call repaint()
-	public Bin stopGraph(Object cookie, Bin curBin)
+	public Bin stopGraph(Object cookie, Bin curBin, 
+						 boolean newBin)
 	{
-		if(av.active){
-			av.active = false;
-			dd.removeBin(curBin);
-			curBin = av.pause();
-			postEvent(new ControlEvent(1000, this));	
-			return curBin;
-		}
-		return null;
+		dd.removeBin(curBin);
+		if(newBin) curBin = av.pause();
+		else  curBin = null;
+		postEvent(new ControlEvent(1000, this));	
+		return curBin;
 	}
 
     public void onEvent(Event e)
@@ -382,7 +389,7 @@ public class LObjGraphView extends LabObjectView
 		} else if(e.type == 1005){
 			graph.showAxisProp(1);
 		} else if(e.type == 1006){
-			graph.updateGraph();
+			graph.curGS.updateGS();
 		} else if(e.target == viewChoice){
 			if(e.type == ControlEvent.PRESSED){
 				int index = viewChoice.getSelectedIndex();
@@ -409,27 +416,25 @@ public class LObjGraphView extends LabObjectView
 				case 1:
 					break;
 				case 2:
-					if(av.lGraph.calcVisibleRange()){
-						float margin = (av.lGraph.maxVisY - av.lGraph.minVisY)*0.1f;
+					GraphSettings gs = graph.curGS;
+					if(gs.calcVisibleRange()){
+						float margin = (gs.maxVisY - gs.minVisY)*0.1f;
 						int count=0;
 						float ymin, ymax;
 						while(margin == 0f && count < 4){
-							ymin = av.lGraph.minVisY - (-1f)/av.lGraph.yaxis.scale;
-							ymax = av.lGraph.maxVisY + (-1f)/av.lGraph.yaxis.scale;
-							av.setRange(av.getXmin(), av.getXmax(), ymin, ymax);
-							av.curView.draw();
+							ymin = gs.minVisY - (-1f)/gs.yaxis.scale;
+							ymax = gs.maxVisY + (-1f)/gs.yaxis.scale;
+							gs.setYValues(ymin, ymax);
 							av.update();
 
-							if(!av.lGraph.calcVisibleRange()) return;
-							margin = (av.lGraph.maxVisY - av.lGraph.minVisY)*0.1f;
+							if(!gs.calcVisibleRange()) return;
+							margin = (gs.maxVisY - gs.minVisY)*0.1f;
 							count++;
 						}
 						if(margin < 1.0E-8f) margin = 1.0E-8f; 
-						ymin = av.lGraph.minVisY - margin;
-						ymax = av.lGraph.maxVisY + margin;
-						av.setRange(av.getXmin(), av.getXmax(), ymin, ymax);
-						graph.updateGraph();
-						av.curView.draw();
+						ymin = gs.minVisY - margin;
+						ymax = gs.maxVisY + margin;
+						gs.setYValues(ymin, ymax);
 						av.update();
 					}
 					break;
