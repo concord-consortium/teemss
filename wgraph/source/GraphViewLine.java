@@ -47,6 +47,7 @@ public class GraphViewLine extends GraphView
     public Annotation selAnnot = null;
     
     float [] tempVal = new float [1];
+	Axis [] aPtr = new Axis [1];
 
     public boolean autoScroll = true;
     public static float scrollEndFract = (float)0.25;
@@ -284,6 +285,7 @@ public class GraphViewLine extends GraphView
 								postEvent(new ControlEvent(1006, this));
 							}
 							draw();
+							annotDown = true;
 							break;
 						case DRAG_MODE:
 							selAnnot = null;
@@ -367,10 +369,9 @@ public class GraphViewLine extends GraphView
 						}
 					} else if(annotDown){
 						if(selAnnot != null){
-							Axis xa = selAnnot.xaxis;
-							float newTime = (moveX + (selAnnot.time - xa.dispMin) * xa.scale)/
-								xa.scale + xa.dispMin;
-							if(lGraph.getValue(newTime, xa, tempVal)){
+							float newTime = lGraph.xaxis.getValue(pe.x, aPtr);
+							if(aPtr[0] == selAnnot.xaxis &&
+							   lGraph.getValue(newTime, aPtr[0], tempVal)){
 								selAnnot.time = newTime;
 								selAnnot.value = tempVal[0];
 								postEvent(new ControlEvent(1003, this));
