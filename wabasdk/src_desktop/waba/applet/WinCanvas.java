@@ -90,6 +90,9 @@ public class WinCanvas extends java.awt.Canvas
 			case java.awt.event.KeyEvent.VK_DELETE:     key = IKeys.DELETE; break;
 			case java.awt.event.KeyEvent.VK_F6:         key = IKeys.MENU; break;
 			case java.awt.event.KeyEvent.VK_F7:         key = 76000; break;
+			case java.awt.event.KeyEvent.VK_SHIFT:
+			case java.awt.event.KeyEvent.VK_ALT:
+				return;
 			default :
 				key = event.getKeyChar(); break;
 			}
