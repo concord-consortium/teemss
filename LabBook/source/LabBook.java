@@ -147,7 +147,7 @@ public class LabBook
     BufferStream bsOut = new BufferStream();
     DataStream dsOut = new DataStream(bsOut);
 
-    public void commit()
+    public boolean commit()
     {
 	Object [] curObjArr;
 	int i,j;
@@ -178,8 +178,14 @@ public class LabBook
 		// This might call store which will change the toBeStored vector
 		curObjPtr.obj.writeExternal(dsOut);
 		outBuf = bsOut.getBuffer();
-		db.writeObjectBytes(curObjPtr.devId, curObjPtr.objId, 
-				    outBuf, 0, outBuf.length);
+		if(!db.writeObjectBytes(curObjPtr.devId, curObjPtr.objId, 
+				       outBuf, 0, outBuf.length)){
+		    toBeStored = new Vector();
+		    loaded = new Vector();
+		    alreadyStored = null;
+		    
+		    return false;
+		}
 
 		bsOut.setBuffer(null);
 	    }
@@ -189,6 +195,7 @@ public class LabBook
 	loaded = new Vector();
 	alreadyStored = null;
 
+	return true;
     }
 
     public boolean reload(LabObject lObj)
@@ -303,6 +310,11 @@ public class LabBook
 	// We could have a list of objects and every new lab object will
 	// need to be added to this list.
 	lObj = LabObject.getNewObject(objectType);
+	if(lObj == null){
+	    Debug.println("error: objectType: " + objectType + " devId: " + lObjPtr.devId +
+			       " objId: " + lObjPtr.objId);
+	    return null;
+	}
 	lObj.ptr = lObjPtr;
 
 	// This might be recursive so add this object to the 

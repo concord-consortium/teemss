@@ -171,7 +171,8 @@ public class LObjDictionaryView extends LabObjectView
 			treeModel.insertNodeInto(newNode, treeModel.getRoot(), treeModel.getRoot().getChildCount());
 		    } else {
 			treeModel.insertNodeInto(newNode, parent, parent.getIndex(curNode)+1);
-		    }		    
+		    }
+		    dict.lBook.commit();
 		    if(autoEdit){
 			showPage(newNode, true);
 
@@ -305,7 +306,10 @@ public class LObjDictionaryView extends LabObjectView
 	    dict.lBook.store(lObjView.lObj);
 	    // I might want to do a commit here lets try it....
 	    // of course if we are embedded this might be a problem
-	    dict.lBook.commit();
+	    if(!dict.lBook.commit()){
+		// error (what to do)
+		return;
+	    }
 
 	    remove(lObjView);
 	    treeControl.reparse();

@@ -236,7 +236,7 @@ public class LabBookFile
 
 		    if(cat.getRecordSize() != count){
 			if(!cat.resizeRecord(count)) return closeErr("5:" + cat.getError());
-			if(!cat.setRecordPos(i+1)) return closeErr("6:" + cat.getError());
+			if(!cat.setRecordPos(objIndex[i+2])) return closeErr("6:" + cat.getError());
 		    }
 
 		    cat.writeBytes(buffer, start, count);	

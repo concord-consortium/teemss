@@ -174,18 +174,28 @@ public class GraphTool extends Container
 		time = dataEvent.time;		
 	    } else {
 		int startPTime = Vm.getTimeStamp();
-
-		if(lg.active){
-		    lg.update();
-		} else {
-		    curVal.setText(val +"");
-		    curTime.setText(time + "s");
-		}
-		pTimes [curPtime] = new int [4];
+		pTimes [curPtime] = new int [6];
 		pTimes[curPtime][0] = 1;
 		pTimes[curPtime][1] = startPTime;
 		pTimes[curPtime][2] = numVals;
-		pTimes[curPtime][3] = (Vm.getTimeStamp() - startPTime);
+
+		//		if(lg.active){
+		lg.update();
+
+		int newTime = Vm.getTimeStamp();
+		pTimes[curPtime][3] = (newTime - startPTime);		
+
+		String output1, output2;
+		output1 = Convert.toString(val);
+		output2 = Convert.toString(time);
+
+		startPTime = Vm.getTimeStamp();
+		pTimes[curPtime][4] = (startPTime - newTime);
+
+		curVal.setText(output1);
+		curTime.setText(output2);
+
+		pTimes[curPtime][5] = (Vm.getTimeStamp() - startPTime);
 		
 		numVals = 0;
 		curPtime++;

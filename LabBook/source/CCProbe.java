@@ -3,7 +3,7 @@ import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
 import org.concord.LabBook.*;
 
-public class Tester extends ExtraMainWindow
+public class CCProbe extends ExtraMainWindow
     implements LObjViewContainer
 {
     LabBook labBook;
@@ -14,6 +14,7 @@ public class Tester extends ExtraMainWindow
     TreeModel treeModel;
     Container me = new Container();
     LabObjectView lObjView = null;
+    int myHeight;
 
     int newIndex = 0;
 
@@ -32,13 +33,19 @@ public class Tester extends ExtraMainWindow
 	    graph.LargeFloatArray.MaxNumChunks = 4;
 	}
 	menuBar = new MenuBar();
+
+	// Notice the width and height will change here
 	setMenuBar(menuBar);
+	waba.fx.Rect myRect = content.getRect();
+	myHeight = myRect.height;
+
 	file = new Menu("File");
 	file.add("Exit");
 	file.addActionListener(this);
 	menuBar.add(file);
 
-	me.setRect(x,y,width,height);
+	me.setRect(x,y,width,myHeight);
+
 	add(me);
 
 	LabBookDB lbDB = new LabBookFile("LabBook");
@@ -61,7 +68,8 @@ public class Tester extends ExtraMainWindow
 
 	}
 	LObjDictionaryView view = (LObjDictionaryView)loDict.getView(this, true);
-	view.setRect(x,y,width,height);
+	view.setRect(x,y,width,myHeight);
+
 	me.add(view);
 	lObjView = view;
 
@@ -89,7 +97,8 @@ public class Tester extends ExtraMainWindow
 	me.remove(source);
 	LabObjectView replacement = obj.getView(this, true);
 	// This automatically does the layout call for us
-	replacement.setRect(x,y,width,height);
+	replacement.setRect(x,y,width,myHeight);
+
 	me.add(replacement);
 	lObjView = replacement;
     }
@@ -104,9 +113,9 @@ public class Tester extends ExtraMainWindow
 	    if(command.equals("Exit")){
 	        Debug.println("commiting");
 		labBook.store(loDict);
-		labBook.commit();
-		if(!labBook.close()){
-		
+		if(!labBook.commit() ||
+		   !labBook.close()){
+		    //error
 		} else {
 		    labBook = null;
 		    exit(0);

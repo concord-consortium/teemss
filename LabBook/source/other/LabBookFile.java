@@ -54,7 +54,7 @@ public class LabBookFile implements LabBookDB
 
 	if(!readIndex()){
 	    // Failed
-	    System.out.println("Error Reading index");
+	    Debug.println("Error Reading index");
 	}
 
 	int curPos = 0;
@@ -92,7 +92,7 @@ public class LabBookFile implements LabBookDB
 	int numObj = objects.getCount();
 	FileObject fObj;
 	
-	System.out.println("About to write " + numObj);
+	Debug.println("About to write " + numObj);
 
 	file.seek(0);
 	ds.writeInt(curDevId);
@@ -217,7 +217,7 @@ public class LabBookFile implements LabBookDB
 	int i;
 	FileObject fObj;
 
-	System.out.println(" Saving " + count + " bytes to fObj");
+	Debug.println(" Saving " + count + " bytes to fObj");
 	
 	// Find the object
 	for(i=0; i<numObj; i++){
