@@ -107,6 +107,10 @@ EmbedObjectPropertyControl		objProperty;
 
 
 public class CCTextArea  extends Container implements ViewContainer, DialogListener{
+
+public static final int	version = 10;
+
+
 //CCStringWrapper		[] lines;
 Vector				lines = null;
 FontMetrics 		fm = null;
@@ -259,7 +263,9 @@ public final static int	yTextBegin = 2;
 					}
 				}
  				layoutComponents();
+ 				Vector oldLines = lines;
 				setText(getText());
+				restoreTextProperty(oldLines);
  				layoutComponents();
 				notifyListeners(0);
    			}
@@ -293,7 +299,9 @@ public final static int	yTextBegin = 2;
 			view.layout(false);
 			add(view);
 			layoutComponents();
+			Vector oldLines = lines;
 			setText(getText());
+			restoreTextProperty(oldLines);
 			notifyListeners(0);
 		}else if(e.getSource() == confirmDialogClear){
 			if(e.getActionCommand().equals("Yes")){
@@ -317,9 +325,31 @@ public final static int	yTextBegin = 2;
     }
     public void writeExternal(DataStream out){
     	out.writeString(getText());
-    	out.writeBoolean(components != null);
-    	if(components == null) return;
-    	out.writeInt(components.length);
+ //   	out.writeBoolean(components != null);
+    	out.writeBoolean(true);
+    	if(components == null){
+    		out.writeInt(-1);
+    		out.writeInt(version);//version
+    		return;
+    	}
+    	out.writeInt(-components.length - 1);//workaround for not breaking old SN
+    	if(lines != null){
+    		out.writeInt(version);//version
+    		out.writeInt(lines.getCount());
+    		for(int l = 0; l < lines.getCount(); l++){
+				CCStringWrapper strWrapper = (CCStringWrapper)lines.get(l);
+				int r = (strWrapper == null)?0:strWrapper.rColor;
+				int g = (strWrapper == null)?0:strWrapper.gColor;
+				int b = (strWrapper == null)?0:strWrapper.bColor;
+				boolean underline = (strWrapper == null)?false:strWrapper.underline;
+				boolean link = (strWrapper == null)?false:strWrapper.link;
+				out.writeInt(r);
+				out.writeInt(g);
+				out.writeInt(b);
+				out.writeBoolean(underline);
+				out.writeBoolean(link);
+    		}
+    	}
     	for(int i = 0; i < components.length; i++){
     		LBCompDesc d = components[i];
     		out.writeBoolean(d != null);
@@ -337,9 +367,37 @@ public final static int	yTextBegin = 2;
 		if(nComp < 0){
 			int version = in.readInt();
 			if(version <= 0) return;
-//reading of lines'properties			
+			nComp = -nComp - 1;
+			wasComponents = (nComp > 0);
+			int nLines = in.readInt();
+			int realLines = (lines == null)?0:lines.getCount();
+			if(lines == null && nLines > 0){
+				lines = new Vector();
+				for(int i = 0; i < nLines; i++){
+					lines.add(new CCStringWrapper(this,"",0));
+				}
+				realLines = nLines;
+			}
+			boolean doRestore = (realLines == nLines);
+			for(int l = 0; l < nLines; l++){
+				int r = in.readInt();
+				int g = in.readInt();
+				int b = in.readInt();
+				boolean underline = in.readBoolean();
+				boolean link = in.readBoolean();
+				if(doRestore){
+					CCStringWrapper strWrapper = (CCStringWrapper)lines.get(l);
+					if(strWrapper == null) continue;
+					strWrapper.rColor 		= r;
+					strWrapper.gColor 		= g;
+					strWrapper.bColor 		= b;
+					strWrapper.link 		= link;
+					strWrapper.underline 	= underline;
+				}
+			}
 		}
 		
+		if(!wasComponents) return;
 		components = new LBCompDesc[nComp];
 		for(int i = 0; i < nComp; i++){
 			boolean wasPart = in.readBoolean();
@@ -458,7 +516,9 @@ public final static int	yTextBegin = 2;
 			}
 			currObjectViewDesc = null;
 			if(doLayout) layoutComponents();
+			Vector oldLines = lines;
 			setText(getText());
+			restoreTextProperty(oldLines);
 		}
 	}
 	public void deleteCurrentObject(){
@@ -491,7 +551,9 @@ public final static int	yTextBegin = 2;
 			}
 			components = null;
 			if(doLayout) layoutComponents();
+			Vector oldLines = lines;
 			setText(getText());
+			restoreTextProperty(oldLines);
 		}
 	}
 
@@ -663,6 +725,41 @@ public final static int	yTextBegin = 2;
 		setText(getText());
 		repaint();
 	}
+
+
+	public void restoreTextProperty(Vector oldLines){
+		if(lines == null) return;
+		if(oldLines == null) return;
+		if(oldLines.getCount() != lines.getCount()) return;
+		for(int i = 0; i < lines.getCount(); i++){
+			CCStringWrapper oldWrapper = (CCStringWrapper)oldLines.get(i);
+			CCStringWrapper newWrapper = (CCStringWrapper)lines.get(i);
+			newWrapper.rColor = oldWrapper.rColor;
+			newWrapper.gColor = oldWrapper.gColor;
+			newWrapper.bColor = oldWrapper.bColor;
+			newWrapper.link = oldWrapper.link;
+			newWrapper.underline = oldWrapper.underline;
+		}
+	}
+
+	public void changeLineContent(String str,CCStringWrapper stringWrapper){
+		if(str == null || stringWrapper == null) return;
+		if(lines == null) return;
+		String newText = "";
+		Vector oldLines = lines;
+		int myInt = -1;
+		for(int i = 0; i < lines.getCount(); i++){
+			newText += (stringWrapper != lines.get(i))?((CCStringWrapper)lines.get(i)).getStr():str;
+			newText += "\n";
+			
+		}
+		setText(newText);
+		restoreTextProperty(oldLines);
+		
+		layoutComponents();
+	}
+
+
 	public void setText(String str){
 		setText(str,true);
 	}
@@ -706,7 +803,7 @@ public final static int	yTextBegin = 2;
 				if(components != null){
 					for(int k = 0; k < components.length; k++){
 						LBCompDesc cDesc = components[k];
-						if(cDesc.lineBefore == nLines){
+						if(cDesc != null && cDesc.lineBefore == nLines){
 							compDesc = components[k];
 						}
 					}
@@ -1185,6 +1282,16 @@ public final static int	yTextBegin = 2;
 				row = 1;
 			}else if(lineIndex >= 0 && lineIndex < lines.getCount()){
 				CCStringWrapper sw = (CCStringWrapper)lines.get(lineIndex);
+				
+				
+				MainWindow mw = MainWindow.getMainWindow();
+				if((mw instanceof ExtraMainWindow)){
+					TextObjPropertyView tPropView = new TextObjPropertyView(null,sw);
+					TextObjPropertyViewDialog dialog = new TextObjPropertyViewDialog((ExtraMainWindow)mw, this,"Properties",tPropView);
+					dialog.setRect(0,0,150,150);
+					dialog.show();		
+				}
+				
 				int rIndex = row - 1 - sw.beginRow;
 				if(rIndex >= 0 && rIndex < sw.delimiters.length / 2){
 					String str = sw.getSubString(rIndex);
@@ -1312,7 +1419,12 @@ int		endRow		= -1;
 char 	[]chars = null;
 int		delimiters[] = null;
 static int	[]charWidthMappers = null;
+int		rColor = 0;
+int		gColor = 0;
+int		bColor = 0;
 
+boolean	underline 	= false;
+boolean	link 		= false;
 
 	CCStringWrapper(CCTextArea owner,String str,int beginRow){
 		this.owner = owner;
@@ -1445,10 +1557,10 @@ static int	[]charWidthMappers = null;
 	
 	public void draw(Graphics gr,int firstRow){
 		if(gr == null || delimiters == null || owner == null) return;
-		gr.setColor(0,0,0);
 		int    numbTotalRows = (owner.rows == null)?0:owner.rows.getCount();
 		int h = owner.getItemHeight();
 		int limitRow = delimiters.length / 2;
+		gr.setColor(rColor,gColor,bColor);
 		for(int i = beginRow; i < endRow; i++){
 			if(i < firstRow) continue;
 			int y = CCTextArea.yTextBegin + (i - firstRow)*h;
@@ -1456,9 +1568,21 @@ static int	[]charWidthMappers = null;
 				int x = (i >= numbTotalRows || owner.rows == null)?beginPos:((CCTARow)owner.rows.get(i)).beginPos;
 				int index = (i - beginRow)*2;
 				gr.drawText(chars,delimiters[index],delimiters[index+1] - delimiters[index],x,y);
-				
+				if(underline){
+					int xEnd = x;
+					FontMetrics fm = owner.getFontMetrics();
+					int lineY = h - 2;
+					if(fm != null){
+						xEnd = x + fm.getTextWidth(chars,delimiters[index],delimiters[index+1] - delimiters[index]);
+						lineY = fm.getHeight()+1;
+					}else{
+						xEnd = (i >= numbTotalRows || owner.rows == null)?endPos:((CCTARow)owner.rows.get(i)).endPos;
+					}
+					if(xEnd > x) gr.drawLine(x,y + lineY,xEnd,y + lineY);
+				}
 			}
 		}
+		gr.setColor(0,0,0);
 
 	}
 	public static boolean isWordDelimiter(char c){
@@ -1505,4 +1629,180 @@ LabObjectView	checkView;
 		}
 	}
 	public LabObjectView getCheckView(){return checkView;}
+}
+
+
+class TextObjPropertyViewDialog extends ViewDialog{
+CCTextArea		textArea;
+	public 	TextObjPropertyViewDialog(ExtraMainWindow owner,CCTextArea textArea,String title, 
+						  LabObjectView view){
+		super(owner,textArea,title,view);
+		this.textArea 		= textArea;
+	}
+}
+
+
+class TextObjPropertyView extends LabObjectView{
+CCStringWrapper stringWrapper;
+public Edit		strEdit;
+public Button	doneButton;
+public Edit		colorEdit;
+public Label	colorLabel;
+public Check	underLineCheck;
+public Check	linkCheck;
+
+	public TextObjPropertyView(ViewContainer vc, CCStringWrapper stringWrapper){
+		super(vc);
+		this.stringWrapper 	= stringWrapper;
+	}
+	public void layout(boolean sDone){
+		if(didLayout) return;
+		didLayout = true;
+		if(strEdit == null){
+			strEdit = new Edit();
+			if(stringWrapper != null){
+				strEdit.setText(stringWrapper.getStr());
+			}
+			add(strEdit);
+		}
+		if(colorEdit == null){
+			colorEdit = new Edit();
+			add(colorEdit);
+			if(stringWrapper != null){
+				colorEdit.setText(hexaFromColor(stringWrapper.rColor,stringWrapper.gColor,stringWrapper.bColor));
+			}
+		}
+		if(colorLabel == null){
+			colorLabel = new Label("Color 0x");
+			add(colorLabel);
+		}
+		if(underLineCheck == null){
+			underLineCheck = new Check("Underline");
+			if(stringWrapper != null){
+				underLineCheck.setChecked(stringWrapper.underline);
+			}
+			add(underLineCheck);
+		}
+		if(linkCheck == null){
+			linkCheck = new Check("Link");
+			add(linkCheck);
+			if(stringWrapper != null){
+				linkCheck.setChecked(stringWrapper.link);
+			}
+		}
+
+		if(doneButton == null){
+			doneButton = new Button("Done");
+			add(doneButton);
+		}
+	}
+	public void setRect(int x, int y, int width, int height){
+		super.setRect(x,y,width,height);
+		if(!didLayout) layout(false);
+		if(doneButton != null)	doneButton.setRect(width-31,height-15,30,15);
+
+
+		if(strEdit != null){
+			strEdit.setRect(2,2, width - 4, 15);
+		}
+		
+		if(colorLabel != null){
+			colorLabel.setRect(2,20,36,15);
+		}
+		if(colorEdit != null){
+			colorEdit.setRect(40,20,40,15);
+		}
+		if(underLineCheck != null){
+			underLineCheck.setRect(2,40,60,15);
+		}
+		if(linkCheck != null){
+			linkCheck.setRect(65,40,50,15);
+		}
+		
+		
+	}
+	
+	static char hexaFromDigit(int d){
+		if(d >=0 && d <= 9){
+			return (char)(d + '0');
+		}else if(d >=10 && d <= 15){
+			return (char)(d - 10 + 'A');
+		}
+		return '0';
+	}
+	static String hexaFromColor(int r, int g, int b){
+		if(r < 0) 	r = 0;
+		if(r > 255) r = 255;
+		if(g < 0) 	g = 0;
+		if(g > 255) g = 255;
+		if(b < 0) 	b = 0;
+		if(b > 255) b = 255;
+		String str = "";
+		
+		str += hexaFromDigit(r >>> 4);
+		str += hexaFromDigit(r & 0xF);
+		str += hexaFromDigit(g >>> 4);
+		str += hexaFromDigit(g & 0xF);
+		str += hexaFromDigit(b >>> 4);
+		str += hexaFromDigit(b & 0xF);
+		
+		return str;		
+	}
+	
+	static int byteFromHexa(String str){
+		int retValue = 0;
+		if(str == null) return retValue;
+		int base = 1;
+		int curCharInd = str.length() - 1;
+		while(curCharInd >= 0){
+			char c = str.charAt(curCharInd);
+			if(c >= '0' && c <= '9'){
+				retValue += base*(int)(c - '0');
+			}else if(c >= 'A' && c <= 'F'){
+				retValue += base*(int)(c - 'A' + 10);
+			}else if(c >= 'a' && c <= 'f'){
+				retValue += base*(int)(c - 'a' + 10);
+			}
+			curCharInd--;
+			base <<= 4;
+		}
+		
+		return retValue;
+		
+	}
+
+	public void onEvent(Event e){
+		if(e.target == doneButton && e.type == ControlEvent.PRESSED){
+			if(container != null){
+				container.done(this);
+				if(stringWrapper == null) return;
+				if(underLineCheck != null){
+					stringWrapper.underline = underLineCheck.getChecked();
+				}
+				if(linkCheck != null){
+					stringWrapper.link = linkCheck.getChecked();
+				}
+				if(colorEdit != null){
+					String strColor = colorEdit.getText();
+					int n = strColor.length();
+					if(n < 6){
+						for(int i = 0; i < 6-n; i++) strColor += "0";
+					}else{
+						strColor = strColor.substring(0,6);
+					}
+					stringWrapper.rColor = byteFromHexa(strColor.substring(0,2));
+					stringWrapper.gColor = byteFromHexa(strColor.substring(2,4));
+					stringWrapper.bColor = byteFromHexa(strColor.substring(4,6));
+					
+				}
+				if(strEdit != null && stringWrapper.owner != null){
+					stringWrapper.owner.changeLineContent(strEdit.getText(),stringWrapper);
+				}
+				stringWrapper.owner.repaint();
+			}	 
+		}
+	}
+	
+	
+
 }

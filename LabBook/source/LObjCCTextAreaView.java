@@ -54,7 +54,11 @@ CCScrollBar				scrollBar;
 			lObjView.setEmbeddedState(true);
 			lObjView.setShowMenus(false);
 			tArea.layoutComponents();
+ 			waba.util.Vector oldLines = tArea.lines;
 			tArea.setText(tArea.getText());
+			tArea.restoreTextProperty(oldLines);
+			
+			
 			tArea.removeCursor();
 			// If we are embedded this will be a problem
 			getMainView().closeTopWindowView();
@@ -280,7 +284,9 @@ CCScrollBar				scrollBar;
 		if(needInserButton)	insertButton.setRect(1,17,30,15);
 //		upButton.setRect(35,17,20,15);
 //		downButton.setRect(60,17,30,15);
+		waba.util.Vector oldLines = tArea.lines;
 		tArea.setText(tArea.getText());
+		tArea.restoreTextProperty(oldLines);
 		tArea.layoutComponents();
 		redesignScrollBar();
 	}
