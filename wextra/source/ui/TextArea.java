@@ -35,6 +35,11 @@ public int minYScroll = 80;
 */
 public boolean homeCursorOnLostFocus = true;
 //==================================================================
+
+
+
+protected boolean forceClearCursor = false;
+
 //==================================================================
 protected int getItemHeight() 
 //==================================================================
@@ -295,6 +300,8 @@ public void doPaint(Graphics g,Rect area)
 	g.drawRect(0,0,r.width,r.height);
 	doPaintData(g,area);
 }
+
+
 //------------------------------------------------------------------
 protected void paintCursor(Graphics gr)
 //------------------------------------------------------------------
@@ -304,9 +311,14 @@ protected void paintCursor(Graphics gr)
 	if (hasCursor){
 		Rect r = new Rect(0,0,0,0);
 		if (getCharRect(curState.cursorPos,curState.cursorLine,r)){
-			Image i = new Image(2,r.height);
+//			Image i = new Image(2,r.height);
+			Image i = new Image(1,r.height);//dima
 			Graphics gi = new Graphics(i);
-			gi.setColor(0,0,0);//mColor.setColor(gi,getForeground());
+			if(cursorOn){//dima
+				gi.setColor(0,0,0);//mColor.setColor(gi,getForeground());
+			}else{
+				gi.setColor(255,255,255);//mColor.setColor(gi,getForeground());
+			}
 			gi.fillRect(0,0,r.width,r.height);
 			gi.free();
 			g.setDrawOp(g.DRAW_XOR);
@@ -428,6 +440,7 @@ protected boolean newCursorPos(int ch,int ln,boolean takeSel)
 //------------------------------------------------------------------
 {
 	boolean repainted = false;
+	cursorOn = false;//dima
 	clearCursor();
 	curState.cursorLine = ln;
 	curState.cursorPos = ch;
@@ -476,7 +489,10 @@ protected Point getPenChar(Point onControl)
 	return p;
 }
 //------------------------------------------------------------------
-protected void clearCursor() {if (cursorOn) paintCursor(null);}
+protected void clearCursor() {
+	cursorOn = false;//dima
+	/*if (cursorOn) */paintCursor(null);
+}
 //------------------------------------------------------------------
 //------------------------------------------------------------------
 protected String getLine(int index)
@@ -557,6 +573,20 @@ public void dragged(DragContext dc)
 		g.free();
 	}
 }
+
+
+
+public void insertText(String str){//dima
+	if(str == null) return;
+	int cl = curState.cursorLine;
+	if(cl < 0) return;
+	String s = getLine();
+	int cp = curState.cursorPos;
+	String suffix = s.substring(cp);
+	lines[cl] = s.substring(0,cp) + str + suffix;
+	fixText();
+}
+
 //==================================================================
 public void onKeyEvent(KeyEvent ev)
 //==================================================================
@@ -566,7 +596,6 @@ public void onKeyEvent(KeyEvent ev)
 	int sl = s.length();
 	int cl = curState.cursorLine;
 	int cp = curState.cursorPos;
-	
 	if (ev.key == IKeys.BACKSPACE) {
 		if (deleteSelection()) return;
 		if (cp > 0 && cp == s.length()) {
@@ -632,7 +661,6 @@ public void onKeyEvent(KeyEvent ev)
 		if (redoData || cp != s.length())
 			newText(s.substring(0,curState.cursorPos)+(char)ev.key+s.substring(curState.cursorPos,s.length()),curState.cursorPos+1,redoData);
 		else {
-			clearCursor();
 			lines[cl] += ""+(char)ev.key;
 			paintLastChar(null);
 			newCursorPos(cp+1,cl,false);

@@ -6,36 +6,38 @@ import extra.io.*;
 import org.concord.waba.extra.ui.*;
 import extra.ui.*;
 
-public class LObjDocument extends LabObject
-{
-    String text = null;
+public class LObjDocument extends LabObject{
+String 					text = null;
+public LObjDocumentView view = null;
 
-    public LObjDocument()
-    {
-	objectType = DOCUMENT;
-
+    public LObjDocument(){
+		objectType = DOCUMENT;
     }
 
-    public void setText(String t)
-    {
-	text = t;
+    public void setText(String t){
+		text = t;
     }
 
-    public LabObjectView getView(LObjViewContainer vc, boolean edit, LObjDictionary curDict)
-    {
-	return new LObjDocumentView(vc, this);
+    public LabObjectView getView(LObjViewContainer vc, boolean edit, LObjDictionary curDict){
+ 		if(view == null){ 
+ 			view = new LObjDocumentView(vc, this, edit);
+ 		}else if(view.container == null){
+    		view.container = vc;
+    		if(view.menu == null/* && edit*/){
+    			view.addMenus(vc);
+    		}
+    	}
+		return view;
     }
 
-    public void writeExternal(DataStream out)
-    {
-	super.writeExternal(out);
-	out.writeString(text);
+    public void writeExternal(DataStream out){
+		super.writeExternal(out);
+		out.writeString(text);
     }
 
-    public void readExternal(DataStream in)
-    {
-	super.readExternal(in);
+    public void readExternal(DataStream in){
+		super.readExternal(in);
 	
-	text = in.readString();
+		text = in.readString();
     }
 }
