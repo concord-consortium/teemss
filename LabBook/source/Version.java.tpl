@@ -19,7 +19,7 @@ package 	org.concord.LabBook;
 
 public class Version
 {
-final static public int BUILD 			= 6;
+final static public int BUILD 	  = _BUILD_VER_;
 final static public int VERSION   = _MAJOR_VER_;
 final static public int MVERSION1 = _MINOR1_VER_;
 final static public int MVERSION2 = _MINOR2_VER_;
