@@ -78,37 +78,31 @@ public class Choice extends extra.ui.List{
 			int height = this.height;
 			int x2 = width - 1;
 			int y2 = height - 1;
-			if (waba.sys.Vm.isColor()){
-				g.setColor(130, 130, 130);
-				g.drawLine(0, 0, x2 - 1, 0);
-				g.drawLine(0, 0, 0, y2 - 1);
-				g.setColor(0, 0, 0);
-				g.drawLine(1, 1, x2 - 2, 1);
-				g.drawLine(1, 1, 1, y2 - 2);
-				g.setColor(255, 255, 255);
-				g.drawLine(0, y2, x2, y2);
-				g.drawLine(x2, y2, x2, 0);
-				g.setColor(255, 255, 255);
-				g.fillRect(2, 2, width - 4, height - 4);
-			}else{
-				g.setColor(0, 0, 0);
-				g.drawDots(0, y2, x2, y2);
-			}
-			if (waba.sys.Vm.isColor()){
-				g.setColor(200, 200, 200);
-				g.fillRect(x2 - 15,1,14,initialYOffset - 3);
-				g.setColor(100, 100, 100);
-			}else{
-				g.setColor(0, 0, 0);
-			}
+
+			// java ish choice
+			g.setColor(130, 130, 130);
+			g.drawLine(0, 0, x2 - 1, 0);
+			g.drawLine(0, 0, 0, y2 - 1);
+			g.setColor(0, 0, 0);
+			g.drawLine(1, 1, x2 - 2, 1);
+			g.drawLine(1, 1, 1, y2 - 2);
+			g.setColor(255, 255, 255);
+			g.drawLine(0, y2, x2, y2);
+			g.drawLine(x2, y2, x2, 0);
+			g.setColor(255, 255, 255);
+			g.fillRect(2, 2, width - 4, height - 4);
+
+			g.setColor(200, 200, 200);
+			g.fillRect(x2 - 15,1,14,initialYOffset - 3);
+			g.setColor(100, 100, 100);
+
 			g.drawRect(x2 - 15,1,14,initialYOffset - 3);
-			if (waba.sys.Vm.isColor()){
-				g.setColor(0, 0, 0);
-				g.drawLine(x2 - 14, 1, x2 - 2, 1);
-				g.setColor(255, 255, 255);
-				g.drawLine(x2 - 14, 2, x2 - 14, initialYOffset - 4);
-				g.drawLine(x2 - 14, 2, x2 - 3, 2);
-			}
+			g.setColor(0, 0, 0);
+			g.drawLine(x2 - 14, 1, x2 - 2, 1);
+			g.setColor(255, 255, 255);
+			g.drawLine(x2 - 14, 2, x2 - 14, initialYOffset - 4);
+			g.drawLine(x2 - 14, 2, x2 - 3, 2);
+
 			g.setColor(0, 0, 0);
 			g.setClip(0,0,x2-12,height);
 			if(name != null){
@@ -124,10 +118,9 @@ public class Choice extends extra.ui.List{
 			while(currL > 0){
 				g.setColor(0, 0, 0);
 				g.drawLine(currX, currY, currX + currL, currY);
-				if (waba.sys.Vm.isColor()){
-					g.setColor(70, 70, 70);
-					g.drawLine(currX + currL + 1, currY, currX + currL+1, currY);
-				}
+				g.setColor(70, 70, 70);
+				g.drawLine(currX + currL + 1, currY, currX + currL+1, currY);
+
 				currL -= 2;
 				currX++;
 				currY++;

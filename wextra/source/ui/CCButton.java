@@ -11,10 +11,18 @@ boolean 	enabled = true;
 String 	text;
 Font 		font;
 boolean 	armed;
-
-
+	private static int style = -1;
+	final static int PALM_STYLE = 0;
+	final static int WIN_STYLE = 1;
 
 	public CCButton(String text){
+		if(style == -1){
+			if(Vm.getPlatform().equals("PalmOS")){
+				style = PALM_STYLE;
+			} else {
+				style = WIN_STYLE;
+			}
+		}
 		this.text = text;
 		this.font = MainWindow.defaultFont;
 	}
@@ -58,7 +66,8 @@ boolean 	armed;
 		}
 	}
 	public static void drawButton(Graphics g, boolean armed, int width, int height){
-		boolean isColor = Vm.isColor();
+		boolean isColor = style==WIN_STYLE;
+
 		int x2 = width - 1;
 		int y2 = height - 1;
 		if (!isColor){
@@ -109,7 +118,7 @@ boolean 	armed;
 
 	public void onPaint(waba.fx.Graphics g){
 		drawButton(g, armed, this.width, this.height);
-		if (armed && !Vm.isColor())
+		if (armed && style == PALM_STYLE)
 			g.setColor(255, 255, 255);
 		else
 			g.setColor(0, 0, 0);

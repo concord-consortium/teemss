@@ -246,10 +246,9 @@ public boolean isControlHDialogOwned(Control c){
     }
     // clear background
     ig.setClip(x, y, width, height);
-    if (Vm.isColor())
-      ig.setColor(200, 200, 200);
-    else
-      ig.setColor(255, 255, 255);
+
+	// all ce devices are at least grayscale
+	ig.setColor(200, 200, 200);
     ig.fillRect(x, y, width, height);
     onPaint(ig);
     ig.clearClip();

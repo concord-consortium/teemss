@@ -399,7 +399,7 @@ boolean embeddedState = false;
 			if(mode == MODE_NORMAL){
 				drawLine(drawg,lastX,lastY,penEvent.x,penEvent.y);
 			}
-			CCDrawPath newPath = new CCDrawPath((mode == MODE_ERASE)?1:0,waba.sys.Vm.isColor(),pen.w,pen.h,
+			CCDrawPath newPath = new CCDrawPath((mode == MODE_ERASE)?1:0,pen.w,pen.h,
 							(mode == MODE_ERASE)?255:pen.red,
 							(mode == MODE_ERASE)?255:pen.green,
 							(mode == MODE_ERASE)?255:pen.blue);
@@ -529,7 +529,6 @@ boolean embeddedState = false;
 
 class CCDrawPath{
 CCDrawPath 	next = null;
-boolean		colorMode = true;
 int			type;
 byte 			wPen = 1;
 byte 			hPen = 1;
@@ -543,9 +542,8 @@ public final static int BEGIN_PATH_ITEM = 10000;
 public final static int END_PATH_ITEM = 10001;
 public final static int END_PATH_LIST = 10002;
 
-	public CCDrawPath(int type,boolean colorMode,byte wPen,byte hPen,int rPen,int gPen,int bPen){
+	public CCDrawPath(int type,byte wPen,byte hPen,int rPen,int gPen,int bPen){
 		this.type = type;
-		this.colorMode = colorMode;
 		this.wPen = wPen;
 		this.hPen = hPen;
 		this.rPen = rPen;
@@ -559,7 +557,6 @@ public final static int END_PATH_LIST = 10002;
 //		int temp = in.readInt();
 //		if(temp != BEGIN_PATH_ITEM) return;
 		type = in.readInt();
-		in.readBoolean();//colorMode skip
 		wPen = in.readByte();
 		hPen = in.readByte();
 		rPen = in.readInt();
@@ -583,7 +580,6 @@ public final static int END_PATH_LIST = 10002;
 	public void writeExternal(extra.io.DataStream out){
 //		out.writeInt(BEGIN_PATH_ITEM);
 		out.writeInt(type);
-		out.writeBoolean(colorMode);
 		out.writeByte(wPen);
 		out.writeByte(hPen);
 		out.writeInt(rPen);
@@ -635,7 +631,7 @@ public final static int END_PATH_LIST = 10002;
 	}
 	
 	public String toString(){
-		return ("CCDrawPath type "+type+" color "+colorMode+" wPen "+wPen+" hPen "+hPen+" rPen "+rPen+" gPen "+gPen+" bPen "+bPen+" currPos "+currPos);
+		return ("CCDrawPath type "+type+" wPen "+wPen+" hPen "+hPen+" rPen "+rPen+" gPen "+gPen+" bPen "+bPen+" currPos "+currPos);
 	}
 }
 

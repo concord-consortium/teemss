@@ -257,10 +257,8 @@ public abstract class  ExtraMainWindow extends MainWindow implements ActionListe
 	// clear background
 	ig.setClip(x, y, width, height);
 
-	if (Vm.isColor())
-	    ig.setColor(200, 200, 200);
-	else
-	    ig.setColor(255, 255, 255);
+	// java style background
+	ig.setColor(200, 200, 200);
 
 	ig.fillRect(x, y, width, height);
 	onPaint(ig);
