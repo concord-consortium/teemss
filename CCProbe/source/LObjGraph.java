@@ -29,7 +29,7 @@ public class LObjGraph extends LObjSubDict
 		super(DataObjFactory.GRAPH);
 	}
 
-    public void showAxisProp()
+    public void showProp()
 	{
 		showAxisProp(0);
 	}

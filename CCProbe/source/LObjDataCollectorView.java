@@ -19,6 +19,7 @@ public class LObjDataCollectorView extends LabObjectView
     LObjGraphView gv;
     LObjDictionary dataDict = null;
     LObjGraph graph = null;
+	Vector rootSources = new Vector();
 
     Label nameLabel = null;
     Edit nameEdit = null;
@@ -41,13 +42,37 @@ public class LObjDataCollectorView extends LabObjectView
 							   LObjDictionary curDict)
     {
 		super(vc);
-		menu.add("Properties..");
+
+		graph = (LObjGraph)dc.getObj(0);
+
+		menu.add("Graph Properties..");
+		
+		Vector tempRootSources;
+		for(int i=0; i<graph.numDataSources; i++){
+			DataSource ds = (DataSource)graph.getDataSource(i);
+			tempRootSources = new Vector();
+			ds.getRootSources(tempRootSources);
+			for(int j=0; j<tempRootSources.getCount(); j++){
+				int index = rootSources.find(tempRootSources.get(j));
+				if(index < 0){
+					if(tempRootSources.get(j) instanceof LObjProbeDataSource){
+						rootSources.add(tempRootSources.get(j));
+					}
+				}
+			}
+		}
+		if(rootSources.getCount() > 0){
+			menu.add("Probe Settings..");
+		}
+
 		menu.add("Save Profile..");
 		menu.addActionListener(this);
 
 		this.dc = dc;
 		lObj = dc;
 		dataDict = curDict;
+
+
     }
 
 	public void addMenus()
@@ -115,7 +140,6 @@ public class LObjDataCollectorView extends LabObjectView
 		collectButton = new ToggleButton("Collect", false);
 		add(collectButton);
 
-		graph = (LObjGraph)dc.getObj(0);
 		graph.addLabObjListener(this);
 
 		gv = (LObjGraphView)graph.getView(this, false, dataDict);
@@ -183,21 +207,15 @@ public class LObjDataCollectorView extends LabObjectView
 		Debug.println("Got action: " + e.getActionCommand());
 
 		if(e.getSource() == menu){
-			if(e.getActionCommand().equals("Probe Properties..")){
+			if(e.getActionCommand().equals("Probe Settings..")){
 				stop(true);
 
-				Vector dataSources = dc.getDataSources();
-				if(dataSources == null || dataSources.getCount() < 1 ||
-				   !(dataSources.get(0) instanceof LObjProbeDataSource)){
-					return;
-				}
-
-				LObjProbeDataSource pds = (LObjProbeDataSource)dataSources.get(0);
+				LObjProbeDataSource pds = (LObjProbeDataSource)rootSources.get(0);
 				pds.showProp();
 
 				Debug.println("Callllll");
-			} else if(e.getActionCommand().equals("Properties..")){
-				graph.showAxisProp();
+			} else if(e.getActionCommand().equals("Graph Properties..")){
+				graph.showProp();
 			} else if(e.getActionCommand().equals("Save Profile...")){
 				/*
 				LObjDocument dProf = DefaultFactory.createDocument();
