@@ -12,7 +12,9 @@ import extra.util.*;
 
 public class LObjMinimizedView extends LabObjectView
 {
-
+public int rColor = 0;
+public int gColor = 0;
+public int bColor = 255;
     public LObjMinimizedView(LabObject obj)
     {
 		super(null);
@@ -27,7 +29,7 @@ public class LObjMinimizedView extends LabObjectView
 	public void onPaint(Graphics g)
 	{
 		if(lObj != null && lObj.name != null){
-			g.setColor(0,0,255);
+			g.setColor(rColor,gColor,bColor);
 			g.drawText(lObj.name, 0, 0);
 			FontMetrics fm = getFontMetrics(MainWindow.defaultFont);
 			int lineY = fm.getHeight()+1;

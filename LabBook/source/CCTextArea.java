@@ -108,7 +108,7 @@ EmbedObjectPropertyControl		objProperty;
 
 public class CCTextArea  extends Container implements ViewContainer, DialogListener{
 
-public static final int	version = 11;
+public static final int	version = 12;
 
 
 //CCStringWrapper		[] lines;
@@ -265,6 +265,14 @@ private CCStringWrapper textWasChosen = null;
 					if(lobj != null){
 						remove(objView);
 						objView = (currObjectViewDesc.link)?lobj.getMinimizedView():lobj.getView(this,false);
+						if(currObjectViewDesc.link){
+							LObjMinimizedView minView = (LObjMinimizedView)objView;
+							minView.rColor = ((currObjectViewDesc.linkColor & 0xFF0000) >> 16);
+							minView.rColor &= 0xFF;
+							minView.gColor = ((currObjectViewDesc.linkColor & 0xFF00) >> 8);
+							minView.gColor &= 0xFF;
+							minView.bColor &= currObjectViewDesc.linkColor & 0xFF;
+						}
 						objView.setEmbeddedState(true);
 						currObjectViewDesc.setObject(objView);
 						objView.layout(false);
@@ -299,6 +307,14 @@ private CCStringWrapper textWasChosen = null;
 			}
 			components = newComponents;
 			LabObjectView view = (obj.link)?labObject.getMinimizedView():labObject.getView(this,false);
+			if(obj.link){
+				LObjMinimizedView minView = (LObjMinimizedView)view;
+				minView.rColor = ((obj.linkColor & 0xFF0000) >> 16);
+				minView.rColor &= 0xFF;
+				minView.gColor = ((obj.linkColor & 0xFF00) >> 8);
+				minView.gColor &= 0xFF;
+				minView.bColor &= obj.linkColor & 0xFF;
+			}
 			view.setEmbeddedState(true);
 			components[nComponents] = obj;
 			components[nComponents].setObject(view);
@@ -353,6 +369,14 @@ private CCStringWrapper textWasChosen = null;
 			}
 			components = newComponents;
 			LabObjectView view = (objDesc.link)?labObject.getMinimizedView():labObject.getView(this,false);
+			if(objDesc.link){
+				LObjMinimizedView minView = (LObjMinimizedView)view;
+				minView.rColor = ((objDesc.linkColor & 0xFF0000) >> 16);
+				minView.rColor &= 0xFF;
+				minView.gColor = ((objDesc.linkColor & 0xFF00) >> 8);
+				minView.gColor &= 0xFF;
+				minView.bColor &= objDesc.linkColor & 0xFF;
+			}
 			view.setEmbeddedState(true);
 			components[nComponents] = objDesc;
 			components[nComponents].setObject(view);
@@ -443,6 +467,7 @@ private CCStringWrapper textWasChosen = null;
 	    		out.writeBoolean(d != null);
 	    		if(d == null) continue;
 	    		d.writeExternal(out);
+	    		out.writeInt(d.linkColor);
 	    	}
 	    }
     }
@@ -500,6 +525,9 @@ private CCStringWrapper textWasChosen = null;
 			boolean wasPart = in.readBoolean();
 			if(!wasPart) 	components[i] = null;
 			else			components[i] = new LBCompDesc(in);
+			if(version >= 12){
+				components[i].linkColor = in.readInt();
+			}
 		}
 
     }
@@ -840,7 +868,14 @@ private CCStringWrapper textWasChosen = null;
 					if(lobj != null){
 						cntrl = (c.link)?lobj.getMinimizedView():lobj.getView(this,false);
 						((LabObjectView)cntrl).setEmbeddedState(true);
-
+						if(c.link){
+							LObjMinimizedView minView = (LObjMinimizedView)cntrl;
+							minView.rColor = ((c.linkColor & 0xFF0000) >> 16);
+							minView.rColor &= 0xFF;
+							minView.gColor = ((c.linkColor & 0xFF00) >> 8);
+							minView.gColor &= 0xFF;
+							minView.bColor &= c.linkColor & 0xFF;
+						}
 						c.setObject(cntrl);
 					}
 				}
