@@ -13,8 +13,8 @@ rm -rf $download/*
 rm -rf $tempdir/*
 
 cp $bin/CCProbe.jar  $destination
-cp $doc/ccprobe-macos-classic/* $tempdir
-cp $doc/all/* $tempdir
+CpMac $doc/ccprobe-macos-classic/* $tempdir
+CpMac $doc/all/* $tempdir
 SetFile -c ttxt -t TEXT $tempdir/*
 CpMac $tempdir/* $destination
 cp $labbook/LabBook.PDB $destination

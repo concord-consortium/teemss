@@ -10,8 +10,8 @@ labbook=$workingcopy"/TeemssXML/LabBookXSL"
 rm -rf $destination/*
 rm -rf $download/*
 
-cp $doc/ccprobe-macosx/* $destination
-cp $doc/all/* $destination
+CpMac $doc/ccprobe-macosx/* $destination
+CpMac $doc/all/* $destination
 cp $labbook/LabBook.PDB $destination
 /Developer/Tools/CpMac -r $components/* $destination
 cp $bin/CCProbe.jar  $destination/CCProbe.app/Contents/Resources/Java/            
