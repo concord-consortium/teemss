@@ -9,6 +9,7 @@ import org.concord.LabBook.*;
 import org.concord.CCProbe.*;
 
 public class CCProbe extends MainView
+	implements DialogListener
 {
 
 	LabBookSession mainSession;
@@ -203,6 +204,18 @@ public class CCProbe extends MainView
 		}
 	}
 
+	Dialog beamLBDialog = null;
+    public void dialogClosed(DialogEvent e)
+	{
+		String command = e.getActionCommand();
+		if(e.getSource() == beamLBDialog){
+			if(command.equals("Beam")){
+				waba.sys.Vm.exec("CCBeam", "LabBook,,," +
+								 "LabBook for CCProbe", 0, true);
+			}
+		}
+	}
+
     public void reload(LabObjectView source)
     {
 		if(source != lObjView) Debug.println("Error source being removed");
@@ -244,8 +257,12 @@ public class CCProbe extends MainView
 			}else if(command.equals(aboutTitle)){
 				handleAbout();
 			} else if(command.equals("Beam LabBook")){
-				waba.sys.Vm.exec("CCBeam", "LabBook,,," +
-								 "LabBook for CCProbe", 0, true);
+				String [] buttons = {"Beam", "Cancel"};
+				beamLBDialog = Dialog.showConfirmDialog(this, "Confirm", 
+														"Close CCProbe on the receiving| " +
+														"Palm before beaming",
+														buttons,
+														Dialog.INFO_DIALOG);
 			} else if(command.equals("Serial Port Setup..")){
 				DataExport.showSerialDialog();
 			} else {
