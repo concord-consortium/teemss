@@ -108,7 +108,7 @@ EmbedObjectPropertyControl		objProperty;
 
 public class CCTextArea  extends Container implements ViewContainer, DialogListener{
 
-public static final int	version = 10;
+public static final int	version = 11;
 
 
 //CCStringWrapper		[] lines;
@@ -153,12 +153,18 @@ Vector	listeners;
 
 public final static int	yTextBegin = 2;
 
+
+LObjDictionary		objDictionary = null;
+
+private final static EmptyLabObject emptyObject = new EmptyLabObject();
+
 	public CCTextArea(LObjCCTextAreaView owner,MainView mainView,LObjDictionary dict,LObjSubDict subDictionary){
 		super();
 		this.mainView = mainView;
 		this.dict = dict;
 		this.subDictionary = subDictionary;
 		this.owner = owner;
+
 	}
 	
 	public void addTextAreaListener(TextAreaListener l){
@@ -295,7 +301,7 @@ public final static int	yTextBegin = 2;
 			components[nComponents].setObject(view);
 			components[nComponents].lineBefore = getLineIndex(curState.cursorRow + firstLine);
 			
-			if(subDictionary != null) subDictionary.setObj(labObject,nComponents);
+			setObj(labObject,nComponents);
 			view.layout(false);
 			add(view);
 			layoutComponents();
@@ -323,6 +329,47 @@ public final static int	yTextBegin = 2;
 			confirmDialogDeleteAll = null;
 		}
     }
+    
+    public void initLineDictionary(){
+    	if(subDictionary == null) return;
+    	LabObject zeroObject = subDictionary.getObj(0);
+		if(objDictionary == null){
+			if(zeroObject instanceof LObjDictionary){
+				objDictionary = (LObjDictionary)zeroObject;
+			}else{
+				objDictionary = DefaultFactory.createDictionary();
+				if(objDictionary == null) return;
+				if(subDictionary.getNumObjs() > 0){
+					for(int i = subDictionary.getNumObjs(); i >= 0; i--){
+						LabObject o = subDictionary.getObj(i);
+						subDictionary.setObj(o,i+1);
+					}
+				}
+				subDictionary.setObj(objDictionary,0);
+			}
+		}
+
+    }
+    
+    public void setObj(LabObject lobj,int index){
+		if(subDictionary == null) return;
+    	LabObject zeroObject = subDictionary.getObj(0);
+    	if(zeroObject instanceof LObjDictionary){
+			subDictionary.setObj(lobj,index + 1);
+    	}else{
+			subDictionary.setObj(lobj,index);
+		}
+    }
+    public LabObject getObj(int index){
+    	if(subDictionary == null) return null;
+    	LabObject zeroObject = subDictionary.getObj(0);
+    	if(zeroObject instanceof LObjDictionary){
+    		return subDictionary.getObj(index + 1);
+    	}
+    	return subDictionary.getObj(index);
+    }
+
+    
     public void writeExternal(DataStream out){
     	out.writeString(getText());
  //   	out.writeBoolean(components != null);
@@ -343,11 +390,16 @@ public final static int	yTextBegin = 2;
 				int b = (strWrapper == null)?0:strWrapper.bColor;
 				boolean underline = (strWrapper == null)?false:strWrapper.underline;
 				boolean link = (strWrapper == null)?false:strWrapper.link;
+				int indexInDict = (strWrapper == null)?-1:strWrapper.indexInDict;
 				out.writeInt(r);
 				out.writeInt(g);
 				out.writeInt(b);
 				out.writeBoolean(underline);
 				out.writeBoolean(link);
+				out.writeInt(indexInDict);
+				out.writeInt(0);//reserved
+				out.writeInt(0);//reserved
+				out.writeInt(0);//reserved
     		}
     	}
     	for(int i = 0; i < components.length; i++){
@@ -365,8 +417,8 @@ public final static int	yTextBegin = 2;
 		int nComp = in.readInt();
 		if(nComp == 0) return;
 		if(nComp < 0){
-			int version = in.readInt();
-			if(version <= 0) return;
+			int rVersion = in.readInt();
+			if(rVersion <= 0) return;
 			nComp = -nComp - 1;
 			wasComponents = (nComp > 0);
 			int nLines = in.readInt();
@@ -385,6 +437,13 @@ public final static int	yTextBegin = 2;
 				int b = in.readInt();
 				boolean underline = in.readBoolean();
 				boolean link = in.readBoolean();
+				int indexInDict = -1;
+				if(rVersion > 10){
+					indexInDict = in.readInt();
+					in.readInt();//reserved
+					in.readInt();//reserved
+					in.readInt();//reserved
+				}
 				if(doRestore){
 					CCStringWrapper strWrapper = (CCStringWrapper)lines.get(l);
 					if(strWrapper == null) continue;
@@ -495,12 +554,12 @@ public final static int	yTextBegin = 2;
 						if(view != null){
 							remove(view);
 						}
-						if(subDictionary != null) subDictionary.setObj(null,i);
+						setObj(null,i);
 						for(int j = i; j < components.length - 1; j++){
 							components[j] = components[j+1];
 							LabObjectView 	oView = (LabObjectView)components[j].getObject();
 							LabObject 		tempObj = (oView == null)?null:oView.getLabObject();
-							if(subDictionary != null) subDictionary.setObj(tempObj,j);
+							setObj(tempObj,j);
 						}
 						int nComp = components.length - 1;
 						if(nComp < 1){
@@ -547,7 +606,7 @@ public final static int	yTextBegin = 2;
 			for(int i = 0; i < components.length; i++){
 				LabObjectView view = (LabObjectView)components[i].getObject();
 				if(view != null) remove(view);
-				if(subDictionary != null) subDictionary.setObj(null,i);
+				setObj(null,i);
 			}
 			components = null;
 			if(doLayout) layoutComponents();
@@ -678,7 +737,7 @@ public final static int	yTextBegin = 2;
 				if(cntrl != null){//?
 					remove(cntrl);
 				}else{
-					LabObject lobj = subDictionary.getObj(i);
+					LabObject lobj = getObj(i);
 					if(lobj != null){
 						cntrl = (c.link)?lobj.getMinimizedView():lobj.getView(this,false);
 						((LabObjectView)cntrl).setEmbeddedState(true);
@@ -739,6 +798,7 @@ public final static int	yTextBegin = 2;
 			newWrapper.bColor = oldWrapper.bColor;
 			newWrapper.link = oldWrapper.link;
 			newWrapper.underline = oldWrapper.underline;
+			newWrapper.indexInDict = oldWrapper.indexInDict;
 		}
 	}
 
@@ -880,6 +940,8 @@ public final static int	yTextBegin = 2;
 			}
 		}
 		repaint();
+		
+		
 	}
 	public void onControlEvent(ControlEvent ev){
 		if(ev.type == EmbedObjectPropertyControl.NEED_DEFAULT_SIZE && ev.target == currObjPropControl){
@@ -1268,9 +1330,6 @@ public final static int	yTextBegin = 2;
 				currObjectViewDesc = null;
 				repaint();
 			}
-			if(!getEditMode()){
-				return;
-			}
 			if(compDesc != null) return;
 			int x = 0;
 			int h = getItemHeight();
@@ -1283,14 +1342,33 @@ public final static int	yTextBegin = 2;
 			}else if(lineIndex >= 0 && lineIndex < lines.getCount()){
 				CCStringWrapper sw = (CCStringWrapper)lines.get(lineIndex);
 				
-				
-				MainWindow mw = MainWindow.getMainWindow();
-				if((mw instanceof ExtraMainWindow)){
-					TextObjPropertyView tPropView = new TextObjPropertyView(null,sw);
-					TextObjPropertyViewDialog dialog = new TextObjPropertyViewDialog((ExtraMainWindow)mw, this,"Properties",tPropView);
-					dialog.setRect(0,0,150,150);
-					dialog.show();		
+				if(getEditMode()){
+					MainWindow mw = MainWindow.getMainWindow();
+					if((mw instanceof ExtraMainWindow)){
+						TextObjPropertyView tPropView = new TextObjPropertyView((ExtraMainWindow)mw,(LObjDictionary)LabObject.lBook.load(LabObject.lBook.getRoot()), null,sw);
+						ViewDialog dialog = new ViewDialog((ExtraMainWindow)mw, this,"Properties",tPropView);
+						dialog.setRect(0,0,150,150);
+						dialog.show();		
+					}
+				}else{
+					if(sw.link){
+						System.out.println("indexInDict "+sw.indexInDict);
+					}
+					if(sw.link && objDictionary != null && sw.indexInDict >= 0){
+						TreeNode node = objDictionary.getChildAt(sw.indexInDict);
+						if(node == null) return;
+						LabObject linkObj = objDictionary.getObj(node);
+						if(linkObj == null) return;
+
+						LabObjectView realView = linkObj.getView(this,false);
+						if(realView != null) realView.setShowMenus(true);
+						if(owner != null){
+							owner.addChoosenLabObjView(realView);
+						}
+					}
+					return;
 				}
+				
 				
 				int rIndex = row - 1 - sw.beginRow;
 				if(rIndex >= 0 && rIndex < sw.delimiters.length / 2){
@@ -1315,6 +1393,9 @@ public final static int	yTextBegin = 2;
 						}
 					}
 				}
+			}
+			if(!getEditMode()){
+				return;
 			}
 			if(hasCursor) clearCursor();
 			else		  restoreCursor();
@@ -1423,8 +1504,9 @@ int		rColor = 0;
 int		gColor = 0;
 int		bColor = 0;
 
-boolean	underline 	= false;
-boolean	link 		= false;
+boolean		underline 	= false;
+boolean		link 		= false;
+int			indexInDict = -1;
 
 	CCStringWrapper(CCTextArea owner,String str,int beginRow){
 		this.owner = owner;
@@ -1568,7 +1650,7 @@ boolean	link 		= false;
 				int x = (i >= numbTotalRows || owner.rows == null)?beginPos:((CCTARow)owner.rows.get(i)).beginPos;
 				int index = (i - beginRow)*2;
 				gr.drawText(chars,delimiters[index],delimiters[index+1] - delimiters[index],x,y);
-				if(underline){
+				if(underline || link){
 					int xEnd = x;
 					FontMetrics fm = owner.getFontMetrics();
 					int lineY = h - 2;
@@ -1632,15 +1714,6 @@ LabObjectView	checkView;
 }
 
 
-class TextObjPropertyViewDialog extends ViewDialog{
-CCTextArea		textArea;
-	public 	TextObjPropertyViewDialog(ExtraMainWindow owner,CCTextArea textArea,String title, 
-						  LabObjectView view){
-		super(owner,textArea,title,view);
-		this.textArea 		= textArea;
-	}
-}
-
 
 class TextObjPropertyView extends LabObjectView{
 CCStringWrapper stringWrapper;
@@ -1650,10 +1723,17 @@ public Edit		colorEdit;
 public Label	colorLabel;
 public Check	underLineCheck;
 public Check	linkCheck;
+ExtraMainWindow owner;
+LObjDictionary dict;
 
-	public TextObjPropertyView(ViewContainer vc, CCStringWrapper stringWrapper){
+LObjDictionaryView	view;
+
+
+	public TextObjPropertyView(ExtraMainWindow owner,LObjDictionary dict,ViewContainer vc, CCStringWrapper stringWrapper){
 		super(vc);
 		this.stringWrapper 	= stringWrapper;
+		this.dict 	= dict;
+		this.owner 	= owner;
 	}
 	public void layout(boolean sDone){
 		if(didLayout) return;
@@ -1690,6 +1770,12 @@ public Check	linkCheck;
 				linkCheck.setChecked(stringWrapper.link);
 			}
 		}
+		if(view == null && container != null && dict != null){
+			view = (LObjDictionaryView)dict.getView(container, true);
+			view.viewFromExternal = true;
+			view.layout(false);
+			add(view);
+		}
 
 		if(doneButton == null){
 			doneButton = new Button("Done");
@@ -1717,6 +1803,9 @@ public Check	linkCheck;
 		}
 		if(linkCheck != null){
 			linkCheck.setRect(65,40,50,15);
+		}
+		if(view != null){
+			view.setRect(2,60,width - 4,height - 77);
 		}
 		
 		
@@ -1795,6 +1884,26 @@ public Check	linkCheck;
 					stringWrapper.bColor = byteFromHexa(strColor.substring(4,6));
 					
 				}
+				stringWrapper.indexInDict = -1;
+				if(stringWrapper.link && (view != null) && (stringWrapper.owner != null) && (stringWrapper.owner.objDictionary != null)){
+					TreeNode curNode = view.treeControl.getSelected();
+					System.out.println("selected "+curNode);
+					if(curNode != null){
+						LabObject obj = dict.getObj(curNode);
+						if(obj != null){
+							TreeNode objNode = LObjDictionary.getNode(obj);
+							int dIndex = stringWrapper.owner.objDictionary.getIndex(objNode);
+							if(dIndex >= 0){
+								stringWrapper.indexInDict = dIndex;
+							}else{
+								stringWrapper.owner.objDictionary.add(obj);
+								stringWrapper.indexInDict = stringWrapper.owner.objDictionary.getChildCount() - 1;
+							}
+						}
+					}
+				}		
+
+
 				if(strEdit != null && stringWrapper.owner != null){
 					stringWrapper.owner.changeLineContent(strEdit.getText(),stringWrapper);
 				}
@@ -1802,7 +1911,8 @@ public Check	linkCheck;
 			}	 
 		}
 	}
-	
-	
+}
 
+final class EmptyLabObject extends LabObject{
+	public EmptyLabObject(){super(-1);}
 }

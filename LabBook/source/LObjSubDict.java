@@ -53,7 +53,7 @@ public abstract class LObjSubDict extends LabObject
 
 	public int getNumObjs()
 	{
-		return dict.getChildCount() - 1;
+		return (dict == null)?0:dict.getChildCount() - 1;
 	}
 
     public void setObj(LabObject obj, int id)

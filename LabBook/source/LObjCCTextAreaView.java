@@ -217,11 +217,13 @@ CCScrollBar				scrollBar;
 
 		if(tArea == null){
 			tArea = new CCTextArea(this,container.getMainView(),doc.curDict,doc);
+
 		}else{
 			tArea.mainView 	= container.getMainView();
 			tArea.dict 		= doc.curDict;
 			tArea.subDictionary = doc;
 		}
+		tArea.initLineDictionary();
 		tArea.addTextAreaListener(this);
 		if(insertButton == null) insertButton = new Button("Insert");
 		if(tArea == null || tArea.getEditMode()){
