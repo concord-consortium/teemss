@@ -178,9 +178,9 @@ public class LObjGraph extends LObjSubDict
 			numDataSources = 0;
 		}
 		if(ds instanceof LabObject){
-			setObj((LabObject)ds, numDataSources);
+			setObj((LabObject)ds, numDataSources+1);
 		} else {
-			setObj(null, numDataSources);
+			setObj(null, numDataSources+1);
 		}
 
 		GraphSettings gs = null;
@@ -208,10 +208,21 @@ public class LObjGraph extends LObjSubDict
 		numDataSources++;
 	}
 
+	public void setDataDict(LObjDictionary dict)
+	{
+		setObj(dict, 0);
+	}
+	public LObjDictionary getDataDict(LabBookSession session)
+	{
+		LabObject dict = getObj(0, session);
+		if(dict instanceof  LObjDictionary)return (LObjDictionary)dict;
+		else return null;
+	}
+
 	public DataSource getDataSource(int index, LabBookSession session)
 	{
 		if(index >= 0 && index < numDataSources){
-			LabObject obj = getObj(index, session);
+			LabObject obj = getObj(index+1, session);
 			if(obj instanceof DataSource){
 				return (DataSource)obj;
 			} 
@@ -258,7 +269,11 @@ public class LObjGraph extends LObjSubDict
 								 LObjDictionary curDict,
 								 LabBookSession session)
     {
-		return new LObjGraphView(vc, this, curDict, session);
+		LObjDictionary dataDict = getDataDict(session);
+		if(dataDict == null){
+			dataDict = curDict;
+		}
+		return new LObjGraphView(vc, this, dataDict, session);
     }
 
     public void readExternal(DataStream ds)
@@ -435,6 +450,7 @@ public class LObjGraph extends LObjSubDict
 				dsGraph.addDataSource(dSet, true, 0, 0, session);
 				dsGraph.store();
 				dSet.store();
+				dataDict.store();
 			} else {
 				// for now it is an error
 				// latter it should ask the user for the name
