@@ -153,8 +153,8 @@ public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
 	}else{
 		int  	chPerSample = e.dataDesc.getChPerSample();
 		int	dataIndex = 0;
+		dEvent.setTime(t0);
 		for(int i = 0; i < ndata; i+=chPerSample){
-			dEvent.setTime(t0 + dtChannel*(float)i);
 			switch(outputMode){
 				case CURRENT_OUT:
 					data[dataIndex] = (dataEvent[nOffset+i] - zeroPointCurrent)/currentResolution;
@@ -166,12 +166,12 @@ public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
 					break;
 				case WATT_OUT:
 				case ENERGY_OUT:
-					float		amper = (data[nOffset+i] - zeroPointCurrent)/currentResolution;
-					float		voltage = (data[nOffset+i +1] - zeroPointVoltage)/voltageResolution;
-					data[dataIndex] = amper*voltage;
+					float		amper = (dataEvent[nOffset+i] - zeroPointCurrent)/currentResolution;
+					float		voltage = (dataEvent[nOffset+i +1] - zeroPointVoltage)/voltageResolution;
+					dataEvent[dataIndex] = amper*voltage;
 					if(outputMode == ENERGY_OUT){
-						energy 	+= data[dataIndex]*dDesc.dt; 
-						data[dataIndex] 	= energy;
+						energy 	+= dataEvent[dataIndex]*dDesc.dt; 
+						dataEvent[dataIndex] 	= energy;
 					}
 					break;
 			}
