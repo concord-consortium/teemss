@@ -1,79 +1,93 @@
 <?xml encoding="UTF-8"?>
-<!ENTITY % TEXT1 "#PCDATA | image | ext-image-sequence | ext-image | p"> 
-<!ENTITY % TEXT "(%TEXT1;)*">
-<!ENTITY % TEXT2 "%TEXT1; | equation | table | ul">
-<!ENTITY % TEXT3 "%TEXT1; | query-response">
+<!ENTITY % TEXT "#PCDATA | image |  shared-image | p">
+<!ENTITY % INVESTIGATION_TEXT "%TEXT; | ext-image-sequence | ext-image"> 
+<!ENTITY % TEACHER_NOTE_TEXT "%INVESTIGATION_TEXT; | equation | table | ul | teacher-questions">
 
-<!ELEMENT project (title, skill-list?, unit+)>
+<!ELEMENT project (title, skill-list?, tech-hint-list?, unit+)>
+<!ATTLIST project name CDATA #REQUIRED >
+
 <!ELEMENT title (#PCDATA)>
-  <!ATTLIST project name CDATA #REQUIRED >
+
 <!ELEMENT unit (title, investigation+)>
-  <!ATTLIST unit       name CDATA #REQUIRED> 
+<!ATTLIST unit       name CDATA #REQUIRED> 
+
 <!ELEMENT investigation (title, teacher-notes?, summary, question, 
                          intro, think, materials, safety, trial+, 
                          hints, analysis, further)>
-  <!ATTLIST investigation name CDATA #REQUIRED >
-<!ELEMENT teacher-notes (teacher-intro, teacher-discuss, teacher-background, teacher-timeline)>
-<!ELEMENT teacher-intro (summary, skills)>
-<!ELEMENT skills (skill-ref*)>
-<!ELEMENT skill-ref EMPTY>
-  <!ATTLIST skill-ref ref CDATA #REQUIRED>
-<!ELEMENT skill-list (skill*)>
-<!ELEMENT skill (#PCDATA)>
-  <!ATTLIST skill name CDATA #REQUIRED>
+<!ATTLIST investigation name CDATA #REQUIRED >
 
-<!ELEMENT teacher-discuss (teacher-overview, teacher-stage, teacher-wrap)>
-<!ELEMENT teacher-overview (%TEXT2; | teacher-questions)*>
-<!ELEMENT teacher-stage (%TEXT2; | teacher-questions)*>
-<!ELEMENT teacher-questions (question, answer?)*>
-<!ELEMENT teacher-wrap (%TEXT2; | teacher-questions)*>
-<!ELEMENT answer (#PCDATA)>
-
-<!ELEMENT teacher-background (%TEXT2;)*>
-<!ELEMENT teacher-timeline (time-period)*>
-<!ELEMENT time-period EMPTY>
-<!ATTLIST time-period 
-     periods CDATA #REQUIRED
-     type (setup|wrap|trial) #REQUIRED
-     number CDATA #IMPLIED
->
-
-<!ELEMENT summary (#PCDATA)>
-<!ELEMENT question (#PCDATA)>
-<!ELEMENT intro    %TEXT;>
-<!ELEMENT think    (%TEXT3;)*>
-<!ELEMENT safety (item+)>
-<!ELEMENT materials (ext-image?,item+)>
-<!ELEMENT trial (%TEXT1; | instructions | steps)*>
-  <!ATTLIST trial title   CDATA #REQUIRED>
-<!ELEMENT instructions (instruction+)>
-<!ELEMENT instruction (%TEXT1; | steps)*>
-<!ATTLIST instruction title CDATA #REQUIRED>
-<!ELEMENT steps (step | query-reponse)+>
-<!ELEMENT step (%TEXT1; | steps)*>
-
-<!ELEMENT hints (hint+)>
-<!ELEMENT hint (title,heading?,body?)>
-<!ELEMENT heading (#PCDATA)>
-<!ELEMENT body %TEXT;>
-<!ELEMENT analysis (data*, steps)>
-<!ELEMENT data EMPTY>
-  <!ATTLIST data trial CDATA #REQUIRED>
-<!ELEMENT further (item+)>
-<!ELEMENT item %TEXT;>
-
-<!ELEMENT query-response (query-description,querys,query-static-link?)>
+<!ELEMENT query-response (query-description, querys, query-static-link?)>
 <!ATTLIST query-response
-  title    CDATA #REQUIRED 
+  title    CDATA                          #REQUIRED 
   type    (predict | describe | explain)  #REQUIRED
-  layout  (paragraph | list)          #REQUIRED>
+  layout  (paragraph | list)              #REQUIRED>
+
 <!ELEMENT query-description (#PCDATA)>
 <!ELEMENT querys (query+)>
 <!ELEMENT query (#PCDATA)*>
 <!ATTLIST query
-  drawing-response  (true | false)  #REQUIRED
-  note-response     (true | false)  #REQUIRED>
+  drawing-response  (true | false)        #REQUIRED
+  note-response     (true | false)        #REQUIRED>
 <!ELEMENT query-static-link (#PCDATA)>
+
+<!ELEMENT teacher-notes (teacher-intro, teacher-discuss, teacher-background, teacher-timeline)>
+<!ELEMENT teacher-intro (summary, skills)>
+
+<!ELEMENT skills (skill-ref*)>
+<!ELEMENT skill-ref EMPTY>
+<!ATTLIST skill-ref ref CDATA #REQUIRED>
+
+<!ELEMENT skill-list (skill*)>
+
+<!ELEMENT skill (#PCDATA)>
+<!ATTLIST skill name CDATA #REQUIRED>
+
+<!ELEMENT tech-hint-list (tech-hint*)>
+<!ELEMENT tech-hint (title, heading, tech-hint-body)>
+<!ATTLIST tech-hint name CDATA #REQUIRED>
+<!ELEMENT heading (#PCDATA)>
+<!ELEMENT tech-hint-body (%TEXT; | shared-image-sequence)*>
+<!ELEMENT tech-hint-ref EMPTY>
+<!ATTLIST tech-hint-ref ref CDATA #REQUIRED>
+
+<!ELEMENT teacher-discuss (teacher-overview, teacher-stage, teacher-wrap)>
+<!ELEMENT teacher-overview (%TEACHER_NOTE_TEXT;)*>
+<!ELEMENT teacher-stage (%TEACHER_NOTE_TEXT;)*>
+<!ELEMENT teacher-questions (question, answer?)*>
+<!ELEMENT teacher-wrap (%TEACHER_NOTE_TEXT;)*>
+<!ELEMENT answer (#PCDATA)>
+
+<!ELEMENT teacher-background (%TEACHER_NOTE_TEXT;)*>
+<!ELEMENT teacher-timeline (time-period)*>
+<!ELEMENT time-period EMPTY>
+<!ATTLIST time-period 
+     periods    CDATA              #REQUIRED
+     type       (setup|wrap|trial) #REQUIRED
+     number     CDATA              #IMPLIED
+>
+
+<!ELEMENT summary (#PCDATA)>
+<!ELEMENT question (#PCDATA)>
+<!ELEMENT intro    (%INVESTIGATION_TEXT;)*>
+<!ELEMENT think    (%INVESTIGATION_TEXT; | query-response)*>
+<!ELEMENT safety (item+)>
+<!ELEMENT materials (ext-image?,item+)>
+<!ELEMENT trial (%INVESTIGATION_TEXT; | instructions | steps)*>
+  <!ATTLIST trial title   CDATA #REQUIRED>
+<!ELEMENT instructions (instruction+)>
+<!ELEMENT instruction (%INVESTIGATION_TEXT; | steps)*>
+<!ATTLIST instruction title CDATA #REQUIRED>
+<!ELEMENT steps (step | query-response)+>
+<!ELEMENT step (%INVESTIGATION_TEXT; | steps)*>
+
+<!ELEMENT hints (hint | tech-hint-ref)+>
+<!ELEMENT hint (title,heading?,body?)>
+<!ELEMENT body (%TEXT;)*>
+<!ELEMENT analysis (data*, steps)>
+<!ELEMENT data EMPTY>
+  <!ATTLIST data trial CDATA #REQUIRED>
+<!ELEMENT further (item+)>
+<!ELEMENT item (%INVESTIGATION_TEXT;)*>
 
 <!ELEMENT ext-image EMPTY>
 <!ATTLIST ext-image 
@@ -85,19 +99,19 @@
      name          CDATA             #REQUIRED
      screenshot    (true | false)    #IMPLIED
 >
+<!ELEMENT shared-image-sequence (shared-image)+>
 
 <!ELEMENT ext-image-sequence (ext-image | shared-image)+>
-
 
 <!ELEMENT image EMPTY>
   <!ATTLIST image name CDATA #REQUIRED>
   <!ATTLIST image  dir CDATA #REQUIRED>
-<!ELEMENT p %TEXT;>
+<!ELEMENT p (%TEXT;)*>
 
 <!ELEMENT equation (#PCDATA)>
 <!ELEMENT table (th?, tr*)>
 <!ELEMENT th (td)*>
 <!ELEMENT tr (td)*>
-<!ELEMENT td %TEXT;>
+<!ELEMENT td (%INVESTIGATION_TEXT;)*>
 <!ELEMENT ul (li)*>
-<!ELEMENT li %TEXT;>
+<!ELEMENT li (%INVESTIGATION_TEXT;)*>
