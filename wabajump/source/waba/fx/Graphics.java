@@ -552,7 +552,7 @@ public class Graphics
     * @param b the blue value (0..255)
     */
     static RGBColor curColor = new RGBColor(0,0,0,0);
-    static final int CACHE_SIZE = 256;
+    static final int CACHE_SIZE = 16;
     int [] colCache = new int [CACHE_SIZE];
     byte [] colCacheI = new byte [CACHE_SIZE];
     int numColsCached = 0;
@@ -660,6 +660,11 @@ public class Graphics
       tx+=x;
       ty+=y;
    }
+
+    public void translateZero()
+    {
+	tx = 0; ty = 0;
+    }
 
    private void debug(String sText)
    {
