@@ -118,9 +118,11 @@ public final static int UNIT_CODE_TORR				= 52;
 public final static int UNIT_CODE_ANG_VEL			= 53;
 public final static int UNIT_CODE_LINEAR_VEL		= 54;
 public final static int UNIT_CODE_AMPERE			= 55;
-public final static int UNIT_CODE_VOLT			= 56;
-public final static int UNIT_CODE_COULOMB		= 57;
-public final static int UNIT_CODE_MILLIVOLT		= 58;
+public final static int UNIT_CODE_VOLT				= 56;
+public final static int UNIT_CODE_COULOMB			= 57;
+public final static int UNIT_CODE_MILLIVOLT			= 58;
+public final static int UNIT_CODE_LUMEN				= 59;
+public final static int UNIT_CODE_LUX				= 60;
 
 public final static int UNIT_CAT_UNKNOWN			= 0;
 public final static int UNIT_CAT_LENGTH			= 1;
@@ -134,7 +136,8 @@ public final static int UNIT_CAT_FORCE				= 8;
 public final static int UNIT_CAT_POWER				= 9;
 public final static int UNIT_CAT_PRESSURE			= 10;
 public final static int UNIT_CAT_MISC				= 11;
-public final static int UNIT_CAT_ELECTRICITY				= 12;
+public final static int UNIT_CAT_ELECTRICITY		= 12;
+public final static int UNIT_CAT_LIGHT				= 13;
 
 
 private  static CCUnit 	[]unitTable = 
@@ -199,6 +202,8 @@ private  static CCUnit 	[]unitTable =
 		new CCUnit("volt","V",true,UNIT_CAT_ELECTRICITY,UNIT_CODE_VOLT,UNIT_CODE_VOLT,2,1,-3,-1,0,0,0,0,0,1f,0.0f,false),
 		new CCUnit("coulomb","Q",true,UNIT_CAT_ELECTRICITY,UNIT_CODE_COULOMB,UNIT_CODE_COULOMB,0,0,1,1,0,0,0,0,0,1f,0.0f,false),
 		new CCUnit("millivolt","mV",true,UNIT_CAT_ELECTRICITY,UNIT_CODE_MILLIVOLT,UNIT_CODE_VOLT,2,1,-3,-1,0,0,0,0,0,0.001f,0.0f,false),
+		new CCUnit("lumen","lm",true,UNIT_CAT_LIGHT,UNIT_CODE_LUMEN,UNIT_CODE_WATT,2,1,-3,0,0,0,0,0,0,0.0014641288f,0.0f,false),
+		new CCUnit("lux","lx",true,UNIT_CAT_LIGHT,UNIT_CODE_LUX,UNIT_CODE_LUX,0,1,-3,0,0,0,0,0,0,0.0014641288f,0.0f,false),
 
 
 	};
