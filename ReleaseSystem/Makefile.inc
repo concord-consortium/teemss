@@ -43,6 +43,8 @@ build-tag:
 	cvs update $(basename $(VERSION_TEMPLATE))
 	@$(MAKE) --no-print-directory cvs-diff
 	@$(call MAKE_DEP, cvs-diff)
+	@$(MAKE) --no-print-directory cvs-update
+	@$(call MAKE_DEP, cvs-update)
 	$(MAKE) update-build
 	$(call MAKE_DEP, )
 	$(MAKE) 
@@ -58,6 +60,10 @@ endif
 tag:
 	@echo "You must make a version or branch first for " $(MOD_NAME)
 	@exit 1
+
+cvs-update:
+	@echo UPDATING $(CURDIR) WITH REPOSITORY
+	cvs update -d
 
 cvs-diff:
 	@echo CHECKING IF $(CURDIR) IS SYNCED WITH REPOSITORY
