@@ -338,6 +338,8 @@ public class CCProbe extends ExtraMainWindow
 
 	LabObjectView curFullView = null;
 
+	/* Might want to keep a vector of active views
+	 */
 	public void showFullWindowView(LabObjectView view)
 	{
 		if(view == curFullView){
