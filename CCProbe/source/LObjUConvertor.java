@@ -117,6 +117,16 @@ class LObjUConvertorView extends LabObjectView
 			add(doneButton);
 			doneButtonWasAdded = true;
 		}
+		if(nameEdit == null) nameEdit = new Edit();
+		nameEdit.setText(getLabObject().name);
+		if(nameLabel == null) nameLabel = new Label("Name");
+		if(getEmbeddedState()){
+			nameEditWasAdded = false;
+		}else{
+			add(nameLabel);
+			add(nameEdit);
+			nameEditWasAdded = true;
+		}
 	}
 	public void setEmbeddedState(boolean embeddedState){
 		boolean oldState = getEmbeddedState();
@@ -216,17 +226,7 @@ class LObjUConvertorView extends LabObjectView
 		}
 
 		
-		if(nameEdit == null) nameEdit = new Edit();
-		nameEdit.setText(getLabObject().name);
-		if(nameLabel == null) nameLabel = new Label("Name");
 		
-		if(getEmbeddedState()){
-			nameEditWasAdded = false;
-		}else{
-			add(nameLabel);
-			add(nameEdit);
-			nameEditWasAdded = true;
-		}
 	}
 	public int getPreferredWidth(waba.fx.FontMetrics fm){
 		return 100;
