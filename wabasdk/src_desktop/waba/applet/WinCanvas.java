@@ -259,6 +259,7 @@ public static int actionKeyValue(int action)
 		case java.awt.Event.DELETE:     key = IKeys.DELETE; break;
 
 		case java.awt.Event.F6:     	key = IKeys.MENU; break;
+		case java.awt.Event.F7:     	key = 76000; break;
 
 		}
 
