@@ -447,7 +447,7 @@ DeviationControl	devControl;
 		boolean doFFT = false;
 		if(dataEvent.getNumbSamples() > 0){
 		    if(!doFFT) dataFFT[dataPointer++] = data[nOffset];
-		    if(dataPointer >= dataDim) doFFT = true;
+//		    if(dataPointer >= dataDim) doFFT = true;
 		    totalSumm += data[nOffset];
 		    totalSamples++;
 		    if(totalSamples > 1){
