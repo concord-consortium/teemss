@@ -66,10 +66,10 @@ warp: $(BIN_DIR) $(WARP_PLATFORM)
 -classpath .:$(call PLATFORM_CP,$(WARP_PLATFORM)):$(WEXTRA_CLASSES-ce):$(WEXTRA_CLASSES-other) \
 wababin.Warp c ../../$(BIN_DIR)/$(MW_CLASS) $(MW_CLASS).class
 
-exegen: 
+exegen: $(BIN_DIR) 
 	cd $(CLASSES_DIR); java -classpath $(WEXTRAS_DIR) wababin.Exegen /l $(EXE_CLASS_HEAP_SIZE) /m $(EXE_OBJ_HEAP_SIZE) /s 5000 /t 50 $(MW_CLASS) $(MW_CLASS) $(MW_CLASS); mv $(MW_CLASS).lnk ../bin
 
-jump: $(CLASSES_DIR)/$(JUMP_PLATFORM)
+jump: $(BIN_DIR) $(CLASSES_DIR)/$(JUMP_PLATFORM)
 	cd $(WJUMP_DIR);pilrc -R $(MW_CLASS).res $(MW_CLASS).rcp
 ifeq ($(JUMP_PLATFORM),)
 	javac -classpath $(CLASSPATH):$(call ARCHIVE_CP,palm):$(WABAJUMP_DIR)  \
