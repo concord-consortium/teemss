@@ -21,7 +21,7 @@ public class SerialPortFactory
 			String osVersion = System.getProperty("os.version");
 			if(osVersion == null) return null;
 			if(osVersion.startsWith("10")){
-				return new WinSerialPortImpl(number,baudRate,bits,parity,stopBits);
+				return new RXTXSerialPortImpl(number,baudRate,bits,parity,stopBits);
 			}
 			if(!loadLibrarySuccess){
 				return new JDirectSerialPort(number,baudRate,bits,parity,stopBits);

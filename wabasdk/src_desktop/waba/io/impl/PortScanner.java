@@ -5,7 +5,7 @@ public class PortScanner{
 		boolean macOS = System.getProperty("os.name").startsWith("Mac OS");
 		if(macOS){
 			String osVersion = System.getProperty("os.version");
-			if(osVersion.startsWith("10")) 	(new NonMacPortScanner()).scanPorts(v);
+			if(osVersion.startsWith("10")) 	(new RXTXPortScanner()).scanPorts(v);
 			else 							(new MacPortScanner()).scanPorts(v);
 		}
 		else		(new NonMacPortScanner()).scanPorts(v);
