@@ -217,7 +217,7 @@ DataListener calibrationListener = null;
 	public void calibrateMe(ExtraMainWindow owner,DialogListener l,int interfaceType){
 		CalibrationDialog cDialog = new CalibrationDialog(owner,l,"Calibration: "+getName(),this,interfaceType);
 		cDialog.setRect(5,5,160,160);
-		cDialog.show();
+		cDialog.show();		
 	}
 	public int getUnit(){return unit;}
 	public boolean setUnit(int unit){this.unit = unit;return true;}

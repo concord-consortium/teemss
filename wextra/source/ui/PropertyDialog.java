@@ -30,7 +30,7 @@ public class PropertyDialog extends Dialog
 
 	public void setContent(){
  		waba.fx.Rect cRect = getContentPane().getRect();
-		propView.setRect(cRect.x, cRect.y, cRect.width, cRect.height);
+		propView.setRect(0, 0, cRect.width, cRect.height);
 		getContentPane().add(propView);
 	}
 
