@@ -108,7 +108,7 @@ public class SerialPort extends Stream
 
 
 
-ISerialPort portImpl; //mac implementation
+ISerialPort portImpl; // implementation
 
 /** 
 
