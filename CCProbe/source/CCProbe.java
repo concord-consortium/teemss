@@ -30,7 +30,7 @@ public class CCProbe extends ExtraMainWindow
     String [] creationTypes = {"Folder", "Notes", "Data Collector", 
 							   "Drawing","UnitConvertor","Image"};
 
-	int		[]creationID = {0x00100100};
+	int		[]creationID = {0x00010100};
     public void onStart()
     {
 		LabBook.init();
@@ -119,12 +119,12 @@ public class CCProbe extends ExtraMainWindow
 
     public void addMenu(LabObjectView source, Menu menu)
     {
-		menuBar.add(menu);
+		if(menu != null) menuBar.add(menu);
     }
 
     public void delMenu(LabObjectView source, Menu menu)
     {
-		menuBar.remove(menu);
+		if(menu != null) menuBar.remove(menu);
     }
 
 	void updateFileMenu()
@@ -184,6 +184,7 @@ public class CCProbe extends ExtraMainWindow
 					LabObjDescriptor []desc = factory.getLabBookObjDesc();
 					if(desc != null){
 						for(int d = 0; d < desc.length; d++){
+							if(desc[d] == null) continue;
 							if(desc[d].objType == objID){
 								String name = desc[d].name;
 								if(name != null){

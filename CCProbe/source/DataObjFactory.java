@@ -58,7 +58,6 @@ public class DataObjFactory
 	{
 		return (LObjGraph) create(GRAPH);
 	}
-
 	public static LabObject create(int objectType)
 	{
 		if(me == null) return null;

@@ -35,7 +35,6 @@ public class CCProbeTest extends ExtraMainWindow
     {
 		LabBook.init();
 		LabBook.registerFactory(new DataObjFactory());
-		LabBook.registerFactory(new TestFactory());
 
 		// Dialog.showImages = false;
 		// ImagePane.showImages = false;
@@ -119,12 +118,12 @@ public class CCProbeTest extends ExtraMainWindow
 
     public void addMenu(LabObjectView source, Menu menu)
     {
-		menuBar.add(menu);
+		if(menu != null) menuBar.add(menu);
     }
 
     public void delMenu(LabObjectView source, Menu menu)
     {
-		menuBar.remove(menu);
+		if(menu != null) menuBar.remove(menu);
     }
 
 	void updateFileMenu()

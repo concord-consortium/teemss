@@ -57,13 +57,13 @@ class LObjUConvertorView extends LabObjectView
 
 		showDone = sDone;
 
-		numberLeft = new Edit();
-		numberRight = new Edit();
-		clearButton = new Button("Clear");
+		if(numberLeft == null) numberLeft = new Edit();
+		if(numberRight == null) numberRight = new Edit();
+		if(clearButton == null) clearButton = new Button("Clear");
 		add(clearButton);
-		convertButton = new Button("=");
+		if(convertButton == null) convertButton = new Button("=");
 		add(convertButton);
-		dirButton = new Button("->");
+		if(dirButton == null) dirButton = new Button("->");
 		add(dirButton);
 		createCatChoice();
 		createCurrCat(CCUnit.UNIT_CAT_LENGTH);
