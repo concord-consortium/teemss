@@ -550,13 +550,15 @@
    <xsl:param name="sequencenumber"/>
    <xsl:param name="data-folder-id"/>
    <xsl:copy>
-     <DATAFOLDER object="{normalize-space($data-folder-id)}"/>
-     <xsl:apply-templates select="*|@*" mode="dc-copy">
+     <xsl:apply-templates select="@*" mode="dc-copy">
         <xsl:with-param name="sequencenumber">
           <xsl:value-of select="$sequencenumber"/>
         </xsl:with-param>
-        <xsl:with-param name="data-folder-id">
-          <xsl:value-of select="$data-folder-id"/>
+	 </xsl:apply-templates>
+     <DATAFOLDER object="{normalize-space($data-folder-id)}"/>
+     <xsl:apply-templates select="*" mode="dc-copy">
+        <xsl:with-param name="sequencenumber">
+          <xsl:value-of select="$sequencenumber"/>
         </xsl:with-param>
      </xsl:apply-templates>
    </xsl:copy>
