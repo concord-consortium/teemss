@@ -33,7 +33,7 @@ public class BarGraph extends Graph2D
     public String units = null;
 
     int width, height;
-    int numBars;
+    public int numBars;
     Vector bars = new Vector();
     FontMetrics	fontMet = 
 	MainWindow.getMainWindow().getFontMetrics(MainWindow.defaultFont);

@@ -60,7 +60,6 @@ public class LineGraph extends Graph2D
     protected int length = 0;
 	Vector bins = new Vector();
 
-    public Vector annots = new Vector();
     Bin curBin;
 
     boolean axisFlipped = false;
@@ -164,8 +163,6 @@ public class LineGraph extends Graph2D
 		int i,k;
 		Bin bin = null;
 		boolean valid = true;
-		boolean atLeastOne = false;
-		Annotation a = null;
 		float [] binValue = new float [1];
 
 		i = 0;
@@ -187,42 +184,27 @@ public class LineGraph extends Graph2D
     public Annotation addAnnot(String label, float time, Axis xa)
     {
 		Annotation a = null;
-		boolean valid;
+		int k;
+		Bin bin = null;
 
-		valid = getValue(time, xa, tempVal);
+		for(k=0; k<bins.getCount(); k++){
+			bin = (Bin)bins.get(k);
 
-		if(valid){
-			a = new Annotation(label, time, tempVal[0], xa);
-			annots.add(a);	
+			if(xa == bin.xaxis){
+				a = bin.addAnnot(label, time);
+			}
 		}
-	
+
 		return a;
     }
 
     public void drawAnnots(Graphics g)
     {
 		int i;
-		Annotation a;
-		int pos;
-		int xPos;
-		int valPos;
 
-		for(i=0; i<annots.getCount(); i++){
-			a = (Annotation)annots.get(i);
-			if(a.xaxis.drawnX != -1){
-				pos = (int)((a.time - a.xaxis.dispMin) * a.xaxis.scale);
-				if((pos*a.xaxis.axisDir >= 0) && 
-				   (pos*a.xaxis.axisDir < a.xaxis.axisDir*a.xaxis.dispLen)){
-					xPos = pos + a.xaxis.drawnX + a.xaxis.axisDir;
-					a.draw(g, xPos- a.width/2, annotTopY);
-					if(a.selected){
-						g.setColor(0,0,0);
-						g.drawLine(xPos, dwY, xPos, dwY + dwHeight - 1);
-						valPos = (int)((a.value - yaxis.min) * yaxis.scale) + yaxis.drawnOffset;
-						g.drawLine(dwX, valPos, dwX + dwWidth - 1, valPos);
-					}
-				}
-			}
+		for(i=0; i<bins.getCount(); i++){
+			Bin bin = (Bin)bins.get(i);
+			bin.drawAnnots(g, annotTopY, xaxis);
 		}
     }
 
@@ -393,8 +375,6 @@ public class LineGraph extends Graph2D
 
 		bins = new Vector();
 
-		// remove annotations
-		annots = new Vector();
     }
 
     /*
@@ -452,19 +432,30 @@ public class LineGraph extends Graph2D
     Annotation getAnnotAtPoint(int x, int y)
 	{
 		int i;
-		Annotation a;
-		int pos;
-	
-		// We draw them forward, so we search backwards
-		//   because they might overlap
-		for(i=annots.getCount()-1; i>=0; i--){
-			a = (Annotation)annots.get(i);
-			if(a.checkPos(x)) return a;
-		}
-	
-		// We didn't find any anotations
-		return null;			
-    }
+		Annotation a = null;
 
+		for(i=0; i<bins.getCount(); i++){
+			Bin bin = (Bin)bins.get(i);
+			a = bin.getAnnotAtPoint(x);
+			if(a != null) break;
+		}
+
+		return a;
+	}
+
+	void setSelectedAnnot(Annotation a)
+	{
+		for(int i=0; i<bins.getCount(); i++){
+			Bin bin = (Bin)bins.get(i);
+			if(bin.xaxis == a.xaxis){				
+				a.selected = true;
+				int index = bin.annots.find(a);
+				if(index >=0){
+					bin.annots.del(index);
+				}
+				bin.annots.add(a);
+			}
+		}
+	}
 }
 

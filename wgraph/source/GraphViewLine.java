@@ -252,9 +252,7 @@ public class GraphViewLine extends GraphView
 						}
 						selAnnot = lGraph.getAnnotAtPoint(pe.x, pe.y);
 						if(selAnnot != null){
-							selAnnot.selected = true;
-							lGraph.annots.del(lGraph.annots.find(selAnnot));
-							lGraph.annots.add(selAnnot);
+							lGraph.setSelectedAnnot(selAnnot);
 							annotDown = true;
 						} 
 						draw();

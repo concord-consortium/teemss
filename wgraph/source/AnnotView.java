@@ -29,9 +29,9 @@ public class AnnotView extends Container
 {
     public GraphView curView = null;
     public GraphViewLine lgView = null;
-    GraphViewBar bgView = null;
+    public GraphViewBar bgView = null;
     
-    BarGraph bGraph;
+    public BarGraph bGraph;
     public LineGraph lGraph;
 
     Bin lgBins [] = new Bin [1];
@@ -92,9 +92,9 @@ public class AnnotView extends Container
     public void addBin(Bin curBin)
     {
 		lgBins[0] = curBin;
-	
-		lgView.lGraph.addBin(lgBins[0]);
-		bGraph.addBar(0, lgBins[0]);
+
+		lgView.lGraph.addBin(curBin);
+		bGraph.addBar(0, curBin);
 		return;
     }
 
@@ -110,11 +110,9 @@ public class AnnotView extends Container
 
 		if(lgBins[0] != null){
 			a = lGraph.addAnnot("" + lgView.curChar, lgBins[0].getCurX());
-			// Add bar to bargraph
-			if(a != null){
-				bGraph.addBar(bGraph.numBars - 1, a);
-				lgView.curChar++;
 
+			if(a != null){
+				lgView.curChar++;
 				repaint();
 			}
 		}
@@ -139,6 +137,7 @@ public class AnnotView extends Container
 		Annotation a = null;
 
 		if((e.type == ControlEvent.PRESSED)){
+			/*
 			if(false) {
 				if(bgView.selBar == null)
 					return;
@@ -152,7 +151,7 @@ public class AnnotView extends Container
 					repaint();
 				}
 			}
-
+			*/
 		} else if(e.type == 1000 && e.target == bgView) {
 			// Bar down event 
 
@@ -168,12 +167,7 @@ public class AnnotView extends Container
 			}
 		} else if(e.type == 1002 && e.target == lgView) {
 			// Annotation added event
-			a = lgView.curAnnot;
-			if(a == null) return;
 
-			// Add bar to bargraph
-			// FIXME: this won't work right if the graph is running
-			bGraph.addBar(bGraph.numBars, a);
 		} else if(e.type == 1003 && e.target == lgView) {
 			// Annotation moved event
 			// This should now be taken care of automagically :)

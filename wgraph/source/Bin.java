@@ -55,6 +55,7 @@ public class Bin
     public Time time = null;
 	float curXscale, curYscale;
 	CCUnit unit;
+    public Vector annots = new Vector();
 
     public Bin(Axis xAx, Axis yAx)
     {
@@ -84,6 +85,7 @@ public class Bin
 	{
 		xaxis.removeActionListener(this);
 		yaxis.removeActionListener(this);
+		binListeners = null;		
 	}
 
 	public void actionPerformed(ActionEvent e)
@@ -102,6 +104,110 @@ public class Bin
     {
 		if(lfArray.getCount() == 0) return 0f;
 		return lfArray.getFloat(lfArray.getCount()-1) + lfArray.ref;
+    }
+
+	public Annotation getCurAnnot()
+	{
+		if(annots != null &&
+		   annots.getCount() > 0){
+			return (Annotation)annots.get(annots.getCount() - 1);
+		}
+		return null;
+	}
+
+	public Annotation addAnnot(String label, float time)
+	{
+		boolean valid = false;
+		float [] tempVal = new float [1];
+		Annotation a = null;
+
+		valid = getValue(time, tempVal);
+
+		if(valid){
+			a = new Annotation(label, time, tempVal[0], xaxis);
+			annots.add(a);
+		}
+
+		notifyListeners(ANNOT_ADDED);
+
+		return a;
+	}
+
+	ActionEvent annotEvent = new ActionEvent(this, null, null);
+	public final static int ANNOT_ADDED = 4000;
+	public final static int ANNOT_DELETED = 4001;
+	Vector binListeners = new Vector();
+
+	public void addActionListener(ActionListener al)
+	{
+		binListeners.add(al);
+	}
+
+	public void removeActionListener(ActionListener al)
+	{
+		int index = binListeners.find(al);
+		if(index >= 0) binListeners.del(index);
+	}
+
+    void notifyListeners(int type)
+	{
+		annotEvent.type = type;
+		for(int i=0; i<binListeners.getCount(); i++){
+			ActionListener al = (ActionListener)binListeners.get(i);
+			al.actionPerformed(annotEvent);
+		}
+	}
+
+	public void drawCrossHairs(Graphics g, int xPos, int yPos, Axis xaxis)
+	{
+		g.setColor(0,0,0);
+		g.drawLine(xPos, yaxis.drawnY, xPos, yaxis.drawnY+yaxis.dispLen);
+		g.drawLine(xaxis.drawnX, yPos, xaxis.drawnX+xaxis.dispLen, yPos);
+	}
+
+    public void drawAnnots(Graphics g, int annotTopY, Axis xaxis)
+    {
+		int i;
+		Annotation a;
+		int pos;
+		int xPos;
+		int valPos;
+
+		for(i=0; i<annots.getCount(); i++){
+			a = (Annotation)annots.get(i);
+			if(xaxis.drawnX != -1){
+				pos = (int)((a.time - xaxis.dispMin) * xaxis.scale);
+				if((pos*xaxis.axisDir >= 0) && 
+				   (pos*xaxis.axisDir < xaxis.axisDir*xaxis.dispLen)){
+					xPos = pos + xaxis.drawnX + xaxis.axisDir;
+					a.draw(g, xPos- a.width/2, annotTopY);
+					if(a.selected){
+						valPos = (int)((a.value - yaxis.min) * yaxis.scale) + yaxis.drawnOffset;
+						drawCrossHairs(g, xPos, valPos, xaxis);
+					}
+				}
+			}
+		}
+    }
+
+    /*
+     *  We need to check the bounds or only take
+     * one direction or something
+     */
+    Annotation getAnnotAtPoint(int x)
+	{
+		int i;
+		Annotation a;
+	
+		// We draw them forward, so we search backwards
+		//   because they might overlap
+		for(i=annots.getCount()-1; i>=0; i--){
+			a = (Annotation)annots.get(i);
+			if(a.checkPos(x)) return a;
+		}
+	
+		// We didn't find any anotations
+		return null;			
     }
 
     public float getTime()
@@ -309,6 +415,10 @@ public class Bin
 		}
 		lastPlottedPoint = -1;
 		resetPts();
+
+		// remove annotations
+		annots = new Vector();
+
 		needRecalc = true;
     }
 
