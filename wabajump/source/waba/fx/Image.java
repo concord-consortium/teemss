@@ -263,22 +263,49 @@ public class Image implements ISurface
 		case 8:
 			Graphics.clearDrawWindow();
 			Palm.WinSetDrawWindow(winHandle);
-			int i;
-			int newMapLength = colorMap.length;
-			if(newMapLength > 256) newMapLength = 256;
 
-			byte [] newColMap = new byte [newMapLength];
-			RGBColor palmColor = new RGBColor(0,0,0,0);
+			boolean colorTableMatches = false;
+			int [] curColorTable = Graphics.getPalette();
+			if(colorMap.length == curColorTable.length){
+				colorTableMatches = true;
+				for(int i=0; i < colorMap.length; i++){
+					if(colorMap[i] != (curColorTable[i] & 0xFFFFFF)){
+						colorTableMatches = false;
+						break;
+					}
+				}
+			}
+			if(!colorTableMatches){
+				byte [] transColMap = new byte [colorMap.length];
 
+				for(int i=0; i < colorMap.length; i++){
+					int col = colorMap[i];
+					transColMap[i] = Graphics.getColorIndex(col >> 16 & 0xFF,
+															col >> 8 & 0xFF,
+															col & 0xFF);
+				}
 
-			for(i=0; i < newMapLength ; i++){
-				curCol = colorMap[i];
-				newColMap[i] = Graphics.getColorIndex((curCol >> 16) & 0xFF,
-													  (curCol >> 8) & 0xFF,
-													  curCol & 0xFF);
+				byte [] oldPixels = pixels;
+				byte [] newPixels = new byte [pixels.length];
+				for(int i=0; i<pixels.length; i++){
+					if((int)(pixels[i] & 0xFF) < transColMap.length){  
+						newPixels[i] = transColMap[oldPixels[i] & 0x0FF];
+					} else {
+						newPixels[i] = 0;
+					}
+				}
+				pixels = newPixels;
+				colorTableMatches = true;
+			}
+			
+
+			int memHandle;
+			if(colorTableMatches){
+				memHandle = Palm.MemHandleNew(20);			
+			} else {
+				memHandle = Palm.MemHandleNew(20 + 2+ colorMap.length*4);
 			}
 
-			int memHandle = Palm.MemHandleNew(16 + pixels.length);
 			int memPtr = Palm.MemHandleLock(memHandle);
 
 			// Int16    width
@@ -288,8 +315,11 @@ public class Image implements ISurface
 			// UInt16      rowBytes
 			Palm.nativeSetShort(memPtr+4, (short)bytesPerRow);
 			// BitmapFlagsType flags
-			// All flags are false
-			Palm.nativeSetShort(memPtr+6, (short)0);
+			if(colorTableMatches){
+				Palm.nativeSetShort(memPtr+6, (short)0x1000);
+			} else {
+				Palm.nativeSetShort(memPtr+6, (short)0x5000);
+			}				
 			// UInt8    pixelSize
 			// 8 bits per pixel
 			Palm.nativeSetByte(memPtr+8, (byte)8);
@@ -304,28 +334,26 @@ public class Image implements ISurface
 			// UInt16 reserved; 
 			Palm.nativeSetShort(memPtr+14, (short)0);
 
-			for(i=0; i < pixels.length; i++){
-				byte newColor = newColMap[pixels[i] & 0xFF];
-				Palm.nativeSetByte(memPtr+16+i, newColor);
+			int pixelOffset = 16;
+			if(!colorTableMatches){
+				// UInt 16 color table length
+				Palm.nativeSetShort(memPtr+16, (short)colorMap.length);
+				for(int i=0; i< colorMap.length; i++){
+					Palm.nativeSetInt(memPtr+18+i*4, (i << 24 | (colorMap[i] & 0xFFFFFF)));
+				}
+				pixelOffset += 2+colorMap.length*4;
 			}
 			
+
+			int pixelPtr = Palm.nativeObjectLock((Object)pixels);
+			Palm.nativeSetInt(memPtr+pixelOffset, pixelPtr);
+
 			Palm.WinDrawBitmap(memPtr, 0, y);
+			Palm.nativeObjectUnlock((Object)pixels);
+			
 			Palm.MemHandleUnlock(memHandle);
 			Palm.MemHandleFree(memHandle);
 
-			/*
-			for(i=y; i < endRow; i++){
-				pixPtr = 0;
-				while(pixPtr < filledBytes){
-					colorIndex = pixels[lineOffset + pixPtr] & 0xFF;
-					
-					Palm.WinSetForeColor(newColMap[colorIndex]);
-					Palm.WinDrawLine(pixPtr,i,pixPtr,i);
-					pixPtr++;
-				}
-				lineOffset += bytesPerRow;		
-			}
-			*/
 			break;
 		}
 	}
