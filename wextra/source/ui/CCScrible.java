@@ -100,9 +100,8 @@ CCDrawPath	currPath = null;
 	}
 	public void setPenColor(int red,int green,int blue){
 		pen.setPenColor(red,green,blue);
-		if(drawg != null){
-			drawg.setColor(pen.red,pen.green,pen.blue);
-		}
+		createOffGraphics();
+		if(drawg != null) drawg.setColor(pen.red,pen.green,pen.blue);
 	}
 	public void setPenSize(byte w,byte h){
 		pen.setPenSize(w,h);
@@ -114,6 +113,18 @@ CCDrawPath	currPath = null;
 	
 	public int getMode(){return mode;}
 	
+	
+	public boolean createOffGraphics(){
+		boolean retValue = true;
+		if (drawg != null) return retValue;
+		drawg = createGraphics();
+		retValue = (drawg != null);
+		if(drawg != null){
+			drawg.setClip(0, 0, this.width, this.height);
+		}
+		return retValue;
+	}
+	
 	public void setMode(int modeScribble){
 		int oldMode = mode;
 		mode = MODE_NORMAL;
@@ -122,11 +133,7 @@ CCDrawPath	currPath = null;
 		}
 		boolean drawgWasCreated = false;
 		if (drawg == null){
-			drawg = createGraphics();
-			if(drawg != null){
-				drawg.setClip(0, 0, this.width, this.height);
-				drawgWasCreated = true;
-			}
+			drawgWasCreated = createOffGraphics();
 		}
 		if(drawg != null){
 			drawg.setDrawOp(Graphics.DRAW_OVER);
@@ -147,6 +154,7 @@ CCDrawPath	currPath = null;
 	}
 	
 	void drawLine(Graphics g,int x1,int y1,int x2, int y2){
+		if(g == null) return;
 		for(int i = 0; i < pen.w; i++){
 			for(int j = 0; j < pen.h; j++){
 				g.drawLine(x1+i, y1+j, x2+i, y2+j);
@@ -156,12 +164,10 @@ CCDrawPath	currPath = null;
 
 	public void onEvent(Event event){
 		if (drawg == null){
-			drawg = createGraphics();
-			drawg.setClip(0, 0, this.width, this.height);
-			drawg.setColor(pen.red,pen.green,pen.blue);
+			createOffGraphics();
+			if(drawg != null) drawg.setColor(pen.red,pen.green,pen.blue);
 			setMode(mode);
 		}
-		
 		if (event.type == PenEvent.PEN_DOWN){
 			PenEvent penEvent = (PenEvent)event;
 			lastX = penEvent.x;
@@ -186,7 +192,7 @@ CCDrawPath	currPath = null;
 			PenEvent penEvent = (PenEvent)event;
 			if(mode == MODE_NORMAL){
 				drawLine(drawg,lastX,lastY,penEvent.x,penEvent.y);
-			}else{
+			}else if(drawg != null){
 				drawg.setDrawOp(Graphics.DRAW_XOR);
 				drawg.drawRect(lastMoveX - 10,lastMoveY - 10,20,20);
 				drawg.setDrawOp(Graphics.DRAW_OVER);
@@ -210,15 +216,19 @@ CCDrawPath	currPath = null;
 			if(!wasFirstEraseRect){
 				lastMoveX = penEvent.x;
 				lastMoveY = penEvent.y;
-				drawg.drawRect(lastMoveX - 10,lastMoveY - 10,20,20);
+				if(drawg != null) drawg.drawRect(lastMoveX - 10,lastMoveY - 10,20,20);
 				wasFirstEraseRect = true;
 			}else{
-				drawg.setDrawOp(Graphics.DRAW_XOR);
-				drawg.drawRect(lastMoveX - 10,lastMoveY - 10,20,20);
+				if(drawg != null){
+					drawg.setDrawOp(Graphics.DRAW_XOR);
+					drawg.drawRect(lastMoveX - 10,lastMoveY - 10,20,20);
+				}
 				lastMoveX = penEvent.x;
 				lastMoveY = penEvent.y;
-				drawg.drawRect(lastMoveX - 10,lastMoveY - 10,20,20);
-				drawg.setDrawOp(Graphics.DRAW_OVER);
+				if(drawg != null){
+					drawg.drawRect(lastMoveX - 10,lastMoveY - 10,20,20);
+					drawg.setDrawOp(Graphics.DRAW_OVER);
+				}
 			}
 		}
 	}

@@ -48,22 +48,16 @@ int dy = 6;
 	public void setRect(int x,int y,int w,int h){
 		super.setRect(x,y,128,96);
 	}
-	public void onPaint(waba.fx.Graphics gr){
-		if(colors == null) return;
-		if(bufIm == null) bufIm=new waba.fx.Image(width,height);
+	
+	public void createOffImage(){
+		if(bufIm != null) return;
+		bufIm=new waba.fx.Image(width,height);
 		 waba.fx.Graphics ig = new waba.fx.Graphics(bufIm);
 		int xx = 0;
 		int yy = 0;
-
-		int xCurr = -1;
-		int yCurr = -1;
 		for(int i = 0; i < colors.length; i++){
 			ig.setColor(colors[i].getRed(),colors[i].getGreen(),colors[i].getBlue());
 			ig.fillRect(xx,yy,dx,dy);
-			if(i == colorIndex){
-				xCurr = xx;
-				yCurr = yy;
-			}
 			if(((i+1) % 16) == 0){
 				xx = 0;
 				yy += dy;
@@ -71,16 +65,29 @@ int dy = 6;
 				xx+=dx;
 			}
 		}
-		if(xCurr >= 0 && yCurr >= 0){
-			ig.setColor(255,255,255);
-			ig.drawRect(xCurr-1,yCurr-1,dx+2,dy+2);
-			ig.setColor(0,0,0);
-			ig.drawRect(xCurr,yCurr,dx,dy);
-		}
 		ig.setColor(0,0,0);
 		ig.drawRect(0,0,width,height);
-     	gr.copyRect(bufIm,0,0,width,height,0,0);
-     	ig.free();
+     		ig.free();
+	}
+	
+	public void onPaint(waba.fx.Graphics g){
+		if(colors == null) return;
+		createOffImage();
+     		g.copyRect(bufIm,0,0,width,height,0,0);
+		int xCurr = dx * (colorIndex % 16);
+		int yCurr = dy * (colorIndex / 16);
+		drawChosenRectFrame(g,xCurr,yCurr);
+	}
+
+	public void drawChosenRectFrame(waba.fx.Graphics g, int x, int y){
+		if(x >= 0 && y >= 0){
+			g.setColor(255,255,255);
+//			g.drawRect(x-1,y-1,dx+2,dy+2);
+			g.drawRect(x,y,dx,dy);
+			g.setColor(0,0,0);
+//			g.drawRect(x,y,dx,dy);
+			g.drawRect(x+1,y+1,dx-2,dy-2);
+		}
 	}
 
 	public void onEvent(waba.ui.Event event){
@@ -90,8 +97,23 @@ int dy = 6;
 			int py = penEvent.y / dy;
 			if(px < 0 || px > 15) return;
 			if(py < 0 || py > 15) return;
+			int oldIndex = colorIndex;
 			colorIndex = py*16 + px;
-			repaint();
+			waba.fx.Graphics g =  createGraphics();
+			if(g == null){
+				repaint();
+				return;
+			}else{
+				if(oldIndex >= 0){
+					int xOld = dx * (oldIndex % 16);
+					int yOld = dy * (oldIndex / 16);
+					g.setColor(colors[oldIndex].getRed(),colors[oldIndex].getGreen(),colors[oldIndex].getBlue());
+					g.fillRect(xOld,yOld,dx,dy);
+				}
+				int xNew = dx * (colorIndex % 16);
+				int yNew = dy * (colorIndex / 16);
+				drawChosenRectFrame(g,xNew,yNew);
+			} 
 		}
 	}
 	
