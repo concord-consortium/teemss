@@ -273,6 +273,7 @@ public class CCProbe extends ExtraMainWindow
 		}
 
 		if(newObj != null){
+			dView.getSession().storeNew(newObj);
 			if(newIndex == 0){
 				newObj.setName(objType);		    
 			} else {
@@ -280,14 +281,13 @@ public class CCProbe extends ExtraMainWindow
 			}			
 			newIndex++;
 			
-			LabObjectPtr newPtr = dView.insertAtSelected(newObj);
+			dView.insertAtSelected(newObj);
 
 			// The order seems to matter here.  
 			// insert and selected for some reason nulls the pointer.
 			// perhaps by doing a commit?
 			// newObj.store();
 			
-			newObj = mainSession.getObj(newPtr);
 			if(autoEdit){
 				dView.showPage(newObj, true);
 			} else if(autoProp){

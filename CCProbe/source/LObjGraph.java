@@ -303,7 +303,7 @@ public class LObjGraph extends LObjSubDict
 		if(numDataSources <= 0 ||
 		   graphSettings == null ||
 		   numDataSources != graphSettings.getCount()){
-			ds.writeInt(0);		
+			ds.writeInt(0);
 			return;
 		} else {
 			ds.writeInt(numDataSources);
@@ -406,10 +406,12 @@ public class LObjGraph extends LObjSubDict
 	public void saveCurData(LObjDictionary dataDict, LabBookSession session)
 	{
 		LObjDataSet dSet = DataObjFactory.createDataSet();
+		session.storeNew(dSet);
 
 		LObjGraph dsGraph = (LObjGraph)copy();
 		dsGraph.setName("Graph");
 
+		session.storeNew(dsGraph);
 		dSet.setDataViewer(dsGraph);
 		dSet.clearAnnots(session);
 		GraphSettings curGS = getCurGraphSettings();
@@ -420,13 +422,8 @@ public class LObjGraph extends LObjSubDict
 			
 			if(dataDict != null){
 				dataDict.add(dSet);				
-				dSet.store();
-				SplitAxis xaxis = new SplitAxis(Axis.BOTTOM);
-				ColorAxis yaxis = new ColorAxis(Axis.LEFT);
-				yaxis.setMaxDigits(6);
-		
-				dsGraph.xAxisVector.add(xaxis);
-				dsGraph.yAxisVector.add(yaxis);
+				Axis xaxis = dsGraph.addXAxis();
+				Axis yaxis = dsGraph.addYAxis();
 
 				Axis oldXA = curGS.getXAxis();
 				Axis oldYA = curGS.getYAxis();
@@ -437,6 +434,7 @@ public class LObjGraph extends LObjSubDict
 
 				dsGraph.addDataSource(dSet, true, 0, 0, session);
 				dsGraph.store();
+				dSet.store();
 			} else {
 				// for now it is an error
 				// latter it should ask the user for the name
