@@ -1,15 +1,6 @@
+MODULE = wgraph
 
-WABA_DIR= /home/scytacki/waba/superwaba/vmsrc/classes_java
-WEXTRAS_DIR= /home/scytacki/waba/superwaba/wextras/classes
+include ../ReleaseSystem/waba.inc
 
-export CLASSPATH:= ${CLASSPATH}:${WABA_DIR}:${WEXTRAS_DIR}
+all: main
 
-SRC= *.java
-
-comp: classes
-	javac -O -d classes $(SRC:%=source/%)
-
-classes:
-	-mkdir $@
-
-include ../ReleaseSystem/cvs.inc
