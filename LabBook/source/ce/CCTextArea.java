@@ -187,10 +187,9 @@ ViewDialog 				currObjPropDialog = null;
 	public boolean getPropertyMode(){return propertyMode;}
 
     public void dialogClosed(DialogEvent e){
-    
     	if(e.getSource() == currObjPropDialog){
     		if(currObjectViewDesc != null){
- 
+
  
  				boolean wrap = currObjPropControl.wrapCheck.getChecked();
 				EmbedObjectPropertyControl.lastWrap = wrap;
@@ -530,22 +529,22 @@ ViewDialog 				currObjPropDialog = null;
 						lastRow += addRows;
 					}
 					
-					lines.add(new CCStringWrapper(this,sb.toString(),lastRow));
 					int nRows = rows.getCount();
 					if(addRows > 0){
 						for(int k = nRows; k < nRows + addRows; k++){
-							CCTARow newRow = new CCTARow((CCStringWrapper)lines.get(nLines));
+							CCTARow newRow = new CCTARow();
 							newRow.setMargins(leftMargin,rightMargin);
 							rows.add(newRow);
 						}
 					}
+					lines.add(new CCStringWrapper(this,sb.toString(),lastRow));
 				}
 				int nRows = rows.getCount();
 				int lastLineRow = ((CCStringWrapper)lines.get(nLines)).endRow;
 				int addRows = lastLineRow - nRows;
 				if(addRows > 0){
 					for(int k = nRows; k < nRows + addRows; k++){
-						CCTARow newRow = new CCTARow((CCStringWrapper)lines.get(nLines));
+						CCTARow newRow = new CCTARow();
 						newRow.setMargins(r.x + insetLeft,r.x + r.width - insetRight);
 						rows.add(newRow);
 					}
@@ -594,10 +593,9 @@ ViewDialog 				currObjPropDialog = null;
 				lostFocus();
 			}else if(currObjectViewDesc != null){
 				Control cntrl = (Control)currObjectViewDesc.getObject();
-				if(cntrl instanceof LabObjectView){
+				if((cntrl != null) && (cntrl instanceof LabObjectView)){
 					LabObjectView object = (LabObjectView)cntrl;
 					object.close();
-					currObjectViewDesc = null;
 				}
 			}
 		}
@@ -907,16 +905,8 @@ public int	cursorChar = 0;
 
 
 class CCTARow{
-CCStringWrapper owner = null;
 int  	beginPos,endPos;
-	CCTARow(CCStringWrapper owner){
-		this.owner = owner;
-	}
-	public CCStringWrapper getOwner(){
-		return owner;
-	}
-	public void setOwner(CCStringWrapper owner){
-		this.owner = owner;
+	CCTARow(){
 	}
 	public void setMargins(int beginPos,int endPos){
 		this.beginPos 	= beginPos;
@@ -964,6 +954,8 @@ static int	[]charWidthMappers = null;
 		}
 		
 		int    numbTotalRows = (owner.rows == null)?0:owner.rows.getCount();
+		
+		
 		this.str = str;
 		FontMetrics fm = owner.getFontMetrics();
 		if(fm == null || str == null) return;
@@ -995,6 +987,7 @@ static int	[]charWidthMappers = null;
 			
 			
 			int limitX = (currRow >= numbTotalRows || owner.rows == null)?endPos:((CCTARow)owner.rows.get(currRow)).endPos;
+						
 			if(x + w > limitX){
 				if(lastWord == delimiterIndex){
 					lastWord = i;
@@ -1015,6 +1008,8 @@ static int	[]charWidthMappers = null;
 				
 				currRow++;
 				x = (currRow >= numbTotalRows || owner.rows == null)?beginPos:((CCTARow)owner.rows.get(currRow)).beginPos;
+				
+				
 				delimiterIndex = i;
 			}else{
 				x += w;
@@ -1074,6 +1069,7 @@ static int	[]charWidthMappers = null;
 				int x = (i >= numbTotalRows || owner.rows == null)?beginPos:((CCTARow)owner.rows.get(i)).beginPos;
 				int index = (i - beginRow)*2;
 				gr.drawText(chars,delimiters[index],delimiters[index+1] - delimiters[index],x,y);
+				
 			}
 		}
 
@@ -1101,7 +1097,7 @@ static int	[]charWidthMappers = null;
 	}
 	
 
-private static char []wordDelimChars = {' ','\t',';','.',','};	
+private static char []wordDelimChars = {' ','\t',';','.',',','/','\\'};	
 
 }
 
