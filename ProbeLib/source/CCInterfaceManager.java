@@ -72,20 +72,20 @@ public class CCInterfaceManager extends Control{
 		timer = addTimer(getRightMilliseconds());
 	}
 	public void stop(){
-		if(timer != null){
-			removeTimer(timer);
-			timer = null;
-			dEvent.setType(DataEvent.DATA_STOPPED);
-			pb.stopSampling(dEvent);
-		}
 		if(port != null){
 		    buf[0] = (byte)'c';
 		    port.writeBytes(buf, 0, 1);
 			
 			// give the port time to send out this byte
-			waba.sys.Vm.sleep(200);
+			waba.sys.Vm.sleep(100);
 			port.close();
 			port = null;
+		}
+		if(timer != null){
+			removeTimer(timer);
+			timer = null;
+			dEvent.setType(DataEvent.DATA_STOPPED);
+			pb.stopSampling(dEvent);
 		}
 	}
 	
