@@ -17,7 +17,7 @@ public class LObjDocumentView extends LabObjectView
 	super(vc);
 
 	doc = d;
-	lObj = (LabObject)doc;
+	lObj = doc;
     }
 
     public boolean showName = true;

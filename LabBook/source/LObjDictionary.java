@@ -117,7 +117,7 @@ public class LObjDictionary extends LabObject
     {
 	if(index < 0 || index >= objects.getCount()) return null;
 
-	return (TreeNode)(lBook.load((LabObjectPtr)(objects.get(index))));
+	return (lBook.load((LabObjectPtr)(objects.get(index))));
     }
 
     public boolean hideChildren = false;
@@ -142,7 +142,7 @@ public class LObjDictionary extends LabObject
 	
 	children = new TreeNode [numObjs];
 	for(int i=0; i<numObjs; i++){
-	    children[i] = (TreeNode)lBook.load((LabObjectPtr)objects.get(i));
+	    children[i] = lBook.load((LabObjectPtr)objects.get(i));
 	}
 	return children;
     }
@@ -159,7 +159,7 @@ public class LObjDictionary extends LabObject
 	Debug.println("getIndex searching " + numObjs + " objects");
 	for(int i=0; i<numObjs; i++){
 	    Debug.println(" Checking node: " + lBook.load((LabObjectPtr)objects.get(i)));
-	    if(node  == (TreeNode)lBook.load((LabObjectPtr)objects.get(i))){
+	    if(node  == lBook.load((LabObjectPtr)objects.get(i))){
 		return i;
 	    } 
 	}
@@ -179,6 +179,6 @@ public class LObjDictionary extends LabObject
 	    
 	}
 	me.viewType = viewType;
-	return (LabObject)me;
+	return me;
     }
 }

@@ -33,7 +33,7 @@ public class LObjDictPagingView extends LabObjectView
 	super(vc);
 
 	dict = d;
-	lObj = (LabObject)dict;
+	lObj = dict;
 	childArray = dict.childArray();
 	index = 0;
 	menu.add("Tree View");

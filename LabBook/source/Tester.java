@@ -35,7 +35,7 @@ public class Tester extends ExtraMainWindow
 	me.setRect(x,y,width,height);
 	add(me);
 
-	LabBookDB lbDB = (LabBookDB)new LabBookFile("LabBook");
+	LabBookDB lbDB = new LabBookFile("LabBook");
 	if(lbDB.getError()){
 	    // Error;
 	    exit(0);
@@ -57,7 +57,7 @@ public class Tester extends ExtraMainWindow
 	LObjDictionaryView view = (LObjDictionaryView)loDict.getView(this, true);
 	view.setRect(x,y,width,height);
 	me.add(view);
-	lObjView = (LabObjectView)view;
+	lObjView = view;
 
     }
 

@@ -122,6 +122,6 @@ public class LObjQuestion extends LObjSubDict
     {
 	LObjQuestion me = new LObjQuestion();
 	me.outputSet = outputSet;	
-	return (LabObject)me;
+	return me;
     }
 }

@@ -37,7 +37,7 @@ public class LObjDictionaryView extends LabObjectView
     {
 	super(vc);
 	dict = d;
-	lObj = (LabObject)dict;
+	lObj =dict;
 	add(me);
 	editMenu.add("Rename...");
 	viewMenu.add("Paging View");
@@ -131,18 +131,18 @@ public class LObjDictionaryView extends LabObjectView
 		String objType = (String)e.getInfo();
 		LabObject newObj = null;
 		if(objType.equals("Dictionary")){
-		    newObj = (LabObject)new LObjDictionary();
+		    newObj = new LObjDictionary();
 		} else if(objType.equals("Document")){
-		    newObj = (LabObject)new LObjDocument();
+		    newObj = new LObjDocument();
 		} else if(objType.equals("Questions")){
 		    newObj = LObjQuestion.makeNewQuestionSet();
 
 		} else if(objType.equals("Data Collector")){	       
 		    LObjDataControl dc = LObjDataControl.makeNew();
-		    newObj = (LabObject)dc.dict;
+		    newObj = dc.dict;
 		    dc.dict.hideChildren = true;
 		} else if(objType.equals("Drawing")){
-		    newObj = (LabObject)new LObjDrawing();
+		    newObj = new LObjDrawing();
 		}
 		if(newObj != null){
 		    TreeNode curNode = treeControl.getSelected();

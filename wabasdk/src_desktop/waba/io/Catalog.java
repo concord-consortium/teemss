@@ -584,4 +584,5 @@ public static Vector fromPDB(java.io.InputStream sourceStream, String creatorId,
       
    return v;
 }
+	public int getError(){return 0;}
 }

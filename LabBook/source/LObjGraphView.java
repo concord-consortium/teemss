@@ -13,7 +13,7 @@ public class LObjGraphView extends LabObjectView
 	super(vc);
 
 	graph = g;
-	lObj = (LabObject)g;	
+	lObj = g;	
     }
 
     public void layout(boolean sDone)

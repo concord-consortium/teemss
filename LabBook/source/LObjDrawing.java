@@ -53,7 +53,7 @@ class LObjDrawingView extends LabObjectView
 	super(vc);
 
 	draw = d;
-	lObj = (LabObject)d;	
+	lObj = d;	
     }
 
     public void layout(boolean sDone)

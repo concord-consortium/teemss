@@ -23,7 +23,7 @@ public class LObjOutputSetChoice extends LabObjectView
     {
 	super(vc);
 
-	lObj = (LabObject)o;
+	lObj = o;
 	output = o;
     }
 

@@ -20,7 +20,7 @@ import waba.fx.*;
 import waba.io.*;
 import waba.sys.*;
 import waba.util.*;
-//import graph.*;
+import graph.*;
 import extra.ui.*;
 import org.concord.waba.extra.probware.*;
 import org.concord.waba.extra.probware.probs.*;

@@ -186,7 +186,7 @@ public class LObjQuestionView extends LabObjectView
 	case quest.TRUE_FALSE:
 	    // make document for true or false
 	    if(answer == null){		
-		answer = (LabObject) new LObjDocument();
+		answer =  new LObjDocument();
 		answer.name = "*";
 		((LObjDictionary)(quest.outputSet.curOutput)).add(answer);
 	    }
@@ -199,7 +199,7 @@ public class LObjQuestionView extends LabObjectView
 	case quest.MULTIPLE_CHOICE:
 	    if(quest.options != null){
 		if(answer == null){		
-		    answer = (LabObject) new LObjDictionary();
+		    answer =  new LObjDictionary();
 		    answer.name = "*";
 		    ((LObjDictionary)(quest.outputSet.curOutput)).add(answer);
 		}

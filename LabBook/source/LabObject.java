@@ -21,23 +21,23 @@ public abstract class LabObject implements TreeNode
     {
 	switch(objectType){
 	case DICTIONARY:
-	    return (LabObject)new LObjDictionary();
+	    return new LObjDictionary();
 	case FORM:
-	    return (LabObject)new LObjForm();
+	    return new LObjForm();
 	case DATA_SET:
-	    return (LabObject)new LObjDataSet();
+	    return new LObjDataSet();
 	case GRAPH:
-	    return (LabObject)new LObjGraph();
+	    return new LObjGraph();
 	case DATA_CONTROL:
-	    return (LabObject)new LObjDataControl();
+	    return new LObjDataControl();
 	case DOCUMENT:
-	    return (LabObject)new LObjDocument();
+	    return new LObjDocument();
 	case OUTPUT_SET:
-	    return (LabObject)new LObjOutputSet();
+	    return new LObjOutputSet();
 	case QUESTION:
-	    return (LabObject)new LObjQuestion();
+	    return new LObjQuestion();
 	case DRAWING:
-	    return (LabObject)new LObjDrawing();
+	    return new LObjDrawing();
 	}
 
 	return null;
