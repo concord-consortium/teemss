@@ -50,23 +50,26 @@ exegen: $(BIN_DIR)/$(MW_CLASS).lnk
 jump: $(BIN_DIR)/$(MW_CLASS).prc
 jar: $(BIN_DIR)/$(MW_CLASS).jar
 
-main: $(CLASSES_DIR) $(PLATFORMS:%=$(CLASSES_DIR)/%)
+main: $(CLASSES_DIR) 
 ifeq ($(PLATFORMS),)
 $(CLASSES_DIR): $(wildcard source/*.java)
 	[ -d $@ ] || mkdir $@
 	javac -classpath $@:$(CLASSPATH):$(call COMPILE_CP,other) -d $(CLASSES_DIR) -g $?
 	touch $@
 else 
-$(CLASSES_DIR): 
-	[ -d $@ ] || mkdir $@	
+FORCE:
+
+$(CLASSES_DIR): FORCE
+	[ -d $@ ] || mkdir $@
+	$(foreach plat, $(PLATFORMS), $(MAKE) PLATFORM=$(plat) $(CLASSES_DIR)/$(plat);)
 endif
 
-$(CLASSES_DIR)/: $(CLASSES_DIR)
-
-$(PLATFORMS:%=$(CLASSES_DIR)/%): $(CLASSES_DIR)/% : source/*.java $(wildcard source/%/*.java)
+ifneq ($(PLATFORM),)
+$(CLASSES_DIR)/$(PLATFORM): source/*.java $(wildcard source/$(PLATFORM)/*.java)
 	[ -d $@ ] || mkdir $@
-	javac -classpath $@:$(call PLATFORM_CP,$*):$(call COMPILE_CP,$*) -d $@ -O $?
+	javac -classpath $@:$(call PLATFORM_CP,$(PLATFORM)):$(call COMPILE_CP,$(PLATFORM)) -d $@ -O $?
 	touch $@
+endif
 
 $(BIN_DIR) $(WJUMP_DIR):
 	mkdir $@
