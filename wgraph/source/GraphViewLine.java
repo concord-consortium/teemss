@@ -106,7 +106,17 @@ public class GraphViewLine extends GraphView
 		int myScrollStep = (int)(lGraph.dwWidth * scrollStepSize);
 		Axis xaxis = lGraph.xaxis.lastAxis;
 
-		if(autoScroll &&
+		if(!drawn || graph.redraw){
+			myG = createGraphics();
+			if(myG == null) return;
+
+			graph.draw(bufG);
+			myG.copyRect(buffer, 0, 0, width, height, 0, 0);
+			if(mode == ZOOM_MODE && selection){
+				drawSelector(myG);
+			}
+			drawn = true;
+		} else if(autoScroll &&
  		   bin != null &&
 		   bin.xaxis == xaxis &&
 		   (bin.getNumVals() > 0) && 
@@ -115,7 +125,7 @@ public class GraphViewLine extends GraphView
 			// scroll
 			range = lGraph.xaxis.getRange();
 			scrollEnd = bin.maxX - range * scrollFract;
-			//		System.out.println("xRange: " + lGraph.xRange + ", scrollEnd: " + scrollEnd);
+
 			if(scrollEnd < (float)0)
 				scrollEnd = (float)0;
 			if((scrollEnd - xaxis.dispMin) * xaxis.scale > (10 * myScrollStep)){
@@ -132,17 +142,7 @@ public class GraphViewLine extends GraphView
 		} else {
 			myG = createGraphics();
 			if(myG == null) return;
-
-			if(!drawn || graph.redraw){
-				graph.draw(bufG);
-				myG.copyRect(buffer, 0, 0, width, height, 0, 0);
-				if(mode == ZOOM_MODE && selection){
-					drawSelector(myG);
-				}
-				drawn = true;
-			} else {
-				graph.plot(myG);
-			}  
+			graph.plot(myG);
 		}
     }
 

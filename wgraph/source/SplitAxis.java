@@ -164,36 +164,34 @@ public class SplitAxis extends Axis
 	public final static int ADDED_AXIS = 4002;
 
 	// Return index of newAxis
-    public int addAxis(float oldMax)
+	// This creates a new axis two
+	// by necessity
+    public void setAxisEndPoint(Axis a, float max)
 	{
-		// Technically this should search through all the active bins
-		// and get the max
-		lastAxis.max = oldMax;
+		// Note this may be called twice if there are two 
+		// lines on one axis
 
-		if(numAxis >= axisArray.length){
-			Axis [] newAxis = new Axis[(numAxis * 3)/ 2];
-			Vm.copyArray(axisArray, 0, newAxis, 0, numAxis);
-			axisArray = newAxis;
-		} 
-		axisArray[numAxis] = lastAxis = new Axis(type);
-		lastAxis.max = (float)1E30;  // some huge number 
-		lastAxis.gridEndOff = gridEndOff;
-		lastAxis.setLength(dispLen);
-		lastAxis.setDispMin(dispMin);
-		lastAxis.setScale(scale);
-		numAxis++;
+		if(a.max > (float)1E25 || a.max < max) a.max = max;
 
-		notifyListeners(ADDED_AXIS);
-		return numAxis -1;
+		if(a == lastAxis){
+			// we need to add a new axis
+			// beacause something has to fill the space to the 
+			// right of the closed axis
+			if(numAxis >= axisArray.length){
+				Axis [] newAxis = new Axis[(numAxis * 3)/ 2];
+				Vm.copyArray(axisArray, 0, newAxis, 0, numAxis);
+				axisArray = newAxis;
+			} 
+			axisArray[numAxis] = lastAxis = new Axis(type);
+			lastAxis.max = (float)1E30;  // some huge number 
+			lastAxis.gridEndOff = gridEndOff;
+			lastAxis.setLength(dispLen);
+			lastAxis.setDispMin(dispMin);
+			lastAxis.setScale(scale);
+			numAxis++;
 
-		/* 
-		   This stuff needs to be taken care of the by the caller!!!
-		
-		   numBinsPerAxis[numAxis] = 0;
-		   graphLayout[1][2] = xaxis;		   
-		   activeBins = new Vector();		   
-		   needRecalc = true;	    
-		*/
+			notifyListeners(ADDED_AXIS);
+		}
     }
 
 	public void init(int x, int y)
