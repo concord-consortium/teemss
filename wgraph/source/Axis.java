@@ -21,10 +21,11 @@ import waba.fx.*;
 import waba.ui.*;
 import waba.util.*;
 import waba.sys.*;
-import extra.util.Maths;
-import extra.util.*;    
-import extra.io.*;
+
+import org.concord.waba.extra.io.*;
+import org.concord.waba.extra.util.*;
 import org.concord.waba.extra.event.*;
+
 import org.concord.ProbeLib.*;
 
 public class Axis

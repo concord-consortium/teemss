@@ -5,8 +5,10 @@ import waba.fx.*;
 import waba.io.*;
 import waba.sys.*;
 import waba.util.*;
-import extra.util.*;    
-import extra.io.*;
+
+import org.concord.waba.extra.io.*;    
+import org.concord.waba.extra.util.*;    
+
 import org.concord.ProbeLib.*;
 
 public class SplitAxis extends Axis

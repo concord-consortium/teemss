@@ -18,8 +18,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 package graph;
 
 import waba.fx.*;
-import extra.util.Maths;
 import waba.ui.*;
+
+import org.concord.waba.extra.util.Maths;
 
 public class JGraphics extends Graphics
 {

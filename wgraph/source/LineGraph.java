@@ -22,8 +22,9 @@ import waba.fx.*;
 import waba.io.*;
 import waba.sys.*;
 import waba.util.*;
-import extra.util.*;    
+
 import org.concord.waba.extra.event.*;
+import org.concord.waba.extra.util.*;
 
 public class LineGraph extends Graph2D
 	implements ActionListener

@@ -21,8 +21,8 @@ import waba.ui.*;
 import waba.fx.*;
 import waba.util.*;
 import waba.sys.*;
-import extra.ui.*;
-import extra.util.*;
+
+import org.concord.waba.extra.util.*;
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
 
