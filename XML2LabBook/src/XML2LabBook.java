@@ -227,7 +227,7 @@ public static QTManager qtManager = null;
 	public static LObjDictionary initRootDictionary(LabBook labBook){
 		if(labBook == null) return null;
  		LObjDictionary dict = DefaultFactory.createDictionary();
-		dict.setName("Root");
+		dict.setName("Home");
 		labBook.store(dict);
 		return dict;
 	}
