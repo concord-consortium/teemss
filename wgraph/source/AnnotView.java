@@ -76,6 +76,13 @@ public class AnnotView extends Container implements PropObject
 
     }
 
+    public void addBin(Bin b)
+    {
+	lgBins[0] = b;
+	lgView.lGraph.addBin(b);
+	bGraph.addBar(0, lgBins[0]);
+    }
+
     public Bin getBin()
     {
 	lgBins[0] = lgView.lGraph.addBin(0, "Probe", false);

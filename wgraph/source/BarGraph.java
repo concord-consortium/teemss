@@ -148,7 +148,6 @@ public class BarGraph extends Graph2D
 
     public void draw(Graphics g)
     {
-	//	System.out.println("Redrawing bGraph");
 	int w = width;
 	int h = height;
 

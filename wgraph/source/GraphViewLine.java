@@ -111,7 +111,7 @@ public class GraphViewLine extends GraphView
 	} 
     }
 
-    boolean autoScroll = true;
+    public boolean autoScroll = true;
     float scrollFract = (float)0.25;
     float scrollStepSize = (float)0.15;
     int scrollSteps = 5;
@@ -124,7 +124,8 @@ public class GraphViewLine extends GraphView
 	int myScrollStep = (int)(lGraph.dwWidth * scrollStepSize);
 
 
-	if((bin.numValues > 0) && 
+	if(autoScroll && 
+	   (bin.numValues > 0) && 
 	   (bin.maxX > (lGraph.xaxis.dispMin + (float)lGraph.xaxis.dispLen / lGraph.xScale ) ||
 	   lGraph.xaxis.drawnX == -1)){
 	    // scroll

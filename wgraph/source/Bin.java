@@ -23,6 +23,7 @@ import waba.io.*;
 import waba.sys.*;
 import waba.util.*;
 import org.concord.waba.extra.event.*;
+import extra.util.*;
 
 public class Bin
     implements DecoratedValue
@@ -36,7 +37,6 @@ public class Bin
     int lastPlottedPoint;
     int c;
     int collection;
-    Axis xaxis, yaxis;
     int lastPlottedY;
     int lastPlottedX;
     int curX;
@@ -47,13 +47,15 @@ public class Bin
     float refX = 0f;
     float refY = 0f;
     public float minX, minY, maxX, maxY;
-    LineGraph graph;
     int [] color = {255,0,0};
+    public int xaIndex = 0;
+    
+    public String label;
 
-    String label;
-
-    public Bin(LineGraph g)
+    public Bin(int xIndex)
     {
+	xaIndex = xIndex;
+
 	// We store three ints for each point
 	// (x),(avgY),(maxOff << 16 | -minOff)
 	points = new int [START_DATA_SIZE*3];
@@ -61,7 +63,6 @@ public class Bin
 
 	// System.out.println("Creating bin with size:" + START_DATA_SIZE);
 
-	graph = g;
 	reset();
     }
 
@@ -87,7 +88,7 @@ public class Bin
 	return values[(numValues-1)*2];
     }
 
-    public void recalc()
+    public void recalc(float xscale, float yscale)
     {
 	int i;
 	int lastOffset = numValues*2;
@@ -103,17 +104,17 @@ public class Bin
 	}
 
 	i=0;
-	curX = (int)(values[i++]* xaxis.scale);
-	minPtY = maxPtY = sumY = (int)(values[i++]* yaxis.scale);
+	curX = (int)(values[i++]* xscale);
+	minPtY = maxPtY = sumY = (int)(values[i++]* yscale);
 	numXs = 1;
 
 	// Set the last value to some non valid x
 	// This will cause the inner loop to break out
 	values[numValues*2] = -100000f;
 	
-	newX = (int)(values[i] * xaxis.scale);
+	newX = (int)(values[i] * xscale);
 	i++;
-	newY = (int)(values[i] * yaxis.scale);
+	newY = (int)(values[i] * yscale);
 	i++;		
 
 	while(true){
@@ -123,9 +124,9 @@ public class Bin
 		if(newY > maxPtY) maxPtY = newY;
 		else if(newY < minPtY) minPtY = newY;
 
-		newX = (int)(values[i] * xaxis.scale);
+		newX = (int)(values[i] * xscale);
 		i++;
-		newY = (int)(values[i] * yaxis.scale);
+		newY = (int)(values[i] * yscale);
 		i++;		
 	    }
 	    points[curPtPos++] = curX;
@@ -145,7 +146,7 @@ public class Bin
 
     int lastCalcValue = 0;
 
-    public boolean update()
+    public boolean update(float xscale, float yscale)
     {
 	int i;
 	int lastOffset = numValues*2;
@@ -154,7 +155,7 @@ public class Bin
 	int avgY;
 
 	if(numPoints < 2){
-	    recalc();
+	    recalc(xscale, yscale);
 	    return true;
 	}
 
@@ -168,9 +169,9 @@ public class Bin
 	// This will cause the inner loop to break out
 	values[numValues*2] = -100000f;
 	
-	newX = (int)(values[i] * xaxis.scale);
+	newX = (int)(values[i] * xscale);
 	i++;
-	newY = (int)(values[i] * yaxis.scale);
+	newY = (int)(values[i] * yscale);
 	i++;		
 
 	while(true){
@@ -180,9 +181,9 @@ public class Bin
 		if(newY > maxPtY) maxPtY = newY;
 		else if(newY < minPtY) minPtY = newY;
 
-		newX = (int)(values[i] * xaxis.scale);
+		newX = (int)(values[i] * xscale);
 		i++;
-		newY = (int)(values[i] * yaxis.scale);
+		newY = (int)(values[i] * yscale);
 		i++;		
 	    }
 	    points[curPtPos++] = curX;
@@ -271,9 +272,6 @@ public class Bin
 	    numValues++;
 	}
 
-	// Get the older values up to date.
-	update();
-
 	return true;
     }
 
@@ -322,9 +320,6 @@ public class Bin
 
 	    numValues++;
 	}
-
-	// Get the older values up to date.
-	update();
 
 	return true;
 
@@ -379,6 +374,26 @@ public class Bin
 	}
 
 	return count;
+    }
+
+    public int numDataChunks(){return 1;}
+
+    public DataEvent getDataChunk(int index)
+    {
+	DataEvent dEvent;
+	DataDesc dDesc = new DataDesc(dT, 1);
+
+	float [] data = new float [numValues];
+	for(int i=0; i<numValues; i++){
+	    data[i] = values[i*2 + 1] + refY;
+	}
+
+	dEvent = new DataEvent(DataEvent.DATA_RECEIVED, 
+			       0f, data , dDesc);
+	dEvent.dataOffset = 0;
+	dEvent.numbData = numValues;
+
+	return dEvent;
     }
 	    
 }

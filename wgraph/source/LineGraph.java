@@ -42,6 +42,8 @@ public class LineGraph extends Graph2D
     public int dwWidth, dwHeight;
     public Axis xaxis = null;
     public Axis [] xaxisArray = new Axis [10];
+    public int [] numBinsPerAxis = new int [10];
+
     Axis firstXaxis = null;
     int numXaxis;
     float xRange;
@@ -180,11 +182,20 @@ public class LineGraph extends Graph2D
 	Annotation a = null;
 	float [] binValue = new float [1];
 	
+	for(i=0; i<numXaxis; i++){
+	    if(xa == xaxisArray[i]){
+		break;
+	    }
+	}
+
+	if(i == numXaxis) return false;
+	int xaIndex = i;
+
 	i = 0;
 	for(k=0; k<numBins; k++){
 	    bin = binArray[k];
 
-	    if(xa == bin.xaxis){
+	    if(xaIndex == bin.xaIndex){
 		valid = valid && bin.getValue(time, binValue);
 		value [i] = binValue[0];
 		i++;
@@ -256,11 +267,12 @@ public class LineGraph extends Graph2D
 
 	for(k=0; k<numBins; k++){
 	    bin = binArray[k];
-	    xa = bin.xaxis;
+	    //	    System.out.println("Getting axis " + bin.xaIndex + " for bin " + k);
+	    xa = xaxisArray[bin.xaIndex];
 
 	    if(xa.drawnX == -1) continue;
 
-	    bin.update();
+	    bin.update(xaxis.scale, yaxis.scale);
 
 	    if(bin.numPoints < 2) continue;
 	    
@@ -451,16 +463,9 @@ public class LineGraph extends Graph2D
 
 	binStorSize = newSize;
     }
+    
 
-    // return a Object linked to this location
-    // we are ignoring location for now
-    public Bin addBin(int location, String label, boolean newCollection)
-    {
-	Bin bin;
-
-	// We need to add a new xaxis
-	if(newCollection){
-
+	    /*
 	    // This is a hack 
 	    if(curBin.maxX < 0 || curBin.numPoints < 3){
 		curBin.reset();
@@ -493,26 +498,108 @@ public class LineGraph extends Graph2D
 
 	    startPosChanged = true;
 	    needRecalc = true;	    
+	    */
+
+    public boolean addXaxis()
+    {
+	if(curBin == null) return false;
+
+	// This is a hack 
+	if(curBin.maxX < 0 || curBin.numValues < 3){
+	    curBin.reset();
+	    return false;
 	}
+
+	// Technically this should search through all the active bins
+	// and get the max
+	xaxis.max = curBin.maxX;
+
+	if(numXaxis >= xaxisArray.length){
+	    /*
+	    for(int i=0; i<xaxisArray.length; i++){
+		if(xaxisArray[i] != null){
+		    xaxisArray[i].free();
+		}
+	    }
+	    */
+
+	    Axis [] newAxis = new Axis[(numXaxis * 3)/ 2];
+	    int [] newNumBins = new int[(numXaxis * 3)/ 2];
+	    Vm.copyArray(xaxisArray, 0, newAxis, 0, numXaxis);
+	    Vm.copyArray(numBinsPerAxis, 0, newNumBins, 0, numXaxis);
+	    xaxisArray = newAxis;
+	    numBinsPerAxis = newNumBins;
+	} 
+	xaxisArray[numXaxis] = xaxis = new Axis(X_MIN, dwWidth, xaxis.scale, Axis.BOTTOM);
+	numBinsPerAxis[numXaxis] = 0;
+	xaxis.gridEndOff=-dwHeight+1;
+	xaxis.max = (float)1E30;  // some huge number 
+
+	graphLayout[1][2] = xaxis;
+	numXaxis++;
+
+	activeBins = new Vector();
+	
+	startPosChanged = true;
+	needRecalc = true;	    
+
+	return true;
+    }
+
+    public void addBin(Bin bin)
+    {
+			   
+	// need to add xAxis as necessary
+	// this will only work if the bins are add incrementally
+	if(bin.xaIndex >= numXaxis){
+	    if(!addXaxis()){
+		//		Debug.println("Failed adding xAxis");
+	    }
+	}
+
+	curBin = bin;
 
 	if(numBins >= binStorSize){
 	    incBinStor();
 	}
 
-	// setup points, reset to the begining of the graph
-	binArray[numBins] = curBin = new Bin(this);	
-	curBin.xaxis = xaxis;
-	curBin.yaxis = yaxis;
-	curBin.color = lineColors[activeBins.getCount()];
-	curBin.minX = 0f;
-	
-	curBin.label = label;
-
-	// This is a hack
-	curBin.minY = -100f;
+	binArray[numBins] = bin;
+	bin.color = lineColors[numBinsPerAxis[bin.xaIndex]];
+	numBinsPerAxis[bin.xaIndex]++;
 
 	numBins++;
-	activeBins.add(curBin);
+    }
+
+    // return a Object linked to this location
+    // we are ignoring location for now
+    public Bin addBin(int location, String label, boolean newCollection)
+    {
+	Bin bin;
+	boolean needNewBin = true;
+
+	// We need to add a new xaxis
+	if(newCollection){
+	    if(!addXaxis()){
+		needNewBin = false;
+		
+	    }
+	}
+
+	if(needNewBin){
+	    // setup points, reset to the begining of the graph
+	    curBin = new Bin(numXaxis-1);	
+
+	    //	curBin.minX = 0f;
+	
+	    curBin.label = label;
+
+	    // This is a hack
+	    // curBin.minY = -100f;
+
+	    addBin(curBin);
+
+	    activeBins.add(curBin);
+	}
 
 	return curBin;
     }
@@ -525,7 +612,6 @@ public class LineGraph extends Graph2D
 	int axisLen;
 	int i;
 
-	// System.out.println("Drawing x axis");
 	xRange = dwWidth / xScale;	
 	curStartPos = 0;
 
@@ -554,7 +640,6 @@ public class LineGraph extends Graph2D
 	}
 
 	if(firstVisible == -1){
-	    //	    System.out.println("No visible xaxis??");
 	    return;
 	}
 
@@ -687,7 +772,7 @@ public class LineGraph extends Graph2D
 
 	if(needRecalc){
 	    for(int k=0; k<numBins; k++){
-		binArray[k].recalc();		
+		binArray[k].recalc(xaxis.scale, yaxis.scale);		
 	    }
 	    needRecalc = false;
 	}

@@ -237,11 +237,7 @@ public class Axis
 	} else {
 	    labelExp = 0;
 	    majTicStep = labelTicStep = exp10(labelTicStep, exponent);
-	}
-	    
-
-	//	System.out.println("MajTicStep: " + majTicStep);
-
+	}	   
 	
 	setFirstTic();
     }
@@ -261,14 +257,10 @@ public class Axis
 	    firstTic = (float)intFloor * majTicStep;
 	}
 
-	//	System.out.println("FirstTic: " + firstTic);
-
 	firstLabelTic = exp10(firstTic, -labelExp);
 
-	//	computeTicArrays();
     }
 	
-    // float minLast;
     int maxLabelOff = 0;
     int minLabelOff = 0;
     float ticStep = (float)1;
@@ -285,7 +277,6 @@ public class Axis
 
 	float range = length / scale;
 
-	//	System.out.println("Computing tics. range: " + range);
 	if(range < 0){
 	    range = (float)0;
 	}
@@ -442,9 +433,6 @@ public class Axis
 	int curPos;
 	int firstIndex = i;
 
-	//	System.out.println("FirstIndex: " + firstIndex + ", FirstOffset: " + curPos);
-	// System.out.println("DispLen: " + dispLen);
-
 	int lastIndex;
 	int endPos = dispOffset + dispLen - axisDir;
 	int majTicEndOff = ticDir * majTicSize;
@@ -462,7 +450,6 @@ public class Axis
 	    g.translate(axisDir - dispOffset, gridDir);
 
 	    // draw tic marks and labels
-	    // System.out.print("Drawing maj tick:");
 	    while((i < ticOffsets.length) &&
 		  ((curPos = ticOffsets[i])*axisDir <= endPos*axisDir)){
 		if(majTicLabels[i] == null){
@@ -470,12 +457,10 @@ public class Axis
 		} else {
 		    g.drawLine(curPos, ticDir, curPos, majTicEndOff);
 		    majTicLabels[i].drawCenter(g, curPos, labelOff, labelEdge);
-		    // System.out.print(curPos + ", ");
 		}
 		i++;
 	    }
 
-	    // System.out.println("");
 	    lastIndex = i;
 
 	    // draw Minor GridLines
@@ -488,16 +473,13 @@ public class Axis
 
 	    // draw Major GridLines
 	    g.setColor(gridMajCol[0],gridMajCol[1],gridMajCol[2]);
-	    // System.out.print("Drawing maj gridLines: ");
 	    for(i=firstIndex; i< lastIndex; i++){
 		curPos = ticOffsets[i];
 		if(majTicLabels[i] != null){
 		    g.drawLine(curPos, 0, curPos, gridEndOff);
-		    // System.out.print(curPos + ", ");
 		}
 	    }
 
-	    // System.out.println("");
 
 	    g.translate(-(x + axisDir - dispOffset), -(y + gridDir));
 	} else {
