@@ -564,7 +564,9 @@ public static QTManager qtManager = null;
 				} else if(tagName.equals("YAXIS")){
 					setupAxis((Element)node, graph.addYAxis());
 				} else if(tagName.equals("LINE")){
-					setupLine(labBook, (Element)node, graph);
+					if(!setupLine(labBook, (Element)node, graph)){
+						return null;
+					}
 				}
 			}
 		}
@@ -594,7 +596,7 @@ public static QTManager qtManager = null;
 						   " max: " + max);
 	}		
 
-	public static void setupLine(LabBook labBook, Element element, LObjGraph graph)
+	public static boolean setupLine(LabBook labBook, Element element, LObjGraph graph)
 	{
 		int xAxisNum = 0;
 		int yAxisNum = 0;
@@ -608,21 +610,34 @@ public static QTManager qtManager = null;
 			yAxisNum = getIntFromString(yAxisStr);
 		}
 
-		NodeList nodeList = element.getChildNodes();
-		LabObject obj = null;
-		for(int i = 0; i < nodeList.getLength(); i++){
-			Node node = nodeList.item(i);
-			int type = node.getNodeType();
-			if(type == Node.ELEMENT_NODE){
-				obj = getLabBookObject(labBook, (Element)node);
-				break;
+		LabObject dsObj = null;
+		String dsRefStr = element.getAttribute("datasource");
+		if(dsRefStr != null && dsRefStr.length() > 0){
+			dsObj = (LabObject)docObjects.get(dsRefStr);
+			if(dsObj == null){
+				System.err.println("X2L: can't find datasource: " + dsRefStr);
 			}
 		}
 
-		if(!(obj instanceof DataSource)) return;		
-		graph.addDataSource((DataSource)obj,true,xAxisNum,yAxisNum);
-		System.out.println("X2L: adding line: ds: " + obj + " xaxis: " + xAxisNum + 
-						   " yaxis: " + yAxisNum);
+		if(dsObj == null){
+			NodeList nodeList = element.getChildNodes();
+			for(int i = 0; i < nodeList.getLength(); i++){
+				Node node = nodeList.item(i);
+				int type = node.getNodeType();
+				if(type == Node.ELEMENT_NODE){
+					dsObj = getLabBookObject(labBook, (Element)node);
+					break;
+				}
+			}
+		}
+
+		if(!(dsObj instanceof DataSource)){
+			System.err.println("X2L: the datasource: " + dsObj + " isn't valid");
+			return false;
+		}
+		
+		graph.addDataSource((DataSource)dsObj,true,xAxisNum,yAxisNum);
+		return true;
 	}
 
 	public static LabObject getProbeDataSource(LabBook labBook, Element element,
@@ -648,22 +663,44 @@ public static QTManager qtManager = null;
 		String quantityName = element.getAttribute("quantity");
 		if(quantityName == null || quantityName.length() <= 0) return null;
 
-		NodeList nodeList = element.getChildNodes();
 		LabObject probeObj = null;
-		for(int i = 0; i < nodeList.getLength(); i++){
-			Node node = nodeList.item(i);
-			int type = node.getNodeType();
-			if(type == Node.ELEMENT_NODE){
-				probeObj = getLabBookObject(labBook, (Element)node);
-				break;
+		String probeRefStr = element.getAttribute("probe");
+		if(probeRefStr != null && probeRefStr.length() > 0){
+			probeObj = (LabObject)docObjects.get(probeRefStr);
+			if(probeObj == null){
+				System.err.println("X2L: can't find probe: " + probeRefStr);
 			}
 		}
 
-		if(!(probeObj instanceof LObjProbeDataSource)) return null;
+		if(probeObj == null){
+			NodeList nodeList = element.getChildNodes();
+			for(int i = 0; i < nodeList.getLength(); i++){
+				Node node = nodeList.item(i);
+				int type = node.getNodeType();
+				if(type == Node.ELEMENT_NODE){
+					probeObj = getLabBookObject(labBook, (Element)node);
+					break;
+				}
+			}
+		}
+
+		if(!(probeObj instanceof LObjProbeDataSource)){
+			System.err.println("X2L: the probe isn't valid");
+			return null;
+		}
 		LObjProbeDataSource probeDS = (LObjProbeDataSource)probeObj;
 
 		DataSource newDS = probeDS.getQuantityDataSource(quantityName);
-
+		if(newDS == null){
+			System.err.println("X2L: the quantity: " + quantityName + 
+							   " is not valid for: " + probeDS.getProbeName());
+			System.err.print("  valid quantities are: ( ");
+			String names []  = probeDS.getQuantityNames();
+			for(int i=0; i<names.length-1; i++){
+				System.err.print(names[i] + " | ");
+			}
+			System.err.println(names[names.length-1] + " )");
+		}
 		return (LabObject)newDS;
 	}
 
