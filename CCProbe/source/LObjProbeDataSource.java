@@ -52,15 +52,14 @@ CCUnit		currentUnit = null;
     }
 
 	public void addDataListener(DataListener l){
-		ProbManager pb = ProbManager.getProbManager(probe.getInterfaceType());
-		if(pb != null && probe != null){
-			pb.addDataListenerToProb(probe.getName(),l);
+		if(probe != null){
+			probe.addDataListener(l);
 		}
 	}
 
 	public void removeDataListener(DataListener l){
-		if(this.probe != null){
-			this.probe.removeDataListener(l);
+		if(probe != null){
+			probe.removeDataListener(l);
 		}
 	}
 
@@ -164,6 +163,10 @@ CCUnit		currentUnit = null;
 	}
 	
 	public void closeEverything(){
+		if(probe != null){
+			probe.removeProbListener(this);
+		}
+
 		ProbManager pb = ProbManager.getProbManager(probe.getInterfaceType());
 		if(pb != null){
 			pb.dispose();
