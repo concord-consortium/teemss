@@ -3,7 +3,7 @@ package graph;
 import waba.fx.*;
 import waba.ui.*;
 
-public class LabelBuf extends Label
+public class LabelBuf extends Control
 {
     Image buffer = null;
     Graphics bufG;
@@ -13,7 +13,6 @@ public class LabelBuf extends Label
     int align = LEFT;
 
     public LabelBuf(String t){
-	super(t);
 	text = t;
     }
 
