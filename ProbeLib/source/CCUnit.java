@@ -106,24 +106,26 @@ public final static int UNIT_CODE_ERG				= 39;
 public final static int UNIT_CODE_WHR				= 40;
 public final static int UNIT_CODE_NEWTON			= 41;
 public final static int UNIT_CODE_DYNE				= 42;
-public final static int UNIT_CODE_WATT				= 43;
-public final static int UNIT_CODE_HP_MECH			= 44;
-public final static int UNIT_CODE_HP_EL				= 45;
-public final static int UNIT_CODE_HP_METR			= 46;
-public final static int UNIT_CODE_PASCAL			= 47;
-public final static int UNIT_CODE_BAR				= 48;
-public final static int UNIT_CODE_ATM				= 49;
-public final static int UNIT_CODE_MMHG				= 50;
-public final static int UNIT_CODE_CMH2O			= 51;
-public final static int UNIT_CODE_TORR				= 52;
-public final static int UNIT_CODE_ANG_VEL			= 53;
-public final static int UNIT_CODE_LINEAR_VEL		= 54;
-public final static int UNIT_CODE_AMPERE			= 55;
-public final static int UNIT_CODE_VOLT				= 56;
-public final static int UNIT_CODE_COULOMB			= 57;
-public final static int UNIT_CODE_MILLIVOLT			= 58;
-public final static int UNIT_CODE_LUMEN				= 59;
-public final static int UNIT_CODE_LUX				= 60;
+public final static int UNIT_CODE_KGF				= 43;
+public final static int UNIT_CODE_LBF				= 44;
+public final static int UNIT_CODE_WATT				= 45;
+public final static int UNIT_CODE_HP_MECH			= 46;
+public final static int UNIT_CODE_HP_EL				= 47;
+public final static int UNIT_CODE_HP_METR			= 48;
+public final static int UNIT_CODE_PASCAL			= 49;
+public final static int UNIT_CODE_BAR				= 50;
+public final static int UNIT_CODE_ATM				= 51;
+public final static int UNIT_CODE_MMHG				= 52;
+public final static int UNIT_CODE_CMH2O				= 53;
+public final static int UNIT_CODE_TORR				= 54;
+public final static int UNIT_CODE_ANG_VEL			= 55;
+public final static int UNIT_CODE_LINEAR_VEL		= 56;
+public final static int UNIT_CODE_AMPERE			= 57;
+public final static int UNIT_CODE_VOLT				= 58;
+public final static int UNIT_CODE_COULOMB			= 59;
+public final static int UNIT_CODE_MILLIVOLT			= 60;
+public final static int UNIT_CODE_LUMEN				= 61;
+public final static int UNIT_CODE_LUX				= 62;
 
 public final static int UNIT_CAT_UNKNOWN			= 0;
 public final static int UNIT_CAT_LENGTH				= 1;
@@ -140,7 +142,7 @@ public final static int UNIT_CAT_ELECTRICITY		= 11;
 public final static int UNIT_CAT_LIGHT				= 12;
 public final static int UNIT_CAT_MISC				= 13;
 
-public static String[] catNames = {"Unknown","Length","Weights","Time","Temperature","Area","Volumes/Capacity","Energy","Force","Power","Pressure","Electricity","Light","Miscellaneous"};
+public static String[] catNames = {"Unknown","Length","Mass","Time","Temperature","Area","Volumes/Capacity","Energy","Force","Power","Pressure","Electricity","Light","Miscellaneous"};
 
 
 public  static CCUnit 	[]unitTable = 
@@ -187,6 +189,8 @@ public  static CCUnit 	[]unitTable =
 		new CCUnit("Watt-hours","Whr",true,UNIT_CAT_ENERGY,UNIT_CODE_WHR,UNIT_CODE_JOULE,2,1,-2,0,0,0,0,0,0,3600f,0.0f,false,true),
 		new CCUnit("Newton","N",true,UNIT_CAT_FORCE,UNIT_CODE_NEWTON,UNIT_CODE_NEWTON,1,1,-2,0,0,0,0,0,0,1f,0.0f,false,true),
 		new CCUnit("dyne","dyn",true,UNIT_CAT_FORCE,UNIT_CODE_DYNE,UNIT_CODE_NEWTON,1,1,-2,0,0,0,0,0,0,1e-5f,0.0f,false,true),
+		new CCUnit("kilogram-force","kgf",true,UNIT_CAT_FORCE,UNIT_CODE_KGF,UNIT_CODE_NEWTON,1,1,-2,0,0,0,0,0,0,9.80665f,0.0f,false,true),
+		new CCUnit("pund-force","lbf",true,UNIT_CAT_FORCE,UNIT_CODE_LBF,UNIT_CODE_NEWTON,1,1,-2,0,0,0,0,0,0,4.448222f,0.0f,false,true),
 		new CCUnit("watt","W",true,UNIT_CAT_POWER,UNIT_CODE_WATT,UNIT_CODE_WATT,2,1,-3,0,0,0,0,0,0,1f,0.0f,false,true),
 		new CCUnit("horsepower","hp",true,UNIT_CAT_POWER,UNIT_CODE_HP_MECH,UNIT_CODE_WATT,2,1,-3,0,0,0,0,0,0,745.7f,0.0f,false,false),
 		new CCUnit("horsepower (el)","hp(el)",true,UNIT_CAT_POWER,UNIT_CODE_HP_EL,UNIT_CODE_WATT,2,1,-3,0,0,0,0,0,0,746f,0.0f,false,false),
