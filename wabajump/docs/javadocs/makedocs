@@ -1,0 +1,2 @@
+#!/bin/bash
+javadoc -classpath ../../classes -sourcepath ../../source waba.io waba.fx waba.ui waba.sys waba.util

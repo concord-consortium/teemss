@@ -1,0 +1,10 @@
+#!/bin/bash
+javac -classpath ~/waba/forks/wj/classes *.java
+pilrc -R Scribble.res Scribble.rcp
+java -classpath ~/jump/jar/jump.jar:.:~/waba/forks/wj/classes:$CLASSPATH Jump -mw Scribble
+export PILAINC=~/pila
+pila Scribble.asm
+rm *.asm
+rm *.bin
+rm *.class
+rm *.res

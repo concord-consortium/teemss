@@ -1,0 +1,72 @@
+Changes in WabaJump 0.4
+-----------------------
+- waba.io.Catalog: Fixed error in creating a new Catalog. Thanks to Michael George.
+- waba.io.Catalog: Fixed error writing to a Catalog. Thanks to Michael George.
+- waba.io.Catalog: Replaced Integer and Short objects with IntHolder and ShortHolder objects
+   to get rid of deprecation warnings.
+- waba.io.SerialPort: Replaced Integer and Short objects with IntHolder and ShortHolder objects
+   to get rid of deprecation warnings.
+- waba.fx.Graphics: Replaced Integer and Short objects with IntHolder and ShortHolder objects
+   to get rid of deprecation warnings.
+- waba.sys.JumpApp: Replaced Integer and Short objects with IntHolder and ShortHolder objects
+   to get rid of deprecation warnings.
+- waba.sys.JumpApp: MainWindow.onExit was never being called. Fixed.
+- waba.io.Catalog: Fixed records being left open when doing an addRecord
+- waba.io.Catalog: Fixed problems when creating a Catalog, the Catalog would be hosed because
+   of an error in trying to set the backup bit on the Catalog. Thanks to Stephen Rudman.
+- waba.sys.JumpApp: Added some keycodes to the Event handler, borrowed from the SuperWaba
+   VM code. Thanks Guich!
+- waba.ui.IKeys: Added some keycodes, borrowed from SuperWaba. Thanks Guich!
+- waba.sys.JumpApp: Trapped the popup keyboard keys so that it won't crash the app.
+- waba.sys.Vm: copyArray will now return false if either array is null. Thanks Sean Luke
+   from the Newton Waba project!
+- waba.fx.Graphics: Fixed clipping.
+
+Changes in WabaJump 0.3
+-----------------------
+- waba.sys.Vm: getPlatform now returns "PalmOS" instead of "PalmOS/Jump".
+- waba.sys.Time: Time is now functional.
+- Examples: PocketWatch is now functional due to waba.sys.Time being completed.
+- waba.fx.Graphics: getClip now returns the current clipping rectangle.
+- waba.fx.Graphics: Added drawStart and drawStop functions and inserted them into
+   all drawing functions.
+- waba.fx.Graphics: setColor will now default all colors that are not 255,255,255
+   to black instead of defaulting all colors that are not 0,0,0 to white.
+- waba.fx.Image: Removed getResourceID.
+- waba.fx.Image: Changed constructor that uses a resource id to also require height and width,
+   as well as it now creating an offscreen window.
+- waba.fx.Graphics: Changed drawImage to use copyRect, copyRect is now functioning.
+- Examples: ImageSplit is now functional due to Image and Graphics Changes.
+- waba.ui.Window: getWinHandle now uses Palm.WinGetDisplayWindow.
+- waba.fx.FontMetrics: In getCharWidth, used Palm.FntLineWidth instead of Palm.FntCharWidth to
+   correct cursor and selection being placed incorrectly on Edit controls.
+- waba.io.Socket: Skeleton version of Socket just to make apps that use Socket compile. Socket
+   is not functional yet.
+- Examples: Removed PilotMain function from all the examples to demonstrate use of Jump's
+   WabaJump mode.
+
+
+Changes in WabaJump 0.2
+-----------------------
+- Changed package name from wabajump to waba.
+- DiceRoller example: Fixed dice being placed in the wrong spot when the Set button is tapped.
+- waba.fx.Graphics: Put code into setClip and clearClip.
+- waba.fx.Graphics: Made getRect return a wabajump.fx.Rect instead of a palmos.Rectangle.
+- waba.fx.Graphics: Created function getRectangle for when a palmos.Rectangle is needed.
+- waba.io.SerialPort: Created function getRefNum for use in InfraRed.
+- waba.io.InfraRed: Now extends Stream instead of SerialPort for future compatibility with
+   non-PalmOS versions of Waba/SuperWaba.
+- waba.io.InfraRed: Added code to make it do something!
+- Examples: Added Scribble example from the original Waba SDK.
+- waba.io.Catalog: Type and Creator were reversed in the constructor. Fixed it.
+- waba.io.Catalog: Made _recordPos initialize to -1. This fixed errors when closing a Catalog.
+- Examples: Added AddrScan example from the original Waba SDK.
+- Examples: Added Controls example from the original Waba SDK.
+- waba.fx.Image: Added the constructor that uses width and height.
+- waba.fx.Image: getWinHandle will now return a handle if it has one.
+- waba.fx.Graphics: Now initializing font=waba.ui.MainWindow.defaultFont. (Thanks Ralf!)
+- Examples: Added CoreTest example from the original Waba SDK. It is not fully functional, and
+   demonstrates the unfinished parts of WabaJump quite well.
+- Examples: Added ImageSplit example from the original Waba SDK. It is not fully functional.
+- Examples: Added PocketWatch example from the original Waba SDK. It is not fully functional.
+

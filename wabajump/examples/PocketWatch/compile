@@ -1,0 +1,10 @@
+#!/bin/bash
+javac -classpath ~/jump/jar/jump.jar:~/source/wabajump/classes *.java
+export PILAINC=~/pila
+~/pilrc/pilrc -R PocketWatch.res PocketWatch.rcp
+ibmjava -classpath ~/jump/jar/jump.jar:.:~/source/wabajump/classes:$CLASSPATH Jump -mw PocketWatch
+~/pila/pila PocketWatch.asm
+rm *.asm
+rm *.bin
+rm *.class
+rm *.res

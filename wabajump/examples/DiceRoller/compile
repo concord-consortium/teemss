@@ -1,0 +1,10 @@
+#!/bin/bash
+javac -classpath ~/source/wabajump/classes *.java
+~/pilrc/pilrc -R DiceRoller.res DiceRoller.rcp
+ibmjava -classpath ~/jump/jar/jump.jar:.:~/source/wabajump/classes:$CLASSPATH Jump -mw DiceRoller
+export PILAINC=~/pila
+~/pila/pila DiceRoller.asm
+rm *.asm
+rm *.bin
+rm *.class
+rm *.res
