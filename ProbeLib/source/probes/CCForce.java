@@ -22,7 +22,7 @@ float B = -25.31f;
 	CCForce(String name){
 	    	activeChannels = 2;
 		setName(name);
-		dDesc.setChPerSample(2);
+		dDesc.setChPerSample(1);
 		dDesc.setDt(0.0f);
 		dEvent.setDataDesc(dDesc);
 		dEvent.setDataOffset(0);
@@ -35,7 +35,7 @@ float B = -25.31f;
 		properties[3] = new PropObject(propNames[2], channelNames);
 		setPropertyValue(0,samplingModes[CCProb.SAMPLING_10BIT_MODE]);
 		setPropertyValue(1,portNames[0]);
-		setPropertyValue(2,numbChannels[1]);
+		setPropertyValue(2,numbChannels[0]);
 		setPropertyValue(3,channelNames[0]);
 		
 		calibrationDesc = new CalibrationDesc();

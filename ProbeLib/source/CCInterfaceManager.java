@@ -39,7 +39,7 @@ protected ProbManager	pb = null;
 		port = new SerialPort(1,9600);
 		if((port == null) || !port.isOpen()) return;
 		port.setFlowControl(false);
-	    setByteStreamProperties();
+	    	setByteStreamProperties();
 		setCurTime(0.0f);
 		valueData[0] = curStepTime;
 		gotChannel0 = false;
@@ -56,7 +56,6 @@ protected ProbManager	pb = null;
 		if(!startA2D(startC)) return;
 		startTimer = Vm.getTimeStamp();
 		timer = addTimer(getRightMilliseconds());
-		//System.out.println("start");
 	}
 	public void stop(){
 		if(timer != null){
@@ -328,7 +327,8 @@ protected ProbManager	pb = null;
 			Vm.sleep(150);
 		}
 		// in case the the port is left open stop it
-
+		buf[0] = 9;
+		port.writeBytes(buf, 0, 1);
 		int ret;
 		if((ret = Command((byte)'c', (byte)67)) != 1){
 			port.close();
