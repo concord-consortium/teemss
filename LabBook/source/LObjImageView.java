@@ -206,18 +206,6 @@ public class LObjImageView extends LabObjectView implements ActionListener
 						waba.sys.Vm.copyArray(imageCMAP, 0, tmpCmap, 0, imageCMAP.length);
 				    }
 
-					/*
-					int [] paletteInts = CCPalette.getSystemPalette();
-					int [] curColorTable = paletteInts;
-					if(imageCMAP.length == curColorTable.length){
-						for(int j=0; j < imageCMAP.length; j++){
-							if(imageCMAP[j] != (curColorTable[j] & 0xFFFFFF)){
-								break;
-							}
-						}
-					} 
-					*/
-
 					wabaImage.setPixels(imageBPP,tmpCmap,imageScanlen,imageHeight,0,imagePixels);
 					imagePane = new ImagePane(wabaImage);
 					add(imagePane);

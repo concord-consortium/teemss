@@ -134,9 +134,8 @@ public class DictTreeNode
 
     public boolean isLeaf()
     {
-		LObjDictionary dict = getDict();
-
-		return (dict.hideChildren && dict.globalHide);
+		boolean hideChildren = ((ptr.flags & 0x010) == 0x010?true:false);
+		return (hideChildren && LObjDictionary.globalHide);
     }
 
     public int getChildCount()
@@ -179,13 +178,10 @@ public class DictTreeNode
     }
 
     public String toString()
-    {
-		LObjDictionary dict = getDict();
-
-		if(dict.getName() == null) return "..null_name..";
-		return dict.getName();
-		
-    }
+	{
+		if(ptr.name == null) return "..null_name..";
+		return ptr.name;
+	}
 
     public boolean equals(TreeNode node)
 	{

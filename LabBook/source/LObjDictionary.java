@@ -21,6 +21,13 @@ public class LObjDictionary extends LabObject
 		super(DefaultFactory.DICTIONARY);
     }
 
+	public LabObjectPtr getVisiblePtr()
+	{
+		LabObjectPtr ptr = super.getVisiblePtr();
+		ptr.flags = getFlags();
+		return ptr;
+	}
+
     public LabObjectView getPropertyView(ViewContainer vc, LObjDictionary curDict,
 										 LabBookSession session)
     {
@@ -162,13 +169,12 @@ public class LObjDictionary extends LabObject
     {
 		objects = new Vector();
 		int i;
-		short flags = ds.readShort();
 
-		viewType = (flags & 0x0F);
+		viewType = (ptr.flags & 0x0F);
 
-		hideChildren = ((flags & 0x010) == 0x010?true:false);
-		hasMainObject = ((flags & 0x020) == 0x020?true:false);
-		hasObjTemplate = ((flags & 0x040) == 0x040?true:false);
+		hideChildren = ((ptr.flags & 0x010) == 0x010?true:false);
+		hasMainObject = ((ptr.flags & 0x020) == 0x020?true:false);
+		hasObjTemplate = ((ptr.flags & 0x040) == 0x040?true:false);
 
 		short size = ds.readShort();
 	
@@ -180,16 +186,19 @@ public class LObjDictionary extends LabObject
 
     }
 
-    public void writeExternal(DataStream ds)
-    {
-		int i;
-		int size = objects.getCount();
-
+	short getFlags()
+	{
 		short flags = (short)viewType;
 		flags = hideChildren?(short)(flags|0x010):flags;
 		flags = hasMainObject?(short)(flags|0x020):flags;
 		flags = hasObjTemplate?(short)(flags|0x040):flags;
-		ds.writeShort(flags);
+		return flags;
+	}
+
+    public void writeExternal(DataStream ds)
+    {
+		int i;
+		int size = objects.getCount();
 
 		ds.writeShort(size);
 		for(i=0; i<size; i++){

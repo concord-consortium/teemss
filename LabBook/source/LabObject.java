@@ -9,17 +9,21 @@ public abstract class LabObject
 {
     private String name = null;
     LabObjectPtr ptr;
-    int objectType = -1;
+    short objectType = -1;
 	public LabObjectFactory factory;
     public static LabBook lBook;
 	private int refCount = 0;
 
 	public LabObject(int type)
 	{
-		objectType = type;
+		objectType = (short)type;
 	}
 
-	public LabObjectPtr getVisiblePtr(){ return ptr; }
+	public LabObjectPtr getVisiblePtr()
+	{ 
+		ptr.name = name;
+		return ptr; 
+	}
 
 	public String getName(){ return name; }
 	public void setName(String name){ this.name = name; }

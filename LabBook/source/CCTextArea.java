@@ -1564,7 +1564,7 @@ public class CCTextArea  extends Container
 		return wrapper;
 	}
 
-	byte [] charWidthMappers = null;
+	static byte [] charWidthMappers = null;
 	byte [] getCharWidths()
 	{
 		if(charWidthMappers != null) return charWidthMappers;

@@ -247,8 +247,11 @@ public class LabBook
 				alreadyStored.add(curObjPtr);
 				toBeStored.del(0);
 
-				dsOut.writeInt(curObjPtr.obj.objectType);
+				dsOut.writeShort(curObjPtr.obj.objectType);
 				dsOut.writeString(curObjPtr.obj.getName());
+				if(curObjPtr.obj instanceof LObjDictionary){
+					dsOut.writeShort(((LObjDictionary)curObjPtr.obj).getFlags());
+				}
 
 				// This might call store which will change the toBeStored vector
 				curObjPtr.obj.writeExternal(dsOut);
@@ -284,8 +287,11 @@ public class LabBook
 		if(index < 0) return false;
 
 		// write object header
-		dsOut.writeInt(lObjPtr.obj.objectType);
+		dsOut.writeShort(lObjPtr.obj.objectType);
 		dsOut.writeString(lObjPtr.obj.getName());
+		if(lObjPtr.obj instanceof LObjDictionary){
+			dsOut.writeShort(((LObjDictionary)lObjPtr.obj).getFlags());
+		}
 
 		// This might call store which will change the toBeStored vector
 		lObjPtr.obj.writeExternal(dsOut);
@@ -342,12 +348,21 @@ public class LabBook
 		// read buffer by
 		bsIn.setBuffer(buffer);
 	
-		int objectType = dsIn.readInt();
+		int objectType = dsIn.readShort();		
 
 		if(lObj.objectType != objectType){
 			Debug.println("reload: Non-matching object");
 			return false;
 		}
+
+		//need to read the name string
+		String name = dsIn.readString();
+		if(lObj.objectType == DefaultFactory.DICTIONARY){
+			lObj.ptr.flags = dsIn.readShort();			
+		}
+
+		// probably we should update the object name
+		lObj.setName(name);
 
 		// We should check if the object is in the loaded list
 		//	.. loaded.add(lObjPtr);
@@ -442,6 +457,9 @@ public class LabBook
 				lObjPtr.obj = curObjPtr.obj;
 				lObjPtr.objType = lObjPtr.obj.objectType;
 				lObjPtr.name = lObjPtr.obj.getName();
+				if(lObjPtr.obj instanceof LObjDictionary){
+					lObjPtr.flags = ((LObjDictionary)lObjPtr.obj).getFlags();
+				}
 				return null;
 			}
 		}
@@ -458,8 +476,11 @@ public class LabBook
 		// read buffer by
 		bsIn.setBuffer(buffer);
 	
-		lObjPtr.objType = dsIn.readInt();
+		lObjPtr.objType = dsIn.readShort();
 		lObjPtr.name = dsIn.readString();
+		if(lObjPtr.objType == DefaultFactory.DICTIONARY){
+			lObjPtr.flags = dsIn.readShort();			
+		}
 
 		return dsIn;
 	}
