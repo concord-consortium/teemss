@@ -104,15 +104,9 @@ width="158" height="140" border="1"/>
 <xsl:value-of select="count(ancestor::steps | ancestor::instructions | ancestor::querys)"/>
 </xsl:variable>
 <xsl:choose>
-<xsl:when test="$depth ='0'">
-1
-</xsl:when>
-<xsl:when test="$depth ='1'">
-a
-</xsl:when>
-<xsl:when test="$depth ='2'">
-i
-</xsl:when>
+<xsl:when test="$depth ='0'">1</xsl:when>
+<xsl:when test="$depth ='1'">a</xsl:when>
+<xsl:when test="$depth ='2'">i</xsl:when>
 </xsl:choose>
 </xsl:template>
 
