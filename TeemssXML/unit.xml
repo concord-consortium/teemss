@@ -4158,7 +4158,7 @@
             Also connect the voltage leads and the current leads of
             VoltageCurrent probe to the heat cell. Follow the diagram
             carefully. Don &apos;t put the heat cell in the insulation
-            yet.  <ext-image name="03_he2"/>
+            yet.  <ext-image name="03_he"/>
           </step>
           <step>Start the software to record power. This measures the
             electrical power, in watts, that you are supplying to the
@@ -4186,7 +4186,7 @@
             in one end of the heat cell.  <ext-image name="04a_he"/>
           </step>
           <step>Set the heat cell in the insulation and close up the box
-            with a rubber band.<ext-image name="03_he"/>
+            with a rubber band.<ext-image name="04b_he"/>
           </step>
           <step>Attach the two Genecon leads to the wires extending from
             the heat cell.  <ext-image name="04c_he"/>
@@ -4266,7 +4266,7 @@
           <step>Use a 2-AA battery pack, which will supply somewhat less
             than 3 volts, to warm the heat cell. You can use the battery
             pack on the air cart for this. Attach one of the battery
-            leads, but not the other, to the heat cell.   <ext-image name="05b_he2"/>
+            leads, but not the other, to the heat cell.   <ext-image name="05b_he"/>
           </step>
           <step>Start the software for the Temperature probe. Refer to
             Technical Hints to see how to use the software.
