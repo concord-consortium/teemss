@@ -7,6 +7,8 @@ REMOTE_HOST := hub.concord.org
 REMOTE_ROOT := releases
 VER_MODULE = $(subst _,.,$(TAG))
 
+main:
+
 release-sub:
 # Check out the release to our directory
 # This will ask for a password
@@ -25,4 +27,4 @@ release-sub:
 $(REMOTE_ROOT)/$(VER_MODULE) \
 $(ALL_MODULE_NAME)/$(MODULE)/bin/*
 
-include ../ReleaseSystem/cvs.inc
+include ../ReleaseSystem/Makefile.inc
