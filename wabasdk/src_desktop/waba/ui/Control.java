@@ -367,7 +367,6 @@ public void postEvent(Event event)
 	while (c != null)
 
 		{
-
 		c.onEvent(event);
 
  		c = c.parent;
