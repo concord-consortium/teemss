@@ -69,7 +69,7 @@ Menu 					menu = null;
 					}
 					if(!nameEditWasAdded){
 						edit.add(nameLabel, 1, 1, 30, 15);
-						edit.add(nameEdit, 30, 1, 50, 15);
+						edit.add(nameEdit, 30, 1, RelativeContainer.REST, 15);
 						if(tArea != null) edit.add(tArea, 1, RelativeContainer.BELOW,RelativeContainer.REST, RelativeContainer.REST);
 					}
 					buttonsWasAdded = true;
@@ -110,7 +110,7 @@ Menu 					menu = null;
 				nameEditWasAdded = false;
 			}else{
 				edit.add(nameLabel, 1, 1, 30, 15);
-				edit.add(nameEdit, 30, 1, 50, 15);
+				edit.add(nameEdit, 30, 1, RelativeContainer.REST, 15);
 				nameEditWasAdded = true;
 			}
 		} 
@@ -144,15 +144,15 @@ Menu 					menu = null;
 		if(!didLayout) layout(showDone);
 
 		if(showDone){
-			edit.setRect(0,0,width,height-15);
-			doneButton.setRect(width-30,height-15,30,15);
+			edit.setRect(0,15,width,height-15);
+			doneButton.setRect(width-30,0,30,15);
 		} else {
 			if(getEmbeddedState()) edit.setRect(0,0,width,height);
-			else				   edit.setRect(0,0,width,height-15);
+			else				   edit.setRect(0,15,width,height-15);
 		}
 		if(!getEmbeddedState()){
-			if(upButton != null)    upButton.setRect(1,height-15,30,15);
-			if(downButton != null)  downButton.setRect(35,height-15,30,15);
+			if(upButton != null)    upButton.setRect(1,0,30,15);
+			if(downButton != null)  downButton.setRect(35,0,30,15);
 		}
 	}
 

@@ -38,7 +38,7 @@ Check					propertyModeCheck;
 		if(didLayout) return;
 		didLayout = true;
 		if(propertyModeCheck == null){
-			propertyModeCheck = new Check("Property Mode");
+			propertyModeCheck = new Check("Edit Mode");
 			add(propertyModeCheck);
 		}
 		showDone = sDone;

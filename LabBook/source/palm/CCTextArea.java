@@ -425,10 +425,59 @@ public final static int	yTextBegin = 2;
 		}
 	}
 
-	public void insertText(String str){
-		if(str == null) return;
-		layoutComponents();
+	public void insertText(String iStr){
+		if(iStr == null) return;
+		int nStr = iStr.length();
+		if(nStr < 1){
+			iStr += "\n";
+		}else{
+			char c = iStr.charAt(nStr - 1);
+			boolean wasEOL = false;
+			if(c == '\n'){
+				wasEOL = true;
+			}else if(c == '\r'){
+				wasEOL = true;
+			}
+			if(!wasEOL){
+				iStr += "\n";
+			}
+		}
+		int lineIndex = getLineIndex(curState.cursorRow + firstLine);
+		int oldLines = (lines == null)?0:lines.getCount();
+		String str = "";
+		for(int i = 0; i < lines.getCount(); i++){
+			if(i == lineIndex) str += iStr;
+			str += (((CCStringWrapper)lines.get(i)).getStr() + "\n");
+		}
 		setText(str);//temporary
+/*
+		int newLines = (lines == null)?0:lines.getCount();
+		int addLines = newLines - oldLines;
+		if(addLines > 0 && components != null){
+			for(int i = 0; i < components.length; i++){
+				LBCompDesc c = components[i];
+				int lineBefore = c.lineBefore;
+				if(lineIndex < lineBefore){
+					c.lineBefore += addLines;
+				}
+			}
+		}
+*/
+		layoutComponents();
+	}
+	public void insertEmptyLine(){
+		if(lines == null){
+			setText("\n");
+		}else{
+			int lineIndex = getLineIndex(curState.cursorRow + firstLine);
+			String str = "";
+			for(int i = 0; i < lines.getCount(); i++){
+				if(i == lineIndex) str += " \n";
+				str += (((CCStringWrapper)lines.get(i)).getStr() + "\n");
+			}
+			setText(str);
+		}
+		layoutComponents();
 	}
 	
 	public String getText(){
@@ -499,6 +548,7 @@ public final static int	yTextBegin = 2;
 			}
 		}
 	}
+	
 	
 	public void setRect(int x, int y, int width, int height){
 		super.setRect(x,y,width,height);
@@ -637,7 +687,7 @@ public final static int	yTextBegin = 2;
 		}else if (ev.type == ev.FOCUS_OUT){
 			if(ev.target  == this){
 				lostFocus();
-			}else if(currObjectViewDesc != null){
+			}else if(currObjectViewDesc != null && currObjectViewDesc == ev.target){
 				Control cntrl = (Control)currObjectViewDesc.getObject();
 				if((cntrl != null) && (cntrl instanceof LabObjectView)){
 					LabObjectView object = (LabObjectView)cntrl;
@@ -814,6 +864,7 @@ public final static int	yTextBegin = 2;
 		if (ev.key == IKeys.BACKSPACE) {
 		}else if (ev.key == IKeys.DELETE){
 		}else if (ev.key == IKeys.ENTER){// && editable(this)){
+			insertEmptyLine();
 		}else if (ev.key == IKeys.END){
 		}else if (ev.key == IKeys.HOME){
 			if(firstLine != 0){

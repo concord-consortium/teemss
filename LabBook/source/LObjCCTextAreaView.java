@@ -50,6 +50,8 @@ String [] fileStrings = {"Load Note..."};
 			menuEdit.add("Paste");
 			menuEdit.add("Clear...");
 			menuEdit.add("-");
+			menuEdit.add("Insert Empty Line");
+			menuEdit.add("-");
 			menuEdit.add("Properties...");
 			menuEdit.addActionListener(this);
 		}	
@@ -89,6 +91,8 @@ String [] fileStrings = {"Load Note..."};
 			if(tArea != null) tArea.requireDeleteAllObjects();
 		}else if(e.getActionCommand().equals("Properties...")){
 			showProperties();
+		}else if(e.getActionCommand().equals("Insert Empty Line")){
+			if(tArea != null) tArea.insertEmptyLine();
 		}
     }
 

@@ -1,4 +1,5 @@
 package org.concord.waba.extra.ui;
+import waba.ui.*;
 
 public class CCColorChooser extends waba.ui.Control{
 waba.fx.Color	[]colors = null;

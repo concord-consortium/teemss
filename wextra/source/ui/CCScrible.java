@@ -94,8 +94,9 @@ private boolean  wasAddComponent = true;
 	
 	boolean embeddedState = false;
 	public void setEmbeddedState(boolean embeddedState){
-		this.embeddedState = embeddedState;
-		if(drawArea != null) drawArea.setEmbeddedState(embeddedState);
+//		this.embeddedState = embeddedState;
+		this.embeddedState = false;
+		if(drawArea != null) drawArea.setEmbeddedState(this.embeddedState);
 		Rect r = getRect();
 		setRect(r.x,r.y,r.width,r.height);
 	}
@@ -156,10 +157,6 @@ private boolean  wasAddComponent = true;
 			penChooser.destroy();
 			penChooser = null;
 		}
-	}
-	
-	public void onPaint(Graphics g){
-		paintChildren(g,0,0,width,height);
 	}
 	
 	public void onEvent(Event event){
@@ -595,8 +592,10 @@ public final static int END_PATH_LIST = 10002;
 	}
 	public void addPixel(short x,short y){
 		if(points == null) return;
-		points[currPos++] = x;
-		points[currPos++] = y;
+		if(currPos + 2 <= points.length){
+			points[currPos++] = x;
+			points[currPos++] = y;
+		}
 	}
 	
 	public String toString(){

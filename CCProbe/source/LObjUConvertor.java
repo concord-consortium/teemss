@@ -40,6 +40,11 @@ class LObjUConvertorView extends LabObjectView
 	Edit	numberLeft,numberRight;
 	boolean leftToRight = true;
 
+	Label	nameLabel;
+	Edit 	nameEdit;
+	boolean	nameEditWasAdded = false;
+	boolean doneButtonWasAdded = false;
+
 	public LObjUConvertorView(ViewContainer vc, LObjUConvertor d){
 		super(vc);
 		lObj = d;	
@@ -72,6 +77,42 @@ class LObjUConvertorView extends LabObjectView
 		if(showDone){
 			doneButton = new Button("Done");
 			add(doneButton);
+			doneButtonWasAdded = true;
+		}
+	}
+	public void setEmbeddedState(boolean embeddedState){
+		boolean oldState = getEmbeddedState();
+		super.setEmbeddedState(embeddedState);
+		if(oldState != getEmbeddedState()){
+			if(doneButtonWasAdded && doneButton != null){
+				remove(doneButton);
+				doneButtonWasAdded = false;
+			}
+			if(getEmbeddedState()){
+				if(nameEditWasAdded){
+					if(nameEdit != null) remove(nameEdit);
+					if(nameLabel != null) remove(nameLabel);
+				}
+				nameEditWasAdded = false;
+			}else{
+				if(!nameEditWasAdded){
+					waba.fx.Rect r = getRect();
+					if(nameEdit != null){
+						add(nameEdit);
+						int editW = (showDone)?r.width - 62:r.width - 32;
+						nameEdit.setRect(30, 1, editW, 15);
+					}
+					if(nameLabel != null){
+						add(nameLabel);
+						nameLabel.setRect(1, 1, 30, 15);
+					}
+					nameEditWasAdded = true;
+				}
+			}
+			if(showDone && !doneButtonWasAdded && doneButton != null){
+				add(doneButton);
+				doneButtonWasAdded = true;
+			}
 		}
 	}
 
@@ -103,50 +144,68 @@ class LObjUConvertorView extends LabObjectView
 		}
 		add(currChoiceFrom);
 		add(currChoiceTo);
-		currChoiceFrom.setRect(5, 25, 40, 15);
-		currChoiceTo.setRect(width - 45, 25, 40, 15);
 		numberLeft.setText("");
 		numberRight.setText("");
+		
+		nameEdit = new Edit();
+		nameEdit.setText(getLabObject().name);
+		nameLabel = new Label("Name");
+		if(getEmbeddedState()){
+			nameEditWasAdded = false;
+		}else{
+			add(nameLabel);
+			add(nameEdit);
+			nameEditWasAdded = true;
+		}
 	}
 
 	public void setRect(int x, int y, int width, int height){
 		super.setRect(x,y,width,height);
 		if(!didLayout) layout(true);
+		int yStart = 15;
+		if(doneButton != null && !getEmbeddedState()){
+			doneButton.setRect(width-30,0,30,15);
+		}
+		if(!getEmbeddedState() && nameEdit != null && nameEditWasAdded){
+			waba.fx.Rect r = getRect();
+			nameLabel.setRect(1, 1, 30, 15);
+			int editW = (showDone)?r.width - 62:r.width - 32;
+			nameEdit.setRect(30, 1, editW, 15);
+		}
 
 		int curY = 1;
 		int dHeight = height;
 		if(clearButton != null){
-			clearButton.setRect(width/2 - 20, 65, 40, 15);
+			clearButton.setRect(width/2 - 20, yStart + 65, 40, 15);
 		}
 		if(dirButton != null){
-			dirButton.setRect(width/2 - 10, 25, 20, 15);
+			dirButton.setRect(width/2 - 10, yStart + 25, 20, 15);
 		}
 		if(convertButton != null){
-			convertButton.setRect(width/2 - 5, 45, 10, 15);
-		}
-		if(doneButton != null){
-			doneButton.setRect(width/2 - 20, height - 15, 40, 15);
+			convertButton.setRect(width/2 - 5, yStart + 45, 10, 15);
 		}
 		if(catChoice != null){
-			catChoice.setRect(width/2 - 50, 5, 100, 15);
+			catChoice.setRect(width/2 - 50, yStart + 5, 100, 15);
 		}
 		if(currChoiceFrom != null){
-			currChoiceFrom.setRect(5, 25, 40, 15);
+			currChoiceFrom.setRect(5, yStart + 25, 40, 15);
 		}
 		if(currChoiceTo != null){
-			currChoiceTo.setRect(width - 45, 25, 40, 15);
+			currChoiceTo.setRect(width - 45, yStart + 25, 40, 15);
 		}
 		if(numberLeft != null){
-			numberLeft.setRect(5, 45, 60, 15);
+			numberLeft.setRect(5, yStart + 45, 60, 15);
 		}
 		if(numberRight != null){
-			numberRight.setRect(width - 65, 45, 60, 15);
+			numberRight.setRect(width - 65, yStart + 45, 60, 15);
 		}
-
 	}
 
     public void close(){
     	super.close();
+    	if(nameEdit != null){
+    		getLabObject().name = nameEdit.getText();
+    	}
     }
 
 	public void onEvent(Event e){

@@ -334,13 +334,13 @@ protected void paintCursor(Graphics gr)
 			g.setDrawOp(g.DRAW_OVER);
 			i.free();
 */			
-			g.drawCursor(r.x+spacing-curState.xShift,spacing+r.y-curState.firstLine*getItemHeight(),1,r.height);
+			if(g != null) g.drawCursor(r.x+spacing-curState.xShift,spacing+r.y-curState.firstLine*getItemHeight(),1,r.height);
 
 			
 			cursorOn = !cursorOn;
 		}
 	}
-	if (gr == null) g.free();
+	if (gr == null && g != null) g.free();
 }
 //==================================================================
 public void doPaintData(Graphics g) {doPaintData(g,getRect());}
