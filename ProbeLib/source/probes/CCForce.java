@@ -66,6 +66,9 @@ float B = -25.31f;
 			}
 		} else if(nameProperty.equals(propNames[1])){
 			if(value.equals("1")){
+				if(curChannel == 1){
+					return true;
+				}
 				activeChannels = 1;
 			} else if(value.equals("2")){
 				activeChannels = 2;
@@ -75,7 +78,7 @@ float B = -25.31f;
 				curChannel = 0;
 			} else if(value.equals("1")){
 				curChannel = 1;
-				activeChannels = 2;
+				setPropertyValue(2,numbChannels[1]);
 			}
 		}
 		return  super.setPValue(p,value);
