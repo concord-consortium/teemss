@@ -17,7 +17,7 @@ public class LObjIntProbeTrans extends LObjSubDict
 	implements DataSink, DataSource, DataListener
 {
 	Vector dataListeners = new Vector();
-	LObjProbeDataSource dataSource = null;
+	private LObjProbeDataSource dataSource = null;
 
 	int chPerSample;
 
@@ -33,9 +33,9 @@ public class LObjIntProbeTrans extends LObjSubDict
 		type = t;
 	}
 
-	public String getQuantityMeasured()
+	public String getQuantityMeasured(LabBookSession session)
 	{
-		if(dataSource == null) getDataSource();
+		if(dataSource == null) getDataSource(session);
 
 		if(dataSource != null) return dataSource.getQuantityMeasured(type);
 		return null;
@@ -54,7 +54,7 @@ public class LObjIntProbeTrans extends LObjSubDict
 	public void addDataListener(DataListener l){
 		if(dataListeners == null) dataListeners = new waba.util.Vector();
 		if(dataListeners.find(l) < 0) dataListeners.add(l);
-		if(dataSource == null) getDataSource();
+		//		if(dataSource == null) getDataSource();
 	}
 	public void removeDataListener(DataListener l){
 		if(dataListeners == null) return;
@@ -92,9 +92,9 @@ public class LObjIntProbeTrans extends LObjSubDict
 		}
 	}
 
-	DataSource getDataSource()
+	DataSource getDataSource(LabBookSession session)
 	{
-		LabObject obj = getObj(0);
+		LabObject obj = getObj(0, session);
 		if(obj != null && obj instanceof DataSource){
 			if(dataSource != null && dataSource != obj){
 				dataSource.setModeDataListener(null, type);
@@ -118,11 +118,11 @@ public class LObjIntProbeTrans extends LObjSubDict
 		dataSource = null;
 	}
 
-	public void startDataDelivery()
+	public void startDataDelivery(LabBookSession session)
 	{
-		getDataSource();
+		getDataSource(session);
 		if(dataSource != null){
-			dataSource.startDataDelivery();
+			dataSource.startDataDelivery(session);
 		}
 	}
 
@@ -133,9 +133,9 @@ public class LObjIntProbeTrans extends LObjSubDict
 		}
 	}
 
-	public CCUnit 	getUnit()
+	public CCUnit getUnit(LabBookSession session)
 	{
-		if(dataSource == null) getDataSource();
+		if(dataSource == null) getDataSource(session);
 		if(dataSource == null) return null;
 		return dataSource.getQuantityUnit(type);
 	}
@@ -144,14 +144,15 @@ public class LObjIntProbeTrans extends LObjSubDict
 
 	public String getLabel(){return "";}
 
-	public String getSummary(){return "";}
+	public String getSummary(LabBookSession session)
+	{return "";}
 
 	// add the root sources to the passed in vector
-	public void getRootSources(Vector sources)
+	public void getRootSources(Vector sources, LabBookSession session)
 	{
-		getDataSource();
+		getDataSource(session);
 		if(dataSource != null && sources != null){
-			dataSource.getRootSources(sources);
+			dataSource.getRootSources(sources, session);
 		}
 	}
 

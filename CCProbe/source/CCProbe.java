@@ -6,10 +6,29 @@ import org.concord.waba.extra.event.*;
 import org.concord.LabBook.*;
 import org.concord.CCProbe.*;
 
+class PtrWindow
+{
+	PtrWindow(LabObjectPtr ptr, LObjDictionary dict, boolean edit)
+	{
+		this.ptr = ptr;
+		this.dict = dict;
+		this.edit = edit;
+	}
+
+	LabObjectPtr ptr;
+
+	// is this going to be valid???
+	LObjDictionary dict;
+
+	boolean edit;
+}
+
 public class CCProbe extends ExtraMainWindow
     implements ViewContainer, MainView
 {
     LabBook labBook;
+	LabBookSession mainSession;
+	LabBookSession curWinSession = null;
     MenuBar menuBar;
     Menu file;
     Menu edit;
@@ -114,14 +133,17 @@ public class CCProbe extends ExtraMainWindow
 		Debug.println("Openning");
 		labBook.open(lbDB);
 
-		loDict = (LObjDictionary)labBook.load(labBook.getRoot());
+		mainSession = labBook.getSession();
+
+		loDict = (LObjDictionary)mainSession.getObj(labBook.getRoot());
 		if(loDict == null){
 			loDict = DefaultFactory.createDictionary();
 			loDict.setName("Home");
 			labBook.store(loDict);
 
 		}
-		LabObjectView view = (LabObjectView)loDict.getView(this, true);
+		LabObjectView view = (LabObjectView)loDict.getView(this, true, mainSession);
+		
 		view.setRect(x,yOffset,width,dictHeight);
 		view.setShowMenus(true);
 		me.add(view);
@@ -255,30 +277,54 @@ public class CCProbe extends ExtraMainWindow
 				newObj.setName(objType);		    
 			} else {
 				newObj.setName(objType + " " + newIndex);		    
-			}
+			}			
 			newIndex++;
-			dView.insertAtSelected(newObj);
+			
+			LabObjectPtr newPtr = dView.insertAtSelected(newObj);
 
+			// The order seems to matter here.  
+			// insert and selected for some reason nulls the pointer.
+			// perhaps by doing a commit?
+			// newObj.store();
+			
+			newObj = mainSession.getObj(newPtr);
 			if(autoEdit){
 				dView.showPage(newObj, true);
 			} else if(autoProp){
 				dView.showProperties(newObj);
-			} 				   
+			} 
+			
 		}
 	}
 
-    public void done(LabObjectView source){}
+    public void done(LabObjectView source)
+	{
+		if(source == curFullView){
+			curFullView.close();
+	    
+			// release it's session
+			if(curWinSession != null) curWinSession.release();
+			curWinSession = null;
+
+			// I don't think this is important
+			// The order is important here because closeTopWin
+			// calls setShowMenus which checks lObjView to decide which 
+			// menus to show.
+			closeTopWindowView();
+		}
+	}
 
     public void reload(LabObjectView source)
     {
 		if(source != lObjView) Debug.println("Error source being removed");
 		LabObject obj = source.getLabObject();
+		LabBookSession oldSession = source.getSession();
 		source.close();
 		me.remove(source);
 		if(title != null){
 			me.remove(title);
 		}
-		LabObjectView replacement = obj.getView(this, true);
+		LabObjectView replacement = obj.getView(this, true, oldSession);
 		// This automatically does the layout call for us
 
 		waba.fx.Rect myRect = content.getRect();
@@ -329,17 +375,13 @@ public class CCProbe extends ExtraMainWindow
     {
 		Debug.println("closing");
 		if(labBook != null){
-			if(fullViews != null){
-				for(int i=0; i<fullViews.getCount(); i++){
-					LabObjectView curFullView = (LabObjectView)fullViews.get(i);	
-					curFullView.close();
-				}				
+			if(curFullView != null){
+				curFullView.close();
 			}
 			labBook.store(loDict);
 			labBook.commit();
 			labBook.close();
 		}
-
     }
 
 	LabObjectView curFullView = null;
@@ -348,15 +390,34 @@ public class CCProbe extends ExtraMainWindow
 	{
 		if(fullViews != null &&
 		   fullViews.getCount() > 0){
-			LabObjectView topView = (LabObjectView)fullViews.get(fullViews.getCount()-1);
-			// You'd think we'd want to hide the menus, but that is actually done by the View
-			// if it closed.  If it isn't closed then the menus should stick around
-			// I think ????
-			remove(topView);
+
+			Object topWin = fullViews.get(fullViews.getCount()-1);
+
+			if(!(topWin instanceof PtrWindow)) return;
+
+			remove(curFullView);
+
 			fullViews.del(fullViews.getCount()-1);			
 
 			if(fullViews.getCount() > 0){
-				curFullView = (LabObjectView)fullViews.get(fullViews.getCount()-1);	
+				Object newTopWin = fullViews.get(fullViews.getCount()-1);
+				if(!(newTopWin instanceof PtrWindow)) return;
+
+				PtrWindow pWin = (PtrWindow)newTopWin;
+				LabObjectPtr ptr = pWin.ptr;
+					
+				// the curWinSession should be not null
+				//				if(curWinSession != null) throw new RuntimeException("non null cur Win");
+				curWinSession = labBook.getSession();
+				LabObject lObj = curWinSession.load((LabObjectPtr)pWin.ptr);					
+
+				LabObjectView view = lObj.getView(this, pWin.edit, pWin.dict, curWinSession);
+				// if(view == null) throw new RuntimeException("");
+			
+				view.layout(true);
+				view.setRect(0,0,width,myHeight);
+				curFullView = view;
+
 				curFullView.setShowMenus(true);
 				add(curFullView);
 			} else {
@@ -364,46 +425,60 @@ public class CCProbe extends ExtraMainWindow
 				lObjView.setShowMenus(true);
 				add(me);
 			}
+
+
 		}
 	}
 
 	Vector fullViews = new Vector();
-	/* Might want to keep a vector of active views
-	 */
-	public void showFullWindowView(LabObjectView view)
+	public void showFullWindowObj(boolean edit, LObjDictionary dict,  LabObject obj,
+								  LabBookSession createdSession)
 	{
-		if(view == curFullView){
-			// the view isn't being changed
-			return;
+		if(obj == null) return; //throw new RuntimeException("");
+		if(obj.ptr == null) return; //throw new RuntimeException("");
+
+		LabBookSession newSession = labBook.getSession();
+
+		if(curFullView == null){
+			lObjView.setShowMenus(false);
+			remove(me);
+			if(createdSession != null){
+				// We need to release this object from it's
+				// old session so it gets cleaned up if this window is 
+				// closed
+				newSession.load(obj.ptr);
+				createdSession.release(obj);
+			}
+		} else {
+			curFullView.setShowMenus(false);
+			if(curFullView.getContainer() != this) return; //throw new RuntimeException("error");
+
+			// close the view
+			curFullView.close();
+				
+			// release it's session
+			if(curWinSession != null){
+				if(curWinSession.contains(obj)){
+					// add this object to the new session
+					// because the oldWin will probably release it
+					newSession.load(obj.ptr);
+				}
+				curWinSession.release();
+			}
+			remove(curFullView);			
 		}
 
-		if(view == null){
-			// This used to be an valid call now it is 
-			// should not be used
-			/*
-			if(curFullView != null){
-				remove(curFullView);
-				curFullView = null;
-			}
-			add(me);
-			*/
-		} else {
-			if(curFullView == null){
-				lObjView.setShowMenus(false);
-				remove(me);
-			}
-			else{
-				curFullView.setShowMenus(false);
-				remove(curFullView);
-			}
-
-			view.layout(true);
-			view.setRect(0,0,width,myHeight);
-			view.setShowMenus(true);
-			add(view);
-			curFullView = view;
-			fullViews.add(view);
-		} 
-		return;
+		curWinSession = newSession;
+		LabObjectView view = obj.getView(this, edit, dict, curWinSession);
+		if(view == null) return; //throw new RuntimeException("");
+			
+		view.layout(true);
+		view.setRect(0,0,width,myHeight);
+		view.setShowMenus(true);
+		add(view);
+		curFullView = view;
+		
+		
+		fullViews.add(new PtrWindow(obj.ptr, dict, edit));		
 	}
 }

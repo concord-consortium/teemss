@@ -68,6 +68,15 @@ public class DigitalDisplay extends Container
 		repaint();
     }
 
+	public void free()
+	{
+		for(int i=0; i<disps.getCount(); i++){
+			((LabelBuf)disps.get(i)).free();
+		}
+		
+		bins = null;
+	}
+
     public void onPaint(Graphics g)
     {
 		DecoratedValue curBin;

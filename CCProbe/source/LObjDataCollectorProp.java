@@ -22,11 +22,10 @@ public class LObjDataCollectorProp extends LabObjectView
 	PropObject nameProp;
 	
     public LObjDataCollectorProp(ViewContainer vc, LObjDataCollector d,
-								   LObjDictionary curDict)
+								   LObjDictionary curDict, LabBookSession session)
     {
-		super(vc);
+		super(vc, (LabObject)d, session);
 		dc = d;
-		lObj = dc;
 
 		String [] probeNames = LObjProbeDataSource.getProbeNames();
 		probeQuantities = new PropObject[probeNames.length];
@@ -36,13 +35,13 @@ public class LObjDataCollectorProp extends LabObjectView
 		nameProp.prefWidth = 120;
 		mainProps.addProperty(nameProp);
 
-		LObjGraph graph = dc.getGraph();
+		LObjGraph graph = dc.getGraph(session);
 		int index = -1;
 		Vector rootSources = null;
 		if(graph != null &&
-		   graph.getDataSource(0) != null){
+		   graph.getDataSource(0, session) != null){
 			rootSources = new Vector();
-			graph.getDataSource(0).getRootSources(rootSources);
+			graph.getDataSource(0, session).getRootSources(rootSources, session);
 			if(rootSources.getCount() > 0 &&
 			   rootSources.get(0) instanceof LObjProbeDataSource){
 				String curName = ((LObjProbeDataSource)rootSources.get(0)).getProbeName();
@@ -151,7 +150,7 @@ public class LObjDataCollectorProp extends LabObjectView
 	public void actionPerformed(ActionEvent e)
 	{
 		if(e.getActionCommand().equals("Apply")){
-			LObjGraph graph = dc.getGraph();
+			LObjGraph graph = dc.getGraph(session);
 			
 			if(probeType != null){
 				Vector dataSources = new Vector(1);
@@ -184,10 +183,10 @@ public class LObjDataCollectorProp extends LabObjectView
 				
 				graph.clear();
 				graph.createDefaultAxis();
-				graph.addDataSource((DataSource)dataSources.get(0),true,0,0);
+				graph.addDataSource((DataSource)dataSources.get(0),true,0,0, session);
 				for(int i=1; i<dataSources.getCount(); i++){
 					graph.addYAxis();
-					graph.addDataSource((DataSource)dataSources.get(i),true,0,i);
+					graph.addDataSource((DataSource)dataSources.get(i),true,0,i, session);
 				}
 				graph.store();
 				

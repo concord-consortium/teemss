@@ -60,9 +60,11 @@ public class GraphSettings
 		linkY = lY;
 		yaxis = (ColorAxis)graph.getYAxis(linkY);				
 
+		/*
 		if(graph != null && ds == null && dsIndex >= 0){
 			ds = graph.getDataSource(dsIndex);
 		}
+		*/
 	}
 
 	public void init(LObjGraphView gv)
@@ -81,7 +83,7 @@ public class GraphSettings
 		xaxis.init();
 
 		if(graph != null && ds == null && dsIndex >= 0){
-			ds = graph.getDataSource(dsIndex);
+			ds = graph.getDataSource(dsIndex, gv.getSession());
 		}
 
 		if(ds == null) return;
@@ -94,54 +96,37 @@ public class GraphSettings
 		ds.addDataListener(this);
 
 		// Is this necessary???
-		setYUnit(ds.getUnit());
+		setYUnit(ds.getUnit(gv.getSession()));
 		
 		xUnit = xaxis.getUnit();
 
 		// update the yaxis labels just to be safe
 		updateAxis();
-
-		/*
-		if(graph != null && 
-		   graph.autoTitle){
-			graph.title = ds.getSummary();
-			graph.notifyObjListeners(new LabObjEvent(graph, 0));
-		}
-		*/
-
-		// might need to do a notify here
-
 	}
 
-	public String getSummary()
+	public String getSummary(LabBookSession session)
 	{
-		if(ds == null){
-			ds = graph.getDataSource(dsIndex);
+		if(ds == null && gv != null){
+			ds = graph.getDataSource(dsIndex, session);
 		}
 
 		if(ds != null){
-			return ds.getSummary();
+			return ds.getSummary(session);
 		} 
 		return null;
 	}
 
-	public DataSource getDataSource()
+	public DataSource getDataSource(LabBookSession session)
 	{
-		return graph.getDataSource(dsIndex);
+		return graph.getDataSource(dsIndex, session);
 	}
 
 	public void labObjChanged(LabObjEvent e)
 	{
 		if(e.getObject() == ds &&
-		   ds != null){
-			setYUnit(ds.getUnit());
+		   ds != null && gv != null){
+			setYUnit(ds.getUnit(gv.getSession()));
 			updateAxis();
-			/*
-			if(graph != null && 
-			   graph.autoTitle){
-				graph.title = ds.getSummary();
-			}
-			*/
 			graph.notifyObjListeners(new LabObjEvent(graph, 0));
 		}
 	}		
@@ -184,7 +169,7 @@ public class GraphSettings
 		if(yaxis != null && yaxis.autoLabel){
 			// need to set the ylabel to it's auto name
 			if(ds != null){
-				yLabel = ds.getQuantityMeasured();
+				yLabel = ds.getQuantityMeasured(gv.getSession());
 			} else {
 				yLabel = "null DS";
 			}
@@ -261,7 +246,7 @@ public class GraphSettings
 			gv.startGraph(curBin);
 
 			started = true;
-			ds.startDataDelivery();
+			ds.startDataDelivery(gv.getSession());
 		}
 	}
 
@@ -401,14 +386,14 @@ public class GraphSettings
 		}
 	}
 
-	public void saveAnnots()
+	public void saveAnnots(LabBookSession session)
 	{
-		DataSource ds = getDataSource();
+		DataSource ds = getDataSource(session);
 		if(ds instanceof LObjDataSet){
 			LObjDataSet dSet = (LObjDataSet)ds;
-			dSet.clearAnnots();
+			dSet.clearAnnots(session);
 			Vector annots = getAnnots();
-			dSet.addAnnots(annots);
+			dSet.addAnnots(annots, session);
 		}
 	}
 

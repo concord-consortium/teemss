@@ -32,11 +32,11 @@ public class LObjGraphProp extends LabObjectView
 
 	String [] testList = {"test1", "test2"};
 
-	public LObjGraphProp(ViewContainer vc, LObjGraph g, int index)
+	public LObjGraphProp(ViewContainer vc, LObjGraph g, int index,
+						 LabBookSession session)
     {
-		super(vc);
+		super(vc, (LabObject)g, session);
 		graph = g;
-		lObj = g;	
 		this.index = index;
 
 		setupProperties();
@@ -92,14 +92,14 @@ public class LObjGraphProp extends LabObjectView
 
 			propsGraph.addProperty(propTitle);
 			
-			String summary = graph.getSummary();
+			String summary = graph.getSummary(session);
 			if(summary == null) summary = "";
 			graphSummary.setText(summary);
 
 			dsStrings = new String [graph.numDataSources];
 			for(int i=0; i<graph.numDataSources; i++){
-				DataSource ds = graph.getDataSource(i);
-				dsStrings[i] = ds.getQuantityMeasured();
+				DataSource ds = graph.getDataSource(i, session);
+				dsStrings[i] = ds.getQuantityMeasured(session);
 			}
 			if(graph.getMaxLines() != 1){
 				int defIndex = graph.getCurGraphSettings().dsIndex;
@@ -124,7 +124,7 @@ public class LObjGraphProp extends LabObjectView
 		} else {
 			propTitle.setValue(graph.getTitleNoSummary());
 
-			String summary = graph.getSummary();
+			String summary = graph.getSummary(session);
 			if(summary == null) summary = "";
 			graphSummary.setText(summary);
 
@@ -194,7 +194,7 @@ public class LObjGraphProp extends LabObjectView
 			if(dsStrings != null){
 				for(int i=0; i<dsStrings.length; i++){
 					if(dsStrings[i].equals(dataSourceName)){
-						DataSource selDS = graph.getDataSource(i);
+						DataSource selDS = graph.getDataSource(i, session);
 						if(selDS instanceof LObjProbeDataSource){
 							LObjProbeDataSource pds = (LObjProbeDataSource)selDS;
 							pds.showProp();

@@ -36,9 +36,11 @@ public class LObjGraph extends LObjSubDict
     {
 		MainWindow mw = MainWindow.getMainWindow();
 		if(mw instanceof ExtraMainWindow){
-			LObjGraphProp gProp = (LObjGraphProp) getPropertyView(null, null);
+			LObjGraphProp gProp = 
+				(LObjGraphProp) getPropertyView(null, null, null);
 			gProp.index = index;
-			ViewDialog vDialog = new ViewDialog((ExtraMainWindow)mw, null, "Properties", gProp);
+			ViewDialog vDialog = 
+				new ViewDialog((ExtraMainWindow)mw, null, "Properties", gProp);
 			vDialog.setRect(0,0,159,159);
 			vDialog.show();
 		}
@@ -49,21 +51,21 @@ public class LObjGraph extends LObjSubDict
 		this.title = title;
 	}
 
-	public String getTitle()
+	public String getTitle(LabBookSession session)
 	{
 		if(title == null || title.length() <= 0){
 			title = null;
-			return getSummary();
+			return getSummary(session);
 		}
 		return title;
 	}
 	public String getTitleNoSummary(){ return title; }
 
-	public String getSummary()
+	public String getSummary(LabBookSession session)
 	{
 		GraphSettings curGS = getCurGraphSettings();
 		if(curGS != null){
-			String summary = curGS.getSummary();
+			String summary = curGS.getSummary(session);
 			return summary;
 		}
 		return null;
@@ -162,12 +164,13 @@ public class LObjGraph extends LObjSubDict
 		else return (Axis)yAxisVector.get(i);
 	}
 
-	public void addDataSource(DataSource ds)
+	public void addDataSource(DataSource ds, LabBookSession session)
 	{
-		addDataSource(ds, true, -1, -1);
+		addDataSource(ds, true, -1, -1, session);
 	}
 
-	public void addDataSource(DataSource ds, boolean newSettings, int linkX, int linkY)
+	public void addDataSource(DataSource ds, boolean newSettings, 
+							  int linkX, int linkY, LabBookSession session)
 	{
 		if(graphSettings == null){
 			graphSettings = new Vector();
@@ -189,7 +192,7 @@ public class LObjGraph extends LObjSubDict
 			
 			Axis yaxis = gs.getYAxis();
 			yaxis.autoLabel = true;
-			gs.setYUnit(ds.getUnit());
+			gs.setYUnit(ds.getUnit(session));
 
 			graphSettings.add(gs);
 			gs.close();
@@ -205,10 +208,10 @@ public class LObjGraph extends LObjSubDict
 		numDataSources++;
 	}
 
-	public DataSource getDataSource(int index)
+	public DataSource getDataSource(int index, LabBookSession session)
 	{
 		if(index >= 0 && index < numDataSources){
-			LabObject obj = getObj(index);
+			LabObject obj = getObj(index, session);
 			if(obj instanceof DataSource){
 				return (DataSource)obj;
 			}
@@ -245,29 +248,18 @@ public class LObjGraph extends LObjSubDict
 		return null;
 	}
 
-    public LabObjectView getPropertyView(ViewContainer vc, LObjDictionary curDict){
-		return new LObjGraphProp(vc, this, 0);
+    public LabObjectView getPropertyView(ViewContainer vc, 
+										 LObjDictionary curDict, 
+										 LabBookSession session){
+		return new LObjGraphProp(vc, this, 0, session);
 	}
 
-    public LabObjectView getView(ViewContainer vc, boolean edit, LObjDictionary curDict)
+    public LabObjectView getView(ViewContainer vc, boolean edit, 
+								 LObjDictionary curDict,
+								 LabBookSession session)
     {
-		return new LObjGraphView(vc, this, curDict);
+		return new LObjGraphView(vc, this, curDict, session);
     }
-
-
-	public void store()
-	{
-		/*
-		if(dataSources != null){
-			for(int i=0; i<dataSources.getCount(); i++){
-				LabObject obj = (LabObject)dataSources.get(i);
-				if(obj != null) obj.store();
-			}
-		}
-		*/
-		
-		super.store();
-	}
 
     public void readExternal(DataStream ds)
     {
@@ -400,28 +392,18 @@ public class LObjGraph extends LObjSubDict
 			GraphSettings gs = (GraphSettings)graphSettings.get(i);
 			if(gs != null) gs.close();
 		}
-
-		for(int i=0; i<xAxisVector.getCount(); i++){
-			Axis ax = (Axis)xAxisVector.get(i);
-			//			if(ax.refCount != 0) ystem.out.println("LOG: xaxis: " + i + " not freed");
-		}
-
-		for(int i=0; i<yAxisVector.getCount(); i++){
-			Axis ax = (Axis)yAxisVector.get(i);
-			// if(ax.refCount != 0) ystem.out.println("LOG: yaxis: " + i + " not freed");
-		}
 	}
 
-	public void saveAllAnnots()
+	public void saveAllAnnots(LabBookSession session)
 	{
 		if(graphSettings == null) return;
 		for(int i=0; i<graphSettings.getCount(); i++){
 			GraphSettings gs = (GraphSettings)graphSettings.get(i);
-			if(gs != null) gs.saveAnnots();
+			if(gs != null) gs.saveAnnots(session);
 		}
 	}
 
-	public void saveCurData(LObjDictionary dataDict)
+	public void saveCurData(LObjDictionary dataDict, LabBookSession session)
 	{
 		LObjDataSet dSet = DataObjFactory.createDataSet();
 
@@ -429,12 +411,12 @@ public class LObjGraph extends LObjSubDict
 		dsGraph.setName("Graph");
 
 		dSet.setDataViewer(dsGraph);
-		dSet.clearAnnots();
+		dSet.clearAnnots(session);
 		GraphSettings curGS = getCurGraphSettings();
 		if(curGS != null){
 			curGS.saveData(dSet);
 			Vector annots = curGS.getAnnots();
-			dSet.addAnnots(annots);
+			dSet.addAnnots(annots, session);
 			
 			if(dataDict != null){
 				dataDict.add(dSet);				
@@ -448,10 +430,12 @@ public class LObjGraph extends LObjSubDict
 
 				Axis oldXA = curGS.getXAxis();
 				Axis oldYA = curGS.getYAxis();
-				xaxis.setRange(oldXA.getDispMin(), oldXA.getDispMax()-oldXA.getDispMin());
-				yaxis.setRange(oldYA.getDispMin(), oldYA.getDispMax()-oldYA.getDispMin());
+				xaxis.setRange(oldXA.getDispMin(), 
+							   oldXA.getDispMax()-oldXA.getDispMin());
+				yaxis.setRange(oldYA.getDispMin(), 
+							   oldYA.getDispMax()-oldYA.getDispMin());
 
-				dsGraph.addDataSource(dSet, true, 0, 0);
+				dsGraph.addDataSource(dSet, true, 0, 0, session);
 				dsGraph.store();
 			} else {
 				// for now it is an error
@@ -461,7 +445,7 @@ public class LObjGraph extends LObjSubDict
 
 	}
 
-	public void exportCurData()
+	public void exportCurData(LabBookSession session)
 	{
 		GraphSettings curGS = getCurGraphSettings();
 		if(curGS != null){
@@ -471,11 +455,11 @@ public class LObjGraph extends LObjSubDict
 			} else {
 				curBin.description = null;
 			}
-			if(getSummary() != null){
+			if(getSummary(session) != null){
 				if(curBin.description != null){
-					curBin.description += "\n" + getSummary();
+					curBin.description += "\n" + getSummary(session);
 				} else {
-					curBin.description = getSummary();
+					curBin.description = getSummary(session);
 				} 
 			} 
 			if(curBin.description == null){

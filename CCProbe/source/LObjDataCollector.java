@@ -27,17 +27,21 @@ public class LObjDataCollector extends LObjSubDict
     {
 		setObj(g, 0);
     }
-	public LObjGraph getGraph()
+	public LObjGraph getGraph(LabBookSession session)
 	{
-		return (LObjGraph)getObj(0);
+		return (LObjGraph)getObj(0, session);
 	}
 
-    public LabObjectView getView(ViewContainer vc, boolean edit, LObjDictionary curDict)
+    public LabObjectView getView(ViewContainer vc, 
+								 boolean edit, LObjDictionary curDict,
+								 LabBookSession session)
     {
-	    return new LObjDataCollectorView(vc, this, curDict);
+	    return new LObjDataCollectorView(vc, this, curDict, session);
     }
-    public LabObjectView getPropertyView(ViewContainer vc, LObjDictionary curDict){
-		return new LObjDataCollectorProp(vc, this, curDict);
+    public LabObjectView getPropertyView(ViewContainer vc, 
+										 LObjDictionary curDict,
+										 LabBookSession session){
+		return new LObjDataCollectorProp(vc, this, curDict, session);
 	}
     public void readExternal(DataStream ds){}
 

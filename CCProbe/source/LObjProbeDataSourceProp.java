@@ -21,9 +21,8 @@ public class LObjProbeDataSourceProp extends LabObjectView
 
 	public LObjProbeDataSourceProp(ViewContainer vc, LObjProbeDataSource ds)
 	{
-		super(vc);
+		super(vc, (LabObject)ds, null);
 		pds = ds;
-		lObj = ds;			
 	}
 
 	public void layout(boolean showDone)

@@ -39,7 +39,8 @@ public class LObjAnnotation extends LObjSubDict
     {
 		MainWindow mw = MainWindow.getMainWindow();
 		if(mw instanceof ExtraMainWindow){
-		    AnnotationProp aProp = (AnnotationProp) getPropertyView(null, null);
+		    AnnotationProp aProp = 
+				(AnnotationProp) getPropertyView(null, null, null);
 			ViewDialog vDialog = new ViewDialog((ExtraMainWindow)mw, dl, "Properties", aProp);
 			vDialog.setRect(0,0,159,159);
 			vDialog.show();
@@ -48,7 +49,9 @@ public class LObjAnnotation extends LObjSubDict
 		return null;
     }
 
-    public LabObjectView getPropertyView(ViewContainer vc,LObjDictionary curDict)
+    public LabObjectView getPropertyView(ViewContainer vc,
+										 LObjDictionary curDict,
+										 LabBookSession session)
 	{
 		return new AnnotationProp(vc, this);
     }

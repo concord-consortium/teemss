@@ -21,7 +21,7 @@ public class LObjCalculusTrans extends LObjSubDict
 	DataEvent dEvent = new DataEvent();
 	DataDesc dDesc = new DataDesc();
 	Vector dataListeners = new Vector();
-	DataSource dataSource = null;
+	private DataSource dataSource = null;
 
 	int chPerSample;
 
@@ -77,7 +77,8 @@ public class LObjCalculusTrans extends LObjSubDict
 	public void addDataListener(DataListener l){
 		if(dataListeners == null) dataListeners = new waba.util.Vector();
 		if(dataListeners.find(l) < 0) dataListeners.add(l);
-		if(dataSource == null) getDataSource();
+
+		// if(dataSource == null) getDataSource();
 	}
 	public void removeDataListener(DataListener l){
 		if(dataListeners == null) return;
@@ -115,9 +116,9 @@ public class LObjCalculusTrans extends LObjSubDict
 		}
 	}
 
-	DataSource getDataSource()
+	DataSource getDataSource(LabBookSession session)
 	{
-		LabObject obj = getObj(0);
+		LabObject obj = getObj(0, session);
 		if(obj != null && obj instanceof DataSource){
 			if(dataSource != null && dataSource != obj){
 				dataSource.removeDataListener(this);
@@ -141,11 +142,11 @@ public class LObjCalculusTrans extends LObjSubDict
 		dataSource = null;
 	}
 
-	public void startDataDelivery()
+	public void startDataDelivery(LabBookSession session)
 	{
-		getDataSource();
+		getDataSource(session);
 		if(dataSource != null){
-			dataSource.startDataDelivery();
+			dataSource.startDataDelivery(session);
 		}
 	}
 
@@ -156,19 +157,21 @@ public class LObjCalculusTrans extends LObjSubDict
 		}
 	}
 
-	public CCUnit 	getUnit(){return null;}
+	public CCUnit 	getUnit(LabBookSession session){return null;}
 	public boolean 	setUnit(CCUnit unit){return false;}
 
-	public String getQuantityMeasured(){return "";}
+	public String getQuantityMeasured(LabBookSession session)
+	{return "";}
 
-	public String getSummary(){return "";}
+	public String getSummary(LabBookSession session)
+	{return "";}
 
 	// add the root sources to the passed in vector
-	public void getRootSources(Vector sources)
+	public void getRootSources(Vector sources, LabBookSession session)
 	{
-		getDataSource();
+		getDataSource(session);
 		if(dataSource != null && sources != null){
-			dataSource.getRootSources(sources);
+			dataSource.getRootSources(sources, session);
 		}
 	}
 

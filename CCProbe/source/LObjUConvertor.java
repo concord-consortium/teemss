@@ -23,11 +23,14 @@ public class LObjUConvertor extends LabObject
     }
 
     public LabObjectView getView(ViewContainer vc, 
-								 boolean edit, LObjDictionary curDict)
-    {    	
+								 boolean edit, LObjDictionary curDict,
+								 LabBookSession session)
+    {    
     	LObjUConvertorView newView = new LObjUConvertorView(vc, this);
     	if(newView != null){
-    		newView.setPrevValues(lastLeftNumber,lastRightNumber,lastCatIndex,lastLeftIndex,lastRightIndex,lastDirection);
+    		newView.setPrevValues(lastLeftNumber,lastRightNumber,
+								  lastCatIndex,lastLeftIndex,
+								  lastRightIndex,lastDirection);
     	}
     	return newView;
     }
@@ -77,8 +80,7 @@ class LObjUConvertorView extends LabObjectView
 	public int		lastDirection = 0;	
 
 	public LObjUConvertorView(ViewContainer vc, LObjUConvertor d){
-		super(vc);
-		lObj = d;	
+		super(vc, (LabObject)d, null);
 		owner = d;
 	}
 

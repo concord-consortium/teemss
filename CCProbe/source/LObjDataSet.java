@@ -90,25 +90,25 @@ public class LObjDataSet extends LObjSubDict
 		return numBins++;
 	}
 
-	public void addBinAnnots(Bin b, int binIndex)
+	public void addBinAnnots(Bin b, int binIndex, LabBookSession session)
 	{
 		if(b.annots != null &&
 		   b.annots.getCount() > 0){ 
 
-			LObjDictionary aDict = getAnnotDict();
+			LObjDictionary aDict = getAnnotDict(session);
 			if(aDict != null){
 				for(int i=0; i<b.annots.getCount(); i++){
 					Annotation a = (Annotation)b.annots.get(i);
-					addAnnot(a, binIndex);
+					addAnnot(a, binIndex, session);
 				}
 			}
 			aDict.store();
 		}
 	}
 
-	public LObjDictionary getAnnotDict()
+	public LObjDictionary getAnnotDict(LabBookSession session)
 	{
-		LabObject obj = getObj(1);
+		LabObject obj = getObj(1, session);
 		LObjDictionary dict;
 		if(obj == null){
 			dict = DefaultFactory.createDictionary();
@@ -121,32 +121,32 @@ public class LObjDataSet extends LObjSubDict
 		}
 	}
 
-	public Vector getAnnots()
+	public Vector getAnnots(LabBookSession session)
 	{
 		Vector annots = new Vector();
-		LObjDictionary aDict = getAnnotDict();
+		LObjDictionary aDict = getAnnotDict(session);
 
 		if(aDict == null) return null;
 		
 		for(int i = 0; i < numAnnots; i++){
-			LabObject obj = aDict.getObj(aDict.getChildAt(i));
+			LabObject obj = session.getObj(aDict.getChildAt(i));
 			if(!(obj instanceof LObjAnnotation)) return null;
 			annots.add(obj);
 		}
 		return annots;
 	}
 
-	public void clearAnnots()
+	public void clearAnnots(LabBookSession session)
 	{
-		LObjDictionary aDict = getAnnotDict();
+		LObjDictionary aDict = getAnnotDict(session);
 		if(aDict == null) return;
 		aDict.removeAll();
 		numAnnots = 0;
 	}
 
-	public void addAnnot(LObjAnnotation a)
+	public void addAnnot(LObjAnnotation a, LabBookSession  session)
 	{
-		LObjDictionary aDict = getAnnotDict();
+		LObjDictionary aDict = getAnnotDict(session);
 		if(aDict == null) return;
 
 		aDict.add(a);
@@ -154,21 +154,21 @@ public class LObjDataSet extends LObjSubDict
 		numAnnots++;
 	}
 
-	public void addAnnots(Vector newAnnots)
+	public void addAnnots(Vector newAnnots, LabBookSession session)
 	{
 		for(int i=0 ;i < newAnnots.getCount(); i++){
 			if(newAnnots.get(i) instanceof LObjAnnotation){
-				addAnnot((LObjAnnotation)newAnnots.get(i));
+				addAnnot((LObjAnnotation)newAnnots.get(i), session);
 			}
 		}
 	}
 
-	public void addAnnot(Annotation a, int binIndex)
+	public void addAnnot(Annotation a, int binIndex, LabBookSession session)
 	{
 		LObjAnnotation lObjA = DataObjFactory.createAnnotation();
 		lObjA.setup(a, this, binIndex);
 
-		LObjDictionary aDict = getAnnotDict();
+		LObjDictionary aDict = getAnnotDict(session);
 		if(aDict == null) return;
 
 		aDict.add(lObjA);
@@ -185,12 +185,13 @@ public class LObjDataSet extends LObjSubDict
     public boolean needReadChunks = false;
 	LObjGraphView gView;
 
-    public LabObjectView getView(ViewContainer vc, boolean edit, LObjDictionary curDict)
+    public LabObjectView getView(ViewContainer vc, boolean edit, 
+								 LObjDictionary curDict, LabBookSession session)
     {
 		if(hasDataView){
-			LObjGraph dataView = (LObjGraph)getObj(0);
+			LObjGraph dataView = (LObjGraph)getObj(0, session);
 			if(dataView != null){
-				gView = (LObjGraphView)dataView.getView(vc, edit);
+				gView = (LObjGraphView)dataView.getView(vc, edit, session);
 				gView.showTitle(true);
 				gView.doInstantCollection();
 				return gView;
@@ -215,9 +216,9 @@ public class LObjDataSet extends LObjSubDict
 
 	// Might need to reset this 
 	boolean sentData = false;
+	LabBookSession deliverySession = null;
 
-
-	public void startDataDelivery()
+	public void startDataDelivery(LabBookSession session)
 	{
 		if(sentData) return;		
 		if(dataListener == null){
@@ -228,6 +229,7 @@ public class LObjDataSet extends LObjSubDict
 		dataListener.dataStreamEvent(startEvent);
 		new MyTimer(this, 50);
 		sentData = true;
+		deliverySession = session;
 	}
 
 	public void continueCollecting()
@@ -244,10 +246,10 @@ public class LObjDataSet extends LObjSubDict
 		
 		int objNum=2;
 		for(int i = 0; i < numChunks; i++){
-			LabObject obj = getObj(objNum++);
+			LabObject obj = getObj(objNum++, deliverySession);
 			while(obj != null &&
 				  !(obj instanceof LObjDataSet)){
-				obj = getObj(objNum++);
+				obj = getObj(objNum++, deliverySession);
 			}
 			if(obj == null) break;
 
@@ -269,7 +271,7 @@ public class LObjDataSet extends LObjSubDict
 		sentData = true;
 		if(gView != null){
 			// add the annotations
-			Vector annots = getAnnots();
+			Vector annots = getAnnots(gView.getSession());
 			GraphSettings curGS = gView.graph.getCurGraphSettings();
 			for(int i=0; i<annots.getCount(); i++){
 				LObjAnnotation a = (LObjAnnotation)annots.get(i);
@@ -282,7 +284,7 @@ public class LObjDataSet extends LObjSubDict
 
 	public void stopDataDelivery(){}
 
-	public CCUnit 	getUnit()
+	public CCUnit 	getUnit(LabBookSession session)
 	{
 		return unit;
 	}
@@ -291,14 +293,15 @@ public class LObjDataSet extends LObjSubDict
 		return true;
 	}
 
-	public String getQuantityMeasured(){return label;}
+	public String getQuantityMeasured(LabBookSession session)
+	{return label;}
 
 	public void setLabel(String l)
 	{
 		label = l;
 	}
 
-	public String getSummary()
+	public String getSummary(LabBookSession session)
 	{
 		return label;
 	}
@@ -428,7 +431,7 @@ public class LObjDataSet extends LObjSubDict
 		}
     }
 
-	public void getRootSources(Vector sources)
+	public void getRootSources(Vector sources, LabBookSession session)
 	{
 		if(sources != null){
 			sources.add(this);

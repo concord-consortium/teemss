@@ -68,9 +68,10 @@ public class LObjGraphView extends LabObjectView
 
 	GraphSettings curGS = null;
 
-    public LObjGraphView(ViewContainer vc, LObjGraph g, LObjDictionary curDict)
+    public LObjGraphView(ViewContainer vc, LObjGraph g, 
+						 LObjDictionary curDict, LabBookSession session)
     {
-		super(vc);
+		super(vc, (LabObject)g, session);
 
 		dataDict = curDict;
 
@@ -78,10 +79,8 @@ public class LObjGraphView extends LabObjectView
 		menu.addActionListener(this);
 
 		graph = g;
-		lObj = g;	
 
 		graph.addLabObjListener(this);
-
     }
 
 	public void addTool(GraphTool listener, String name)
@@ -152,9 +151,9 @@ public class LObjGraphView extends LabObjectView
 			}
 		} else {
 			if(e.getActionCommand().equals("Save Data..")){
-				graph.saveCurData(dataDict);
+				graph.saveCurData(dataDict, session);
 			} else if(e.getActionCommand().equals("Export Data..")){
-				graph.exportCurData();
+				graph.exportCurData(session);
 			}
 		}
 	}
@@ -195,8 +194,11 @@ public class LObjGraphView extends LabObjectView
 
 		addMark = new Button("Mark");
 
-		String [] toolsChoices = {TOOL_ZOOM_SELECT_NAME, TOOL_ANNOT_MARK_NAME, TOOL_DEL_MARK_NAME, 
-								  "Toggle Scrolling", TOOL_AUTO_ZOOM_NAME, };
+		String [] toolsChoices = {TOOL_ZOOM_SELECT_NAME, 
+								  TOOL_ANNOT_MARK_NAME, 
+								  TOOL_DEL_MARK_NAME, 
+								  "Toggle Scrolling", 
+								  TOOL_AUTO_ZOOM_NAME, };
 		toolsChoice = new Choice(toolsChoices);
 		if(externalToolNames != null){
 			for(int i=0; i<externalToolNames.getCount(); i++){
@@ -333,10 +335,13 @@ public class LObjGraphView extends LabObjectView
 		if(av != null) av.free();
 		av = null;
 		graph.closeAll();
-		graph.saveAllAnnots();
+		graph.saveAllAnnots(session);
 		
 		graph.delLabObjListener(this);
 		graph.store();
+
+		dd.free();
+		dd = null;
 		super.close();
     }
 
@@ -356,7 +361,6 @@ public class LObjGraphView extends LabObjectView
 	}
 
 	// Right this requires the caller to call repaint()
-
 	// This is a mess
 	public void stopGraph(Bin curBin) 
 	{
@@ -487,10 +491,10 @@ public class LObjGraphView extends LabObjectView
 					lObjA.showPropDialog(this);
 				} else {
 					for(int i=0; i<externalToolNames.getCount(); i++){
-						if(((String)externalToolNames.get(i)).equals(toolName)){
-							if(externalToolListeners.get(i) instanceof GraphTool){
+						if(((String)externalToolNames.get(i)).equals(toolName) &&
+						   externalToolListeners.get(i) instanceof GraphTool){
 								((GraphTool)externalToolListeners.get(i)).graphToolAction(toolName);
-							}
+							
 						}
 					}
 				}

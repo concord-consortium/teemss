@@ -39,11 +39,13 @@ CCUnit		currentUnit = null;
 		setProbe(probe);
     }
 
-    public LabObjectView getView(ViewContainer vc, boolean edit,LObjDictionary curDict){
+    public LabObjectView getView(ViewContainer vc, boolean edit,
+								 LObjDictionary curDict, LabBookSession session){
     	return null;
     }
     
-    public LabObjectView getPropertyView(ViewContainer vc, LObjDictionary curDict){
+    public LabObjectView getPropertyView(ViewContainer vc, LObjDictionary curDict,
+										 LabBookSession session){
 		return new LObjProbeDataSourceProp(vc, this);
     }
 
@@ -51,8 +53,10 @@ CCUnit		currentUnit = null;
     {
 		MainWindow mw = MainWindow.getMainWindow();
 		if(mw instanceof ExtraMainWindow){
-			LObjProbeDataSourceProp pdsProp = (LObjProbeDataSourceProp) getPropertyView(null, null);
-			ViewDialog vDialog = new ViewDialog((ExtraMainWindow)mw, null, "Properties", pdsProp);
+			LObjProbeDataSourceProp pdsProp = 
+				(LObjProbeDataSourceProp) getPropertyView(null, null, null);
+			ViewDialog vDialog = 
+				new ViewDialog((ExtraMainWindow)mw, null, "Properties", pdsProp);
 			vDialog.setRect(0,0,150,150);
 			vDialog.show();
 		}
@@ -89,7 +93,7 @@ CCUnit		currentUnit = null;
 		return ProbFactory.getName(probeId);
 	}
 
-	public String getSummary()
+	public String getSummary(LabBookSession session)
 	{
 		String summary;
 
@@ -107,7 +111,7 @@ CCUnit		currentUnit = null;
 	}
 
 
-	public CCUnit 	getUnit()
+	public CCUnit 	getUnit(LabBookSession session)
 	{
 		if(probe != null) return CCUnit.getUnit(probe.getUnit());
 		else return null;
@@ -123,7 +127,7 @@ CCUnit		currentUnit = null;
 	}
 
 	boolean started = false;
-	public void startDataDelivery(){
+	public void startDataDelivery(LabBookSession session){
 		if(probe == null || started) return;
 
 		if(pb == null){
@@ -156,13 +160,13 @@ CCUnit		currentUnit = null;
 		if(probe != null) probe.setCalibrationListener(null);
 	}
 
-	public void zeroForce()
+	public void zeroForce(LabBookSession session)
 	{
 		if(probe instanceof CCForce){
 			CCForce fProbe = (CCForce)probe;
 			
 			fProbe.startZero();
-			startDataDelivery();
+			startDataDelivery(session);
 		}
 	}
 
@@ -280,7 +284,7 @@ CCUnit		currentUnit = null;
 
 	public DataSource getQuantityDataSource(String qName)
 	{
-		if(qName.equals(getQuantityMeasured())){
+		if(qName.equals(getQuantityMeasured(null))){
 			return this;
 		} else {
 			int quantId = getQuantityId(qName);
@@ -306,7 +310,7 @@ CCUnit		currentUnit = null;
 		return -1;
 	}
 
-	public String getQuantityMeasured()
+	public String getQuantityMeasured(LabBookSession session)
 	{
 		if(probe != null) return probe.getDefQuantityName();
 		return null;
@@ -331,7 +335,7 @@ CCUnit		currentUnit = null;
 		return null;
 	}
 
-	public void getRootSources(Vector sources)
+	public void getRootSources(Vector sources, LabBookSession session)
 	{
 		if(sources != null){
 			sources.add(this);

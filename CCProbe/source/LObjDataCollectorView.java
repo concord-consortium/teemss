@@ -40,19 +40,19 @@ public class LObjDataCollectorView extends LabObjectView
 	String [] palmFileStrings = {"Save Data.."};
 
     public LObjDataCollectorView(ViewContainer vc, LObjDataCollector dc, 
-							   LObjDictionary curDict)
+							   LObjDictionary curDict, LabBookSession session)
     {
-		super(vc);
+		super(vc, (LabObject)dc, session);
 
-		graph = (LObjGraph)dc.getObj(0);
+		graph = (LObjGraph)dc.getObj(0, session);
 
 		menu.add("Graph Properties..");
 		
 		Vector tempRootSources;
 		for(int i=0; i<graph.numDataSources; i++){
-			DataSource ds = (DataSource)graph.getDataSource(i);
+			DataSource ds = (DataSource)graph.getDataSource(i, session);
 			tempRootSources = new Vector();
-			ds.getRootSources(tempRootSources);
+			ds.getRootSources(tempRootSources, session);
 			for(int j=0; j<tempRootSources.getCount(); j++){
 				int index = rootSources.find(tempRootSources.get(j));
 				if(index < 0){
@@ -70,7 +70,6 @@ public class LObjDataCollectorView extends LabObjectView
 		menu.addActionListener(this);
 
 		this.dc = dc;
-		lObj = dc;
 		dataDict = curDict;
 
 
@@ -136,9 +135,10 @@ public class LObjDataCollectorView extends LabObjectView
 		if(tool.equals("Zero Force Probe")){
 			if(rootSources != null && rootSources.getCount() > 0 &&
 			   rootSources.get(0) instanceof LObjProbeDataSource){
-				LObjProbeDataSource pds = (LObjProbeDataSource)rootSources.get(0);
+				LObjProbeDataSource pds = 
+					(LObjProbeDataSource)rootSources.get(0);
 				if(pds.getName() == "Force"){
-					pds.zeroForce();
+					pds.zeroForce(session);
 				}
 			}
 		}
@@ -156,7 +156,7 @@ public class LObjDataCollectorView extends LabObjectView
 
 		graph.addLabObjListener(this);
 
-		gv = (LObjGraphView)graph.getView(this, false, dataDict);
+		gv = (LObjGraphView)graph.getView(this, false, dataDict, session);
 		gv.showTitle(false);
 
 		if(rootSources != null && rootSources.getCount() > 0 &&
@@ -173,7 +173,7 @@ public class LObjDataCollectorView extends LabObjectView
 		title1Label = new Label(title1);
 		add(title1Label);
 
-		String t2 = graph.getTitle();
+		String t2 = graph.getTitle(session);
 		if(t2 == null) t2 = "";
 		title2Label = new Label(t2);
 		add(title2Label);
@@ -190,7 +190,7 @@ public class LObjDataCollectorView extends LabObjectView
 	{
 		if(e.getObject() == graph &&
 		   graph != null){
-			setTitle2(graph.getTitle());		
+			setTitle2(graph.getTitle(session));		
 			// this used to happen here but I don't think
 			// it is needed
 			// dc.store();  // maybe
@@ -235,7 +235,8 @@ public class LObjDataCollectorView extends LabObjectView
 			if(e.getActionCommand().equals("Probe Properties..")){
 				stop(true);
 
-				LObjProbeDataSource pds = (LObjProbeDataSource)rootSources.get(0);
+				LObjProbeDataSource pds = 
+					(LObjProbeDataSource)rootSources.get(0);
 				pds.showProp();
 
 				Debug.println("Callllll");
@@ -263,9 +264,9 @@ public class LObjDataCollectorView extends LabObjectView
 			}
 		} else {
 			if(e.getActionCommand().equals("Save Data..")){
-				graph.saveCurData(dataDict);
+				graph.saveCurData(dataDict, session);
 			} else if(e.getActionCommand().equals("Export Data..")){
-				graph.exportCurData();
+				graph.exportCurData(session);
 			}
 		}
     }
@@ -323,11 +324,11 @@ public class LObjDataCollectorView extends LabObjectView
     public void done(LabObjectView source) {}
 
 	public int getPreferredWidth(){
-		return -1;
+		return 100;
 	}
 
 	public int getPreferredHeight(){
-		return -1;
+		return 100;
 	}
 
 }

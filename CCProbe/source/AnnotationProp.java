@@ -25,9 +25,8 @@ public class AnnotationProp extends LabObjectView
 
 	public AnnotationProp(ViewContainer vc, LObjAnnotation a)
 	{
-		super(vc);
+		super(vc, (LabObject)a, null);
 		annot = a;
-		lObj = a;	
 
 		setupProperties();
 	}
