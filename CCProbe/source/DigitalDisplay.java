@@ -36,7 +36,6 @@ public class DigitalDisplay extends Container
     int OUTER_PADDING = 4;
     Vector bins = new Vector();
     Vector disps = new Vector();
-	Vector fConvertors = new Vector();
     FontMetrics fm;
     Font _font;
 
@@ -50,17 +49,16 @@ public class DigitalDisplay extends Container
     public void addBin(DecoratedValue bin)
     {
 		bins.add(bin);
-		LabelBuf curDisp = new LabelBuf("");
-		curDisp.setAlignment(LabelBuf.RIGHT);
+		
+		FloatLabel curDisp = new FloatLabel();
+		curDisp.setAlignment(FloatLabel.RIGHT);
 		add(curDisp);
 		
-		FloatConvert fc = new FloatConvert();
-		fConvertors.add(fc);
 		int prec = bin.getPrecision();
 		if(prec != bin.UNKNOWN_PRECISION){
-			fc.setPrecision(prec);
+			curDisp.setPrecision(prec);
 		} else {
-			fc.setPrecision(-2);
+			curDisp.setPrecision(-2);
 		}
 
 		curDisp.setRect(0,0,fm.getTextWidth("-0.00E0"),fm.getHeight());
@@ -73,9 +71,8 @@ public class DigitalDisplay extends Container
 		int index = bins.find(bin);
 		if(index < 0) return;
 		bins.del(index);
-		fConvertors.del(index);
 
-		LabelBuf curDisp = (LabelBuf)disps.get(index);
+		FloatLabel curDisp = (FloatLabel)disps.get(index);
 		remove(curDisp);
 		curDisp.free();
 		disps.del(index);
@@ -85,7 +82,7 @@ public class DigitalDisplay extends Container
 	public void free()
 	{
 		for(int i=0; i<disps.getCount(); i++){
-			((LabelBuf)disps.get(i)).free();
+			((FloatLabel)disps.get(i)).free();
 		}
 		
 		bins = null;
@@ -94,7 +91,7 @@ public class DigitalDisplay extends Container
     public void onPaint(Graphics g)
     {
 		DecoratedValue curBin;
-		LabelBuf curDisp;
+		FloatLabel curDisp;
 		String curLabel;
 		String curUnitStr;
 		CCUnit curUnit;
@@ -116,7 +113,7 @@ public class DigitalDisplay extends Container
 			else curLabel = curLabel + ":";
 			g.drawText(curLabel, x,0);
 			x += fm.getTextWidth(curLabel) + INNER_PADDING;
-			curDisp = (LabelBuf)disps.get(i);
+			curDisp = (FloatLabel)disps.get(i);
 			if(curDisp != null){
 				curDisp.setPos(x,0);	    
 				x += curDisp.getWidth();
@@ -136,27 +133,27 @@ public class DigitalDisplay extends Container
     public void update()
     {
 		for(int i=0; i<bins.getCount(); i++){
-			FloatConvert fc = (FloatConvert)fConvertors.get(i);
+			FloatLabel fLabel = (FloatLabel)disps.get(i);
 
 			DecoratedValue bin = (DecoratedValue)bins.get(i);
 
-			fc.setVal(bin.getValue());
+			fLabel.setVal(bin.getValue());
 
 			int prec = bin.getPrecision();
 			if(prec != bin.UNKNOWN_PRECISION){
-				fc.setPrecision(prec);
+				fLabel.setPrecision(prec);
 			} else {
-				fc.setPrecision(fc.getExponent() - 3);
+				fLabel.setPrecision(fLabel.getExponent() - 3);
 			}
 
 			// Should change this to add some historisis.  
 			// Hmm..
-			if(fc.getExponent() >= 0){
+			if(fLabel.getExponent() >= 0){
 				// Temporary hack to remove exponent from display
-				((LabelBuf)disps.get(i)).setText(fc.getString(0));
+				fLabel.draw(0);
 				// fc.getExponent()/3*3));
 			} else {
-				((LabelBuf)disps.get(i)).setText(fc.getString((fc.getExponent()-2)/3*3));
+				fLabel.draw((fLabel.getExponent()-2)/3*3);
 			}
 		}
     }
