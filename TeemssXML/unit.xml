@@ -58,13 +58,6 @@
       means of transferring electrical energy when heat, light, sound,
       and chemical changes are produced;  </skill>
   </skill-list>
-  <tech-hint-list>
-<tech-hint name="hint1">
-<title>Opening and Using the Software</title>
-<heading>blah blah</heading>
-<body></body>
-</tech-hint>
-</tech-hint-list>
   <unit name="Motions_and_Forces">
     <title>Motions and Forces</title>
     <investigation name="Air_Cart">
@@ -287,22 +280,6 @@
                   <ext-image name="01c_slotCutOut"/>
                 </ext-image-sequence>
               </step>
-			  <query-response layout="list" title="Test query">
-				<query-description>
-Please answer these questions. Please Please.
-</query-description>
-				<querys>
-				  <query>
-This is question one.
-</query>
-				  <query>
-This is question two.
-</query>
-				</querys>
-			<query-static-link>
-Answer these question on your palm.
-</query-static-link>
-			  </query-response>
             </steps>
           </instruction>
           <instruction title="Installing the axles">
