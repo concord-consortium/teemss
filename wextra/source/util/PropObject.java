@@ -12,6 +12,7 @@ public class PropObject
 	String 	[]possibleValues;
 	boolean []checkedValues;
 	String 	value;
+	int index;
 	float		fval = 0.0f;
 	Control	valueKeeper = null;
 	public int prefWidth = 60;
@@ -82,6 +83,7 @@ public class PropObject
 			for(int i = 0;i < possibleValues.length; i++){
 				if(value.equals(possibleValues[i])){
 					inPossibleValue = true;
+					index = i;
 					break;
 				}
 			}
@@ -98,6 +100,8 @@ public class PropObject
 	public float getFValue(){ return fval;}
 	
 	public String getValue(){ return value;}
+	public int getIndex(){return index;}
+
 	public String []getPossibleValues(){ return possibleValues;}
 	public String getName(){ return name;}
 	public void writeExternal(extra.io.DataStream out){
