@@ -225,14 +225,32 @@ protected 	static ProbManagerEvent   pmEvent = new ProbManagerEvent();
 		im.dispose();
 		im = null;
 	}
+	
+//	public static java.io.FileWriter pbstream = null;
+	
 	public void start(){
 		if(im == null) return;
+/*
+		try{
+			pbstream = new java.io.FileWriter("VOLTMETER.txt");
+		}catch(Exception e){
+			pbstream = null;
+		}
+*/
 		syncModeWithProb();
 		notifyListeners(ProbManagerEvent.PM_START,null);
 
 		im.start();
 	}
 	public void stop(){
+/*
+		if(pbstream != null){
+			try{
+				pbstream.close();
+			}catch(Exception e){}
+			pbstream = null;
+		}
+*/
 		if(im == null) return;
 		im.stop();
 		notifyListeners(ProbManagerEvent.PM_STOP,null);

@@ -256,6 +256,7 @@ JNIEXPORT jint JNICALL Java_waba_io_impl_SerialPortImpl_readBytes
     }while((readData < actNeedData) && !doExit);
 	env->SetByteArrayRegion(buffer,actStart,readData,myBuffer);	
     DisposePtr(myBuffer);
+    
 	return readData;
 }
 

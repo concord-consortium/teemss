@@ -158,11 +158,9 @@ public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
 			switch(outputMode){
 				case CURRENT_OUT:
 					data[dataIndex] = (dataEvent[nOffset+i] - zeroPointCurrent)/currentResolution;
-//					System.out.println("amper "+data[0]);
 					break;
 				case VOLTAGE_OUT:
 					data[dataIndex] = (dataEvent[nOffset+i +1] - zeroPointVoltage)/voltageResolution;
-//					System.out.println("voltage "+data[0]);
 					break;
 				case WATT_OUT:
 				case ENERGY_OUT:

@@ -47,7 +47,6 @@ protected ProbManager	pb = null;
 		port.setFlowControl(false);
 	    	setByteStreamProperties();
 		setCurTime(0.0f);
-		valueData[0] = curStepTime;
 		gotChannel0 = false;
 		dDesc.setDt(timeStepSize);
 		dDesc.setChPerSample(2);
@@ -580,8 +579,6 @@ protected ProbManager	pb = null;
 		int curChannel = 0;
 
 //		response = OK;
-
-
 		while(port != null && port.isOpen()){
 			curChannel = 0;
 			ret = port.readBytes(buf, bufOffset, readSize - bufOffset);
@@ -603,12 +600,16 @@ protected ProbManager	pb = null;
 				value = 0;
 				tmp = buf[curPos++];
 				pos = (byte)(tmp & MASK);
-				if(pos != (byte)0x00) continue; // We found a bogus char 
+				if(pos != (byte)0x00){
+					continue; // We found a bogus char 
+				}
 
 				value |= (tmp & (byte)0x00F) << 7;
 				tmp = buf[curPos++];
 				pos = (byte)(tmp & MASK);
-				if(pos != (byte)0x80) continue; // We found a bogus char 
+				if(pos != (byte)0x80){
+					continue; // We found a bogus char 
+				}
 
 				value |= (tmp & (byte)0x07F);
 				// Ignore the change bit
@@ -625,23 +626,24 @@ protected ProbManager	pb = null;
 				    valueData[curDataPos++] = (float)value * tuneValue;
 				} else {
 				    // Return a reasonable resolution
-				    curDataCh0 = (float)value * tuneValue;
 				    gotChannel0 = (curChannel == 0);
+				   if(gotChannel0) curDataCh0 = (float)value * tuneValue;
 				}
 			}
 
 			dEvent.numbSamples = (curDataPos/activeChannels);
 			curStepTime += dEvent.numbSamples*timeStepSize;
 			pb.dataArrived(dEvent);
+
 			if((ret - curPos) > 0){
 				for(j=0; j<(ret-curPos); j++) buf[j] = buf[curPos + j];
 				bufOffset = j;
 			}
 
+
 		}
 		// Should have a special error condition
 		if(ret < 0) return WARN_SPEC_CONDITIONS;
-
 		dEvent.setType(DataEvent.DATA_COLLECTING);
 		pb.idle(dEvent);
 		dEvent.setType(DataEvent.DATA_RECEIVED);
@@ -798,7 +800,7 @@ protected ProbManager	pb = null;
 
     	public final static int NUMB_CHANNELS = 2;
 	float				[]curData = new float[1+NUMB_CHANNELS];
-    float curDataCh0;
+    	float 			curDataCh0;
 	
 	public float		tuneValue = 1.0f;
     	boolean 			gotChannel0 = false;
