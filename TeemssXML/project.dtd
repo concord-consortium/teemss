@@ -34,10 +34,16 @@
 <!ATTLIST datacollector-link
   type  (dc-temperature1 |
          dc-temperature2 |
-         dc-force-20 |
+         dc-light1 |
+         dc-light2 |
+         dc-force1 |
+         dc-force2 |
+         dc-force3 |
+         dc-force4 |
          dc-smartwheel-pos1 |
          dc-smartwheel-pos2 |
-         dc-smartwheel-vel1)     #REQUIRED>
+         dc-smartwheel-vel1 |
+         dc-smartwheel-vel2)     #REQUIRED>
 
 <!ELEMENT teacher-notes (teacher-intro, teacher-discuss, teacher-background, teacher-timeline)>
 <!ELEMENT teacher-intro (summary, skills)>
