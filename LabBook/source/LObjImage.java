@@ -226,12 +226,12 @@ class LObjImageView extends LabObjectView implements ActionListener
 		}
 
 	}
-	public int getPreferredWidth(waba.fx.FontMetrics fm){
+	public int getPreferredWidth(){
 		if(imageWidth <= 0) return 10;
 		return imageWidth;
 	}
 
-	public int getPreferredHeight(waba.fx.FontMetrics fm){
+	public int getPreferredHeight(){
 		if(imageHeight <= 0) return 10;
 		return imageHeight;
 	}
@@ -239,10 +239,10 @@ class LObjImageView extends LabObjectView implements ActionListener
 	private extra.ui.Dimension preferrDimension;
 	public extra.ui.Dimension getPreferredSize(){
 		if(preferrDimension == null){
-			preferrDimension = new extra.ui.Dimension(getPreferredWidth(null),getPreferredHeight(null));
+			preferrDimension = new extra.ui.Dimension(getPreferredWidth(),getPreferredHeight());
 		}else{
-			preferrDimension.width = getPreferredWidth(null);
-			preferrDimension.height = getPreferredHeight(null);
+			preferrDimension.width = getPreferredWidth();
+			preferrDimension.height = getPreferredHeight();
 		}
 		return preferrDimension;
 	}

@@ -4,7 +4,7 @@ import waba.ui.*;
 import org.concord.waba.extra.event.*;
 import org.concord.waba.extra.ui.*;
 
-public abstract class LabObjectView extends Container implements extra.ui.PreferredSize
+public abstract class LabObjectView extends Container
 {
     protected boolean showDone = false;
     protected boolean didLayout = false;
@@ -44,6 +44,23 @@ public abstract class LabObjectView extends Container implements extra.ui.Prefer
 		if(lObj != null) return lObj.name;
 		else return null;
     }
+
+	public int getPreferredWidth(){return -1;}
+
+	public int getPreferredHeight(){return -1;}
+
+	public extra.ui.Dimension getPreferredSize()
+	{
+		int pWidth = getPreferredWidth();
+		int pHeight = getPreferredHeight();
+
+		if(pWidth < 0 || pHeight < 0){
+			return null;
+		} else {
+			return new extra.ui.Dimension(getPreferredWidth(),getPreferredHeight());
+		}
+	}
+
     
 /***************************************************************************/
 /*	The idea is that a container calls setShowMenus not addMenus.          */

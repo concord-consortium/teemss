@@ -70,6 +70,11 @@ public abstract class LabObject
 		return null;
     }
 
+	public LabObjectView getMinimizedView()
+	{
+		return new LObjMinimizedView(this);
+	}
+
     public LabObjectView getPropertyView(ViewContainer vc)    
     {
 		return getPropertyView(vc, null);
