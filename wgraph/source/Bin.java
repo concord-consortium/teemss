@@ -72,7 +72,7 @@ public class Bin
 	numPoints = 0;
 	numXs = 0;
 	
-	if(numValues < 1){
+	if(numValues < 2){
 	    return;
 	}
 
@@ -83,7 +83,7 @@ public class Bin
 
 	// Set the last value to some non valid x
 	// This will cause the inner loop to break out
-	values[numValues*2] = -1f;
+	values[numValues*2] = -100000f;
 	
 	newX = (int)(values[i] * xaxis.scale);
 	i++;
@@ -127,7 +127,7 @@ public class Bin
 	int curPtPos = (numPoints-1)*3;
 	int avgY;
 
-	if(numPoints == 0){
+	if(numPoints < 2){
 	    recalc();
 	    return true;
 	}
@@ -140,7 +140,7 @@ public class Bin
 
 	// Set the last value to some non valid x
 	// This will cause the inner loop to break out
-	values[numValues*2] = -1f;
+	values[numValues*2] = -100000f;
 	
 	newX = (int)(values[i] * xaxis.scale);
 	i++;
