@@ -315,9 +315,9 @@ private waba.ui.Container		contentPane;
 	int editWidth =w - 10 - 10;
 	if(messageType == EDIT_INP_DIALOG){
 		d.inpControl = new waba.ui.Edit();
+		cp.add(d.inpControl);
 		d.inpControl.setRect(20,10 + mHeight ,d.width - 24,mHeight+5);
 		if(defStr != null) ((waba.ui.Edit)d.inpControl).setText(defStr);
-		cp.add(d.inpControl);
 	}else if(messageType == CHOICE_INP_DIALOG){
 		d.inpControl = new Choice(choices);
 		d.inpControl.setRect(20,10 + mHeight ,d.width - 24,mHeight+5);

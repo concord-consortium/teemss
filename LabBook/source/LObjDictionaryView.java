@@ -177,7 +177,7 @@ public class LObjDictionaryView extends LabObjectView
 				String objType = (String)e.getInfo();
 				getMainView().createObj(objType, this);
 			}
-		} else if(e.getSource() == rnDialog){
+		} else if((rnDialog != null) && (e.getSource() == rnDialog)){
 			if(command.equals("Ok")){
 				// This is a bug
 	       
@@ -260,7 +260,7 @@ public class LObjDictionaryView extends LabObjectView
 								      buttons,Dialog.EDIT_INP_DIALOG,null,selObj.toString());
 				} else {
 				    rnDialog = Dialog.showInputDialog(this, "Rename Parent", "Old Name was " + dict.name,
-								      buttons,Dialog.EDIT_INP_DIALOG,null,selObj.toString());
+								      buttons,Dialog.EDIT_INP_DIALOG,null,dict.name);
 				}
 		    } else if(e.getActionCommand().equals("Import..")){
 				FileDialog fd = FileDialog.getFileDialog(FileDialog.FILE_LOAD, null);

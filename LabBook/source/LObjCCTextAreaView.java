@@ -124,7 +124,7 @@ LabObjectView			addedLabObjectView		= null;
 			tArea.dict 		= doc.curDict;
 			tArea.subDictionary = doc;
 		}
-//		if(doc.text != null)  tArea.setText(doc.text);
+
 		edit.add(tArea, 1, RelativeContainer.BELOW, 
 		RelativeContainer.REST, RelativeContainer.REST);
 		insertButton = new Button("Insert");
@@ -167,7 +167,6 @@ LabObjectView			addedLabObjectView		= null;
 
 	public void close(){
 		Debug.println("Got close in document");
-//		doc.text = tArea.getText();
 		tArea.close();
 
 		super.close();

@@ -299,6 +299,7 @@ String				text;
     }
 
     public void reload(LabObjectView source){
+/*
 		LabObject obj = source.getLabObject();
 		source.close();
 		remove(source);
@@ -307,6 +308,7 @@ String				text;
 
 		add(replacement);
 //		lObjView = replacement;
+*/
     }
 
 	public void close(){
@@ -693,6 +695,10 @@ String				text;
 		r.height 	= getItemHeight();
 		r.x = curState.cursorPos;
 		r.y = curState.cursorRow*getItemHeight();
+		if(r.y > height){
+			removeCursor();
+			return false;
+		}
 		return true;
 	}
 

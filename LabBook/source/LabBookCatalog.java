@@ -55,7 +55,6 @@ public class LabBookCatalog
 	    return;
 	}
 
-
 	ds = new DataStream(cat);
 	if(!readIndex()){
 	    // Failed
