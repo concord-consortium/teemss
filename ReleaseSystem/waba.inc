@@ -22,6 +22,7 @@ WABA_DIR= $(CURDIR)/../wabasdk/classes
 WEXTRAS_DIR= $(CURDIR)/../wextra/classes/desktop
 WABAJUMP_DIR= $(CURDIR)/../wabajump/classes
 CLASSES_DIR= classes
+SRC_DIR ?= source
 BIN_DIR= bin
 JAR_NAME= $(MW_CLASS).jar
 WJUMP_DIR= wjump
@@ -58,7 +59,7 @@ jar: $(BIN_DIR)/$(MW_CLASS).jar
 
 main: $(CLASSES_DIR) 
 ifeq ($(PLATFORMS),)
-$(CLASSES_DIR): $(wildcard source/*.java)
+$(CLASSES_DIR): $(wildcard $(SRC_DIR)/*.java)
 	[ -d $@ ] || mkdir $@
 	javac -classpath $@:$(CLASSPATH):$(call COMPILE_CP,other) -d $(CLASSES_DIR) -g $?
 	touch $@
@@ -76,7 +77,7 @@ $(PLATFORMS:%=$(CLASSES_DIR)/%): $(CLASSES_DIR)/% : FORCE
 
 else 
 
-$(CLASSES_DIR)/$(PLATFORM): source/*.java $(wildcard source/$(PLATFORM)/*.java)
+$(CLASSES_DIR)/$(PLATFORM): $(SRC_DIR)/*.java $(wildcard $(SRC_DIR)/$(PLATFORM)/*.java)
 	echo ---Updating $(PLATFORM) classes
 	[ -d $@ ] || mkdir -p $@
 	javac -classpath $@:$(call PLATFORM_CP,$(PLATFORM)):$(call COMPILE_CP,$(PLATFORM)) -d $@ -O $?
