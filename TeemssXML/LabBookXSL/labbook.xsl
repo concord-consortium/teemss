@@ -24,66 +24,6 @@
       <xsl:copy-of select="document('about-teemss.xml')"/>
       <xsl:apply-templates select="unit"/>
     </FOLDER>
-    <FOLDER ID="saved-datasets" name="Saved Datasets">
-    </FOLDER>
-
-<SUPERNOTES ID="embedtest" name="Embed Test">
-
-        <EMBOBJ object="ccprobe_titlebar_154.bmp"/>
-
-        <SNPARAGRAPH linkcolor="0000FF">
-          About CCProbe
-       </SNPARAGRAPH>
-       <SNPARAGRAPH/>
-Embed Test
-
-  <xsl:element name="EMBOBJ">
-    <xsl:attribute name="object">test-temperature1</xsl:attribute>
-    <xsl:attribute name="link">true</xsl:attribute>
-    <xsl:attribute name="linkcolor">FF0000</xsl:attribute>
-
-
-<xsl:element name="DATACOLLECTOR">
-  <xsl:attribute name="ID">test-temperature1</xsl:attribute>
-  <xsl:attribute name="name">Measure Temperature</xsl:attribute>
-  <xsl:element name="PROBE">
-    <xsl:attribute name="ID">test-temp1</xsl:attribute>
-    <xsl:attribute name="probe">Temperature</xsl:attribute>
-    <xsl:element name="PROP">
-      <xsl:attribute name="name">Port</xsl:attribute>
-      <xsl:attribute name="value">A</xsl:attribute>
-    </xsl:element>
-    <xsl:element name="PROP">
-      <xsl:attribute name="name">Mode</xsl:attribute>
-      <xsl:attribute name="value">C</xsl:attribute>
-    </xsl:element>
-  </xsl:element>
-  <xsl:element name="GRAPH">
-    <xsl:attribute name="current-line">0</xsl:attribute>
-    <xsl:attribute name="title"></xsl:attribute>
-    <xsl:element name="DATAFOLDER">
-      <xsl:attribute name="object">saved-datasets</xsl:attribute>
-    </xsl:element>
-    <xsl:element name="XAXIS">
-      <xsl:attribute name="min">0</xsl:attribute>
-      <xsl:attribute name="max">40</xsl:attribute>
-    </xsl:element>
-    <xsl:element name="YAXIS">
-      <xsl:attribute name="min">10</xsl:attribute>
-      <xsl:attribute name="max">40</xsl:attribute>
-    </xsl:element>
-    <xsl:element name="LINE">
-      <xsl:attribute name="xaxis">0</xsl:attribute>
-      <xsl:attribute name="yaxis">0</xsl:attribute>
-      <xsl:attribute name="datasource">test-temp1</xsl:attribute>
-    </xsl:element>
-  </xsl:element>
-</xsl:element>
-
-</xsl:element>
-
-</SUPERNOTES>
-
   </LABBOOK>
 </xsl:template>
 
@@ -105,6 +45,8 @@ Embed Test
     <xsl:apply-templates select="trial" mode="investigate"/>
     <xsl:apply-templates select="hints"/>
     <xsl:apply-templates select="analysis" mode="investigate"/>
+    <FOLDER ID="{@name}-saved-datasets" name="Saved Data Sets">
+    </FOLDER>
   </FOLDER>
 </xsl:template>
 
@@ -519,13 +461,165 @@ Embed Test
   count="query-response[generate-id(ancestor::*[../../investigation]) = $section_id]"/>
 </xsl:template>
 
+<!--
+
 <xsl:template match="datacollector-link">
-  <xsl:element name="EMBOBJ">
-    <xsl:attribute name="object"><xsl:value-of select="@type"/></xsl:attribute>
-    <xsl:attribute name="link">true</xsl:attribute>
-    <xsl:attribute name="linkcolor">FF0000</xsl:attribute>
-  </xsl:element>
+  <xsl:call-template name="{@type}">
+    <xsl:with-param name="sequencenumber">
+      <xsl:number level="any"/>
+    </xsl:with-param>
+  </xsl:call-template>
 </xsl:template>
+
+
+  <xsl:variable name="type">
+    <xsl:value-of select="@type"/>
+  </xsl:variable>
+
+  <xsl:choose>
+    <xsl:when test="$type='dc-temperature1'"/>
+      <xsl:call-template name="dc-temperature1">
+        <xsl:with-param name="sequencenumber">
+          <xsl:number level="any"/>
+        </xsl:with-param>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:when test="$type='dc-temperature2'"/>
+      <xsl:call-template name="dc-temperature2">
+        <xsl:with-param name="sequencenumber">
+          <xsl:number level="any"/>
+        </xsl:with-param>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:when test="$type='dc-temperature3'"/>
+      <xsl:call-template name="dc-temperature3">
+        <xsl:with-param name="sequencenumber">
+          <xsl:number level="any"/>
+        </xsl:with-param>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:when test="$type='dc-temperature4'"/>
+      <xsl:call-template name="dc-temperature4">
+        <xsl:with-param name="sequencenumber">
+          <xsl:number level="any"/>
+        </xsl:with-param>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:when test="$type='dc-temperature5'"/>
+      <xsl:call-template name="dc-temperature5">
+        <xsl:with-param name="sequencenumber">
+          <xsl:number level="any"/>
+        </xsl:with-param>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:when test="$type='dc-temperature6'"/>
+      <xsl:call-template name="dc-temperature6">
+        <xsl:with-param name="sequencenumber">
+          <xsl:number level="any"/>
+        </xsl:with-param>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:when test="$type='dc-voltage-current-voltage'"/>
+      <xsl:call-template name="dc-voltage-current-voltage">
+        <xsl:with-param name="sequencenumber">
+          <xsl:number level="any"/>
+        </xsl:with-param>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:when test="$type='dc-voltage-current-power'"/>
+      <xsl:call-template name="dc-voltage-current-power">
+        <xsl:with-param name="sequencenumber">
+          <xsl:number level="any"/>
+        </xsl:with-param>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:when test="$type='dc-voltage-current-energy'"/>
+      <xsl:call-template name="dc-voltage-current-energy">
+        <xsl:with-param name="sequencenumber">
+          <xsl:number level="any"/>
+        </xsl:with-param>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:when test="$type='dc-light-4000'"/>
+      <xsl:call-template name="dc-light-4000">
+        <xsl:with-param name="sequencenumber">
+          <xsl:number level="any"/>
+        </xsl:with-param>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:when test="$type='dc-light-100000'"/>
+      <xsl:call-template name="dc-light-100000">
+        <xsl:with-param name="sequencenumber">
+          <xsl:number level="any"/>
+        </xsl:with-param>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:when test="$type='dc-force1'"/>
+      <xsl:call-template name="dc-force1">
+        <xsl:with-param name="sequencenumber">
+          <xsl:number level="any"/>
+        </xsl:with-param>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:when test="$type='dc-force2'"/>
+      <xsl:call-template name="dc-force2">
+        <xsl:with-param name="sequencenumber">
+          <xsl:number level="any"/>
+        </xsl:with-param>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:when test="$type='dc-force3'"/>
+      <xsl:call-template name="dc-force3">
+        <xsl:with-param name="sequencenumber">
+          <xsl:number level="any"/>
+        </xsl:with-param>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:when test="$type='dc-force4'"/>
+      <xsl:call-template name="dc-force4">
+        <xsl:with-param name="sequencenumber">
+          <xsl:number level="any"/>
+        </xsl:with-param>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:when test="$type='dc-smartwheel-pos1'"/>
+      <xsl:call-template name="dc-smartwheel-pos1">
+        <xsl:with-param name="sequencenumber">
+          <xsl:number level="any"/>
+        </xsl:with-param>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:when test="$type='dc-smartwheel-pos2'"/>
+      <xsl:call-template name="dc-smartwheel-pos2">
+        <xsl:with-param name="sequencenumber">
+          <xsl:number level="any"/>
+        </xsl:with-param>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:when test="$type='dc-smartwheel-vel1'"/>
+      <xsl:call-template name="dc-smartwheel-vel1">
+        <xsl:with-param name="sequencenumber">
+          <xsl:number level="any"/>
+        </xsl:with-param>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:when test="$type='dc-smartwheel-vel2'"/>
+      <xsl:call-template name="dc-smartwheel-vel2">
+        <xsl:with-param name="sequencenumber">
+          <xsl:number level="any"/>
+        </xsl:with-param>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:when test="$type='dc-smartwheel-vel3'"/>
+      <xsl:call-template name="dc-smartwheel-vel3">
+        <xsl:with-param name="sequencenumber">
+          <xsl:number level="any"/>
+        </xsl:with-param>
+      </xsl:call-template>
+    </xsl:when>
+  </xsl:xhoose>
+</xsl:template>
+-->
 
 <xsl:template match="ext-image-sequence">
   <xsl:apply-templates/>
@@ -564,5 +658,1371 @@ Embed Test
   <SNPARAGRAPH/>
 </xsl:template>
 
+
+<xsl:template match="datacollector-link[@type='dc-temperature1']">
+  <xsl:variable name="sequencenumber">
+      <xsl:number level="any"/>
+  </xsl:variable>
+  <xsl:element name="EMBOBJ">
+    <xsl:attribute name="object">
+      <xsl:text>temperature1-</xsl:text>
+      <xsl:number value="$sequencenumber"/>
+    </xsl:attribute>
+    <xsl:attribute name="link">true</xsl:attribute>
+    <xsl:attribute name="linkcolor">FF0000</xsl:attribute>
+    <xsl:element name="DATACOLLECTOR"> 
+      <xsl:attribute name="ID">
+        <xsl:text>temperature1-</xsl:text>
+        <xsl:number value="$sequencenumber"/>
+      </xsl:attribute>
+      <xsl:attribute  name="name">Measure Temperature</xsl:attribute>
+      <xsl:element name="PROBE">
+        <xsl:attribute name="ID">temp1-<xsl:number value="$sequencenumber"/>
+        </xsl:attribute>
+        <xsl:attribute name="probe">Temperature</xsl:attribute>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Port</xsl:attribute>
+          <xsl:attribute name="value">A</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Mode</xsl:attribute>
+          <xsl:attribute name="value">C</xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="GRAPH">
+        <xsl:attribute name="current-line">0</xsl:attribute>
+        <xsl:attribute name="title"></xsl:attribute>
+        <xsl:element name="DATAFOLDER">
+          <xsl:attribute name="object">
+            <xsl:value-of select="ancestor::investigation/@name"/>
+            <xsl:text>-saved-datasets</xsl:text>
+          </xsl:attribute>
+        </xsl:element>
+        <xsl:element name="XAXIS">
+          <xsl:attribute name="min">0</xsl:attribute>
+          <xsl:attribute name="max">60</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="YAXIS">
+          <xsl:attribute name="min">10</xsl:attribute>
+          <xsl:attribute name="max">40</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="LINE">
+          <xsl:attribute name="xaxis">0</xsl:attribute>
+          <xsl:attribute name="yaxis">0</xsl:attribute>
+          <xsl:attribute name="datasource">temp1-<xsl:number value="$sequencenumber"/>
+          </xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+    </xsl:element>
+  </xsl:element>
+</xsl:template>
+
+<xsl:template match="datacollector-link[@type='dc-temperature2']">
+  <xsl:variable name="sequencenumber">
+    <xsl:number level="any"/>
+  </xsl:variable>
+  <xsl:element name="EMBOBJ">
+    <xsl:attribute name="object">
+      <xsl:text>temperature2-</xsl:text>
+      <xsl:number value="$sequencenumber"/>
+    </xsl:attribute>
+    <xsl:attribute name="link">true</xsl:attribute>
+    <xsl:attribute name="linkcolor">FF0000</xsl:attribute>
+    <xsl:element name="DATACOLLECTOR">
+      <xsl:attribute name="ID">
+        <xsl:text>temperature2-</xsl:text>
+        <xsl:number value="$sequencenumber"/>
+      </xsl:attribute>
+      <xsl:attribute  name="name">Measure Temperature</xsl:attribute>
+      <xsl:element name="PROBE">
+        <xsl:attribute name="ID">temp2-<xsl:number value="$sequencenumber"/>
+        </xsl:attribute>
+        <xsl:attribute name="probe">Temperature</xsl:attribute>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Port</xsl:attribute>
+          <xsl:attribute name="value">A</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Mode</xsl:attribute>
+          <xsl:attribute name="value">C</xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="GRAPH">
+        <xsl:attribute name="current-line">0</xsl:attribute>
+        <xsl:attribute name="title"></xsl:attribute>
+        <xsl:element name="DATAFOLDER">
+          <xsl:attribute name="object">
+            <xsl:value-of select="ancestor::investigation/@name"/>
+            <xsl:text>-saved-datasets</xsl:text>
+          </xsl:attribute>
+        </xsl:element>
+        <xsl:element name="XAXIS">
+          <xsl:attribute name="min">0</xsl:attribute>
+          <xsl:attribute name="max">120</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="YAXIS">
+          <xsl:attribute name="min">10</xsl:attribute>
+          <xsl:attribute name="max">40</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="LINE">
+          <xsl:attribute name="xaxis">0</xsl:attribute>
+          <xsl:attribute name="yaxis">0</xsl:attribute>
+          <xsl:attribute name="datasource">temp2-<xsl:number value="$sequencenumber"/>
+          </xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+    </xsl:element>
+  </xsl:element>
+</xsl:template>
+
+<xsl:template match="datacollector-link[@type='dc-temperature3']">
+  <xsl:variable name="sequencenumber">
+    <xsl:number level="any"/>
+  </xsl:variable>
+  <xsl:element name="EMBOBJ">
+    <xsl:attribute name="object">
+      <xsl:text>temperature3-</xsl:text>
+      <xsl:number value="$sequencenumber"/>
+    </xsl:attribute>
+    <xsl:attribute name="link">true</xsl:attribute>
+    <xsl:attribute name="linkcolor">FF0000</xsl:attribute>
+    <xsl:element name="DATACOLLECTOR">
+      <xsl:attribute name="ID">
+        <xsl:text>temperature3-</xsl:text>
+        <xsl:number value="$sequencenumber"/>
+      </xsl:attribute>
+      <xsl:attribute  name="name">Measure Temperature</xsl:attribute>
+      <xsl:element name="PROBE">
+        <xsl:attribute name="ID">temp3-<xsl:number value="$sequencenumber"/>
+        </xsl:attribute>
+        <xsl:attribute name="probe">Temperature</xsl:attribute>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Port</xsl:attribute>
+          <xsl:attribute name="value">A</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Mode</xsl:attribute>
+          <xsl:attribute name="value">C</xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="GRAPH">
+        <xsl:attribute name="current-line">0</xsl:attribute>
+        <xsl:attribute name="title"></xsl:attribute>
+        <xsl:element name="DATAFOLDER">
+          <xsl:attribute name="object">
+            <xsl:value-of select="ancestor::investigation/@name"/>
+            <xsl:text>-saved-datasets</xsl:text>
+          </xsl:attribute>
+        </xsl:element>
+        <xsl:element name="XAXIS">
+          <xsl:attribute name="min">0</xsl:attribute>
+          <xsl:attribute name="max">150</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="YAXIS">
+          <xsl:attribute name="min">20</xsl:attribute>
+          <xsl:attribute name="max">30</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="LINE">
+          <xsl:attribute name="xaxis">0</xsl:attribute>
+          <xsl:attribute name="yaxis">0</xsl:attribute>
+          <xsl:attribute name="datasource">temp3-<xsl:number value="$sequencenumber"/>
+          </xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+    </xsl:element>
+  </xsl:element>
+</xsl:template>
+
+<xsl:template match="datacollector-link[@type='dc-temperature4']">
+  <xsl:variable name="sequencenumber">
+    <xsl:number level="any"/>
+  </xsl:variable>
+  <xsl:element name="EMBOBJ">
+    <xsl:attribute name="object">
+      <xsl:text>temperature4-</xsl:text>
+      <xsl:number value="$sequencenumber"/>
+    </xsl:attribute>
+    <xsl:attribute name="link">true</xsl:attribute>
+    <xsl:attribute name="linkcolor">FF0000</xsl:attribute>
+    <xsl:element name="DATACOLLECTOR">
+      <xsl:attribute name="ID">
+        <xsl:text>temperature4-</xsl:text>
+        <xsl:number value="$sequencenumber"/>
+      </xsl:attribute>
+      <xsl:attribute  name="name">Measure Temperature</xsl:attribute>
+      <xsl:element name="PROBE">
+        <xsl:attribute name="ID">temp4-<xsl:number value="$sequencenumber"/>
+        </xsl:attribute>
+        <xsl:attribute name="probe">Temperature</xsl:attribute>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Port</xsl:attribute>
+          <xsl:attribute name="value">A</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Mode</xsl:attribute>
+          <xsl:attribute name="value">C</xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="GRAPH">
+        <xsl:attribute name="current-line">0</xsl:attribute>
+        <xsl:attribute name="title"></xsl:attribute>
+        <xsl:element name="DATAFOLDER">
+          <xsl:attribute name="object">
+            <xsl:value-of select="ancestor::investigation/@name"/>
+            <xsl:text>-saved-datasets</xsl:text>
+          </xsl:attribute>
+        </xsl:element>
+        <xsl:element name="XAXIS">
+          <xsl:attribute name="min">0</xsl:attribute>
+          <xsl:attribute name="max">60</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="YAXIS">
+          <xsl:attribute name="min">20</xsl:attribute>
+          <xsl:attribute name="max">35</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="LINE">
+          <xsl:attribute name="xaxis">0</xsl:attribute>
+          <xsl:attribute name="yaxis">0</xsl:attribute>
+          <xsl:attribute name="datasource">temp4-<xsl:number value="$sequencenumber"/>
+          </xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+    </xsl:element>
+  </xsl:element>
+</xsl:template>
+
+<xsl:template match="datacollector-link[@type='dc-temperature5']">
+  <xsl:variable name="sequencenumber">
+    <xsl:number level="any"/>
+  </xsl:variable>
+  <xsl:element name="EMBOBJ">
+    <xsl:attribute name="object">
+      <xsl:text>temperature5-</xsl:text>
+      <xsl:number value="$sequencenumber"/>
+    </xsl:attribute>
+    <xsl:attribute name="link">true</xsl:attribute>
+    <xsl:attribute name="linkcolor">FF0000</xsl:attribute>
+    <xsl:element name="DATACOLLECTOR">
+      <xsl:attribute name="ID">
+        <xsl:text>temperature5-</xsl:text>
+        <xsl:number value="$sequencenumber"/>
+      </xsl:attribute>
+      <xsl:attribute  name="name">Measure Temperature</xsl:attribute>
+      <xsl:element name="PROBE">
+        <xsl:attribute name="ID">temp5-<xsl:number value="$sequencenumber"/>
+        </xsl:attribute>
+        <xsl:attribute name="probe">Temperature</xsl:attribute>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Port</xsl:attribute>
+          <xsl:attribute name="value">A</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Mode</xsl:attribute>
+          <xsl:attribute name="value">C</xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="GRAPH">
+        <xsl:attribute name="current-line">0</xsl:attribute>
+        <xsl:attribute name="title"></xsl:attribute>
+        <xsl:element name="DATAFOLDER">
+          <xsl:attribute name="object">
+            <xsl:value-of select="ancestor::investigation/@name"/>
+            <xsl:text>-saved-datasets</xsl:text>
+          </xsl:attribute>
+        </xsl:element>
+        <xsl:element name="XAXIS">
+          <xsl:attribute name="min">0</xsl:attribute>
+          <xsl:attribute name="max">50</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="YAXIS">
+          <xsl:attribute name="min">20</xsl:attribute>
+          <xsl:attribute name="max">25</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="LINE">
+          <xsl:attribute name="xaxis">0</xsl:attribute>
+          <xsl:attribute name="yaxis">0</xsl:attribute>
+          <xsl:attribute name="datasource">temp5-<xsl:number value="$sequencenumber"/>
+          </xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+    </xsl:element>
+  </xsl:element>
+</xsl:template>
+
+<xsl:template match="datacollector-link[@type='dc-temperature6']">
+  <xsl:variable name="sequencenumber">
+    <xsl:number level="any"/>
+  </xsl:variable>
+  <xsl:element name="EMBOBJ">
+    <xsl:attribute name="object">
+      <xsl:text>temperature6-</xsl:text>
+      <xsl:number value="$sequencenumber"/>
+    </xsl:attribute>
+    <xsl:attribute name="link">true</xsl:attribute>
+    <xsl:attribute name="linkcolor">FF0000</xsl:attribute>
+    <xsl:element name="DATACOLLECTOR">
+      <xsl:attribute name="ID">
+        <xsl:text>temperature6-</xsl:text>
+        <xsl:number value="$sequencenumber"/>
+      </xsl:attribute>
+      <xsl:attribute  name="name">Measure Temperature</xsl:attribute>
+      <xsl:element name="PROBE">
+        <xsl:attribute name="ID">temp6-<xsl:number value="$sequencenumber"/>
+        </xsl:attribute>
+        <xsl:attribute name="probe">Temperature</xsl:attribute>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Port</xsl:attribute>
+          <xsl:attribute name="value">A</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Mode</xsl:attribute>
+          <xsl:attribute name="value">C</xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="GRAPH">
+        <xsl:attribute name="current-line">0</xsl:attribute>
+        <xsl:attribute name="title"></xsl:attribute>
+        <xsl:element name="DATAFOLDER">
+          <xsl:attribute name="object">
+            <xsl:value-of select="ancestor::investigation/@name"/>
+            <xsl:text>-saved-datasets</xsl:text>
+          </xsl:attribute>
+        </xsl:element>
+        <xsl:element name="XAXIS">
+          <xsl:attribute name="min">0</xsl:attribute>
+          <xsl:attribute name="max">50</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="YAXIS">
+          <xsl:attribute name="min">20</xsl:attribute>
+          <xsl:attribute name="max">50</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="LINE">
+          <xsl:attribute name="xaxis">0</xsl:attribute>
+          <xsl:attribute name="yaxis">0</xsl:attribute>
+          <xsl:attribute name="datasource">temp6-<xsl:number value="$sequencenumber"/>
+          </xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+    </xsl:element>
+  </xsl:element>
+</xsl:template>
+
+
+
+
+<xsl:template match="datacollector-link[@type='dc-voltage-current-voltage']">
+  <xsl:variable name="sequencenumber">
+    <xsl:number level="any"/>
+  </xsl:variable>
+  <xsl:element name="EMBOBJ">
+    <xsl:attribute name="object">
+      <xsl:text>voltage-current-voltage-</xsl:text>
+      <xsl:number value="$sequencenumber"/>
+    </xsl:attribute>
+    <xsl:attribute name="link">true</xsl:attribute>
+    <xsl:attribute name="linkcolor">FF0000</xsl:attribute>
+
+    <xsl:element name="DATACOLLECTOR">
+      <xsl:attribute name="ID">
+        <xsl:text>voltage-current-voltage-</xsl:text>
+        <xsl:number value="$sequencenumber"/>
+      </xsl:attribute>
+      <xsl:attribute name="name">Measure Voltage"</xsl:attribute>
+      <xsl:element name="PROBE">
+        <xsl:attribute name="ID">vi1-<xsl:number value="$sequencenumber"/>
+        </xsl:attribute>
+        <xsl:attribute name="probe">VoltageCurrent</xsl:attribute>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Port</xsl:attribute>
+          <xsl:attribute name="value">A</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Speed</xsl:attribute>
+          <xsl:attribute name="value">3 per second</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Version</xsl:attribute>
+          <xsl:attribute name="value">2.0</xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="GRAPH">
+        <xsl:attribute name="current-line">2</xsl:attribute>
+        <xsl:attribute name="title"></xsl:attribute>
+        <xsl:element name="DATAFOLDER">
+          <xsl:attribute name="object">
+            <xsl:value-of select="ancestor::investigation/@name"/>
+            <xsl:text>-saved-datasets</xsl:text>
+          </xsl:attribute>
+        </xsl:element>
+        <xsl:element name="XAXIS">
+          <xsl:attribute name="min">0</xsl:attribute>
+          <xsl:attribute name="max">40</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="YAXIS">
+          <xsl:attribute name="min">0</xsl:attribute>
+          <xsl:attribute name="max">3</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="YAXIS">
+          <xsl:attribute name="min">-1</xsl:attribute>
+          <xsl:attribute name="max">1</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="YAXIS">
+          <xsl:attribute name="min">0</xsl:attribute>
+          <xsl:attribute name="max">6</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="YAXIS">
+          <xsl:attribute name="min">0</xsl:attribute>
+          <xsl:attribute name="max">50</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="LINE">
+          <xsl:attribute name="xaxis">0</xsl:attribute>
+          <xsl:attribute name="yaxis">0</xsl:attribute>
+          <xsl:element name="INTPROBETRANS">
+            <xsl:attribute name="quantity">Voltage</xsl:attribute>
+            <xsl:attribute name="probe">vi1-<xsl:number value="$sequencenumber"/>
+            </xsl:attribute>
+          </xsl:element>
+        </xsl:element>
+        <xsl:element name="LINE">
+          <xsl:attribute name="xaxis">0</xsl:attribute>
+          <xsl:attribute name="yaxis">1</xsl:attribute>
+          <xsl:element name="INTPROBETRANS">
+            <xsl:attribute name="quantity">Current</xsl:attribute>
+            <xsl:attribute name="probe">vi11-<xsl:number value="$sequencenumber"/>
+            </xsl:attribute>
+          </xsl:element>
+        </xsl:element>
+        <xsl:element name="LINE">
+          <xsl:attribute name="xaxis">0</xsl:attribute>
+          <xsl:attribute name="yaxis">2</xsl:attribute>
+          <xsl:element name="INTPROBETRANS">
+            <xsl:attribute name="quantity">Power</xsl:attribute>
+            <xsl:attribute name="probe">vi1-<xsl:number value="$sequencenumber"/>
+            </xsl:attribute>
+          </xsl:element>
+        </xsl:element>
+        <xsl:element name="LINE">
+          <xsl:attribute name="xaxis">0</xsl:attribute>
+          <xsl:attribute name="yaxis">3</xsl:attribute>
+          <xsl:element name="INTPROBETRANS">
+            <xsl:attribute name="quantity">Energy</xsl:attribute>
+            <xsl:attribute name="probe">vi11-<xsl:number value="$sequencenumber"/>
+            </xsl:attribute>
+          </xsl:element>
+        </xsl:element>
+      </xsl:element>
+    </xsl:element>
+  </xsl:element>
+</xsl:template>
+
+
+<xsl:template match="datacollector-link[@type='voltage-current-power']">
+  <xsl:variable name="sequencenumber">
+    <xsl:number level="any"/>
+  </xsl:variable>
+  <xsl:element name="EMBOBJ">
+    <xsl:attribute name="object">
+      <xsl:text>voltage-current-power-</xsl:text>
+      <xsl:number value="$sequencenumber"/>
+    </xsl:attribute>
+    <xsl:attribute name="link">true</xsl:attribute>
+    <xsl:attribute name="linkcolor">FF0000</xsl:attribute>
+    <xsl:element name="DATACOLLECTOR">
+      <xsl:attribute name="ID">
+        <xsl:text>voltage-current-power-</xsl:text>
+        <xsl:number value="$sequencenumber"/>
+      </xsl:attribute>
+      <xsl:attribute  name="name">Measure Power"</xsl:attribute>
+      <xsl:element name="PROBE">
+        <xsl:attribute name="ID">vi2-<xsl:number value="$sequencenumber"/>
+        </xsl:attribute>
+        <xsl:attribute name="probe">VoltageCurrent</xsl:attribute>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Port</xsl:attribute>
+          <xsl:attribute name="value">A</xsl:attribute>
+          <xsl:element name="PROP">
+            <xsl:attribute name="name">Speed</xsl:attribute>
+            <xsl:attribute name="value">3 per second</xsl:attribute>
+          </xsl:element>
+          <xsl:element name="PROP">
+            <xsl:attribute name="name">Version</xsl:attribute>
+            <xsl:attribute name="value">2.0</xsl:attribute>
+          </xsl:element>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="GRAPH">
+        <xsl:attribute name="current-line">2</xsl:attribute>
+        <xsl:attribute name="title"></xsl:attribute>
+        <xsl:element name="DATAFOLDER">
+          <xsl:attribute name="object">
+            <xsl:value-of select="ancestor::investigation/@name"/>
+            <xsl:text>-saved-datasets</xsl:text>
+          </xsl:attribute>
+        </xsl:element>
+        <xsl:element name="XAXIS">
+          <xsl:attribute name="min">0</xsl:attribute>
+          <xsl:attribute name="max">40</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="YAXIS">
+          <xsl:attribute name="min">-10</xsl:attribute>
+          <xsl:attribute name="max">10</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="YAXIS">
+          <xsl:attribute name="min">-1</xsl:attribute>
+          <xsl:attribute name="max">1</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="YAXIS">
+          <xsl:attribute name="min">0</xsl:attribute>
+          <xsl:attribute name="max">6</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="YAXIS">
+          <xsl:attribute name="min">0</xsl:attribute>
+          <xsl:attribute name="max">50</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="LINE">
+          <xsl:attribute name="xaxis">0</xsl:attribute>
+          <xsl:attribute name="yaxis">0</xsl:attribute>
+          <xsl:element name="INTPROBETRANS">
+            <xsl:attribute name="quantity">Voltage</xsl:attribute>
+            <xsl:attribute name="probe">vi2-<xsl:number value="$sequencenumber"/>
+            </xsl:attribute>
+          </xsl:element>
+        </xsl:element>
+        <xsl:element name="LINE">
+          <xsl:attribute name="xaxis">0</xsl:attribute>
+          <xsl:attribute name="yaxis">1</xsl:attribute>
+          <xsl:element name="INTPROBETRANS">
+            <xsl:attribute name="quantity">Current</xsl:attribute>
+            <xsl:attribute name="probe">vi2-<xsl:number value="$sequencenumber"/>
+            </xsl:attribute>
+          </xsl:element>
+        </xsl:element>
+        <xsl:element name="LINE">
+          <xsl:attribute name="xaxis">0</xsl:attribute>
+          <xsl:attribute name="yaxis">2</xsl:attribute>
+          <xsl:element name="INTPROBETRANS">
+            <xsl:attribute name="quantity">Power</xsl:attribute>
+            <xsl:attribute name="probe">vi2-<xsl:number value="$sequencenumber"/>
+            </xsl:attribute>
+          </xsl:element>
+        </xsl:element>
+        <xsl:element name="LINE">
+          <xsl:attribute name="xaxis">0</xsl:attribute>
+          <xsl:attribute name="yaxis">3</xsl:attribute>
+          <xsl:element name="INTPROBETRANS">
+            <xsl:attribute name="quantity">Energy</xsl:attribute>
+            <xsl:attribute name="probe">vi2-<xsl:number value="$sequencenumber"/>
+            </xsl:attribute>
+          </xsl:element>
+        </xsl:element>
+      </xsl:element>
+    </xsl:element>
+  </xsl:element>
+</xsl:template>
+
+<xsl:template match="datacollector-link[@type='dc-voltage-current-energy']">
+  <xsl:variable name="sequencenumber">
+    <xsl:number level="any"/>
+  </xsl:variable>
+  <xsl:element name="EMBOBJ">
+    <xsl:attribute name="object">
+      <xsl:text>voltage-current-energy-</xsl:text>
+      <xsl:number value="$sequencenumber"/>
+    </xsl:attribute>
+    <xsl:attribute name="link">true</xsl:attribute>
+    <xsl:attribute name="linkcolor">FF0000</xsl:attribute>
+    <xsl:element name="DATACOLLECTOR">
+      <xsl:attribute name="ID">
+        <xsl:text>voltage-current-energy-</xsl:text>
+        <xsl:number value="$sequencenumber"/>
+      </xsl:attribute>
+      <xsl:attribute  name="name">Measure Energy"</xsl:attribute>
+      <xsl:element name="PROBE">
+        <xsl:attribute name="ID">vi3-<xsl:number value="$sequencenumber"/>
+        </xsl:attribute>
+        <xsl:attribute name="probe">VoltageCurrent</xsl:attribute>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Port</xsl:attribute>
+          <xsl:attribute name="value">A</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Speed</xsl:attribute>
+          <xsl:attribute name="value">3 per second</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Version</xsl:attribute>
+          <xsl:attribute name="value">2.0</xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="GRAPH">
+        <xsl:attribute name="current-line">3</xsl:attribute>
+        <xsl:attribute name="title"></xsl:attribute>
+        <xsl:element name="DATAFOLDER">
+          <xsl:attribute name="object">
+            <xsl:value-of select="ancestor::investigation/@name"/>
+            <xsl:text>-saved-datasets</xsl:text>
+          </xsl:attribute>
+        </xsl:element>
+        <xsl:element name="XAXIS">
+          <xsl:attribute name="min">0</xsl:attribute>
+          <xsl:attribute name="max">40</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="YAXIS">
+          <xsl:attribute name="min">-10</xsl:attribute>
+          <xsl:attribute name="max">10</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="YAXIS">
+          <xsl:attribute name="min">-1</xsl:attribute>
+          <xsl:attribute name="max">1</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="YAXIS">
+          <xsl:attribute name="min">0</xsl:attribute>
+          <xsl:attribute name="max">6</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="YAXIS">
+          <xsl:attribute name="min">0</xsl:attribute>
+          <xsl:attribute name="max">50</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="LINE">
+          <xsl:attribute name="xaxis">0</xsl:attribute>
+          <xsl:attribute name="yaxis">0</xsl:attribute>
+          <xsl:element name="INTPROBETRANS">
+            <xsl:attribute name="quantity">Voltage</xsl:attribute>
+            <xsl:attribute name="probe">vi3-<xsl:number value="$sequencenumber"/>
+            </xsl:attribute>
+          </xsl:element>
+        </xsl:element>
+        <xsl:element name="LINE">
+          <xsl:attribute name="xaxis">0</xsl:attribute>
+          <xsl:attribute name="yaxis">1</xsl:attribute>
+          <xsl:element name="INTPROBETRANS">
+            <xsl:attribute name="quantity">Current</xsl:attribute>
+            <xsl:attribute name="probe">vi3-<xsl:number value="$sequencenumber"/>
+            </xsl:attribute>
+          </xsl:element>
+        </xsl:element>
+        <xsl:element name="LINE">
+          <xsl:attribute name="xaxis">0</xsl:attribute>
+          <xsl:attribute name="yaxis">2</xsl:attribute>
+          <xsl:element name="INTPROBETRANS">
+            <xsl:attribute name="quantity">Power</xsl:attribute>
+            <xsl:attribute name="probe">vi3-<xsl:number value="$sequencenumber"/>
+            </xsl:attribute>
+          </xsl:element>
+        </xsl:element>
+        <xsl:element name="LINE">
+          <xsl:attribute name="xaxis">0</xsl:attribute>
+          <xsl:attribute name="yaxis">3</xsl:attribute>
+          <xsl:element name="INTPROBETRANS">
+            <xsl:attribute name="quantity">Energy</xsl:attribute>
+            <xsl:attribute name="probe">vi3-<xsl:number value="$sequencenumber"/>
+            </xsl:attribute>
+          </xsl:element>
+        </xsl:element>
+      </xsl:element>
+    </xsl:element>
+  </xsl:element>
+</xsl:template>
+
+
+
+<xsl:template match="datacollector-link[@type='light-4000']">
+  <xsl:variable name="sequencenumber">
+    <xsl:number level="any"/>
+  </xsl:variable>
+  <xsl:element name="EMBOBJ">
+    <xsl:attribute name="object">
+      <xsl:text>light-4000-</xsl:text>
+      <xsl:number value="$sequencenumber"/>
+    </xsl:attribute>
+    <xsl:attribute name="link">true</xsl:attribute>
+    <xsl:attribute name="linkcolor">FF0000</xsl:attribute>
+    <xsl:element name="DATACOLLECTOR">
+      <xsl:attribute name="ID">
+        <xsl:text>light-4000-</xsl:text>
+        <xsl:number value="$sequencenumber"/>
+      </xsl:attribute>
+      <xsl:attribute  name="name">Measure Light, 4000 Lux</xsl:attribute>
+      <xsl:element name="PROBE">
+        <xsl:attribute name="ID">light-<xsl:number value="$sequencenumber"/>
+        </xsl:attribute>
+        <xsl:attribute name="probe">Light</xsl:attribute>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Port</xsl:attribute>
+          <xsl:attribute name="value">A</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Range</xsl:attribute>
+          <xsl:attribute name="value">Dim Light</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Speed</xsl:attribute>
+          <xsl:attribute name="value">3 per second</xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="GRAPH">
+        <xsl:attribute name="current-line">0</xsl:attribute>
+        <xsl:attribute name="title"></xsl:attribute>
+        <xsl:element name="DATAFOLDER">
+          <xsl:attribute name="object">
+            <xsl:value-of select="ancestor::investigation/@name"/>
+            <xsl:text>-saved-datasets</xsl:text>
+          </xsl:attribute>
+        </xsl:element>
+        <xsl:element name="XAXIS">
+          <xsl:attribute name="min">0</xsl:attribute>
+          <xsl:attribute name="max">60</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="YAXIS">
+          <xsl:attribute name="min">0</xsl:attribute>
+          <xsl:attribute name="max">4000</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="LINE">
+          <xsl:attribute name="xaxis">0</xsl:attribute>
+          <xsl:attribute name="yaxis">0</xsl:attribute>
+          <xsl:attribute name="datasource">light-<xsl:number value="$sequencenumber"/>
+          </xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+    </xsl:element>
+  </xsl:element>
+</xsl:template>
+
+<xsl:template match="datacollector-link[@type='light-100000']">
+  <xsl:variable name="sequencenumber">
+    <xsl:number level="any"/>
+  </xsl:variable>
+  <xsl:element name="EMBOBJ">
+    <xsl:attribute name="object">
+      <xsl:text>light-100000-</xsl:text>
+      <xsl:number value="$sequencenumber"/>
+    </xsl:attribute>
+    <xsl:attribute name="link">true</xsl:attribute>
+    <xsl:attribute name="linkcolor">FF0000</xsl:attribute>
+    <xsl:element name="DATACOLLECTOR">
+      <xsl:attribute name="ID">
+        <xsl:text>light-100000-</xsl:text>
+        <xsl:number value="$sequencenumber"/>
+      </xsl:attribute>
+      <xsl:attribute  name="name">Measure Light, 125000 Lux</xsl:attribute>
+      <xsl:element name="PROBE">
+        <xsl:attribute name="ID">light3-<xsl:number value="$sequencenumber"/>
+        </xsl:attribute>
+        <xsl:attribute name="probe">Light</xsl:attribute>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Port</xsl:attribute>
+          <xsl:attribute name="value">A</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Range</xsl:attribute>
+          <xsl:attribute name="value">Bright Light</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Speed</xsl:attribute>
+          <xsl:attribute name="value">3 per second</xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="GRAPH">
+        <xsl:attribute name="current-line">0</xsl:attribute>
+        <xsl:attribute name="title"></xsl:attribute>
+        <xsl:element name="DATAFOLDER">
+          <xsl:attribute name="object">
+            <xsl:value-of select="ancestor::investigation/@name"/>
+            <xsl:text>-saved-datasets</xsl:text>
+          </xsl:attribute>
+        </xsl:element>
+        <xsl:element name="XAXIS">
+          <xsl:attribute name="min">0</xsl:attribute>
+          <xsl:attribute name="max">60</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="YAXIS">
+          <xsl:attribute name="min">0</xsl:attribute>
+          <xsl:attribute name="max">125000</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="LINE">
+          <xsl:attribute name="xaxis">0</xsl:attribute>
+          <xsl:attribute name="yaxis">0</xsl:attribute>
+          <xsl:attribute name="datasource">light3-<xsl:number value="$sequencenumber"/>
+          </xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+    </xsl:element>
+  </xsl:element>
+</xsl:template>
+
+<xsl:template match="datacollector-link[@type='force1']">
+  <xsl:variable name="sequencenumber">
+    <xsl:number level="any"/>
+  </xsl:variable>
+  <xsl:element name="EMBOBJ">
+    <xsl:attribute name="object">
+      <xsl:text>force1-</xsl:text>
+      <xsl:number value="$sequencenumber"/>
+    </xsl:attribute>
+    <xsl:attribute name="link">true</xsl:attribute>
+    <xsl:attribute name="linkcolor">FF0000</xsl:attribute>
+    <xsl:element name="DATACOLLECTOR">
+      <xsl:attribute name="ID">
+        <xsl:text>force1-</xsl:text>
+        <xsl:number value="$sequencenumber"/>
+      </xsl:attribute>
+      <xsl:attribute  name="name">Measure Force"</xsl:attribute>
+      <xsl:element name="PROBE">
+        <xsl:attribute name="ID">f1-<xsl:number value="$sequencenumber"/>
+        </xsl:attribute>
+        <xsl:attribute name="probe">Force</xsl:attribute>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Mode</xsl:attribute>
+          <xsl:attribute name="value">End of Arm</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Range</xsl:attribute>
+          <xsl:attribute name="value">+/- 20N</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Speed</xsl:attribute>
+          <xsl:attribute name="value">3 per second</xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="GRAPH">
+        <xsl:attribute name="current-line">0</xsl:attribute>
+        <xsl:attribute name="title"></xsl:attribute>
+        <xsl:element name="DATAFOLDER">
+          <xsl:attribute name="object">
+            <xsl:value-of select="ancestor::investigation/@name"/>
+            <xsl:text>-saved-datasets</xsl:text>
+          </xsl:attribute>
+        </xsl:element>
+        <xsl:element name="XAXIS">
+          <xsl:attribute name="min">0</xsl:attribute>
+          <xsl:attribute name="max">20</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="YAXIS">
+          <xsl:attribute name="min">-0.1</xsl:attribute>
+          <xsl:attribute name="max">0.6</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="LINE">
+          <xsl:attribute name="xaxis">0</xsl:attribute>
+          <xsl:attribute name="yaxis">0</xsl:attribute>
+          <xsl:attribute name="datasource">f1-<xsl:number value="$sequencenumber"/>
+          </xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+    </xsl:element>
+  </xsl:element>
+</xsl:template>
+
+
+<xsl:template match="datacollector-link[@type='force2']">
+  <xsl:variable name="sequencenumber">
+    <xsl:number level="any"/>
+  </xsl:variable>
+  <xsl:element name="EMBOBJ">
+    <xsl:attribute name="object">
+      <xsl:text>force2-</xsl:text>
+      <xsl:number value="$sequencenumber"/>
+    </xsl:attribute>
+    <xsl:attribute name="link">true</xsl:attribute>
+    <xsl:attribute name="linkcolor">FF0000</xsl:attribute>
+    <xsl:element name="DATACOLLECTOR">
+      <xsl:attribute name="ID">
+        <xsl:text>force2-</xsl:text>
+        <xsl:number value="$sequencenumber"/>
+      </xsl:attribute>
+      <xsl:attribute  name="name">Measure Force"</xsl:attribute>
+      <xsl:element name="PROBE">
+        <xsl:attribute name="ID">f2-<xsl:number value="$sequencenumber"/>
+        </xsl:attribute>
+        <xsl:attribute name="probe">Force</xsl:attribute>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Mode</xsl:attribute>
+          <xsl:attribute name="value">End of Arm</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Range</xsl:attribute>
+          <xsl:attribute name="value">+/- 20N</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Speed</xsl:attribute>
+          <xsl:attribute name="value">400 per second</xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="GRAPH">
+        <xsl:attribute name="current-line">0</xsl:attribute>
+        <xsl:attribute name="title"></xsl:attribute>
+        <xsl:element name="DATAFOLDER">
+          <xsl:attribute name="object">
+            <xsl:value-of select="ancestor::investigation/@name"/>
+            <xsl:text>-saved-datasets</xsl:text>
+          </xsl:attribute>
+        </xsl:element>
+        <xsl:element name="XAXIS">
+          <xsl:attribute name="min">0</xsl:attribute>
+          <xsl:attribute name="max">10</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="YAXIS">
+          <xsl:attribute name="min">-20</xsl:attribute>
+          <xsl:attribute name="max">0</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="LINE">
+          <xsl:attribute name="xaxis">0</xsl:attribute>
+          <xsl:attribute name="yaxis">0</xsl:attribute>
+          <xsl:attribute name="datasource">f2-<xsl:number value="$sequencenumber"/>
+          </xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+    </xsl:element>
+  </xsl:element>
+</xsl:template>
+
+
+
+
+
+
+
+
+
+
+
+<xsl:template match="datacollector-link[@type='force3']">
+  <xsl:variable name="sequencenumber">
+    <xsl:number level="any"/>
+  </xsl:variable>
+  <xsl:element name="EMBOBJ">
+    <xsl:attribute name="object">
+      <xsl:text>force3-</xsl:text>
+      <xsl:number value="$sequencenumber"/>
+    </xsl:attribute>
+    <xsl:attribute name="link">true</xsl:attribute>
+    <xsl:attribute name="linkcolor">FF0000</xsl:attribute>
+    <xsl:element name="DATACOLLECTOR">
+      <xsl:attribute name="ID">
+        <xsl:text>force3-</xsl:text>
+        <xsl:number value="$sequencenumber"/>
+      </xsl:attribute>
+      <xsl:attribute  name="name">Measure Force"</xsl:attribute>
+      <xsl:element name="PROBE">
+        <xsl:attribute name="ID">f3-<xsl:number value="$sequencenumber"/>
+        </xsl:attribute>
+        <xsl:attribute name="probe">Force</xsl:attribute>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Mode</xsl:attribute>
+          <xsl:attribute name="value">End of Arm</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Range</xsl:attribute>
+          <xsl:attribute name="value">+/- 20N</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Speed</xsl:attribute>
+          <xsl:attribute name="value">400 per second</xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="GRAPH">
+        <xsl:attribute name="current-line">0</xsl:attribute>
+        <xsl:attribute name="title"></xsl:attribute>
+        <xsl:element name="DATAFOLDER">
+          <xsl:attribute name="object">
+            <xsl:value-of select="ancestor::investigation/@name"/>
+            <xsl:text>-saved-datasets</xsl:text>
+          </xsl:attribute>
+        </xsl:element>
+        <xsl:element name="XAXIS">
+          <xsl:attribute name="min">0</xsl:attribute>
+          <xsl:attribute name="max">10</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="YAXIS">
+          <xsl:attribute name="min">0</xsl:attribute>
+          <xsl:attribute name="max">4</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="LINE">
+          <xsl:attribute name="xaxis">0</xsl:attribute>
+          <xsl:attribute name="yaxis">0</xsl:attribute>
+          <xsl:attribute name="datasource">f3-<xsl:number value="$sequencenumber"/>
+          </xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+    </xsl:element>
+  </xsl:element>
+</xsl:template>
+
+
+
+
+
+
+
+
+
+
+
+<xsl:template match="datacollector-link[@type='force4']">
+  <xsl:variable name="sequencenumber">
+    <xsl:number level="any"/>
+  </xsl:variable>
+  <xsl:element name="EMBOBJ">
+    <xsl:attribute name="object">
+      <xsl:text>force4-</xsl:text>
+      <xsl:number value="$sequencenumber"/>
+    </xsl:attribute>
+    <xsl:attribute name="link">true</xsl:attribute>
+    <xsl:attribute name="linkcolor">FF0000</xsl:attribute>
+    <xsl:element name="DATACOLLECTOR">
+      <xsl:attribute name="ID">
+        <xsl:text>force4-</xsl:text>
+        <xsl:number value="$sequencenumber"/>
+      </xsl:attribute>
+      <xsl:attribute  name="name">Measure Force"</xsl:attribute>
+      <xsl:element name="PROBE">
+        <xsl:attribute name="ID">f4-<xsl:number value="$sequencenumber"/>
+        </xsl:attribute>
+        <xsl:attribute name="probe">Force</xsl:attribute>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Mode</xsl:attribute>
+          <xsl:attribute name="value">End of Arm</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Range</xsl:attribute>
+          <xsl:attribute name="value">+/- 20N</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Speed</xsl:attribute>
+          <xsl:attribute name="value">400 per second</xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="GRAPH">
+        <xsl:attribute name="current-line">0</xsl:attribute>
+        <xsl:attribute name="title"></xsl:attribute>
+        <xsl:element name="DATAFOLDER">
+          <xsl:attribute name="object">
+            <xsl:value-of select="ancestor::investigation/@name"/>
+            <xsl:text>-saved-datasets</xsl:text>
+          </xsl:attribute>
+        </xsl:element>
+        <xsl:element name="XAXIS">
+          <xsl:attribute name="min">0</xsl:attribute>
+          <xsl:attribute name="max">10</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="YAXIS">
+          <xsl:attribute name="min">-20</xsl:attribute>
+          <xsl:attribute name="max">1</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="LINE">
+          <xsl:attribute name="xaxis">0</xsl:attribute>
+          <xsl:attribute name="yaxis">0</xsl:attribute>
+          <xsl:attribute name="datasource">f4-<xsl:number value="$sequencenumber"/>
+          </xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+    </xsl:element>
+  </xsl:element>
+</xsl:template>
+
+
+
+
+
+
+<xsl:template match="datacollector-link[@type='smartwheel-pos1']">
+  <xsl:variable name="sequencenumber">
+    <xsl:number level="any"/>
+  </xsl:variable>
+  <xsl:element name="EMBOBJ">
+    <xsl:attribute name="object">
+      <xsl:text>smartwheel-pos1-</xsl:text>
+      <xsl:number value="$sequencenumber"/>
+    </xsl:attribute>
+    <xsl:attribute name="link">true</xsl:attribute>
+    <xsl:attribute name="linkcolor">FF0000</xsl:attribute>
+    <xsl:element name="DATACOLLECTOR">
+      <xsl:attribute name="ID">
+        <xsl:text>smartwheel-pos1-</xsl:text>
+        <xsl:number value="$sequencenumber"/>
+      </xsl:attribute>
+      <xsl:attribute  name="name">Measure Position"</xsl:attribute>
+      <xsl:element name="PROBE">
+        <xsl:attribute name="ID">sw-pos1-<xsl:number value="$sequencenumber"/>
+        </xsl:attribute>
+        <xsl:attribute name="probe">SmartWheel</xsl:attribute>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Port</xsl:attribute>
+          <xsl:attribute name="value">A</xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="GRAPH">
+        <xsl:attribute name="current-line">0</xsl:attribute>
+        <xsl:attribute name="title"></xsl:attribute>
+        <xsl:element name="DATAFOLDER">
+          <xsl:attribute name="object">
+            <xsl:value-of select="ancestor::investigation/@name"/>
+            <xsl:text>-saved-datasets</xsl:text>
+          </xsl:attribute>
+        </xsl:element>
+         <xsl:element name="XAXIS">
+          <xsl:attribute name="min">0</xsl:attribute>
+          <xsl:attribute name="max">40</xsl:attribute>
+        </xsl:element>
+         <xsl:element name="YAXIS">
+          <xsl:attribute name="min">-0.5</xsl:attribute>
+          <xsl:attribute name="max">6</xsl:attribute>
+        </xsl:element>
+         <xsl:element name="LINE">
+          <xsl:attribute name="xaxis">0</xsl:attribute>
+          <xsl:attribute name="yaxis">0</xsl:attribute>
+          <xsl:element name="INTPROBETRANS">
+            <xsl:attribute name="quantity">Position</xsl:attribute>
+            <xsl:attribute name="probe">sw-pos1-<xsl:number value="$sequencenumber"/>
+            </xsl:attribute>
+          </xsl:element>
+        </xsl:element>
+      </xsl:element>
+    </xsl:element>
+  </xsl:element>
+</xsl:template>
+
+
+
+
+
+<xsl:template match="datacollector-link[@type='smartwheel-pos2']">
+  <xsl:variable name="sequencenumber">
+    <xsl:number level="any"/>
+  </xsl:variable>
+  <xsl:element name="EMBOBJ">
+    <xsl:attribute name="object">
+      <xsl:text>smartwheel-pos2-</xsl:text>
+      <xsl:number value="$sequencenumber"/>
+    </xsl:attribute>
+    <xsl:attribute name="link">true</xsl:attribute>
+    <xsl:attribute name="linkcolor">FF0000</xsl:attribute>
+    <xsl:element name="DATACOLLECTOR">
+      <xsl:attribute name="ID">
+        <xsl:text>smartwheel-pos2-</xsl:text>
+        <xsl:number value="$sequencenumber"/>
+      </xsl:attribute>
+      <xsl:attribute  name="name">Measure Position"</xsl:attribute>
+      <xsl:element name="PROBE">
+        <xsl:attribute name="ID">sw-pos2-<xsl:number value="$sequencenumber"/>
+        </xsl:attribute>
+        <xsl:attribute name="probe">SmartWheel</xsl:attribute>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Port</xsl:attribute>
+          <xsl:attribute name="value">A</xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="GRAPH">
+        <xsl:attribute name="current-line">0</xsl:attribute>
+        <xsl:attribute name="title"></xsl:attribute>
+        <xsl:element name="DATAFOLDER">
+          <xsl:attribute name="object">
+            <xsl:value-of select="ancestor::investigation/@name"/>
+            <xsl:text>-saved-datasets</xsl:text>
+          </xsl:attribute>
+        </xsl:element>
+          <xsl:element name="XAXIS">
+          <xsl:attribute name="min">0</xsl:attribute>
+          <xsl:attribute name="max">10</xsl:attribute>
+        </xsl:element>
+          <xsl:element name="YAXIS">
+          <xsl:attribute name="min">-0.5</xsl:attribute>
+          <xsl:attribute name="max">6</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="LINE">
+          <xsl:attribute name="xaxis">0</xsl:attribute>
+          <xsl:attribute name="yaxis">0</xsl:attribute>
+          <xsl:element name="INTPROBETRANS">
+            <xsl:attribute name="quantity">Position</xsl:attribute>
+            <xsl:attribute name="probe">sw-pos2-<xsl:number value="$sequencenumber"/>
+            </xsl:attribute>
+          </xsl:element>
+        </xsl:element>
+      </xsl:element>
+    </xsl:element>
+  </xsl:element>
+</xsl:template>
+
+<xsl:template match="datacollector-link[@type='smartwheel-vel1']">
+  <xsl:variable name="sequencenumber">
+    <xsl:number level="any"/>
+  </xsl:variable>
+  <xsl:element name="EMBOBJ">
+    <xsl:attribute name="object">
+      <xsl:text>smartwheel-vel1-</xsl:text>
+      <xsl:number value="$sequencenumber"/>
+    </xsl:attribute>
+    <xsl:attribute name="link">true</xsl:attribute>
+    <xsl:attribute name="linkcolor">FF0000</xsl:attribute>
+    <xsl:element name="DATACOLLECTOR">
+      <xsl:attribute name="ID">
+        <xsl:text>smartwheel-vel1-</xsl:text>
+        <xsl:number value="$sequencenumber"/>
+      </xsl:attribute>
+      <xsl:attribute  name="name">Measure Velocity</xsl:attribute>
+      <xsl:element name="PROBE">
+        <xsl:attribute name="ID">sw-vel1-<xsl:number value="$sequencenumber"/>
+        </xsl:attribute>
+        <xsl:attribute name="probe">SmartWheel</xsl:attribute>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Port</xsl:attribute>
+          <xsl:attribute name="value">A</xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="GRAPH">
+        <xsl:attribute name="current-line">0</xsl:attribute>
+        <xsl:attribute name="title"></xsl:attribute>
+        <xsl:element name="DATAFOLDER">
+          <xsl:attribute name="object">
+            <xsl:value-of select="ancestor::investigation/@name"/>
+            <xsl:text>-saved-datasets</xsl:text>
+          </xsl:attribute>
+        </xsl:element>
+         <xsl:element name="XAXIS">
+          <xsl:attribute name="min">0</xsl:attribute>
+          <xsl:attribute name="max">20</xsl:attribute>
+        </xsl:element>
+         <xsl:element name="YAXIS">
+          <xsl:attribute name="min">-1</xsl:attribute>
+          <xsl:attribute name="max">1</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="LINE">
+          <xsl:attribute name="xaxis">0</xsl:attribute>
+          <xsl:attribute name="yaxis">0</xsl:attribute>
+          <xsl:element name="INTPROBETRANS">
+            <xsl:attribute name="quantity">Velocity</xsl:attribute>
+            <xsl:attribute name="probe">sw-vel1-<xsl:number value="$sequencenumber"/>
+            </xsl:attribute>
+          </xsl:element>
+        </xsl:element>
+      </xsl:element>
+    </xsl:element>
+  </xsl:element>
+</xsl:template>
+
+<xsl:template match="datacollector-link[@type='dc-smartwheel-vel2']">
+  <xsl:variable name="sequencenumber">
+    <xsl:number level="any"/>
+  </xsl:variable>
+  <xsl:element name="EMBOBJ">
+    <xsl:attribute name="object">
+      <xsl:text>smartwheel-vel2-</xsl:text>
+      <xsl:number value="$sequencenumber"/>
+    </xsl:attribute>
+    <xsl:attribute name="link">true</xsl:attribute>
+    <xsl:attribute name="linkcolor">FF0000</xsl:attribute>
+    <xsl:element name="DATACOLLECTOR">
+      <xsl:attribute name="ID">
+        <xsl:text>smartwheel-vel2-</xsl:text>
+        <xsl:number value="$sequencenumber"/>
+      </xsl:attribute>
+      <xsl:attribute  name="name">Measure Velocity</xsl:attribute>
+      <xsl:element name="PROBE">
+        <xsl:attribute name="ID">sw-vel2-<xsl:number value="$sequencenumber"/>
+        </xsl:attribute>
+        <xsl:attribute name="probe">SmartWheel</xsl:attribute>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Port</xsl:attribute>
+          <xsl:attribute name="value">A</xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="GRAPH">
+        <xsl:attribute name="current-line">0</xsl:attribute>
+        <xsl:attribute name="title"></xsl:attribute>
+        <xsl:element name="DATAFOLDER">
+          <xsl:attribute name="object">
+            <xsl:value-of select="ancestor::investigation/@name"/>
+            <xsl:text>-saved-datasets</xsl:text>
+          </xsl:attribute>
+        </xsl:element>
+        <xsl:element name="XAXIS">
+          <xsl:attribute name="min">0</xsl:attribute>
+          <xsl:attribute name="max">10</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="YAXIS">
+          <xsl:attribute name="min">-1</xsl:attribute>
+          <xsl:attribute name="max">1</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="LINE">
+          <xsl:attribute name="xaxis">0</xsl:attribute>
+          <xsl:attribute name="yaxis">0</xsl:attribute>
+          <xsl:element name="INTPROBETRANS">
+            <xsl:attribute name="quantity">Velocity</xsl:attribute>
+            <xsl:attribute name="probe">sw-vel2-<xsl:number value="$sequencenumber"/>
+            </xsl:attribute>
+          </xsl:element>
+        </xsl:element>
+      </xsl:element>
+    </xsl:element>
+  </xsl:element>
+</xsl:template>
+
+<xsl:template match="datacollector-link[@type='dc-smartwheel-vel3']">
+  <xsl:variable name="sequencenumber">
+    <xsl:number level="any"/>
+  </xsl:variable>
+  <xsl:element name="EMBOBJ">
+    <xsl:attribute name="object">
+      <xsl:text>smartwheel-vel3-</xsl:text>
+      <xsl:number value="$sequencenumber"/>
+    </xsl:attribute>
+    <xsl:attribute name="link">true</xsl:attribute>
+    <xsl:attribute name="linkcolor">FF0000</xsl:attribute>
+    <xsl:element name="DATACOLLECTOR">
+      <xsl:attribute name="ID">
+        <xsl:text>smartwheel-vel3-</xsl:text>
+        <xsl:number value="$sequencenumber"/>
+      </xsl:attribute>
+      <xsl:attribute  name="name">Measure Velocity</xsl:attribute>
+       <xsl:element name="PROBE">
+        <xsl:attribute name="ID">sw-vel3-<xsl:number value="$sequencenumber"/>
+        </xsl:attribute>
+        <xsl:attribute name="probe">SmartWheel</xsl:attribute>
+        <xsl:element name="PROP">
+          <xsl:attribute name="name">Port</xsl:attribute>
+          <xsl:attribute name="value">A</xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="GRAPH">
+        <xsl:attribute name="current-line">0</xsl:attribute>
+        <xsl:attribute name="title"></xsl:attribute>
+        <xsl:element name="DATAFOLDER">
+          <xsl:attribute name="object">
+            <xsl:value-of select="ancestor::investigation/@name"/>
+            <xsl:text>-saved-datasets</xsl:text>
+          </xsl:attribute>
+        </xsl:element>
+         <xsl:element name="XAXIS">
+          <xsl:attribute name="min">0</xsl:attribute>
+          <xsl:attribute name="max">10</xsl:attribute>
+        </xsl:element>
+         <xsl:element name="YAXIS">
+          <xsl:attribute name="min">-0.5</xsl:attribute>
+          <xsl:attribute name="max">0.5</xsl:attribute>
+        </xsl:element>
+         <xsl:element name="LINE">
+          <xsl:attribute name="xaxis">0</xsl:attribute>
+          <xsl:attribute name="yaxis">0</xsl:attribute>
+          <xsl:element name="INTPROBETRANS">
+            <xsl:attribute name="quantity">Velocity</xsl:attribute>
+            <xsl:attribute name="probe">sw-vel3-<xsl:number value="$sequencenumber"/>
+            </xsl:attribute>
+          </xsl:element>
+        </xsl:element>
+      </xsl:element>
+    </xsl:element>
+  </xsl:element>
+</xsl:template>
+
+
+
+
+
+
 </xsl:stylesheet>
+
+
+
+
+
+
 
