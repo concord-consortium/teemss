@@ -54,14 +54,16 @@ public class CCProbe extends MainView
 			graph.GraphViewLine.scrollStepSize = 0.45f;
 			lbDB = new LabBookCatalog("LabBook");
 			CCTextArea.INTER_LINE_SPACING = 0;
+			Dialog.showImages = false;
 		} else if(plat.equals("Java")){
 			/*
 			graph.Bin.START_DATA_SIZE = 4000;
 			graph.LargeFloatArray.MaxNumChunks = 4;
 			*/
 			// GraphSettings.MAX_COLLECTIONS = 1;			
-			lbDB = new LabBookCatalog("LabBook");
-			// lbDB = new LabBookFile("LabBook"); 
+			// lbDB = new LabBookCatalog("LabBook");
+			// Dialog.showImages = false;
+			lbDB = new LabBookFile("LabBook"); 
 		} else {
 			lbDB = new LabBookFile("LabBook");
 			GraphSettings.MAX_COLLECTIONS = 4;
@@ -110,7 +112,9 @@ public class CCProbe extends MainView
 		lObjView = view;
 		newIndex = loDict.getChildCount();
 
-		((LObjDictionaryView)view).checkForBeam();
+		if(plat.equals("PalmOS")){
+			((LObjDictionaryView)view).checkForBeam();
+		}
     }
 
 	public String [] getCreateNames()
