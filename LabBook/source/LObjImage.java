@@ -292,6 +292,7 @@ class LObjImageView extends LabObjectView implements ActionListener
 			imagePane.setRect(0,17);
 		}
 		lObj.name = fd.getFile();
+		nameEdit.setText(lObj.name);
     	
     }
 private static int inGetUInt32(byte bytes[], int off)
