@@ -229,14 +229,10 @@ public class LObjDataSet extends LObjSubDict
 	 
 				ds.writeInt(numBinChunks);
 				ds.writeString(label);
-
-				(new Exception()).printStackTrace();
-
 			} else if(chunkIndex > 0){
 				ds.writeByte(2);
 				ds.writeInt(chunkIndex);
 			} else {
-				(new Exception()).printStackTrace();
 				return;
 			}
 
