@@ -918,10 +918,10 @@ public class Axis
 			propContainer = new PropContainer("Axis");
 
 
-			prop = new PropObject("Min", "Min", PROP_MIN, getDispMin() + "");
+			prop = new PropObject("Max", "Max", PROP_MAX, getDispMax() + "");
 			propContainer.addProperty(prop);
 
-			prop = new PropObject("Max", "Max", PROP_MAX, getDispMax() + "");
+			prop = new PropObject("Min", "Min", PROP_MIN, getDispMin() + "");
 			propContainer.addProperty(prop);
 
 			prop = new PropObject("Label", "Label", PROP_LABEL, getLabel());
