@@ -5,7 +5,7 @@ public class ProbFactory{
 public final static int Prob_ThermalCouple 	= 1;
 public final static int Prob_Light 			= 2;
 public final static int Prob_SmartWheel		= 3;
-    public final static int Prob_RawData            = 4;
+public final static int Prob_RawData        = 4;
 
     public static String [] probeNames = {"Temperature", "Light", "SmartWheel", "RawData"};
 
