@@ -140,12 +140,12 @@ public void init()
 
 	// if show() is called before all the objects are constructed
 
+/*dima
 	if (frame != null)
-
 		frame.show();
+*/
 
 	}
-
 
 
 public void start()
@@ -268,13 +268,13 @@ public static void main(String args[])
 
 	frame.resize(width, height);
 
-	frame.show();
+//	frame.show();
 
 	applet.frame = frame;
 
 	// NOTE: java requires us to do this to make sure things paint
 
-	frame.hide();
+//	frame.hide();
 
 //	frame.setResizable(false);//dima
 
@@ -300,11 +300,17 @@ public static void main(String args[])
 
 		insets = new java.awt.Insets(0, 0, 0, 0);
 
-	frame.resize(width + insets.left + insets.right,
+//		frame.resize(width + insets.left + insets.right,height + insets.top + insets.bottom);
 
-		height + insets.top + insets.bottom);
-
+		frame.setSize(width + insets.left + insets.right,height + insets.top + insets.bottom);
+		java.awt.Dimension d = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+		java.awt.Dimension df = frame.getSize();
+		
+		frame.setLocation(d.width/2 - df.width/2,d.height/2 - df.height/2);
+		
+		
 	applet.init();
+	if (frame != null) frame.show();
 
 	}
 
