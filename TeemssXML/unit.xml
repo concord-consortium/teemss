@@ -596,7 +596,7 @@ The energy lost to friction always ends up as heat energy in the form of random 
             to hold them lightly in place.  <ext-image name="03a_motorWire"/>
             <p>If the propeller doesn&apos;t blow away from the cart,
               reverse the wires.  </p>
-            <ext-image name="03b_motorWire"/>
+            <ext-image name="03a_motorWire"/>
           </step>
           <step>Was your prediction correct? </step>
           <step>While still holding onto your cart, carefully hold your
@@ -1685,7 +1685,7 @@ The energy lost to friction always ends up as heat energy in the form of random 
           <step>Use a 2-AA battery pack, which will supply somewhat less
             than 3 volts, to warm the heat cell. You can use the battery
             pack on the air cart for this. Attach one of the battery
-            leads, but not the other, to the heat cell.   <ext-image name="05b_he2"/>
+            leads, but not the other, to the heat cell.   <ext-image name="05b_he"/>
           </step>
           <step>Start the software for the Temperature probe. Refer to
             Technical Hints to see how to use the software. </step>
