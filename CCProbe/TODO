@@ -28,6 +28,11 @@ to be abstracted but also customizable
 - Change the "Collect" button so it is more clear, perhaps change name
     while collecting.  (Start/Stop) ???
 - Move 10^-3 on the axis label.
+- yAxis Label on Bar graph is missing
+- Line and Bar graph yaxis are not synchronized correctly.  Currently the 
+    the Bar graph inherites the yaxis from the line graph, but then the
+	line graph doesn't inherit the axis from the bar graph.
+
 
 MAJOR
 
