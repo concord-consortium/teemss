@@ -278,13 +278,12 @@ public class LObjImageView extends LabObjectView implements ActionListener
 	    	wabaFile.close();
 		}
 		if(bytes == null) return;
-		waba.fx.Image wabaImage = createImage(bytes);
+		waba.fx.Image wabaImage = createImage(bytes,false);
 		if(wabaImage == null) return;
     	if(imagePane != null){
     		remove(imagePane);
+    		imagePane = null;
     	}
-		imagePane = new ImagePane(wabaImage);
-		add(imagePane);
     }
     
 private static int inGetUInt32(byte bytes[], int off)
@@ -308,7 +307,10 @@ private static int inGetUInt16(byte bytes[], int off)
 	return ((bytes[off + 1]&0xFF) << 8) | (bytes[off]&0xFF);
 
 	}
-	private waba.fx.Image createImage(byte data[])
+	private waba.fx.Image createImage(byte data[]){
+		return createImage(data,true);
+	}
+	private waba.fx.Image createImage(byte data[], boolean doSetPixel)
 
 	{
 
@@ -490,6 +492,7 @@ private static int inGetUInt16(byte bytes[], int off)
 		pixelOffset -= scanlen;
 	}while(pixelOffset >= 0);
 	
+	
 	waba.fx.Image wi = new waba.fx.Image(width,height);
 	
 
@@ -527,7 +530,7 @@ private static int inGetUInt16(byte bytes[], int off)
 	    waba.sys.Vm.copyArray(imageCMAP, 0, tmpCmap, 0, imageCMAP.length);
 	}
 	
-	if(wi != null) wi.setPixels(imageBPP,tmpCmap,imageScanlen,imageHeight,0,imagePixels);
+	if(doSetPixel && wi != null) wi.setPixels(imageBPP,tmpCmap,imageScanlen,imageHeight,0,imagePixels);
 	return wi;
 
 	}
