@@ -70,12 +70,15 @@ public class LObjDataCollectorProp extends LabObjectView
 		LObjGraph graph = dc.getGraph();
 
 		Vector dataSources = new Vector(1);
-		dataSources.add(LObjProbeDataSource.getProbeDataSource(probeId, dc.interfaceId,
-															   CCProb.INTERFACE_PORT_A));
+		LObjProbeDataSource newDS = LObjProbeDataSource.getProbeDataSource(probeId, dc.interfaceId,
+																		   CCProb.INTERFACE_PORT_A);
+		dataSources.add(newDS);
 		dc.setDataSources(dataSources);
 
 		graph.xUnit = CCUnit.getUnit(CCUnit.UNIT_CODE_S);
 		graph.xLabel = "Time";
+		graph.yLabel = newDS.getLabel();
+		graph.yUnit = newDS.getUnit();
 		graph.store();
 
 		if(nameEdit.getText() != "" && nameEdit.getText() != null){

@@ -41,7 +41,7 @@ public class LObjDataCollectorView extends LabObjectView
 		menu.add("Save Profile...");
 		menu.addActionListener(this);
 		if(vc != null){
-			vc.addMenu(this, menu);
+			vc.getMainView().addMenu(this, menu);
 		}
 
 		this.dc = dc;
@@ -73,7 +73,6 @@ public class LObjDataCollectorView extends LabObjectView
     public void dialogClosed(DialogEvent e)
     {
 		Debug.println("Got closed");	
-		gv.setDC(dc);
 		gv.updateProp();
 		setTitle2(graph.title);
 		dc.store();
@@ -193,7 +192,7 @@ public class LObjDataCollectorView extends LabObjectView
     {
 		Debug.println("Got close in graph");
 		if(container != null){
-			container.delMenu(this,menu);
+			container.getMainView().delMenu(this,menu);
 		}
 
 		stop();	
@@ -233,17 +232,13 @@ public class LObjDataCollectorView extends LabObjectView
 		}  
     }
 
-    public void reload(LabObjectView source){}
+	public MainView getMainView()
+	{
+		if(container != null) return container.getMainView();
+		return null;
+	}
 
-    public void addMenu(LabObjectView source, org.concord.waba.extra.ui.Menu menu)
-    {
-		if(container != null) container.addMenu(this, menu);
-    }
-    
-    public void delMenu(LabObjectView source, org.concord.waba.extra.ui.Menu menu)
-    {
-		if(container != null) container.delMenu(this, menu);
-    }
+    public void reload(LabObjectView source){}
 
     public void done(LabObjectView source) {}
 

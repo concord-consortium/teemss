@@ -4,9 +4,7 @@ import org.concord.waba.extra.ui.*;
 
 public interface ViewContainer
 {
-    public void addMenu(LabObjectView source, Menu menu);
-
-    public void delMenu(LabObjectView source, Menu menu);
+	public MainView getMainView();
 
     public void done(LabObjectView source);
 

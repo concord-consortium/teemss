@@ -36,17 +36,17 @@ public class LObjDictionaryView extends LabObjectView
 
     boolean editStatus = false;
 
+	String [] fileStrings = {"New..", "Open", "Rename..", "Import..", "Export..", "Delete"};
+	String [] palmFileStrings = {"New..", "Open", "Rename..", "Delete"};
+
     public LObjDictionaryView(ViewContainer vc, LObjDictionary d)
     {
 		super(vc);
 		dict = d;
 		lObj =dict;
 		add(me);
-		editMenu.add("Rename...");
 		editMenu.add("Cut");
 		editMenu.add("Paste");
-		editMenu.add("Import");
-		editMenu.add("Export");
 		editMenu.add("Properties...");
 		editMenu.add("Toggle hidden");
 		viewMenu.add("Paging View");
@@ -54,10 +54,14 @@ public class LObjDictionaryView extends LabObjectView
 		viewMenu.addActionListener(this);
 
 		if(vc != null){
-			vc.addMenu(this, editMenu);
-			vc.addMenu(this, viewMenu);
+			if(waba.sys.Vm.getPlatform().equals("PalmOS")){
+				fileStrings = palmFileStrings;
+			}
+			vc.getMainView().addMenu(this, editMenu);
+			vc.getMainView().addMenu(this, viewMenu);
+			vc.getMainView().addFileMenuItems(fileStrings, this);
 		}
-   	
+
 		creationProps.addProperty(newObjType, "Sub");
     }
 
@@ -106,19 +110,11 @@ public class LObjDictionaryView extends LabObjectView
 
 		    LabObject newObj;
 		    if(e.target == newButton){
-				String [] buttons = {"Cancel", "Create"};
-				newDialog = Dialog.showInputDialog( this, "Create", "Create a new Object",
-							      					buttons,Dialog.CHOICE_INP_DIALOG, creationTypes);
-
+				newSelected();
 			} else if(e.target == delButton){
-				curNode = treeControl.getSelected();
-				if(curNode == null || curNode.toString().equals("..empty..")) return;
-				parent = treeControl.getSelectedParent();
-				treeModel.removeNodeFromParent(curNode, parent);
+				delSelected();
 			} else if(e.target == openButton){
-				curNode = treeControl.getSelected();
-				if(curNode == null || curNode.toString().equals("..empty..")) return;
-				showPage(curNode, false,false);
+				openSelected();
 		    } else if(e.target == doneButton){
 				if(container != null){
 			    	container.done(this);
@@ -126,6 +122,33 @@ public class LObjDictionaryView extends LabObjectView
 		    }	    
 		}
     }
+
+	public void newSelected()
+	{
+		String [] buttons = {"Cancel", "Create"};
+		newDialog = Dialog.showInputDialog( this, "Create", "Create a new Object",
+											buttons,Dialog.CHOICE_INP_DIALOG, creationTypes);
+	}
+
+	public void delSelected()
+	{
+		TreeNode curNode;
+		TreeNode parent;	   
+
+		curNode = treeControl.getSelected();
+		if(curNode == null || curNode.toString().equals("..empty..")) return;
+		parent = treeControl.getSelectedParent();
+		treeModel.removeNodeFromParent(curNode, parent);
+	}
+
+	public void openSelected()
+	{
+		TreeNode curNode;
+
+		curNode = treeControl.getSelected();
+		if(curNode == null || curNode.toString().equals("..empty..")) return;
+		showPage(curNode, false,false);		
+	}
 
     public void insertAtSelected(TreeNode node)
     {
@@ -241,7 +264,32 @@ public class LObjDictionaryView extends LabObjectView
 				}
 	    	}
 		} else if(e.getSource() == editMenu){	    
-		    if(e.getActionCommand().equals("Rename...")){
+			if(e.getActionCommand().equals("Cut")){
+				TreeNode curNode = treeControl.getSelected();
+				if(curNode == null || curNode.toString().equals("..empty..")) return;
+				TreeNode parent = treeControl.getSelectedParent();
+				clipboardNode = curNode;
+				treeModel.removeNodeFromParent(curNode, parent);
+		    } else if(e.getActionCommand().equals("Paste")){
+				if(clipboardNode != null){
+				    insertAtSelected(clipboardNode);		    
+				}
+		    } else if(e.getActionCommand().equals("Properties...")){
+				TreeNode curNode = treeControl.getSelected();
+				if(curNode == null || curNode.toString().equals("..empty..")) return;
+				showPage(curNode, true, true);
+		    } else if(e.getActionCommand().equals("Toggle hidden")){
+				LObjDictionary.globalHide = !LObjDictionary.globalHide;
+				if(container != null) container.reload(this);
+
+		    }
+		} else {
+			// should be the file menu
+			if(e.getActionCommand().equals("New..")){
+				newSelected();
+			} else if(e.getActionCommand().equals("Open")){
+				openSelected();
+		    } else if(e.getActionCommand().equals("Rename..")){
 				TreeNode selObj = treeControl.getSelected();
 				String [] buttons = {"Cancel", "Ok"};
 				if(selObj != null){
@@ -252,20 +300,13 @@ public class LObjDictionaryView extends LabObjectView
 				    rnDialog = Dialog.showInputDialog(this, "Rename Parent", "Old Name was " + dict.name,
 								      buttons,Dialog.EDIT_INP_DIALOG);
 				}
-		    } else if(e.getActionCommand().equals("Cut")){
-				TreeNode curNode = treeControl.getSelected();
-				if(curNode == null || curNode.toString().equals("..empty..")) return;
-				TreeNode parent = treeControl.getSelectedParent();
-				clipboardNode = curNode;
-				treeModel.removeNodeFromParent(curNode, parent);
-		    } else if(e.getActionCommand().equals("Paste")){
-				if(clipboardNode != null){
-				    insertAtSelected(clipboardNode);		    
-				}
-		    } else if(e.getActionCommand().equals("Import")){
+		    } else if(e.getActionCommand().equals("Import..")){
 				FileDialog fd = FileDialog.getFileDialog(FileDialog.FILE_LOAD, null);
 
 				fd.show();
+
+				if(fd.getFilePath() == null) return;
+
 				LabBookFile imFile = new LabBookFile(fd.getFilePath());
 
 				LabObject newObj = dict.lBook.importDB(imFile);
@@ -276,7 +317,7 @@ public class LObjDictionaryView extends LabObjectView
 				    insertAtSelected(newNode);
 				}
 
-		    } else if(e.getActionCommand().equals("Export")){
+		    } else if(e.getActionCommand().equals("Export..")){
 				if(waba.sys.Vm.getPlatform().equals("PalmOS")){
 				    dict.lBook.export(null, null);
 				} else {
@@ -295,16 +336,10 @@ public class LObjDictionaryView extends LabObjectView
 				    lbFile.save();
 				    lbFile.close();
 				}
-		    } else if(e.getActionCommand().equals("Properties...")){
-				TreeNode curNode = treeControl.getSelected();
-				if(curNode == null || curNode.toString().equals("..empty..")) return;
-				showPage(curNode, true, true);
-		    } else if(e.getActionCommand().equals("Toggle hidden")){
-				LObjDictionary.globalHide = !LObjDictionary.globalHide;
-				if(container != null) container.reload(this);
-
-		    }
-		} 
+		    } else if(e.getActionCommand().equals("Delete")){
+				delSelected();
+			}
+		}
     }
 
     public void showPage(TreeNode curNode, boolean edit,boolean property)
@@ -315,8 +350,9 @@ public class LObjDictionaryView extends LabObjectView
 		if(obj == null) Debug.println("showPage: object not in database: " +
 					      ((LabObjectPtr)curNode).debug());
 
-		delMenu(this, viewMenu);
-		delMenu(this, editMenu);
+		getMainView().delMenu(this, viewMenu);
+		getMainView().delMenu(this, editMenu);
+		getMainView().removeFileMenuItems(fileStrings, this);
 
 		editStatus = edit;
 		if(property){
@@ -326,8 +362,9 @@ public class LObjDictionaryView extends LabObjectView
 		}
 
 		if(lObjView == null){
-		    addMenu(this, editMenu);
-		    addMenu(this, viewMenu);
+		    getMainView().addMenu(this, editMenu);
+		    getMainView().addMenu(this, viewMenu);
+			getMainView().addFileMenuItems(fileStrings, this);
 		    return;
 		}
 
@@ -340,15 +377,11 @@ public class LObjDictionaryView extends LabObjectView
 
     }
 
-    public void addMenu(LabObjectView source, org.concord.waba.extra.ui.Menu menu)
-    {
-		if(container != null) container.addMenu(this, menu);
-    }
-    
-    public void delMenu(LabObjectView source, org.concord.waba.extra.ui.Menu menu)
-    {
-		if(container != null) container.delMenu(this, menu);
-    }
+	public MainView getMainView()
+	{
+		if(container != null) return container.getMainView();
+		return null;
+	}
 
     public void done(LabObjectView source)
     {
@@ -370,8 +403,9 @@ public class LObjDictionaryView extends LabObjectView
 			remove(lObjView);
 			treeControl.reparse();
 			add(me);
-			addMenu(this, editMenu);
-			addMenu(this, viewMenu);
+			getMainView().addMenu(this, editMenu);
+			getMainView().addMenu(this, viewMenu);
+			getMainView().addFileMenuItems(fileStrings, this);
 			lObjView = null;
 		}
 		//	System.gc();
@@ -395,8 +429,9 @@ public class LObjDictionaryView extends LabObjectView
     {
 	
 		if(container != null){
-			container.delMenu(this,editMenu);
-			container.delMenu(this,viewMenu);
+			container.getMainView().delMenu(this,editMenu);
+			container.getMainView().delMenu(this,viewMenu);
+			container.getMainView().removeFileMenuItems(fileStrings, this);
 		}
 	
 		super.close();

@@ -1,10 +1,11 @@
 import waba.ui.*;
+import waba.util.*;
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
 import org.concord.LabBook.*;
 
 public class CCProbe extends ExtraMainWindow
-    implements ViewContainer
+    implements ViewContainer, MainView
 {
     LabBook labBook;
     MenuBar menuBar;
@@ -15,12 +16,15 @@ public class CCProbe extends ExtraMainWindow
     Container me = new Container();
     LabObjectView lObjView = null;
     int myHeight;
+	Vector fileMenuStrings = new Vector();
 
     int newIndex = 0;
 
     LObjDictionary loDict = null;
 
     String aboutTitle = "About CCProbe";
+	String [] fileStrings;
+	Vector fileListeners = new Vector();
 
     public void onStart()
     {
@@ -57,13 +61,20 @@ public class CCProbe extends ExtraMainWindow
 			// Error;
 			exit(0);
 		}
-
 		file = new Menu("File");
+		
 		file.add(aboutTitle);
 		if(!plat.equals("PalmOS")){
 			file.add("-");
 			file.add("Exit");
+			fileStrings = new String [3];
+			fileStrings[0] = aboutTitle;
+			fileStrings[1] = "-";
+			fileStrings[2] = "Exit";
+		} else {
+			fileStrings[0] = aboutTitle;			
 		}
+		
 		file.addActionListener(this);
 		menuBar.add(file);
 
@@ -88,6 +99,11 @@ public class CCProbe extends ExtraMainWindow
 
     }
 
+	public MainView getMainView()
+	{
+		return this;
+	}
+
     public void addMenu(LabObjectView source, Menu menu)
     {
 		menuBar.add(menu);
@@ -97,6 +113,43 @@ public class CCProbe extends ExtraMainWindow
     {
 		menuBar.remove(menu);
     }
+
+	void updateFileMenu()
+	{		
+		int i;
+		file.removeAll();
+		for(i=0; i < fileMenuStrings.getCount(); i++){
+			String [] items = (String [])fileMenuStrings.get(i);
+			for(int j=0; j < items.length; j++){
+				file.add(items[j]);
+			}
+				file.add("-");
+
+		}		
+		
+		for(i = 0; i < fileStrings.length; i++){
+			file.add(fileStrings[i]);
+		}
+	}
+
+	public void addFileMenuItems(String [] items, ActionListener source)
+	{
+		fileMenuStrings.insert(0, items);
+		updateFileMenu();		
+		fileListeners.add(source);
+	}
+
+
+	public void removeFileMenuItems(String [] items, ActionListener source)
+	{
+		int index = fileMenuStrings.find(items);
+		if(index < 0) return;
+		fileMenuStrings.del(index);
+		updateFileMenu();
+		index = fileListeners.find(source);
+		if(index < 0) return;
+		fileListeners.del(index);
+	}
 
     public void done(LabObjectView source){}
 
@@ -133,6 +186,10 @@ public class CCProbe extends ExtraMainWindow
 				}
 			}else if(command.equals(aboutTitle)){
 				Dialog.showAboutDialog(aboutTitle,AboutMessages.getMessage());
+			} else {
+				for(int i=0; i<fileListeners.getCount(); i++){
+					((ActionListener)fileListeners.get(i)).actionPerformed(e);
+				}
 			}
 		}
     }

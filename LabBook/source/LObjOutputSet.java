@@ -84,9 +84,11 @@ public class LObjOutputSet extends LObjSubDict
 		
     }
 
-    public void addMenu(LabObjectView source, Menu menu){mObjCont.addMenu(source, menu);}
-
-    public void delMenu(LabObjectView source, Menu menu){mObjCont.delMenu(source, menu);}
+	public MainView getMainView()
+	{
+		if(mObjCont != null) return mObjCont.getMainView();
+		else return null;
+	}
 
     public void done(LabObjectView source)
     {

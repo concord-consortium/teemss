@@ -142,6 +142,8 @@ public class LObjDataSet extends LObjSubDict
 		return false;
 	}
 
+	public String getLabel(){return label;}
+
     int [] binInfo = null;
     int numBins = 0;
 

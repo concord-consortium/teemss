@@ -42,7 +42,7 @@ public class LObjDictPagingView extends LabObjectView
 	menu.addActionListener(this);
 	editStatus = edit;
 
-	if(vc != null) vc.addMenu(this, menu);
+	if(vc != null) vc.getMainView().addMenu(this, menu);
 	
     }
 
@@ -144,15 +144,11 @@ public class LObjDictPagingView extends LabObjectView
 	}		
     }
 
-    public void addMenu(LabObjectView source, Menu menu)
-    {
-	if(container != null) container.addMenu(this, menu);
-    }
-    
-    public void delMenu(LabObjectView source, Menu menu)
-    {
-	if(container != null) container.delMenu(this, menu);
-    }
+	public MainView getMainView()
+	{
+		if(container != null) return container.getMainView();
+		else return null;
+	}
 
     public void done(LabObjectView source) {}
 
@@ -224,7 +220,7 @@ public class LObjDictPagingView extends LabObjectView
 
     public void close()
     {
-	if(container != null)  container.delMenu(this,menu);
+	if(container != null)  container.getMainView().delMenu(this,menu);
 
 	if(lObjView != null){
 	    lObjView.close();

@@ -31,7 +31,7 @@ Menu 					menu = null;
 		menu.add("-");
 		menu.add("Paste");
 		menu.addActionListener(this);
-		vc.addMenu(this, menu);
+		vc.getMainView().addMenu(this, menu);
 	}
 
     public void actionPerformed(ActionEvent e){
@@ -96,7 +96,7 @@ Menu 					menu = null;
 		}
 		doc.text = tArea.getText();
 		if(container != null && menu != null){
-		    container.delMenu(this,menu);
+		    container.getMainView().delMenu(this,menu);
 		}
 
 		super.close();

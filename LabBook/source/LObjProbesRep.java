@@ -109,7 +109,7 @@ class LObjProbesRepView extends LabObjectView implements ActionListener
 
     public void close(){
 		if(container != null && menu != null){
-		    container.delMenu(this,menu);
+		    container.getMainView().delMenu(this,menu);
 		}
 		super.close();
     }

@@ -73,19 +73,24 @@ public class LObjGraphView extends LabObjectView
 	LObjDictionary dataDict;
 	boolean instant = false;
 
+	String [] fileStrings = {"Save Data..", "Export Data.."};
+	String [] palmFileStrings = {"Save Data.."};
+
     public LObjGraphView(ViewContainer vc, LObjGraph g, LObjDictionary curDict)
     {
 		super(vc);
 
 		dataDict = curDict;
 
-		menu.add("Properties...");
-		menu.add("Save Data...");
-		menu.add("Export Data");
+		menu.add("Properties..");
 		menu.addActionListener(this);
 
 		if(vc != null){
-			vc.addMenu(this, menu);
+			vc.getMainView().addMenu(this, menu);
+			if(waba.sys.Vm.getPlatform().equals("PalmOS")){
+				fileStrings = palmFileStrings;
+			}
+			vc.getMainView().addFileMenuItems(fileStrings, this);
 		}
 
 		graph = g;
@@ -108,13 +113,13 @@ public class LObjGraphView extends LabObjectView
 
 		props.addProperty(propTitle, "Graph");
 
-		props.addProperty(propXmax, "X Axis");
-		props.addProperty(propXmin, "X Axis");
-		props.addProperty(propXlabel, "X Axis");
+		props.addProperty(propXmax, "XAxis");
+		props.addProperty(propXmin, "XAxis");
+		props.addProperty(propXlabel, "XAxis");
 
-		props.addProperty(propYmax, "Y Axis");
-		props.addProperty(propYmin, "Y Axis");
-		props.addProperty(propYlabel, "Y Axis");
+		props.addProperty(propYmax, "YAxis");
+		props.addProperty(propYmin, "YAxis");
+		props.addProperty(propYlabel, "YAxis");
     }
 
 	DataSource curDS;
@@ -126,6 +131,10 @@ public class LObjGraphView extends LabObjectView
 		curDS = ds;
 		if(curDS != null){
 			graph.yUnit = curDS.getUnit();
+			if(graph.name.equals("..auto_title..")){
+				graph.yLabel = curDS.getLabel();
+				autoTitle = true;
+			} 			
 		}
 	}
 
@@ -138,7 +147,7 @@ public class LObjGraphView extends LabObjectView
 	{
 		dc = dataC;
 		if(graph.name.equals("..auto_title..")){
-			graph.title = dc.getSummaryTitle();
+			graph.title = dc.getSummaryTitle();		   
 			autoTitle = true;
 		} 			
 	}
@@ -147,9 +156,17 @@ public class LObjGraphView extends LabObjectView
 	{
 		if(curDS != null){
 			graph.yUnit = curDS.getUnit();
+			if(autoTitle){
+				graph.yLabel = curDS.getLabel();
+				if(dc != null){
+					graph.title = dc.getSummaryTitle();
+				}
+			}
+
 		}
 		av.setYLabel(graph.yLabel, graph.yUnit);
 		av.setXLabel(graph.xLabel, graph.xUnit);		
+		av.setRange(graph.xmin, graph.xmax, graph.ymin, graph.ymax);
 
 		curBin.setUnit(graph.yUnit);
 	}
@@ -161,29 +178,38 @@ public class LObjGraphView extends LabObjectView
 			graph.xmax = propXmax.createFValue();
 			graph.ymin = propYmin.createFValue();
 			graph.ymax = propYmax.createFValue();
-			av.setRange(graph.xmin, graph.xmax, graph.ymin, graph.ymax);
-
-			graph.yLabel = propYlabel.getValue();
 			graph.xLabel = propXlabel.getValue();
-			av.setYLabel(graph.yLabel, graph.yUnit);
-			av.setXLabel(graph.xLabel, graph.xUnit);
 
 			String newTitle = propTitle.getValue();
-			if(newTitle.length() > 0 && 
-			   newTitle.charAt(0) == '*' && 
+			String newYLabel = propYlabel.getValue();
+
+			if(!autoTitle && 
+			   ((newTitle.length() > 0 && 
+				 newTitle.charAt(0) == '*') ||
+				(newYLabel.length() > 0 &&
+				 newYLabel.charAt(0) == '*')) && 
 			   dc != null){
 				autoTitle = true;
 				graph.name = "..auto_title..";
-			} else {
+			} else if(autoTitle && 
+			   ((newTitle.length() > 0 && 
+				 newTitle.charAt(0) != '*') ||
+				(newYLabel.length() > 0 &&
+				 newYLabel.charAt(0) != '*'))){
 				autoTitle = false;
 			}
 
-			if(autoTitle && dc != null){
-				graph.title = dc.getSummaryTitle();
-				propTitle.setValue("*" + graph.title);
-			} else {
+			if(!autoTitle){
 				graph.title = newTitle;
+				graph.yLabel = newYLabel;
 			}
+
+			updateProp();
+
+			if(autoTitle && dc != null){
+				propTitle.setValue("*" + graph.title);
+				propYlabel.setValue("*" + graph.yLabel);
+			} 
 
 			postEvent(new ControlEvent(1001, this));
 		}
@@ -309,15 +335,16 @@ public class LObjGraphView extends LabObjectView
 		Debug.println("Got action: " + e.getActionCommand());
 
 		if(e.getSource() == menu){
-			if(e.getActionCommand().equals("Properties...")){
+			if(e.getActionCommand().equals("Properties..")){
 				showAxisProp();
-			}else if(e.getActionCommand().equals("Save Data...")){
+			}
+		} else {
+			if(e.getActionCommand().equals("Save Data..")){
 				LObjDataSet dSet = LObjDataSet.makeNewDataSet();
 				dSet.setDataViewer(graph);
 				for(int i=0; i<bins.getCount(); i++){
 					dSet.addBin((Bin)bins.get(i));
 				}
-				LObjGraph graph = (LObjGraph)dc.getObj(0);
 
 				if(dataDict != null){
 					dataDict.add(dSet);
@@ -326,18 +353,21 @@ public class LObjGraphView extends LabObjectView
 					// for now it is an error
 					// latter it should ask the user for the name
 				}
-			} else if(e.getActionCommand().equals("Export Data")){
+			} else if(e.getActionCommand().equals("Export Data..")){
 				if(bins != null ||
 				   bins.getCount() > 0){
-					if(av.curView instanceof GraphViewLine){
-						LabBookFile.export((Bin)bins.get(0), null);
+					if(dc != null){
+						((Bin)bins.get(0)).description = dc.getSummaryTitle();
 					} else {
-						LabBookFile.export((Bin)bins.get(0), av.lGraph.annots);
+						((Bin)bins.get(0)).description = graph.title;
 					}
+
+					LabBookFile.export((Bin)bins.get(0), av.lGraph.annots);
+
 				}
 			}
 		}
-    }
+	}
 
     boolean sTitle;
 
@@ -489,7 +519,8 @@ public class LObjGraphView extends LabObjectView
 
 		graph.store();
 		if(container != null){
-			container.delMenu(this,menu);
+			container.getMainView().delMenu(this,menu);
+			container.getMainView().removeFileMenuItems(fileStrings, this);
 		}
 
 		av.free();

@@ -63,6 +63,12 @@ public 		waba.util.Vector 	dataListeners = null;
 		if(index >= 0) dataListeners.del(index);
 	}
 
+	public String getLabel()
+	{
+		if(probe != null) return probe.getLabel();
+		else return null;		
+	}
+
 	public CCUnit 	getUnit()
 	{
 		if(probe != null) return CCUnit.getUnit(probe.getUnit());

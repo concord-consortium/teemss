@@ -86,7 +86,7 @@ class LObjImageView extends LabObjectView implements ActionListener
 		menu = new Menu("Image");
 		menu.add("Load Image ...");
 		menu.addActionListener(this);
-		vc.addMenu(this, menu);
+		vc.getMainView().addMenu(this, menu);
 	}
 
     public void onPaint(waba.fx.Graphics g){
@@ -176,7 +176,7 @@ class LObjImageView extends LabObjectView implements ActionListener
 
     public void close(){
 		if(container != null && menu != null){
-		    container.delMenu(this,menu);
+		    container.getMainView().delMenu(this,menu);
 		}
 		if(imagePane != null) imagePane.freeImage();
 		super.close();
