@@ -58,8 +58,12 @@ import palmos.*;
 public class SerialPort extends Stream
 {
 
-private int iRefNum=-1;
-private int iTimeOut=0;
+	private int iRefNum=-1;
+	private int iTimeOut=0;
+
+	private int serBufHandle = 0;
+	private int serBufPtr = 0;
+	public final static int SER_BUF_SIZE = 1024;
 
 /**
  * Opens a serial port. The number passed is the number of the
@@ -105,33 +109,46 @@ public SerialPort(int number, int baudRate, int bits, boolean parity, int stopBi
       }
 
       if(Palm.SerOpen(iRefNum, number, baudRate)==0){
-         SerSettings oSettings=new SerSettings();
-         oSettings.baudRate=baudRate;
-	 oSettings.flags=SerSettings.FlagCTSAutoM | SerSettings.FlagRTSAutoM;
+		  SerSettings oSettings=new SerSettings();
+		  oSettings.baudRate=baudRate;
+		  oSettings.flags=SerSettings.FlagCTSAutoM | SerSettings.FlagRTSAutoM;
 
-         switch(bits){
-            case 8: oSettings.flags|=SerSettings.FlagBitsPerChar8; break;
-            case 7: oSettings.flags|=SerSettings.FlagBitsPerChar7; break;
-            case 6: oSettings.flags|=SerSettings.FlagBitsPerChar6; break;
-            case 5: oSettings.flags|=SerSettings.FlagBitsPerChar5; break;
-         }
+		  switch(bits){
+		  case 8: oSettings.flags|=SerSettings.FlagBitsPerChar8; break;
+		  case 7: oSettings.flags|=SerSettings.FlagBitsPerChar7; break;
+		  case 6: oSettings.flags|=SerSettings.FlagBitsPerChar6; break;
+		  case 5: oSettings.flags|=SerSettings.FlagBitsPerChar5; break;
+		  }
 
-         if(parity){
-            oSettings.flags|=SerSettings.FlagParityEvenM;
-         }
+		  if(parity){
+			  oSettings.flags|=SerSettings.FlagParityEvenM;
+		  }
 
-         switch(stopBits){
-            case 1: oSettings.flags|=SerSettings.FlagStopBits1; break;
-            case 2: oSettings.flags|=SerSettings.FlagStopBits2; break;
-         }
+		  switch(stopBits){
+		  case 1: oSettings.flags|=SerSettings.FlagStopBits1; break;
+		  case 2: oSettings.flags|=SerSettings.FlagStopBits2; break;
+		  }
 
-         oSettings.ctsTimeout=2 * 100; //100 is sysTicksPerSecond according to the SDK 3.0
-         if(Palm.SerSetSettings(iRefNum, oSettings)!=0){
-            Palm.SerClose(iRefNum);
-         }
-         else{
-            iTimeOut=millisToTicks(100);
-	    Palm.SerReceiveFlush(iRefNum, 1);
+		  oSettings.ctsTimeout=2 * 100; //100 is sysTicksPerSecond according to the SDK 3.0
+		  if(Palm.SerSetSettings(iRefNum, oSettings)!=0){
+			  Palm.SerClose(iRefNum);
+			  iRefNum = -1;
+		  } else {
+			  iTimeOut=millisToTicks(100);
+			  serBufHandle = Palm.MemHandleNew(SER_BUF_SIZE);
+			  if(serBufHandle == 0){
+				  Palm.SerClose(iRefNum);
+				  iRefNum = -1;
+				  return;
+			  }
+			  serBufPtr = Palm.MemHandleLock(serBufHandle);
+			  if(serBufPtr == 0){
+				  Palm.SerClose(iRefNum);
+				  iRefNum = -1;
+				  return;
+			  }
+			  Palm.SerSetReceiveBuffer(iRefNum, serBufPtr, SER_BUF_SIZE);
+			  Palm.SerReceiveFlush(iRefNum, 1);
 
          }
       }
@@ -167,6 +184,10 @@ public boolean close()
       return false;
    }
    Palm.SerSendWait(iRefNum, -1); //flush buffer
+
+   Palm.SerSetReceiveBuffer(iRefNum, 0, 0);
+   Palm.MemHandleUnlock(serBufHandle);
+   Palm.MemHandleFree(serBufHandle);
    if(Palm.SerClose(iRefNum)!=0){
       iRefNum=-1;
       return false;
