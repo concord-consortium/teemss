@@ -6,7 +6,7 @@ MINOR
 - Add UI to check battery level.
 - Id probe cards
 - Check error codes from smart wheel 
-- Garbage Collect LabBook
+- Garbage Collect LabBook (currently this is done on the Desktop)
 - Text box auto word wrap
 - Multi-depth paging view folders
 - One format of labbook on all systems.  Make palm catalogs work on 
@@ -22,7 +22,9 @@ to be abstracted but also customizable
 - Fix popup keyboard needs caps, and multiline.
 - Double collect should beep and or show dialog box.
 - Use unit prefixes instead of exponents when possible.
-- Fix digits on digital display.
+- DataSets don't save the precision of the their data.
+- The size of the the digital display is fixed.  It should change
+	depending on the size/precision of the data.
 
 MAJOR
 
