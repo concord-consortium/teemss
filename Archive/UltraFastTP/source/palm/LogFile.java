@@ -10,6 +10,7 @@ public class LogFile extends Transform
 
     public boolean transform(int num, int size, float [] data)
     {
+	return next.transform(num, size, data);
     }
 
 }

@@ -6,7 +6,10 @@ WGRAPH_DIR:= $(CURDIR)/../wgraph/classes
 PROBELIB_DIR:= $(CURDIR)/../ProbeLib/classes
 JAR_EXTRAS= -C $(WGRAPH_DIR) graph -C $(PROBELIB_DIR) .
 PLATFORMS= palm other
-RUN_FORK= waba
+RUN_FORK= superwaba
+RUN_PLATFORM = other
+WARP_PLATFORM = other
+JUMP_PLATFORM = palm
 
 MW_CLASS= UltraFastTP
 

@@ -89,7 +89,7 @@ public class GraphTool extends Container
 	((A2DProbeManager)pm).gt = this;
 
 	bytesRead.setRect(105, 0, 30, 10);
-	add(bytesRead);
+	//add(bytesRead);
 	
 	line2.setRect(0, 10, 160, 10);
 	//add(line2);
@@ -165,7 +165,7 @@ public class GraphTool extends Container
 		    startingTrans.start();
 		    
 		    if(timer == null)
-			timer = addTimer(100);
+			timer = addTimer(50);
 
 		    
 		}

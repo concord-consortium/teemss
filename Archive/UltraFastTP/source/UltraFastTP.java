@@ -37,7 +37,7 @@ public class UltraFastTP extends MainWindow
 	} 
 
 	if(Vm.getPlatform().equals("PalmOS")){
-	    Bin.START_DATA_SIZE = 999;
+	    Bin.START_DATA_SIZE = 2500;
 	}
 
 	setupButtons = new Button[Setups.buttonNames.length];
@@ -51,16 +51,17 @@ public class UltraFastTP extends MainWindow
 	}
     }
 
-    Container me = new Container();
+    Container me;
 
     void setup(float xRange, float yMin, float yMax, Transform sTrans, 
 	       Transform eTrans, String units, int probeId)
     {
+	removeAll();
+
+	me = new Container();
 	me.setRect(0,0,mysize.width,mysize.height);
 	PropWindow.topContainer = me;
 	add(me);
-
-	removeAll();
 
 	lg = new AnnotView(mysize.width, av_height);
 	lg.setPos(1,gt_height);
