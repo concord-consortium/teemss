@@ -44,7 +44,7 @@ import waba.ui.*;
 
  */
 
-public class TitleCE extends Control implements PreferredSize
+public class TitlePalm extends Control implements PreferredSize
 
 {
 
@@ -60,7 +60,7 @@ public class TitleCE extends Control implements PreferredSize
 
    */
 
-  public TitleCE()
+  public TitlePalm()
 
   {
 
@@ -78,7 +78,7 @@ public class TitleCE extends Control implements PreferredSize
 
    */
 
-  public TitleCE(String name)
+  public TitlePalm(String name)
 
   {
 
@@ -168,11 +168,11 @@ public class TitleCE extends Control implements PreferredSize
 
 			{
 
-			  if (MainWindow.getMainWindow() instanceof ExtraMainWindowCE)
+			  if (MainWindow.getMainWindow() instanceof ExtraMainWindowPalm)
 
 				{
 
-				  MenuBarCE menubar=((ExtraMainWindowCE)MainWindow.getMainWindow()).menubar;
+				  MenuBarPalm menubar=((ExtraMainWindowPalm)MainWindow.getMainWindow()).menubar;
 
 					if (menubar!=null)
 
