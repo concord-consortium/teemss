@@ -19,11 +19,11 @@ public Object source;
 String 	actionCommand;
 Object	info;
 int            infoType;
-public final static int   UNKNOWN = 0; 
-public final static int   EDIT = 1; 
-public final static int   CHOICE = 2; 
-public final static int   PROPERTIES = 3; 
-public final static int   OBJECT = 4; 
+public final static int   UNKNOWN 		= 0; 
+public final static int   EDIT 			= 1; 
+public final static int   CHOICE 		= 2; 
+public final static int   PROPERTIES 	= 3; 
+public final static int   OBJECT 		= 4; 
 	public DialogEvent(Object source, Control c,String actionCommand,Object info){
 		this(source,c,actionCommand,info,UNKNOWN);
 	}

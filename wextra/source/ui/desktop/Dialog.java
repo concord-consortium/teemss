@@ -9,7 +9,7 @@ String title;
  waba.fx.Font font;
 protected int widthBorder = 3;
 protected int heightBorder = 3;
- org.concord.waba.extra.event.DialogListener	listener;//dima
+protected org.concord.waba.extra.event.DialogListener	listener;//dima
  waba.ui.Control	inpControl = null;
  public final static  int  DEF_DIALOG = 0;
  public final static  int  ERR_DIALOG = 1;
@@ -117,6 +117,9 @@ private waba.ui.Container		contentPane;
   	repaint();
   }
   public waba.fx.Font getFont(){return font;}
+  
+	
+	  
 	public void addDialogListener(org.concord.waba.extra.event.DialogListener l){
 		if(listener == null){
 			listener = l;
