@@ -55,7 +55,7 @@ private boolean  wasAddComponent = true;
 		byte s = (byte)penChooser.getChosenPenSize();
 		drawArea.setPenSize(s,s);
 		isChooserUp = false;
-		drawArea.setMode(DrawArea.MODE_NORMAL);
+		drawArea.setMode(DrawArea.MODE_NORMAL, null);
 		modeButton.setText("Eraser");
 	}
 	
@@ -172,11 +172,11 @@ private boolean  wasAddComponent = true;
 				drawArea.clear();
 			}else if (event.target == modeButton){
 				if(drawArea.getMode() == DrawArea.MODE_NORMAL){
-					drawArea.setMode(DrawArea.MODE_ERASE);
+					drawArea.setMode(DrawArea.MODE_ERASE, null);
 					modeButton.setText("Normal");
 					owner.setFocus(drawArea);
 				}else{
-					drawArea.setMode(DrawArea.MODE_NORMAL);
+					drawArea.setMode(DrawArea.MODE_NORMAL, null);
 					modeButton.setText("Eraser");
 				}
 			}else if (event.target == choosePenButton){
@@ -196,7 +196,7 @@ private boolean  wasAddComponent = true;
 					add(scribbleChooser);
 					isChooserUp = true;
 				}
-				drawArea.setMode(DrawArea.MODE_NORMAL);
+				drawArea.setMode(DrawArea.MODE_NORMAL, null);
 				modeButton.setText("Eraser");
 			}
 		}
@@ -204,7 +204,7 @@ private boolean  wasAddComponent = true;
 }
 
 class DrawArea extends Control{
-Graphics drawg;
+
 int lastX, lastY;
 int lastMoveX, lastMoveY;
 org.concord.waba.extra.ui.CCPen	pen;
@@ -322,8 +322,6 @@ boolean embeddedState = false;
 	
 	public void setPenColor(int red,int green,int blue){
 		pen.setPenColor(red,green,blue);
-		createOffGraphics();
-		if(drawg != null) drawg.setColor(pen.red,pen.green,pen.blue);
 	}
 	public void setPenSize(byte w,byte h){
 		pen.setPenSize(w,h);
@@ -336,30 +334,24 @@ boolean embeddedState = false;
 	public int getMode(){return mode;}
 	
 	
-	public boolean createOffGraphics(){
-		boolean retValue = true;
-		if (drawg != null) return retValue;
-		drawg = createGraphics();
-		retValue = (drawg != null);
+	public Graphics createClippedGraphics(){
+		Graphics drawg = createGraphics();
 		if(drawg != null){
 			drawg.setClip(0, 0, this.width, this.height);
 		}
-		return retValue;
+		return drawg;
 	}
 	
-	public void setMode(int modeScribble){
+	public void setMode(int modeScribble, Graphics drawg){
 		int oldMode = mode;
 		mode = MODE_NORMAL;
 		if(modeScribble == MODE_ERASE){
 			mode = MODE_ERASE;
 		}
-		boolean drawgWasCreated = false;
-		if (drawg == null){
-			drawgWasCreated = createOffGraphics();
-		}
+
 		if(drawg != null){
 			drawg.setDrawOp(Graphics.DRAW_OVER);
-			if(!drawgWasCreated && oldMode == MODE_ERASE){
+			if(oldMode == MODE_ERASE){
 				drawg.setDrawOp(Graphics.DRAW_XOR);
 				drawg.drawRect(lastMoveX - 10,lastMoveY - 10,20,20);
 				drawg.setDrawOp(Graphics.DRAW_OVER);
@@ -370,6 +362,7 @@ boolean embeddedState = false;
 				drawg.setColor(pen.red,pen.green,pen.blue);
 			}
 		}
+
 		if(mode == MODE_ERASE){
 			wasFirstEraseRect = false;
 		}
@@ -387,10 +380,10 @@ boolean embeddedState = false;
 	public void onEvent(Event event){
 		if(embeddedState) return;
 		
-		if (drawg == null){
-			createOffGraphics();
+		Graphics drawg = createClippedGraphics();
+		if (drawg != null){
 			if(drawg != null) drawg.setColor(pen.red,pen.green,pen.blue);
-			setMode(mode);
+			setMode(mode, drawg);
 		}
 		if (event.type == PenEvent.PEN_DOWN){
 			PenEvent penEvent = (PenEvent)event;
@@ -407,9 +400,7 @@ boolean embeddedState = false;
 			currPath = newPath;
 			if(pathList == null) pathList = currPath;
 			currPath.openPath();
-			if(mode != MODE_NORMAL){
-				currPath.addPixel((short)lastX,(short)lastY);
-			}
+			currPath.addPixel((short)lastX,(short)lastY);
 		}else if (event.type == PenEvent.PEN_UP){
 			if(currPath != null) currPath.closePath();
 		}else if (event.type == PenEvent.PEN_DRAG){
@@ -455,10 +446,12 @@ boolean embeddedState = false;
 				}
 			}
 		}
+
+		if(drawg != null) drawg.free();
 	}
 
 	public void clear(){
-		setMode(MODE_NORMAL);
+		setMode(MODE_NORMAL, null);
 		currPath = null;
 		pathList = null;
      		if(bufIm != null){
@@ -522,8 +515,8 @@ boolean embeddedState = false;
 			path = path.getNext();
 		}
 		ig.setColor(0,0,0);
-     		g.copyRect(bufIm,0,0,width,height,0,0);
-     		ig.free();
+		g.copyRect(bufIm,0,0,width,height,0,0);
+		ig.free();
 	}
 }
 
@@ -538,6 +531,7 @@ int			bPen = 0;
 short		[]points = null;
 int			currPos;
 boolean		dirty = true;
+	boolean     closed = false;
 public final static int BEGIN_PATH_ITEM = 10000;
 public final static int END_PATH_ITEM = 10001;
 public final static int END_PATH_LIST = 10002;
@@ -606,16 +600,25 @@ public final static int END_PATH_LIST = 10002;
 	public void 		setNext(CCDrawPath next){this.next = next;}
 	public CCDrawPath 	getNext(){return next;}
 	
-	public void 		setDirty(boolean dirty){this.dirty = dirty;}
+	public void 		setDirty(boolean dirty)
+	{
+		if(closed)
+			this.dirty = dirty;
+		else 
+			this.dirty = true;		
+	}
+
 	public boolean 		getDirty(){return dirty;}
 
 	public void openPath(){
+		closed = false;
 		currPos = 0;
 		if(points == null){
 			points = new short[2000];
 		}
 	}
 	public void closePath(){
+		closed = true;
 		if(points == null) return;
 		if(currPos == 2000) return;
 		short []newpoints = new short[currPos];
