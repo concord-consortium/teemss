@@ -517,8 +517,8 @@ String	[]strings = null;
 	}
 	public static boolean isWhiteSpace(char c){
 		boolean retValue = false;
-		for(int i = 0; i < whiteChars.length; i++){
-			if(c == whiteChars[i]){
+		for(int i = 0; i < wordDelimChars.length; i++){
+			if(c == wordDelimChars[i]){
 				retValue = true;
 				break;
 			}
@@ -527,7 +527,7 @@ String	[]strings = null;
 	}
 	
 
-private static char []whiteChars = {' ','\t','\n','\r',':',';','.',','};	
+private static char []wordDelimChars = {' ','\t','\n','\r',':',';','.',',','/','\\','@'};	
 
 }
 
