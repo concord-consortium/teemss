@@ -366,7 +366,7 @@ public class GraphViewLine extends GraphView
 							float newTime = lGraph.xaxis.getValue(pe.x, aPtr);
 							if(aPtr[0] == selAnnot.xaxis &&
 							   lGraph.getValue(newTime, aPtr[0], tempVal)){
-								selAnnot.time = newTime;
+								selAnnot.setTime(newTime);
 								selAnnot.value = tempVal[0];
 								postEvent(new ControlEvent(1003, this));
 								draw();

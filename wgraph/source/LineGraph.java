@@ -51,13 +51,6 @@ public class LineGraph extends Graph2D
 
     int width, height;
 
-    int [][] lineColors = { {255,  0,  0},   // red
-							{0,  255,  0},   // green
-							{0,  0,  255},   // blue
-							{255, 255, 0}, // yellow
-							{255, 0, 255}, // purple
-							{0, 255, 255},}; // turquois
-
     protected int length = 0;
 	Vector bins = new Vector();
 
@@ -269,7 +262,6 @@ public class LineGraph extends Graph2D
     public void addBin(Bin newBin)
     {
 		bins.add(newBin);
-		if(newBin.color == null) newBin.color = lineColors[0];
 
 		// hack need to fix the autoscroll code
 		// so I can fix this

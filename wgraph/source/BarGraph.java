@@ -21,6 +21,8 @@ import waba.util.*;
 import waba.fx.*;
 import waba.ui.*;
 
+import org.concord.waba.extra.util.*;
+
 public class BarGraph extends Graph2D
 {
     final static float DEFAULT_RANGE = (float)30.0;

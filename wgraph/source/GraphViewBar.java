@@ -22,6 +22,8 @@ import waba.fx.*;
 import waba.util.*;
 import waba.sys.*;
 
+import org.concord.waba.extra.util.*;
+
 public class GraphViewBar extends GraphView
 {
     final static float DEFAULT_RANGE = (float)30.0;

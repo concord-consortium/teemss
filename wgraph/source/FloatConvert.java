@@ -98,6 +98,187 @@ public class FloatConvert
 	return 0f;
     }
 
+	int intValue = 0;
+	int exponent = 0;
+	int precision = -2;
 
+	public void setVal(float val)
+	{
+		exponent = getExp(val);
+		intValue = retVal;
+		
+	}
 
+	public int getExponent(){ return exponent; }
+
+	public void setPrecision(int exp)
+	{
+		precision = exp;
+	}
+
+	public String getString(int exp)
+	{
+		if(intValue == 0 ||
+		   exponent < precision){
+			if(precision >= 0){ 
+				return "0"; 
+			} else {
+				String retStr = "0.";
+				for(int i=0; i< -precision; i++){
+					retStr += "0";
+				}
+				return retStr;
+			}			
+		}
+
+		int intValue = this.intValue;
+
+		// If exponent is 3 and exp is 0
+		// then we want to output things like
+		// 1000.0
+		int sigFigs = exponent - precision + 1;
+		if(sigFigs > 8){
+			sigFigs = 8;
+		} else if(sigFigs < 8){
+			int lostDigits = quickExp[8-sigFigs];
+			intValue = (intValue + lostDigits - 1) / lostDigits * lostDigits;
+
+			// watch out for rounding that causes the total numb of digits to 
+			// change
+			if(intValue >= quickExp[9]) {
+				intValue /= 10;
+				exponent++;
+				sigFigs++;
+			}
+		}
+
+		int expOffset = exponent - exp;
+
+		String intStr = "" + intValue;
+	    String sign = "";
+		if(intValue < 0){ 
+			sign = "-";
+			intStr = intStr.substring(1, intStr.length() - 1);
+		} 
+
+		String intNumStr;
+		if(expOffset < 0){
+			intNumStr = "0";
+		} else if(expOffset + 1 > intStr.length()){
+			intNumStr = intStr;
+			for(int i=0; i < (expOffset + 1 - intStr.length()); i++){
+				intNumStr += "0";
+			}
+		} else {
+			intNumStr = intStr.substring(0, expOffset + 1);
+		}
+
+		String intFracStr = null;
+		if(exp - precision >= 0){
+			int startPos = expOffset + 1;
+			if(startPos < 0){
+				intFracStr = "";
+				for(int i=0; i < -startPos; i++){
+					intFracStr += "0";
+				}
+				intFracStr += intStr.substring(0, sigFigs);
+			} else {
+				intFracStr = intStr.substring(startPos, sigFigs);
+			}
+		}
+
+		String retStr = sign + intNumStr;
+		if(intFracStr != null){
+			retStr += "." + intFracStr;
+		}
+
+		if(exp != 0){
+			retStr += "E" + exp;
+		}
+
+		return retStr;
+	}
+
+	static float [] lookup = null;
+	public final static float LOG_2_10_FACTOR = 0.301029996f;
+
+	final static int toExp10From2(int x)
+	{
+		return x*301029/1000000;
+	}
+
+	static float xToTheY(float x, int y)
+	{
+		float retVal = 1f;
+		if(y > 0){
+			for(int i=0; i<y ; i++){
+				retVal = x*retVal;
+			}
+			return retVal;
+		} else {
+			for(int i=0; i>y; i--){
+				retVal = retVal/x;
+			}
+		}
+
+		return retVal;
+	}
+	
+	static int [] quickExp = {1,
+							  10,
+							  100,
+							  1000,
+							  10000,
+							  100000,
+							  1000000,
+							  10000000,
+							  100000000,
+							  1000000000,};
+
+	public static void makeLookup()
+	{
+		if(lookup == null){
+			lookup = new float [256];
+		} else {
+			return;
+		}
+
+		for(int i=0; i<256; i++){
+			int base2exp = i - 127;
+			int base10exp = toExp10From2(base2exp);
+			lookup[i] = xToTheY(2f, base2exp) / xToTheY(10f, base10exp) / 
+				(float)(0x800000) * 1000000;
+		}
+	}
+
+	static int retVal = 0;
+	public static int getExp(float val)
+	{
+		int fBits = Float.floatToIntBits(val);
+
+		if(fBits == 0){
+			retVal = 0;
+			return 1;
+		}
+		int unsignedExp= ((fBits & 0x7f800000) >> 23) & 0xFF;
+
+		int base2exp = unsignedExp - 127;
+
+		int base10exp = toExp10From2(base2exp);
+
+		int mantissa = (fBits & 0x007fffff) | 0x0800000;
+		
+		retVal = (int)((float)mantissa * lookup[unsignedExp]);
+
+		while(retVal < 100000000){
+			retVal *= 10;
+			base10exp--;
+		}
+		
+		if((fBits & 0x80000000) != 0) retVal = -retVal;
+
+		base10exp -= 6;
+		
+		return base10exp + 8;
+	}
 }

@@ -21,8 +21,7 @@ import waba.fx.*;
 import org.concord.waba.extra.util.*;
 import org.concord.ProbeLib.*;
 
-public class Annotation
-    implements DecoratedValue
+public class Annotation extends DecoratedValue
 {
     public static final int width = 10;
     public static final int height = 10;
@@ -32,7 +31,6 @@ public class Annotation
     int xPtsTrans [] = new int [3];
     int yPtsTrans [] = new int [3];
 
-    public float time;
     public float value;
     public String label;
     public String text;
@@ -41,8 +39,6 @@ public class Annotation
     public Axis xaxis;
     public Object bin;
 
-	CCUnit unit;
-
     public Annotation(String l, float t, float v, Axis xa)
     {
 		time = t;
@@ -50,6 +46,11 @@ public class Annotation
 		value = v;
 		xaxis = xa;
     }
+
+	public void setTime(float time)
+	{
+		this.time = time;
+	}
 
     public String getLabel()
     {
@@ -60,21 +61,6 @@ public class Annotation
     {
 		return value;
     }
-
-    public Color getColor()
-    {
-		return null;
-    }
-
-    public float getTime()
-    {
-		return time;
-    }
-
-	public CCUnit getUnit()
-	{
-		return unit;
-	}
 
     /*
      * Give the top left corner of where to draw

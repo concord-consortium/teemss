@@ -25,9 +25,9 @@ public class LabelBuf extends Control
     Image buffer = null;
     Graphics bufG;
 
-    static final int LEFT = 0;
-    static final int RIGHT = 1;
-    static final int CENTER = 2;
+    public static final int LEFT = 0;
+    public static final int RIGHT = 1;
+    public static final int CENTER = 2;
 
     String text;
     Font font = MainWindow.defaultFont;
@@ -38,6 +38,11 @@ public class LabelBuf extends Control
     public LabelBuf(String t){
 		text = t;
     }
+
+	public void setAlignment(int align)
+	{
+		this.align = align;
+	}
 
     public void free()
     {

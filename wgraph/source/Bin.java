@@ -28,8 +28,8 @@ import org.concord.waba.extra.util.*;
 
 import org.concord.ProbeLib.*;
 
-public class Bin
-    implements DecoratedValue, ActionListener
+public class Bin extends DecoratedValue
+    implements ActionListener
 {
     public static int START_DATA_SIZE = 10000;
 
@@ -39,7 +39,7 @@ public class Bin
     public float refX = 0f;
     public float refY = 0f;
     private float minX, minY, maxX, maxY;
-    int [] color = {255,0,0};
+
     public Axis xaxis = null;
 	public Axis yaxis = null;
 	boolean needRecalc = false;
@@ -49,7 +49,6 @@ public class Bin
     public String description = null;
     public Time time = null;
 	float curXscale, curYscale;
-	CCUnit unit;
     public Vector annots = new Vector();
 
 	int remainder;
@@ -89,6 +88,8 @@ public class Bin
 
     public Bin(Axis xAx, Axis yAx)
     {
+		color = new CCColor(255, 0, 0);
+
 		xaxis = xAx;
 		yaxis = yAx;
 
@@ -126,6 +127,8 @@ public class Bin
 			needRecalc = true;
 		}
 	}
+
+	public float getDT(){ return dT; }
 
     public String getLabel()
     {
@@ -166,6 +169,7 @@ public class Bin
 			a = new Annotation(label, time, tempVal[0], xaxis);
 			// This could be a memory leak if we don't clear this link
 			a.bin = this;
+			a.setUnit(unit);
 			annots.add(a);
 			
 			notifyListeners(ANNOT_ADDED);
@@ -225,7 +229,7 @@ public class Bin
 		for(i=0; i<annots.getCount(); i++){
 			a = (Annotation)annots.get(i);
 			if(xaxis.drawnX != -1){
-				pos = (int)((a.time - xaxis.dispMin) * xaxis.scale);
+				pos = (int)((a.getTime() - xaxis.dispMin) * xaxis.scale);
 				if((pos*xaxis.axisDir >= 0) && 
 				   (pos*xaxis.axisDir < xaxis.axisDir*xaxis.dispLen)){
 					xPos = pos + xaxis.drawnX + xaxis.axisDir;
@@ -264,24 +268,11 @@ public class Bin
 		return getCurX();
     }
 
-    public Color getColor()
-    {
-		return null;
-    }
-
-	public CCUnit getUnit()
-	{
-		return unit;
-	}
-
-	public void setUnit(CCUnit u)
-	{
-		unit = u;
-	}
-
     public float getCurX()
     {
-		if(lfArray.getCount() == 0) return 0f;
+		if(lfArray.getCount() == 0){
+			return 0f;
+		}
 		return maxX;
     }
 
@@ -548,7 +539,7 @@ public class Bin
 		int drRemainderSum = drawnRemainderSum;
 
 		g.translate(xTrans, yTrans);
-		g.setColor(color[0], color[1], color[2]);
+		if(color != null) g.setColor(color.r, color.g, color.b);
 
 		if(lastDrawnPoint == -1){
 			i=0;
@@ -729,19 +720,18 @@ public class Bin
 		return true;
     }
 
+	public void setColor(CCColor c)
+	{
+		color = c;
+	}
+
 	public void setColor(int r,int g,int b){//dima bin color support
- 		if(color == null || color.length != 3) return;
- 		color[0] = r;
- 		color[1] = g;
- 		color[2] = b;
+		color = new CCColor(r, g, b);
  	}
 
  	public void setColor(int []col){//dima bin color support
  		if(col == null || col.length != 3) return;
- 		if(color == null || color.length != 3) return;
- 		color[0] = col[0];
- 		color[1] = col[1];
- 		color[2] = col[2];
+		color = new CCColor(col[0], col[1], col[2]);
  	}
 
  	public int getConnectedDotMode(){return connectedDotMode;}
