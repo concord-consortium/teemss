@@ -20,3 +20,5 @@ pilrc-2.8p6/pilrc: pilrc-2.8p6/Makefile FORCE
 pilrc-2.8p6/Makefile:
 	cd pilrc-2.8p6; ./configure
 
+clean:
+# do nothing for now
