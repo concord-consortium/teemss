@@ -1,8 +1,8 @@
 WABA_DIR= /home/scytacki/waba/superwaba/vmsrc/classes_java
 WEXTRAS_DIR= /home/scytacki/waba/superwaba/wextras/classes
-WGRAPH_DIR= /home/scytacki/cvstest/wgraph/classes
-PROBESYS_DIR= ~/src/ProbeSystem/
-TARGET_DIR= $(PWD)/../classes
+WGRAPH_DIR= ../../wgraph/classes
+PROBESYS_DIR= ../../ProbeSystem/classes
+TARGET_DIR= ../classes
 
 
 CLASSPATH:= ${CLASSPATH}:${WABA_DIR}:${WEXTRAS_DIR}:${WGRAPH_DIR}:${TARGET_DIR}
@@ -20,7 +20,7 @@ PM_CLASSES= JavaProbeManager.class ProbeManager.class ProbeInfo.class
 all: main warp jar
 
 main:
-	cd $(PROBESYS_DIR); cp $(PM_CLASSES) $(TARGET_DIR)
+	cp $(PM_CLASSES:%=$(PROBESYS_DIR)/%) $(TARGET_DIR)
 	javac -d ../classes -O $(CLASSES)
 	cp trash.bmp ../classes
 
