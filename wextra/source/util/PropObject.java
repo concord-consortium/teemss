@@ -57,6 +57,12 @@ public class PropObject
 	public 	PropObject(String name){
 		this(name,null,0);
 	}
+	public PropObject(String name, boolean flag){
+		this(name,null,0);
+		type = CHECK;
+		visChecked = checked = flag;
+	}
+
 	public void setType(int t){
 		type = t;
 		if(type == MULTIPLE_SEL_LIST){

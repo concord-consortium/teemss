@@ -602,6 +602,8 @@ public class DataStream extends Stream
 
   {
 
+	  if(length == 0) return null;
+	  
     char[] c=new char[length];
 
     byte[] b=new byte[length];
