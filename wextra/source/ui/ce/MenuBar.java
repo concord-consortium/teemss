@@ -56,8 +56,6 @@ public class MenuBar extends Control
 
   boolean dropped=false;
 
-  Popup popup=null;
-
   Vector menus;
 
   int xpositions[] = new int[10];
@@ -66,23 +64,18 @@ public class MenuBar extends Control
 
   int selected=0;
 
-  int oldselected=0;
-
-  int numDisplayed=0;
+  int oldselected=-1;
 
   // have to change that ...
 
-  static int  height=16;
-
-  static int  width=160;
-
   FontMetrics fm=null;
+    Font menuFont = new Font("Helvetica", Font.BOLD, 12);
 
-  
 
-  public static int getMenuBarWidth(){return width;}
 
-  public static int getMenuBarHeight(){return height;}
+  public static int getMenuBarWidth(){return 240;}
+
+  public static int getMenuBarHeight(){return 26;}
 
 
 
@@ -130,26 +123,24 @@ public class MenuBar extends Control
 
    */
 
-  public void add(Menu menu)
-
-  {
-
-    menus.add(menu);
-
+    public void add(Menu menu)
+    {
+	hide();
+	menus.add(menu);
+	
 	menu.setMenuBar(this);
-
-  }
+	show();
+    }
 
     public void remove(Menu menu)
     {
 	int mIndex = menus.find(menu);
 	if(mIndex < 0 || mIndex >= menus.getCount()) return;
 
-	menus.del(mIndex);
-
+	hide();
+	menus.del(mIndex);	    
+	show();
     }
-
-
 
   /**
 
@@ -213,55 +204,11 @@ public class MenuBar extends Control
 
   //dima for permanent Menubar
 
-    if (popup != null)
-
-    {
-
-      g.setColor(255,255,255);
-
-      g.fillRect(1,1,width,height);
-
-//      drawList(g);
-
       g.setColor(0,0,0);
 
-      g.drawLine(1,0,width-3,0);
+      g.drawLine(0,0,width,0);
 
-      g.drawLine(0,1,0,height-3);
-
-      g.drawLine(width-2,1,width-2,height-2);
-
-      g.drawLine(1,height-2,width-3,height-2);
-
-      g.drawLine(2,height-1,width-3,height-1);
-
-      g.drawLine(width-1,2,width-1,height-3);
-
-      drawList(g);
-
-    }else{
-
-		g.setColor(255,255,255);
-
-		g.fillRect(1,1,width,height);
-
-		drawListCE(g);
-
-		g.setColor(0,0,0);
-
-		g.drawLine(1,0,width-3,0);
-
-		g.drawLine(0,1,0,height-3);
-
-		g.drawLine(width-2,1,width-2,height-2);
-
-		g.drawLine(1,height-2,width-3,height-2);
-
-		g.drawLine(2,height-1,width-3,height-1);
-
-		g.drawLine(width-1,2,width-1,height-3);
-
-    }
+      drawListCE(g);
 
   }
 
@@ -269,108 +216,34 @@ public class MenuBar extends Control
 
   {
 
-    int xpos=5;
+    int xpos=0;
 
     if (fm==null)
-
-        fm=getFontMetrics(MainWindow.defaultFont);
-
-    if (fm==null)
-
-      return false;
-
-	g.setColor(0,0,0);
-
-
-
-    for(int i=0;i<menus.getCount();i++)
-
-    {
-
-      mwidths[i]=fm.getTextWidth(((Menu)menus.get(i)).name)+6;
-
-      g.drawText(((Menu)menus.get(i)).name,xpos+3,2);
-
-      xpositions[i] = xpos;
-
-      xpos += mwidths[i];
-
-    }
-
-    return true;
-
-  }
-
-
-
-  public boolean drawList(Graphics g)
-
-  {
-
-    // initial distance to the left
-
-    int xpos=5;
+        fm=getFontMetrics(menuFont);
 
     if (fm==null)
-
-        fm=getFontMetrics(MainWindow.defaultFont);
-
-    if (fm==null)
-
       return false;
 
     g.setColor(0,0,0);
 
-    for(int i=0;i<numDisplayed;i++)
+    g.setFont(menuFont);
 
-    {
-
+    for(int i=0;i<menus.getCount();i++){
       mwidths[i]=fm.getTextWidth(((Menu)menus.get(i)).name)+6;
-
-      if (i==selected)
-
-      {
-
-		g.drawLine(xpos,1,xpos,height-3);
-
-		g.drawLine(xpos+mwidths[i],1,xpos+mwidths[i],height-3);
-
-		if(popup != null){
-
-		    Menu mselected = (Menu)menus.get(selected);
-
-			Rect r = mselected.getRect();
-
- 			g.setColor(255,255,255);
-
- 			int lastx = xpos+mwidths[i] - 1;
-
- 			if(mwidths[i] > r.width) lastx = xpos + r.width - 2;
-
- 			g.drawLine(xpos+1,0,lastx,0);
-
-  			g.setColor(0,0,0);
-
-  		}
-
+      if(i==selected){
+	  g.drawRect(xpos, 0, mwidths[i], 24);
+	  g.setColor(255,255,255);
+	  g.fillRect(xpos+1, 0, mwidths[i]-2, 23);
+	  g.setColor(0,0,0);
       }
-
-      g.drawText(((Menu)menus.get(i)).name,xpos+3,2);
-
+      g.drawText(((Menu)menus.get(i)).name,xpos+3,7);
       xpositions[i] = xpos;
-
       xpos += mwidths[i];
-
-      if (i==selected)
-
-        g.setColor(0,0,0);
-
     }
 
     return true;
 
   }
-
 
 
   /**
@@ -383,25 +256,9 @@ public class MenuBar extends Control
 
   {
 
-    if (popup==null)
+      oldselected=selected=-1;
 
-    {
-
-        numDisplayed=menus.getCount();
-
-        popup=new Popup(this);
-
-        Rect r = MainWindow.getMainWindow().getRect();
-
-        popup.popup(0,r.height - height,width,height);
-
-        oldselected=selected=0;
-
-        if (menus.getCount() > 0)
-
-            ((Menu)menus.get(0)).show(5);
-
-    }
+      repaint();
 
   }
 
@@ -409,23 +266,10 @@ public class MenuBar extends Control
 
   {
 
-    if (popup==null)
+      oldselected=selected=s;
+      repaint();
 
-    {
-
-        numDisplayed=menus.getCount();
-
-        popup=new Popup(this);
-
-        Rect r = MainWindow.getMainWindow().getRect();
-
-        popup.popup(0,r.height - height,width,height);
-
-        oldselected=selected=s;
-
-        ((Menu)menus.get(selected)).show(xpositions[selected]);
-
-    }
+      ((Menu)menus.get(selected)).show(xpositions[selected]);
 
   }
 
@@ -438,23 +282,13 @@ public class MenuBar extends Control
    */
 
   public void hide()
-
   {
 
-    for(int i=0;i<numDisplayed;i++)
-
+    for(int i=0;i<menus.getCount();i++)
         ((Menu)menus.get(i)).hide();
 
-    if (popup!=null)
-
-    {
-
-        popup.unpop();
-
-        popup=null;
-
-    }
-
+    oldselected = selected =  -1;
+    repaint();
   }
 
 
@@ -477,122 +311,51 @@ public class MenuBar extends Control
 
     int position=0;
 
-
-
     if (event.type==ControlEvent.FOCUS_OUT)
-
     {
-
-		  if (MainWindow.getMainWindow() instanceof ExtraMainWindow &&
-
-			  !(((ExtraMainWindow)MainWindow.getMainWindow()).newFocus instanceof Menu))
-
+	if (MainWindow.getMainWindow() instanceof ExtraMainWindow &&	    
+	    !(((ExtraMainWindow)MainWindow.getMainWindow()).newFocus instanceof Menu))
 			  hide();
-
-    }
-
-		else
-
-    if (event instanceof PenEvent)
-
-    {
+    } else if (event instanceof PenEvent) {
 
       int px=((PenEvent)event).x;
 
       int py=((PenEvent)event).y;
 
-      switch (event.type)
+      switch (event.type){
+      case PenEvent.PEN_DOWN:
+      case PenEvent.PEN_DRAG:
+	  for(int i=0;i<menus.getCount();i++){
+	      if (px<(xpositions[i]+mwidths[i])){
+		      position = i;		      
+		      break;		      
+	      }	      
+	  }
 
-      {
+	  if (py>height || 
+	      position < 0 ||
+	      position >= menus.getCount()){
+	      hide();//dima CE
+	      return;
+	  }
 
-        case PenEvent.PEN_DOWN:
+	  selected=position;
+	  if (selected!=oldselected){//dima ce
+	      if(oldselected != -1){
+		  hide();
+		  selected=position;
+	      }
+	      oldselected=selected;
+	      ((Menu)menus.get(selected)).show(xpositions[selected]);
+	      repaint();
 
-        	if(popup == null){//dima
-
-        		int ps = -1;
-
-	            for(int i=0;i<menus.getCount();i++)
-
-	            {
-
-	                if (px<(xpositions[i]+mwidths[i])){
-
-						ps = i;
-
-						break;
-
-					}
-
-	            }
-
-	            if(ps >= 0 && (py >= 0) && (py < height)){
-
-					show(ps);
-
-					Sound.beep();
-
-	            }
-
-        		break;
-
-        	}
-
-        case PenEvent.PEN_DRAG:
-
-          if (popup!=null)
-
-          {
-
-            for(int i=0;i<numDisplayed;i++)
-
-            {
-
-                if (px<(xpositions[i]+mwidths[i]))
-
-								{
-
-									position = i;
-
-									break;
-
-								}
-
-            }
-
-            if (py>height){
-
-            	hide();//dima CE
-
-              	return;
-
-			}
-
-            selected=position;
-
-            if (selected!=oldselected)
-
-            {//dima ce
-
-	         if(oldselected != -1){
-
-	            hide();//dima CE
-
-	          }
-
-              oldselected=selected;
-
-            }
-
-          }
-
+	  }          
           break;
 
-        case PenEvent.PEN_UP:
-
+      case PenEvent.PEN_UP:
       }
 
     }
-
+    
   }
-
 }

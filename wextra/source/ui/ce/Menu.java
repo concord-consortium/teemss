@@ -83,6 +83,7 @@ public class Menu extends Control
   boolean clicked;
 
   FontMetrics fm=null;
+    Font menuFont = new Font("Helvetica", Font.BOLD, 12);
 
   ActionListener	listener;//dima
 
@@ -310,7 +311,7 @@ public class Menu extends Control
 
     if (fm==null)    
 
-      fm=getFontMetrics(MainWindow.defaultFont);
+      fm=getFontMetrics(menuFont);
 
     if (fm==null)
 
@@ -350,13 +351,11 @@ public class Menu extends Control
 
       g.setColor(0,0,0);
 
-      g.drawLine(0,1,0,height-3);
+      g.drawLine(0,0,0,height-1);
 
-      g.drawLine(width-2,1,width-2,height-2);
+      g.drawLine(width-1,0,width-1,height-1);
 
-      g.drawLine(width-1,2,width-1,height-3);  
-
-      g.drawLine(0,0,width-2,0);
+      g.drawLine(0,0,width-1,0);
 
     }
 
@@ -370,9 +369,10 @@ public class Menu extends Control
 
     g.setColor(255,255,255);
 
-    g.fillRect(1,1,width-3,height-3);
+    g.fillRect(1,1,width-2,height-1);
 
     g.setColor(0,0,0);
+    g.setFont(menuFont);
 
     for(int i=0;i<numDisplayed;i++)
 
@@ -428,7 +428,7 @@ public class Menu extends Control
 
         if (fm==null)    
 
-            fm=getFontMetrics(MainWindow.defaultFont);
+            fm=getFontMetrics(menuFont);
 
         textHeight = fm.getHeight();
 
@@ -452,7 +452,7 @@ public class Menu extends Control
 
 		int mh = (textHeight*numDisplayed+3);
 
-		popup.popup(x,r.height - 14 - mh,expandedWidth+10,mh);
+		popup.popup(x,r.height - MenuBar.getMenuBarHeight() - mh,expandedWidth+10,mh);
 
         oldselected=selected=-1;
 
@@ -647,7 +647,7 @@ public class Menu extends Control
 								}
 
 								else
-
+								    g.setFont(menuFont);
 									g.drawText((String)options.get(oldselected),3,(oldselected-scrollOffset)*textHeight+1);
 
 							}
@@ -674,6 +674,7 @@ public class Menu extends Control
 
                   g.setColor(255,255,255);
 
+		  g.setFont(menuFont);
                   g.drawText((String)options.get(selected),3,(selected-scrollOffset)*textHeight+1);
 
               }

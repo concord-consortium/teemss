@@ -520,8 +520,10 @@ public boolean isControlHDialogOwned(Control c){
   public Control findChild(int x, int y)
 
   {
+      Control found = content.findChild(x,y);
+      if(found != content) return found;
 
-    return content.findChild(x, y);
+      return super.findChild(x,y);
 
   }
 
@@ -565,9 +567,9 @@ public boolean isControlHDialogOwned(Control c){
 
 	  boolean needrepaint = false;
 
-	  if(menubar != null){//dima
+	  if(this.menubar != null){//dima
 
-	  	remove(menubar);
+	  	super.remove(this.menubar);
 
 		needrepaint = true;
 
@@ -577,14 +579,17 @@ public boolean isControlHDialogOwned(Control c){
 
 	  if(menubar != null){//dima
 
-        int hmb = MenuBar.getMenuBarHeight();
+	      int hmb = MenuBar.getMenuBarHeight();
 
-	    menubar.setRect(0,height - hmb,MenuBar.getMenuBarWidth(),hmb);
+	      menubar.setRect(0,height - hmb,MenuBar.getMenuBarWidth(),hmb);
+	      
+	      content.setRect(x,y,width,height-hmb);
+	      super.add(menubar);
 
-		add(menubar);
+	      needrepaint = true;
 
-		needrepaint = true;
-
+	  } else {
+	      content.setRect(x,y,width,height);
 	  }
 
 	  if(needrepaint) repaint();
@@ -677,8 +682,7 @@ public boolean isControlHDialogOwned(Control c){
 
   {
 
-    content.add(control);
-
+      content.add(control);
   }
 
 
@@ -694,9 +698,7 @@ public boolean isControlHDialogOwned(Control c){
   public void remove(Control control)
 
   {
-
-    content.remove(control);
-
+      content.remove(control);
   }
 
 

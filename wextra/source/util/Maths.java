@@ -764,7 +764,7 @@ public class Maths
 
 		if(exp < -30) return 1.0f + x;
 
-		int k = (x < 0)?(int)(x*invln2-0.5):(int)(int)(x*invln2+0.5);
+		int k = (x < 0)?(int)(x*invln2-0.5f):(int)(int)(x*invln2+0.5f);
 
 		float r = x - k*ln2;
 
@@ -874,7 +874,7 @@ public class Maths
 
 			x0 = x0*x0;
 
-			if(x0 > 2.0){
+			if(x0 > 2.0f){
 
 				x0 = x0/2.0f;
 
