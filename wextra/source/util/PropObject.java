@@ -7,6 +7,7 @@ public class PropObject
 	public static int CHOICE = 1;
 	public static int CHOICE_SETTINGS = 2;
 	public static int MULTIPLE_SEL_LIST = 3;
+	public static int CHECK = 4;
 
 	String 	name;
 
@@ -15,12 +16,14 @@ public class PropObject
 	boolean []checkedValues;
 	String 	value;
 	int index = -1;
+	boolean checked = false;
 
 	// Visible values the user can see
 	String []visPossibleValues;
 	boolean []visCheckedValues;
 	String visValue;
 	int visIndex = -1;
+	boolean visChecked = false;
 
 	Object	cookie = null;
 	public int prefWidth = 60;
@@ -126,6 +129,21 @@ public class PropObject
 		return false;
 	}
 
+	public void setChecked(boolean on)
+	{
+		checked = on;
+		visChecked = on;
+	}
+
+	public boolean setVisChecked(boolean on)
+	{
+		visChecked = on;
+		return true;
+	}
+
+	public boolean getChecked(){ return checked; }
+	public boolean getVisChecked(){ return visChecked; }
+	
 	public void setCookie(Object c){
 		cookie = c;
 	}
@@ -148,6 +166,8 @@ public class PropObject
 				}
 				possibleValues = visPossibleValues;
 			}
+		} else if(type == CHECK){
+			checked = visChecked;
 		}
 	}
 
@@ -167,6 +187,8 @@ public class PropObject
 				}
 				possibleValues = visPossibleValues;				
 			}
+		} else if(type == CHECK){
+			visChecked = checked;
 		}
 	}
 

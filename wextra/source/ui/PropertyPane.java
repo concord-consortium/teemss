@@ -67,6 +67,13 @@ public class PropertyPane extends Container
 					mList.setCheck(k, po.getVisCheckedValue(k));
 				}
 			}
+		} else if(c instanceof Check){
+			if(po.setVisChecked(((Check)c).getChecked())){
+				forceSetup = propContainer.visValueChanged(po);
+				return true;
+			} else {
+				((Check)c).setChecked(po.getVisChecked());
+			}
 		}
 		return false;
 	}
@@ -217,6 +224,10 @@ public class PropertyPane extends Container
 					mList.setCheck(j, po.getVisCheckedValue(j));
 				}					
 				c1 = mList;
+			} else if (type == po.CHECK){
+				Check ch = new Check("");
+				ch.setChecked(po.getVisChecked());
+				c1 = ch;
 			}
 			po.setCookie(c1);
 			lName.setRect(labelStartX,y0,maxLabelWidth,16);
