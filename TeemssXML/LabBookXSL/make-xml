@@ -1,5 +1,5 @@
 #! /bin/bash
-java -cp ../../jars/bsf.jar:../../jars/js.jar:../../jars/xalan.jar:../../jar/xerces.jar org.apache.xalan.xslt.Process -in ../unit.xml -xsl labbook.xsl -out labbook.xml
+java -cp ../jars/bsf.jar:../jars/js.jar:../jars/xalan.jar:../jar/xerces.jar org.apache.xalan.xslt.Process -in ../unit.xml -xsl labbook.xsl -out labbook.xml
 sed -f aircart-insert labbook.xml > temp ; mv temp labbook.xml
 
 
