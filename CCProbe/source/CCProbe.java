@@ -7,10 +7,11 @@ import org.concord.waba.extra.event.*;
 
 import org.concord.LabBook.*;
 import org.concord.CCProbe.*;
+import org.concord.ProbeLib.*;
 
-public class CCProbe extends MainView
+public class CCProbe extends MainView 
+	implements InterfaceFactory, DialogListener
 {
-
 	LabBookSession mainSession;
     Menu edit;
     Title 		title;
@@ -21,7 +22,25 @@ public class CCProbe extends MainView
     String [] creationTypes = {"Folder", "Notes", "Data Collector", 
 							   "Drawing","UnitConvertor","Image"};
 
+	String [] palmFileStrings = {"Beam LabBook", aboutTitle};
+	String [] javaFileStrings = {aboutTitle, "Serial Port Setup..", "-",
+								 "Exit"};
+	String [] ceFileStrings = {aboutTitle, "-", "Exit"};
+
 	int		[]creationID = {0x00010100};
+
+	public InterfaceManager getInterface(int id)
+	{
+		switch(id){
+		case CCInterfaceManager.INTERFACE_0:
+		case CCInterfaceManager.INTERFACE_2:
+			return new CCInterfaceManager(id);
+		case Meld.MELD:
+			return new Meld();
+		default:
+			return null;
+		}
+	}
 	
     public void onStart()
     {
@@ -30,6 +49,8 @@ public class CCProbe extends MainView
 		LObjDictionary loDict = null;
 
 		LabBook.registerFactory(new DataObjFactory());
+
+		InterfaceManager.registerIFactory(this);
 
 		// Dialog.showImages = false;
 		// ImagePane.showImages = false;
@@ -55,7 +76,7 @@ public class CCProbe extends MainView
 			*/
 			// GraphSettings.MAX_COLLECTIONS = 1;			
 			lbDB = new LabBookCatalog("LabBook");
-			// lbDB = new LabBookFile("LabBook");
+			// lbDB = new LabBookFile("LabBook"); 
 		} else {
 			lbDB = new LabBookFile("LabBook");
 			GraphSettings.MAX_COLLECTIONS = 4;
@@ -74,25 +95,13 @@ public class CCProbe extends MainView
 			exit(0);
 		}
 		
-		String [] fileStrings;
-		if(!plat.equals("PalmOS")){
-			int i=0;
-			if(plat.equals("Java")){
-				fileStrings = new String [4];
-				fileStrings[i++] = aboutTitle;
-				fileStrings[i++] = "Serial Port Setup..";
-			} else {
-				fileStrings = new String [3];
-				fileStrings[i++] = aboutTitle;
-			}
-			fileStrings[i++] = "-";
-			fileStrings[i++] = "Exit";
+		if(plat.equals("PalmOS")){
+			addFileMenuItems(palmFileStrings, null);
+		} else if(plat.equals("Java")){
+			addFileMenuItems(javaFileStrings, null);
 		} else {
-			fileStrings = new String [1];
-			fileStrings[0] = aboutTitle;			
+			addFileMenuItems(ceFileStrings, null);
 		}
-		
-		addFileMenuItems(fileStrings, null);
 
 		Debug.println("Openning");
 		labBook.open(lbDB);
@@ -114,10 +123,9 @@ public class CCProbe extends MainView
 		view.setShowMenus(true);
 		me.add(view);
 		lObjView = view;
-		if(loDict != null){
-			newIndex = loDict.getChildCount();
-		}
+		newIndex = loDict.getChildCount();
 
+		((LObjDictionaryView)view).checkForBeam();
     }
 
 	public String [] getCreateNames()
@@ -211,6 +219,18 @@ public class CCProbe extends MainView
 		}
 	}
 
+	Dialog beamLBDialog = null;
+    public void dialogClosed(DialogEvent e)
+	{
+		String command = e.getActionCommand();
+		if(e.getSource() == beamLBDialog){
+			if(command.equals("Beam")){
+				waba.sys.Vm.exec("CCBeam", "LabBook,,," +
+								 "LabBook for CCProbe", 0, true);
+			}
+		}
+	}
+
     public void reload(LabObjectView source)
     {
 		if(source != lObjView) Debug.println("Error source being removed");
@@ -251,6 +271,13 @@ public class CCProbe extends MainView
 				handleQuit();
 			}else if(command.equals(aboutTitle)){
 				handleAbout();
+			} else if(command.equals("Beam LabBook")){
+				String [] buttons = {"Beam", "Cancel"};
+				beamLBDialog = Dialog.showConfirmDialog(this, "Confirm", 
+														"Close CCProbe on the receiving| " +
+														"Palm before beaming.",
+														buttons,
+														Dialog.INFO_DIALOG);
 			} else if(command.equals("Serial Port Setup..")){
 				DataExport.showSerialDialog();
 			} else {

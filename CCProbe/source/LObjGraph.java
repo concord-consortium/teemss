@@ -23,6 +23,8 @@ public class LObjGraph extends LObjSubDict
 	int numDataSources = 0;
 	int curGSIndex = -1;
 
+	boolean currentDataSaved = true;
+	
     public LObjGraph()
     {
 		super(DataObjFactory.GRAPH);
@@ -302,7 +304,7 @@ public class LObjGraph extends LObjSubDict
 		}
 
 		graphSettings = new Vector(numDataSources);
-		for(int i=0; i<numDataSources; i++){
+		for(int i=0; i<numDataSources; i++){			
 			GraphSettings gs = new GraphSettings(this, i);
 			gs.readExternal(ds);
 			graphSettings.add(gs);
@@ -387,6 +389,13 @@ public class LObjGraph extends LObjSubDict
 				}
 			}
 		}
+
+		// We are collecting more data so this it is not saved
+		// any more.
+		if(allStarted){
+			currentDataSaved = false;
+		}
+
 		return allStarted;
 	}
 
@@ -401,6 +410,8 @@ public class LObjGraph extends LObjSubDict
 
 	public void clearAll()
 	{
+		currentDataSaved = true;
+
 		if(graphSettings == null) return;
 		for(int i=0; i<graphSettings.getCount(); i++){
 			GraphSettings gs = (GraphSettings)graphSettings.get(i);
@@ -416,6 +427,8 @@ public class LObjGraph extends LObjSubDict
 			if(gs != null) gs.close();
 		}
 	}
+
+	public boolean isCurDataSaved(){ return currentDataSaved; }
 
 	public void saveAllAnnots(LabBookSession session)
 	{
@@ -463,6 +476,8 @@ public class LObjGraph extends LObjSubDict
 		int ref = session.release(dsGraph);
 		
 		ref = session.release(dSet);
+
+		currentDataSaved = true;
 	}
 
 	public void exportData(LabBookSession session)

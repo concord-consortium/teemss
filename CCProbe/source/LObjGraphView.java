@@ -291,7 +291,7 @@ public class LObjGraphView extends LabObjectView
 		// This is just a hack
 		if(gHeight < 1) gHeight = 1;
 			
-		if(graph.getMaxLines() == 1){
+		if(graph.getMaxLines() == 1){			
 			curGS = graph.getCurGraphSettings();
 			curGS.init(this);
 		} else {

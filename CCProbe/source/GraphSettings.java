@@ -218,7 +218,10 @@ public class GraphSettings
 	// when this function is called
 	public boolean startDataDelivery()
 	{
-		if(ds == null || gv == null) return false;
+		// This is a hack for now.
+		// if ds and gv are null this means this GS isn't being
+		// drawn to the graph right now
+		if(ds == null || gv == null) return true;
 
 		// This MAX_COLLECTIONS needs to be centralized somehow
 		if(bins.getCount() < MAX_COLLECTIONS){

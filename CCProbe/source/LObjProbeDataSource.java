@@ -14,10 +14,9 @@ import org.concord.LabBook.*;
 
 
 public class LObjProbeDataSource extends LObjSubDict
-	implements DataSource, ProbListener
+	implements DataSource, ProbListener, DialogListener
 {
 	Probe 			probe = null;
-	CCUnit		currentUnit = null;
 	public waba.util.Vector probListeners = null;
 
     // old CCA2D2 interface
@@ -26,17 +25,13 @@ public class LObjProbeDataSource extends LObjSubDict
     // new CCA2D2v2 interface
 	static int defaultInterfaceType = CCInterfaceManager.INTERFACE_2;
 
-	ProbManager pb = null;
+	InterfaceManager im = null;
+
+	Dialog forceDialog = null;
 
     public LObjProbeDataSource()
     {
 		super(DataObjFactory.PROBE_DATA_SOURCE);
-    }
-
-    public LObjProbeDataSource(Probe probe)
-    {
-		this();
-		setProbe(probe);
     }
 
     public LabObjectView getView(ViewContainer vc, boolean edit,
@@ -48,6 +43,11 @@ public class LObjProbeDataSource extends LObjSubDict
 										 LabBookSession session){
 		return new LObjProbeDataSourceProp(vc, this);
     }
+
+    public void dialogClosed(DialogEvent e)
+	{
+		
+	}
 
     public void showProp()
     {
@@ -111,41 +111,34 @@ public class LObjProbeDataSource extends LObjSubDict
 		return summary;
 	}
 
-
 	public CCUnit 	getUnit(LabBookSession session)
 	{
 		if(probe != null) return CCUnit.getUnit(probe.getUnit());
 		else return null;
 	}
 	public boolean 	setUnit(CCUnit unit){
-		boolean retValue = false;
-		if(probe == null || unit == null) return retValue;
-		retValue = probe.setUnit(unit.code);
-		if(retValue){
-			currentUnit = CCUnit.getUnit(probe.getUnit());
-		}
-		return retValue;
+		if(probe == null || unit == null) return false;
+		return probe.setUnit(unit.code);
 	}
 
 	boolean started = false;
 	public void startDataDelivery(LabBookSession session){
 		if(probe == null || started) return;
 
-		if(pb == null){
-			// This ds was disposed so we should reset the probe
-			setProbe(probe);
-		}
+		// This adds our listeners to the probe and
+		// sets up the interface manager if it is needed
+		initProbe();
 		
-		if(pb != null){
-			pb.start();
+		if(im != null){
+			im.start();
 			started = true;
 		}
 	}
 	
 	public void stopDataDelivery(){
 		if(probe == null || !started) return;
-		if(pb != null){
-			pb.stop();
+		if(im != null){
+			im.stop();
 			started = false;
 		}
 	}
@@ -164,42 +157,58 @@ public class LObjProbeDataSource extends LObjSubDict
 	public void zeroForce(LabBookSession session)
 	{
 		if(probe instanceof CCForce){
+			forceDialog = Dialog.showMessageDialog(this,"Zeroing Force","Please wait..",
+											"Cancel",Dialog.INFO_DIALOG);
 			CCForce fProbe = (CCForce)probe;
-			
 			fProbe.startZero();
 			startDataDelivery(session);
 		}
 	}
 
+	boolean probeInitialized = false;
+	protected void initProbe()
+	{
+		if(probeInitialized || probe == null) return;
+
+		probe.addProbListener(this);
+		
+		/*
+		 * We need to fix this so a new im isn't created if
+		 * there already is one.  Unless a user needs a new im.
+		 * This would happen if there are multiple serial ports
+		 * or a tcp connection interface
+		 *
+		 * But for now there is only one interface at a time so
+		 * we will stick with this.
+		 */
+		if(im == null){
+			im = InterfaceManager.getInterface(probe.getInterfaceType());
+			if(im == null){
+				// we've got an invalid or unloaded interface.
+			}
+		}
+
+		// probably should add a check to make sure the im is valid
+		// and the probe's im type matchs our im type
+		im.addProbe(probe);
+
+		probeInitialized = true;
+	}
+
 	public Probe 	getProbe(){return probe;}
 	public void		setProbe(Probe probe){
-		unRegisterProbeWithPM();
 		if(this.probe != null){
-			this.probe.removeProbListener(this);
+			im.removeProbe(probe);
+			this.probe.removeProbListener(this);	
+			probeInitialized = false;
 		}
 		this.probe = probe;
-		setUnit();
-		setName((probe == null)?null:probe.getName());
-		if(this.probe != null){
-			this.probe.addProbListener(this);
-		}
-		registerProbeWithPM();
-	}
-	
-	public void unRegisterProbeWithPM(){
-		if(probe == null || pb == null) return;
-		pb.unRegisterProb(probe);
-	}
-	public void registerProbeWithPM(){
-		if(probe == null) return;
+		if(probe == null){
+			setName(null);
+			return;
+		} 
 
-		// This could caused problems in a mixed environment if the 
-		// user is using probes with different interface managers at the
-		// same time
-		if(pb == null) pb = ProbManager.getProbManager(probe.getInterfaceType());
-
-		if(pb == null) return;
-		pb.registerProb(probe);
+		setName(probe.getName());
 	}
 	
 	public void closeEverything(){
@@ -207,18 +216,11 @@ public class LObjProbeDataSource extends LObjSubDict
 			probe.removeProbListener(this);
 		}
 
-		if(pb != null){
-			pb.dispose();
-			pb = null;
+		if(im != null){
+			im.dispose();
+			im = null;
 		}
-	}
-
-	void setUnit(){
-		if(probe == null){
-			currentUnit = null;
-			return;
-		}
-		currentUnit = CCUnit.getUnit(probe.getUnit());
+		probeInitialized = false;
 	}
 
 	public void addProbListener(ProbListener l){
@@ -243,6 +245,10 @@ public class LObjProbeDataSource extends LObjSubDict
 		   e.getType() == CCForce.ZEROING_DONE){
 			stopDataDelivery();
 			store();
+			if(forceDialog != null){
+				forceDialog.hide();
+			}
+			forceDialog = null;
 		}
 
     	notifyProbListeners(e);
@@ -259,11 +265,6 @@ public class LObjProbeDataSource extends LObjSubDict
 		setProbe(probe);
     }
 
-	public void calibrateMe(ExtraMainWindow owner,DialogListener l){
-		if(probe == null) return;
-		probe.calibrateMe(owner,l,probe.getInterfaceType());
-	}
-	
 	public static LObjProbeDataSource getProbeDataSource(String probeName)
 	{
 		return getProbeDataSource(ProbFactory.getIndex(probeName), defaultInterfaceType);
