@@ -38,7 +38,7 @@ waba.ui.Window wabaWindow = null;
 		
 		setLocation(d.width/2 - df.width/2,d.height/2 - df.height/2);
 		
-		if(wabaWindow != null) wabaWindow.wasAWTAddNotify();
+		if(wabaWindow != null) wabaWindow.readyForRegistering();
 
 	}
     
