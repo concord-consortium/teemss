@@ -93,6 +93,27 @@ int	paletteVersion = CC_VERSION_PALETTE;
 	}
 	
 	
+	public static byte getColorIndex(int r, int g, int b)
+	{
+		return (byte)(r/51 * 36 + g/51 * 6 + b/51 + 1);
+	}
+
+	public static int []getSystemPalette(){
+		int [] paletteInts = new int [217];
+		int r,g,b,i;
+		paletteInts[0] = 0xFFFFFF;
+		int count = 1;
+		for(r = 0; r <=255; r += 51){
+			for(g = 0; g <=255; g += 51){
+				for(b = 0; b <=255; b += 51){
+					paletteInts[count] = r << 16 | g << 8 | b;
+					count++;
+				}
+			}
+		}		
+		return paletteInts;
+	}
+
 	public static int []getPaletteAsInt(){
 		int cmap[] = null;
 		waba.fx.Color	[]cPal = getPalette();
