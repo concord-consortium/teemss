@@ -21,11 +21,18 @@ public final static int		SAMPLING_24BIT_MODE = 0;
 public final static int		SAMPLING_10BIT_MODE = 1;
 public final static int		SAMPLING_DIG_MODE = 2;
 
+
+public final static int		INTERFACE_PORT_A	= 0;
+public final static int		INTERFACE_PORT_B	= 1;
+
 public int unit = CCUnit.UNIT_CODE_UNKNOWN;
 
 public DataDesc		dDesc = new DataDesc();
 public DataEvent	dEvent = new DataEvent();
 public ProbEvent	pEvent = new ProbEvent();
+
+protected	int interfacePort = INTERFACE_PORT_A;
+protected int 	activeChannels = 1;
 
 DataListener calibrationListener = null;
 	protected CCProb(){
@@ -38,11 +45,16 @@ DataListener calibrationListener = null;
 		pEvent.setProb(this);
 	}
 
+	public int 	getInterfacePort(){return interfacePort;}
+	public void setInterfacePort(int interfacePort){this.interfacePort =  interfacePort;}
+	
+
 	public boolean needCalibration(){return (calibrationDesc != null);}
 	public CalibrationDesc getCalibrationDesc(){return calibrationDesc;}
 	public void setCalibrationDesc(CalibrationDesc calibrationDesc){this.calibrationDesc = calibrationDesc;}
 
-	public int	getActiveChannels(){return 1;}
+	public int	getActiveChannels(){return activeChannels;}
+	public void	setActiveChannels(int activeChannels){this.activeChannels = activeChannels;}
 
 	public void setCalibrationListener(DataListener calibrationListener){
 		this.calibrationListener = calibrationListener;

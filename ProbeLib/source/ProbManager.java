@@ -97,6 +97,16 @@ protected 	static ProbManagerEvent   pmEvent = new ProbManagerEvent();
 		}
 	}
 	
+	public int getNumbProbs(){
+		if(probs == null) return 0;
+		return probs.getCount();
+	}
+	
+	public CCProb getProbByIndex(int i){
+		if(i < 0 || i >= getNumbProbs()) return null;
+		return (CCProb)probs.get(i);
+	}
+	
 	protected CCProb getProbByName(String name){
 		if(probs == null) return null;
 		for(int i = 0; i < probs.getCount(); i++){

@@ -9,23 +9,32 @@ public final static int Prob_RawData        = 4;
 
     public static String [] probeNames = {"Temperature", "Light", "SmartWheel", "RawData"};
 
-	public static CCProb createProb(int probIndex){
+	public static CCProb createProb(int probIndex,int interfacePort,int activeChannels){
+		CCProb newProb = null;
 		switch(probIndex){
 			case Prob_ThermalCouple:
-				return new CCThermalCouple("thermocouple");
+				newProb = new CCThermalCouple("thermocouple");
+				break;
 			case Prob_Light:
-				return new CCLightIntens("light");
+				newProb = new CCLightIntens("light");
+				break;
 			case Prob_SmartWheel:
-				return new CCSmartWheel("smartwheel");
-		case Prob_RawData:
-		    return new CCRawData("raw data");
+				newProb = new CCSmartWheel("smartwheel");
+				break;
+			case Prob_RawData:
+			   newProb = new CCRawData("raw data");
+				break;
 		}
-		return null;
+		if(newProb != null){
+			newProb.setInterfacePort(interfacePort);
+			newProb.setActiveChannels(activeChannels);
+		}
+		return newProb;
 	}
 
-    public static CCProb createProb(String name)
+    public static CCProb createProb(String name,int interfacePort,int activeChannels)
     {
-	return createProb(getIndex(name));
+		return createProb(getIndex(name),interfacePort,activeChannels);
     }
 
     public static String getName(int probIndex)
