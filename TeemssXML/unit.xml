@@ -4964,10 +4964,12 @@
       computer. Refer to Technical Hints to connect the Voltage/Current probe.</step><step>Start
       the software to read current. <datacollector-link
       type="dc-voltage-current-current" /></step><step>Hook the solar cell to
-      the voltage probe. Try it under different light conditions, such as a
-      light bulb, direct sunlight, and indirect light from the sky. Stop the
-      software and save your data. <ext-image name="01_mt" /></step><query-response
-      layout="paragraph" title="light_source" type="describe"><query-description></query-description><querys><query
+      the VoltageCurrent probe. To have a positive current reading, attach the
+      red wire to the yellow clip and the black wire to the green clip. Try it
+      under different light conditions, such as a light bulb, direct sunlight,
+      and indirect light from the sky. Stop the software and save your data.
+      <ext-image name="01_mt" /></step><query-response layout="paragraph"
+      title="light_source" type="describe"><query-description></query-description><querys><query
       drawing-response="false" note-response="true">What were the best and
       worst light sources?</query></querys><query-static-link>Record your
       observations in Notes on your handheld computer.</query-static-link></query-response><step>Team
@@ -4988,7 +4990,7 @@
       place, the light will burn out! <ext-image name="05_mt" /></step><step>Connect
       the Light probe to your handheld computer. Refer to Technical Hints to
       connect the Light probe.</step><step>Start the software to read light
-      intensity (lux). <datacollector-link type="dc-light-4000" /></step><query-response
+      intensity (lux). <datacollector-link type="dc-light-100000" /></step><query-response
       layout="paragraph" title="light" type="describe"><query-description>Measure
       the light level from light bulbs, direct sunlight, and light from the
       sky. Stop recording.</query-description><querys><query
@@ -5002,9 +5004,9 @@
       read light. Gradually increase the rate of cranking the Genecon. Do not
       crank too fast, or the light will burn out! See if you can establish a
       relationship between how fast you crank and how much light is produced.
-      See if you can crank so slowly that no light is produced.</step><step>Save
-      the data to your handheld computer.</step><query-response
-      title="efficiency" type="describe"><query-description></query-description><querys><query
+      See if you can crank so slowly that no light is produced.<datacollector-link
+      type="dc-light-4000" /></step><step>Save the data to your handheld
+      computer.</step><query-response title="efficiency" type="describe"><query-description></query-description><querys><query
       drawing-response="false" note-response="true">What are the energy
       transformations happening here?</query><query drawing-response="false"
       note-response="true">What is the efficiency of each one?</query><query
@@ -5020,8 +5022,9 @@
       <ext-image name="07_mt" /></step><step>Start the software to read
       energy.<datacollector-link type="dc-voltage-current-energy" /></step><query-response
       layout="paragraph" title="relate" type="describe"><query-description></query-description><querys><query
-      drawing-response="true" note-response="true">Sketch your graph. How did
-      the graph relate to what you were doing with the Genecons?</query><query
+      drawing-response="true" note-response="false">Sketch your graph.
+      </query><query note-response="true" drawing-response="false">How did the
+      graph relate to what you were doing with the Genecons?</query><query
       drawing-response="false" note-response="true">What are the energy
       transformations happening here?</query></querys><query-static-link><ext-image
       name="08a_mt" /></query-static-link></query-response><step>Now attach a
@@ -5036,15 +5039,17 @@
       <ext-image name="09a_mt" /></step><step>Hold the Genecon with its shaft
       horizontal and the string hanging down from the pulley. Its leads should
       still be hooked to the other Genecon, with the Voltage/Current leads in
-      place.</step><step>Restart the software to read energy.<ext-image
-      name="09b_mt" /></step><step>Crank the other Genecon to lift the weight.
-      Also try to lower the weight. If the weight is heavy enough, will it
-      fall by itself? Try different things, like raising and lowering slowly
-      and quickly.</step><query-response title="order" type="describe"><query-description>Save
-      your data to your handheld computer.</query-description><querys><query
-      drawing-response="true" note-response="true">Sketch the graph and record
-      the order in which you did things.</query></querys><query-static-link>Use
-      Notes on your handheld computer.</query-static-link></query-response></steps></trial>
+      place.</step><step>Restart the software to read energy.<datacollector-link
+      type="dc-voltage-current-energy" /><ext-image name="09b_mt" /></step><step>Crank
+      the other Genecon to lift the weight. Also try to lower the weight. If
+      the weight is heavy enough, will it fall by itself? Try different
+      things, like raising and lowering slowly and quickly.</step><query-response
+      title="order" type="describe"><query-description>Save your data to your
+      handheld computer.</query-description><querys><query
+      drawing-response="true" note-response="false">Sketch the graph.</query><query
+      note-response="true" drawing-response="false">Record the order in which
+      you did things. </query></querys><query-static-link>Use Notes on your
+      handheld computer.</query-static-link></query-response></steps></trial>
 
       <hints>
         <tech-hint-ref ref="connectVC" />
@@ -5111,7 +5116,22 @@
       </analysis>
 
       <further>
-        <item>Measure the efficiency of the Genecon. Here are three ways:</item>
+        <item>Measure the efficiency of the Genecon. Here are three ways:<p>a.
+        Put pulleys on two Genecons and use a falling weight on one to raise a
+        weight on the other. What would be a good definition of efficiency in
+        this case? </p><p>b. Hook the Genecon up to the VoltageCurrent probe,
+        Start the software to read energy, and wind up the thread on the
+        pulley. Let the weight fall several times, and monitor the energy on
+        the graph. Potential energy of a falling object is: </p><p>Energy
+        (joules) = mass (kg) * (9.8m/s*s) * change in height (m)</p><p>Does
+        the energy measured by the VoltageCurrent probe match this
+        calculation?</p><p>c. Hook the Genecon up to the heat cell, and wind
+        up the thread on the pulley. Let the weight fall several times,
+        sending energy into the heat cell. Monitor the heat cell with the
+        Temperature probe. How many joules were given up by the falling
+        weight? The calculation is shown in part (b) above. Compare this to
+        the joules of heat energy gained by the heat cell. This is:</p><p>Heat
+        energy (joules) = 10 * rise in temperature (degC)</p></item>
 
         <item>Build your own energy &#34;Rube Goldberg&#34; using the
         equipment in your kit or anything else you can find!</item>
