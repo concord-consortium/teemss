@@ -1,5 +1,6 @@
 package org.concord.waba.extra.ui;
 
+import waba.ui.*;
 import org.concord.waba.extra.event.*;
 
 public class Dialog extends waba.ui.Window{
@@ -404,14 +405,14 @@ public class Dialog extends waba.ui.Window{
 		if(popup == null) return;
 		popup.unpop();
 		popup = null;
-		waba.ui.MainWindow mw = waba.ui.MainWindow.getMainWindow();
+		waba.ui.MainWindow mw = MainWindow.getMainWindow();
 		if(mw instanceof ExtraMainWindow){
 			((ExtraMainWindow)mw).setDialog(null);
 		}
 	}
-	public void onEvent(waba.ui.Event event)
+	public void onEvent(Event event)
 	{
-		if (event.type == waba.ui.ControlEvent.PRESSED){
+		if (event.type == ControlEvent.PRESSED){
 			if(listener != null){
 				String message = "";
 				Object info = null;
@@ -425,10 +426,10 @@ public class Dialog extends waba.ui.Window{
 				if(inpControl != null){
 					if(inpControl instanceof waba.ui.Edit){
 						info = ((waba.ui.Edit)inpControl).getText();
-						infoType = org.concord.waba.extra.event.DialogEvent.EDIT;
+						infoType = DialogEvent.EDIT;
 					}else if(inpControl instanceof Choice){
 						info = ((List)inpControl).getSelected();
-						infoType = org.concord.waba.extra.event.DialogEvent.CHOICE;
+						infoType = DialogEvent.CHOICE;
 					}
 				}
 				listener.dialogClosed(new DialogEvent(this,(waba.ui.Control)event.target,message,info,infoType));

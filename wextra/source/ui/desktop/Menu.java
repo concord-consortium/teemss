@@ -63,10 +63,12 @@ public class Menu implements java.awt.event.ActionListener
 	}
 	public void actionPerformed(java.awt.event.ActionEvent e){
 		if(actionListener != null){
-			actionListener.actionPerformed(new ActionEvent(this,null,e.getActionCommand()));
-			MainWindow mw = MainWindow.getMainWindow();
-			if(mw instanceof ExtraMainWindow){
-			    ((ExtraMainWindow) mw)._finishAWTEvent();
+			synchronized(waba.applet.Applet.uiLock){
+				actionListener.actionPerformed(new ActionEvent(this,null,e.getActionCommand()));
+				MainWindow mw = MainWindow.getMainWindow();
+				if(mw instanceof ExtraMainWindow){
+					((ExtraMainWindow) mw)._finishAWTEvent();
+				}
 			}
 		}
 	}

@@ -27,13 +27,25 @@ CCApplHandlerListener	listener;
 
 
 	public void handleQuit() throws IllegalStateException{
-		if(listener != null) listener.handleQuit();
+		if(listener != null){
+			synchronized(waba.applet.Applet.uiLock){
+				listener.handleQuit();
+			}
+		}
 	}
 	public void handlePrefs(){
-		if(listener != null) listener.handlePrefs();
+		if(listener != null){
+			synchronized(waba.applet.Applet.uiLock){
+				listener.handlePrefs();
+			}
+		}
 	}
 	public void handleAbout(){
-		if(listener != null) listener.handleAbout();
+		if(listener != null){
+			synchronized(waba.applet.Applet.uiLock){
+				listener.handleAbout();
+			}
+		}
 	}
 }
 
