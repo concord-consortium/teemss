@@ -168,6 +168,20 @@ public class LabBook
 		}
 
 		toBeStored.add(lObjPtr);
+
+		// see if this object is already in loaded
+		// if not add it
+		int numLoaded = loaded.getCount();
+		LabObjectPtr curObjPtr;
+
+		// if this is true we have major problems
+		// if(lObjPtr.devId == -1 && lObjPtr.objId == -1) return null;
+		for(i=0; i<numLoaded; i++){
+			curObjPtr = (LabObjectPtr)loaded.get(i);
+			if(curObjPtr.equals(lObjPtr)){
+				return lObjPtr;
+			}
+		}
 		loaded.add(lObjPtr);
 		return lObjPtr;
     }
@@ -339,6 +353,11 @@ public class LabBook
 	      
     }
 
+	public LabBookSession getSession()
+	{
+		return new LabBookSession(this);		
+	}
+
     // increase reference count in lab Object
     // check if value of lObjPtr matches a prev. loaded object
     // or stored object
@@ -360,8 +379,7 @@ public class LabBook
     // object is already in the hashtable so it won't be "loaded" again.
 
     Vector loaded = new Vector();
-
-    public LabObject load(LabObjectPtr lObjPtr)
+    LabObject load(LabObjectPtr lObjPtr)
     {
 		if(lObjPtr.devId == -1 && lObjPtr.objId == -1) return null;
 
@@ -450,7 +468,21 @@ public class LabBook
 		initPointer(lObjPtr);
 		return true;
 	}
+	/*
+	public void printCaches()
+	{
+		System.out.println("LB: loaded:");
+		for(int i=0; i<loaded.getCount(); i++){
+			System.out.println(" ptr: " + loaded.get(i));
+		}
 
+		System.out.println("LB: stored:");
+		for(int i=0; i<toBeStored.getCount(); i++){
+			System.out.println(" ptr: " + toBeStored.get(i) + 
+							   " obj: " + ((LabObjectPtr)toBeStored.get(i)).obj);
+		}
+	}	
+*/
 	public void release(LabObject lObj)
 	{
 		LabObjectPtr curObjPtr = null;
@@ -463,9 +495,13 @@ public class LabBook
 			curObjPtr = (LabObjectPtr)loaded.get(i);
 			if(curObjPtr.equals(lObjPtr)){
 				// found it
+				//				System.out.println("LB: releasing: " + lObj);
+				
 				commit(lObjPtr);
 				loaded.del(i);
-				return;
+				lObjPtr.obj = null;
+				lObj.ptr = null;
+				break;
 			}
 		}		
 	}

@@ -51,10 +51,11 @@ public class ViewDialog extends Dialog
 		if(source != view) Debug.println("Error source being removed");
 
 		LabObject obj = source.getLabObject();
+		LabBookSession oldSess = source.getSession();
 		source.close();
 		getContentPane().remove(source);
 
-		LabObjectView replacement = obj.getView(this, true);
+		LabObjectView replacement = obj.getView(this, true, oldSess);
  		waba.fx.Rect cRect = getContentPane().getRect();
 		replacement.layout(true);
 		replacement.setRect(0, 0, cRect.width, cRect.height);
@@ -68,6 +69,7 @@ public class ViewDialog extends Dialog
 	public void removeFileMenuItems(String [] items, ActionListener source){}
 	public String [] getCreateNames(){return null;}
 	public void createObj(String name, LObjDictionaryView dView){}
-	public void showFullWindowView(LabObjectView view){}
+	public void showFullWindowObj(boolean edit, LObjDictionary dict,  LabObject obj,
+								  LabBookSession session){}
 	public void closeTopWindowView(){}
 }

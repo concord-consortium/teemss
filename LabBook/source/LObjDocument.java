@@ -18,7 +18,8 @@ public LObjDocumentView view = null;
 		text = t;
     }
 
-    public LabObjectView getView(ViewContainer vc, boolean edit, LObjDictionary curDict){
+    public LabObjectView getView(ViewContainer vc, boolean edit, LObjDictionary curDict,
+								 LabBookSession session){
  		if(view == null){ 
  			view = new LObjDocumentView(vc, this, edit);
  		}else{

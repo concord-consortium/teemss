@@ -39,10 +39,19 @@ boolean					nameEditAsLabelWasAdded = false;
 
 CCScrollBar				scrollBar;
 
-	public LObjCCTextAreaView(ViewContainer vc, LObjCCTextArea d,boolean edit){
-		super(vc);
+	LObjDictionary localDict = null;
+
+	public LObjCCTextAreaView(ViewContainer vc, LObjCCTextArea d,boolean edit, 
+							  LabBookSession session, LObjDictionary localDict){
+		super(vc, (LabObject)d, session);
 		doc = d;
-		lObj = doc;
+		this.localDict = localDict;
+	}
+
+	public void setSession(LabBookSession session)
+	{
+		super.setSession(session);
+		if(tArea != null) tArea.setSession(session); 
 	}
 
 	LabObjectView lObjView = null;
@@ -53,23 +62,6 @@ CCScrollBar				scrollBar;
 		
 		// check if this object is the one we popped up
 		if(source == lObjView){
-			/*
-				lObjView.setContainer(tArea);
-				lObjView.setEmbeddedState(true);
-				lObjView.setShowMenus(false);
-				tArea.layoutComponents();
-				waba.util.Vector oldLines = tArea.lines;
-				tArea.setText(tArea.getText());
-				tArea.restoreTextProperty(oldLines);
-			
-				tArea.removeCursor();
-
-				getMainView().closeTopWindowView();
-				if(showMenus) addMenus();
-				lObjView.didLayout = false;
-				lObjView.layout(false);
-				lObjView = null;
-			*/
 			lObjView.close();
 
 			getMainView().closeTopWindowView();
@@ -83,10 +75,18 @@ CCScrollBar				scrollBar;
 	}
 
 	public void delMenus(){
-		if(container != null){
-			if(menu != null) container.getMainView().delMenu(this, menu);
-			if(menuEdit != null) container.getMainView().delMenu(this, menuEdit);			
-			container.getMainView().removeFileMenuItems(fileStrings, this);
+		if(container != null){			
+			if(menu != null){
+				menu.removeActionListener(this);
+				getMainView().delMenu(this, menu);
+				menu = null;
+			}
+			if(menuEdit != null){
+				menuEdit.removeActionListener(this);
+				getMainView().delMenu(this, menuEdit);
+				menuEdit = null;
+			}
+			getMainView().removeFileMenuItems(fileStrings, this);
 			fileMenuWasAdded = false;
 			if(tArea != null) tArea.delMenus();
 		}
@@ -121,7 +121,7 @@ CCScrollBar				scrollBar;
 		menu.addActionListener(this);
 		if(vc != null) vc.getMainView().addMenu(this, menu);
 		if(!fileMenuWasAdded){
-			container.getMainView().addFileMenuItems(fileStrings, this);
+			getMainView().addFileMenuItems(fileStrings, this);
 			fileMenuWasAdded = true;
 		}
 	}
@@ -203,7 +203,7 @@ CCScrollBar				scrollBar;
 			if(edit != null) edit.remove(tArea);
 			tAreaWasAdded = false;
 		}
-		tArea = new CCTextArea(this,null,doc.curDict,doc);
+		tArea = new CCTextArea(this,null,doc.curDict,doc,session);
 		tArea.setup(lines, linkComponents, components);		
 		if(edit != null){
 			edit.add(tArea);
@@ -214,7 +214,7 @@ CCScrollBar				scrollBar;
     public void readExternal(DataStream in){
 		boolean wasText = in.readBoolean();
 		if(wasText){
-			tArea = new CCTextArea(this,null,doc.curDict,doc);
+			tArea = new CCTextArea(this,null,doc.curDict,doc,session);
 			tArea.readExternal(in);
 		}
     }
@@ -225,13 +225,9 @@ CCScrollBar				scrollBar;
 		return null;
 	}
 
-	public void addChoosenLabObjView(LabObjectView view)
+	public void gotoChoosenLabObject(LabObject obj)
 	{
-	    delMenus();
-		lObjView = view;
-		view.setContainer(this);
-		getMainView().showFullWindowView(view);
-
+		getMainView().showFullWindowObj(false, localDict, obj, session);
 	}
 
 	public void layout(boolean sDone){
@@ -259,11 +255,11 @@ CCScrollBar				scrollBar;
 		}
 
 		if(tArea == null){
-			tArea = new CCTextArea(this,container.getMainView(),doc.curDict,doc);
+			tArea = new CCTextArea(this,getMainView(),doc.curDict,doc, session);
 
 		}else{
 			if(tAreaWasAdded) edit.remove(tArea);
-			tArea.mainView 	= container.getMainView();
+			tArea.mainView 	= getMainView();
 			tArea.dict 		= doc.curDict;
 			tArea.subDictionary = doc;
 		}

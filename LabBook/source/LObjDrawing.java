@@ -16,9 +16,9 @@ public class LObjDrawing extends LabObject
     {
 		super(DefaultFactory.DRAWING);
     }
-    public LabObjectView getView(ViewContainer vc, boolean edit, LObjDictionary curDict)
-    {
-    	
+    public LabObjectView getView(ViewContainer vc, boolean edit, LObjDictionary curDict,
+								 LabBookSession session)
+    {    	
     	if(view == null){
     		view = new LObjDrawingView(vc, this);
     	}else{
@@ -56,8 +56,7 @@ class LObjDrawingView extends LabObjectView
 	
     public LObjDrawingView(ViewContainer vc, LObjDrawing d)
     {
-		super(vc);
-		lObj = d;	
+		super(vc, (LabObject)d, null);
     }
 
     public void writeExternal(DataStream out)

@@ -9,22 +9,27 @@ public abstract class LabObjectView extends Container
     protected boolean showDone = false;
     protected boolean didLayout = false;
 
-    protected LabObject lObj = null;
-
     protected ViewContainer container = null;
+    private LabObject lObj = null;
+	protected LabBookSession session = null;
+
 
 	protected boolean showMenus = false;
 	protected boolean embeddedState = false;
 
-    public LabObjectView(ViewContainer vc)
+    public LabObjectView(ViewContainer vc, LabObject lObj, 
+						 LabBookSession sess)
     {
 		container = vc;
+		this.lObj = lObj;
+		session = sess;
     }
 
-	public void setContainer(ViewContainer vc)
-	{ 
-		container = vc;
-	}
+	public ViewContainer getContainer(){return container;}
+	public void setContainer(ViewContainer vc){ container = vc; }
+
+	public LabBookSession getSession(){return session;}
+	public void setSession(LabBookSession sess){session = sess;}
 
     public abstract void layout(boolean sDone);
 
@@ -32,6 +37,7 @@ public abstract class LabObjectView extends Container
     {
 		if(lObj != null) lObj.store();
 		setShowMenus(false);
+		if(session != null) session = null;
     }
 
     public LabObject getLabObject()

@@ -17,10 +17,10 @@ public LObjImageView view = null;
     {
 		super(DefaultFactory.IMAGE);
     }
-    public LabObjectView getView(ViewContainer vc, boolean edit,LObjDictionary curDict)
+    public LabObjectView getView(ViewContainer vc, boolean edit,LObjDictionary curDict,
+								 LabBookSession session)
     {
-    	
- 		if(view == null){ 
+		if(view == null){ 
    			view = new LObjImageView(vc, this, edit);
     	}else{
     		view.container = vc;

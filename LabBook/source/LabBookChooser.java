@@ -13,15 +13,21 @@ Button				cancelButton;
 LObjDictionaryView	view;
 ViewContainer		viewContainer;
 ExtraMainWindow 	owner = null;
-	public LabBookChooser(ExtraMainWindow owner,LObjDictionary dict,ViewContainer viewContainer){
-		this(owner,dict,viewContainer,null);
+	LabBookSession      session = null;
+
+	public LabBookChooser(ExtraMainWindow owner,LObjDictionary dict,
+						  ViewContainer viewContainer, LabBookSession session){
+		this(owner,dict,viewContainer,null, session);
 	}
 	
-	public LabBookChooser(ExtraMainWindow owner,LObjDictionary dict,ViewContainer viewContainer,DialogListener l){
+	public LabBookChooser(ExtraMainWindow owner,LObjDictionary dict,
+						  ViewContainer viewContainer,DialogListener l,
+						  LabBookSession session){
 		super();
 		this.dict = dict;
 		this.owner = owner;
 		this.viewContainer = viewContainer;
+		this.session = session;
 		addDialogListener(l);
 		owner.setDialog(this);
 	}
@@ -32,9 +38,9 @@ ExtraMainWindow 	owner = null;
 		if(view == null && viewContainer != null && dict != null){
 			int oldViewType = dict.viewType;
 			dict.viewType = LObjDictionary.TREE_VIEW;
-			LabObjectView objView = dict.getView(viewContainer, true);
+			LabObjectView objView = dict.getView(viewContainer, true, session);
 			if(objView instanceof LObjDictionaryView){
-				view = (LObjDictionaryView)dict.getView(viewContainer, true);
+				view = (LObjDictionaryView)objView;
 			}
 			dict.viewType = oldViewType;
 		}
@@ -66,7 +72,7 @@ ExtraMainWindow 	owner = null;
 			if(e.target instanceof TreeControl){
 				TreeControl tc = (TreeControl)e.target;
 			    TreeNode curNode = tc.getSelected();
-				LabObject obj = dict.getObj(curNode);	
+				LabObject obj = ((DictTreeNode)tc.getRootNode()).getObj(curNode);	
 				if(listener != null){
 					listener.dialogClosed(new DialogEvent(this,null,null,obj,DialogEvent.OBJECT));
 				}		
@@ -79,7 +85,7 @@ ExtraMainWindow 	owner = null;
 			if(view != null){
 				TreeNode curNode = view.treeControl.getSelected();
 				if(curNode != null){
-					LabObject obj = dict.getObj(curNode);	
+					LabObject obj = ((DictTreeNode)view.treeControl.getRootNode()).getObj(curNode);	
 					if(obj != null && listener != null){
 						listener.dialogClosed(new DialogEvent(this,null,null,obj,DialogEvent.OBJECT));
 					}

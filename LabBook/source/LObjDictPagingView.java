@@ -14,7 +14,8 @@ public class LObjDictPagingView extends LabObjectView
     int newIndex = 0;
 
     LObjDictionary dict;
- 
+	DictTreeNode dictNode;
+
     Button doneButton = new Button("Done");
     Button backButton = new Button("Prev");
     Choice objectChoice = null;
@@ -22,25 +23,26 @@ public class LObjDictPagingView extends LabObjectView
 	
 //    Button delButton = new Button("Del");
 
-    TreeNode [] childArray;
-
     int index;
 
     LabObject curObj;
     boolean editStatus = true;
     int defaultNewObjectType = -1;
 
-    public LObjDictPagingView(ViewContainer vc, LObjDictionary d, boolean edit)
+	LabBookSession listSession = null;
+	LabBookSession lObjSession = null;
+
+    public LObjDictPagingView(ViewContainer vc, LObjDictionary d, boolean edit, 
+							  LabBookSession session)
     {
-		super(vc);
-
+		super(vc, (LabObject)d, session);
 		dict = d;
-		lObj = dict;
-		childArray = dict.childArray();
-		index = 0;
-		editStatus = edit;
 
-	
+		listSession = d.lBook.getSession();
+		dictNode = new DictTreeNode(dict, listSession, dict.lBook);
+
+		index = 0;
+		editStatus = edit;	
     }
 
 	public void setShowMenus(boolean state)
@@ -79,6 +81,7 @@ public class LObjDictPagingView extends LabObjectView
 		add(nextButton);
 		add(backButton);
 
+		TreeNode [] childArray = dictNode.childArray();
 		if(childArray != null){
 			for(int i=0; i < childArray.length; i++){
 				objList.add(childArray[i].toString());
@@ -89,6 +92,7 @@ public class LObjDictPagingView extends LabObjectView
 		objectChoice = new Choice(objList);
 		add(objectChoice);
 
+		listSession.release();
 //		if(editStatus) add(delButton);
 	
 		showObject();
@@ -126,19 +130,21 @@ public class LObjDictPagingView extends LabObjectView
 		if(e.type == ControlEvent.PRESSED){
 			TreeNode curNode;
 			TreeNode parent;
+			int childLength = dictNode.getChildCount();
 
 			LabObject newObj;
 			if(e.target == nextButton){
 				index++;
 				if(!editStatus && 
-				   (index >= childArray.length)){
+				   (index >= childLength)){
 					// If edit is turned off make sure they can't add objects
-					index = childArray.length - 1;
-				} else if(index < childArray.length){
+					index = childLength - 1;
+					return;
+				} else if(index < childLength){
 					repaint();
 				} else {
 					if(dict.hasObjTemplate){
-						newObj = dict.getObjTemplate().copy();
+						newObj = dict.getObjTemplate(session).copy();
 					} else if(defaultNewObjectType != -1){
 						newObj = LabBook.makeNewObj(defaultNewObjectType);
 					} else {
@@ -147,11 +153,16 @@ public class LObjDictPagingView extends LabObjectView
 					newObj.setName("New" + newIndex);
 					newIndex++;
 					dict.insert(newObj, index);
-					childArray = dict.childArray();
-					if(index >= childArray.length) index = childArray.length - 1;
+					childLength = dictNode.getChildCount();
+					if(index >= childLength) index = childLength - 1;
 				}
+				//				dict.lBook.printCaches();
+				// listSession.printObjects();
+				// lObjSession.printObjects();
 				showObject();
-		
+				// lObjSession.printObjects();
+				// listSession.printObjects();
+				// dict.lBook.printCaches();		
 			}  else if(e.target == backButton){
 				index--;
 				if(index < 0) index = 0;
@@ -165,7 +176,7 @@ public class LObjDictPagingView extends LabObjectView
 				if(newIndex == index) return;
 				index = newIndex;
 				if(index < 0) index = 0;
-				if(index >= childArray.length) index = childArray.length;
+				if(index >= childLength) index = childLength;
 				showObject();
 			}
 		}
@@ -183,10 +194,14 @@ public class LObjDictPagingView extends LabObjectView
     {
 		if(source == lObjView){
 			LabObject obj = source.getLabObject();
+
 			lObjView.close();
+			if(lObjSession != null) lObjSession.release();
+
 			remove(lObjView);
 	    
-			lObjView = obj.getView(this, editStatus);
+			lObjSession = dict.lBook.getSession();
+			lObjView = obj.getView(this, editStatus, lObjSession);
 			lObjView.layout(false);
 			lObjView.setRect(0,15,width,height-15);
 			add(lObjView);
@@ -195,15 +210,30 @@ public class LObjDictPagingView extends LabObjectView
 
     public void showObject()
     {
-		if(childArray == null) return;
-		if(index < 0 || index >= childArray.length) return;
+		if(dictNode == null) return;
+		int childLength = dictNode.getChildCount();
+		if(index < 0 || index >= childLength) return;
 
-		TreeNode curNode = childArray[index];
+		if(lObjView != null){
+			lObjView.close();
+			if(lObjSession != null) lObjSession.release();
+			remove(lObjView);
+			listSession.release();
+		}
+		/*
+		if(curObj != null) { 
+			int objRefCount = session.release(curObj);
+			//			System.out.println("LODP: showObject: released old object new refC: " +
+			//				   objRefCount);
+		}
+		*/		
+
+		TreeNode curNode = dictNode.getChildAt(index);
 		LabObject obj = null;
 		if(index == 0 &&
 		   curNode.toString().equals("..empty..")){
 			if(dict.hasObjTemplate){
-				obj = dict.getObjTemplate().copy();
+				obj = dict.getObjTemplate(session).copy();
 			} else if(defaultNewObjectType != -1){
 				obj = LabBook.makeNewObj(defaultNewObjectType);
 			} else {
@@ -213,9 +243,8 @@ public class LObjDictPagingView extends LabObjectView
 			obj.setName("New" + newIndex);
 			newIndex++;
 			dict.insert(obj, 0);
-			childArray = dict.childArray();
 		} else {
-			obj = dict.getObj(curNode);
+			obj = dictNode.getObj(curNode);
 			if(obj == null) Debug.println("showPage: object not in database: " +
 										  ((LabObjectPtr)curNode).debug());
 	    
@@ -224,21 +253,12 @@ public class LObjDictPagingView extends LabObjectView
 		if(obj == null) return;
        	if(obj == curObj) return;
 
-		if(lObjView != null){
-			lObjView.close();
-			remove(lObjView);
-		}
-		if(curObj != null) { 
-			int objRefCount = curObj.release();
-			//			System.out.println("LODP: showObject: released old object new refC: " +
-			//				   objRefCount);
-		}
-		
 		objectChoice.setSelectedIndex(index);
 
 		curObj = obj;
 
-		lObjView = obj.getView(this, editStatus,dict);//dima add dict
+		lObjSession  = dict.lBook.getSession();
+		lObjView = obj.getView(this, editStatus,dict, lObjSession);//dima add dict
 
 		lObjView.layout(false);
 		if(width > 0 || height > 15){
@@ -257,9 +277,12 @@ public class LObjDictPagingView extends LabObjectView
     {
 		if(lObjView != null){
 			lObjView.close();
+			if(lObjSession != null) lObjSession.release();
 		}
 
 		super.close();
+
+		if(listSession != null) listSession.release();
 		// Commit ???
 		// Store ??
     }

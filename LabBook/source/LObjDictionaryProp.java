@@ -21,10 +21,9 @@ public class LObjDictionaryProp extends LabObjectView
 
     public LObjDictionaryProp(ViewContainer vc, LObjDictionary d)
     {
-		super(vc);
+		super(vc, (LabObject)d, null);
 
 		dict = d;
-		lObj = d;
     }
     
     public void onEvent(Event e)

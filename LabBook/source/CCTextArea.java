@@ -8,15 +8,19 @@ import waba.sys.*;
 import waba.util.Vector;
 import extra.io.*;
 
+class CCTextAreaChooser extends LabBookChooser
+{
+	EmbedObjectPropertyControl		objProperty;
 
-class CCTextAreaChooser extends LabBookChooser{
-EmbedObjectPropertyControl		objProperty;
-
-
-	public CCTextAreaChooser(ExtraMainWindow owner,LObjDictionary dict,ViewContainer viewContainer,DialogListener l){
-		super(owner,dict,viewContainer,l);
+	public CCTextAreaChooser(ExtraMainWindow owner,LObjDictionary dict,
+							 ViewContainer viewContainer,DialogListener l,
+							 LabBookSession session)
+	{
+		super(owner,dict,viewContainer,l, session);
 	}
-	public void setContent(){
+
+	public void setContent()
+	{
 		Rect r = getContentPane().getRect();
 		super.setContent();
 		if(view != null) view.setRect(0,0,r.width,r.height - 52);
@@ -25,20 +29,19 @@ EmbedObjectPropertyControl		objProperty;
 			objProperty.layout(false);
 			getContentPane().add(objProperty);
 			objProperty.setRect(0,r.height - 55, r.width, 37);
-		}
-		
-		
+		}				
 	}
+
     public void onEvent(Event e){
     	LabObject  obj = null;
     	boolean	   doNotify = false;
     	if(e.type == EmbedObjectPropertyControl.NEED_DEFAULT_SIZE){
 			if(view == null) return;
 			TreeNode curNode = view.treeControl.getSelected();
-			obj = dict.getObj(curNode);	
+			obj = ((DictTreeNode)view.treeControl.getRootNode()).getObj(curNode);	
 			if(obj == null) return;
 			boolean isLink = objProperty.linkCheck.getChecked();
-			LabObjectView objView = (isLink)?obj.getMinimizedView():obj.getView(null,false);
+			LabObjectView objView = (isLink)?obj.getMinimizedView():obj.getView(null,false,session);
 			if(objView == null) return;
 			extra.ui.Dimension d = objView.getPreferredSize();
 			if(d == null) return;
@@ -57,7 +60,7 @@ EmbedObjectPropertyControl		objProperty;
 			if(e.target instanceof TreeControl){
 				TreeControl tc = (TreeControl)e.target;
 			    TreeNode curNode = tc.getSelected();
-				obj = dict.getObj(curNode);	
+				obj = ((DictTreeNode)tc.getRootNode()).getObj(curNode);	
 				doNotify = true;
 			}
 
@@ -67,7 +70,7 @@ EmbedObjectPropertyControl		objProperty;
 			if(view != null){
 				TreeNode curNode = view.treeControl.getSelected();
 				if(curNode != null){
-					obj = dict.getObj(curNode);	
+					obj = ((DictTreeNode)view.treeControl.getRootNode()).getObj(curNode);	
 				}		
 			}
 			doNotify = true;
@@ -104,72 +107,78 @@ EmbedObjectPropertyControl		objProperty;
 	}
 }
 
+public class CCTextArea  extends Container 
+	implements ViewContainer, DialogListener
+{
+
+	public static final int	version = 12;
 
 
-public class CCTextArea  extends Container implements ViewContainer, DialogListener{
+	//CCStringWrapper		[] lines;
+	public Vector		lines = null;
+	FontMetrics 		fm = null;
+	int 				insetLeft = 5;
+	int 				insetRight = 10;
+	protected Timer 	caretTimer = null;
+	protected boolean 	hasCursor = false,cursorOn = false;
+	protected Font font = new Font("Helvetica",Font.PLAIN,12);
 
-public static final int	version = 12;
+	public	int firstLine = 0;
 
-
-//CCStringWrapper		[] lines;
-public Vector		lines = null;
-FontMetrics 		fm = null;
-int 				insetLeft = 5;
-int 				insetRight = 10;
-protected Timer 	caretTimer = null;
-protected boolean 	hasCursor = false,cursorOn = false;
-protected Font font = new Font("Helvetica",Font.PLAIN,12);
-
-public	int firstLine = 0;
-
-protected CCTextAreaState curState = new CCTextAreaState();
+	protected CCTextAreaState curState = new CCTextAreaState();
 			
-LBCompDesc			[]components = null;
-Vector				rows = null;		
-MainView 			mainView = null;
-LObjDictionary 		dict = null;
-LBCompDesc			currObjectViewDesc = null;
+	LBCompDesc			[]components = null;
+	Vector				rows = null;		
+	MainView 			mainView = null;
+	LObjDictionary 		dict = null;
+	LBCompDesc			currObjectViewDesc = null;
+
+	CCTextAreaChooser		labBookDialog = null;
+	LObjSubDict				subDictionary;
+	LabBookSession          session;
+	LObjCCTextAreaView		owner;
+	String				text;
+
+	boolean		needNotifyAboutMenu = true;
 
 
-CCTextAreaChooser		labBookDialog = null;
-LObjSubDict				subDictionary;
-LObjCCTextAreaView		owner;
-String				text;
+	EmbedObjectPropertyControl currObjPropControl;
 
-boolean		needNotifyAboutMenu = true;
+	ObjPropertyViewDialog 	currObjPropDialog = null;
 
-
-EmbedObjectPropertyControl currObjPropControl;
-
-ObjPropertyViewDialog 	currObjPropDialog = null;
-
-String []dialogButtonTitles = {"Yes","No"};
-Dialog					confirmDialogClear = null;
-Dialog					confirmDialogDeleteAll = null;
-Dialog					confirmDialogDeleteCurrent = null;
-Dialog					confirmDialogDeleteChosenParagraph = null;
+	String []dialogButtonTitles = {"Yes","No"};
+	Dialog					confirmDialogClear = null;
+	Dialog					confirmDialogDeleteAll = null;
+	Dialog					confirmDialogDeleteCurrent = null;
+	Dialog					confirmDialogDeleteChosenParagraph = null;
 
 
-Vector	listeners;
+	Vector	listeners;
 
-public final static int	yTextBegin = 2;
+	public final static int	yTextBegin = 2;
 
 
-LObjDictionary		objDictionary = null;
+	LObjDictionary		objDictionary = null;
 
-private final static EmptyLabObject emptyObject = new EmptyLabObject();
+	private final static EmptyLabObject emptyObject = new EmptyLabObject();
 
-private CCStringWrapper textWasChosen = null;
+	private CCStringWrapper textWasChosen = null;
 
-	public CCTextArea(LObjCCTextAreaView owner,MainView mainView,LObjDictionary dict,LObjSubDict subDictionary){
+	public CCTextArea(LObjCCTextAreaView owner,MainView mainView,LObjDictionary dict,
+					  LObjSubDict subDictionary, LabBookSession sess){
 		super();
 		this.mainView = mainView;
 		this.dict = dict;
 		this.subDictionary = subDictionary;
 		this.owner = owner;
-
+		session = sess;
 	}
-	
+
+	public void setSession(LabBookSession sess)
+	{
+		session = sess;
+	}
+
 	public void addTextAreaListener(TextAreaListener l){
 		if(listeners == null){
 			listeners = new Vector();
@@ -247,7 +256,7 @@ private CCStringWrapper textWasChosen = null;
 				}
 	 	  		EmbedObjectPropertyControl.lastLink = currObjPropControl.linkCheck.getChecked();
     			currObjectViewDesc.alignment 	= (EmbedObjectPropertyControl.lastAlighnLeft)?
-    											   LBCompDesc.ALIGNMENT_LEFT:LBCompDesc.ALIGNMENT_RIGHT;
+					LBCompDesc.ALIGNMENT_LEFT:LBCompDesc.ALIGNMENT_RIGHT;
     			currObjectViewDesc.wrapping 	= EmbedObjectPropertyControl.lastWrap;
     			currObjectViewDesc.link 		= EmbedObjectPropertyControl.lastLink;
     			currObjectViewDesc.w 			= EmbedObjectPropertyControl.lastW;
@@ -264,7 +273,7 @@ private CCStringWrapper textWasChosen = null;
 					objView.close();
 					if(lobj != null){
 						remove(objView);
-						objView = (currObjectViewDesc.link)?lobj.getMinimizedView():lobj.getView(this,false);
+						objView = (currObjectViewDesc.link)?lobj.getMinimizedView():lobj.getView(this,false, session);
 						if(currObjectViewDesc.link){
 							LObjMinimizedView minView = (LObjMinimizedView)objView;
 							minView.rColor = ((currObjectViewDesc.linkColor & 0xFF0000) >> 16);
@@ -306,7 +315,7 @@ private CCStringWrapper textWasChosen = null;
 				waba.sys.Vm.copyArray(components,0,newComponents,0,nComponents);
 			}
 			components = newComponents;
-			LabObjectView view = (obj.link)?labObject.getMinimizedView():labObject.getView(this,false);
+			LabObjectView view = (obj.link)?labObject.getMinimizedView():labObject.getView(this,false, session);
 			if(obj.link){
 				LObjMinimizedView minView = (LObjMinimizedView)view;
 				minView.rColor = ((obj.linkColor & 0xFF0000) >> 16);
@@ -356,37 +365,37 @@ private CCStringWrapper textWasChosen = null;
     }
     
     public void addObject(LBCompDesc objDesc){
-			Object o = objDesc.getObject();
-			if((o instanceof LObjCCTextArea) || (o instanceof LObjCCTextAreaView)){
-				return;
-			}
-			if(o == null || !(o instanceof LabObject)) return;
-			LabObject labObject = (LabObject)o;
-			int nComponents = (components == null)?0:components.length;
-			LBCompDesc []newComponents = new LBCompDesc[nComponents+1];
-			if(components != null){
-				waba.sys.Vm.copyArray(components,0,newComponents,0,nComponents);
-			}
-			components = newComponents;
-			LabObjectView view = (objDesc.link)?labObject.getMinimizedView():labObject.getView(this,false);
-			if(objDesc.link){
-				LObjMinimizedView minView = (LObjMinimizedView)view;
-				minView.rColor = ((objDesc.linkColor & 0xFF0000) >> 16);
-				minView.rColor &= 0xFF;
-				minView.gColor = ((objDesc.linkColor & 0xFF00) >> 8);
-				minView.gColor &= 0xFF;
-				minView.bColor &= objDesc.linkColor & 0xFF;
-			}
-			view.setEmbeddedState(true);
-			components[nComponents] = objDesc;
-			components[nComponents].setObject(view);
-			setObj(labObject,nComponents);
+		Object o = objDesc.getObject();
+		if((o instanceof LObjCCTextArea) || (o instanceof LObjCCTextAreaView)){
+			return;
+		}
+		if(o == null || !(o instanceof LabObject)) return;
+		LabObject labObject = (LabObject)o;
+		int nComponents = (components == null)?0:components.length;
+		LBCompDesc []newComponents = new LBCompDesc[nComponents+1];
+		if(components != null){
+			waba.sys.Vm.copyArray(components,0,newComponents,0,nComponents);
+		}
+		components = newComponents;
+		LabObjectView view = (objDesc.link)?labObject.getMinimizedView():labObject.getView(this,false, session);
+		if(objDesc.link){
+			LObjMinimizedView minView = (LObjMinimizedView)view;
+			minView.rColor = ((objDesc.linkColor & 0xFF0000) >> 16);
+			minView.rColor &= 0xFF;
+			minView.gColor = ((objDesc.linkColor & 0xFF00) >> 8);
+			minView.gColor &= 0xFF;
+			minView.bColor &= objDesc.linkColor & 0xFF;
+		}
+		view.setEmbeddedState(true);
+		components[nComponents] = objDesc;
+		components[nComponents].setObject(view);
+		setObj(labObject,nComponents);
     }
     
     public void initLineDictionary(){
     	if(subDictionary == null) return;
 
-    	LabObject zeroObject = subDictionary.getObj(0);
+    	LabObject zeroObject = subDictionary.getObj(0, session);
 		if(objDictionary == null){
 			if(zeroObject instanceof LObjDictionary){
 				objDictionary = (LObjDictionary)zeroObject;
@@ -395,7 +404,7 @@ private CCStringWrapper textWasChosen = null;
 				if(objDictionary == null) return;
 				if(subDictionary.getNumObjs() > 0){
 					for(int i = subDictionary.getNumObjs(); i >= 0; i--){
-						LabObject o = subDictionary.getObj(i);
+						LabObject o = subDictionary.getObj(i, session);
 						subDictionary.setObj(o,i+1);
 					}
 				}
@@ -409,7 +418,7 @@ private CCStringWrapper textWasChosen = null;
     
     
 		if(subDictionary == null) return;
-    	LabObject zeroObject = subDictionary.getObj(0);
+    	LabObject zeroObject = subDictionary.getObj(0, session);
     	if(zeroObject instanceof LObjDictionary){
 			subDictionary.setObj(lobj,index + 1);
     	}else{
@@ -419,11 +428,11 @@ private CCStringWrapper textWasChosen = null;
     public LabObject getObj(int index){
     	LabObject retObject = null;
     	if(subDictionary == null) return retObject;
-    	LabObject zeroObject = subDictionary.getObj(0);
+    	LabObject zeroObject = subDictionary.getObj(0, session);
     	if(zeroObject instanceof LObjDictionary){
-    		retObject = subDictionary.getObj(index + 1);
+    		retObject = subDictionary.getObj(index + 1, session);
     	}else{
-    		retObject = subDictionary.getObj(index);
+    		retObject = subDictionary.getObj(index, session);
     	}
     	return retObject;
     }
@@ -431,7 +440,7 @@ private CCStringWrapper textWasChosen = null;
     
     public void writeExternal(DataStream out){
     	out.writeString(getText());
- //   	out.writeBoolean(components != null);
+		//   	out.writeBoolean(components != null);
     	out.writeBoolean(true);//!!!!!!!!!!!!!!!!!!!!!!!
     	if(components == null){
     		out.writeInt(-1);
@@ -544,16 +553,16 @@ private CCStringWrapper textWasChosen = null;
     }
 
     public void reload(LabObjectView source){
-/*
-		LabObject obj = source.getLabObject();
-		source.close();
-		remove(source);
-		LabObjectView replacement = obj.getView(this, true);
-//		replacement.setRect(x,y,width,myHeight);
+		/*
+		  LabObject obj = source.getLabObject();
+		  source.close();
+		  remove(source);
+		  LabObjectView replacement = obj.getView(this, true);
+		  //		replacement.setRect(x,y,width,myHeight);
 
-		add(replacement);
-//		lObjView = replacement;
-*/
+		  add(replacement);
+		  //		lObjView = replacement;
+		*/
     }
 
 	public void close(){
@@ -562,12 +571,12 @@ private CCStringWrapper textWasChosen = null;
 			labBookDialog.hide();
 			labBookDialog = null;
 		}
-		if(currObjectViewDesc != null){
-			if(currObjectViewDesc.getObject() instanceof LabObjectView){
-				LabObjectView objView = (LabObjectView)currObjectViewDesc.getObject();
-				objView.close();
-			}
-			currObjectViewDesc = null;
+		if(components == null || components.length < 1) return;
+		for(int i = 0; i < components.length; i++){
+			 LBCompDesc c = components[i];
+			 if(c != null && c.getObject() != null){
+				 ((LabObjectView)c.getObject()).close();
+			 }
 		}
 	}
 
@@ -786,19 +795,19 @@ private CCStringWrapper textWasChosen = null;
 			curState.cursorRow += (newRows - oldRows);
 		}
 		restoreTextProperty(oldVectorLines,lineIndex,(newRows - oldRows));
-/*
-		int newLines = (lines == null)?0:lines.getCount();
-		int addLines = newLines - oldLines;
-		if(addLines > 0 && components != null){
-			for(int i = 0; i < components.length; i++){
-				LBCompDesc c = components[i];
-				int lineBefore = c.lineBefore;
-				if(lineIndex < lineBefore){
-					c.lineBefore += addLines;
-				}
-			}
-		}
-*/
+		/*
+		  int newLines = (lines == null)?0:lines.getCount();
+		  int addLines = newLines - oldLines;
+		  if(addLines > 0 && components != null){
+		  for(int i = 0; i < components.length; i++){
+		  LBCompDesc c = components[i];
+		  int lineBefore = c.lineBefore;
+		  if(lineIndex < lineBefore){
+		  c.lineBefore += addLines;
+		  }
+		  }
+		  }
+		*/
 		layoutComponents();
 		notifyListeners(0);
 		restoreCursor(true);
@@ -826,12 +835,12 @@ private CCStringWrapper textWasChosen = null;
 	}
 	
 	public String getText(){
-/*		String retValue = "";
-		if(lines == null) return retValue;
-		for(int i = 0; i < lines.length; i++){
-			retValue += (lines[i].getStr() + "\n");
-		}
-		return retValue;*/
+		/*		String retValue = "";
+				if(lines == null) return retValue;
+				for(int i = 0; i < lines.length; i++){
+				retValue += (lines[i].getStr() + "\n");
+				}
+				return retValue;*/
 		return text;
 	}
 	public void insertObject(){
@@ -846,13 +855,12 @@ private CCStringWrapper textWasChosen = null;
 		if(dict != null){
 			MainWindow mw = MainWindow.getMainWindow();
 			if(!(mw instanceof ExtraMainWindow)) return;
-			labBookDialog = new CCTextAreaChooser((ExtraMainWindow)mw,(LObjDictionary)LabObject.lBook.load(LabObject.lBook.getRoot()),this,this);
+			labBookDialog = new CCTextAreaChooser((ExtraMainWindow)mw,
+												  (LObjDictionary)LabObject.lBook.load(LabObject.lBook.getRoot()),
+												  this,this, session);
 			labBookDialog.setRect(0,0,150,150);
 			labBookDialog.show();
 		}
-
-
-
 	}
 	
 	public void layoutComponents(){
@@ -866,7 +874,7 @@ private CCStringWrapper textWasChosen = null;
 				}else{
 					LabObject lobj = getObj(i);
 					if(lobj != null){
-						cntrl = (c.link)?lobj.getMinimizedView():lobj.getView(this,false);
+						cntrl = (c.link)?lobj.getMinimizedView():lobj.getView(this,false,session);
 						((LabObjectView)cntrl).setEmbeddedState(true);
 						if(c.link){
 							LObjMinimizedView minView = (LObjMinimizedView)cntrl;
@@ -880,12 +888,12 @@ private CCStringWrapper textWasChosen = null;
 					}
 				}
 				if(cntrl != null) add(cntrl);//?
-//				int yTop = y;
+				//				int yTop = y;
 				int yTop = CCTextArea.yTextBegin;
 				int line = c.lineBefore;
 				if(line > 0){
 					if(lines != null && line < lines.getCount()){
-//						yTop += (lines[line - 1].endRow - firstLine)*getItemHeight();
+						//						yTop += (lines[line - 1].endRow - firstLine)*getItemHeight();
 						yTop += (((CCStringWrapper)lines.get(line - 1)).endRow - firstLine)*getItemHeight();
 					}else if(lines != null && line >= lines.getCount()){
 						yTop += (((CCStringWrapper)lines.get(lines.getCount() - 1)).endRow - firstLine)*getItemHeight();
@@ -1101,7 +1109,7 @@ private CCStringWrapper textWasChosen = null;
 
 			boolean isLink = currObjPropControl.linkCheck.getChecked();
 			LabObject obj = oView.getLabObject();
-			LabObjectView objView = (isLink)?obj.getMinimizedView():obj.getView(null,false);
+			LabObjectView objView = (isLink)?obj.getMinimizedView():obj.getView(null,false, session);
 
 
 			extra.ui.Dimension d = objView.getPreferredSize();
@@ -1129,7 +1137,7 @@ private CCStringWrapper textWasChosen = null;
 						LabObjectView object = (LabObjectView)cntrl;
 						object.close();
 					}
-	//				currObjectViewDesc = null;
+					//				currObjectViewDesc = null;
 				}
 			}else if(components != null){
 				textWasChosen = null;
@@ -1148,11 +1156,11 @@ private CCStringWrapper textWasChosen = null;
 						removeCursor();
 						if(!getEditMode()){
 							if(cntrlDesc.link){
+								// need to fix this!!!
 								object.setShowMenus(false);
 								LabObject lobj = object.getLabObject();
-								LabObjectView realView = lobj.getView(this,false);
 								if(owner != null){
-									owner.addChoosenLabObjView(realView);
+									owner.gotoChoosenLabObject(lobj);
 								}
 							}
 						}
@@ -1164,23 +1172,23 @@ private CCStringWrapper textWasChosen = null;
 			if(ev.target  == this){
 				lostFocus();
 			}/*else if(currObjectViewDesc != null){
-				if(ev.target instanceof Control){
-					Control c = (Control)ev.target;
-					while(c != null){
-						if(c == currObjectViewDesc.getObject()) break;
-						c = c.getParent();
-					}
-					if(c == currObjectViewDesc.getObject()){
-						System.out.println("ev.FOCUS_OUT 3 ");
-						Control cntrl = (Control)currObjectViewDesc.getObject();
-						if((cntrl != null) && (cntrl instanceof LabObjectView)){
-							LabObjectView object = (LabObjectView)cntrl;
-							object.close();
-						}
-		//				currObjectViewDesc = null;
-					}
-				}
-			}*/
+			   if(ev.target instanceof Control){
+			   Control c = (Control)ev.target;
+			   while(c != null){
+			   if(c == currObjectViewDesc.getObject()) break;
+			   c = c.getParent();
+			   }
+			   if(c == currObjectViewDesc.getObject()){
+			   System.out.println("ev.FOCUS_OUT 3 ");
+			   Control cntrl = (Control)currObjectViewDesc.getObject();
+			   if((cntrl != null) && (cntrl instanceof LabObjectView)){
+			   LabObjectView object = (LabObjectView)cntrl;
+			   object.close();
+			   }
+			   //				currObjectViewDesc = null;
+			   }
+			   }
+			   }*/
 		}
 	}
 	public void gotFocus(){
@@ -1221,8 +1229,23 @@ private CCStringWrapper textWasChosen = null;
 		}
 		return null;
 	}
-	
-	
+
+	private void openSWObject(CCStringWrapper sw)
+	{
+		if(sw != null && currObjPropDialog == null &&
+		   objDictionary != null && sw.link &&
+		   sw.indexInDict >= 0){
+
+			LabObjectPtr ptr = objDictionary.getChildAt(sw.indexInDict);
+			if(ptr == null) return;
+			LabObject linkObj = session.getObj(ptr);
+			if(linkObj == null) return;
+			if(owner != null){
+				owner.gotoChoosenLabObject(linkObj);
+			}
+		}
+	}
+
 	public void openCurrentObject(){
 		if(!getEditMode()){
 			Sound.beep();
@@ -1230,32 +1253,8 @@ private CCStringWrapper textWasChosen = null;
 		}
 		if(currObjPropDialog == null && currObjectViewDesc != null){
 			Sound.beep();
-/*
-			Control cntrl = (Control)currObjectViewDesc.getObject();
-			if(cntrl instanceof LabObjectView){
-				LabObjectView object = (LabObjectView)cntrl;
-				object.setShowMenus(false);
-				removeCursor();
-				LabObject lobj = object.getLabObject();
-				LabObjectView realView = lobj.getView(this,false);
-				if(owner != null){
-					owner.addChoosenLabObjView(realView);
-				}
-				repaint();
-			}
-*/
-		}else if(currObjPropDialog == null && objDictionary != null && 
-		             textWasChosen != null && textWasChosen.link && 
-		             textWasChosen.indexInDict >= 0){
-			TreeNode node = objDictionary.getChildAt(textWasChosen.indexInDict);
-			if(node == null) return;
-			LabObject linkObj = objDictionary.getObj(node);
-			if(linkObj == null) return;
-
-			LabObjectView realView = linkObj.getView(this,false);
-			if(owner != null){
-				owner.addChoosenLabObjView(realView);
-			}
+		}else {
+			openSWObject(textWasChosen);
 		}
 	}
 	
@@ -1274,7 +1273,10 @@ private CCStringWrapper textWasChosen = null;
 			if(textWasChosen != null){
 				MainWindow mw = MainWindow.getMainWindow();
 				if((mw instanceof ExtraMainWindow)){
-					TextObjPropertyView tPropView = new TextObjPropertyView((ExtraMainWindow)mw,(LObjDictionary)LabObject.lBook.load(LabObject.lBook.getRoot()), null,textWasChosen);
+					TextObjPropertyView tPropView = 
+						new TextObjPropertyView((ExtraMainWindow)mw,
+												(LObjDictionary)LabObject.lBook.load(LabObject.lBook.getRoot()), 
+												null,textWasChosen, session);
 					ViewDialog dialog = new ViewDialog((ExtraMainWindow)mw, this,"Properties",tPropView);
 					dialog.setRect(0,0,150,150);
 					dialog.show();		
@@ -1470,16 +1472,16 @@ private CCStringWrapper textWasChosen = null;
 		}
 	}
 	
-/*
-	public int getRowsNumber(){
-		int retValue = 0;
-		if(lines == null || lines.getCount() < 1) return 0;
-		for(int i = 0; i < lines.getCount(); i++){
-			retValue += ((CCStringWrapper)lines.get(i)).getRows();
-		}
-		return retValue;
-	}
-*/
+	/*
+	  public int getRowsNumber(){
+	  int retValue = 0;
+	  if(lines == null || lines.getCount() < 1) return 0;
+	  for(int i = 0; i < lines.getCount(); i++){
+	  retValue += ((CCStringWrapper)lines.get(i)).getRows();
+	  }
+	  return retValue;
+	  }
+	*/
 	public int getRowsNumber(){
 		int retValue = 0;
 		int nLines = (lines == null)?0:lines.getCount();
@@ -1523,27 +1525,8 @@ private CCStringWrapper textWasChosen = null;
 				if(getEditMode() && sw != null){
 					textWasChosen = sw;
 					repaint();
-/*
-					MainWindow mw = MainWindow.getMainWindow();
-					if((mw instanceof ExtraMainWindow)){
-						TextObjPropertyView tPropView = new TextObjPropertyView((ExtraMainWindow)mw,(LObjDictionary)LabObject.lBook.load(LabObject.lBook.getRoot()), null,sw);
-						ViewDialog dialog = new ViewDialog((ExtraMainWindow)mw, this,"Properties",tPropView);
-						dialog.setRect(0,0,150,150);
-						dialog.show();		
-					}
-*/
 				}else{
-					if(sw.link && objDictionary != null && sw.indexInDict >= 0){
-						TreeNode node = objDictionary.getChildAt(sw.indexInDict);
-						if(node == null) return;
-						LabObject linkObj = objDictionary.getObj(node);
-						if(linkObj == null) return;
-
-						LabObjectView realView = linkObj.getView(this,false);
-						if(owner != null){
-							owner.addChoosenLabObjView(realView);
-						}
-					}
+					openSWObject(sw);
 					return;
 				}
 				
@@ -1600,7 +1583,7 @@ private CCStringWrapper textWasChosen = null;
 				retValue = i;
 				break;
 			}
-//			ind += swRows;
+			//			ind += swRows;
 		}
 		return retValue;
 	}
@@ -1614,7 +1597,7 @@ private CCStringWrapper textWasChosen = null;
 		
 		
 		
-//		g.drawRect(0,0,r.width,r.height);
+		//		g.drawRect(0,0,r.width,r.height);
 	}
 	public void doPaintData(Graphics g){
 		if(lines == null) return;
@@ -1680,15 +1663,15 @@ private CCStringWrapper textWasChosen = null;
 }
 
 class CCTextAreaState{
-public int cursorRow = 0, cursorPos = 0;
-public int	cursorChar = 0;
+	public int cursorRow = 0, cursorPos = 0;
+	public int	cursorChar = 0;
 	CCTextAreaState(){
 	}
 }
 
 
 class CCTARow{
-int  	beginPos,endPos;
+	int  	beginPos,endPos;
 	CCTARow(){
 	}
 	public void setMargins(int beginPos,int endPos){
@@ -1699,10 +1682,10 @@ int  	beginPos,endPos;
 
 
 class ObjPropertyViewDialog extends ViewDialog{
-CCTextArea		textArea;
-LabObjectView	checkView;
+	CCTextArea		textArea;
+	LabObjectView	checkView;
 	public 	ObjPropertyViewDialog(ExtraMainWindow owner,CCTextArea textArea,String title, 
-						  LabObjectView view,LabObjectView checkView){
+								  LabObjectView view,LabObjectView checkView){
 		super(owner,textArea,title,view);
 		this.textArea = textArea;
 		this.checkView = checkView;
@@ -1719,24 +1702,29 @@ LabObjectView	checkView;
 
 
 class TextObjPropertyView extends LabObjectView{
-CCStringWrapper stringWrapper;
-public Edit		strEdit;
-public Button	doneButton;
-public Button	cancelButton;
-public Edit		colorEdit;
-public Label	colorLabel;
-public Check	linkCheck;
-ExtraMainWindow owner;
-LObjDictionary dict;
+	CCStringWrapper stringWrapper;
+	public Edit		strEdit;
+	public Button	doneButton;
+	public Button	cancelButton;
+	public Edit		colorEdit;
+	public Label	colorLabel;
+	public Check	linkCheck;
+	ExtraMainWindow owner;
+	LObjDictionary dict;
 
-LObjDictionaryView	view;
+	LObjDictionaryView	view;
+
+	LabBookSession session;
 
 
-	public TextObjPropertyView(ExtraMainWindow owner,LObjDictionary dict,ViewContainer vc, CCStringWrapper stringWrapper){
-		super(vc);
+	public TextObjPropertyView(ExtraMainWindow owner,LObjDictionary dict,
+							   ViewContainer vc, CCStringWrapper stringWrapper, 
+							   LabBookSession session){
+		super(vc, (LabObject)dict, session);
 		this.stringWrapper 	= stringWrapper;
 		this.dict 	= dict;
 		this.owner 	= owner;
+		this.session = session;
 	}
 	public void layout(boolean sDone){
 		if(didLayout) return;
@@ -1767,7 +1755,7 @@ LObjDictionaryView	view;
 			}
 		}
 		if(view == null && container != null && dict != null){
-			view = (LObjDictionaryView)dict.getView(container, true);
+			view = (LObjDictionaryView)dict.getView(container, true, session);
 			view.viewFromExternal = true;
 			view.layout(false);
 			add(view);
@@ -1886,10 +1874,9 @@ LObjDictionaryView	view;
 					if(curNode == null){
 						stringWrapper.indexInDict = oldIndex;
 					}else{
-						LabObject obj = dict.getObj(curNode);
+						LabObject obj = ((DictTreeNode)(view.treeControl.getRootNode())).getObj(curNode);
 						if(obj != null){
-							TreeNode objNode = LObjDictionary.getNode(obj);
-							int dIndex = stringWrapper.owner.objDictionary.getIndex(objNode);
+							int dIndex = stringWrapper.owner.objDictionary.getIndex(obj);
 							if(dIndex >= 0){
 								stringWrapper.indexInDict = dIndex;
 							}else{

@@ -24,9 +24,8 @@ Menu 					menu = null;
 CCScrollBar				scrollBar;
 
 	public LObjDocumentView(ViewContainer vc, LObjDocument d,boolean edit){
-		super(vc);
+		super(vc, (LabObject)d, null);
 		doc = d;
-		lObj = doc;
 	}
 	public void delMenus(){
 		if(!waba.sys.Vm.getPlatform().equals("PalmOS")){

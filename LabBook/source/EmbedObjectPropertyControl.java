@@ -6,7 +6,8 @@ import waba.fx.*;
 import waba.sys.*;
 
 
-public class EmbedObjectPropertyControl extends LabObjectView{
+public class EmbedObjectPropertyControl extends LabObjectView
+{
 public Choice	alignmentChoice;
 public Check	wrapCheck,linkCheck;
 public Edit	widthEdit,heightEdit;
@@ -24,11 +25,11 @@ Button			doneButton;
 private String	name;
 private Label	nameLabel;
 	public EmbedObjectPropertyControl(ViewContainer vc){
-		super(vc);
+		super(vc, null, null);
 		font = new Font("Helvetica",Font.PLAIN,12);
 	}
 	public EmbedObjectPropertyControl(ViewContainer vc,String name){
-		super(vc);
+		super(vc, null, null);
 		font = new Font("Helvetica",Font.PLAIN,12);
 		this.name = name;
 	}

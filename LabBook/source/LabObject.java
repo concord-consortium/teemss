@@ -41,20 +41,22 @@ public abstract class LabObject
     }
 
     public LabObjectView getView(ViewContainer vc, boolean edit, 
-				 				 LObjDictionary curDict, boolean embeddedState){
-		LabObjectView view = getView(vc,edit,curDict);
+				 				 LObjDictionary curDict, boolean embeddedState,
+								 LabBookSession session){
+		LabObjectView view = getView(vc,edit,curDict,session);
 		if(view != null) view.setEmbeddedState(embeddedState);
 		
 		return view;
 	}
 	  
-    public LabObjectView getView(ViewContainer vc, boolean edit)    
+    public LabObjectView getView(ViewContainer vc, boolean edit,
+								 LabBookSession session)    
     {
-		return getView(vc, edit, null);
+		return getView(vc, edit, null, session);
     }
 
     public LabObjectView getView(ViewContainer vc, boolean edit, 
-				 				 LObjDictionary curDict){
+				 				 LObjDictionary curDict, LabBookSession session){
 		return null;
     }
 
@@ -63,12 +65,15 @@ public abstract class LabObject
 		return new LObjMinimizedView(this);
 	}
 
-    public LabObjectView getPropertyView(ViewContainer vc)    
+    public LabObjectView getPropertyView(ViewContainer vc, 
+										 LabBookSession session)    
     {
-		return getPropertyView(vc, null);
+		return getPropertyView(vc, null, session);
     }
 
-    public LabObjectView getPropertyView(ViewContainer vc,LObjDictionary curDict){
+    public LabObjectView getPropertyView(ViewContainer vc,
+										 LObjDictionary curDict,
+										 LabBookSession session){
 		return null;
     }
 
@@ -81,7 +86,7 @@ public abstract class LabObject
 		LabObjectPtr ptr = lBook.store(this);
 		if(ptr != null){
 			lBook.commit(ptr);
-		}
+		} 
 	}
 
 	public int incRefCount(){ return ++refCount; }

@@ -15,11 +15,12 @@ public class LObjMinimizedView extends LabObjectView
 public int rColor = 0;
 public int gColor = 0;
 public int bColor = 255;
+
+	LabObject minObj;
     public LObjMinimizedView(LabObject obj)
     {
-		super(null);
-
-		lObj = obj;
+		super(null, obj, null);
+		minObj = obj;
     }
     
 	public void layout(boolean sDone)
@@ -28,11 +29,12 @@ public int bColor = 255;
 
 	public void onPaint(Graphics g)
 	{
-		if(lObj != null && lObj.getName() != null){
+		if(minObj != null && minObj.getName() != null){
 			g.setColor(rColor,gColor,bColor);
-			g.drawText(lObj.getName(), 0, 0);
+			g.drawText(minObj.getName(), 0, 0);
 			FontMetrics fm = getFontMetrics(MainWindow.defaultFont);
-			int lineY = fm.getHeight()+1;
+			int lineY = fm.getHeight();
+			g.setColor(rColor,gColor,bColor);
 			g.drawLine(0,lineY, width, lineY);
 		}
 	}
@@ -43,9 +45,9 @@ public int bColor = 255;
 
 	public int getPreferredWidth()
 	{
-		if(lObj != null && lObj.getName() != null){
+		if(minObj != null && minObj.getName() != null){
 			FontMetrics fm = getFontMetrics(MainWindow.defaultFont);
-			return fm.getTextWidth(lObj.getName());
+			return fm.getTextWidth(minObj.getName());
 		}
 
 		return -1;
@@ -53,7 +55,7 @@ public int bColor = 255;
 
 	public int getPreferredHeight()
 	{
-		if(lObj != null && lObj.getName() != null){
+		if(minObj != null && minObj.getName() != null){
 			FontMetrics fm = getFontMetrics(MainWindow.defaultFont);
 			return fm.getHeight()+2;
 		}

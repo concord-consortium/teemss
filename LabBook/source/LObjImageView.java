@@ -17,7 +17,7 @@ public class LObjImageView extends LabObjectView implements ActionListener
 	boolean leftToRight = true;
     Menu menu = null;
 	ImagePane	imagePane = null;
-//	private 	byte []bytes = null;
+	//	private 	byte []bytes = null;
 	Label	nameLabel;
 	Edit 	nameEdit;
 	boolean	nameEditWasAdded = false;
@@ -32,11 +32,13 @@ public class LObjImageView extends LabObjectView implements ActionListener
 	private boolean		needCreateImageAfterRead 	= false;
     private boolean isWinCE = false;
 	
+	LObjImage iObj;
+
 	
-	public LObjImageView(ViewContainer vc, LObjImage d,boolean edit){
-		super(vc);
-		lObj = d;	
+	public LObjImageView(ViewContainer vc, LObjImage image,boolean edit){
+		super(vc, (LabObject)image, null);
 		if(waba.sys.Vm.getPlatform().equals("WinCE")) isWinCE = true;
+		iObj = image;
 	}
 
 	public void delMenus(){
@@ -92,8 +94,8 @@ public class LObjImageView extends LabObjectView implements ActionListener
 				if(wabaImage != null){
 				    int tmpCmap [] = imageCMAP;
 				    if(isWinCE){
-					tmpCmap = new int [256];
-					waba.sys.Vm.copyArray(imageCMAP, 0, tmpCmap, 0, imageCMAP.length);
+						tmpCmap = new int [256];
+						waba.sys.Vm.copyArray(imageCMAP, 0, tmpCmap, 0, imageCMAP.length);
 				    }
 
 					wabaImage.setPixels(imageBPP,tmpCmap,imageScanlen,imageHeight,0,imagePixels);
@@ -113,7 +115,7 @@ public class LObjImageView extends LabObjectView implements ActionListener
     }
     public void writeExternal(DataStream out){
   		if(imageCMAP == null || imagePixels == null || imageScanlen <=0 || imageHeight <= 0 || 
-  			imageWidth <= 0 || (imageBPP != 1 && imageBPP != 4 && imageBPP != 8)){
+		   imageWidth <= 0 || (imageBPP != 1 && imageBPP != 4 && imageBPP != 8)){
     		out.writeBoolean(false); //error state
 			return;
 		}
@@ -154,7 +156,7 @@ public class LObjImageView extends LabObjectView implements ActionListener
     	}
      	imagePane = null;
      	needCreateImageAfterRead = true;
-   }
+	}
     public void layout(boolean sDone){
     
 		if(didLayout) return;
@@ -225,7 +227,7 @@ public class LObjImageView extends LabObjectView implements ActionListener
 
 	public void onEvent(Event e){
 		if(e.target == doneButton &&
-			e.type == ControlEvent.PRESSED){
+		   e.type == ControlEvent.PRESSED){
 			if(container != null){
 				container.done(this);
 			}	
@@ -257,8 +259,8 @@ public class LObjImageView extends LabObjectView implements ActionListener
 		}else{
 			imagePane.setRect(0,17);
 		}
-		lObj.setName(fd.getFile());
-		nameEdit.setText(lObj.getName());
+		iObj.setName(fd.getFile());
+		nameEdit.setText(iObj.getName());
     	
     }
     
@@ -295,25 +297,25 @@ public class LObjImageView extends LabObjectView implements ActionListener
     	}
     }
     
-private static int inGetUInt32(byte bytes[], int off)
+	private static int inGetUInt32(byte bytes[], int off)
 
 	{
 
-	return ((bytes[off + 3]&0xFF) << 24) | ((bytes[off + 2]&0xFF) << 16) |
+		return ((bytes[off + 3]&0xFF) << 24) | ((bytes[off + 2]&0xFF) << 16) |
 
-		((bytes[off + 1]&0xFF) << 8) | (bytes[off]&0xFF);
+			((bytes[off + 1]&0xFF) << 8) | (bytes[off]&0xFF);
 
 	}
 
 
 
-// Intel architecture getUInt16
+	// Intel architecture getUInt16
 
-private static int inGetUInt16(byte bytes[], int off)
+	private static int inGetUInt16(byte bytes[], int off)
 
 	{
 
-	return ((bytes[off + 1]&0xFF) << 8) | (bytes[off]&0xFF);
+		return ((bytes[off + 1]&0xFF) << 8) | (bytes[off]&0xFF);
 
 	}
 	private waba.fx.Image createImage(byte data[]){
@@ -323,234 +325,234 @@ private static int inGetUInt16(byte bytes[], int off)
 
 	{
 
-	// read header (54 bytes)
+		// read header (54 bytes)
 
-	// 0-1   magic chars 'BM'
+		// 0-1   magic chars 'BM'
 
-	// 2-5   uint32 filesize (not reliable)
+		// 2-5   uint32 filesize (not reliable)
 
-	// 6-7   uint16 0
+		// 6-7   uint16 0
 
-	// 8-9   uint16 0
+		// 8-9   uint16 0
 
-	// 10-13 uint32 bitmapOffset
+		// 10-13 uint32 bitmapOffset
 
-	// 14-17 uint32 info size
+		// 14-17 uint32 info size
 
-	// 18-21 int32  width
+		// 18-21 int32  width
 
-	// 22-25 int32  height
+		// 22-25 int32  height
 
-	// 26-27 uint16 nplanes
+		// 26-27 uint16 nplanes
 
-	// 28-29 uint16 bits per pixel
+		// 28-29 uint16 bits per pixel
 
-	// 30-33 uint32 compression flag
+		// 30-33 uint32 compression flag
 
-	// 34-37 uint32 image size in bytes
+		// 34-37 uint32 image size in bytes
 
-	// 38-41 int32  biXPelsPerMeter (unused)
+		// 38-41 int32  biXPelsPerMeter (unused)
 
-	// 32-45 int32  biYPelsPerMeter (unused)
+		// 32-45 int32  biYPelsPerMeter (unused)
 
-	// 46-49 uint32 colors used (unused)
+		// 46-49 uint32 colors used (unused)
 
-	// 50-53 uint32 important color count (unused)
+		// 50-53 uint32 important color count (unused)
 
-	byte header[] = new byte[54];
-	int dataOffset = 0;
-	if (!waba.sys.Vm.copyArray(data,dataOffset,header,0,54))
+		byte header[] = new byte[54];
+		int dataOffset = 0;
+		if (!waba.sys.Vm.copyArray(data,dataOffset,header,0,54))
 
-		{
+			{
 
-//		System.out.println("ERROR: can't read image header");
+				//		System.out.println("ERROR: can't read image header");
 
-		return null;
+				return null;
 
-		}
-
-	dataOffset += 54;
-	if (header[0] != 'B' || header[1] != 'M')
-
-		{
-
-//		System.out.println("ERROR:  is not a BMP image");
-
-		return null;
-
-		}
-
-	int bitmapOffset = inGetUInt32(header, 10);
-
-
-
-	int infoSize = inGetUInt32(header, 14);
-
-	if (infoSize != 40)
-
-		{
-
-//		System.out.println("ERROR:  is old-style BMP");
-
-		return null;
-
-		}
-
-	int width = inGetUInt32(header, 18);
-
-	int height = inGetUInt32(header, 22);
-
-	if (width < 0 || height < 0 || width > 65535 || height > 65535)
-
-		{
-
-//		System.out.println("ERROR:  has invalid width/height");
-
-		return null;
-
-		}
-
-	int bpp = inGetUInt16(header, 28);
-
-	if (bpp != 1 && bpp != 4 && bpp != 8)
-
-		{
-
-//		System.out.println("ERROR:  is not a 2, 16 or 256 color image");
-
-		return null;
-
-		}
-
-	int compression = inGetUInt32(header, 30);
-
-	if (compression != 0)
-
-		{
-
-//		System.out.println("ERROR:  is a compressed image");
-
-		return null;
-
-		}
-
-	int numColors = 1 << bpp;// it's wrong
-
-	int scanlen = (width * bpp + 7) / 8; // # bytes
-
-	scanlen = ((scanlen + 3) / 4) * 4; // end on 32 bit boundry
-
-
-
-	// read colormap
-
-	//
-
-	// 0-3 uint32 col[0]
-
-	// 4-7 uint32 col[1]
-
-	// ...
-
-	int cmapSize = bitmapOffset - 54;
-
-	byte cmapData[] = new byte[cmapSize];
-
-	if (!waba.sys.Vm.copyArray(data,dataOffset,cmapData,0,cmapSize))
-
-		{
-
-//		System.out.println("ERROR: can't read colormap");
-
-		return null;
-
-		}
-	dataOffset += cmapSize;
-//dima
-	numColors = cmapSize / 4; //4 is size of RGBQUAD structure
-//dima
-
-	int cmap[] = new int[numColors]; 
-
-	int j = 0;
-
-	for (int i = 0; i < numColors; i++)
-
-		{
-
-		byte blue = cmapData[j++];
-
-		byte green = cmapData[j++];
-
-		byte red = cmapData[j++];
-
-		j++; // skip reserved
-
-		cmap[i] = ((red & 0xFF) << 16) | ((green & 0xFF) << 8) | (blue & 0xFF);
-
-		}
-
-	
-	byte pixels[] = new byte[scanlen*height];
-	int pixelOffset = pixels.length - scanlen;
-	do{
-		if (!waba.sys.Vm.copyArray(data,dataOffset,pixels,pixelOffset,scanlen)){
-			return null;
-		}
-		dataOffset += scanlen;
-		pixelOffset -= scanlen;
-	}while(pixelOffset >= 0);
-	
-	
-	
-
-	if(bpp == 8){
-		/*
-		int []pCol	= CCPalette.getPaletteAsInt();
-		if(pCol != null){
-			boolean []dirty = new boolean[pixels.length];
-			for(int i = 0; i < cmap.length; i++){
-				int newIndex = CCPalette.findNearestColor(cmap[i]);
-				if(newIndex < 0) continue;
-				for(int p = 0; p < pixels.length; p++){
-					if(dirty[p]) continue;
-					int oldIndex = pixels[p];
-					if(oldIndex < 0) oldIndex += 256;
-					if(oldIndex == i){
-						pixels[p] = (byte)newIndex;
-						dirty[p] = true;
-					}
-				}
 			}
-			cmap = pCol;
-		}
-		*/
-	}	
 
-	imageHeight = height;
-	imageBPP	= bpp;
-	imageCMAP	= cmap;
-	imagePixels = pixels;
-	imageScanlen = scanlen;
-	imageWidth = width;
+		dataOffset += 54;
+		if (header[0] != 'B' || header[1] != 'M')
+
+			{
+
+				//		System.out.println("ERROR:  is not a BMP image");
+
+				return null;
+
+			}
+
+		int bitmapOffset = inGetUInt32(header, 10);
+
+
+
+		int infoSize = inGetUInt32(header, 14);
+
+		if (infoSize != 40)
+
+			{
+
+				//		System.out.println("ERROR:  is old-style BMP");
+
+				return null;
+
+			}
+
+		int width = inGetUInt32(header, 18);
+
+		int height = inGetUInt32(header, 22);
+
+		if (width < 0 || height < 0 || width > 65535 || height > 65535)
+
+			{
+
+				//		System.out.println("ERROR:  has invalid width/height");
+
+				return null;
+
+			}
+
+		int bpp = inGetUInt16(header, 28);
+
+		if (bpp != 1 && bpp != 4 && bpp != 8)
+
+			{
+
+				//		System.out.println("ERROR:  is not a 2, 16 or 256 color image");
+
+				return null;
+
+			}
+
+		int compression = inGetUInt32(header, 30);
+
+		if (compression != 0)
+
+			{
+
+				//		System.out.println("ERROR:  is a compressed image");
+
+				return null;
+
+			}
+
+		int numColors = 1 << bpp;// it's wrong
+
+		int scanlen = (width * bpp + 7) / 8; // # bytes
+
+		scanlen = ((scanlen + 3) / 4) * 4; // end on 32 bit boundry
+
+
+
+		// read colormap
+
+		//
+
+		// 0-3 uint32 col[0]
+
+		// 4-7 uint32 col[1]
+
+		// ...
+
+		int cmapSize = bitmapOffset - 54;
+
+		byte cmapData[] = new byte[cmapSize];
+
+		if (!waba.sys.Vm.copyArray(data,dataOffset,cmapData,0,cmapSize))
+
+			{
+
+				//		System.out.println("ERROR: can't read colormap");
+
+				return null;
+
+			}
+		dataOffset += cmapSize;
+		//dima
+		numColors = cmapSize / 4; //4 is size of RGBQUAD structure
+		//dima
+
+		int cmap[] = new int[numColors]; 
+
+		int j = 0;
+
+		for (int i = 0; i < numColors; i++)
+
+			{
+
+				byte blue = cmapData[j++];
+
+				byte green = cmapData[j++];
+
+				byte red = cmapData[j++];
+
+				j++; // skip reserved
+
+				cmap[i] = ((red & 0xFF) << 16) | ((green & 0xFF) << 8) | (blue & 0xFF);
+
+			}
+
 	
-	int tmpCmap [] = imageCMAP;
-	if(isWinCE){
-	    tmpCmap = new int [256];
-	    waba.sys.Vm.copyArray(imageCMAP, 0, tmpCmap, 0, imageCMAP.length);
-	}
+		byte pixels[] = new byte[scanlen*height];
+		int pixelOffset = pixels.length - scanlen;
+		do{
+			if (!waba.sys.Vm.copyArray(data,dataOffset,pixels,pixelOffset,scanlen)){
+				return null;
+			}
+			dataOffset += scanlen;
+			pixelOffset -= scanlen;
+		}while(pixelOffset >= 0);
 	
-	waba.fx.Image wi = null;
-	if(doSetPixel){
-		wi = new waba.fx.Image(width,height);
-		if(wi != null) wi.setPixels(imageBPP,tmpCmap,imageScanlen,imageHeight,0,imagePixels);
-	}
-	return wi;
+	
+	
+
+		if(bpp == 8){
+			/*
+			  int []pCol	= CCPalette.getPaletteAsInt();
+			  if(pCol != null){
+			  boolean []dirty = new boolean[pixels.length];
+			  for(int i = 0; i < cmap.length; i++){
+			  int newIndex = CCPalette.findNearestColor(cmap[i]);
+			  if(newIndex < 0) continue;
+			  for(int p = 0; p < pixels.length; p++){
+			  if(dirty[p]) continue;
+			  int oldIndex = pixels[p];
+			  if(oldIndex < 0) oldIndex += 256;
+			  if(oldIndex == i){
+			  pixels[p] = (byte)newIndex;
+			  dirty[p] = true;
+			  }
+			  }
+			  }
+			  cmap = pCol;
+			  }
+			*/
+		}	
+
+		imageHeight = height;
+		imageBPP	= bpp;
+		imageCMAP	= cmap;
+		imagePixels = pixels;
+		imageScanlen = scanlen;
+		imageWidth = width;
+	
+		int tmpCmap [] = imageCMAP;
+		if(isWinCE){
+			tmpCmap = new int [256];
+			waba.sys.Vm.copyArray(imageCMAP, 0, tmpCmap, 0, imageCMAP.length);
+		}
+	
+		waba.fx.Image wi = null;
+		if(doSetPixel){
+			wi = new waba.fx.Image(width,height);
+			if(wi != null) wi.setPixels(imageBPP,tmpCmap,imageScanlen,imageHeight,0,imagePixels);
+		}
+		return wi;
 
 	}
 	
 	public void loadImage(int imageWidth,int imageHeight,int imageBPP,int []imageCMAP,
-									 int imageScanlen,byte []imagePixels){
+						  int imageScanlen,byte []imagePixels){
 		this.imageWidth = imageWidth;
 		this.imageHeight = imageHeight;
 		this.imageBPP = imageBPP;
@@ -559,79 +561,79 @@ private static int inGetUInt16(byte bytes[], int off)
 		this.imagePixels = imagePixels;
 	}
 
-private void pixelsToRGB(int bitsPerPixel, int width, byte pixels[], int pixelOffset,
+	private void pixelsToRGB(int bitsPerPixel, int width, byte pixels[], int pixelOffset,
 
-	int rgb[], int rgbOffset, int cmap[])
+							 int rgb[], int rgbOffset, int cmap[])
 
 	{
 
-	int mask, step;
+		int mask, step;
 
-	if (bitsPerPixel == 1)
-
-		{
-
-		mask = 0x1;
-
-		step = 1;
-
-		}
-
-	else if (bitsPerPixel == 4)
-
-		{
-
-		mask = 0x0F;
-
-		step = 4;
-
-		}
-
-	else // bitsPerPixel == 8
-
-		{
-
-		mask = 0xFF;
-
-		step = 8;
-
-		}
-
-	int bit = 8 - step;
-
-	int bytnum = pixelOffset;
-
-	int byt = pixels[bytnum++];
-
-	int x = 0;
-
-	while (true)
-
-		{
-
-		int colorIndex = ((mask << bit) & byt) >> bit;
-
-		rgb[rgbOffset++] = cmap[colorIndex] | (0xFF << 24);
-
-		if (++x >= width)
-
-			break;
-
-		if (bit == 0)
+		if (bitsPerPixel == 1)
 
 			{
 
-			bit = 8 - step;
+				mask = 0x1;
 
-			byt = pixels[bytnum++];
+				step = 1;
 
 			}
 
-		else
+		else if (bitsPerPixel == 4)
 
-			bit -= step;
+			{
 
-		}
+				mask = 0x0F;
+
+				step = 4;
+
+			}
+
+		else // bitsPerPixel == 8
+
+			{
+
+				mask = 0xFF;
+
+				step = 8;
+
+			}
+
+		int bit = 8 - step;
+
+		int bytnum = pixelOffset;
+
+		int byt = pixels[bytnum++];
+
+		int x = 0;
+
+		while (true)
+
+			{
+
+				int colorIndex = ((mask << bit) & byt) >> bit;
+
+				rgb[rgbOffset++] = cmap[colorIndex] | (0xFF << 24);
+
+				if (++x >= width)
+
+					break;
+
+				if (bit == 0)
+
+					{
+
+						bit = 8 - step;
+
+						byt = pixels[bytnum++];
+
+					}
+
+				else
+
+					bit -= step;
+
+			}
 
 	}
 

@@ -13,9 +13,8 @@ Button 					doneButton;
 Check					editModeCheck;
 
 	public LObjCCTextAreaPropView(ViewContainer vc, LObjCCTextArea d){
-		super(vc);
+		super(vc, (LabObject)d, null);
 		doc = d;
-		lObj = doc;
 	}
     public void actionPerformed(ActionEvent e){
     }

@@ -67,7 +67,11 @@ public class LabObjectPtr implements TreeNode
 
     public void remove(TreeNode node){}
 
-    public String toString(){return name;}
+    public String toString()
+	{
+		if(name == null) return "..null_name..";
+		return name;
+	}
 
     public String debug(){return "devId " + devId + " objId " + objId;};
 

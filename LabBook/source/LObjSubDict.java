@@ -23,13 +23,14 @@ public abstract class LObjSubDict extends LabObject
 		dict.store();
     }
     
-	public LObjDictionary getDict(){return dict;}
+	LObjDictionary getDict(){return dict;}
 
-    public void setDict(LObjDictionary d){
+    void setDict(LObjDictionary d){
 		dict = d;
     }
 
-    public LabObjectView getPropertyView(ViewContainer vc,LObjDictionary curDict){
+    public LabObjectView getPropertyView(ViewContainer vc,LObjDictionary curDict,
+										 LabBookSession session){
 		return null;
     }
 
@@ -77,15 +78,24 @@ public abstract class LObjSubDict extends LabObject
 
     }
 
-    public LabObject getObj(int id)
+    public LabObject getObj(int id, LabBookSession s)
     {
 		if(dict == null){
 			return null;
 		}
 
+		if(s == null){
+			return null;
+			//			throw new RuntimeException("null session in getObj");
+		}
+
 		// This assumes the dictionary doesn't have a template
 		id++;
-		LabObject obj = dict.getObj(dict.getChildAt(id));
+		LabObjectPtr ptr = dict.getChildAt(id);
+		if(ptr == null){
+			return null;
+		}
+		LabObject obj = s.getObj(ptr);
 		if(obj == null) Debug.println("Got null obj from subDict");
 
 		return obj;

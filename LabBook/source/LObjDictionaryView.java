@@ -7,13 +7,12 @@ import extra.util.*;
 import extra.ui.*;
 
 public class LObjDictionaryView extends LabObjectView 
-    implements ActionListener, ViewContainer, DialogListener, ScrollListener, TreeControlListener
+    implements ActionListener, DialogListener, ScrollListener, TreeControlListener
 {
 	public		boolean viewFromExternal = false;
     TreeControl treeControl;
     TreeModel treeModel;
     RelativeContainer me = new RelativeContainer();
-    LabObjectView lObjView = null;
 
     int newIndex = 0;
 
@@ -40,11 +39,12 @@ public class LObjDictionaryView extends LabObjectView
 	CCScrollBar				scrollBar;
 	waba.util.Vector 		pathTree;
 
-    public LObjDictionaryView(ViewContainer vc, LObjDictionary d)
+    public LObjDictionaryView(ViewContainer vc, LObjDictionary d,
+							  LabBookSession session)
     {
-		super(vc);
+		super(vc, (LabObject)d, session);
 		dict = d;
-		lObj =dict;
+
 		add(me);
 		editMenu.add("Cut");
 		editMenu.add("Paste");
@@ -54,6 +54,7 @@ public class LObjDictionaryView extends LabObjectView
     }
 
 	public static String ROOT_TREE_NODE_NAME = "Home";
+	DictTreeNode rootNode = null;
 
     public void layout(boolean sDone)
     {
@@ -62,7 +63,8 @@ public class LObjDictionaryView extends LabObjectView
 
 		showDone = sDone;
 
-		treeModel = new TreeModel(dict);
+		rootNode = new DictTreeNode(dict, session, dict.lBook);
+		treeModel = new TreeModel(rootNode);
 		treeControl = new TreeControl(treeModel);
 		treeControl.addTreeControlListener(this);
 		treeControl.showRoot(false);
@@ -165,14 +167,14 @@ public class LObjDictionaryView extends LabObjectView
 		    				pathTree.del(0);
 		    			}
 		    		}
-		    		LabObject obj = dict.getObj(node);
+					LabObject obj = rootNode.getObj(node);
 					redefineFolderChoiceMenu();
 					if(obj instanceof LObjDictionary){
 						LObjDictionary d = (LObjDictionary)obj;
 						if(d.viewType == LObjDictionary.TREE_VIEW){
 							dict = d;
 							me.remove(treeControl);
-							treeModel = new TreeModel(dict);
+							treeModel = new TreeModel(new DictTreeNode(dict, session, dict.lBook));
 							treeControl = new TreeControl(treeModel);
 							treeControl.addTreeControlListener(this);
 							treeControl.showRoot(false);
@@ -221,9 +223,16 @@ public class LObjDictionaryView extends LabObjectView
 		showPage(curNode, false);		
 	}
 
-	public void insertAtSelected(LabObject obj)
+	public LabObjectPtr insertAtSelected(LabObject obj)
 	{
-		insertAtSelected(dict.getNode(obj));		
+		TreeNode newNode = rootNode.getNode(obj);
+		LabObjectPtr newPtr = rootNode.getPtr(newNode);
+		insertAtSelected(newNode);		
+
+		return newPtr;
+		/*
+		 *  We shouldn't need this anymore
+		 */
 
 		/* This is a little hack
 		 * a commit just happened so this object 
@@ -234,7 +243,8 @@ public class LObjDictionaryView extends LabObjectView
 		 * this sticks the object back into the "loaded" 
 		 * list so it won't get loaded twice
 		 */
-		dict.lBook.reload(obj);
+
+		//		dict.lBook.reload(obj);
 	}
 
     public void insertAtSelected(TreeNode node)
@@ -246,7 +256,7 @@ public class LObjDictionaryView extends LabObjectView
 		} else {
 			treeModel.insertNodeInto(node, parent, parent.getIndex(curNode)+1);
 		}
-		dict.lBook.commit();
+		session.checkPoint();
     }
 
 	public void redesignScrollBar(){
@@ -272,7 +282,7 @@ public class LObjDictionaryView extends LabObjectView
 
     public void dialogClosed(DialogEvent e)
     {
-	String command = e.getActionCommand();
+		String command = e.getActionCommand();
 		if(e.getSource() == newDialog){
 			if(command.equals("Create")){
 				String objType = (String)e.getInfo();
@@ -288,21 +298,21 @@ public class LObjDictionaryView extends LabObjectView
 					return;
 				}
 
-				LabObject obj = dict.getObj(selObj);
+				LabObject obj = rootNode.getObj(selObj);
 				if(obj != null){
 					obj.setName((String)e.getInfo());
 					obj.store();
-					if(!dict.lBook.commit()){
-						// error (what to do)
-						return;
-					}
+					session.checkPoint();
 				}
 
 				treeControl.reparse();
 				treeControl.repaint();
 			}
 		} else if(e.getSource() == propDialog){
-			dict.lBook.commit();
+			// We should release the propDialog's session
+			
+			// and checkpoint our's
+			session.checkPoint();
 			treeControl.reparse();
 			treeControl.repaint();			
 		}
@@ -315,11 +325,7 @@ public class LObjDictionaryView extends LabObjectView
 		String command;
 		Debug.println("Got action: " + e.getActionCommand());
 
-		if(e.getSource() == lObjView){
-	    	if(e.getActionCommand().equals("Done")){
-				done(lObjView);
-	    	}
-		} else if(e.getSource() == editMenu){	    
+		if(e.getSource() == editMenu){	    
 			if(e.getActionCommand().equals("Cut")){
 				TreeNode curNode = treeControl.getSelected();
 				if(curNode == null || curNode.toString().equals("..empty..")) return;
@@ -333,7 +339,7 @@ public class LObjDictionaryView extends LabObjectView
 		    } else if(e.getActionCommand().equals("Properties...")){
 				TreeNode curNode = treeControl.getSelected();
 				if(curNode == null || curNode.toString().equals("..empty..")) return;
-				showProperties(dict.getObj(curNode));
+				showProperties(rootNode.getObj(curNode));
 		    } else if(e.getActionCommand().equals("Toggle hidden")){
 				LObjDictionary.globalHide = !LObjDictionary.globalHide;
 				if(container != null) container.reload(this);
@@ -370,7 +376,7 @@ public class LObjDictionaryView extends LabObjectView
 				imFile.close();
 
 				if(newObj != null){
-				    TreeNode newNode = dict.getNode(newObj);
+				    TreeNode newNode = rootNode.getNode(newObj);
 				    insertAtSelected(newNode);
 				}
 
@@ -379,7 +385,7 @@ public class LObjDictionaryView extends LabObjectView
 				    dict.lBook.export(null, null);
 				} else {
 				    TreeNode curNode = treeControl.getSelected();
-				    LObjDictionary parent = (LObjDictionary)treeControl.getSelectedParent();
+				    DictTreeNode parent = (DictTreeNode)treeControl.getSelectedParent();
 				    if(parent == null) return;
 				    
 				    LabObject obj = parent.getObj(curNode);
@@ -403,14 +409,13 @@ public class LObjDictionaryView extends LabObjectView
     {
 		LabObject obj = null;
 		
-		obj = dict.getObj(curNode);
+		obj = rootNode.getObj(curNode);
 		if(obj instanceof LObjDictionary &&
 		   ((LObjDictionary)obj).viewType == LObjDictionary.TREE_VIEW){
 			if(pathTree == null){
 				pathTree = new waba.util.Vector();
 			}
 			TreeLine selLine = treeControl.getSelectedLine();
-			
 			
 			int currIndex = 0;
 			if(pathTree.getCount() > 0) pathTree.del(0);
@@ -428,7 +433,7 @@ public class LObjDictionaryView extends LabObjectView
 
 			dict = d;
 			me.remove(treeControl);
-			treeModel = new TreeModel(dict);
+			treeModel = new TreeModel(new DictTreeNode(dict, session, dict.lBook));
 			treeControl = new TreeControl(treeModel);
 			treeControl.addTreeControlListener(this);
 			treeControl.showRoot(false);
@@ -442,7 +447,6 @@ public class LObjDictionaryView extends LabObjectView
 					      ((LabObjectPtr)curNode).debug());
 		showPage(obj,edit);
 	}
-
 
 	public void redefineFolderChoiceMenu(){
 		if(folderChoice != null) me.remove(folderChoice);
@@ -462,7 +466,7 @@ public class LObjDictionaryView extends LabObjectView
 	public void showProperties(LabObject obj)
 	{
 		if(obj == null) return;
-		LabObjectView propView = obj.getPropertyView(null, null);
+		LabObjectView propView = obj.getPropertyView(null, session);
 		if(propView == null) return;
 		MainWindow mw = MainWindow.getMainWindow();
 		if(!(mw instanceof ExtraMainWindow)) return;
@@ -475,14 +479,14 @@ public class LObjDictionaryView extends LabObjectView
 	public void showPage(LabObject obj, boolean edit)
 	{
 		editStatus = edit;
-		lObjView = obj.getView(this, edit, (LObjDictionary)treeControl.getSelectedParent());
-		if(lObjView == null){
-		    return;
-		}
+		DictTreeNode parent = (DictTreeNode)treeControl.getSelectedParent();
+		if(parent == null) parent = rootNode;
+
+		if(obj == null) return; // throw new RuntimeException("null obj");
 
 		dict.store();
 
-		getMainView().showFullWindowView(lObjView);
+		getMainView().showFullWindowObj(edit, parent.getDict(), obj, session);
     }
 
 	boolean addedMenus = false;
@@ -492,12 +496,10 @@ public class LObjDictionaryView extends LabObjectView
 			// our container wants us to show our menus
 			showMenus = true;
 			addMenus();
-			if(lObjView != null) lObjView.setShowMenus(state);
 		} else if(showMenus && !state){
 			// out container wants us to remove our menus
 			showMenus = false;
 			if(addedMenus) delMenus();
-			if(lObjView != null) lObjView.setShowMenus(state);
 		}
 	}
 
@@ -529,58 +531,8 @@ public class LObjDictionaryView extends LabObjectView
 		return null;
 	}
 
-    public void done(LabObjectView source)
-    {
-		if(source == lObjView){
-			lObjView.close();
-	    
-			// I'm trying to have all objects be responsible for 
-			// their own storing now.
-			// dict.lBook.store(lObjView.lObj);
-
-			// I might want to do a commit here lets try it....
-			// of course if we are embedded this might be a problem
-			if(!dict.lBook.commit()){
-				// error (what to do)
-				return;
-			}
-
-			// The order is important here because closeTopWin
-			// calls setShowMenus which checks lObjView to decide which 
-			// menus to show.
-			lObjView = null;
-
-			getMainView().closeTopWindowView();
-
-			treeControl.reparse();
-/*
-			pathTree = null;
-			
-			folderChoice.clear();
-			folderChoice.add("Root");
-			folderChoice.calcSizes();
-			folderChoice.repaint();
-*/
-		}
-    }
-
-    public void reload(LabObjectView source)
-    {
-		if(source == lObjView){
-			LabObject obj = source.getLabObject();
-			lObjView.close();
-			getMainView().showFullWindowView(null);
-	    
-			lObjView = obj.getView(this, editStatus, (LObjDictionary)treeControl.getSelectedParent());
-			getMainView().showFullWindowView(lObjView);
-		}
-    }
-
     public void close()
     {
-		if(lObjView != null){
-			lObjView.close();
-		}
 		if(scrollBar != null) scrollBar.close();
 		super.close();
 		// Commit ???
