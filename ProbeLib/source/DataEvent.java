@@ -55,7 +55,7 @@ public int	 	[]intData = null;
 	public float getDeltaT(){return (dataDesc == null)?0.0f:dataDesc.getDt();}
 	public float getTime(){return (float)getIntTime()*getDeltaT();}//for backward compatibility
 	public void  setTime(float val){
-		setIntTime((int)(val/getDeltaT()+0.5));
+		setIntTime((int)(val/getDeltaT()+0.5f));
 	}
 	
 	public void 	setTuneValue(float tuneValue){
