@@ -7,7 +7,7 @@ public class ProbManager implements ProbListener, Transform{
 public static ProbManager pb = null;
 CCInterfaceManager im;
 
-protected CCProb[]				probsArray;
+protected CCProb[]				probsArray = null;
 protected ProbManagerListener[]	listenersArray;
 
 protected 	static ProbManagerEvent   pmEvent = new ProbManagerEvent();
@@ -198,30 +198,40 @@ protected 	static ProbManagerEvent   pmEvent = new ProbManagerEvent();
 		if(p!=null) p.removeDataListener(l);
 	}
 	
-    	public boolean idle(DataEvent e){
+	public boolean idle(DataEvent e){
 	    for(int i = 0; i < getNumbProbs(); i++){
-		probsArray[i].idle(e);//need offset important, but not relevant right now
+			probsArray[i].idle(e);//need offset important, but not relevant right now
 	    }
 	    return true;
 	}
-    	public boolean startSampling(DataEvent e){
+	public boolean startSampling(DataEvent e){
 	    for(int i = 0; i < getNumbProbs(); i++){
-		probsArray[i].startSampling(e);//need offset important, but not relevant right now
+			probsArray[i].startSampling(e);//need offset important, but not relevant right now
 	    }
 	    return true;
-    	}
+	}
 
-    	public boolean dataArrived(DataEvent e){
+	public boolean dataArrived(DataEvent e){
 	    for(int i = 0; i < getNumbProbs(); i++){
-		probsArray[i].dataArrived(e);//need offset important, but not relevant right now
+			probsArray[i].dataArrived(e);//need offset important, but not relevant right now
 	    }
 	    return true;
-    	}
+	}
 	public int getMode(){return im.getMode();}
 	protected void setMode(int mode){
 		im.setMode(mode);
 	}
 	public void dispose(){
+		if(probsArray != null && probsArray.length > 0){
+			CCProb []newArray = new CCProb[probsArray.length];
+			waba.sys.Vm.copyArray(probsArray,0,newArray,0,probsArray.length);
+
+			for(int i = 0; i < newArray.length; i++){
+				CCProb prob = newArray[i];
+				if(prob != null) unRegisterProb(prob);
+			}
+		}
+		probsArray = null;
 		im.dispose();
 		im = null;
 		pb = null;
