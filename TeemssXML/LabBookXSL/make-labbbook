@@ -1,11 +1,11 @@
 #! /bin/bash
 
-if [ $projectroot ]
-then echo "using \$projectroot: " $projectroot
-else echo "please set \$projectroot" ; break
+if [ $workingcopy ]
+then echo "using \$workingcopy: " $workingcopy
+else echo "please set \$workingcopy" ; break
 fi
 
-java -cp $projectroot/wextra/classes/desktop:$projectroot/wabasdk/classes:$projectroot/wgraph/classes/other:$projectroot/LabBook/classes/other:$projectroot/CCProbe/classes/other:$projectroot/XML2LabBook/jars/QTJava.zip:$projectroot/XML2LabBook/classes/other xml2labbook.XML2LabBook labbook.xml 
+java -cp $workingcopy/wextra/classes/desktop:$workingcopy/wabasdk/classes:$workingcopy/wgraph/classes/other:$workingcopy/LabBook/classes/other:$workingcopy/CCProbe/classes/other:$workingcopy/XML2LabBook/jars/QTJava.zip:$workingcopy/XML2LabBook/classes/other xml2labbook.XML2LabBook labbook.xml 
 
 
 
