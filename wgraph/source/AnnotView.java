@@ -179,6 +179,7 @@ public class AnnotView extends Container
 			}
 			if(barDown &&
 			   (bgView.selBar instanceof Annotation)){
+				postEvent(new ControlEvent(1007, this));
 				//	       annotPage.showProp();
 			}
 			barDown = false;

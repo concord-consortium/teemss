@@ -165,7 +165,7 @@ public class Bin
 		g.drawLine(xaxis.drawnX, yPos, xaxis.drawnX+xaxis.dispLen, yPos);
 	}
 
-    public void drawAnnots(Graphics g, int annotTopY, Axis xaxis)
+    public void drawAnnots(Graphics g, int annotTopY, Axis parentXaxis)
     {
 		int i;
 		Annotation a;
@@ -183,7 +183,7 @@ public class Bin
 					a.draw(g, xPos- a.width/2, annotTopY);
 					if(a.selected){
 						valPos = (int)((a.value - yaxis.min) * yaxis.scale) + yaxis.drawnOffset;
-						drawCrossHairs(g, xPos, valPos, xaxis);
+						drawCrossHairs(g, xPos, valPos, parentXaxis);
 					}
 				}
 			}
@@ -452,8 +452,15 @@ public class Bin
 		return dEvent;
     }
 
+	boolean visible = true;
+	public void setVisible(boolean val)
+	{
+		visible = val;
+	}
+
 	public void draw(Graphics g)
 	{
+		if(!visible)return;
 		if(xaxis.estimateScale || yaxis.estimateScale){
 			drawEst(g);
 			return;

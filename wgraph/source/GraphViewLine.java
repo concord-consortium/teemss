@@ -84,10 +84,13 @@ public class GraphViewLine extends GraphView
 	{
 		lGraph.switchXAxis(xaxis);
 		lGraph.switchYAxis(yaxis);
+
+		/*
 		yaxis.setRange(minY, maxY - minY);
 
 		// This is a hack see setRange in AnnotView
 		xaxis.setRange(minX, maxX - minX);
+		*/
 	}
 
     public boolean autoScroll = true;
