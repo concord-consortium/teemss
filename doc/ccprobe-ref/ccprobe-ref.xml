@@ -4,37 +4,36 @@
   <bookinfo>
     <title>CCProbe Software Reference</title> 
     <author><firstname>Stephen</firstname><surname>Bannasch</surname></author> 
-
+    <date> 21 February 2002</date>
+    <copyright>
+      <year>2002</year>
+      <holder>Concord Consortium</holder>
+    </copyright>
+    <releaseinfo>incomplete, released: $date$</releaseinfo>
     <mediaobject>
       <imageobject>
 	<imagedata fileref="images/png/gs-7-1.png" format="PNG" scale="50"/>
       </imageobject>
     </mediaobject>
-
-    <date> 9 Jan 2002</date>
-    <copyright>
-      <year>2002</year>
-      <holder>Concord Consortium</holder>
-    </copyright>
-<legalnotice>
-<para>
+    <legalnotice>
+      <para>
 This material is based upon work supported by the National Science Foundation 
 under the following Grant Numbers:
-</para>
-  <para>TEEMSS: ESI-9986419</para>
-  <para>Data and Models: REC-9973179</para>
-  <para>Exploratorium: ESI-9901985</para>
-  <para>MAC: REC-0115699</para>
-<para>
+      </para>
+      <para>TEEMSS: ESI-9986419</para>
+      <para>Data and Models: REC-9973179</para>
+      <para>Exploratorium: ESI-9901985</para>
+      <para>MAC: REC-0115699</para>
+      <para>
 Any opinions, findings, and conclusions or recommendations expressed in 
 this material are those of the author(s) and do not necessarily reflect 
 the views of the National Science Foundation.
-</para>
-</legalnotice>
-</bookinfo>
+      </para>
+    </legalnotice>
+  </bookinfo>
 
   <chapter><title>Introduction to CCProbe</title> 
-    <para>CC has developed an
+    <para>The Concord Consortium has developed an
     open-source application called CCProbe that is scriptable,
     configurable, and supports probe-based visualization, analysis,
     and calibration components.  CCProbe also includes components for
@@ -96,11 +95,11 @@ communicate with the CCProbe software and inform the user.  </para>
     <mediaobject>
       <imageobject>
 	<imagedata
-fileref="images/png/ccprobe-interface-blockdiag.png" format="PNG" scale="25"/>
+fileref="images/png/ccprobe-interface-blockdiag.png" format="PNG" scale="50"/>
       </imageobject>
       <imageobject>
 	<imagedata
-fileref="images/eps/ccprobe-interface-blockdiag.eps" format="EPS" scale="25"/>
+fileref="images/eps/ccprobe-interface-blockdiag.eps" format="EPS" scale="50"/>
       </imageobject>
       <textobject>
 	<phrase>A schematic block diagram of the CCProbe Interface.</phrase>
@@ -560,7 +559,8 @@ Setting the location of the Serial Communications Port
 <para>
 The first time CCProbe attempts to connect to the CCProbe interface
 through the serial port it will ask which serial port to use to
-connect to the interface.
+connect to the interface.  If you later need to change this use the
+"Serial Port Setup ..." item in the File menu. 
 </para>
 <para>
 If you use an older Macintosh with a serial port you will most likely
@@ -577,39 +577,50 @@ Chooser window.
 
     <section><title>MacOS X</title>
       <para>
+After downloading and expanding the MacOSX CCProbe Package archive
+double click the RXTX.pkg installer application.  This will install
+the RXTX Java serial port libraries which enable CCProbe to
+communicate to the serial port.  Once RXTX is installed you can run
+the CCProbe application directly by double-clicking the icon.
+ 
       </para>
     </section>
     <section><title>Windows</title>
       <para>
       Installing and running CCProbe on Windows
       </para>
-      
+      <para>
+After downloading the CCProbe Package archive for windows run the
+ccprobe.exe file to expand the archive.  This will make a folder named
+ccprobe-windows.  Before running CCProbe you will need to make
+sure that both Java and the Java Communications API are installed.
+After installing this software start CCProbe by running CCProbe.bat.
+This runs CCWabaLauncher.exe which checks for thepresence of Java and
+then runs CCProbe.jar which holds the actual application.
+      </para>
+    <section><title>Installing Java</title>
       <para>
 CCProbe requires Sun's Java 1.1 or higher. You can get the latest
 version of the Java 2 Runtime Environment, Standard Edition for
 Windows here:
     </para>
-
       <para>
       <ulink url="http://java.sun.com/j2se/1.3/jre/download-windows.html">
       http://java.sun.com/j2se/1.3/jre/download-windows.html
       </ulink>
       </para>
-
       <para>
 Even though it is called Java 2, Sun's internal numbering calls this
 Java version 1.3.1.
     </para>
-
-      <para>
-In addition the Java Communications API must be installed to support
-serial communications with the interface.
+    </section>
+      <para> 
+In addition to Java the Java Communications API must be
+installed to support serial communications with the interface.
     </para>
-
       <para>
 1. Install the Java Communications API
     </para>
-
       <para>
 In order to install the following components you must determine where
 the java home directory is on your system. On my Windows 2000 system
@@ -617,105 +628,81 @@ it is C:\Program Files\JavaSoft\1.3.1. In the procedure below replace
 occurances of javahome with the location of the java home directory on
 your system.
     </para>
-
       <para>
 The home page for the Java Communications API is:
     </para>
-
       <para>
       <ulink url="http://java.sun.com/products/javacomm/">
       http://java.sun.com/products/javacomm/
       </ulink>
       </para>
-
       <para>
 Download Version 2.0 for Microsoft Windows.
     </para>
-
       <para>
 The Java Communications API will be saved on your computer in a ZIP
 archive. You will need a utility to expand the archive. The free
 program FreeZip works well. You can get it here:
     </para>
-
       <para>
       <ulink url="http://crnet.tucows.com/system/preview/194266.html">
       http://crnet.tucows.com/system/preview/194266.html
       </ulink>
       </para>
-
       <para>
 Most of the items are not needed however copy the three items below:
     </para>
-
       <para>
 a. Copy win32com.dll to the javahome\bin directory
     </para>
-
       <para>
 b. Copy comm.jar to the javahome\lib\ext
     </para>
-
       <para>
 c. Place javax.comm.properties in the javahome\lib
     </para>
-
-      <para>
-2. Install CCProbe
-    </para>
-
-
-      <para>
-a. Create folder CCProbe anywhere you like
-    </para>
-
-      <para>
-b. Copy CCProbe.jar and CCProbe.bat to the CCProbe folder
-    </para>
-
-      <para>
-you are ready to go
-    </para>
-
-      <para>
-to start: double-click on CCProbe.bat
-    </para>
-
       <para>
 Specifying the location of the Serial Communications Port
     </para>
-
+    <para>
+The first time CCProbe attempts to connect to the CCProbe interface
+through the serial port it will ask which serial port to use to
+connect to the interface.  If you later need to change this use the
+"Serial Port Setup ..." item in the File menu. 
+     </para>
       <para>
 Changing the CCProbe application window size
     </para>
-
       <para>
 Load the file CCProbe.bat into an program which can edit a text file
 such as WordPad
     </para>
-
       <para>
 Edit the first line in the file:
     </para>
-
       <para>
 java -cp CCProbe.jar waba.applet.Applet /w 600 /h 400 /color CCProbe
     </para>
-
       <para>
 The numbers after the /w and /h set the width and the height of the
 application window.  Edit these numbers and save the file. The next
 time the CCProbe application is run it will use the new specification
 as the window size.
       </para>
-
     </section>
     <section><title>Unix/Linux</title>
-      <para>
+      <para> After downloading and expanding the Unix tar archive of
+the CCProbe Package run the RXTX.pkg installer
+application.  This will install the RXTX Java serial port libraries
+which enable CCProbe to communicate to the serial port.  Once RXTX is
+installed you can run the CCProbe application directly by
+double-clicking the icon.
+ 
       </para>
     </section>
     <section><title>PocketPC</title>
       <para>
+
       </para>
     </section>
     <section><title>PalmOS</title>
