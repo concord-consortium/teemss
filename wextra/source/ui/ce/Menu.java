@@ -191,26 +191,29 @@ public class Menu extends Control
   
 	public void drawList(Graphics g)
 	{
+		if(g == null) return;
+
 		g.setColor(255,255,255);
 		g.fillRect(1,1,width-2,height-1);
 		g.setColor(0,0,0);
 		g.setFont(menuFont);
-		for(int i=0;i<numDisplayed;i++)
-			{
-				if ((i+scrollOffset==selected)&!((String)options.get(i+scrollOffset)).equals("-"))
-					{
-						g.fillRect(1,i*textHeight+1,width-3,textHeight);
-						g.setColor(255,255,255);
-					}
-				if (((String)options.get(i+scrollOffset)).equals("-"))
-					{
-						for(int k = 0; k < width-3; k += 2)
-							g.drawLine(k,i*textHeight + (textHeight /2),k, i*textHeight + (textHeight /2));   
-					} else
-						g.drawText((String)options.get(i+scrollOffset),3,i*textHeight+1);
-				if (i+scrollOffset==selected)
-					g.setColor(0,0,0);
+		for(int i=0;i<numDisplayed;i++){
+			if (options.get(i+scrollOffset) != null &&
+				(i+scrollOffset==selected) && 
+				!((String)options.get(i+scrollOffset)).equals("-")){
+				g.fillRect(1,i*textHeight+1,width-3,textHeight);
+				g.setColor(255,255,255);
 			}
+			if (options.get(i+scrollOffset) != null &&
+				((String)options.get(i+scrollOffset)).equals("-")){
+				for(int k = 0; k < width-3; k += 2){
+					g.drawLine(k,i*textHeight + (textHeight /2),k, i*textHeight + (textHeight /2));   
+				}
+			} else { 
+				g.drawText((String)options.get(i+scrollOffset),3,i*textHeight+1);
+				if (i+scrollOffset==selected) g.setColor(0,0,0);
+			}
+		}
 	}
 
 	/**

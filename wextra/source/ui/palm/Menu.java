@@ -198,7 +198,7 @@ public class Menu extends Control
 		g.setColor(0,0,0);
 		for(int i=0;i<numDisplayed;i++)
 			{
-				if ((i+scrollOffset==selected)&!((String)options.get(i+scrollOffset)).equals("-"))
+				if ((i+scrollOffset==selected) && !((String)options.get(i+scrollOffset)).equals("-"))
 					{
 						g.fillRect(1,i*textHeight+1,width-3,textHeight);
 						g.setColor(255,255,255);
