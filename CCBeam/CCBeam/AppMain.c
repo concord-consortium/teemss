@@ -48,9 +48,10 @@
 
 typedef struct {
 	UInt16 cardNo; // card number of the database 
-	LocalID dbID; // LocalID of the database
+	char inName[40];
+	char outName[32];
+	char appName[32];
 	char description[256];
-	UInt32 goToCreator;
 } BeamParamsType;
 
 typedef BeamParamsType *BeamParamsPtr;
@@ -164,28 +165,70 @@ static Err SendDatabase (BeamParamsPtr cmdPBP)
 {
 	Err					err;
 	ExgSocketType		exgSocket;
+	int bytesSent = 0;
+	LocalID inputDbID = -1;
+
+	inputDbID = DmFindDatabase(0, cmdPBP->inName);
+	if(inputDbID == 0){
+		return(err);
+	}
 
 	// Create exgSocket structure
 	MemSet(&exgSocket, sizeof(ExgSocketType), 0);
 
-	// Transfer the incoming paramters from the launch parameter block into the echange manager socket
-	exgSocket.name = CCBeamDBFilename;
 	exgSocket.description = cmdPBP -> description;
 
-	// Start and exchange put operation
-	err = ExgPut(&exgSocket);
-	if (!err)
-		{
-		// This function converts a palm database into its external (public)
-		// format. The first parameter is a callback that will be passed parts of 
-		// the database to send or write.
-		err = ExgDBWrite(WriteDBData, &exgSocket, NULL, cmdPBP -> dbID, cmdPBP -> cardNo);
-		// Disconnect Exg and pass error
-		err = ExgDisconnect(&exgSocket, err);
+	// If the there isn't an appName and outName 
+	// then send the database directly.
+	if(StrLen(cmdPBP->appName) == 0 &&
+	   StrLen(cmdPBP->outName) == 0){
+		exgSocket.name = "dummy.pdb";
+
+		// Start and exchange put operation
+		err = ExgPut(&exgSocket);
+		if (!err){
+			// This function converts a palm database into its external (public)
+			// format. The first parameter is a callback that will be passed parts of 
+			// the database to send or write.
+			err = ExgDBWrite(WriteDBData, &exgSocket, NULL, inputDbID, cmdPBP -> cardNo);
+			// Disconnect Exg and pass error
+			err = ExgDisconnect(&exgSocket, err);
 		} else {
 			FrmAlert (2000);
 		}
+		return err;
+	} 
 
+	// Otherwise use our wrapper file name 
+	// This ensures that CCBeam will be launched again
+	// by the recieving palm
+	exgSocket.name = CCBeamDBFilename;
+
+	// Start and exchange put operation
+	err = ExgPut(&exgSocket);
+	if (!err){
+		// Send the out name we fix it at 32 bytes
+		bytesSent = ExgSend(&exgSocket, cmdPBP->outName, 32, &err);
+		if(bytesSent < 32){
+			return err;
+		}
+
+		// Send the application name we fix it at 32 bytes
+		bytesSent = ExgSend(&exgSocket, cmdPBP->appName, 32, &err);
+		if(bytesSent < 32){
+			return err;
+		}
+
+		// This function converts a palm database into its external (public)
+		// format. The first parameter is a callback that will be passed parts of 
+		// the database to send or write.
+		err = ExgDBWrite(WriteDBData, &exgSocket, NULL, inputDbID, cmdPBP -> cardNo);
+		// Disconnect Exg and pass error
+		err = ExgDisconnect(&exgSocket, err);
+	} else {
+		FrmAlert (2000);
+	}
+	
 	return err;
 
 }
@@ -202,22 +245,36 @@ static Err SendDatabase (BeamParamsPtr cmdPBP)
 static Err ReceiveDatabase (ExgSocketPtr exgSocketP)
 {
 	Err		err;
-	LocalID *dbIDP = NULL;
+	LocalID dbID;
 	UInt16	cardNo = 0;
 	Boolean *needResetP = NULL;
 	Boolean keepDates = false;
+	char outName [32];
+	char appName [32];
+	int bytesSent = -1;
 
-	LocalID ccprobe_dbID;
-	UInt32 ccprobe_creatorID;
+	LocalID app_dbID;
 
 	// Create exgSocket structure
 	MemSet(exgSocketP, sizeof(exgSocketP->length), 0);
 
 	// Start and exchange put operation
 	err = ExgAccept(exgSocketP);
-	if (!err)
-		{
-		err = ExgDBRead(ReadDBData, DeleteExistingDB, exgSocketP, dbIDP, cardNo, needResetP, keepDates);
+	if (!err){
+		// Receive the DB name we fix it at 32 bytes
+		bytesSent = ExgReceive(exgSocketP, outName, 32, &err);
+		if(bytesSent != 32){
+			return err;
+		}
+
+		// Receive the DB name we fix it at 32 bytes
+		bytesSent = ExgReceive(exgSocketP, appName, 32, &err);
+		if(bytesSent != 32){
+			return err;
+		}
+
+		// Receive the database
+		err = ExgDBRead(ReadDBData, DeleteExistingDB, exgSocketP, &dbID, cardNo, needResetP, keepDates);
 
 		/*
 		exgSocketP->goToCreator = 'CCPr';
@@ -227,23 +284,30 @@ static Err ReceiveDatabase (ExgSocketPtr exgSocketP)
 		// Disconnect Exg and pass error
 		err = ExgDisconnect(exgSocketP, err);
 
-	/****************************************************************************/
-	/* HARD CODE - Currently this is hard coded to lauch CCProbe because of a   */
-	/*			   mysterious bug with the exchange manager code that is		*/
-	/*			   currently making it not possible to pass the creator code of */
-	/*			   the application that should be launched.					    */
-	/****************************************************************************/
-
-		if (!err)
+		// Try to rename the database to the outName
+		if(StrLen(outName) > 0){
+			/*
+			  UInt cardNo, 
+			  LocalID dbID, CharPtr nameP, 
+			  UIntPtr attributesP, UIntPtr versionP, 
+			  ULongPtr crDateP, ULongPtr modDateP, 
+			  ULongPtr bckUpDateP, ULongPtr modNumP, 
+			  LocalID* appInfoIDP, LocalID* sortInfoIDP, 
+			  ULongPtr typeP, ULongPtr creatorP); 
+			  
+			*/
+			DmSetDatabaseInfo(cardNo, dbID, outName, 
+							  NULL, NULL, NULL, NULL, 
+							  NULL, NULL, NULL, NULL, NULL, NULL);
+		}
+	
+		if (!err && StrLen(appName) > 0)
 		{
 			// Find the database
-			ccprobe_dbID = DmFindDatabase(0, "CCProbe");
-			if(ccprobe_dbID != 0)
+			app_dbID = DmFindDatabase(0, appName);
+			if(app_dbID != 0)
 			{
-				// Find the creator
-				err = DmDatabaseInfo(0, ccprobe_dbID, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, &ccprobe_creatorID);
-				SysUIAppSwitch(0, ccprobe_dbID, sysAppLaunchCmdNormalLaunch, NULL);
-
+				SysUIAppSwitch(0, app_dbID, sysAppLaunchCmdNormalLaunch, NULL);
 			}
 
 		}
@@ -253,6 +317,20 @@ static Err ReceiveDatabase (ExgSocketPtr exgSocketP)
 	return err;
 }
 
+
+void parseArgs(char *dstStr, char *srcStr, int startChar, int len, 
+			   int maxLen)
+{
+	if(len <= 0){
+		dstStr[0] = 0;
+		return;
+	} else if(len > maxLen - 1){
+		len = maxLen - 1;
+	}
+
+	StrNCopy(dstStr, &srcStr[startChar], len);
+	dstStr[len] = 0;
+}
 
 /***********************************************************************
  *
@@ -307,21 +385,20 @@ UInt32 PilotMain(UInt16 cmd, MemPtr cmdPBP, UInt16 launchFlags)
 
 		while(true){
 			if(args[i] == ',' || args[i] == 0){
-				switch(argc){
-				case 0: {
-					char dbName[64];
+				int len = i-startChar;
 
-					StrNCopy(dbName, &(args[startChar]), i-startChar);
-					dbName[i-startChar] = 0;
-					pBP->dbID = DmFindDatabase(0, dbName);
-					if(pBP->dbID == 0){
-						return(err);
-					}
-					break;
-				}
+				switch(argc){
+				case 0: 
+					parseArgs(pBP->inName, args, startChar, len, 32);
+					break;					
 				case 1:
-					StrNCopy(pBP->description, &args[startChar], i-startChar);
-					pBP->description[i-startChar]=0;
+					parseArgs(pBP->outName, args, startChar, len, 32);
+					break;
+				case 2:
+					parseArgs(pBP->appName, args, startChar, len, 32);
+					break;					
+				case 3:
+					parseArgs(pBP->description, args, startChar, len, 256);
 					break;
 				}
 				startChar = i+1;
@@ -332,8 +409,6 @@ UInt32 PilotMain(UInt16 cmd, MemPtr cmdPBP, UInt16 launchFlags)
 			}
 			i++;
 		} 
-
-
 
 		SendDatabase(pBP);
 	}

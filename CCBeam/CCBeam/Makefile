@@ -25,7 +25,7 @@ CCFLAGS = -O2 -Wall #-palmos3.5
 
 #**************************************************
 # VARIABLES - BUILD
-NAME	= "CCBEAM"
+NAME	= "CCBeam"
 CODE	= cCCB
 
 #--------------------------------------------------
@@ -59,7 +59,7 @@ BINS = $(BIN1).bin
 #--------------------------------------------------
 # PALM APPLICATION - .PRC
 $(EXE).prc: $(EXE) $(BINS)
-	$(BUILD) $(EXE).prc $(NAME) $(CODE) $(EXE) *.bin
+	$(BUILD) --hidden $(EXE).prc $(NAME) $(CODE) $(EXE) *.bin
 	rm -f *.bin
 
 #--------------------------------------------------
