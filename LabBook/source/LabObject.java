@@ -1,6 +1,7 @@
 package org.concord.LabBook;
 
 import waba.ui.*;
+import waba.util.*;
 import extra.io.*;
 import org.concord.waba.extra.ui.*;
 
@@ -87,6 +88,28 @@ public abstract class LabObject
 		LabObjectPtr ptr = lBook.store(this);
 		if(ptr != null){
 			lBook.commit(ptr);
+		}
+	}
+
+	Vector objListeners = null;
+	public void addLabObjListener(LabObjListener l)
+	{
+		if(objListeners == null) objListeners = new Vector();
+		objListeners.add(l);
+	}
+
+	public void delLabObjListener(LabObjListener l)
+	{
+		int index = objListeners.find(l);
+		if(index >= 0) objListeners.del(index);
+	}
+
+	public void notifyObjListeners(LabObjEvent e)
+	{
+		if(objListeners == null) return;
+		for(int i=0; i<objListeners.getCount(); i++){
+			LabObjListener l = (LabObjListener)objListeners.get(i);
+			if(l != null) l.labObjChanged(e);
 		}
 	}
 }
