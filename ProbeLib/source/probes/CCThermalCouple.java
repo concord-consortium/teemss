@@ -15,14 +15,15 @@ public final static int		FAHRENHEIT_TEMP_OUT = 2;
 public final static int		KELVIN_TEMP_OUT = 3;
 public final static int		DEFAULT_TEMP_OUT = CELSIUS_TEMP_OUT;
 int				outputMode = DEFAULT_TEMP_OUT;
-public final static String	tempModeString = "Temperature Mode";
-public final static String	[]tempModes =  {defaultModeName,"Celsius","Fahrenheit","Kelvin"};
+public final static String	tempModeString = "Output Mode";
+public final static String	[]tempModes =  {defaultModeName,"C","F","K"};
 float AC = 17.084f;
 float BC = -0.25863f;
 float CC = 0.011012f;
 float DC = 10f;
 float EC = -50f;
 float FC = 0.0f;
+	private boolean fromConstructor = true;
 	protected CCThermalCouple(){
 		this("unknown");
 	}
@@ -35,7 +36,7 @@ float FC = 0.0f;
 		dEvent.setNumbData(1);
 		dEvent.setData(tempData);
 		properties = new PropObject[2];
-		samplingModes[1] = null;
+//		samplingModes[1] = null;
 
 		properties[0] = new PropObject(samplingModeString,samplingModes); 
 		properties[1] = new PropObject(tempModeString,tempModes); 
@@ -46,9 +47,14 @@ float FC = 0.0f;
 		calibrationDesc = new CalibrationDesc();
 		calibrationDesc.addCalibrationParam(new CalibrationParam(0,FC));
 //		calibrationDesc.addCalibrationParam(new CalibrationParam(1,EC));
+
+		fromConstructor = false;
 	}
 	public int	getActiveChannels(){return 2;}
 	public void setPropertyValue(String nameProperty,String value){
+		if(!fromConstructor && (nameProperty.equals(samplingModeString))){
+			return;
+		}
 		super.setPropertyValue(nameProperty,value);
 		if(nameProperty == null || value == null) return;
 		if(nameProperty.equals(tempModeString)){
@@ -62,6 +68,9 @@ float FC = 0.0f;
 		}
 	}
 	public void setPropertyValue(int index,String value){
+		if(!fromConstructor && (index == 0)){
+			return;
+		}
 		super.setPropertyValue(index,value);
 		if(index == 1){
 			outputMode = DEFAULT_TEMP_OUT;

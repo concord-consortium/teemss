@@ -252,6 +252,30 @@ public class List extends Control implements PreferredSize
 
 
 
+  public void setSelectedIndex(String s)
+
+  {
+
+  	if(s == null) return;
+
+  	for(int i = 0; i < options.getCount(); i++){
+
+  		if(s.equals((String)options.get(i))){
+
+   			setSelectedIndex(i);
+
+   			return;
+
+ 		}
+
+  	}
+
+  }
+
+
+
+
+
   public int getPreferredWidth(FontMetrics fm)
 
   {
@@ -290,11 +314,19 @@ public class List extends Control implements PreferredSize
 
     int t;
 
-    for(int i=0;i<size;i++)
+    
 
-      if ((t=fm.getTextWidth((String)options.get(i)))>expandedWidth)
+    for(int i=0;i<size;i++){
 
-        expandedWidth=t;
+    	String str = (String)options.get(i);
+
+    	if(str == null) continue;
+
+      	if((t=fm.getTextWidth(str))>expandedWidth)
+
+        	expandedWidth=t;
+
+   }
 
     return true;
 

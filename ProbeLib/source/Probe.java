@@ -12,8 +12,8 @@ PropObject		[]properties = null;
 CalibrationDesc	calibrationDesc;
 public static final String defaultModeName = "Default";
 
-public final static String samplingModeString = "SamplingMode";
-public String	[]samplingModes =  {"Slow Sampling","Fast Sampling"};
+public final static String samplingModeString = "Sampling";
+public String	[]samplingModes =  {"Slow","Fast"};
 
 public final static int		SAMPLING_24BIT_MODE = 0;
 public final static int		SAMPLING_10BIT_MODE = 1;
@@ -109,6 +109,11 @@ DataListener calibrationListener = null;
 	
 	public String getPropertyValue(String nameProperty){
 		PropObject p = getProperty(nameProperty);
+		if(p == null) return null;
+		return p.getValue();
+	}
+	public String getPropertyValue(int index){
+		PropObject p = getProperty(index);
 		if(p == null) return null;
 		return p.getValue();
 	}

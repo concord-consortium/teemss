@@ -24,6 +24,7 @@ String []nameTabs = {"Preferences","Calibration"};
 int nChannels = 1;
 int   []calibratedRows = null;
 
+final static int PROP_PANE = 0;
 final static int CAL_PANE = 1;
 
 public static ProbManager pb = null;
@@ -134,6 +135,8 @@ DeviationControl	devControl;
  		if(currentPane != null){
 			getContentPane().remove(currentPane);
  		}
+ 		boolean needNewProp = (currContainer == PROP_PANE) && (propertiesPanes[currContainer] == null);
+ 		System.out.println("needNewProp "+needNewProp);
  		if(propertiesPanes[currContainer] == null){
 			propertiesPanes[currContainer] = new Container();
 			int pHeight = contentRect.height - (25 + bHeight);
@@ -146,6 +149,45 @@ DeviationControl	devControl;
  			setUpTable();
 			bStart.setEnabled(false);
 			if(calTable != null) calTable.selectRow(1);
+ 		}else if(needNewProp && (probe != null)){
+ 			waba.fx.Rect r = propertiesPanes[currContainer].getRect();
+ 			int nProperties = probe.countProperties();
+			int y0 = r.height / 2  - (nProperties * 20) / 2;
+			if (y0 < 0) y0 = 0;
+			int x0 = 5;
+			for(int i = 0; i < nProperties; i++){
+				PropObject po = (PropObject)probe.getProperty(i);
+				String name = po.getName();
+				String value = po.getValue();
+				waba.ui.Label lName = new waba.ui.Label(name);
+				waba.ui.Control c = null;
+				String []possibleValues = po.getPossibleValues();
+				if(possibleValues == null){
+					waba.ui.Edit   eValue = new waba.ui.Edit();
+					eValue.setText(value);
+					c = eValue;
+				}else{
+					int index = -1;
+					for(int j = 0; j < possibleValues.length; j++){
+						if(value.equals(possibleValues[j])){
+							index = j;
+							break;
+						}
+					}
+					Choice ch = new Choice(possibleValues);
+					if(index >= 0){
+						ch.setSelectedIndex(index);
+					}
+					c = ch;
+				}
+				po.setValueKeeper(c);
+				lName.setRect(width/2 - 65,y0,60,16);
+				c.setRect(width/2 + 5,y0,60,16);
+				y0 += 20;
+				propertiesPanes[currContainer].add(lName);
+				propertiesPanes[currContainer].add(c);
+			}
+			
  		}
 /*
 		waba.util.Vector prop = propContainer.getProperties(currContainer);
@@ -198,33 +240,35 @@ DeviationControl	devControl;
  	}
 
 	public void updateProperties(boolean clearKeepers){
-/*
-		for(int i = 0; i < nContainers; i++){
-			waba.util.Vector prop = propContainer.getProperties(i);
-			if(prop == null) continue;
-			int nProperties = prop.getCount();
-			for(int j = 0; j < nProperties; j++){
-				PropObject po = (PropObject)prop.get(j);
-				Control c = po.getValueKeeper();
-				if(c instanceof waba.ui.Edit){
-					po.setValue(((waba.ui.Edit)c).getText());
-				}else if(c instanceof Choice){
-					po.setValue(((Choice)c).getSelected());
-				}
-				if(clearKeepers) po.setValueKeeper(null);
+		if(probe == null) return;
+ 		int nProperties = probe.countProperties();
+		for(int j = 0; j < nProperties; j++){
+			PropObject po = (PropObject)probe.getProperty(j);
+			Control c = po.getValueKeeper();
+			if(c instanceof waba.ui.Edit){
+				probe.setPropertyValue(j,((waba.ui.Edit)c).getText());
+				((waba.ui.Edit)c).setText(probe.getPropertyValue(j));
+			}else if(c instanceof Choice){
+				probe.setPropertyValue(j,((Choice)c).getSelected());
+				((Choice)c).setSelectedIndex(probe.getPropertyValue(j));
 			}
+			if(clearKeepers) po.setValueKeeper(null);
 		}
-*/
+		repaint();
 	}
 	
 	private void checkApplyEnabled(){
 		boolean applyEnabled = false;
-		if((calTable != null) && (calibratedRows != null)){
-			applyEnabled = (calibratedRows.length > 0);
-			for(int i = 0; i < calibratedRows.length; i++){
-				if(calibratedRows[i] != 1){
-					applyEnabled = false;
-					break;
+		if(currContainer == PROP_PANE){
+			applyEnabled = true;
+		}else{
+			if((calTable != null) && (calibratedRows != null)){
+				applyEnabled = (calibratedRows.length > 0);
+				for(int i = 0; i < calibratedRows.length; i++){
+					if(calibratedRows[i] != 1){
+						applyEnabled = false;
+						break;
+					}
 				}
 			}
 		}
@@ -303,32 +347,36 @@ DeviationControl	devControl;
 						owner.setDialog(null);
 					}
 					if((probe != null) && (event.target == bApply)){
-	 					CalibrationDesc caldesc = probe.getCalibrationDesc();
-	 					int nRows = caldesc.countParams();
-	 					//nChannels
-						float []row1 = new float[nRows];
-						float []calibrated = new float[nRows];
-						float []row2 = null;
-						if(nChannels > 1){
-							row2 = new float[nRows];
-						}
-						for(int i = 0; i < nRows; i++){
-							Object cell = calTable.getCell(0,i+1);
-							if((cell != null) && (cell instanceof CCLabel)){
-								row1[i] = ConvertExtra.toFloat(((CCLabel)cell).getText());
+						if(currContainer == PROP_PANE){
+							updateProperties(false);
+						}else{
+		 					CalibrationDesc caldesc = probe.getCalibrationDesc();
+		 					int nRows = caldesc.countParams();
+		 					//nChannels
+							float []row1 = new float[nRows];
+							float []calibrated = new float[nRows];
+							float []row2 = null;
+							if(nChannels > 1){
+								row2 = new float[nRows];
 							}
-							cell = calTable.getCell(nChannels,i+1);
-							if((cell != null) && (cell instanceof CCLabel)){
-								calibrated[i] = ConvertExtra.toFloat(((CCLabel)cell).getText());
-							}
-							if(row2 != null){
-								cell = calTable.getCell(1,i+1);
+							for(int i = 0; i < nRows; i++){
+								Object cell = calTable.getCell(0,i+1);
 								if((cell != null) && (cell instanceof CCLabel)){
-									row2[i] = ConvertExtra.toFloat(((CCLabel)cell).getText());
+									row1[i] = ConvertExtra.toFloat(((CCLabel)cell).getText());
+								}
+								cell = calTable.getCell(nChannels,i+1);
+								if((cell != null) && (cell instanceof CCLabel)){
+									calibrated[i] = ConvertExtra.toFloat(((CCLabel)cell).getText());
+								}
+								if(row2 != null){
+									cell = calTable.getCell(1,i+1);
+									if((cell != null) && (cell instanceof CCLabel)){
+										row2[i] = ConvertExtra.toFloat(((CCLabel)cell).getText());
+									}
 								}
 							}
+							probe.calibrationDone(row1,row2,calibrated);
 						}
-						probe.calibrationDone(row1,row2,calibrated);
 					}
 				}
 				return;
