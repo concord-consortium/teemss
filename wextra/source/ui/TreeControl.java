@@ -40,6 +40,13 @@ public class TreeControl extends Control implements TreeModelListener
 	myFM = getFontMetrics(myFont);
     }
 
+    boolean sRoot = true;
+    public void showRoot(boolean sRoot)
+    {
+	this.sRoot = sRoot;
+
+    }
+
     public void onPaint(Graphics g)
     {
 	int numLines = lines.getCount();
@@ -48,21 +55,29 @@ public class TreeControl extends Control implements TreeModelListener
 
 	if(numLines == 0) return;
 
-	int i;
+	if(!sRoot && numLines < 2) return;
+
+	int i = 0;
+	int depthOffset = 0;
+	if(!sRoot){
+	    i = 1;
+	    depthOffset = -1;
+	}
+
 	g.setColor(0,0,0);
-	for(i=0; i<numLines; i++){
+	for(; i<numLines; i++){
 	    line = (TreeLine)lines.get(i);
 	    if(!line.node.isLeaf()){
-		drawTwist(g, line.depth* indentSize, curY, line.expanded);
+		drawTwist(g, (line.depth - depthOffset)* indentSize, curY, line.expanded);
 	    }
 	    if(!line.selected){
-		g.drawText(line.node.toString(), (line.depth+1)*indentSize, curY);
+		g.drawText(line.node.toString(), (line.depth+depthOffset+1)*indentSize, curY);
 	    } else {
 		int tWidth = myFM.getTextWidth(line.node.toString());
 		g.setColor(0,0,0);
-		g.fillRect((line.depth+1)*indentSize, curY, tWidth, textHeight);
+		g.fillRect((line.depth+depthOffset+1)*indentSize, curY, tWidth, textHeight);
 		g.setColor(255,255,255);
-		g.drawText(line.node.toString(), (line.depth+1)*indentSize, curY);
+		g.drawText(line.node.toString(), (line.depth+depthOffset+1)*indentSize, curY);
 		g.setColor(0,0,0);
 	    }
 	    curY += textHeight;
@@ -179,7 +194,7 @@ public class TreeControl extends Control implements TreeModelListener
 	    }
 	}
 
-	selected.selected  = false;
+	if(selected != null) selected.selected  = false;
 	for(i=0; i < lines.getCount(); i++){
 	    line = (TreeLine)lines.get(i);
 	    if(line.node == node){

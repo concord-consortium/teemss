@@ -299,10 +299,12 @@ public abstract class  ExtraMainWindow extends MainWindow implements ActionListe
 
 
 
-    if (!doubleBuffered)
+    if (!doubleBuffered){
 
+	needsPaint = true;
       return;
 
+    }
     if (needsPaint)
 
       {
@@ -399,6 +401,13 @@ public boolean isControlHDialogOwned(Control c){
 
   }
 
+
+    public void _finishAWTEvent()
+    {
+	if(needsPaint){
+	    _doPaint(x, y, width, height);
+	}
+    }
 
 
   /**

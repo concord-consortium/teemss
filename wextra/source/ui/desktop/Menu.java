@@ -24,7 +24,7 @@ package org.concord.waba.extra.ui;
 
 import org.concord.waba.extra.event.*;
 
-
+import waba.ui.*;
 
 public class Menu implements java.awt.event.ActionListener
 
@@ -118,7 +118,10 @@ java.awt.Menu menu;
 
 		if(actionListener != null){
 			actionListener.actionPerformed(new ActionEvent(this,null,e.getActionCommand()));
-
+			MainWindow mw = MainWindow.getMainWindow();
+			if(mw instanceof ExtraMainWindow){
+			    ((ExtraMainWindow) mw)._finishAWTEvent();
+			}
 		}
 
 	}
