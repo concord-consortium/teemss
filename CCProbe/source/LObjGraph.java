@@ -217,14 +217,25 @@ public class LObjGraph extends LabObject
 	}
 
 	DataSource curDS;
+	int numDataSources = 0;
 	public void addDataSource(DataSource ds)
 	{
 		if(ds == null) return;
 
 		// need to pass in object at this point to identify which 
 		// data source is which
-		if(curGS != null) ds.addDataListener(curGS);
+		if(graphSettings == null) graphSettings = new Vector();
 
+		if(numDataSources < graphSettings.getCount()){
+			curGS = (GraphSettings)graphSettings.get(numDataSources);
+		} else {
+			curGS = new GraphSettings();
+			graphSettings.add(curGS);
+		}
+
+		numDataSources++;
+		
+		if(curGS != null) ds.addDataListener(curGS);
 		curDS = ds;
 		if(curDS != null && curGS != null){			
 			curGS.setYUnit(curDS.getUnit());
@@ -235,5 +246,4 @@ public class LObjGraph extends LabObject
 			} 			
 		}
 	}
-
 }

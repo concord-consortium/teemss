@@ -3,9 +3,30 @@ package org.concord.CCProbe;
 import extra.io.*;
 import extra.util.*;
 import waba.util.*;
+import waba.ui.*;
 import graph.*;
 import org.concord.waba.extra.event.*;
 import org.concord.LabBook.*;
+
+class MyTimer extends Control
+{
+	LObjDataSet ds = null;
+	Timer timer;
+	
+	MyTimer(LObjDataSet parent, int time)
+	{
+		ds = parent;
+		timer = addTimer(time);
+	}
+
+	public void onEvent(Event e)
+	{
+		if(e.type == ControlEvent.TIMER){
+			ds.continueCollecting();
+			removeTimer(timer);
+		}
+	}
+}
 
 public class LObjDataSet extends LObjSubDict
 	implements DataSource
@@ -102,30 +123,42 @@ public class LObjDataSet extends LObjSubDict
 
 	public void closeEverything(){}
 
+	// Might need to reset this 
+	boolean sentData = false;
+
+
 	public void startDataDelivery()
 	{
-		DataEvent startEvent = new DataEvent(DataEvent.DATA_READY_TO_START, 0);
-		DataEvent stopEvent = new DataEvent(DataEvent.DATA_STOPPED, 0);
-		
+		if(sentData) return;		
 		if(dataListener == null){
 			return;
 		}
 
+		DataEvent startEvent = new DataEvent(DataEvent.DATA_READY_TO_START, 0);
+		dataListener.dataStreamEvent(startEvent);
+		new MyTimer(this, 50);
+		sentData = true;
+	}
+
+	public void continueCollecting()
+	{
+
 		int chunkPos = 0;
 		LObjDataSet curChunk = null;
+
+		DataEvent stopEvent = new DataEvent(DataEvent.DATA_STOPPED, 0);
+		DataEvent startEvent = new DataEvent(DataEvent.DATA_READY_TO_START, 0);
 
 		// probably have to send start 
 		// and idle events to make this work properly
 		//		dataListener.dataRecieved(dEvent);
 		
-		boolean firstTime = true;
 		for(int i = 0; i < numChunks; i++){
 			curChunk = (LObjDataSet)getObj(i+1);
 
-			if(curChunk.chunkIndex == 0){
-				if(!firstTime) dataListener.dataStreamEvent(stopEvent);
+			if(curChunk.chunkIndex == 0 && i!= 0){
+				dataListener.dataStreamEvent(stopEvent);
 
-				firstTime = false;
 				dataListener.dataStreamEvent(startEvent);
 				// probably need to set the labels of
 				// the bin, and the units
@@ -136,6 +169,7 @@ public class LObjDataSet extends LObjSubDict
 		}
 
 		dataListener.dataStreamEvent(stopEvent);
+		sentData = true;
 	}
 
 	public void stopDataDelivery(){}

@@ -220,7 +220,8 @@ public class LObjGraphView extends LabObjectView
 		dd = new DigitalDisplay(new Font("Helvetica", 
 										 Font.BOLD, 3*dd_height/5 + 4));		
 		gHeight -= dd_height;
-		dd.setRect(0,curY, width, dd_height);
+		if(showDone) dd.setRect(0,curY, width - 30, dd_height);
+		else dd.setRect(0,curY, width, dd_height);
 		dd.addBin(timeBin);
 		add(dd);
 		curY += dd_height;
@@ -254,21 +255,34 @@ public class LObjGraphView extends LabObjectView
 		if(graph.graphSettings == null){
 			return;
 		}
+		
+		// This is just a hack
+		xaxis = new SplitAxis(Axis.BOTTOM);
+		yaxis = new ColorAxis(Axis.LEFT);
+		yaxis.setMaxDigits(6);
 
-		for(int i=0; i<graph.graphSettings.getCount(); i++){
+		// This is just a hack
+		if(gHeight < 1) gHeight = 1;
+			
+		av = new AnnotView(width, gHeight, xaxis, yaxis);
+		av.setPos(0,curY);
+		Bin curBin = new Bin(xaxis.lastAxis, yaxis);
+		av.addBin(curBin);
+
+		GraphSettings gs = (GraphSettings)graph.graphSettings.get(0);
+		gs.init(this, (Object)av, curBin, xaxis, yaxis);
+
+		for(int i=1; i<graph.graphSettings.getCount(); i++){
 			xaxis = new SplitAxis(Axis.BOTTOM);
 			yaxis = new ColorAxis(Axis.LEFT);
 			yaxis.setMaxDigits(6);
 
-			// This is just a hack
-			if(gHeight < 1) gHeight = 1;
-			
-			av = new AnnotView(width, gHeight, xaxis, yaxis);
-			av.setPos(0,curY);
+			av.setAxis(xaxis, yaxis);
 
-			Bin curBin = av.getBin();
+			curBin = new Bin(xaxis.lastAxis, yaxis);
+			av.addBin(curBin);
 
-			GraphSettings gs = (GraphSettings)graph.graphSettings.get(i);
+			gs = (GraphSettings)graph.graphSettings.get(i);
 			gs.init(this, (Object)av, curBin, xaxis, yaxis);
 		}
 
@@ -297,9 +311,11 @@ public class LObjGraphView extends LabObjectView
 		super.close();
     }
 
+	int numStarted = 0;
 	public void startGraph(Object cookie, Bin curBin)
 	{
 		dd.addBin(curBin);
+		numStarted++;
 	}
 
 	public void update(Object cookie, float time){
@@ -322,12 +338,31 @@ public class LObjGraphView extends LabObjectView
 
 	// Right this requires the caller to call repaint()
 	public Bin stopGraph(Object cookie, Bin curBin, 
-						 boolean newBin)
+						 boolean newBin, SplitAxis xaxis)
 	{
+		numStarted--;
+
 		dd.removeBin(curBin);
-		if(newBin) curBin = av.pause();
-		else  curBin = null;
-		postEvent(new ControlEvent(1000, this));	
+
+		if(numStarted == 0 && (curBin.maxX < 0 || curBin.getNumVals() < 3)){
+			curBin.reset();
+			curBin.xaxis = xaxis.lastAxis;
+			curBin.label = "Probe";
+		} else {
+			av.removeBin(curBin);
+
+			if(newBin){
+				xaxis.addAxis(curBin.maxX);
+				curBin = new Bin(xaxis.lastAxis, curBin.yaxis);
+				curBin.label = "Probe";
+				av.addBin(curBin);
+			} else {
+				curBin = null;
+			}
+		}
+		av.update();
+
+		if(numStarted == 0) postEvent(new ControlEvent(1000, this));	
 		return curBin;
 	}
 

@@ -62,14 +62,28 @@ public class LObjDataCollectorView extends LabObjectView
 		title2Label.setText(t2);
 	}
 
+	/*
+	 *  This is very messy 
+	 * we might get stop called several time
+	 *  when we stop the data sources
+	 * this might trigger a listerner to the 
+	 * data source to post a stop event
+	 * to us.
+	 *  This is a mess.  really
+	 *  I'll fix it soon
+	 */
+	boolean stopping = false;
     void stop(boolean notifyGraph)
     {
+		if(stopping) return;
+		stopping = true;
 		dc.stop();
 		collectButton.setSelected(false);
 		collectButton.repaint();
 		if(notifyGraph){
 			gv.stopGraph();
 		}
+		stopping = false;
     }
     
     public void dialogClosed(DialogEvent e)
@@ -98,11 +112,13 @@ public class LObjDataCollectorView extends LabObjectView
 		Vector dataSources = dc.getDataSources();
 		for(int i=0; i<dataSources.getCount(); i++){
 			DataSource ds = (DataSource)dataSources.get(i);
+			/*
 			if(ds instanceof LObjProbeDataSource){
 				LObjProbeDataSource pDS = (LObjProbeDataSource)ds;
 			    pDS.getProbe().setInterfaceType(dc.interfaceId);
 				pDS.setProbe(pDS.getProbe());
 			}
+			*/
 			graph.addDataSource(ds);
 		}
 

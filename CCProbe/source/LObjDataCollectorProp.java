@@ -81,16 +81,14 @@ public class LObjDataCollectorProp extends LabObjectView
 		LObjProbeDataSource newDS = LObjProbeDataSource.getProbeDataSource(probeId, dc.interfaceId,
 																		   CCProb.INTERFACE_PORT_A);
 		dataSources.add(newDS);
-		int numSources = waba.sys.Convert.toInt(numDCs.getText());
 
+		int numSources = waba.sys.Convert.toInt(numDCs.getText());
 		for(int i= 1; i < numSources; i++){
 			dataSources.add(null);
 		}
-
 		dc.setDataSources(dataSources);
 
 		GraphSettings gs = graph.getNewGS();
-
 		gs.setXUnit(CCUnit.getUnit(CCUnit.UNIT_CODE_S));
 		gs.setXLabel("Time");
 		gs.setYLabel(newDS.getLabel());

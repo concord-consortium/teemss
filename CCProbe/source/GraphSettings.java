@@ -148,7 +148,8 @@ public class GraphSettings
 		if(gv != null && started){
 			started = false;
 			Bin newBin = gv.stopGraph(gvCookie, curBin, 
-									  bins.getCount() < MAX_COLLECTIONS );
+									  bins.getCount() < MAX_COLLECTIONS,
+									  xaxis);
 			curBin = newBin;
 			if(newBin == null) return;
 			curBin.setUnit(yUnit);
@@ -254,7 +255,8 @@ public class GraphSettings
 	
 	public String toString()
 	{
-		return "xLabel: " + xLabel;		
+		return super.toString() + " xmin: " + xmin + " xmax: " + xmax + " xLabel: " + xLabel +
+			" ymin: " + ymin + " ymax: " + ymax + " yLabel: " + yLabel;		
 	}
 
 	public void readExternal(DataStream ds)
