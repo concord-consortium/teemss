@@ -1,5 +1,4 @@
 package extra.util;
-import java.util.*;
 import extra.util.Maths;
 
 
@@ -303,7 +302,7 @@ public class ParseFunction extends ScanString {
    */
 
         public boolean parse() {
-             root = new Node();
+            root = new Node();
              if( parseString(root) != EOS) return false;
              if(debug) {
                 System.out.println("Before Reordering:");

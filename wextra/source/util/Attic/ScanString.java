@@ -1,6 +1,5 @@
 package extra.util;
-import java.util.*;
-//import java.lang.*;
+//import java.util.*;
 /*
 ************************************************************************
 **
@@ -73,7 +72,10 @@ public class ScanString extends Object {
 /*
 **   The hash table containing the keyword/value pairs.
 */     
-     private Hashtable kwords = new Hashtable();
+//     private Hashtable kwords = new Hashtable();
+    	 private waba.util.Vector kwordsW = new waba.util.Vector();
+    	 private waba.util.Vector kvaluesW = new waba.util.Vector();
+
 
 /*
 ******************
@@ -129,8 +131,9 @@ public class ScanString extends Object {
           if(s == null) return;
 
           if( kwlength < s.length() ) kwlength = s.length();
-          kwords.put(s.toLowerCase(), new Integer(i));
-
+//          kwords.put(s.toLowerCase(), new Integer(i));
+	  kwordsW.add(s.toLowerCase());
+	  kvaluesW.add(String.valueOf(i));
           //System.out.println("addKeyWord: key="+s.toLowerCase()+" value="+i);
 
 	}
@@ -143,19 +146,30 @@ public class ScanString extends Object {
 
           if(s == null) return UNKNOWN;
 
+	String i = null;
+	String needString = s.toLowerCase();
+	for(int v = 0; v < kwordsW.getCount(); v++){
+		String t = (String)kwordsW.get(v);
+		if(t.equals(needString)){
+			i = (String)kvaluesW.get(v);
+			break;
+		}
+	}
+//         if( !kwords.containsKey(s.toLowerCase())) return UNKNOWN;
 
-          if( !kwords.containsKey(s.toLowerCase())) return UNKNOWN;
-
-          Integer i = (Integer)kwords.get(s.toLowerCase());
+//          Integer i = (Integer)kwords.get(s.toLowerCase());
 
           if(i == null) return UNKNOWN;
-          else          return i.intValue();
+//          else          return i.intValue();
+          else          return waba.sys.Convert.toInt(i);
 	}
   /**
    *   Clear the table containing the keyword/token pairs
    */
      public void resetKeyWords () {
-          kwords.clear();
+ //         kwords.clear();
+		kwordsW = new waba.util.Vector();
+    		kvaluesW = new waba.util.Vector();
           kwlength = 0;
 	}
   /**
