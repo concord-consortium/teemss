@@ -48,6 +48,7 @@
     <xsl:apply-templates select="trial" mode="investigate"/>
     <xsl:apply-templates select="hints"/>
     <xsl:apply-templates select="analysis" mode="investigate"/>
+    <xsl:apply-templates select="further"/>
     <FOLDER ID="{@name}-saved-datasets" name="Saved Data Sets">
     </FOLDER>
   </FOLDER>
@@ -148,6 +149,17 @@
         - <xsl:value-of select="title"/>
       </SNPARAGRAPH>
     </xsl:for-each>
+  </SUPERNOTES>
+</xsl:template>
+
+<xsl:template match="further">
+  <SUPERNOTES ID="{../@name}-further" name="Further Investigations">
+    <EMBOBJ object="teemss_titlebar.bmp"/>
+    <SNPARAGRAPH linkcolor="0000FF">
+      <xsl:value-of select="../title"/>: Further Investigations
+    </SNPARAGRAPH>
+    <SNPARAGRAPH/>
+    <xsl:apply-templates/>
   </SUPERNOTES>
 </xsl:template>
 

@@ -18,6 +18,9 @@ fi
 $workingcopy/XML2LabBook/make-labbook $labbook
 
 
+$workingcopy/XML2LabBook/make-labbook ce $labbook
+
+
 
 
 
