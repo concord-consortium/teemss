@@ -174,9 +174,11 @@ public class LObjDictionaryView extends LabObjectView
 				    newObj = new LObjDataSource();
 				    autoEdit = true;
 				} else if(objType.equals("Probes")){
-				    newObj = new LObjProbesRep();
+				    LObjProbesRep dc = new LObjProbesRep();
+				    newObj = dc.dict;
+				    dc.dict.hideChildren = true;
 				    autoEdit = true;
-				}
+				} 
 				if(newObj != null){
 				    if(newIndex == 0){
 					newObj.name = objType;		    
