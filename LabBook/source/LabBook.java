@@ -408,7 +408,7 @@ public class LabBook
 		return lObj;
     }
 
-    public void export(LabObjectPtr lObjPtr, LabBookDB db)
+    public void export(LabObject lObj, LabBookDB db)
     {
 		if(waba.sys.Vm.getPlatform().equals("PalmOS")){
 			Catalog memoDB = new Catalog("MemoDB.memo.DATA", Catalog.READ_WRITE);
@@ -423,7 +423,8 @@ public class LabBook
 		LabBookDB oldDb = this.db;
 
 		commit();
-		export(lObjPtr);
+		// this might switch the root obj pointer
+		LabObjectPtr lObjPtr = exportAll(lObj);
 		this.db = db;
 		db.setRootDevId(lObjPtr.devId);
 		db.setRootObjId(lObjPtr.objId);
@@ -431,17 +432,53 @@ public class LabBook
 		this.db = oldDb;	
     }
 
-    public void export(LabObjectPtr lObjPtr)
-    {	
+	/*
+	  This seems like it might cause problems because
+	  The loaded objects are just getting stored again
+	  but since the pointers are the same we don't have to
+	  worry about any pointer conflicts
+	*/
+	public LabObject export(LabObjectPtr lObjPtr)
+	{
 		LabObject obj = load(lObjPtr);
 		store(obj);
+		return obj;		
+	}
 
-		if(obj instanceof LObjDictionary){
-			LObjDictionary dict = (LObjDictionary)obj;
-			for(int i=0; i<dict.getChildCount(); i++){
-				export((LabObjectPtr)dict.objects.get(i));
-			}
+    public LabObjectPtr exportAll(LabObject lObj)
+    {	
+		LabObjectPtr lObjPtr = null;
+		if(lObj instanceof LObjSubDict){
+			// hmm. we need the subDict
+			lObj = ((LObjSubDict)lObj).getDict();
 		}
+		lObjPtr = lObj.ptr;
+
+		LabObject obj = export(lObjPtr);
+		Vector dictionaries = new Vector();
+				
+		if(obj instanceof LObjDictionary){
+			dictionaries.add(obj);
+		}
+
+		int curDict=0;
+		while(curDict < dictionaries.getCount()){
+			LObjDictionary dict = (LObjDictionary)dictionaries.get(curDict);
+			for(int i=0; i<dict.getChildCount(); i++){
+				
+				obj = export((LabObjectPtr)dict.objects.get(i));
+				if(obj instanceof LObjDictionary){
+					int oldIndex = dictionaries.find(obj);
+					if(oldIndex < 0){
+						// this object hasn't been added to dicts yet
+						dictionaries.add(obj);
+					}
+				}
+			}
+			curDict++;
+		}
+
+		return lObjPtr;
     }
 
 
@@ -451,30 +488,82 @@ public class LabBook
 
 		commit();
 		this.db = db;
-		LabObject root = importPtr(new LabObjectPtr(db.getRootDevId(), db.getRootObjId(), null), oldDb);
+		LabObject root = 
+			importAllPtr(new LabObjectPtr(db.getRootDevId(), 
+										  db.getRootObjId(), null), 
+						 oldDb);
 		this.db = oldDb;
 		commit();
 		return root;
     }
     
-
+	Vector importedObjs = null;	
     public LabObject importPtr(LabObjectPtr ptr, LabBookDB oldDB)
     {
-		LabObject obj = load(ptr);
-		obj.ptr = new LabObjectPtr(curDeviceId, oldDB.getNewObjId(),
-								   obj);
-		store(obj);
-		if(obj instanceof LObjDictionary){
-			LObjDictionary dict = (LObjDictionary)obj;
-			LabObject child = null;
-			for(int i=0; i<dict.getChildCount(); i++){
-				child = importPtr((LabObjectPtr)dict.objects.get(i), oldDB);
-				dict.objects.set(i, child.ptr);
+		for(int i=0; i<importedObjs.getCount(); i++){
+			LabObjectPtr origPtr = (LabObjectPtr)importedObjs.get(i);
+			if(origPtr.equals(ptr)){
+				return (LabObject)importedObjs.get(i+1);
 			}
+			// skip new object that goes with the origPtr
+			i++;
 		}
 
+		LabObject obj = load(ptr);
+		// we are blasting the pointer from the import file
+		// and replacing it with a pointer from the "current" database
+		// "current == old"
+		obj.ptr = new LabObjectPtr(curDeviceId, oldDB.getNewObjId(),
+								   obj);
+		importedObjs.add(ptr);
+		importedObjs.add(obj);
 		return obj;
-    }
+	}
+
+    public LabObject importAllPtr(LabObjectPtr ptr, LabBookDB oldDB)
+    {
+		Vector dictionaries = new Vector();
+		importedObjs = new Vector();
+
+		LabObject firstObj = importPtr(ptr, oldDB);
+		LabObject obj = firstObj;
+
+		if(obj instanceof LObjDictionary){
+			dictionaries.add(obj);
+		}
+
+		int curDict=0;
+		while(curDict < dictionaries.getCount()){
+			LObjDictionary dict = (LObjDictionary)dictionaries.get(curDict);
+			LabObject child = null;
+			for(int i=0; i<dict.getChildCount(); i++){				
+				child = importPtr((LabObjectPtr)dict.objects.get(i), oldDB);
+				// this is weird I don't know if it is correct
+				dict.objects.set(i, child.ptr);
+				if(child instanceof LObjDictionary){
+					int oldIndex = dictionaries.find(child);
+					if(oldIndex < 0){
+						// this object hasn't been added to dicts yet
+						dictionaries.add(child);
+					}
+				}
+			}
+			curDict++;
+		}
+
+		/* We need to store all the objects after we have done
+		   all the loading form the import DB.
+		   these stored objects get put into the loaded vector
+		   so they can conflict with the incoming objects from the
+		   import db.
+		*/
+		for(int i=1; i<importedObjs.getCount(); i+=2){
+			LabObject newObj = (LabObject)importedObjs.get(i);
+			store(newObj);
+		}
+		importedObjs = null;
+		return firstObj;
+	}
 
     public boolean close()
     {

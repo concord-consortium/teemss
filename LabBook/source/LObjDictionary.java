@@ -55,7 +55,9 @@ public class LObjDictionary extends LabObject
     public LObjSubDict getMainObj()
     {
 		if(hasMainObject & objects.getCount() > 0){
-			LObjSubDict mainObj = (LObjSubDict)getObj((LabObjectPtr)(objects.get(0)));
+			LabObject obj = (LabObject)getObj((LabObjectPtr)(objects.get(0)));
+			LObjSubDict mainObj = 
+				(LObjSubDict)getObj((LabObjectPtr)(objects.get(0)));
 			mainObj.setDict(this);
 			return mainObj;
 		}

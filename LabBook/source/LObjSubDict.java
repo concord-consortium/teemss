@@ -23,6 +23,8 @@ public abstract class LObjSubDict extends LabObject
 		dict.store();
     }
     
+	public LObjDictionary getDict(){return dict;}
+
     public void setDict(LObjDictionary d){
 		dict = d;
     }

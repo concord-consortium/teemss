@@ -399,7 +399,7 @@ public class LObjDictionaryView extends LabObjectView
 				    fd.show();
 
 				    LabBookFile lbFile = new LabBookFile(fd.getFilePath());
-				    dict.lBook.export(obj.ptr, lbFile);
+				    dict.lBook.export(obj, lbFile);
 				    lbFile.save();
 				    lbFile.close();
 				}
