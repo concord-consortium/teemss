@@ -25,6 +25,7 @@ import waba.util.*;
 import org.concord.waba.extra.event.*;
 import org.concord.waba.extra.util.*;
 import extra.util.*;
+import org.concord.ProbeLib.*;
 
 public class Bin
     implements DecoratedValue, ActionListener
