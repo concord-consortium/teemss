@@ -86,6 +86,7 @@ public class CCProbe extends ExtraMainWindow
 			GraphSettings.MAX_COLLECTIONS = 1;
 			graph.GraphViewLine.scrollStepSize = 0.45f;
 			lbDB = new LabBookCatalog("LabBook");
+			CCTextArea.INTER_LINE_SPACING = 0;
 		} else if(plat.equals("Java")){
 			/*
 			graph.Bin.START_DATA_SIZE = 1000;
