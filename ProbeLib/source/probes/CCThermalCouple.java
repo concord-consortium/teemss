@@ -111,8 +111,8 @@ float FC = 0.0f;
 	public boolean dataArrived(DataEvent e){
 		dEvent.type = e.type;
 		int nOffset = e.getDataOffset();
-		int ndata = e.getNumbSamples()*dDesc.getChPerSample();
-		int  	chPerSample = dDesc.getChPerSample();
+		int ndata = e.getNumbSamples()*e.dataDesc.getChPerSample();
+		int  	chPerSample = e.dataDesc.getChPerSample();
 		if(ndata == 0) return false;
 		
 		float t0 = e.getTime();

@@ -6,12 +6,10 @@ public static final int DATA_RECEIVED 		= 1000;
 public static final int DATA_COLLECTING 	= 1001;
 public static final int DATA_READY_TO_START = 1002;
 public float 	[]data = null;
-DataDesc	dataDesc = null;
+public DataDesc	dataDesc = null;
 public int		numbSamples = 1;
 public int		dataOffset = 0;
 public float		time;
-    //    public int  [] profiling = new int [5];
-    // public int numProfiles = 0;
 
 	public DataEvent(){
 		this(0.0f);
