@@ -12,6 +12,10 @@
 JUMP_JAR = $(CURDIR)/../wj_tools/jump.jar
 export PILAINC= $(CURDIR)/../wj_tools
 
+define POST_BUILD_CMDS
+cp $(BIN_DIR)/* /home/ftp/pub/ccprobeware/bin
+endef
+
 WABA_DIR= $(CURDIR)/../wabasdk/classes
 WEXTRAS_DIR= $(CURDIR)/../wextra/classes/desktop
 WABAJUMP_DIR= $(CURDIR)/../wabajump/classes

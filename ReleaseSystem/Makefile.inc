@@ -23,7 +23,7 @@ endif
 
 dependencies: 
 	$(call MAKE_DEP, )
-	
+
 release: tag $(DEP_NAMES) ReleaseSystem
 	# supposably this means we have taged everything
 	# so now we can call the realease makefile which will checkout
@@ -33,13 +33,13 @@ release: tag $(DEP_NAMES) ReleaseSystem
 build-local:
 	$(call MAKE_DEP, )
 	$(MAKE) 
-	
+
 build-tag:
 	rm $(basename $(VERSION_TEMPLATE))
 	cvs update $(basename $(VERSION_TEMPLATE))
 	$(MAKE) cvs-diff
 	$(call MAKE_DEP, cvs-diff)
-	$(update_build)
+	$(MAKE) update-build
 	$(call MAKE_DEP, )
 	$(MAKE) 
 	mv new_build build
@@ -47,14 +47,17 @@ build-tag:
 	cvs commit -m "build checkin" $(basename $(VERSION_TEMPLATE)) build version tag
 	$(call MAKE_DEP, cvs-tag)
 	$(MAKE) cvs-tag
-	
+ifneq ($(POST_BUILD_CMDS),)
+	$(POST_BUILD_CMDS)
+endif
+
 tag:
 	@echo "You must make a version or branch first for " $(MOD_NAME)
 	@exit 1
 
 cvs-diff:
 	cvs -Q diff > /dev/null || (echo The  directory **$(notdir $(CURDIR))** is different than the repository; test)
-	
+
 #Tag the dependencies with our tag so we can get them back
 cvs-tag: $(TAG_FILE)
 	cvs tag $(TAG)
@@ -67,12 +70,12 @@ MINOR2_VER =  $(subst .,,$(suffix $(VERSION_EXP)))
 
 _VERSION_TEMP_ = $(shell cat $(VERSION_TEMPLATE))
 
-define update_build
-@expr $(BUILD_EXP) + 1 > new_build
-sed -e s/_BUILD_VER_/$(shell cat new_build)/ -e s/_MAJOR_VER_/$(MAJOR_VER)/ \
+update-build:
+	@expr $(BUILD_EXP) + 1 > new_build
+	sed -e s/_BUILD_VER_/$(shell cat new_build)/ -e s/_MAJOR_VER_/$(MAJOR_VER)/ \
 -e s/_MINOR1_VER_/$(MINOR1_VER)/ -e s/_MINOR2_VER_/$(MINOR2_VER)/ \
 < $(VERSION_TEMPLATE) > $(basename $(VERSION_TEMPLATE))
-endef
+
 
 set-version:
 	@echo "The old version was (build" $(BUILD_EXP)")"
