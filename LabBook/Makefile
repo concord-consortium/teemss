@@ -1,6 +1,8 @@
 
 MODULE = LabBook
 
+DEP_NAMES = wabasdk wextra wgraph
+
 FORKS= waba superwaba
 
 MW_CLASS= CCProbe
