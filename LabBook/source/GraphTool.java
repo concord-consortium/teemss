@@ -149,16 +149,16 @@ public class GraphTool extends Container
 
     public void dataReceived(DataEvent dataEvent)
     {
-	if(dataEvent.type == DataEvent.DATA_READY_TO_START){
-	    if(pm.getMode() == CCInterfaceManager.A2D_10_MODE){
-		slowUpdate = true;
-	    } else {
-		slowUpdate = false;
-	    }
-	    numVals = 0;
-	    curPtime = 0;
-	    return;
-	}
+		if(dataEvent.type == DataEvent.DATA_READY_TO_START){
+		    if(pm.getMode() == CCInterfaceManager.A2D_10_MODE){
+				slowUpdate = true;
+		    } else {
+				slowUpdate = false;
+		    }
+		    numVals = 0;
+		    curPtime = 0;
+		    return;
+		}
 
 	if(slowUpdate){
 	    if(dataEvent.type == DataEvent.DATA_RECEIVED){

@@ -15,7 +15,8 @@ import waba.util.Vector;
 public class TextArea extends AdvControl {
 //##################################################################
 
-protected String [] lines;
+//protected String [] lines;
+StringWrapper		[] lines;
 /**
 * The space between the text and the border of the control.
 */
@@ -40,6 +41,12 @@ public boolean homeCursorOnLostFocus = true;
 
 protected boolean forceClearCursor = false;
 
+
+public int	getTextAreaWidth(){
+	int w = getRect().width-spacing*2-2;
+	return w;
+}
+
 //==================================================================
 protected int getItemHeight() 
 //==================================================================
@@ -54,17 +61,17 @@ protected int getTextWidth()
 	FontMetrics fm = getFontMetrics();
 	int w = 0;
 	for (int i = 0; i<getNumLines(); i++) {
-		int ww = fm.getTextWidth(lines[i]);
+		int ww = fm.getTextWidth(lines[i].getStr());
 		if (ww > w) w = ww;
 	}
 	return w;
 }
 //------------------------------------------------------------------
-protected String [] split(String what,char separator)
+protected StringWrapper [] split(String what,char separator)
 //------------------------------------------------------------------
 {
-	if (what == null) return new String[0];
-	if (what.length() == 0) return new String[0];
+	if (what == null) return new StringWrapper[0];
+	if (what.length() == 0) return new StringWrapper[0];
 	Vector dest = new Vector();
 	StringBuffer sb = new StringBuffer();
 	for (int i = 0;i<what.length(); i++){
@@ -76,9 +83,9 @@ protected String [] split(String what,char separator)
 			sb.append(c);
 	}
 	dest.add(sb.toString());
-	String [] st = new String[dest.getCount()];
+	StringWrapper [] st = new StringWrapper[dest.getCount()];
 	for (int i = 0; i<dest.getCount(); i++)
-		st[i] = (String)dest.get(i);
+		st[i] = new StringWrapper(this,(String)dest.get(i));
 	return st;
 }
 //------------------------------------------------------------------
@@ -87,8 +94,8 @@ protected void splitLines()
 {
 	lines = split(text,'\n');
 	if (lines.length == 0) {
-		lines = new String[1];
-		lines[0] = "";
+		lines = new StringWrapper[1];
+		lines[0] = new StringWrapper(this);
 	}
 }
 //==================================================================
@@ -102,11 +109,11 @@ public int getNumLines()
 protected void insertLine(int index)
 //------------------------------------------------------------------
 {
-	if (lines == null) lines = new String[0];
+	if (lines == null) lines = new StringWrapper[0];
 	if (index > lines.length) index = lines.length;
-	String [] nl = new String[lines.length+1];
+	StringWrapper [] nl = new StringWrapper[lines.length+1];
 	for (int i = 0; i<index; i++) nl[i] = lines[i];
-	nl[index] = "";
+	nl[index] = new StringWrapper(this);
 	for (int i = index; i<lines.length; i++) nl[i+1] = lines[i];
 	lines = nl;
 }
@@ -120,7 +127,7 @@ protected boolean getCharRect(int ch,int ln,Rect dest)
 	FontMetrics fm = getFontMetrics();
 //..................................................................
 	if (ln >= lines.length || ln < 0) return false;
-	String s = lines[ln];
+	String s = lines[ln].getStr();
 	if (ch > s.length() || ch < 0) return false;
 	if (ch == 0) dest.x = 0;
 	else dest.x = fm.getTextWidth(s.substring(0,ch));
@@ -155,7 +162,7 @@ public String getText()
 	for (int i = 0; i<lines.length; i++){
 		if (lines[i] != null) {
 			if (i != 0) sb.append("\n");
-			sb.append(lines[i]);
+			sb.append(lines[i].getFullStr());
 		}
 	}
 	return sb.toString();
@@ -222,13 +229,13 @@ public boolean deleteSelection()
 	int sl = curState.selStartLine, sp = curState.selStartPos;
 	int el = curState.selEndLine;
 	if (sl != el) {
-		lines[sl] = lines[sl].substring(0,curState.selStartPos)+lines[el].substring(curState.selEndPos,lines[el].length());
+		lines[sl].setStr(lines[sl].getStr().substring(0,curState.selStartPos)+lines[el].getStr().substring(curState.selEndPos,lines[el].getStr().length()));
 		for (int i = curState.selStartLine+1; i<=curState.selEndLine && i<lines.length; i++) lines[i] = null;
 		curState.selStartLine = -1;
 		fixText();
 	}else {
-		String s = lines[sl];
-		lines[sl] = s.substring(0,curState.selStartPos)+s.substring(curState.selEndPos,s.length());
+		String s = lines[sl].getStr();
+		lines[sl].setStr(s.substring(0,curState.selStartPos)+s.substring(curState.selEndPos,s.length()));
 		curState.selStartLine = -1;
 		paintLine(null,sl);
 	}
@@ -366,7 +373,7 @@ public void selectAll()
 	clearSelection();
 	curState.selStartLine = curState.selStartPos = 0;
 	curState.selEndLine = lines.length-1;
-	curState.selEndPos = lines[lines.length-1].length();
+	curState.selEndPos = lines[lines.length-1].getStr().length();
 	if (!newCursorPos(curState.selEndPos,curState.selEndLine,true))
 		repaintDataNow();
 }
@@ -407,16 +414,16 @@ protected boolean fix()
 {
 	if (width == 0 || height == 0) return false;
 	textAreaState tas = curState.getCopy();
-	Rect _rect = getRect();
+//	Rect _rect = getRect();
 	FontMetrics fm = getFontMetrics();
 	if (!hasCursor) tas.cursorLine = tas.cursorPos = tas.firstLine = tas.xShift = 0;
 //..................................................................
 	if (tas.cursorLine >= lines.length) {
 		tas.cursorLine = lines.length-1;
-		tas.cursorPos = lines[tas.cursorLine].length();
+		tas.cursorPos = lines[tas.cursorLine].getStr().length();
 	}
 	if (tas.cursorLine < 0) tas.cursorLine = 0;
-	String ln = lines[tas.cursorLine];
+	String ln = lines[tas.cursorLine].getStr();
 	if (tas.cursorPos > ln.length()) tas.cursorPos = ln.length(); 
 	if (tas.cursorPos < 0) tas.cursorPos = 0;
 //..................................................................
@@ -428,7 +435,8 @@ protected boolean fix()
 	while (tas.cursorLine < tas.firstLine) tas.firstLine -= ys;
 	if (tas.firstLine < 0) tas.firstLine = 0;
 //..................................................................
-	int w = _rect.width-spacing*2-2;
+//	int w = _rect.width-spacing*2-2;
+	int w = getTextAreaWidth();
 	String cl = ln.substring(0,tas.cursorPos);
 	int cw = fm.getTextWidth(cl);
 	if (cw < tas.xShift) tas.xShift = 0;
@@ -461,8 +469,8 @@ protected void newText(String txt,int newCp,boolean redoData)
 //------------------------------------------------------------------
 {
 	FontMetrics fm = getFontMetrics();
-	int oldw = fm.getTextWidth(lines[curState.cursorLine]);
-	lines[curState.cursorLine] = txt;
+	int oldw = fm.getTextWidth(lines[curState.cursorLine].getStr());
+	lines[curState.cursorLine].setStr(txt);
 	int w = getFontMetrics().getTextWidth(txt);
 	int tw = width-spacing*2;
 	if ((w > tw && oldw <= tw) || (w < tw && oldw >=tw)) checkScrolls();
@@ -478,7 +486,7 @@ protected Point getPenChar(Point onControl)
 {
 	FontMetrics fm = getFontMetrics();
 	Point p = new Point(0,0);
-	if (lines == null) lines = new String[0];
+	if (lines == null) lines = new StringWrapper[0];
 	int h = getItemHeight();
 	int px = onControl.x-spacing+curState.xShift;
 	int py = onControl.y-spacing+curState.firstLine*h;
@@ -504,7 +512,7 @@ protected String getLine(int index)
 {
 	if (lines == null) return "";
 	if (index < 0 || index >= lines.length) return "";
-	return lines[index];
+	return lines[index].getStr();
 }
 //------------------------------------------------------------------
 protected String getLine() {return getLine(curState.cursorLine);}
@@ -587,7 +595,7 @@ public void insertText(String str){//dima
 	String s = getLine();
 	int cp = curState.cursorPos;
 	String suffix = s.substring(cp);
-	lines[cl] = s.substring(0,cp) + str + suffix;
+	lines[cl].setStr(s.substring(0,cp) + str + suffix);
 	fixText();
 }
 
@@ -604,13 +612,13 @@ public void onKeyEvent(KeyEvent ev)
 		if (deleteSelection()) return;
 		if (cp > 0 && cp == s.length()) {
 			paintLastChar(null,true);
-			lines[cl] = s.substring(0,sl-1);
+			lines[cl].setStr(s.substring(0,sl-1));
 			newCursorPos(cp-1,cl,false);
 		}else if (cp > 0)
 			newText(s.substring(0,cp-1)+s.substring(cp,s.length()),cp-1,false);
 		else if (cl > 0) {
 			String pl = getLine(cl-1);
-			lines[cl-1] = pl+s;
+			lines[cl-1].setStr(pl+s);
 			lines[cl] = null;
 			curState.cursorPos = pl.length();
 			curState.cursorLine--;
@@ -622,15 +630,17 @@ public void onKeyEvent(KeyEvent ev)
 				newText(s.substring(0,cp)+s.substring(cp+1,s.length()),cp,false);
 			}else {
 				if (cl < lines.length-1){
-					lines[cl] = lines[cl]+lines[cl+1];
+					lines[cl].setStr(lines[cl].getStr()+lines[cl+1].getStr());
 					lines[cl+1] = null;
 					fixText();
 				}
 			}
 	}else if (ev.key == IKeys.ENTER){// && editable(this)){
 		insertLine(cl+1);
-		lines[cl] = s.substring(0,cp);
-		lines[cl+1] = s.substring(cp,s.length());
+		
+		
+		lines[cl].setStr(s.substring(0,cp));
+		lines[cl+1].setStr(s.substring(cp,s.length()));
 		curState.cursorPos = 0;
 		curState.cursorLine++;
 		fixText();
@@ -669,7 +679,8 @@ public void onKeyEvent(KeyEvent ev)
 		if (redoData || cp != s.length())
 			newText(s.substring(0,curState.cursorPos)+(char)ev.key+s.substring(curState.cursorPos,s.length()),curState.cursorPos+1,redoData);
 		else {
-			lines[cl] += ""+(char)ev.key;
+			String temp = lines[cl].getStr();
+			lines[cl].setStr(temp + (char)ev.key);
 			paintLastChar(null);
 			newCursorPos(cp+1,cl,false);
 		}
@@ -753,19 +764,19 @@ public boolean displayChanged(textAreaState other)
 	if (other.xShift != xShift) return true;
 	return false;
 }
-public void fixSel(String [] lines)
+public void fixSel(StringWrapper [] lines)
 {
 	if (selStartLine < 0) selStartLine = 0;
 	if (selEndLine < 0) selEndLine = 0;
 	if (selStartLine >= lines.length) selStartLine = lines.length-1;
 	if (selEndLine >= lines.length) {
 		selEndLine = lines.length-1;
-		selEndPos = lines[selEndLine].length();
+		selEndPos = lines[selEndLine].getStr().length();
 	}
-	String s = lines[selStartLine];
+	String s = lines[selStartLine].getStr();
 	if (selStartPos < 0) selStartPos = 0;	
 	if (selStartPos > s.length()) selStartPos = s.length();	
-	s = lines[selEndLine];
+	s = lines[selEndLine].getStr();
 	if (selEndPos < 0) selEndPos = 0;	
 	if (selEndPos > s.length()) selEndPos = s.length();	
 }
@@ -773,3 +784,37 @@ public void fixSel(String [] lines)
 }
 //##################################################################
 
+class StringWrapper{
+String str;
+TextArea owner = null;
+	StringWrapper(TextArea owner){
+		str = "";
+		this.owner = owner;
+	}
+	
+	StringWrapper(TextArea owner,String str){
+		this.str = str;
+		this.owner = owner;
+	}
+	String getStr(){return str;}
+	void setStr(String str){
+		if(owner == null){
+			this.str = str;
+		}else{
+			FontMetrics fm = owner.getFontMetrics();
+			if(fm == null) return;
+			int ww = fm.getTextWidth(str);
+			int wControl = owner.getTextAreaWidth();
+			if(wControl - 5 < ww){
+				System.out.println("need Split");
+			}else{
+				System.out.println("doesn't need Split");
+			}
+			this.str = str;
+		}
+	}
+	
+	String getFullStr(){
+		return str;
+	}
+}
