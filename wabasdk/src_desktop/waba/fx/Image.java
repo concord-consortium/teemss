@@ -42,8 +42,6 @@ package waba.fx;
 
 import waba.applet.Applet;
 
-import ImageUtil;
-
 /**
 
  * Image is a rectangular image.
@@ -62,8 +60,6 @@ import ImageUtil;
 public class Image implements ISurface
 
 {
-
-static ImageUtil imageUtil = null;
 
 int width;
 
@@ -84,15 +80,10 @@ java.awt.Image _awtImage;
  */
 
 public Image(int width, int height)
-
 	{
-	if(imageUtil == null) imageUtil = new ImageUtil();
 	this.width = width;
-
 	this.height = height;
-
 	_awtImage = Applet.currentApplet.createImage(width, height);
-
 	}
 
 
@@ -100,37 +91,31 @@ public Image(int width, int height)
 
 
 /**
-
  * Loads and constructs an image from a file. The path given is the path to the
-
  * image file. The file must be in 2, 16 or 256 color uncompressed BMP bitmap
-
  * format. If the image cannot be loaded, the image constructed will have
-
  * a width and height of 0.
-
  */
 
 
-
-public Image(String path)
-
-	{
-
-	if(imageUtil == null) imageUtil = new ImageUtil();
+    public Image(String path)
+    {
 	width = 0;
-
 	height = 0;
-
-	loadImage(path);
-
+	loadImage(getStream(path));
 	if (width == 0 || height == 0)
-
 		_awtImage = Applet.currentApplet.createImage(1, 1);
+    }
 
-	}
-
-
+    public Image(java.io.InputStream s)
+    {
+	width = 0;
+	height = 0;
+	loadImage(s);
+	if (width == 0 || height == 0)
+		_awtImage = Applet.currentApplet.createImage(1, 1);
+    }
+	
 
 public java.awt.Image getAWTImage()
 
@@ -499,122 +484,73 @@ private void readBMP(java.io.DataInputStream data, String name)
 	}
 
 	
-
-private void loadImage(String path)
-
-	{
-
+    private java.io.InputStream getStream(String path){
 	boolean isApp = Applet.currentApplet.isApplication;
 
 	java.io.InputStream stream = null;
 
 	if (isApp)
-
 		{
-
-//try load it from jar
-			try{
-				stream = imageUtil.getClass().getResourceAsStream(path);//system icons should be in extra/sys/icons
-				//regular - from root
-			}catch(Exception e){
-				stream = null;
-			}
-			if(stream == null){
-				try { 
-					stream = new java.io.FileInputStream(path); 
-				}catch (Exception e) {}
-				System.out.println("STREAM11 "+stream);
-			}
-
+		    //try load it from jar
+		    try{
+			stream = this.getClass().getResourceAsStream("../../" + path);//system icons should be in extra/sys/icons
+			//regular - from root
+		    }catch(Exception e){
+			stream = null;
+		    }
+		    if(stream == null){
+			try { 
+			    stream = new java.io.FileInputStream(path); 
+			}catch (Exception e) {return null;}
+			System.out.println("STREAM11 "+stream);
+		    }
 		}
 
 	else
-
 		try
-
 			{
-
 			java.net.URL codeBase = Applet.currentApplet.getCodeBase();
-
 			String cb = codeBase.toString();
-
 			char lastc = cb.charAt(cb.length() - 1);
-
 			char firstc = path.charAt(0);
-
 			if (lastc != '/' && firstc != '/')
-
 				cb += "/";
-
 			java.net.URL url = new java.net.URL(cb + path);
-
 			stream = url.openStream();
-
 			}
-
-		catch (Exception e) {};
-
-
+		catch (Exception e) {return null;};
 
 	//	NOTE: we could use the following to read out of an applet's JAR file
-
 	//	if we could get a pathObject which was in the root directory (the
-
 	//	App for example). However, if we don't have one. If we loaded an
-
 	//	image in the App constructor we wouldn't have the App object yet...
-
 	//	if (!isApp)
-
 	//		try
-
 	//			{
-
 	//			Object pathObject = Applet.currentApplet;
-
 	//			stream = pathObject.getClass().getResourceAsStream(path);
-
 	//			}
-
 	//		catch (Exception e) {};
+	return stream;
+    }
 
 
-
-	if (stream == null)
-
-		{
-
-		System.out.println("ERROR: can't open image file " + path);
-
-		return;
-
-		}
-
-	try
-
-		{
-
-		java.io.DataInputStream data = new java.io.DataInputStream(stream);
-
-		readBMP(data, path);
-
-		data.close();
-
-		stream.close();
-
-		}
-
-	catch (Exception e)
-
-		{
-
-		System.out.println("ERROR: when loading Image. Trace appears below.");
-
-		e.printStackTrace();
-
-		}
-
+    private void loadImage(java.io.InputStream stream)
+    {
+	if (stream == null){
+	    return;
 	}
+
+	try{
+	    java.io.DataInputStream data = new java.io.DataInputStream(stream);
+	    readBMP(data, "InputStream");
+	    data.close();
+	    stream.close();
+	} catch (Exception e) {
+	    System.out.println("ERROR: when loading Image. Trace appears below.");
+	    e.printStackTrace();
+	}
+    }
 
 
 
