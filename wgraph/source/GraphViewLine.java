@@ -73,14 +73,23 @@ public class GraphViewLine extends GraphView
 
 		graph = lGraph = new LineGraph(w, h, dwX, dwY, 
 									   xaxis, yaxis);
-
 		yaxis.setRange(minY, maxY - minY);
 
 		// This is a hack see setRange in AnnotView
 		xaxis.setRange(minX, maxX - minX);
+
     }
 
-	
+	public void setAxis(SplitAxis xaxis, ColorAxis yaxis)
+	{
+		lGraph.switchXAxis(xaxis);
+		lGraph.switchYAxis(yaxis);
+		yaxis.setRange(minY, maxY - minY);
+
+		// This is a hack see setRange in AnnotView
+		xaxis.setRange(minX, maxX - minX);
+	}
+
     public boolean autoScroll = true;
     float scrollFract = (float)0.25;
     float scrollStepSize = (float)0.15;

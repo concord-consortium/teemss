@@ -1,19 +1,19 @@
 /*
-Copyright (C) 2001 Concord Consortium
+  Copyright (C) 2001 Concord Consortium
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 2
+  of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 package graph;
 
@@ -46,30 +46,30 @@ public class Annotation
 
     public Annotation(String l, float t, float v, Axis xa)
     {
-	time = t;
-	label = l;
-	value = v;
-	xaxis = xa;
+		time = t;
+		label = l;
+		value = v;
+		xaxis = xa;
     }
 
     public String getLabel()
     {
-	return label;
+		return label;
     }
 
     public float getValue()
     {
-	return value;
+		return value;
     }
 
     public Color getColor()
     {
-	return null;
+		return null;
     }
 
     public float getTime()
     {
-	return time;
+		return time;
     }
 
 	public CCUnit getUnit()
@@ -82,26 +82,44 @@ public class Annotation
      */
     public void draw(Graphics g, int x, int y)
     {
-	if(selected){
-	    g.setColor(0,0,0);
-	} else {
-	    g.setColor(255,255,255);
-	}
+		if(selected){
+			g.setColor(0,0,0);
+		} else {
+			g.setColor(255,255,255);
+		}
 
-	g.fillRect(x,y,width,height);
+		g.fillRect(x,y,width,height);
 
-	if(selected){
-	    g.setColor(255,255,255);
-	} else {
-	    g.setColor(0,0,0);
-	}
+		if(selected){
+			g.setColor(255,255,255);
+		} else {
+			g.setColor(0,0,0);
+		}
 
-	int i;
-	for(i = 0; i < 3; i++){
-	    xPtsTrans[i] = xPts[i] + x;
-	    yPtsTrans[i] = yPts[i] + y;
-	}
+		int i;
+		for(i = 0; i < 3; i++){
+			xPtsTrans[i] = xPts[i] + x;
+			yPtsTrans[i] = yPts[i] + y;
+		}
 
-	g.fillPolygon(xPtsTrans, yPtsTrans, 3);	
+		g.fillPolygon(xPtsTrans, yPtsTrans, 3);	
     }
+
+	public boolean checkPos(int x)
+	{
+		int pos;
+		if(xaxis.drawnX != -1){
+			pos = (int)((time - xaxis.dispMin) * xaxis.scale);
+			if((pos*xaxis.axisDir >= 0) && 
+			   (pos*xaxis.axisDir < xaxis.axisDir*xaxis.dispLen)){ 
+				// Need to make this layout independent
+		    
+				if(x >= (pos + xaxis.drawnX + xaxis.axisDir - width/2) &&
+				   x < (pos + xaxis.drawnX + xaxis.axisDir + width/2))
+					return true;
+			}
+		}
+
+		return false;
+	}
 }

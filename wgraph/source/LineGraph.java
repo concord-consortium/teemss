@@ -58,13 +58,10 @@ public class LineGraph extends Graph2D
 							{0, 255, 255},}; // turquois
 
     protected int length = 0;
-
-    int numBins = 0;
-    int binStorSize = 0;
+	Vector bins = new Vector();
 
     public Vector annots = new Vector();
     Bin curBin;
-    Bin binArray [];
 
     boolean axisFlipped = false;
     Object [][] graphLayout = new Object[3][3];
@@ -95,30 +92,52 @@ public class LineGraph extends Graph2D
 		yOriginOff = dwHeight + dwY;
 		xOriginOff = dwX;
 
-		xaxis = xAx;
-		xaxis.setLength(dwWidth);
-		xaxis.gridEndOff = -dwHeight+1;
-		xaxis.addActionListener(this);
-
-		yaxis = yAx;
-		yaxis.setLength(-dwHeight);
-		yaxis.gridEndOff = dwWidth-1;
-		yaxis.addActionListener(this);
-
-		int newSize = DEFAULT_STOR_SIZE;
-		binStorSize = newSize;
-		numBins = 0;
-		binArray = new Bin [newSize];
+		switchXAxis(xAx);
+		switchYAxis(yAx);
 
 		reset();
 
 		graphLayout[1][0] = graphLayout[2][0] = annotSection;
-		graphLayout[0][1] = graphLayout[0][0] = yaxis;
 		graphLayout[1][1] = this;
-		graphLayout[1][2] = graphLayout[2][2] = xaxis;
 		graphLayout[2][1] = graphLayout[0][2] = null;
-
     }
+
+	public void setupYAxis(Axis yAx)
+	{
+		yAx.setLength(-dwHeight);
+		yAx.gridEndOff = dwWidth-1;
+		yAx.init(xOriginOff,yOriginOff);
+
+	}
+
+	public void setupXAxis(Axis xAx)
+	{
+		xAx.setLength(dwWidth);
+		xAx.gridEndOff = -dwHeight+1;
+		xAx.init(xOriginOff,yOriginOff);
+	}
+
+	public void switchXAxis(SplitAxis xAx)
+	{
+		if(xAx != xaxis){
+			if(xaxis != null) xaxis.removeActionListener(this);
+			xaxis = xAx;
+			setupXAxis(xAx);
+			xaxis.addActionListener(this);
+			graphLayout[1][2] = graphLayout[2][2] = xaxis;
+		}		
+	}
+
+	public void switchYAxis(Axis yAx)
+	{
+		if(yAx != yaxis){
+			if(yaxis != null) yaxis.removeActionListener(this);
+			yaxis = yAx;
+			setupYAxis(yAx);
+			yaxis.addActionListener(this);
+			graphLayout[0][1] = graphLayout[0][0] = yaxis;
+		}
+	}
 
 	public void free(){}
 
@@ -137,7 +156,7 @@ public class LineGraph extends Graph2D
 
     public Annotation addAnnot(String label, float time)
     {
-		return addAnnot(label, time, xaxis);
+		return addAnnot(label, time, xaxis.lastAxis);
     }
 
     public boolean getValue(float time, Axis xa, float []value)
@@ -150,8 +169,8 @@ public class LineGraph extends Graph2D
 		float [] binValue = new float [1];
 
 		i = 0;
-		for(k=0; k<numBins; k++){
-			bin = binArray[k];
+		for(k=0; k<bins.getCount(); k++){
+			bin = (Bin)bins.get(k);
 
 			if(xa == bin.xaxis){
 				valid = valid && bin.getValue(time, binValue);
@@ -182,15 +201,14 @@ public class LineGraph extends Graph2D
 
     public void drawAnnots(Graphics g)
     {
-		Object [] annotObj = annots.toObjectArray();
 		int i;
 		Annotation a;
 		int pos;
 		int xPos;
 		int valPos;
 
-		for(i=0; i<annotObj.length; i++){
-			a = (Annotation)annotObj[i];
+		for(i=0; i<annots.getCount(); i++){
+			a = (Annotation)annots.get(i);
 			if(a.xaxis.drawnX != -1){
 				pos = (int)((a.time - a.xaxis.dispMin) * a.xaxis.scale);
 				if((pos*a.xaxis.axisDir >= 0) && 
@@ -215,8 +233,8 @@ public class LineGraph extends Graph2D
     {
 		// set the clipping region
 		g.setClip(xOriginOff+1, yOriginOff-dwHeight, dwWidth, dwHeight);
-		for(int k=0; k<numBins; k++){
-			binArray[k].draw(g);
+		for(int k=0; k<bins.getCount(); k++){
+			((Bin) bins.get(k)).draw(g);
 		}
 		g.clearClip();
 		return 0;
@@ -246,27 +264,12 @@ public class LineGraph extends Graph2D
 		}
     }
 
-    public void incBinStor()
-    {
-		int newSize = binStorSize * 3 / 2;
-		Bin newBinArray [] = new Bin [newSize];
-	
-		Vm.copyArray(binArray, 0, newBinArray, 0, numBins);
-		binArray = newBinArray;
-		binStorSize = newSize;
-    }
-    
     // return a Object linked to this location
     // we are ignoring location for now
     public void addBin(Bin newBin)
     {
-		if(numBins >= binStorSize){
-			incBinStor();
-		}
-
-		binArray[numBins] = newBin;
+		bins.add(newBin);
 		newBin.color = lineColors[0];
-		numBins++;
 
 		// hack need to fix the autoscroll code
 		// so I can fix this
@@ -319,8 +322,8 @@ public class LineGraph extends Graph2D
 
 		drawAxis(g);
 
-		for(i=0; i<numBins; i++){
-			binArray[i].lastPlottedPoint = -1;
+		for(i=0; i<bins.getCount(); i++){
+			((Bin) bins.get(i)).lastPlottedPoint = -1;
 		}
 
 		if(profile){
@@ -387,9 +390,8 @@ public class LineGraph extends Graph2D
 		int i;
 		length = 0;
 		xaxis.reset();
-		for(i=0; i<numBins; i++){
-			binArray[i] = null;
-		}
+
+		bins = new Vector();
 
 		// remove annotations
 		annots = new Vector();
@@ -447,29 +449,17 @@ public class LineGraph extends Graph2D
      *  We need to check the bounds or only take
      * one direction or something
      */
-    Annotation getAnnotAtPoint(int x, int y){
-	
-		// Track down which annotation
-		Object [] annotObj = annots.toObjectArray();
+    Annotation getAnnotAtPoint(int x, int y)
+	{
 		int i;
 		Annotation a;
 		int pos;
 	
 		// We draw them forward, so we search backwards
 		//   because they might overlap
-		for(i=annotObj.length-1; i>=0; i--){
-			a = (Annotation)annotObj[i];
-			if(a.xaxis.drawnX != -1){
-				pos = (int)((a.time - a.xaxis.dispMin) * a.xaxis.scale);
-				if((pos*a.xaxis.axisDir >= 0) && 
-				   (pos*a.xaxis.axisDir < a.xaxis.axisDir*a.xaxis.dispLen)){ 
-					// Need to make this layout independent
-		    
-					if(x >= (pos + a.xaxis.drawnX + a.xaxis.axisDir - a.width/2) &&
-					   x < (pos + a.xaxis.drawnX + a.xaxis.axisDir + a.width/2))
-						return a;
-				}
-			}
+		for(i=annots.getCount()-1; i>=0; i--){
+			a = (Annotation)annots.get(i);
+			if(a.checkPos(x)) return a;
 		}
 	
 		// We didn't find any anotations

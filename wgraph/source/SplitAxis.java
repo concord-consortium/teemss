@@ -10,7 +10,7 @@ import extra.util.*;
 public class SplitAxis extends Axis
 {
 	public Axis [] axisArray = new Axis [10];
-	Axis lastAxis = null;
+	public Axis lastAxis = null;
     int numAxis;
 	int type;
 
@@ -196,6 +196,12 @@ public class SplitAxis extends Axis
 		*/
     }
 
+	public void init(int x, int y)
+	{
+		super.init(x,y);
+		draw(null, x, y);
+	}
+
     public void draw(Graphics g, int xOriginOff, int yOriginOff)
 	{
 		int xaxisOffset = xOriginOff;
@@ -247,7 +253,7 @@ public class SplitAxis extends Axis
 				break;
 			}
 
-			g.setColor(0,0,0);
+			if(g != null)g.setColor(0,0,0);
 			if(curStartPos < startPos){
 				// This axis starts before the visible area so we need to offset it
 				dispOffset = startPos - curStartPos;
@@ -263,7 +269,7 @@ public class SplitAxis extends Axis
 				// The axis starts in the visible area
 				// Need to draw the beginning line of the axis
 				// draw the next axis
-				g.drawLine(xaxisOffset + curStartPos - startPos, yOriginOff, 
+				if(g != null) g.drawLine(xaxisOffset + curStartPos - startPos, yOriginOff, 
 						   xaxisOffset + curStartPos - startPos, yOriginOff + gridEndOff);
 
 				// And set the dispMin correctly
@@ -285,7 +291,8 @@ public class SplitAxis extends Axis
 			}
 	    
 			xa.gridEndOff = gridEndOff;
-			xa.draw(g, xaxisOffset + (curStartPos - startPos), yOriginOff);
+			if(g == null) xa.init(xaxisOffset + (curStartPos - startPos), yOriginOff);
+			else xa.draw(g, xaxisOffset + (curStartPos - startPos), yOriginOff);
 			curStartPos += axisLen + 10;
 		}
     }

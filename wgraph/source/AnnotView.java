@@ -59,42 +59,12 @@ public class AnnotView extends Container
 		add(curView);
     }
 
-	public void setYLabel(String label, CCUnit unit)
-	{
-		yaxis.setAxisLabel(label, unit);
+	public void setAxis(SplitAxis xAx, ColorAxis yAx)
+	{	   
+		xaxis = xAx;
+		yaxis = yAx;
+		lgView.setAxis(xAx, yAx);
 	}
-
-	public void setXLabel(String label, CCUnit unit)
-	{
-		xaxis.setAxisLabel(label, unit);
-	}
-
-    public Bin getBin()
-    {
-		lgBins[0] = new Bin(xaxis.lastAxis, yaxis);
-		lgBins[0].label = "Probe";
-	
-		lgView.lGraph.addBin(lgBins[0]);
-		bGraph.addBar(0, lgBins[0]);
-		return lgBins[0];
-    }
-
-    public float getXmin()
-    {
-		return xaxis.dispMin;
-    }
-    public float getXmax()
-    {
-		return xaxis.getDispMax();
-    }
-    public float getYmin()
-    {
-		return yaxis.dispMin;
-    }
-    public float getYmax()
-    {
-		return yaxis.getDispMax();
-    }
 
     float minX, maxX;
 
@@ -119,6 +89,38 @@ public class AnnotView extends Container
 		setRect(x,y,width,height);
     }
 
+    public void addBin(Bin curBin)
+    {
+		lgBins[0] = curBin;
+		lgBins[0].label = "Probe";
+	
+		lgView.lGraph.addBin(lgBins[0]);
+		bGraph.addBar(0, lgBins[0]);
+		return;
+    }
+
+	public void removeBin(Bin curBin)
+	{
+		//	  Hack to save memory on palm
+		bGraph.removeBar(curBin);		
+	}
+
+	public void addAnnot()
+	{
+		Annotation a = null;
+
+		if(lgBins[0] != null){
+			a = lGraph.addAnnot("" + lgView.curChar, lgBins[0].getCurX());
+			// Add bar to bargraph
+			if(a != null){
+				bGraph.addBar(bGraph.numBars - 1, a);
+				lgView.curChar++;
+
+				repaint();
+			}
+		}
+	}
+
     public void reset()
     {
 		lgView.lGraph.reset();
@@ -138,42 +140,6 @@ public class AnnotView extends Container
 
 		// repaint
 		repaint();
-    }
-
-    public Bin pause()
-    {
-		// Watch out here because we need to fix this bin in the 
-		// bar graph on start we'll need to save a pointer to this 
-		// old bin
-   		Annotation a = lGraph.addAnnot("" + lgView.curChar, lgBins[0].getCurX());
-		if(a != null){
-			lgView.curChar++;
-			bGraph.addBar(bGraph.numBars - 1, a);
-		}
-	
-		//	  Hack to save memory on palm
-		bGraph.removeBar(lgBins[0]);
-
-		// need to pass in the curBin or track it so
-		Bin curBin = lgBins[0];
-
-		if(curBin.maxX < 0 || curBin.getNumVals() < 3){
-			curBin.reset();
-			curBin.xaxis = xaxis.lastAxis;
-			curBin.label = "Probe";
-		} else {
-			xaxis.addAxis(curBin.maxX);
-			curBin = new Bin(xaxis.lastAxis, yaxis);
-			curBin.label = "Probe";
-			lGraph.addBin(curBin);
-			lgBins[0] = curBin;
-		}
-
-		bGraph.addBar(bGraph.numBars, lgBins[0]);
-	
-		curView.draw();
-
-		return lgBins[0];
     }
 
     boolean barDown = false;
@@ -263,22 +229,6 @@ public class AnnotView extends Container
 	{
 		if(curView instanceof GraphViewLine){
 			lgView.mode = mode;
-		}
-	}
-
-	public void addAnnot()
-	{
-		Annotation a = null;
-
-		if(lgBins[0] != null){
-			a = lGraph.addAnnot("" + lgView.curChar, lgBins[0].getCurX());
-			// Add bar to bargraph
-			if(a != null){
-				bGraph.addBar(bGraph.numBars - 1, a);
-				lgView.curChar++;
-
-				repaint();
-			}
 		}
 	}
 

@@ -166,6 +166,12 @@ public class Axis
 		scaleListeners.add(al);
 	}
 
+	public void removeActionListener(ActionListener al)
+	{
+		int index = scaleListeners.find(al);
+		if(index >= 0) scaleListeners.del(index);
+	}
+
     void notifyListeners(int type)
 	{
 		changeEvent.type = type;
@@ -538,6 +544,12 @@ public class Axis
     {
 		setDispOffset(newDM, 0);
     }
+
+	public void init(int x, int y)
+	{
+		drawnX = x;
+		drawnY = y;
+	}
 
     boolean needCalcTics = false;
 

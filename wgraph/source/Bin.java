@@ -281,7 +281,7 @@ public class Bin
 		needRecalc = true;
 	}
 
-    void reset()
+    public void reset()
     {
 		int i;
 		lfArray.clear();
