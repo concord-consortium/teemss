@@ -23,6 +23,7 @@
   <SNPARAGRAPH linkcolor="0000FF">
      This is the TEEMSS project Spring 2002 LabBook.
   </SNPARAGRAPH>
+  <SNPARAGRAPH/>
   <SNPARAGRAPH>
       <xsl:value-of select="$varDateModified"/>
   </SNPARAGRAPH>
@@ -30,7 +31,7 @@
 
 <FOLDER ID="folder-teemss-images" name="Images" view="paging">
   <IMAGE ID="teemss_titlebar.bmp" name="teemss_titlebar.bmp"
-  url="../misc-images/teemss_titlebar.bmp"/>
+  url="images/teemss_titlebar.bmp"/>
 </FOLDER>
 
 
