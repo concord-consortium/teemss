@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project PUBLIC "-//CONCORD.ORG//DTD Param Description//EN" "project.dtd">
 <project name="teemss">
+  <project-info>last changed: $Date$</project-info>
   <title>TEEMSS</title>
   <skill-list>
     <skill name="describe motion">knowing that an object&apos;s motion

@@ -9,7 +9,7 @@ then labbook=$1
 else labbook="labbook.xml"
 fi
 
-$workingcopy/XML2LabBook/build-labbook $labbook
+$workingcopy/XML2LabBook/make-labbook $labbook
 
 
 

@@ -3,10 +3,12 @@
 <!ENTITY % INVESTIGATION_TEXT "%TEXT; | ext-image-sequence | ext-image"> 
 <!ENTITY % TEACHER_NOTE_TEXT "%INVESTIGATION_TEXT; | equation | table | ul | teacher-questions">
 
-<!ELEMENT project (title, skill-list?, tech-hint-list?, unit+)>
+<!ELEMENT project (title, project-info, skill-list?, tech-hint-list?, unit+)>
 <!ATTLIST project name CDATA #REQUIRED >
 
 <!ELEMENT title (#PCDATA)>
+
+<!ELEMENT project-info (#PCDATA)>
 
 <!ELEMENT unit (title, investigation+)>
 <!ATTLIST unit       name CDATA #REQUIRED> 
