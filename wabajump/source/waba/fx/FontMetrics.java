@@ -69,6 +69,7 @@ int leading;
     }catch(Exception e){
       //temp
       Palm.WinDrawChars(e.toString(),e.toString().length(),0,100);
+	  ascent = descent = leading = 0;
     }
 	}
 
@@ -123,6 +124,8 @@ public int getLeading()
  */
 public int getTextWidth(String s)
 {
+	if(s.length() == 0) return 0;
+
   int lastFont=Palm.FntSetFont(font.getStyle());
   int width=Palm.FntLineWidth(s,s.length());
   Palm.FntSetFont(lastFont);

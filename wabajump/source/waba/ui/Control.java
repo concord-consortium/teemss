@@ -43,6 +43,7 @@ protected Control next;
 /** The control's previous sibling. */
 protected Control prev;
 
+
 /**
  * Adds a timer to a control. Each time the timer ticks, a TIMER
  * event will be posted to the control. The timer does
@@ -165,7 +166,7 @@ public Graphics createGraphics()
 			return null;
 		}
 	Window win = (Window)c;	
-	Graphics g = new Graphics(win);
+	Graphics g = Graphics.getGraphics(win);
 	g.translate(x, y);
 	return g;
 	}

@@ -180,7 +180,7 @@ public void _postEvent(int type, int key, int x, int y, int modifiers, int timeS
 public void _doPaint(int x, int y, int width, int height)
 	{
 	    if (_g == null){
-		_g = new Graphics(this);
+			_g = Graphics.getMainGraphics(this);
 	    } else {
 		// zero translation
 		_g.translateZero();		
