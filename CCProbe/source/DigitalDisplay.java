@@ -84,6 +84,8 @@ public class DigitalDisplay extends Container
 		String curUnitStr;
 		CCUnit curUnit;
 
+		if(bins == null) return;
+
 		int x=RIGHT_PADDING;
 
 		g.setFont(_font);
@@ -93,12 +95,17 @@ public class DigitalDisplay extends Container
 		g.setColor(0,0,0);
 		for(int i=0; i<bins.getCount(); i++){
 			curBin = (DecoratedValue)bins.get(i);
-			curLabel = curBin.getLabel() + ":";
+			if(curBin == null) continue;
+			curLabel = curBin.getLabel();
+			if(curLabel == null) curLabel = ":";
+			else curLabel = curLabel + ":";
 			g.drawText(curLabel, x,0);
 			x += fm.getTextWidth(curLabel) + INNER_PADDING;
 			curDisp = (LabelBuf)disps.get(i);
-			curDisp.setPos(x,0);	    
-			x += curDisp.getWidth();
+			if(curDisp != null){
+				curDisp.setPos(x,0);	    
+				x += curDisp.getWidth();
+			}
 			curUnit = curBin.getUnit();
 			if(curUnit != null){
 				curUnitStr = curUnit.abbreviation;
