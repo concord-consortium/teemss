@@ -452,6 +452,7 @@ private final static EmptyLabObject emptyObject = new EmptyLabObject();
 					strWrapper.bColor 		= b;
 					strWrapper.link 		= link;
 					strWrapper.underline 	= underline;
+					strWrapper.indexInDict 	= indexInDict;
 				}
 			}
 		}
@@ -998,6 +999,7 @@ private final static EmptyLabObject emptyObject = new EmptyLabObject();
 						removeCursor();
 						if(!getEditMode()){
 							if(cntrlDesc.link){
+								object.setShowMenus(false);
 								LabObject lobj = object.getLabObject();
 								LabObjectView realView = lobj.getView(this,false);
 								if(realView != null) realView.setShowMenus(true);
@@ -1351,9 +1353,6 @@ private final static EmptyLabObject emptyObject = new EmptyLabObject();
 						dialog.show();		
 					}
 				}else{
-					if(sw.link){
-						System.out.println("indexInDict "+sw.indexInDict);
-					}
 					if(sw.link && objDictionary != null && sw.indexInDict >= 0){
 						TreeNode node = objDictionary.getChildAt(sw.indexInDict);
 						if(node == null) return;
@@ -1887,7 +1886,6 @@ LObjDictionaryView	view;
 				stringWrapper.indexInDict = -1;
 				if(stringWrapper.link && (view != null) && (stringWrapper.owner != null) && (stringWrapper.owner.objDictionary != null)){
 					TreeNode curNode = view.treeControl.getSelected();
-					System.out.println("selected "+curNode);
 					if(curNode != null){
 						LabObject obj = dict.getObj(curNode);
 						if(obj != null){

@@ -24,7 +24,7 @@ boolean					insertButtonAdded;
 
 Menu 					menu = null;
 Menu 					menuEdit = null;
-
+boolean					fileMenuWasAdded = false;
 
 
 String [] fileStrings = {"Load Note..."};
@@ -79,6 +79,7 @@ CCScrollBar				scrollBar;
 			if(menu != null) container.getMainView().delMenu(this, menu);
 			if(menuEdit != null) container.getMainView().delMenu(this, menuEdit);			
 			container.getMainView().removeFileMenuItems(fileStrings, this);
+			fileMenuWasAdded = false;
 			if(tArea != null) tArea.delMenus();
 		}
 	}
@@ -110,7 +111,10 @@ CCScrollBar				scrollBar;
 		}
 		menu.addActionListener(this);
 		if(vc != null) vc.getMainView().addMenu(this, menu);
-		container.getMainView().addFileMenuItems(fileStrings, this);
+		if(!fileMenuWasAdded){
+			container.getMainView().addFileMenuItems(fileStrings, this);
+			fileMenuWasAdded = true;
+		}
 	}
 	
 
