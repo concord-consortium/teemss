@@ -18,6 +18,20 @@ float		fval = 0.0f;
 
 Control	valueKeeper = null;
 
+
+
+
+
+
+
+	public PropObject(extra.io.DataStream in){
+
+		valueKeeper = null;
+
+		readExternal(in);
+
+	}
+
 	public 	PropObject(String name,String []possibleValues,int defaultIndex){
 
 		this.name = name;
@@ -118,9 +132,61 @@ Control	valueKeeper = null;
 
 	public void writeExternal(extra.io.DataStream out){
 
+		out.writeBoolean(name != null);
+
+		if(name != null) out.writeString(name);
+
+		out.writeBoolean(value != null);
+
+		if(value != null) out.writeString(value);
+
+		out.writeFloat(fval);
+
+		out.writeBoolean(possibleValues != null);
+
+		if(possibleValues != null){
+
+			out.writeInt(possibleValues.length);
+
+			for(int i = 0; i < possibleValues.length; i++){
+
+				out.writeBoolean(possibleValues[i] != null);
+
+				if(possibleValues[i]  != null) out.writeString(possibleValues[i] );
+
+			}
+
+		}
+
 	}
 
 	public void readExternal(extra.io.DataStream in){
+
+		name = (in.readBoolean())?in.readString():null;
+
+		value = (in.readBoolean())?in.readString():null;
+
+		fval = in.readFloat();
+
+		possibleValues = null;
+
+		if(in.readBoolean()){
+
+			int n = in.readInt();
+
+			if(n > 0){
+
+				possibleValues = new String[n];
+
+				for(int i = 0; i < n; i++){
+
+					possibleValues[i] = (in.readBoolean())?in.readString():null;
+
+				}
+
+			}
+
+		}
 
 	}
 
