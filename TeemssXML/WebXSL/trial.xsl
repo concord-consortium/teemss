@@ -8,14 +8,16 @@
 
 <xsl:output method="html" indent="yes"/>
 
-<xsl:template match="investigation">
-<xsl:apply-templates select="trial"/>
+<xsl:template match="/">
+<xsl:apply-templates select="project/unit/investigation/trial"/>
 </xsl:template>
 
 <xsl:template match="trial">
 
 <xsl:text>outputing: </xsl:text>
 <xsl:value-of select="@title"/>
+<xsl:text>
+</xsl:text>
 <redirect:write file="html/{../../@name}/{../@name}_trial_{position()}.html">
 
 <html>

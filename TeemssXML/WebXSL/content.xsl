@@ -63,21 +63,23 @@
 </xsl:template>
 
 <xsl:template match="ext-image">
-<cc-ext:copy source="images/{cc-ext:getImageDir(concat(string(ancestor::unit/@name),'/',string(ancestor::investigation/@name)),string(@name))}/WEB_{@name}.{@type}" target="html/images/auto_{@name}.{@type}"/>
 <p>
 <xsl:choose>
 	<xsl:when test="@type='gif'">
-<img src="images/auto_{@name}.{@type}" width="158" height="140" border="1"/>
+<img src="../images/{ancestor::unit/@name}/{ancestor::investigation/@name}/{@name}/WEB_{@name}.{@type}"
+width="158" height="140" border="1"/>
 	</xsl:when>
 	<xsl:when test="@type='jpg'">
-<img src="images/auto_{@name}.{@type}"/>
+<img src="../images/{ancestor::unit/@name}/{ancestor::investigation/@name}/{@name}/WEB_{@name}.{@type}"/>
 	</xsl:when>	
 </xsl:choose>
 </p>
+
 </xsl:template>
 
+
 <xsl:template match="ext-image-sequence">
-	<xsl:for-each select="ext_image">
+	<xsl:for-each select="ext-image">
 		<xsl:apply-templates select="."/>
 		<xsl:if test="position()!=last()"><img src="images/arrow.gif"/></xsl:if>
 	</xsl:for-each>
