@@ -167,16 +167,6 @@ public class Graphics
 	   */
 	}
 
-    public Graphics(ISurface surface, int cacheSize)
-    {
-	this(surface);
-	       
-	CACHE_SIZE = cacheSize;
-
-	colCache = new int [CACHE_SIZE];
-	colCacheI = new byte [CACHE_SIZE];
-    }
-
    /**
     * Clears the current clipping rectangle. This allows drawing to occur
     * anywhere on the current surface.
@@ -298,7 +288,7 @@ public class Graphics
     private Rectangle oOldClip = new Rectangle();
     private static int iMWinHandle;
     private static Rectangle mwOldClip = new Rectangle();
-    static Graphics drawWinGraphics = null;
+    private static Graphics drawWinGraphics = null;
     private int myWinHandle;
 
     public static void saveState()
@@ -562,7 +552,7 @@ public class Graphics
     * @param b the blue value (0..255)
     */
     static RGBColor curColor = new RGBColor(0,0,0,0);
-    int CACHE_SIZE = 16;
+    static final int CACHE_SIZE = 256;
     int [] colCache = new int [CACHE_SIZE];
     byte [] colCacheI = new byte [CACHE_SIZE];
     int numColsCached = 0;
@@ -588,7 +578,7 @@ public class Graphics
        int i;
        byte closeIndex;
        
-       int reqColor = (r << 16) | (g << 8) | b;
+       int reqColor = ((byte)r << 16) | ((byte)g << 8) | ((byte)b);
        for(i=0; i < numColsCached; i++){
 	   if(colCache[i] == reqColor){
 	       Palm.WinSetForeColor(colCacheI[i]);
@@ -604,7 +594,7 @@ public class Graphics
 
        closeIndex = Palm.WinRGBToIndex(curColor);
        Palm.WinSetForeColor(closeIndex);
-       curColIndex = closeIndex;
+       curColIndex = colCacheI[i];
 
        colCache[curCol] = reqColor;
        colCacheI[curCol] = closeIndex;
@@ -670,11 +660,6 @@ public class Graphics
       tx+=x;
       ty+=y;
    }
-
-    public void translateZero()
-    {
-	tx = 0; ty = 0;
-    }
 
    private void debug(String sText)
    {

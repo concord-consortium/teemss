@@ -164,8 +164,8 @@ public Graphics createGraphics()
 		if (c == null)
 			return null;
 		}
-	Window win = (Window)c;	
-	Graphics g = win.getGraphics();
+	Window win = (Window)c;
+	Graphics g = new Graphics(win);
 	g.translate(x, y);
 	return g;
 	}

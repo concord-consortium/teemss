@@ -119,7 +119,9 @@ public static void drawButton(Graphics g, boolean armed, int width, int height)
 		g.drawLine(0, 3, 0, y2 - 3);
 		g.drawLine(x2, 3, x2, y2 - 3);
 
-		if (!armed)
+		if (armed)
+			g.fillRect(1, 1, width - 2, height - 2);
+		else
 			{
 			// draw corners (tl, tr, bl, br)
 			g.drawLine(1, 1, 2, 1);
@@ -174,10 +176,7 @@ public static void drawButton(Graphics g, boolean armed, int width, int height)
 /** Called by the system to draw the button. */
 public void onPaint(Graphics g)
 	{
-	if (armed && !Vm.isColor()){
-		g.setColor(0,0,0);
-		g.fillRect(1, 1, width - 2, height - 2);
-	}
+	drawButton(g, armed, this.width, this.height);
 
 	// draw label
 	if (armed && !Vm.isColor())
@@ -194,8 +193,5 @@ public void onPaint(Graphics g)
 		y++;
 		}
 	g.drawText(text, x, y);
-
-	drawButton(g, armed, this.width, this.height);
-
 	}
 }

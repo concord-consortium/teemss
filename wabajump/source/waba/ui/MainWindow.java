@@ -167,7 +167,6 @@ public void _onTimerTick()
 	{
 	int minInterval = 0;
 	int now = Vm.getTimeStamp();
-	_timerStart=now;
 	Timer timer = timers;
 	while (timer != null)
 		{
@@ -204,11 +203,7 @@ public void _onTimerTick()
 protected void _setTimerInterval(int milliseconds)
 {
    _timerInterval=milliseconds;
-   if(milliseconds == 0){
-       _timerStart = 0;
-   } else if(_timerStart == 0){
-       _timerStart=Vm.getTimeStamp();
-   }
+   _timerStart=Vm.getTimeStamp();
 }
 
 }
