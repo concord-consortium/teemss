@@ -1,23 +1,23 @@
 #! /bin/sh
 
-destination=$workingcopy"/Packages/complete/ccprobe-macosx"
-download=$workingcopy"/Packages/download/ccprobe-macosx"
-bin=$workingcopy"/CCProbe/bin"
-components=$workingcopy"/Packages/components/ccprobe-macosx"
-doc=$workingcopy"/Packages/doc"
-labbook=$workingcopy"/TeemssXML/LabBookXSL"
+source packaging-functions.sh 
 
-rm -rf $destination/*
+complete=$complete/ccprobe-macosx
+download=$download/ccprobe-macosx
+components=$components/ccprobe-macosx
+
+rm -rf $complete/*
 rm -rf $download/*
 
-CpMac $doc/ccprobe-macosx/* $destination
-CpMac $doc/all/* $destination
-cp $labbook/LabBook.PDB $destination
-/Developer/Tools/CpMac -r $components/* $destination
-cp $bin/CCProbe.jar  $destination/CCProbe.app/Contents/Resources/Java/            
+copy-mac-cvs-folder $doc/ccprobe-macosx $complete
+copy-mac-cvs-folder $doc/all $complete
 
-echo $destination
-ls -l $destination
+cp $labbook/LabBook.PDB $complete
+CpMac -r $components/* $complete
+cp $bin/CCProbe.jar  $complete/CCProbe.app/Contents/Resources/Java/            
+
+echo $complete
+ls -l $complete
 
 osascript make-macosx.applescript
 

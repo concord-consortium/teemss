@@ -1,31 +1,26 @@
 #! /bin/sh
+# make-windows
 
-destination=$workingcopy"/Packages/complete/ccprobe-windows"
-download=$workingcopy"/Packages/download/ccprobe-windows"
-bin=$workingcopy"/CCProbe/bin"
-components=$workingcopy"/Packages/components/ccprobe-windows"
-doc=$workingcopy"/Packages/doc"
-labbook=$workingcopy"/TeemssXML/LabBookXSL"
+source packaging-functions.sh
 
-rm -f $destination/*
-rm -f $download/*
+complete=$complete/ccprobe-windows
+download=$download/ccprobe-windows
+components=$components/ccprobe-windows
 
-cp $bin/CCProbe.jar  $destination
-cp $doc/ccprobe-windows/* $destination
-cp $doc/all/* $destination
-cp $labbook/LabBook.PDB $destination
-cp $components/* $destination
+rm -rf $complete/*
+rm -rf $download/*
 
-echo $destination
-ls -l $destination
+copy-cvs-folder $doc/ccprobe-windows $complete
+copy-cvs-folder $doc/all $complete
+
+cp $bin/CCProbe.jar  $complete
+cp $labbook/LabBook.PDB $complete
+cp $components/* $complete
+
+echo $complete
+ls -l $complete
 
 osascript make-windows.applescript
 
 echo $download
 ls -l $download
-
-
-
-
-
-

@@ -1,29 +1,30 @@
 #! /bin/sh
+# make-macos-classic
 
-destination=$workingcopy"/Packages/complete/ccprobe-macos-classic"
-download=$workingcopy"/Packages/download/ccprobe-macos-classic"
-bin=$workingcopy"/CCProbe/bin"
-components=$workingcopy"/Packages/components/ccprobe-macos-classic"
-doc=$workingcopy"/Packages/doc"
-tempdir=$workingcopy"/Packages/tempdir"
-labbook=$workingcopy"/TeemssXML/LabBookXSL"
+source packaging-functions.sh 
 
-rm -rf $destination/*
+complete=$complete/ccprobe-macos-classic
+download=$download/ccprobe-macos-classic
+components=$components/ccprobe-macos-classic
+
+rm -rf $complete/*
 rm -rf $download/*
 rm -rf $tempdir/*
 
-cp $bin/CCProbe.jar  $destination
-CpMac $doc/ccprobe-macos-classic/* $tempdir
-CpMac $doc/all/* $tempdir
+copy-mac-cvs-folder $doc/ccprobe-macos-classic $tempdir
+copy-mac-cvs-folder $doc/all $tempdir
+
 SetFile -c ttxt -t TEXT $tempdir/*
 SetFile -c 'CARO' -t 'PDF ' $tempdir/ccprobe-ref.pdf
-CpMac $tempdir/* $destination
-cp $labbook/LabBook.PDB $destination
-CpMac $components/CCProbe $components/CCProbe.properties $destination
-SetFile -c ttxt -t TEXT $destination/CCProbe.properties
+CpMac $tempdir/* $complete
 
-echo $destination
-ls -l $destination
+cp $bin/CCProbe.jar  $complete
+cp $labbook/LabBook.PDB $complete
+CpMac $components/CCProbe $components/CCProbe.properties $complete
+SetFile -c ttxt -t TEXT $complete/CCProbe.properties
+
+echo $complete
+ls -l $complete
 
 osascript make-macos-classic.applescript
 
@@ -31,3 +32,7 @@ rm -f $download/CCProbe.sea
 
 echo $download
 ls -l $download
+
+
+
+

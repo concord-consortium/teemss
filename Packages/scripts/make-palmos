@@ -1,30 +1,46 @@
 #! /bin/sh
+# make-palmos
 
-destination=$workingcopy"/Packages/complete/ccprobe-palmos"
-download=$workingcopy"/Packages/download/ccprobe-palmos"
-bin=$workingcopy"/CCProbe/bin"
-components=$workingcopy"/Packages/components/ccprobe-palmos"
-doc=$workingcopy"/Packages/doc"
-labbook=$workingcopy"/TeemssXML/LabBookXSL"
+source packaging-functions.sh
 
-rm -f $destination/*
+complete=$complete/ccprobe-palmos
+download=$download/ccprobe-palmos
+components=$components/ccprobe-palmos
+
+rm -f $complete/*
 rm -f $download/*
+rm -rf $tempdir/*
 
-cp $bin/CCProbe.prc   $destination
-cp $workingcopy/CCBeam/ccbeam.prc $destination
-cp $doc/ccprobe-palmos/* $destination
-cp $doc/all/* $destination
-cp $labbook/LabBook.PDB $destination
+copy-cvs-folder $doc/ccprobe-palmos $complete
+copy-cvs-folder $doc/all $complete
 
-# cp $components/* $destination
+cp $bin/CCProbe.prc $complete
+cp $labbook/LabBook.PDB $complete
+cp $components/* $complete
 
-echo $destination
-ls -l $destination
+echo $complete
+ls -l $complete
 
-osascript make-palmos.applescript
+osascript make-palmos-windows.applescript
 
-cd $destination/../
-tar -czvf $download/CCProbe.tgz ccprobe-palmos
+cd $complete/../
+
+windows-to-unix-newline $doc/ccprobe-palmos/readme-palmos.txt $complete/readme-palmos.txt
+windows-to-unix-newline $doc/all/COPYING $complete/COPYING
+
+tar -czf $download/CCProbe.tgz ccprobe-palmos
+
+cd -
+
+windows-to-macos-newline $doc/ccprobe-palmos/readme-palmos.txt $tempdir/readme-palmos.txt
+windows-to-macos-newline $doc/all/COPYING $tempdir/COPYING
+SetFile -c ttxt -t TEXT $tempdir/*
+
+cp $doc/all/ccprobe-ref.pdf $tempdir
+SetFile -c 'CARO' -t 'PDF ' $tempdir/ccprobe-ref.pdf
+CpMac $tempdir/* $complete
+
+osascript make-palmos-macos.applescript
 
 rm -f $download/CCProbe.sea
 

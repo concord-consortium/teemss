@@ -1,24 +1,26 @@
 #! /bin/sh
+# make-pocketpc
 
-destination=$workingcopy"/Packages/complete/ccprobe-pocketpc"
-download=$workingcopy"/Packages/download/ccprobe-pocketpc"
-bin=$workingcopy"/CCProbe/bin"
-components=$workingcopy"/Packages/components/ccprobe-pocketpc"
-doc=$workingcopy"/Packages/doc"
-labbook=$workingcopy"/TeemssXML/LabBookXSL"
+source packaging-functions.sh
 
-rm -rf $destination/*
-rm -rf $download/*
+complete=$complete/ccprobe-pocketpc
+download=$download/ccprobe-pocketpc
+components=$components/ccprobe-pocketpc
 
-cp $bin/CCProbe.wrp  $destination
-cp $bin/CCProbe.lnk  $destination
-cp $doc/ccprobe-pocketpc/* $destination
-cp $doc/all/* $destination
-cp $labbook/LabBook $destination
-cp -r $components/* $destination
+rm -rf $complete/*
+rm -f $download/*
 
-echo $destination
-ls -l $destination
+copy-cvs-folder $doc/ccprobe-palmos $complete
+copy-cvs-folder $doc/all $complete
+
+
+cp $bin/CCProbe.wrp  $complete
+cp $bin/CCProbe.lnk  $complete
+cp $labbook/LabBook $complete
+cp -r $components/* $complete
+
+echo $complete
+ls -l $complete
 
 osascript make-pocketpc.applescript
 
