@@ -19,14 +19,19 @@ public class DataObjFactory
 		switch(objectType){
 			case DATA_SET:
 				obj = new LObjDataSet();
+				break;
 			case GRAPH:
 				obj = new LObjGraph();
+				break;
 			case DATA_COLLECTOR:
 				obj = new LObjDataCollector();
+				break;
 			case UCONVERTOR:
 				obj = new LObjUConvertor();
+				break;
 			case PROBE_DATA_SOURCE:
 				obj = new LObjProbeDataSource();
+				break;
 		}
 
 		return obj;

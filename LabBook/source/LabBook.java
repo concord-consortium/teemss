@@ -7,7 +7,7 @@ import extra.io.*;
 public class LabBook 
 {
 //	public static Vector objFactories;
-	public static LabObjectFactory []objFactories;
+	public static LabObjectFactory []objFactories = null;
     int curDeviceId = 0;
 
     /*
@@ -88,15 +88,15 @@ public class LabBook
 		if(objFactories != null){
 			waba.sys.Vm.copyArray(objFactories,0,newFactories,0,nFactories);
 		}
-				
+		newFactories[nFactories] = objFact;	
 		objFactories = newFactories;
 
 	}
 
 	public static LabObject makeNewObj(int type)
 	{
+		if(objFactories == null) return null;
 		LabObject newObj = null;
-
 		for(int i=0;i<objFactories.length; i++){
 			LabObjectFactory objFact = objFactories[i];
 			newObj = objFact.makeNewObj(type);

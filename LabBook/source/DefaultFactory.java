@@ -22,18 +22,25 @@ public class DefaultFactory
 		switch(objectType){
 			case DICTIONARY:
 				obj= new LObjDictionary();
+				break;
 			case FORM:
 				obj= new LObjForm();
+				break;
 			case DOCUMENT:
 				obj= new LObjDocument();
+				break;
 			case OUTPUT_SET:
 				obj= new LObjOutputSet();
+				break;
 			case QUESTION:
 				obj= new LObjQuestion();
+				break;
 			case DRAWING:
 				obj= new LObjDrawing();
+				break;
 			case IMAGE:
 				obj= new LObjImage();
+				break;
 		}
 		return obj;
 	}
