@@ -708,10 +708,27 @@ public void onKeyEvent(KeyEvent ev)
 		notifyListeners(0);
 	}else if (ev.key == IKeys.LEFT){
 		clearCursor();//dima
-		newCursorPos(tas.cursorPos-1,tas.cursorLine,false);
+		tas.cursorPos--;
+		if (tas.cursorPos < 0) {
+			tas.cursorPos = 0;
+			if(tas.cursorLine > 0){
+				tas.cursorLine--;
+				if(tas.cursorLine < lines.length){
+					tas.cursorPos = lines[tas.cursorLine].getStr().length();
+				}
+			}
+		}
+		newCursorPos(tas.cursorPos,tas.cursorLine,false);
 	}else if (ev.key == IKeys.RIGHT){
 		clearCursor();//dima
-		newCursorPos(tas.cursorPos+1,tas.cursorLine,false);
+		tas.cursorPos++;
+		if(tas.cursorLine < lines.length){
+			if(tas.cursorPos > lines[tas.cursorLine].getStr().length()){
+				tas.cursorLine++;
+				tas.cursorPos = 0;
+			}
+		}
+		newCursorPos(tas.cursorPos,tas.cursorLine,false);
 	}else if (ev.key == IKeys.UP){
 		clearCursor();//dima
 		checkScrolls();
