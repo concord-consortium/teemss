@@ -18,7 +18,7 @@ public class mytestTextArea extends ExtraMainWindow implements org.concord.waba.
 
 {
 
-TextArea textArea;
+CCTextArea textArea;
 
 Menu	myEMenu;
 
@@ -33,7 +33,7 @@ public mytestTextArea()
 
 	{
 
-		textArea = new TextArea();
+		textArea = new CCTextArea();
 
 		textArea.setRect(0, 20, this.width, this.height - 40);
 
