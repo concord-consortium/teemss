@@ -369,6 +369,7 @@ public class GraphSettings
 			switch(annotEvent.type){
 			case Bin.ANNOT_ADDED:
 				LObjAnnotation lObjA = DataObjFactory.createAnnotation();
+				gv.getSession().storeNew(lObjA);
 				// watch out for this
 				lObjA.setup(a, null, bIndex);
 				annots.add(lObjA);		
