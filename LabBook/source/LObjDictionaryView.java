@@ -158,9 +158,9 @@ public class LObjDictionaryView extends LabObjectView
 		    TreeNode curNode = treeControl.getSelected();
 		    TreeNode parent = treeControl.getSelectedParent();
 		    if(newIndex == 0){
-			newObj.name = "New_" + objType;		    
+			newObj.name = objType;		    
 		    } else {
-			newObj.name = "New_" + objType + " " + newIndex;		    
+			newObj.name = objType + " " + newIndex;		    
 		    }
 		    newIndex++;
 		    TreeNode newNode = dict.getNode(newObj);
