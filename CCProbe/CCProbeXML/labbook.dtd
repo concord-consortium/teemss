@@ -1,5 +1,5 @@
 <?xml encoding="UTF-8"?>
-<!ENTITY % SNOBJECTS "FOLDER | NOTES | DATACOLLECTOR | DRAWING | UNITCONV | IMAGE | EXPOBJECT">
+<!ENTITY % SNOBJECTS "FOLDER | NOTES | DATACOLLECTOR | DRAWING | UNITCONV | IMAGE | EXPOBJECT | OBJ-REF">
 <!ENTITY % CCOBJECTS "%SNOBJECTS; | SUPERNOTES">
 <!ENTITY % boolean "(true | false)">
 <!ENTITY % probes "(Temperature | Light | SmartWheel | RawData | Force | VoltageCurrent)">
