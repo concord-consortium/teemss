@@ -19,8 +19,8 @@
 <!ELEMENT query-response (query-description, querys, query-static-link?)>
 <!ATTLIST query-response
   title    CDATA                          #REQUIRED 
-  type    (predict | describe | explain)  #REQUIRED
-  layout  (paragraph | list)              #REQUIRED>
+  type    (predict | describe | explain)  "explain"
+  layout  (paragraph | list)              "paragraph">
 
 <!ELEMENT query-description (#PCDATA)>
 <!ELEMENT querys (query+)>
