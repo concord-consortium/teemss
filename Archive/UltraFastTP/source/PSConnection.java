@@ -2,6 +2,7 @@ import waba.ui.*;
 import waba.fx.*;
 import waba.io.*;
 import waba.sys.*;
+import graph.*;
 
 public class PSConnection extends Control
 {
@@ -13,7 +14,7 @@ public class PSConnection extends Control
     int port;
     int curStatusLine;
     MainWindow mw;
-    GraphView graph = null;
+    GraphViewLine graph = null;
     Label curVal = null;
     int count;
     UltraFastTP uf;
@@ -214,7 +215,7 @@ public class PSConnection extends Control
 
 		    // update the graph
 		    if(uf.updateGraph){
-			graph.addPoint(0, pm.curData);
+			uf.lg.addPoint(0, 0, pm.curData[0], true);
 		    }
 		    curVal.setText("" + pm.curData[0]);
 
