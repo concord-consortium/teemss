@@ -5,8 +5,8 @@ DEP_NAMES = wabajump wabasdk wextra wgraph LabBook
 
 MW_CLASS= CCProbe
 PLATFORMS= palm other ce
-RUN_FORK= palm
-RUN_PLATFORM = palm
+RUN_FORK= other
+RUN_PLATFORM = other
 WARP_PLATFORM = ce
 JUMP_PLATFORM =palm
 VERSION_TEMPLATE = source/Version.java.tpl

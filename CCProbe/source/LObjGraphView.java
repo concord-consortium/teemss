@@ -120,12 +120,13 @@ public class LObjGraphView extends LabObjectView
 			if(e.getActionCommand().equals("Save Data..")){
 				graph.saveCurData(dataDict);
 			} else if(e.getActionCommand().equals("Export Data..")){
-				graph.exportCurData(av.lGraph.annots);
+				//graph.exportCurData(av.lGraph.annots);
+				graph.exportCurData(null);
 			}
 		}
 	}
 
-    boolean sTitle;
+    boolean sTitle = false;
 
     public void showTitle(boolean doIt)
     {
@@ -184,7 +185,25 @@ public class LObjGraphView extends LabObjectView
 		add(clear);
     }
 
+	void setToolBarRect(int x, int y, int width, int height)
+	{
+		if(width <= 160){
+			viewChoice.setRect(0, y, 33, height);
+			lgm.setRect(32, y, 30, height);
+			addMark.setRect(32, y, 30, height);
+			toolsChoice.setRect(63, y, 35, height);
+			notes.setRect(100, y, 30, height); 
+			clear.setRect(130, y, 30, height);
+		} else {
+			viewChoice.setRect(0, y, 50, height);
+			lgm.setRect(50, y, 42, height);
+			addMark.setRect(50, y, 42, height);
+			toolsChoice.setRect(100, y, 55, height);
+			notes.setRect(160, y, 30, height);
+			clear.setRect(200, y, 30, height);
+		}
 
+	}
 	SplitAxis xaxis = null;
 	ColorAxis yaxis = null;
 	
@@ -205,6 +224,14 @@ public class LObjGraphView extends LabObjectView
 			gHeight -= 16;
 		} 
 
+		if(width <= 160){
+			gHeight -= 12;
+		} else {
+			gHeight -= 16;
+			setToolBarRect(0, curY, width, 16);
+			curY += 16;
+		}
+
 		// Trying to get 10pt at dd_height = 10 
 		//  and 16pt at dd_height = 20
 		dd = new DigitalDisplay(new Font("Helvetica", 
@@ -218,25 +245,6 @@ public class LObjGraphView extends LabObjectView
 
 		if(showDone){
 			doneButton.setRect(width-30,0,30,15);
-			gHeight -= 16;
-		}
-
-		if(width <= 160){
-			gHeight -= 12;
-			viewChoice.setRect(0, height-12, 33, 12);
-			lgm.setRect(32, height -12, 30, 12);
-			addMark.setRect(32, height-12, 30, 12);
-			toolsChoice.setRect(63, height-12, 35, 12);
-			notes.setRect(100, height-12, 30, 12); 
-			clear.setRect(130, height-12, 30, 12);
-		} else {
-			gHeight -= 16;
-			viewChoice.setRect(0, height-16, 50, 16);
-			lgm.setRect(50, height -16, 42, 16);
-			addMark.setRect(50, height-16, 42, 16);
-			toolsChoice.setRect(100, height-16, 55, 16);
-			notes.setRect(160, height-16, 30, 16);
-			clear.setRect(200, height-16, 30, 16);
 		}
 
 
@@ -258,6 +266,12 @@ public class LObjGraphView extends LabObjectView
 			
 		av = new AnnotView(width, gHeight, xaxis, yaxis);
 		av.setPos(0,curY);
+		curY += gHeight;
+
+		if(width <= 160){
+			setToolBarRect(0, curY, width, 12);
+			curY += 12;
+		}
 
 		GraphSettings gs = (GraphSettings)graph.graphSettings.get(0);
 		gs.init(this, (Object)av, xaxis, yaxis);
@@ -285,10 +299,18 @@ public class LObjGraphView extends LabObjectView
 
     public void close()
     {
+		/*
+		  Check if the datasource is a dataset
+		  Get the annots for each bin
+		  clear the datasets old annots
+		  add the current annots
+		*/
+
 		Debug.println("Got close in graph");
 
 		if(av != null) av.free();
 		graph.closeAll();
+		graph.saveAllAnnots();
 		
 		for(int i=0; i<axisVector.getCount(); i++){
 			Axis ax = (Axis)axisVector.get(i);
@@ -299,6 +321,17 @@ public class LObjGraphView extends LabObjectView
 		graph.store();
 		super.close();
     }
+
+	// I don't know if this should be here
+	// I guess this is now leaning towards the removal
+	// of the AnnotView and replacing it with just
+	// this GraphView
+	public void annotAdded(Annotation a)
+	{
+		// Add bar to bargraph
+		// FIXME: this won't work right if the graph is running
+		av.bGraph.addBar(av.bGraph.numBars, a);
+	}
 
 	int numStarted = 0;
 	public void startGraph(Object cookie, Bin curBin)

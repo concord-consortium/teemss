@@ -15,7 +15,7 @@ import org.concord.waba.extra.probware.probs.*;
 import org.concord.LabBook.*;
 
 public class GraphSettings
-    implements DataListener, LabObjListener
+    implements DataListener, LabObjListener, ActionListener
 {
     float xmin = 0f, xmax = 100f;
     float ymin = -20f, ymax = 50f;
@@ -42,6 +42,7 @@ public class GraphSettings
 	LObjGraph graph = null;
 	int dsIndex = -1;
 	DataSource ds = null;
+	Vector annots = new Vector();
 
 	public GraphSettings(LObjGraph g, int dataSourceIndex)
 	{
@@ -88,6 +89,11 @@ public class GraphSettings
 		}
 		// might need to do a notify here
 
+	}
+
+	public DataSource getDataSource()
+	{
+		return graph.getDataSource(dsIndex);
 	}
 
 	public void labObjChanged(LabObjEvent e)
@@ -183,6 +189,7 @@ public class GraphSettings
 				curBin = new Bin(xaxis.lastAxis, yaxis);
 			}
 			bins.add(curBin);
+			curBin.addActionListener(this);
 			curBin.label = "Probe";
 			curBin.setUnit(yUnit);
 			curBin.time = new Time();
@@ -247,9 +254,11 @@ public class GraphSettings
 		// Don't free the last bin
 		for(int i=0 ; i < bins.getCount()-1; i++){
 			Bin bin = (Bin)bins.get(i);
+			bin.removeActionListener(this);
 			if(bin != null) bin.free();
 		}
 		bins = new Vector();
+		annots = new Vector();
 	}
 	
 
@@ -282,6 +291,55 @@ public class GraphSettings
 		}
     }
 
+	public void actionPerformed(ActionEvent annotEvent)
+	{
+		Object obj = annotEvent.getSource();
+		if(obj instanceof Bin){
+			if(annotEvent.type == Bin.ANNOT_ADDED){
+				int index = bins.find(obj);
+				if(index < 0) return;
+				Bin b = (Bin)obj;
+				Annotation a = b.getCurAnnot();
+				LObjAnnotation lObjA = DataObjFactory.createAnnotation();
+				// watch out for this
+				lObjA.setup(a, null, index);
+				annots.add(lObjA);		
+
+				if(gv != null) gv.annotAdded(a);
+			} 
+		}
+	}
+
+	public void saveAnnots()
+	{
+		DataSource ds = getDataSource();
+		if(ds instanceof LObjDataSet){
+			LObjDataSet dSet = (LObjDataSet)ds;
+			dSet.clearAnnots();
+			Vector annots = getAnnots();
+			dSet.addAnnots(annots);
+		}
+	}
+
+	public Vector getAnnots()
+	{
+		// Should update the data of each annotation
+		return annots;
+	}
+
+	public void getBinAnnots(Vector annots, int binIndex, LObjDataSet dSet)
+	{
+		Bin b = (Bin)bins.get(binIndex);
+		if(b == null || b.annots == null ||
+		   b.annots.getCount() < 1) return;
+
+		for(int i=0; i<b.annots.getCount(); i++){
+			Annotation a = (Annotation)b.annots.get(i);
+			LObjAnnotation lObjA = DataObjFactory.createAnnotation();
+			lObjA.setup(a, dSet, binIndex);
+			annots.add(lObjA);
+		}
+	}
 
 	public void saveData(LObjDataSet dSet)
 	{
@@ -289,7 +347,7 @@ public class GraphSettings
 		dSet.setLabel(yLabel);
 		
 		for(int i=0; i<bins.getCount(); i++){
-			dSet.addBin((Bin)bins.get(i));				   
+			dSet.addBin((Bin)bins.get(i));
 		}
 	}
 	

@@ -44,6 +44,13 @@ public class LObjGraph extends LObjSubDict
 		}
     }
 
+	public void clearDataSources()
+	{
+		// need to clear the object that are stored in this one
+		// ick.
+		numDataSources = 0;		
+	}
+
 	public void addDataSource(DataSource ds)
 	{
 		addDataSource(ds, true);
@@ -221,6 +228,15 @@ public class LObjGraph extends LObjSubDict
 		}
 	}
 
+	public void saveAllAnnots()
+	{
+		if(graphSettings == null) return;
+		for(int i=0; i<graphSettings.getCount(); i++){
+			GraphSettings gs = (GraphSettings)graphSettings.get(i);
+			if(gs != null) gs.saveAnnots();
+		}
+	}
+
 	public void saveCurData(LObjDictionary dataDict)
 	{
 		LObjDataSet dSet = DataObjFactory.createDataSet();
@@ -229,10 +245,13 @@ public class LObjGraph extends LObjSubDict
 		dsGraph.name = "Graph";
 
 		dSet.setDataViewer(dsGraph);
+		dSet.clearAnnots();
 		GraphSettings curGS = getCurGraphSettings();
 		if(curGS != null){
 			curGS.saveData(dSet);
-
+			Vector annots = curGS.getAnnots();
+			dSet.addAnnots(annots);
+			
 			if(dataDict != null){
 				dataDict.add(dSet);				
 				dSet.store();

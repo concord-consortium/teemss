@@ -79,6 +79,9 @@ public class DigitalDisplay extends Container
 		int x=RIGHT_PADDING;
 
 		g.setFont(_font);
+		g.setColor(255,255,255);
+		g.fillRect(0,0,width,height);
+
 		g.setColor(0,0,0);
 		for(int i=0; i<bins.getCount(); i++){
 			curBin = (DecoratedValue)bins.get(i);

@@ -31,9 +31,11 @@ class MyTimer extends Control
 public class LObjDataSet extends LObjSubDict
 	implements DataSource
 {
-    Vector bins = null;
     int chunkStartPos = 0;
 	int numChunks = 0;
+	int numSubObjs = 2;
+    int numBins = 0;
+	int numAnnots = 0;
     
     boolean hasDataView = false;
     boolean writtenChunks = false;
@@ -67,24 +69,112 @@ public class LObjDataSet extends LObjSubDict
 		return sub;
 	}
 
-    public void addBin(Bin b)
+    public int addBin(Bin b)
     {
 		int numBinChunks = b.numDataChunks();
 		LObjDataSet first = makeSubChunk(b, 0);
 		first.numBinChunks = numBinChunks;
-		setObj(first, numChunks + 1);
+		setObj(first, numSubObjs++);
 		first.storeNow();
 		first.chunkIndex = -1;
 		numChunks++;
 
 		for(int i=1; i<numBinChunks; i++){
 			LObjDataSet curChunk = makeSubChunk(b, i);
-			setObj(curChunk, numChunks + 1);				
+			setObj(curChunk, numSubObjs++);
 			curChunk.storeNow();
 			curChunk.chunkIndex = -1;
 			numChunks++;
 		}
-    }
+
+		return numBins++;
+	}
+
+	public void addBinAnnots(Bin b, int binIndex)
+	{
+		if(b.annots != null &&
+		   b.annots.getCount() > 0){ 
+
+			LObjDictionary aDict = getAnnotDict();
+			if(aDict != null){
+				for(int i=0; i<b.annots.getCount(); i++){
+					Annotation a = (Annotation)b.annots.get(i);
+					addAnnot(a, binIndex);
+				}
+			}
+			aDict.store();
+		}
+	}
+
+	public LObjDictionary getAnnotDict()
+	{
+		LabObject obj = getObj(1);
+		LObjDictionary dict;
+		if(obj == null){
+			dict = DefaultFactory.createDictionary();
+			setObj(dict,1);
+			return dict;
+		} else if(obj instanceof LObjDictionary){
+			return(LObjDictionary)obj;
+		} else {
+			return null;
+		}
+	}
+
+	public Vector getAnnots()
+	{
+		Vector annots = new Vector();
+		LObjDictionary aDict = getAnnotDict();
+
+		if(aDict == null) return null;
+		
+		for(int i = 0; i < numAnnots; i++){
+			LabObject obj = aDict.getObj(aDict.getChildAt(i));
+			if(!(obj instanceof LObjAnnotation)) return null;
+			annots.add(obj);
+		}
+		return annots;
+	}
+
+	public void clearAnnots()
+	{
+		LObjDictionary aDict = getAnnotDict();
+		if(aDict == null) return;
+		aDict.removeAll();
+		numAnnots = 0;
+	}
+
+	public void addAnnot(LObjAnnotation a)
+	{
+		LObjDictionary aDict = getAnnotDict();
+		if(aDict == null) return;
+
+		aDict.add(a);
+		a.store();
+		numAnnots++;
+	}
+
+	public void addAnnots(Vector newAnnots)
+	{
+		for(int i=0 ;i < newAnnots.getCount(); i++){
+			if(newAnnots.get(i) instanceof LObjAnnotation){
+				addAnnot((LObjAnnotation)newAnnots.get(i));
+			}
+		}
+	}
+
+	public void addAnnot(Annotation a, int binIndex)
+	{
+		LObjAnnotation lObjA = DataObjFactory.createAnnotation();
+		lObjA.setup(a, this, binIndex);
+
+		LObjDictionary aDict = getAnnotDict();
+		if(aDict == null) return;
+
+		aDict.add(lObjA);
+		lObjA.store();
+		numAnnots++;
+	}
 
     public void setDataViewer(LObjGraph graph)
     {
@@ -101,6 +191,7 @@ public class LObjDataSet extends LObjSubDict
 			LObjGraph dataView = (LObjGraph)getObj(0);
 			if(dataView != null){
 				gView = (LObjGraphView)dataView.getView(vc, edit);
+				gView.showTitle(true);
 				gView.doInstantCollection();
 				return gView;
 			}
@@ -141,7 +232,6 @@ public class LObjDataSet extends LObjSubDict
 
 	public void continueCollecting()
 	{
-
 		int chunkPos = 0;
 		LObjDataSet curChunk = null;
 
@@ -152,8 +242,16 @@ public class LObjDataSet extends LObjSubDict
 		// and idle events to make this work properly
 		//		dataListener.dataRecieved(dEvent);
 		
+		int objNum=1;
 		for(int i = 0; i < numChunks; i++){
-			curChunk = (LObjDataSet)getObj(i+1);
+			LabObject obj = getObj(objNum++);
+			while(obj != null &&
+				  !(obj instanceof LObjDataSet)){
+				obj = getObj(objNum++);
+			}
+			if(obj == null) break;
+
+			curChunk = (LObjDataSet)obj;
 
 			if(curChunk.chunkIndex == 0 && i!= 0){
 				dataListener.dataStreamEvent(stopEvent);
@@ -169,6 +267,17 @@ public class LObjDataSet extends LObjSubDict
 
 		dataListener.dataStreamEvent(stopEvent);
 		sentData = true;
+		if(gView != null){
+			// add the annotations
+			Vector annots = getAnnots();
+			GraphSettings curGS = gView.graph.getCurGraphSettings();
+			for(int i=0; i<annots.getCount(); i++){
+				LObjAnnotation a = (LObjAnnotation)annots.get(i);
+				Bin b = (Bin)curGS.bins.get(a.binIndex);
+				a.addToBin(b);
+			}
+			gView.repaint();
+		}
 	}
 
 	public void stopDataDelivery(){}
@@ -195,7 +304,6 @@ public class LObjDataSet extends LObjSubDict
 	}
 
     int [] binInfo = null;
-    int numBins = 0;
 
     // Notice for this to work correctly the dictionary
     // should not actually load its objects when it is loaded
@@ -213,6 +321,7 @@ public class LObjDataSet extends LObjSubDict
 			}
 
 			numChunks = ds.readInt();
+			numAnnots = ds.readInt();
 			needReadChunks = true;
 			int uCode = ds.readInt();
 			if(uCode == -1) unit = null;
@@ -273,6 +382,7 @@ public class LObjDataSet extends LObjSubDict
 				ds.writeByte(0);
 			}
 			ds.writeInt(numChunks);
+			ds.writeInt(numAnnots);
 			if(unit == null) ds.writeInt(-1);
 			else ds.writeInt(unit.code);
 			ds.writeString(label);

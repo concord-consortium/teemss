@@ -13,6 +13,7 @@ public class DataObjFactory
     final public static int DATA_COLLECTOR 		= 5;
     final public static int UCONVERTOR 			= 10;
     final public static int PROBE_DATA_SOURCE 	= 12;
+	final public static int ANNOTATION          = 13;
 
 	public DataObjFactory()
 	{
@@ -24,25 +25,33 @@ public class DataObjFactory
     {
 		LabObject obj = null;
 		switch(objectType){
-			case DATA_SET:
-				obj = new LObjDataSet();
-				break;
-			case GRAPH:
-				obj = new LObjGraph();
-				break;
-			case DATA_COLLECTOR:
-				obj = new LObjDataCollector();
-				break;
-			case UCONVERTOR:
-				obj = new LObjUConvertor();
-				break;
-			case PROBE_DATA_SOURCE:
-				obj = new LObjProbeDataSource();
-				break;
+		case ANNOTATION:
+			obj = new LObjAnnotation();
+			break;
+		case DATA_SET:
+			obj = new LObjDataSet();
+			break;
+		case GRAPH:
+			obj = new LObjGraph();
+			break;
+		case DATA_COLLECTOR:
+			obj = new LObjDataCollector();
+			break;
+		case UCONVERTOR:
+			obj = new LObjUConvertor();
+			break;
+		case PROBE_DATA_SOURCE:
+			obj = new LObjProbeDataSource();
+			break;
 		}
 
 		return obj;
     }
+
+	public static LObjAnnotation createAnnotation()
+	{
+		return (LObjAnnotation) create(ANNOTATION);
+	}
 
 	public static LObjDataSet createDataSet()
 	{
