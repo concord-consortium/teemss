@@ -3,7 +3,7 @@ package org.concord.CCProbe;
 import org.concord.LabBook.*;
 
 public class DataObjFactory
-	implements LabObjectFactory
+	extends LabObjectFactory
 {
 	final public static int DATAOBJ_FACTORY 	= 0x00020000;
 
