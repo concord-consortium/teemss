@@ -72,7 +72,7 @@ public class Axis
     // This is computed from the length and the minTicSpacing
     // it should be a relatively nice number (1,2,5,10) in the correct 
     // magnitude of course
-    float majTicStep;
+    float majTicStep = 1f;
 
     // This is used to compute the minor grid spacing
     // Hopefully this will be picked integently 
@@ -375,6 +375,7 @@ public class Axis
 
 		int firstTicExp = getRoundExp(firstTic);
 		int approxLastTicExp = getRoundExp(length/scale + firstTic);
+
 		int maxEndExp = firstTicExp;
 		if(maxEndExp < approxLastTicExp) maxEndExp = approxLastTicExp;
 
