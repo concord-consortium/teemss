@@ -11,19 +11,25 @@ int  			[]rawIntData = new int[CCInterfaceManager.BUF_SIZE];
 int				firstIndex,secondIndex;
 
 
-    String [] portNames = {"A", "B"};
-    String [] channelNames = {"0", "1"};
-    String [] numbChannels = {"1", "2"};
+public final static int		SAMPLING_24BIT_MODE = 0;
+public final static int		SAMPLING_10BIT_MODE = 1;
 
+
+	String [] propNames = {"Sampling", "Channel #", "Speed"};
+
+	String	[]samplingModes =  {"24 Bit","10 Bit"};
+    String [] channelNames = {"0", "1"};
+    String [] speedNames = {3 + speedUnit};
+
+	PropObject speed = null;
     int curChannel = 0;
 
-	CCRawData(){
-		this("unknown");
-	}
-	CCRawData(String name){
+	CCRawData(boolean init, String name, int interfaceT){
+		super(init, name, interfaceT);
+
 		probeType = ProbFactory.Prob_RawData;
 		activeChannels = 2;
-		setName(name);
+
 		dDesc.setChPerSample(2);
 		dDesc.setIntChPerSample(2);
 		dDesc.setDt(0.0f);
@@ -33,15 +39,13 @@ int				firstIndex,secondIndex;
 		dEvent.setData(rawData);
 		dEvent.setIntData(rawIntData);
 
-		properties = new PropObject[4];
-		properties[0] = new PropObject("Port", portNames);
-		properties[1] = new PropObject("Num Channels", numbChannels);
-		properties[2] = new PropObject("Channel #", channelNames);
-		properties[3] = new PropObject(samplingModeString,samplingModes); 
-		
-		setPropertyValue(0,samplingModes[CCProb.SAMPLING_10BIT_MODE]);
+		if(init){
+			addProperty(new PropObject("Sampling",samplingModes));
+			addProperty(new PropObject("Channel #", channelNames));			
+			addProperty(new PropObject("Speed", speedNames));
+		}
 
-		unit = CCUnit.UNIT_CODE_VOLT;
+		unit = CCUnit.UNIT_CODE_VOLT;			
 	}
 
 	public void setDataDescParam(int chPerSample,float dt){
@@ -106,31 +110,69 @@ int				firstIndex,secondIndex;
 		return super.dataArrived(dEvent);
     }
 
-	protected boolean setPValue(PropObject p,String value){
-		if(p == null || value == null) return false;
-		String nameProperty = p.getName();
-		if(nameProperty == null) return false;
-		if(nameProperty.equals("Port")){
-			if(value.equals("A")){
-				interfacePort = INTERFACE_PORT_A;
-			} else if(value.equals("B")){
-				interfacePort = INTERFACE_PORT_B;
+	public boolean visValueChanged(PropObject po)
+	{
+		PropObject sampMode = getProperty(propNames[0]);
+		PropObject chNum = getProperty(propNames[1]);
+		PropObject speed = getProperty(propNames[2]);
+		int index = po.getVisIndex();
+		if(po == sampMode){
+			if(index == 0){
+				String [] newSpeedNames = {3 + speedUnit};
+				speed.setVisPossibleValues(newSpeedNames);
+			} else if(index == 1){
+				if(chNum.getVisIndex() == 0){
+					String [] newSpeedNames = {200 + speedUnit, 400 + speedUnit};
+					speed.setVisPossibleValues(newSpeedNames);
+				} else {
+					String [] newSpeedNames = {200 + speedUnit};
+					speed.setVisPossibleValues(newSpeedNames);
+				}
 			}
-		} else if(nameProperty.equals("Num Channels")){
-			if(value.equals("1") && curChannel != 1){
-				activeChannels = 1;
-			} else if(value.equals("2")){
-				activeChannels = 2;
-			}		
-		} else if(nameProperty.equals("Channel #")){
-			if(value.equals("0")){
+		} else if(po == chNum){
+			if(sampMode.getVisIndex() == 1){
+				if(chNum.getVisIndex() == 0){
+					String [] newSpeedNames = {200 + speedUnit, 400 + speedUnit};
+					speed.setVisPossibleValues(newSpeedNames);
+				} else {
+					String [] newSpeedNames = {200 + speedUnit};
+					speed.setVisPossibleValues(newSpeedNames);
+				}				
+			}
+		}
+		return true;
+	}
+
+	// need a function this called to setup the probe before
+	// it is started
+	public int getInterfaceMode()
+	{
+		int modeIndex = getProperty(propNames[0]).getIndex();
+		int chIndex = getProperty(propNames[1]).getIndex();
+		if(modeIndex == 0){
+			interfaceMode = CCInterfaceManager.A2D_24_MODE;
+			if(chIndex == 0){
 				curChannel = 0;
-			} else if(value.equals("1")){
+				activeChannels = 1;
+			} else {
 				curChannel = 1;
 				activeChannels = 2;
 			}
+		} else if(modeIndex == 1){
+			interfaceMode = CCInterfaceManager.A2D_10_MODE;
+			if(chIndex == 0){
+				curChannel = 0;
+			} else {
+				curChannel = 1;
+				activeChannels = 2;
+			}
+			if(speed.getIndex() == 0){
+				activeChannels = 2;
+			} else {
+				activeChannels = 1;
+			}
 		}
-		return  super.setPValue(p,value);
-	}
 
+		return interfaceMode;
+	}
 }

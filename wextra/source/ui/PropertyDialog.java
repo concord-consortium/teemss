@@ -8,21 +8,14 @@ public class PropertyDialog extends Dialog
 	implements ActionListener
 {
 	PropertyView propView = null;
-	PropContainer propContainer;
 	ExtraMainWindow owner = null;
 
 	public PropertyDialog(ExtraMainWindow owner,DialogListener l,String title, 
-						  PropContainer propContainer)
-	{
-		this(owner,l,title,propContainer, 0);
-	}
-
-	public PropertyDialog(ExtraMainWindow owner,DialogListener l,String title, 
-						  PropContainer propContainer, int curTab)
+						  PropertyView pV)
 	{
 		super(title);
-		this.propContainer = propContainer;
-		propView = new PropertyView(propContainer, curTab, this);
+		this.propView = pV;
+		pV.setActionListener(this);
 		this.owner = owner;
 		addDialogListener(l);
 		owner.setDialog(this);
@@ -38,10 +31,15 @@ public class PropertyDialog extends Dialog
 
 	public void actionPerformed(ActionEvent ae)
 	{
+		if(ae.getActionCommand().equals("Close")){
+			hide();
+			owner.setDialog(null);
+			return;
+		}
+
 		if(listener != null){
-			Object info = propContainer;
 			int infoType = org.concord.waba.extra.event.DialogEvent.PROPERTIES;
-			listener.dialogClosed(new DialogEvent(this,null,ae.getActionCommand(),propContainer,infoType));
+			listener.dialogClosed(new DialogEvent(this,null,ae.getActionCommand(),propView,infoType));
 		}
 
 		if(!ae.getActionCommand().equals("Apply")){

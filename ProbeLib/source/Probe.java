@@ -6,21 +6,13 @@ import org.concord.waba.extra.ui.ExtraMainWindow;
 import org.concord.waba.extra.ui.CalibrationDialog;
 import extra.util.*;
 
-public abstract class CCProb implements Transform{
+public abstract class CCProb extends PropContainer
+	implements Transform{
 public 		waba.util.Vector 	dataListeners = null;
 public 		waba.util.Vector 	probListeners = null;
 String		name = null;
-PropObject		[]properties = null;
 CalibrationDesc	calibrationDesc;
 public static final String defaultModeName = "Default";
-
-public final static String samplingModeString = "Sampling";
-public String	[]samplingModes =  {"Slow","Fast","Digital"};
-
-public final static int		SAMPLING_24BIT_MODE = 0;
-public final static int		SAMPLING_10BIT_MODE = 1;
-public final static int		SAMPLING_DIG_MODE = 2;
-
 
 public final static int		INTERFACE_PORT_A	= 0;
 public final static int		INTERFACE_PORT_B	= 1;
@@ -36,30 +28,59 @@ public DataDesc		dDesc = new DataDesc();
 public DataEvent	dEvent = new DataEvent();
 public ProbEvent	pEvent = new ProbEvent();
 
-protected	int interfacePort = INTERFACE_PORT_A;
-public	int interfaceType = CCInterfaceManager.INTERFACE_2;
+public	int interfaceType = -1; 
+	protected int interfaceMode = -1;
+
 protected int 	activeChannels = 1;
 
 protected	int	probeType = ProbFactory.Prob_Undefine;
 
+	/*
+	  interface modes
+	public final static int A2D_24_MODE = 1;
+	public final static int A2D_10_MODE = 2;
+	public final static int DIG_COUNT_MODE = 3;
+	*/
+
 DataListener calibrationListener = null;
-	protected CCProb(){
-		this("unknown");
-	}
-	
-	protected CCProb(String name){
+
+	String [] portNames = {"A", "B"};
+	PropObject port = null;
+	static String speedUnit = " per second";
+
+	protected CCProb(boolean init, String name, int interfaceT){
+		super("Properties");
 		setName(name);
 		calibrationDesc = null;
 		pEvent.setProb(this);
+		interfaceType = interfaceT;
+		interfaceMode = CCInterfaceManager.A2D_24_MODE;
+		if(init && interfaceType == CCInterfaceManager.INTERFACE_2){
+			port = new PropObject("Port", portNames);
+			addProperty(port);
+		}
 	}
 	
 	
+	public int getInterfaceMode(){return interfaceMode;}
+
 	public int 	getInterfaceType(){return interfaceType;}
 	public void setInterfaceType(int interfaceType){this.interfaceType =  interfaceType;}
 	
-	public int 	getInterfacePort(){return interfacePort;}
-	public void setInterfacePort(int interfacePort){this.interfacePort =  interfacePort;}
-	
+	public int 	getInterfacePort()
+	{
+		if(port != null){
+			return port.getIndex();
+		} else {
+			return -1;
+		}
+	}
+	public void setInterfacePort(int interfacePort)
+	{
+		if(port != null){
+			port.setIndex(interfacePort);
+		}
+	}
 
 	public boolean needCalibration(){return ((calibrationDesc != null) && (calibrationDesc.countAvailableParams() > 0));}
 	public CalibrationDesc getCalibrationDesc(){return calibrationDesc;}
@@ -157,61 +178,13 @@ DataListener calibrationListener = null;
 	public void setName(String name){this.name = name;}
 	public String getName(){return name;}
 	
-	public PropObject getProperty(String nameProperty){
-		if(nameProperty == null) return null;
-		if(countProperties() < 1) return null;
-		for(int i = 0; i < countProperties(); i++){
-			PropObject p = properties[i];
-			if(p == null) continue;
-			if(nameProperty.equals(p.getName())){
-				return p;
-			}
-		}
-		return null;
-	}
-	public PropObject getProperty(int index){
-		if(index < 0 || index >= countProperties()) return null;
-		return properties[index];
-	}
-	public int countProperties(){
-		if(properties == null) return 0;
-		return properties.length;
-	}
-	
 	protected boolean setPValue(PropObject p,String value){
-		if(p == null || value == null) return false;
-		p.setValue(value);
+		if(!super.setPValue(p, value)) return false;
+
 		pEvent.setInfo(p);
 		notifyProbListeners(pEvent);
 		return true;
 	}
-	
-	public boolean setPropertyValue(String nameProperty,String value){
-		return setPValue(getProperty(nameProperty),value);
-	}
-	public boolean setPropertyValue(int index,String value){
-		return setPValue(getProperty(index),value);
-	}
-	
-	public String getPropertyValue(String nameProperty){
-		PropObject p = getProperty(nameProperty);
-		if(p == null) return null;
-		return p.getValue();
-	}
-	public String getPropertyValue(int index){
-		PropObject p = getProperty(index);
-		if(p == null) return null;
-		return p.getValue();
-	}
-	public float getPropertyValueAsFloat(String nameProperty){
-		PropObject p = getProperty(nameProperty);
-		if(p == null) return 0.0f;
-		p.createFValue();
-		return p.getFValue();
-	}
-	
-	public PropObject[]	getProperties(){return properties;}
-	
 	
 	public void  calibrationDone(float []row1,float []row2,float []calibrated){}
 	
@@ -233,24 +206,14 @@ DataListener calibrationListener = null;
 		}
 		out.writeInt(CALIBRATION_PROB_END);
 		out.writeInt(PROPERTIES_PROB_START);
-		out.writeBoolean(properties != null);
-		if(properties != null){
-			out.writeInt(countProperties());
-			for(int i = 0; i < countProperties(); i++){
-				PropObject p = properties[i];
-				out.writeBoolean(p != null);
-				if(p == null){
-					continue;
-				}
-				p.writeExternal(out);
-			}
-		}
+		super.writeExternal(out);
 		out.writeInt(PROPERTIES_PROB_END);
 		writeInternal(out);
 	}
 	protected void writeInternal(extra.io.DataStream out){
 	}
 	protected void readInternal(extra.io.DataStream in){
+		port = getProperty("Port");
 	}
 	
 	public void readExternal(extra.io.DataStream in){
@@ -264,15 +227,7 @@ DataListener calibrationListener = null;
 		in.readInt();//CALIBRATION_PROB_END
 		temp = in.readInt();
 		if(temp != PROPERTIES_PROB_START) return;	
-		if(in.readBoolean()){
-			temp = in.readInt();
-			if(temp < 1) return;
-			properties = new PropObject[temp];
-			for(int i = 0; i < temp; i++){
-				if(in.readBoolean()) properties[i] = new PropObject(in);
-				setPropertyValue(i,properties[i].getValue());
-			}
-		}
+		super.readExternal(in);
 		temp = in.readInt();//PROPERTIES_PROB_END
 		readInternal(in);
 	}

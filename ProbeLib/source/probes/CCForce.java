@@ -8,22 +8,23 @@ import extra.util.*;
 public class CCForce extends CCProb{
 float  			[]forceData = new float[CCInterfaceManager.BUF_SIZE/2];
 int  			[]forceIntData = new int[CCInterfaceManager.BUF_SIZE];
-public final static String [] portNames = {"A", "B"};
-public final static String [] numbChannels = {"1", "2"};
-public final static String [] channelNames = {"0", "1"};
-public final static String [] propNames = {"Port", "Num Channels","Channel #"};
+
+	public final static String [] modeNames = {"End of Arm", "Middle of Arm"};
+	public final static String [] range1Names = {"+/- 2N", "+/- 20N"};
+	public final static String [] range2Names = {"+/- 20N", "+/- 200N"};
+	public final static String [] speed1Names = {3 + speedUnit, 200 + speedUnit, 400 + speedUnit};
+	public final static String [] speed2Names = {3 + speedUnit, 200 + speedUnit};
+
+	public final static String [] propNames = {"Mode", "Range", "Speed"};
 public int curChannel = 0;
 float	A = 0.01734f;
 float B = -25.31f;
-	private boolean 	fromConstructor = true;
 
-	CCForce(){
-		this("unknown");
-	}
-	CCForce(String name){
+	CCForce(boolean init, String name, int interfaceT){
+		super(init, name, interfaceT);
 		probeType = ProbFactory.Prob_Force;
-	    activeChannels = 2;
-		setName(name);
+	    activeChannels = 1;
+
 		dDesc.setChPerSample(1);
 		dDesc.setDt(0.0f);
 		dEvent.setDataDesc(dDesc);
@@ -31,60 +32,60 @@ float B = -25.31f;
 		dEvent.setData(forceData);
 		dEvent.setIntData(forceIntData);
 
-		properties = new PropObject[4];
-		properties[0] = new PropObject(samplingModeString,samplingModes); 
-		properties[1] = new PropObject(propNames[0], portNames);
-		properties[2] = new PropObject(propNames[1], numbChannels);
-		properties[3] = new PropObject(propNames[2], channelNames);
-		setPropertyValue(0,samplingModes[CCProb.SAMPLING_10BIT_MODE]);
-		setPropertyValue(1,portNames[0]);
-		setPropertyValue(2,numbChannels[0]);
-		setPropertyValue(3,channelNames[0]);
+		if(init){
+			addProperty(new PropObject(propNames[0], modeNames));
+			addProperty(new PropObject(propNames[1], range1Names));
+			addProperty(new PropObject(propNames[2], speed1Names));
 		
-		calibrationDesc = new CalibrationDesc();
-		calibrationDesc.addCalibrationParam(new CalibrationParam(0,A));
-		calibrationDesc.addCalibrationParam(new CalibrationParam(1,B));
-
-		fromConstructor = false;
+			calibrationDesc = new CalibrationDesc();
+			calibrationDesc.addCalibrationParam(new CalibrationParam(0,A));
+			calibrationDesc.addCalibrationParam(new CalibrationParam(1,B));
+		}
 	}
 	public void setDataDescParam(int chPerSample,float dt){
 		dDesc.setDt(dt);
 		dDesc.setChPerSample(chPerSample);
 	}
-	protected boolean setPValue(PropObject p,String value){
-		if(p == null || value == null) return false;
-		String nameProperty = p.getName();
-		if(nameProperty == null) return false;
-		if(!fromConstructor && (nameProperty.equals(samplingModeString))){
-			if(value.equals(samplingModes[SAMPLING_DIG_MODE]))
-				return true;
-			else
-				return super.setPValue(p,value);
-		}
-		if(nameProperty.equals(propNames[0])){
-			if(value.equals("A")){
-				interfacePort = INTERFACE_PORT_A;
-			} else if(value.equals("B")){
-				interfacePort = INTERFACE_PORT_B;
+
+	public boolean visValueChanged(PropObject po)
+	{
+		int index = po.getVisIndex();
+		if(po.getName().equals(propNames[1])){
+			PropObject speed = getProperty(propNames[2]);
+			if(index == 0){
+				speed.setVisPossibleValues(speed1Names);
+			} else if(index == 1){
+				speed.setVisPossibleValues(speed2Names);
 			}
-		} else if(nameProperty.equals(propNames[1])){
-			if(value.equals("1")){
-				if(curChannel == 1){
-					return true;
-				}
-				activeChannels = 1;
-			} else if(value.equals("2")){
-				activeChannels = 2;
-			}		
-		} else if(nameProperty.equals(propNames[2])){
-			if(value.equals("0")){
-				curChannel = 0;
-			} else if(value.equals("1")){
-				curChannel = 1;
-				setPropertyValue(2,numbChannels[1]);
+		} else if(po.getName().equals(propNames[0])){
+			PropObject range = getProperty(propNames[1]);
+			if(index == 0){
+				range.setVisPossibleValues(range1Names);
+			} else if(index == 1){
+				range.setVisPossibleValues(range2Names);
 			}
+		} 
+		return true;
+	}
+
+	public int getInterfaceMode()
+	{
+		int rangeIndex = getProperty(propNames[1]).getIndex();
+		int speedIndex = getProperty(propNames[2]).getIndex();
+
+		curChannel = rangeIndex;
+
+		if(speedIndex == 0){
+			interfaceMode = CCInterfaceManager.A2D_24_MODE;
+			activeChannels = 2;
+		} else if(speedIndex == 1){
+			interfaceMode = CCInterfaceManager.A2D_10_MODE;
+			activeChannels = 2;
+		} else if(speedIndex == 2){
+			interfaceMode = CCInterfaceManager.A2D_10_MODE;
+			activeChannels = 1;
 		}
-		return  super.setPValue(p,value);
+		return interfaceMode;
 	}
 
 	int chPerSample = 2;

@@ -74,33 +74,28 @@ protected CCProb[]				probsArray = null;
 	
 	protected void syncModeWithProb(){
 		if(probsArray == null || probsArray.length < 1) return;
-		String modeValue = null;
+		int firstMode = -1;
 		boolean isTheSame = true;
 		for(int i = 0; i < probsArray.length; i++){
 			CCProb p = probsArray[i];
-			PropObject po = p.getProperty(CCProb.samplingModeString);
-			String value = po.getValue();
-			if(value == null) continue;
-			if(modeValue == null){
-				modeValue = value;
+			int curMode = p.getInterfaceMode();
+
+			if(curMode < 0) continue;
+			if(firstMode < 0){
+				firstMode = curMode;
 
 			}else{
-				if(!modeValue.equals(value)){
+				if(firstMode != curMode){
 					isTheSame = false;
 					break;
 				}
 			}
 		}
-		if(modeValue == null) return;
+
+		if(firstMode < 0) return;
 		if(!isTheSame) return;
-		CCProb p = probsArray[0];
-		if(p.samplingModes[CCProb.SAMPLING_24BIT_MODE] != null && modeValue.equals(p.samplingModes[CCProb.SAMPLING_24BIT_MODE])){
-			setMode(CCInterfaceManager.A2D_24_MODE);
-		}else if(p.samplingModes[CCProb.SAMPLING_10BIT_MODE] != null && modeValue.equals(p.samplingModes[CCProb.SAMPLING_10BIT_MODE])){
-			setMode(CCInterfaceManager.A2D_10_MODE);
-		}else if(p.samplingModes[CCProb.SAMPLING_DIG_MODE] != null && modeValue.equals(p.samplingModes[CCProb.SAMPLING_DIG_MODE])){
-			setMode(CCInterfaceManager.DIG_COUNT_MODE);
-		}
+
+		setMode(firstMode);
 	}
 	
 	public int getNumbProbs(){

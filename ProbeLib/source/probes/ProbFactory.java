@@ -1,5 +1,7 @@
 package org.concord.waba.extra.probware.probs;
 
+import org.concord.waba.extra.probware.*;
+
 public class ProbFactory{
 
 public final static int Prob_Undefine 		= -1;
@@ -10,14 +12,16 @@ public final static int Prob_RawData        = 3;
 public final static int Prob_Force        	= 4;
 public final static int Prob_VoltCurrent    = 5;
 
+	public static int DefaultInterfaceType = CCInterfaceManager.INTERFACE_2;
+
     public static String [] probeNames = {"Temperature", "Light", "SmartWheel", "RawData","Force","Voltage/Current"};
 	public static CCProb createProbeFromStream(extra.io.DataStream in){
 		boolean validProbe = in.readBoolean();
 		if(!validProbe) return null;
 
-		int portType 		= in.readInt();
+		int probeType 		= in.readInt();
 		int interfacePort 	= in.readInt();
-		CCProb probe = createProb(portType,interfacePort);
+		CCProb probe = createProb(false, probeType,interfacePort, DefaultInterfaceType);
 		if(probe != null) probe.readExternal(in);
 		return  probe;
 	}
@@ -30,26 +34,26 @@ public final static int Prob_VoltCurrent    = 5;
     	}
 	}
 
-	public static CCProb createProb(int probIndex,int interfacePort){
+	public static CCProb createProb(boolean init, int probIndex,int interfacePort, int interfaceType){
 		CCProb newProb = null;
 		switch(probIndex){
 			case Prob_ThermalCouple:
-				newProb = new CCThermalCouple(probeNames[Prob_ThermalCouple]);
+				newProb = new CCThermalCouple(init, probeNames[Prob_ThermalCouple], interfaceType);
 				break;
 			case Prob_Light:
-				newProb = new CCLightIntens(probeNames[Prob_Light]);
+				newProb = new CCLightIntens(init, probeNames[Prob_Light], interfaceType);
 				break;
 			case Prob_SmartWheel:
-				newProb = new CCSmartWheel(probeNames[Prob_SmartWheel]);
+				newProb = new CCSmartWheel(init, probeNames[Prob_SmartWheel], interfaceType);
 				break;
 			case Prob_RawData:
-			   newProb = new CCRawData(probeNames[Prob_RawData]);
+			   newProb = new CCRawData(init, probeNames[Prob_RawData], interfaceType);
 				break;
 			case Prob_Force:
-			   	newProb = new CCForce(probeNames[Prob_Force]);
+			   	newProb = new CCForce(init, probeNames[Prob_Force], interfaceType);
 				break;
 			case Prob_VoltCurrent:
-			   	newProb = new CCVoltCurrent(probeNames[Prob_VoltCurrent]);
+			   	newProb = new CCVoltCurrent(init, probeNames[Prob_VoltCurrent], interfaceType);
 				break;
 		}
 		if(newProb != null){
@@ -58,32 +62,37 @@ public final static int Prob_VoltCurrent    = 5;
 		return newProb;
 	}
 
+	public static CCProb createProb(int index, int interfacePort)
+	{
+		return createProb(true, index, interfacePort, DefaultInterfaceType);
+	}
+
     public static CCProb createProb(String name,int interfacePort)
     {
-		return createProb(getIndex(name),interfacePort);
+		return createProb(true, getIndex(name),interfacePort, DefaultInterfaceType);
     }
 
     public static String getName(int probIndex)
     {
-	if(probIndex < 0 || probIndex >= probeNames.length) return null;
+		if(probIndex < 0 || probIndex >= probeNames.length) return null;
 
-	return probeNames[probIndex];	
+		return probeNames[probIndex];	
     }
 
     public static int getIndex(String name)
     {
-	for(int i=0; i<probeNames.length; i++){
-	    if(probeNames[i].equals(name)){
-		return i;
-	    }
-	}
-	return -1;
+		for(int i=0; i<probeNames.length; i++){
+			if(probeNames[i].equals(name)){
+				return i;
+			}
+		}
+		return -1;
 
 
     }
     public static String [] getProbNames()
     {
-	return probeNames;
+		return probeNames;
     }
 
 }

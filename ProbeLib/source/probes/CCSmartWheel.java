@@ -19,13 +19,13 @@ public final static int		LINEAR_MODE_OUT 	= 2;
     public final static int     LIN_POS_MODE_OUT        = 3;
 public final static int		DEFAULT_MODE_OUT   = LIN_POS_MODE_OUT;
 int					outputMode = DEFAULT_MODE_OUT;
-	private boolean fromConstructor = true;
-	CCSmartWheel(){
-		this("unknown");
-	}
-	CCSmartWheel(String name){	   
+
+	CCSmartWheel(boolean init, String name, int interfaceT){
+		super(init, name, interfaceT);
 		probeType = ProbFactory.Prob_SmartWheel;
-		setName(name);
+
+		activeChannels = 1;
+
 		dDesc.setChPerSample(1);
 		dDesc.setDt(0.01f);
 		dEvent.setDataDesc(dDesc);
@@ -33,54 +33,55 @@ int					outputMode = DEFAULT_MODE_OUT;
 		dEvent.setNumbSamples(1);
 		dEvent.setData(wheelData);
 		dEvent.setIntData(wheelIntData);
-		
-		properties = new PropObject[2];
-		properties[0] = new PropObject(samplingModeString,samplingModes); 
-		properties[1] = new PropObject(wheelModeString,wheelModes); 
-		setPropertyValue(0,samplingModes[CCProb.SAMPLING_DIG_MODE]);
-		setPropertyValue(1,wheelModes[LIN_POS_MODE_OUT]);
-		
-		calibrationDesc = new CalibrationDesc();
-		calibrationDesc.addCalibrationParam(new CalibrationParam(0,radius));
-		
-		unit = CCUnit.UNIT_CODE_ANG_VEL;
-		outputMode = DEFAULT_MODE_OUT;
-		fromConstructor = false;
-	}
-	
-	public int	getActiveChannels(){return 1;}
 
-	protected boolean setPValue(PropObject p,String value){
-		if(p == null || value == null) return false;
-		String nameProperty = p.getName();
-		if(nameProperty == null) return false;
-		if(!fromConstructor && (nameProperty.equals(samplingModeString))){
-			return true;
-		}
-		if(nameProperty.equals(wheelModeString)){
-			outputMode = DEFAULT_MODE_OUT;
-			for(int i = 1; i < wheelModes.length;i++){
-				if(wheelModes[i].equals(value)){
-					outputMode = i;
-					break;
-				}
-			}
-			switch(outputMode){
-			case LINEAR_MODE_OUT:
-			    unit = CCUnit.UNIT_CODE_LINEAR_VEL;
-			    break;
-			case LIN_POS_MODE_OUT:
-			    unit = CCUnit.UNIT_CODE_METER;
-			    break;
-			default:
-			case ANG_MODE_OUT:
-			    unit = CCUnit.UNIT_CODE_ANG_VEL;
-			    break;
-			}
-		}
-		return super.setPValue(p,value);
+		if(init){
+			addProperty(new PropObject(wheelModeString,wheelModes,LIN_POS_MODE_OUT)); 
+
+			calibrationDesc = new CalibrationDesc();
+			calibrationDesc.addCalibrationParam(new CalibrationParam(0,radius));
+		}		
 	}
 	
+	public int getUnit()
+	{
+		PropObject wheelMode = getProperty(wheelModeString);
+		int index = wheelMode.getIndex();
+		int oMode;
+		if(index == 0){
+		    oMode = DEFAULT_MODE_OUT;
+		} else {
+			oMode = index;
+		}
+
+		switch(oMode){
+		case LINEAR_MODE_OUT:
+			unit = CCUnit.UNIT_CODE_LINEAR_VEL;
+			break;
+		case LIN_POS_MODE_OUT:
+			unit = CCUnit.UNIT_CODE_METER;
+			break;
+		default:
+		case ANG_MODE_OUT:
+			unit = CCUnit.UNIT_CODE_ANG_VEL;
+			break;
+		}
+
+		return unit;
+
+	}
+
+	public int getInterfaceMode()
+	{
+		PropObject wheelMode = getProperty(wheelModeString);
+		int index = wheelMode.getIndex();
+		if(index == 0){
+		    outputMode = DEFAULT_MODE_OUT;
+		} else {
+			outputMode = index;
+		}
+		return interfaceMode;
+	}
+
 	public void setDataDescParam(int chPerSample,float dt){
 		dDesc.setDt(dt);
 		dDesc.setChPerSample(chPerSample);

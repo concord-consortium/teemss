@@ -14,7 +14,7 @@ public class CCVoltCurrent extends CCProb{
 	public final static int		VOLTAGE_OUT 			= 1;
 	public final static int		POWER_OUT 			= 2;
 	public final static int		ENERGY_OUT 			= 3;
-	public final static String [] propNames = {"Port", "Output mode", "Version"};
+	public final static String [] propNames = {"Mode", "Range", "Speed", "Version"};
 
 	float					zeroPointCurrent				= 1257f;//	
 	float					zeroPointVoltage				= 1257f;//	
@@ -22,24 +22,23 @@ public class CCVoltCurrent extends CCProb{
 	float					voltageResolution		= 650f/20f; //     mV(reading)/(true)V
 
 	int					outputMode 			= VOLTAGE_OUT;
-    String [] portNames = {"A", "B"};
-	public static String [] modelNames = {"Current", "Voltage","Power","Energy"};
+	public static String [] modeNames = {"Current", "Voltage","Power","Energy"};
+	public static String [] rangeNames = {"unknown"};
+	public static String [] speed1Names = {3 + speedUnit, 200 + speedUnit, 400 + speedUnit};
+	public static String [] speed2Names = {3 + speedUnit, 200 + speedUnit};
 	String [] versionNames = {"1.0", "2.0"};
    
 	int 				curChannel = 0;
-	private boolean 	fromConstructor = true;
 
 	int version = 1;
-	int voltOff = 0;
-	int currentOff = 1;
+	int voltOff = 1;
+	int currentOff = 0;
 
-	CCVoltCurrent(){
-		this("unknown");
-	}
-	CCVoltCurrent(String name){
+	CCVoltCurrent(boolean init, String name, int interfaceT){
+		super(init, name, interfaceT);
 		probeType = ProbFactory.Prob_VoltCurrent;
 		activeChannels = 2;
-		setName(name);
+
 		dDesc.setChPerSample(1);
 		dDesc.setDt(0.0f);
 		dEvent.setDataDesc(dDesc);
@@ -48,23 +47,54 @@ public class CCVoltCurrent extends CCProb{
 		dEvent.setData(data);
 		dEvent.setIntData(intData);
 
-		properties = new PropObject[4];
-		properties[0] = new PropObject(samplingModeString,samplingModes); 
-		properties[1] = new PropObject(propNames[0], portNames);
-		properties[2] = new PropObject(propNames[1], modelNames);
-		properties[3] = new PropObject(propNames[2], versionNames);
+		if(init){
+			addProperty(new PropObject(propNames[0], modeNames, 1));
+			addProperty(new PropObject(propNames[1], rangeNames));
+			addProperty(new PropObject(propNames[2], speed2Names));
+			addProperty(new PropObject(propNames[3], versionNames));
 		
-		calibrationDesc = new CalibrationDesc();
-		calibrationDesc.addCalibrationParam(new CalibrationParam(0,zeroPointCurrent));
-		calibrationDesc.addCalibrationParam(new CalibrationParam(1,currentResolution));
-		calibrationDesc.addCalibrationParam(new CalibrationParam(2,zeroPointVoltage));
-		calibrationDesc.addCalibrationParam(new CalibrationParam(3,voltageResolution));
-		setPropertyValue(0,samplingModes[CCProb.SAMPLING_24BIT_MODE]);
-		setPropertyValue(1,portNames[0]);
-		setPropertyValue(2,modelNames[1]);
-		setPropertyValue(3,versionNames[0]);
-		unit = CCUnit.UNIT_CODE_VOLT;
-		fromConstructor = false;
+			calibrationDesc = new CalibrationDesc();
+			calibrationDesc.addCalibrationParam(new CalibrationParam(0,zeroPointCurrent));
+			calibrationDesc.addCalibrationParam(new CalibrationParam(1,currentResolution));
+			calibrationDesc.addCalibrationParam(new CalibrationParam(2,zeroPointVoltage));
+			calibrationDesc.addCalibrationParam(new CalibrationParam(3,voltageResolution));
+		}
+	}
+
+	public int getUnit()
+	{
+		int outputMode = getProperty(propNames[0]).getIndex();
+
+		switch(outputMode){
+		case CURRENT_OUT:
+			unit = CCUnit.UNIT_CODE_AMPERE;
+			break;
+		case VOLTAGE_OUT:
+			unit = CCUnit.UNIT_CODE_VOLT;
+			break;
+		case POWER_OUT:
+			unit = CCUnit.UNIT_CODE_WATT;
+			break;
+		case ENERGY_OUT:
+			unit = CCUnit.UNIT_CODE_JOULE;
+			break;
+		}
+
+		return unit;
+	}
+
+	public CalibrationDesc getCalibrationDesc()
+	{
+		CalibrationParam cp = calibrationDesc.getCalibrationParam(0);
+		if(cp != null) cp.setAvailable(outputMode == CURRENT_OUT);
+		cp = calibrationDesc.getCalibrationParam(1);
+		if(cp != null) cp.setAvailable(outputMode == CURRENT_OUT);
+		cp = calibrationDesc.getCalibrationParam(2);
+		if(cp != null) cp.setAvailable(outputMode == VOLTAGE_OUT);
+		cp = calibrationDesc.getCalibrationParam(3);
+		if(cp != null) cp.setAvailable(outputMode == VOLTAGE_OUT);
+
+		return calibrationDesc;
 	}
 
 	public int  getActiveCalibrationChannels(){return 1;}
@@ -73,65 +103,54 @@ public class CCVoltCurrent extends CCProb{
 		dDesc.setChPerSample(chPerSample);
 		dtChannel = dt / (float)chPerSample;
 	}
-	protected boolean setPValue(PropObject p,String value){
-		if(p == null || value == null) return false;
-		String nameProperty = p.getName();
-		if(nameProperty == null) return false;
-		if(!fromConstructor && (nameProperty.equals(samplingModeString))){
-			if(value.equals(samplingModes[SAMPLING_DIG_MODE]))
-				return true;
-			else
-				return super.setPValue(p,value);
-		}
-		if(nameProperty.equals(propNames[0])){
-			if(value.equals("A")){
-				interfacePort = INTERFACE_PORT_A;
-			} else if(value.equals("B")){
-				interfacePort = INTERFACE_PORT_B;
-			}
-		} else if(nameProperty.equals(propNames[1])){
-			for(int i = 0; i < modelNames.length;i++){
-				if(modelNames[i ].equals(value)){
-					outputMode = i ;
-					break;
-				}
-			}
-			switch(outputMode){
-			case CURRENT_OUT:
-				unit = CCUnit.UNIT_CODE_AMPERE;
-				break;
-			case VOLTAGE_OUT:
-				unit = CCUnit.UNIT_CODE_VOLT;
-				break;
-			case POWER_OUT:
-				unit = CCUnit.UNIT_CODE_WATT;
-				break;
-			case ENERGY_OUT:
-				unit = CCUnit.UNIT_CODE_JOULE;
-				break;
-			}
-			CalibrationParam cp = calibrationDesc.getCalibrationParam(0);
-			if(cp != null) cp.setAvailable(outputMode == CURRENT_OUT);
-			cp = calibrationDesc.getCalibrationParam(1);
-			if(cp != null) cp.setAvailable(outputMode == CURRENT_OUT);
-			cp = calibrationDesc.getCalibrationParam(2);
-			if(cp != null) cp.setAvailable(outputMode == VOLTAGE_OUT);
-			cp = calibrationDesc.getCalibrationParam(3);
-			if(cp != null) cp.setAvailable(outputMode == VOLTAGE_OUT);
-		} else if(nameProperty.equals(propNames[2])){
-			if(value.equals(versionNames[0])){
-				version = 1;
-				voltOff = 1;
-				currentOff = 0;
-			}else {
-				version = 2;
-				voltOff = 0;
-				currentOff = 1;
+
+	public boolean visValueChanged(PropObject po)
+	{
+		PropObject mode = getProperty(propNames[0]);
+		PropObject version = getProperty(propNames[3]);
+		if(po == mode || po == version){
+			int mIndex = mode.getVisIndex();
+			int vIndex = version.getVisIndex();
+			   
+			PropObject speed = getProperty(propNames[2]);
+			if((mIndex == 0 && vIndex == 0)  ||
+			   (mIndex == 1 && vIndex == 1)){
+				speed.setVisPossibleValues(speed1Names);
+			} else {
+				speed.setVisPossibleValues(speed2Names);
 			}
 		}
-		return  super.setPValue(p,value);
+
+		return true;
 	}
 
+	public int getInterfaceMode()
+	{
+		int vIndex = getProperty(propNames[3]).getIndex();
+		if(vIndex == 0){
+			version = 1;
+			voltOff = 1;
+			currentOff = 0;
+		}else {
+			version = 2;
+			voltOff = 0;
+			currentOff = 1;
+		}
+
+		int speedIndex = getProperty(propNames[1]).getIndex();
+		if(speedIndex == 0){
+			interfaceMode = CCInterfaceManager.A2D_24_MODE;
+			activeChannels = 2;
+		} else if(speedIndex == 1){
+			interfaceMode = CCInterfaceManager.A2D_10_MODE;
+			activeChannels = 2;
+		} else if(speedIndex == 2){
+			interfaceMode = CCInterfaceManager.A2D_10_MODE;
+			activeChannels = 1;
+		}
+		return interfaceMode;
+	}
+	
 	public boolean startSampling(org.concord.waba.extra.event.DataEvent e){
 		energy = 0.0f;
 		dEvent.type = e.type;

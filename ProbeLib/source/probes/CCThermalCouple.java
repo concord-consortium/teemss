@@ -22,14 +22,12 @@ float CC = 0.011012f;
 float DC = 10f;
 float EC = -50f;
 float FC = 0.0f;
-	private boolean fromConstructor = true;
-	CCThermalCouple(){
-		this("unknown");
-	}
-	CCThermalCouple(String name){
+
+	CCThermalCouple(boolean init, String name, int interfaceT){
+		super(init, name, interfaceT);
 		probeType = ProbFactory.Prob_ThermalCouple;
 		activeChannels = 2;
-		setName(name);
+
 		dDesc.setChPerSample(2);
 		dDesc.setDt(0.0f);
 		dEvent.setDataDesc(dDesc);
@@ -37,53 +35,52 @@ float FC = 0.0f;
 		dEvent.setNumbSamples(1);
 		dEvent.setData(tempData);
 		dEvent.setIntData(tempIntData);
-		properties = new PropObject[2];
-//		samplingModes[1] = null;
 
-		properties[0] = new PropObject(samplingModeString,samplingModes); 
-		properties[1] = new PropObject(tempModeString,tempModes); 
-		setPropertyValue(0,samplingModes[CCProb.SAMPLING_24BIT_MODE]);
-		setPropertyValue(1,tempModes[CELSIUS_TEMP_OUT]);
-		
-		outputMode = DEFAULT_TEMP_OUT;
-		calibrationDesc = new CalibrationDesc();
-		calibrationDesc.addCalibrationParam(new CalibrationParam(0,FC));
-//		calibrationDesc.addCalibrationParam(new CalibrationParam(1,EC));
+		if(init){
+			addProperty(new PropObject(tempModeString,tempModes,CELSIUS_TEMP_OUT)); 
 
-		fromConstructor = false;
-		unit = CCUnit.UNIT_CODE_CELSIUS;
+			calibrationDesc = new CalibrationDesc();
+			calibrationDesc.addCalibrationParam(new CalibrationParam(0,FC));			
+		}
 	}
-	public int	getActiveChannels(){return 2;}
-	protected boolean setPValue(PropObject p,String value){
-		if(p == null || value == null) return false;
-		String nameProperty = p.getName();
-		if(nameProperty == null) return false;
-		if(!fromConstructor && (nameProperty.equals(samplingModeString))){
-			return true;
+
+	public int getUnit()
+	{
+		PropObject tempMode = getProperty(tempModeString);
+		int index = tempMode.getIndex();
+		int oMode;
+		if(index == 0){
+			oMode  = DEFAULT_TEMP_OUT;
+		} else {
+			oMode = index;
 		}
-		if(nameProperty.equals(tempModeString)){
+		
+		switch(oMode){
+		case FAHRENHEIT_TEMP_OUT:
+			unit = CCUnit.UNIT_CODE_FAHRENHEIT;
+			break;
+		case KELVIN_TEMP_OUT:
+			unit = CCUnit.UNIT_CODE_KELVIN;
+			break;
+		default:
+		case CELSIUS_TEMP_OUT:
+			unit = CCUnit.UNIT_CODE_CELSIUS;
+			break;
+		}	   
+
+		return unit;
+	}
+
+	public int getInterfaceMode()
+	{
+		PropObject tempMode = getProperty(tempModeString);
+		int index = tempMode.getIndex();
+		if(index == 0){
 			outputMode = DEFAULT_TEMP_OUT;
-			for(int i = 1; i < tempModes.length;i++){
-				if(tempModes[i].equals(value)){
-					outputMode = i;
-					break;
-				}
-			}
-			
-			switch(outputMode){
-				case FAHRENHEIT_TEMP_OUT:
-					unit = CCUnit.UNIT_CODE_FAHRENHEIT;
-					break;
-				case KELVIN_TEMP_OUT:
-					unit = CCUnit.UNIT_CODE_KELVIN;
-					break;
-				default:
-				case CELSIUS_TEMP_OUT:
-					unit = CCUnit.UNIT_CODE_CELSIUS;
-					break;
-			}
+		} else {
+			outputMode = index;
 		}
-		return  super.setPValue(p,value);
+		return interfaceMode;
 	}
 
 	public void setDataDescParam(int chPerSample,float dt){

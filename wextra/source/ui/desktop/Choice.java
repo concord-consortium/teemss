@@ -161,7 +161,7 @@ public class Choice extends extra.ui.List{
 			}
 			c = c.getParent();
 		}
-	    
+	    if(c == null) return;
 		popup=new extra.ui.Popup(this,w);
 		popup.popup(x,y,expandedWidth+10,textHeight*numDisplayed+3+initialYOffset);
 	}

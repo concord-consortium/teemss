@@ -17,17 +17,17 @@ float				BLow = 0f;
 public final static int		HIGH_LIGHT_MODE 			= 0;
 public final static int		LOW_LIGHT_MODE 			= 1;
 int				lightMode = HIGH_LIGHT_MODE;
-public final static String [] propNames = {"Range"};
-private boolean 	fromConstructor = true;
+public final static String [] propNames = {"Range", "Speed"};
 
-public static String [] modelNames = {"High Range", "Low range"};
-	CCLightIntens(){
-		this("unknown");
-	}
-	CCLightIntens(String name){
+	public static String [] rangeNames = {"Bright Light", "Dim Light"};
+	public static String [] speed1Names = {3 + speedUnit, 200 + speedUnit};
+	public static String [] speed2Names = {3 + speedUnit, 200 + speedUnit, 400 + speedUnit};
+
+	CCLightIntens(boolean init, String name, int interfaceT){
+		super(init, name, interfaceT);
 		probeType = ProbFactory.Prob_Light;
 	    activeChannels = 2;
-		setName(name);
+
 		dDesc.setChPerSample(2);
 		dDesc.setIntChPerSample(2);
 		dDesc.setDt(0.0f);
@@ -37,45 +37,46 @@ public static String [] modelNames = {"High Range", "Low range"};
 		dEvent.setData(lightData);
 		dEvent.setIntData(lightIntData);
 
-		properties = new PropObject[2];
-		properties[0] = new PropObject(samplingModeString,samplingModes); 
-		properties[1] = new PropObject(propNames[0], modelNames);
-		calibrationDesc = new CalibrationDesc();
-		calibrationDesc.addCalibrationParam(new CalibrationParam(0,AHigh));
-		calibrationDesc.addCalibrationParam(new CalibrationParam(1,BHigh));
-		calibrationDesc.addCalibrationParam(new CalibrationParam(2,ALow));
-		calibrationDesc.addCalibrationParam(new CalibrationParam(3,BLow));
-		setPropertyValue(0,samplingModes[CCProb.SAMPLING_10BIT_MODE]);
-		setPropertyValue(1,modelNames[0]);
-		
-		unit = CCUnit.UNIT_CODE_LUX;
-		fromConstructor = false;
-		
+		if(init){
+			addProperty(new PropObject(propNames[0], rangeNames));
+			addProperty(new PropObject(propNames[1], speed1Names));
+			lightMode = 0;
+
+			calibrationDesc = new CalibrationDesc();
+			calibrationDesc.addCalibrationParam(new CalibrationParam(0,AHigh));
+			calibrationDesc.addCalibrationParam(new CalibrationParam(1,BHigh));
+			calibrationDesc.addCalibrationParam(new CalibrationParam(2,ALow));
+			calibrationDesc.addCalibrationParam(new CalibrationParam(3,BLow));
+		}
+
+		unit = CCUnit.UNIT_CODE_LUX;		
 	}
+
 	public void setDataDescParam(int chPerSample,float dt){
 		dDesc.setDt(dt);
 		dDesc.setChPerSample(chPerSample);
 		dtChannel = dt / (float)chPerSample;
 	}
 	
-	protected boolean setPValue(PropObject p,String value){
-		if(p == null || value == null) return false;
-		String nameProperty = p.getName();
-		if(nameProperty == null) return false;
-		if(!fromConstructor && (nameProperty.equals(samplingModeString))){
-			if(value.equals(samplingModes[SAMPLING_DIG_MODE]))
-				return true;
-			else
-				return super.setPValue(p,value);
-		}
-		if(nameProperty.equals(propNames[0])){
-			for(int i = 0; i < modelNames.length;i++){
-				if(modelNames[i ].equals(value)){
-					lightMode = i ;
-					break;
-				}
+	public boolean visValueChanged(PropObject po)
+	{
+		int index = po.getVisIndex();
+		if(po.getName().equals(propNames[0])){
+			PropObject speed = getProperty(propNames[1]);
+			if(index == 0){
+				speed.setVisPossibleValues(speed1Names);
+			} else {
+				speed.setVisPossibleValues(speed2Names);
 			}
 		}
+
+		return true;
+	}
+
+	public CalibrationDesc getCalibrationDesc()
+	{
+		int lightMode = getProperty(propNames[0]).getIndex();
+
 		CalibrationParam cp = calibrationDesc.getCalibrationParam(0);
 		if(cp != null) cp.setAvailable(lightMode == HIGH_LIGHT_MODE);
 		cp = calibrationDesc.getCalibrationParam(1);
@@ -84,7 +85,28 @@ public static String [] modelNames = {"High Range", "Low range"};
 		if(cp != null) cp.setAvailable(lightMode == LOW_LIGHT_MODE);
 		cp = calibrationDesc.getCalibrationParam(3);
 		if(cp != null) cp.setAvailable(lightMode == LOW_LIGHT_MODE);
-		return  super.setPValue(p,value);
+
+		return calibrationDesc;
+	}
+
+	public int getInterfaceMode()
+	{
+		int speedIndex = getProperty(propNames[1]).getIndex();
+
+		if(speedIndex == 0){
+			interfaceMode = CCInterfaceManager.A2D_24_MODE;
+			activeChannels = 2;
+		} else if(speedIndex == 1){
+			interfaceMode = CCInterfaceManager.A2D_10_MODE;
+			activeChannels = 2;
+		} else if(speedIndex == 2){
+			interfaceMode = CCInterfaceManager.A2D_10_MODE;
+			activeChannels = 1;
+		}
+
+		lightMode = getProperty(propNames[0]).getIndex();
+
+		return interfaceMode;
 	}
 	
 	public int  getActiveCalibrationChannels(){return 1;}

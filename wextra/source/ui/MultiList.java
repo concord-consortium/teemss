@@ -61,4 +61,13 @@ public class MultiList extends Container
 		}
 		return false;
 	}
+
+	public boolean [] getCheckedValues()
+	{
+		boolean [] cdValues  = new boolean [checks.length];
+		for(int i=0; i<checks.length; i++){
+			cdValues[i] = checks[i].getChecked();
+		}
+		return cdValues;
+	}
 }
