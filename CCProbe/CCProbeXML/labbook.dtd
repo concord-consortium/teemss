@@ -24,14 +24,6 @@
 	indent   	CDATA 		#IMPLIED
 >
 
-<!ELEMENT DATACOLLECTOR EMPTY>
-<!ATTLIST DATACOLLECTOR
-	ID			ID			#REQUIRED
-	name		CDATA		#IMPLIED
-	probe		%probes;	"Temperature"
-	addintegral	%boolean;	"false"
->
-
 <!ELEMENT DRAWING EMPTY>
 <!ATTLIST DRAWING
 	ID			ID			#REQUIRED
@@ -79,6 +71,43 @@
 <!ATTLIST EXPOBJECT
 	ID			ID			#REQUIRED
 	url 		CDATA 		#REQUIRED
+>
+
+<!ELEMENT XAXIS EMPTY>
+<!ATTLIST XAXIS
+    min        CDATA        #IMPLIED
+    max        CDATA        #IMPLIED
+> 
+<!ELEMENT YAXIS EMPTY>
+<!ATTLIST YAXIS
+    min        CDATA        #IMPLIED
+    max        CDATA        #IMPLIED
+> 
+
+<!ELEMENT PROBE EMPTY>
+<!ATTLIST PROBE
+    ID         ID            #IMPLIED
+    probe      %probes;      "Temperature"
+    interface  (0 | 2)       "2"
+>
+
+<!ELEMENT LINE (PROBE | INTPROBETRANS | EXPOBJECT | OBJ-REF)>
+<!ATTLIST LINE
+    xaxis      CDATA        #REQUIRED
+    yaxis      CDATA        #REQUIRED
+>
+
+<!ELEMENT GRAPH (XAXIS | YAXIS | LINE)*>
+
+<!ELEMENT DATACOLLECTOR (GRAPH)>
+<!ATTLIST DATACOLLECTOR
+	ID			ID			#IMPLIED
+	name		CDATA		#IMPLIED
+>
+
+<!ELEMENT OBJ-REF EMPTY>
+<!ATTLIST OBJ-REF
+    ref         IDREF      #REQUIRED
 >
 
 
