@@ -31,7 +31,7 @@ import org.concord.waba.extra.event.*;
 public class GraphTool extends Container
     implements DataListener
 {
-    ProbManager pm = ProbManager.getProbManager();
+    ProbManager pm = null;
     AnnotView lg;
     Pushbutton [] modControl;
 
@@ -57,9 +57,15 @@ public class GraphTool extends Container
     Bin curBin = null;
     Vector bins = new Vector();
 
-    public GraphTool(AnnotView av, int probeId, 
-		     String units, int w, int h) 
+    boolean slowUpdate = false;
+
+    public GraphTool(AnnotView av, int probeId, int interfaceId, 
+		     int portId, String units, int w, int h) 
     {
+	convertor.maxDigits = 2;
+
+	pm = ProbManager.getProbManager(interfaceId);
+
 	int xPos = 0;
 	int buttonWidth;
        
@@ -117,7 +123,7 @@ public class GraphTool extends Container
 
 	curBin = lg.getBin();
 
-	curProbe = ProbFactory.createProb(probeId);
+	curProbe = ProbFactory.createProb(probeId, portId);
 
 	pm.registerProb(curProbe);
 	pm.addDataListenerToProb(curProbe.getName(),this);
@@ -130,18 +136,45 @@ public class GraphTool extends Container
 
 	mw = MainWindow.getMainWindow();
     }
-    
+
+    float val= 0f;
+    float time = 0f;
+
     public void dataReceived(DataEvent dataEvent)
     {
-	int dOff = dataEvent.getDataOffset();
-	float data [] = dataEvent.getData();
-
-	if(!curBin.dataReceived(dataEvent)){
-	    stop();
-	    lg.curView.draw();
-	    return;		
+	if(dataEvent.type == DataEvent.DATA_READY_TO_START){
+	    if(pm.getMode() == CCInterfaceManager.A2D_10_MODE){
+		slowUpdate = true;
+	    } else {
+		slowUpdate = false;
+	    }
+	    return;
 	}
-	lg.update();
+
+	if(slowUpdate){
+	    if(dataEvent.type == DataEvent.DATA_RECEIVED){
+		if(!curBin.dataReceived(dataEvent)){
+		    stop();
+		    lg.curView.draw();
+		    return;		
+		}
+		val = dataEvent.data[dataEvent.dataOffset];
+		time = dataEvent.time;
+	    } else {	     
+		lg.update();
+		curVal.setText(convertor.fToString(val));
+		curTime.setText(convertor.fToString(time) + "s");
+	    }
+	} else {
+	    if(!curBin.dataReceived(dataEvent)){
+		stop();
+		lg.curView.draw();
+		return;		
+	    }
+	    lg.update();
+	    curVal.setText(convertor.fToString(dataEvent.data[dataEvent.dataOffset]));
+	    curTime.setText(convertor.fToString(dataEvent.time) + "s");
+	}
     }
 
 
@@ -187,7 +220,8 @@ public class GraphTool extends Container
 	    if(target == modControl[0] && modControl[0].isSelected()){
 		// start
 		lg.active = true;
-		
+		slowUpdate = false;
+
 		bytesRead.setText((byte)'C' + "");
 		pm.start();
 		bins.add(curBin);
@@ -196,7 +230,6 @@ public class GraphTool extends Container
 		stop();
 	    } else if(target == clearB){
 		// ask for confirmation
-		    lg.active = false;
 		    stop();
 		    lg.reset();
 

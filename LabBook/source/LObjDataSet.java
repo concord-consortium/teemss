@@ -138,7 +138,7 @@ public class LObjDataSet extends LObjSubDict
 
 	    dEvent = new DataEvent(DataEvent.DATA_RECEIVED, 
 				   time, data, dataDesc);
-	    dEvent.numbData = numData;
+	    dEvent.numbSamples = numData;
 	    dEvent.dataOffset = 0;
 	} else {
 	    // Empty dataset
@@ -260,10 +260,10 @@ public class LObjDataSet extends LObjSubDict
 	    ds.writeFloat(dataEvent.time);
 	    
 	    // Write numb data
-	    ds.writeInt(dataEvent.numbData);
+	    ds.writeInt(dataEvent.numbSamples);
 	    
 	    int sampSize = dataEvent.getDataDesc().getChPerSample();
-	    int endPos = dataEvent.dataOffset + dataEvent.numbData*sampSize;
+	    int endPos = dataEvent.dataOffset + dataEvent.numbSamples*sampSize;
 	    float [] data = dataEvent.data;
 	    
 	    for(int i=dataEvent.dataOffset; i<endPos; i+=sampSize){

@@ -25,6 +25,7 @@ public class Tester extends ExtraMainWindow
 
 	if(waba.sys.Vm.getPlatform().equals("PalmOS")){
 	    graph.Bin.START_DATA_SIZE = 1000;
+	    graph.LargeFloatArray.MaxNumChunks = 4;
 	}
 	menuBar = new MenuBar();
 	setMenuBar(menuBar);

@@ -2,11 +2,13 @@ package org.concord.LabBook;
 
 import extra.io.*;
 import org.concord.waba.extra.probware.probs.*;
-
+import org.concord.waba.extra.probware.*;
 
 public class LObjDataControl extends LObjSubDict
 {
     int probeId = ProbFactory.Prob_ThermalCouple;
+    int interfaceId = CCInterfaceManager.INTERFACE_2;
+    int portId = CCProb.INTERFACE_PORT_A;
     //    LObjGraph graph;
     
     public static LObjDataControl makeNew()
