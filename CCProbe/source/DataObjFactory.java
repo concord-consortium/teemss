@@ -81,12 +81,13 @@ public class DataObjFactory
 	}
 
 	public void createLabBookObjDescriptors(){
-		labBookObjDesc = new LabObjDescriptor[6];
+		labBookObjDesc = new LabObjDescriptor[7];
 		labBookObjDesc[0] = new LabObjDescriptor("DataSet",DATA_SET);
 		labBookObjDesc[1] = new LabObjDescriptor("Graph",GRAPH);
 		labBookObjDesc[2] = new LabObjDescriptor("Data Collector",DATA_COLLECTOR);
 		labBookObjDesc[3] = new LabObjDescriptor("UnitConvertor",UCONVERTOR);
 		labBookObjDesc[4] = new LabObjDescriptor("ProbeDataSource",PROBE_DATA_SOURCE);
 		labBookObjDesc[5] = new LabObjDescriptor("CalculusTrans", CALCULUS_TRANS);
+		labBookObjDesc[6] = new LabObjDescriptor("IntProbeTrans", INT_PROBE_TRANS);
 	}
 }

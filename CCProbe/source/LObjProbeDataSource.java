@@ -19,7 +19,12 @@ public class LObjProbeDataSource extends LObjSubDict
 CCProb 			probe = null;
 CCUnit		currentUnit = null;
 	public waba.util.Vector probListeners = null;
-	public static int interfaceType = CCInterfaceManager.INTERFACE_0;
+
+    // old CCA2D2 interface
+    // 	static int defaultInterfaceType = CCInterfaceManager.INTERFACE_0;
+
+    // new CCA2D2v2 interface
+	static int defaultInterfaceType = CCInterfaceManager.INTERFACE_2;
 
 	ProbManager pb = null;
 
@@ -182,6 +187,10 @@ CCUnit		currentUnit = null;
 	}
 	public void registerProbeWithPM(){
 		if(probe == null) return;
+
+		// This could caused problems in a mixed environment if the 
+		// user is using probes with different interface managers at the
+		// same time
 		if(pb == null) pb = ProbManager.getProbManager(probe.getInterfaceType());
 
 		if(pb == null) return;
@@ -242,7 +251,6 @@ CCUnit		currentUnit = null;
     public void readExternal(extra.io.DataStream in)
     {
     	CCProb probe = ProbFactory.createProbeFromStream(in);
-		probe.setInterfaceType(interfaceType);
 		setProbe(probe);
     }
 
@@ -251,6 +259,11 @@ CCUnit		currentUnit = null;
 		probe.calibrateMe(owner,l,probe.getInterfaceType());
 	}
 	
+	public static LObjProbeDataSource getProbeDataSource(String probeName)
+	{
+		return getProbeDataSource(ProbFactory.getIndex(probeName), defaultInterfaceType);
+	}
+
 	public static LObjProbeDataSource getProbeDataSource(String probeName, int interfaceType)
 	{
 		return getProbeDataSource(ProbFactory.getIndex(probeName), interfaceType);

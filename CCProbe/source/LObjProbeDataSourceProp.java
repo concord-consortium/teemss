@@ -33,7 +33,7 @@ public class LObjProbeDataSourceProp extends LabObjectView
 
 		pView = new PropertyView(this);
 		pView.addContainer(pds.getProbe());
-		pView.addPane(new CalibrationPane(pds.getProbe(), pds.interfaceType, null, pView));
+		pView.addPane(new CalibrationPane(pds.getProbe(), null, pView));
 		add(pView);
 	}
 

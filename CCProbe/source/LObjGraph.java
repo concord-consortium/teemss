@@ -17,7 +17,6 @@ public class LObjGraph extends LObjSubDict
 	boolean autoTitle = false;
 
 	Vector graphSettings = null;
-	//	GraphSettings curGS = null;
 	Vector xAxisVector = new Vector();
 	Vector yAxisVector = new Vector();
 
@@ -105,19 +104,21 @@ public class LObjGraph extends LObjSubDict
 		yaxis.setRange(YMIN, YMAX-YMIN);	
 	}
 
-	public void addYAxis()
+	public Axis addYAxis()
 	{
 		ColorAxis yaxis = new ColorAxis(Axis.LEFT);
 		yaxis.setMaxDigits(6);
 		
 		yAxisVector.add(yaxis);
+		return yaxis;
 	}
 
-	public void addXAxis()
+	public Axis addXAxis()
 	{
 		SplitAxis xaxis = new SplitAxis(Axis.BOTTOM);
 		
 		xAxisVector.add(xaxis);
+		return xaxis;
 	}
 
 	public Axis getXAxis(int i)
@@ -234,6 +235,15 @@ public class LObjGraph extends LObjSubDict
 	public void store()
 	{
 		if(autoTitle) setName("..auto_title..");
+
+		/*
+		if(dataSources != null){
+			for(int i=0; i<dataSources.getCount(); i++){
+				LabObject obj = (LabObject)dataSources.get(i);
+				if(obj != null) obj.store();
+			}
+		}
+		*/
 		
 		super.store();
 	}

@@ -36,30 +36,38 @@ public class LObjDataCollectorProp extends LabObjectView
 		nameProp.prefWidth = 120;
 		mainProps.addProperty(nameProp);
 
-		Vector dataSources = dc.getDataSources();
-		int index = 0;
-		if(dataSources != null &&
-		   dataSources.getCount() > 0 &&
-		   dataSources.get(0) instanceof LObjProbeDataSource){
-		    String curName = ((LObjProbeDataSource)dataSources.get(0)).getProbeName();
-			for(int i=0; i<probeNames.length; i++){
-				if(curName.equals(probeNames[i])){
-					index = i;
+		LObjGraph graph = dc.getGraph();
+		int index = -1;
+		Vector rootSources = null;
+		if(graph != null &&
+		   graph.getDataSource(0) != null){
+			rootSources = new Vector();
+			graph.getDataSource(0).getRootSources(rootSources);
+			if(rootSources.getCount() > 0 &&
+			   rootSources.get(0) instanceof LObjProbeDataSource){
+				String curName = ((LObjProbeDataSource)rootSources.get(0)).getProbeName();
+				for(int i=0; i<probeNames.length; i++){
+					if(curName.equals(probeNames[i])){
+						index = i;
+					}
 				}
 			}
 		} 
-		probeType = new PropObject("Probe", "Probe", 1, probeNames, index);
-		probeType.prefWidth = 120;
-		mainProps.addProperty(probeType, this);
+		if(rootSources == null || index != -1){
+			if(index == -1) index = 0;
+			probeType = new PropObject("Probe", "Probe", 1, probeNames, index);
+			probeType.prefWidth = 120;
+			mainProps.addProperty(probeType, this);
+			LObjProbeDataSource probeDS =  
+				LObjProbeDataSource.getProbeDataSource(probeType.getValue());
 
-		LObjProbeDataSource probeDS =  
-			LObjProbeDataSource.getProbeDataSource(probeType.getValue(),
-											  dc.interfaceId);
-		if(probeDS == null) return;
-		String [] quantityNames = probeDS.getQuantityNames();
-		if(quantityNames == null || quantityNames.length <= 1) return;
-		
-		setupOutputPane(quantityNames);
+			if(probeDS == null) return;
+			String [] quantityNames = probeDS.getQuantityNames();
+			if(quantityNames == null || quantityNames.length <= 1) return;
+			
+			setupOutputPane(quantityNames);
+		}
+
 		propView.updateView();
     }
     
@@ -100,8 +108,7 @@ public class LObjDataCollectorProp extends LabObjectView
 				propView.updateView();
 			} else {
 				LObjProbeDataSource probeDS =  
-					LObjProbeDataSource.getProbeDataSource(probeType.getVisValue(),
-														   dc.interfaceId);
+					LObjProbeDataSource.getProbeDataSource(probeType.getVisValue());
 				if(probeDS == null) return false;
 				String [] quantityNames = probeDS.getQuantityNames();
 				if(quantityNames == null) return false;
@@ -132,7 +139,9 @@ public class LObjDataCollectorProp extends LabObjectView
 		PropObject quantityProp = new PropObject("", "DS", 0, quantityNames);
 		quantityProp.setType(PropObject.MULTIPLE_SEL_LIST);
 		quantityProp.setRadio(false);
-		probeQuantities[probeType.getVisIndex()] = quantityProp;
+		if(probeType != null){
+			probeQuantities[probeType.getVisIndex()] = quantityProp;
+		}
 		for(int i=0; i<quantityNames.length; i++){
 			quantityProp.setCheckedValue(i, true);
 		}
@@ -144,48 +153,51 @@ public class LObjDataCollectorProp extends LabObjectView
 		if(e.getActionCommand().equals("Apply")){
 			LObjGraph graph = dc.getGraph();
 			
-			Vector dataSources = new Vector(1);
-			LObjProbeDataSource probeDS = 
-				LObjProbeDataSource.getProbeDataSource(probeType.getValue(),
-													   dc.interfaceId);
-			if(dsProps == null){
-				dataSources.add(probeDS);
-			} else {
-				PropObject quantProp  = dsProps.findProperty(0);
-				if(quantProp == null){
+			if(probeType != null){
+				Vector dataSources = new Vector(1);
+				LObjProbeDataSource probeDS = 
+					LObjProbeDataSource.getProbeDataSource(probeType.getValue());
+				if(dsProps == null){
 					dataSources.add(probeDS);
 				} else {
-					String [] quantNames = quantProp.getPossibleValues();
-					for(int i=0; i<quantNames.length; i++){
-						if(quantProp.getCheckedValue(i)){
-							DataSource newDS = probeDS.getQuantityDataSource(quantNames[i]);
-							dataSources.add(newDS);
+					PropObject quantProp  = dsProps.findProperty(0);
+					if(quantProp == null){
+						dataSources.add(probeDS);
+					} else {
+						String [] quantNames = quantProp.getPossibleValues();
+						for(int i=0; i<quantNames.length; i++){
+							if(quantProp.getCheckedValue(i)){
+								DataSource newDS = probeDS.getQuantityDataSource(quantNames[i]);
+								dataSources.add(newDS);
+							}
 						}
 					}
 				}
-			}
-			if(dataSources.getCount() < 1){
-				// error
-				return;
-			}
-
-			dc.setDataSources(dataSources);
+				if(dataSources.getCount() < 1){
+					// error
+					return;
+				}
 
 
-			graph.clear();
-			graph.createDefaultAxis();
-			graph.addDataSource((DataSource)dataSources.get(0),true,0,0);
-			for(int i=1; i<dataSources.getCount(); i++){
-				graph.addYAxis();
-				graph.addDataSource((DataSource)dataSources.get(i),true,0,i);
+				//			dc.setDataSources(dataSources);
+				
+				
+				graph.clear();
+				graph.createDefaultAxis();
+				graph.addDataSource((DataSource)dataSources.get(0),true,0,0);
+				for(int i=1; i<dataSources.getCount(); i++){
+					graph.addYAxis();
+					graph.addDataSource((DataSource)dataSources.get(i),true,0,i);
+				}
+				graph.store();
+				
+				// to be safe
+				((DataSource)dataSources.get(0)).closeEverything();
+
 			}
-			graph.store();
 
 			dc.setName(nameProp.getValue());
-
-			// to be safe
-			((DataSource)dataSources.get(0)).closeEverything();
-
+				
 		} else if(e.getActionCommand().equals("Close")){
 			if(container != null){
 				container.done(this);
