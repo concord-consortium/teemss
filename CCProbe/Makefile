@@ -18,8 +18,8 @@ LABBOOK_DIR:=$(CURDIR)/../LabBook/classes/_CUR_PLATFORM_
 PROBELIB_DIR:=$(CURDIR)/../ProbeLib/classes/_CUR_PLATFORM_
 JAR_LIST:= -C $(CURDIR)/classes/other org/concord/CCProbe \
 -C $(subst _CUR_PLATFORM_,other,$(WGRAPH_DIR)) graph \
--C $(subst _CUR_PLATFORM_,other,$(LABBOOK_DIR)) org/concord/LabBook 
--C $(subst _CUR_PLATFORM_,other,$(PROBELIB_DIR)) org/concord/LabBook 
+-C $(subst _CUR_PLATFORM_,other,$(LABBOOK_DIR)) org/concord/LabBook \
+-C $(subst _CUR_PLATFORM_,other,$(PROBELIB_DIR)) org/concord/ProbeLib 
 
 define POST_BUILD_TAG_CMDS
 cd $(BIN_DIR); cp * /home/ftp/pub/ccprobeware/bin
