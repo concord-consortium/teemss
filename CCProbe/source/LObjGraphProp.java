@@ -174,10 +174,10 @@ public class LObjGraphProp extends LabObjectView
 			// This should be cleaned up
 			boolean autoTitle = propAutoTitle.getChecked();
 			if(autoTitle){
-				graph.name = "..auto_title..";
+				graph.setName("..auto_title..");
 				graph.autoTitle = true;
 			} else {
-				graph.name = "Graph";
+				graph.setName("Graph");
 				graph.autoTitle = false;
 				graph.title = propTitle.getValue();
 			}

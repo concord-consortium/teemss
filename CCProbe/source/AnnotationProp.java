@@ -56,7 +56,7 @@ public class AnnotationProp extends LabObjectView
 		if(props == null){
 			props = new PropContainer("Annot");
 			
-			propName = new PropObject("Name", "Name", id++,  annot.name);
+			propName = new PropObject("Name", "Name", id++,  annot.getName());
 			propLabel = new PropObject("Label", "Label", id++, annot.getLabel());
 			propTime = new PropObject("Time", "Time", id++, "" + annot.getTime());
 			propValue = new PropObject("Value", "Value", id++, "" + annot.getValue());
@@ -72,7 +72,7 @@ public class AnnotationProp extends LabObjectView
 	public void actionPerformed(ActionEvent e)
 	{
 		if(e.getActionCommand().equals("Apply")){
-			annot.name = propName.getValue();
+			annot.setName(propName.getValue());
 			annot.setLabel(propLabel.getValue());			
 		} else if(e.getActionCommand().equals("Close")){
 			// this is a cancel or close

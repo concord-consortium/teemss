@@ -229,7 +229,7 @@ public class LabBook
 				toBeStored.del(0);
 
 				dsOut.writeInt(curObjPtr.obj.objectType);
-				dsOut.writeString(curObjPtr.obj.name);
+				dsOut.writeString(curObjPtr.obj.getName());
 
 				// This might call store which will change the toBeStored vector
 				curObjPtr.obj.writeExternal(dsOut);
@@ -266,7 +266,7 @@ public class LabBook
 
 		// write object header
 		dsOut.writeInt(lObjPtr.obj.objectType);
-		dsOut.writeString(lObjPtr.obj.name);
+		dsOut.writeString(lObjPtr.obj.getName());
 
 		// This might call store which will change the toBeStored vector
 		lObjPtr.obj.writeExternal(dsOut);
@@ -384,7 +384,7 @@ public class LabBook
 		}
 		lObj.ptr = lObjPtr;
 		lObjPtr.obj = lObj;
-		lObj.name = lObjPtr.name;
+		lObj.setName(lObjPtr.name);
 
 		// This might be recursive so add this object to the 
 		// loaded array so we don't load it again
@@ -416,7 +416,7 @@ public class LabBook
 			if(curObjPtr.equals(lObjPtr)){
 				lObjPtr.obj = curObjPtr.obj;
 				lObjPtr.objType = lObjPtr.obj.objectType;
-				lObjPtr.name = lObjPtr.obj.name;
+				lObjPtr.name = lObjPtr.obj.getName();
 				return null;
 			}
 		}

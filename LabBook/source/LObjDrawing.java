@@ -105,7 +105,7 @@ class LObjDrawingView extends LabObjectView
 		if(didLayout) return;
 		didLayout = true;
 		if(nameEdit == null) nameEdit = new Edit();
-		nameEdit.setText(getLabObject().name);
+		nameEdit.setText(getLabObject().getName());
 		if(nameLabel == null) nameLabel = new Label("Name");
 		if(getEmbeddedState()){
 			nameEditWasAdded = false;
@@ -172,7 +172,7 @@ class LObjDrawingView extends LabObjectView
 		
 		
     	if(nameEdit != null){
-    		getLabObject().name = nameEdit.getText();
+    		getLabObject().setName(nameEdit.getText());
     	}
     }
 

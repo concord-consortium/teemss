@@ -41,7 +41,7 @@ public abstract class LabObjectView extends Container
 
     public String getTitle()
     {
-		if(lObj != null) return lObj.name;
+		if(lObj != null) return lObj.getName();
 		else return null;
     }
 

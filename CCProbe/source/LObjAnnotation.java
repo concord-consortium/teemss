@@ -29,7 +29,7 @@ public class LObjAnnotation extends LObjSubDict
 	{		
 		annot = a;
 		if(a != null){
-			name = annot.getLabel();
+			setName(annot.getLabel());
 		}
 		setObj(dSet, 0);
 		binIndex = bIndex;

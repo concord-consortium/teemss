@@ -56,7 +56,7 @@ public class LObjDataSet extends LObjSubDict
 	public void init()
 	{
 		super.init();
-		name = "DataSet";
+		setName("DataSet");
 	}
 	
 	public LObjDataSet makeSubChunk(Bin b, int xIndex)

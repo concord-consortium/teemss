@@ -169,7 +169,7 @@ public class LObjImageView extends LabObjectView implements ActionListener
 			add(doneButton);
 		}
 		if(nameEdit == null) nameEdit = new Edit();
-		nameEdit.setText(getLabObject().name);
+		nameEdit.setText(getLabObject().getName());
 		if(nameLabel == null) nameLabel = new Label("Name");
 		if(!getEmbeddedState()){
 			add(nameLabel);
@@ -219,7 +219,7 @@ public class LObjImageView extends LabObjectView implements ActionListener
 		needCreateImageAfterRead = true;
 		super.close();
     	if(nameEdit != null){
-    		getLabObject().name = nameEdit.getText();
+    		getLabObject().setName(nameEdit.getText());
     	}
     }
 
@@ -257,8 +257,8 @@ public class LObjImageView extends LabObjectView implements ActionListener
 		}else{
 			imagePane.setRect(0,17);
 		}
-		lObj.name = fd.getFile();
-		nameEdit.setText(lObj.name);
+		lObj.setName(fd.getFile());
+		nameEdit.setText(lObj.getName());
     	
     }
     

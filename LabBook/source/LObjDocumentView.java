@@ -117,9 +117,9 @@ CCScrollBar				scrollBar;
 		showDone = sDone;
 
 		if(showName){
-			if(doc.name == null) doc.name = "";
+			if(doc.getName() == null) doc.setName("");
 			if(nameEdit == null) nameEdit = new Edit();
-			nameEdit.setText(doc.name);
+			nameEdit.setText(doc.getName());
 			if(nameLabel == null) nameLabel = new Label("Name");
 			if(getEmbeddedState()){
 				nameEditWasAdded = false;
@@ -180,7 +180,7 @@ CCScrollBar				scrollBar;
 	public void close(){
 		Debug.println("Got close in document");
 		if(showName){
-			doc.name = nameEdit.getText();
+			doc.setName(nameEdit.getText());
 		}
 		doc.text = tArea.getText();
 

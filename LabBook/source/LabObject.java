@@ -7,7 +7,7 @@ import org.concord.waba.extra.ui.*;
 
 public abstract class LabObject
 {
-    public String name = null;
+    private String name = null;
     public LabObjectPtr ptr;
     int objectType = -1;
 	public LabObjectFactory factory;
@@ -17,6 +17,9 @@ public abstract class LabObject
 	{
 		objectType = type;
 	}
+
+	public String getName(){ return name; }
+	public void setName(String name){ this.name = name; }
 
 	public void init(){}
 

@@ -35,7 +35,7 @@ public abstract class LObjSubDict extends LabObject
     public void store()
     {
 		if(dict != null){
-			dict.name = name;
+			dict.setName(getName());
 			dict.store();
 		}
 		super.store();
@@ -61,7 +61,7 @@ public abstract class LObjSubDict extends LabObject
 			}
 			dict.insert(obj, id);
 		} else {
-			Debug.println("Removing #" + id + " from dict: " + dict.name);
+			Debug.println("Removing #" + id + " from dict: " + dict.getName());
 			dict.remove(id);
 			dict.insert(obj, id);
 		}

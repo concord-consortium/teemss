@@ -45,7 +45,7 @@ public class LObjDictionaryProp extends LabObjectView
 		showDone = sDone;
 
 		add(nameLabel);
-		nameEdit.setText(dict.name);
+		nameEdit.setText(dict.getName());
 		add(nameEdit);
 
 		add(viewLabel);
@@ -88,7 +88,7 @@ public class LObjDictionaryProp extends LabObjectView
 		} else {
 			dict.viewType = dict.PAGING_VIEW;
 		}
-		dict.name = nameEdit.getText();
+		dict.setName(nameEdit.getText());
 
 		super.close();
 	}

@@ -34,7 +34,7 @@ public class LObjOutputSet extends LObjSubDict
 	public void init()
 	{
 		super.init();
-		name = "OutputSet";
+		setName("OutputSet");
     }
 
     public LObjOutputSet(boolean dud){

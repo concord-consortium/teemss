@@ -33,7 +33,7 @@ public class LObjDataCollector extends LObjSubDict
     public void init(){
     	super.init();
 		LObjGraph graph = DataObjFactory.createGraph();
-		graph.name = "..auto_title..";
+		graph.setName("..auto_title..");
 		graph.store();
 		setGraph(graph);
     }

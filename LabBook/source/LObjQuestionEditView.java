@@ -73,7 +73,7 @@ public class LObjQuestionEditView extends LabObjectView
 
 		if(showName){
 			nameEdit = new Edit();
-			nameEdit.setText(quest.dict.name==null?"question":quest.dict.name);
+			nameEdit.setText(quest.dict.getName()==null?"question":quest.dict.getName());
 			Label nameLabel = new Label("Name");
 			nameLabel.setRect(1, 1, 30, 15);
 			add(nameLabel);
@@ -147,7 +147,7 @@ public class LObjQuestionEditView extends LabObjectView
 			options.close();
 		}
 		if(showName){
-			quest.dict.name = nameEdit.getText();
+			quest.dict.setName(nameEdit.getText());
 		}
 		doc.close();
 		super.close();

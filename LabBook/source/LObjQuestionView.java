@@ -20,7 +20,7 @@ public class LObjQuestionView extends LabObjectView
 		super(vc);
 		quest = lq;
 		lObj = quest;
-		Debug.println("Opening QV for: " + lq.name);
+		Debug.println("Opening QV for: " + lq.getName());
     }
 
     public void onEvent(Event e)
@@ -47,7 +47,7 @@ public class LObjQuestionView extends LabObjectView
 		if(quest.outputSet.curOutput != null){
 			// There should be some answers for this question
 			int index = ((LObjDictionary)(quest.outputSet.mainObject)).getIndex(quest.dict);
-			Debug.println("Setting answer for " + quest.dict.name +  " #" + index + " in dict: " + 
+			Debug.println("Setting answer for " + quest.dict.getName() +  " #" + index + " in dict: " + 
 						  (LObjDictionary)(quest.outputSet.mainObject));
 			LObjDictionary dict = (LObjDictionary)(quest.outputSet.curOutput);
 			answer = dict.getObj((dict.getChildAt(index)));
@@ -185,13 +185,13 @@ public class LObjQuestionView extends LabObjectView
 
 		if(quest.outputSet.outputDict == null){
 			tmp = DefaultFactory.createDictionary();
-			tmp.name = "Answers";
+			tmp.setName("Answers");
 			quest.outputSet.setOutputDict(tmp);
 		}
 
 		if(quest.outputSet.curOutput == null){
 			tmp = DefaultFactory.createDictionary();
-			tmp.name = "Answers" + (quest.outputSet.outputDict.getChildCount() + 1);
+			tmp.setName("Answers" + (quest.outputSet.outputDict.getChildCount() + 1));
 			tmp.hideChildren = true;
 			quest.outputSet.newCurOutput(tmp);
 		}
@@ -201,7 +201,7 @@ public class LObjQuestionView extends LabObjectView
 			// make document for true or false
 			if(answer == null){		
 				answer =  DefaultFactory.createDocument();
-				answer.name = "*";
+				answer.setName("*");
 				((LObjDictionary)(quest.outputSet.curOutput)).add(answer);
 			}
 			if(radios[0].getChecked()){
@@ -214,7 +214,7 @@ public class LObjQuestionView extends LabObjectView
 			if(quest.options != null){
 				if(answer == null){		
 					answer =  DefaultFactory.createDictionary();
-					answer.name = "*";
+					answer.setName("*");
 					((LObjDictionary)(quest.outputSet.curOutput)).add(answer);
 				}
 		
@@ -231,7 +231,7 @@ public class LObjQuestionView extends LabObjectView
 		case LObjQuestion.ESSAY:
 			if(answer == null){		
 				answer = (LabObject) essay.getLabObject();
-				answer.name = "*";
+				answer.setName("*");
 				((LObjDictionary)(quest.outputSet.curOutput)).add(answer);
 			}	    
 			essay.close();

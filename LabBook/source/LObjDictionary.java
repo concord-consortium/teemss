@@ -121,7 +121,6 @@ public class LObjDictionary extends LabObject
 				objects.insert(index, lObjPtr);
 			} else {
 				objects.insert(index, lBook.store(newSD.dict));
-				newSD.dict.name = newSD.name;
 			}
 		} else {
 			objects.insert(index, lObjPtr);
@@ -225,12 +224,6 @@ public class LObjDictionary extends LabObject
 
 		if(ptr.objType == DefaultFactory.DICTIONARY){
 			LObjDictionary newDict = (LObjDictionary)lBook.load(ptr);
-			/*
-			if(newDict.hasMainObject){
-				LObjSubDict mainObj = newDict.getMainObjPtr();
-				newDict.name = mainObj.name;
-			}
-			*/
 			return (TreeNode)newDict;
 		} else if(hasMainObject && index == 0){
 			//			((LObjSubDict)obj).setDict(this);
@@ -256,7 +249,7 @@ public class LObjDictionary extends LabObject
 
 		// default
 		LabObjectPtr ptr = lBook.store(obj);
-		ptr.name = obj.name;
+		ptr.name = obj.getName();
 		return ptr;
     }
 
@@ -293,15 +286,8 @@ public class LObjDictionary extends LabObject
 			if(ptr.objType == DefaultFactory.DICTIONARY){
 				LObjDictionary newDict = (LObjDictionary)lBook.load(ptr);
 				children[i] = (TreeNode)newDict;
-				/*
-				if(newDict.hasMainObject){
-					LObjSubDict mainObj = newDict.getMainObj();
-					newDict.name = mainObj.name;
-				}
-				*/
 		    } else if(hasMainObject && 
 					  i == 0){
-				//				((LObjSubDict)obj).setDict(this);
 				ptr.name = "..main_obj..: " + ptr.name;
 				children[i] = ptr;
 		    } else {
@@ -385,25 +371,8 @@ public class LObjDictionary extends LabObject
 
     public String toString()
     {
-		/*
-		if(hasMainObject){
-			LObjSubDict mainObj = getMainObj();
-			if(mainObj != null){
-				if(mainObj.name == null){
-					// This is an old mainObj convert it
-					mainObj.name = name;
-					// probably want to put a store in here
-				} else {
-					name = mainObj.name;
-				}
-			} else {
-				return "..null_mainObj..";
-			}
-		} 
-		*/
-
-		if(name == null) return "..null_name..";
-		return name;
+		if(getName() == null) return "..null_name..";
+		return getName();
 		
     }
 }

@@ -137,7 +137,7 @@ public class LObjDataCollectorView extends LabObjectView
 			if(rootSources != null && rootSources.getCount() > 0 &&
 			   rootSources.get(0) instanceof LObjProbeDataSource){
 				LObjProbeDataSource pds = (LObjProbeDataSource)rootSources.get(0);
-				if(pds.name == "Force"){
+				if(pds.getName() == "Force"){
 					pds.zeroForce();
 				}
 			}
@@ -162,7 +162,7 @@ public class LObjDataCollectorView extends LabObjectView
 		if(rootSources != null && rootSources.getCount() > 0 &&
 		   rootSources.get(0) instanceof LObjProbeDataSource){
 			LObjProbeDataSource pds = (LObjProbeDataSource)rootSources.get(0);
-			if(pds.name == "Force"){
+			if(pds.getName() == "Force"){
 				gv.addTool(this, "Zero Force Probe");				
 			}
 		}
@@ -219,7 +219,7 @@ public class LObjDataCollectorView extends LabObjectView
 		title2Label.setRect(xPos, gt_height/2, width-xPos, gt_height/2);
 		doneB.setRect(width-27, 0, 27, gt_height/2);
 
-		setTitle1(dc.name);
+		setTitle1(dc.getName());
 
     }
 

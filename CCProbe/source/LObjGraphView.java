@@ -185,7 +185,7 @@ public class LObjGraphView extends LabObjectView
 		showDone = sDone;
 
 		if(sTitle){
-			titleLabel = new Label(graph.name, Label.CENTER);
+			titleLabel = new Label(graph.getName(), Label.CENTER);
 			add(titleLabel);
 		}
 

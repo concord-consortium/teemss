@@ -144,7 +144,7 @@ public class LObjDictPagingView extends LabObjectView
 					} else {
 						return;
 					}
-					newObj.name = "New" + newIndex;
+					newObj.setName("New" + newIndex);
 					newIndex++;
 					dict.insert(newObj, index);
 					childArray = dict.childArray();
@@ -210,7 +210,7 @@ public class LObjDictPagingView extends LabObjectView
 				return;
 			}
 	    
-			obj.name = "New" + newIndex;
+			obj.setName("New" + newIndex);
 			newIndex++;
 			dict.insert(obj, 0);
 			childArray = dict.childArray();

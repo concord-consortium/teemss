@@ -1284,7 +1284,7 @@ private CCStringWrapper textWasChosen = null;
 		}
 		LabObjectView objView = (LabObjectView)compDesc.getObject();
 		if(objView == null) return;
-		String name = objView.getLabObject().name;
+		String name = objView.getLabObject().getName();
 		if(currObjPropControl == null){
 			currObjPropControl = new EmbedObjectPropertyControl(null,name);
 			currObjPropControl.layout(true);

@@ -28,9 +28,9 @@ public int bColor = 255;
 
 	public void onPaint(Graphics g)
 	{
-		if(lObj != null && lObj.name != null){
+		if(lObj != null && lObj.getName() != null){
 			g.setColor(rColor,gColor,bColor);
-			g.drawText(lObj.name, 0, 0);
+			g.drawText(lObj.getName(), 0, 0);
 			FontMetrics fm = getFontMetrics(MainWindow.defaultFont);
 			int lineY = fm.getHeight()+1;
 			g.drawLine(0,lineY, width, lineY);
@@ -43,9 +43,9 @@ public int bColor = 255;
 
 	public int getPreferredWidth()
 	{
-		if(lObj != null && lObj.name != null){
+		if(lObj != null && lObj.getName() != null){
 			FontMetrics fm = getFontMetrics(MainWindow.defaultFont);
-			return fm.getTextWidth(lObj.name);
+			return fm.getTextWidth(lObj.getName());
 		}
 
 		return -1;
@@ -53,7 +53,7 @@ public int bColor = 255;
 
 	public int getPreferredHeight()
 	{
-		if(lObj != null && lObj.name != null){
+		if(lObj != null && lObj.getName() != null){
 			FontMetrics fm = getFontMetrics(MainWindow.defaultFont);
 			return fm.getHeight()+2;
 		}

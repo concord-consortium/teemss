@@ -284,13 +284,13 @@ public class LObjDictionaryView extends LabObjectView
 	       
 				TreeNode selObj = treeControl.getSelected();
 				if(selObj == null){
-					dict.name = (String)e.getInfo();
+					dict.setName((String)e.getInfo());
 					return;
 				}
 
 				LabObject obj = dict.getObj(selObj);
 				if(obj != null){
-					obj.name = (String)e.getInfo();
+					obj.setName((String)e.getInfo());
 					obj.store();
 					if(!dict.lBook.commit()){
 						// error (what to do)
@@ -350,12 +350,12 @@ public class LObjDictionaryView extends LabObjectView
 				String [] buttons = {"Cancel", "Ok"};
 				if(selObj != null){
 				    if(selObj.toString().equals("..empty..")) return;
-				    rnDialog = Dialog.showInputDialog(this, "Rename Object", "New Name:                ",
-								      buttons,Dialog.EDIT_INP_DIALOG,null,selObj.toString());
+				    rnDialog = Dialog.showInputDialog(this, "Rename Object", 
+													  "New Name:                ",
+													  buttons,Dialog.EDIT_INP_DIALOG,null,
+													  selObj.toString());
 				} else {
 					waba.fx.Sound.beep();
-//				    rnDialog = Dialog.showInputDialog(this, "Rename Parent", "Old Name was " + dict.name,
-//								      buttons,Dialog.EDIT_INP_DIALOG,null,dict.name);
 				}
 		    } else if(e.getActionCommand().equals("Import..")){
 				FileDialog fd = FileDialog.getFileDialog(FileDialog.FILE_LOAD, null);
@@ -385,7 +385,7 @@ public class LObjDictionaryView extends LabObjectView
 				    LabObject obj = parent.getObj(curNode);
 				    
 				    FileDialog fd = FileDialog.getFileDialog(FileDialog.FILE_SAVE, null);
-				    fd.setFile(obj.name);
+				    fd.setFile(obj.getName());
 				    fd.show();
 
 				    LabBookFile lbFile = new LabBookFile(fd.getFilePath());

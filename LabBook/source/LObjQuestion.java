@@ -29,7 +29,7 @@ public class LObjQuestion extends LObjSubDict
 		LObjOutputSet output = DefaultFactory.createOutputSet();
 
 		LObjDictionary qsDict = DefaultFactory.createDictionary();
-		qsDict.name = "Questions";
+		qsDict.setName("Questions");
 		qsDict.viewType = qsDict.PAGING_VIEW;
 		output.setMainObject((LabObject)qsDict);
 
@@ -96,7 +96,7 @@ public class LObjQuestion extends LObjSubDict
     public void setOptions(LObjDictionary opts)
     {
 		options = opts;
-		opts.name = "Choices";
+		opts.setName("Choices");
 		setObj(opts, 2);
     }
 
@@ -111,7 +111,7 @@ public class LObjQuestion extends LObjSubDict
 		if(questionText == null){
 			// Need
 			questionText = DefaultFactory.createDocument();
-			questionText.name = "Text";
+			questionText.setName("Text");
 			setObj(questionText, 1);
 		}
 		return questionText;

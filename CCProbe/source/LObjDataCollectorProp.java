@@ -32,7 +32,7 @@ public class LObjDataCollectorProp extends LabObjectView
 		probeQuantities = new PropObject[probeNames.length];
 
 		mainProps = new PropContainer("Main");
-		nameProp = new PropObject("Name", "Name", 0, dc.name);
+		nameProp = new PropObject("Name", "Name", 0, dc.getName());
 		nameProp.prefWidth = 120;
 		mainProps.addProperty(nameProp);
 
@@ -181,7 +181,7 @@ public class LObjDataCollectorProp extends LabObjectView
 			}
 			graph.store();
 
-			dc.name = nameProp.getValue();
+			dc.setName(nameProp.getValue());
 
 			// to be safe
 			((DataSource)dataSources.get(0)).closeEverything();

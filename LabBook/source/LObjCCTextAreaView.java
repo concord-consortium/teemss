@@ -181,8 +181,8 @@ CCScrollBar				scrollBar;
 		boolean editMode = tArea.getEditMode();
 		if(insertButtonAdded != editMode){
 			if(nameEdit != null && nameEditAsLabel != null){
-				doc.name = nameEdit.getText();
-				nameEditAsLabel.setText(doc.name);
+				doc.setName(nameEdit.getText());
+				nameEditAsLabel.setText(doc.getName());
 			}
 			didLayout = false;
 			waba.fx.Rect r = getRect();
@@ -240,9 +240,9 @@ CCScrollBar				scrollBar;
 
 		showDone = sDone;
 		if(nameEdit == null) nameEdit = new Edit();
-		if(nameEditAsLabel == null) nameEditAsLabel = new Label(getLabObject().name);
+		if(nameEditAsLabel == null) nameEditAsLabel = new Label(getLabObject().getName());
 		
-		nameEdit.setText(getLabObject().name);
+		nameEdit.setText(getLabObject().getName());
 		if(nameLabel == null) nameLabel = new Label("Name");
 		if(nameEditWasAdded) 		remove(nameEdit);
 		if(nameEditAsLabelWasAdded) remove(nameEditAsLabel);
@@ -355,7 +355,7 @@ CCScrollBar				scrollBar;
 		tArea.close();
 		if(getViewType() == LObjDictionary.TREE_VIEW){
     		if(nameEdit != null){
-    			getLabObject().name = nameEdit.getText();
+    			getLabObject().setName(nameEdit.getText());
     		}
 		}
 

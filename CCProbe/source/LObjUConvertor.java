@@ -116,7 +116,7 @@ class LObjUConvertorView extends LabObjectView
 			doneButtonWasAdded = true;
 		}
 		if(nameEdit == null) nameEdit = new Edit();
-		nameEdit.setText(getLabObject().name);
+		nameEdit.setText(getLabObject().getName());
 		if(nameLabel == null) nameLabel = new Label("Name");
 		if(getEmbeddedState()){
 			nameEditWasAdded = false;
@@ -331,7 +331,7 @@ class LObjUConvertorView extends LabObjectView
 */
     	super.close();
     	if(nameEdit != null){
-    		getLabObject().name = nameEdit.getText();
+    		getLabObject().setName(nameEdit.getText());
     	}
     }
 

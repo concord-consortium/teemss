@@ -233,7 +233,7 @@ public class LObjGraph extends LObjSubDict
 
 	public void store()
 	{
-		if(autoTitle) name = "..auto_title..";
+		if(autoTitle) setName("..auto_title..");
 		
 		super.store();
 	}
@@ -269,7 +269,7 @@ public class LObjGraph extends LObjSubDict
 		}
 		
 		
-		if(name != null && name.equals("..auto_title..")){
+		if(getName() != null && getName().equals("..auto_title..")){
 			autoTitle = true;
 		} 			
 		// little white hack
@@ -397,7 +397,7 @@ public class LObjGraph extends LObjSubDict
 		LObjDataSet dSet = DataObjFactory.createDataSet();
 
 		LObjGraph dsGraph = (LObjGraph)copy();
-		dsGraph.name = "Graph";
+		dsGraph.setName("Graph");
 
 		dSet.setDataViewer(dsGraph);
 		dSet.clearAnnots();

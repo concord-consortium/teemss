@@ -169,7 +169,7 @@ CCUnit		currentUnit = null;
 		}
 		this.probe = probe;
 		setUnit();
-		name = (probe == null)?null:probe.getName();
+		setName((probe == null)?null:probe.getName());
 		if(this.probe != null){
 			this.probe.addProbListener(this);
 		}

@@ -117,7 +117,7 @@ public class CCProbe extends ExtraMainWindow
 		loDict = (LObjDictionary)labBook.load(labBook.getRoot());
 		if(loDict == null){
 			loDict = DefaultFactory.createDictionary();
-			loDict.name = "Root";
+			loDict.setName("Root");
 			labBook.store(loDict);
 
 		}
@@ -252,9 +252,9 @@ public class CCProbe extends ExtraMainWindow
 
 		if(newObj != null){
 			if(newIndex == 0){
-				newObj.name = objType;		    
+				newObj.setName(objType);		    
 			} else {
-				newObj.name = objType + " " + newIndex;		    
+				newObj.setName(objType + " " + newIndex);		    
 			}
 			newIndex++;
 			dView.insertAtSelected(newObj);
