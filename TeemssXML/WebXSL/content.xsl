@@ -171,6 +171,16 @@ width="158" height="140" border="1"/>
 </xsl:template>
 
 <xsl:template match="query-response">
+<xsl:variable name="section_id">
+<xsl:value-of select="generate-id(ancestor::*[../../investigation])"/>
+</xsl:variable>
+<h2>number in investigation( 
+<xsl:value-of select="generate-id(ancestor::*[../../investigation])"/>,
+<xsl:value-of select="$section_id"/>):
+<xsl:number level="any" 
+count="query-response[generate-id(ancestor::*[../../investigation]) = $section_id]"/>
+</h2>
+
 <p>
 <xsl:apply-templates/>
 </p>

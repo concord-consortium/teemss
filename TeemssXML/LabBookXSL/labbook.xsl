@@ -447,7 +447,6 @@
   </xsl:element>
 </xsl:template>
 
-
 <xsl:template match="ext-image-sequence">
   <xsl:apply-templates/>
 </xsl:template>
@@ -460,7 +459,7 @@
     <xsl:element name="IMAGE">
       <xsl:attribute name="ID">Image_<xsl:number level="any"/>       
       </xsl:attribute>
-      <xsl:attribute name="name">PALM_TINY_<xsl:value-of select="../@name"/>.bmp</xsl:attribute>
+      <xsl:attribute name="name"> </xsl:attribute>
       <xsl:attribute name="url">../images/<xsl:value-of select="ancestor::unit/@name"/>/<xsl:value-of select="ancestor::investigation/@name"/>/<xsl:value-of select="@name"/>/PALM_TINY_<xsl:value-of select="@name"/>.bmp</xsl:attribute>
     </xsl:element>
   </xsl:element>

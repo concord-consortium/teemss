@@ -762,7 +762,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. Mark the axle line. It is 8cm from the other end of the cart and perpendicular to the long side. You can use the corner of a piece of paper to make a perpendicular line.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>2. Glue the straw to the axle line with hot-melt glue. Let it stick out on either side.</SNPARAGRAPH>
+<SNPARAGRAPH>2. Glue the straw to the axle line with hot-melt glue.Let it stick out on either side.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>3. Cut off each end of the straw a bit longer than the cardboard.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -910,7 +910,7 @@ projects contributing to the development of CCProbeware are:
 <EMBOBJ>
 <IMAGE ID="Image_29" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Air_Cart/10d_rampEnd/PALM_TINY_10d_rampEnd.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>2. To use the ramp, you will need to prop one end up with books. One simple way to measure the slope of the ramp is to give the ratio of the height of one end to the length. Thus, if the ramp end is raised 10cm and it is 1 meter long, its slope is about 1:10, or 10 percent. Don't raise it muchmore than this. The cart will go too fast!</SNPARAGRAPH>
+<SNPARAGRAPH>2. To use the ramp, you will need to prop one end up with books. One simple way to measure the slope of the ramp is to give the ratio of the height of one end to the length. Thus, if the ramp end is raised 10cm and it is 1 meter long, its slope is about 1:10, or 10 percent. Don't raise it much more than this. The cart will go too fast!</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>HINT: How should you measure how far "up" the cart is when you release it? The distance along the ramp from its bottom edge to the rear wheels of the cart is a good measure.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -979,7 +979,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH linkcolor="000F0F">What does a graph of the motion of a low-friction cart look like?</SNPARAGRAPH>
 <EMBOBJ>
-<IMAGE ID="Image_32" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Tracker/smallSmartCart/PALM_TINY_smallSmartCart.bmp"/>
+<IMAGE ID="Image_36" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Tracker/smallSmartCart/PALM_TINY_smallSmartCart.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>In this activity you will explore the relationship between the movement of a cart and the shapes of the resulting position and velocity graphs.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1002,7 +1002,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_33" name="PALM_TINY_think.bmp" url="../images/Motions_and_Forces/Tracker/05_tr_graph/PALM_TINY_05_tr_graph.bmp"/>
+<IMAGE ID="Image_37" name="PALM_TINY_think.bmp" url="../images/Motions_and_Forces/Tracker/05_tr_graph/PALM_TINY_05_tr_graph.bmp"/>
 </EMBOBJ>
 </SUPERNOTES>
 <SUPERNOTES name="Materials" ID="Tracker-materials">
@@ -1046,9 +1046,9 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_34" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Tracker/01a_swTaped2/PALM_TINY_01a_swTaped2.bmp"/>
+<IMAGE ID="Image_38" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Tracker/01a_swTaped2/PALM_TINY_01a_swTaped2.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>2. Place a piece of masking tape on the floor to make a straight line 2-3m long. You will use this line when navigating your SmartWheel.</SNPARAGRAPH>
+<SNPARAGRAPH>2. Place a piece of masking tape on the floor to make a straight line at least 3m long. You will use this line when navigating your SmartWheel.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>3. Connect the SmartWheel to your handheld computer. Refer to Technical Hints to see how to connect the cables.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1057,7 +1057,7 @@ projects contributing to the development of CCProbeware are:
 <EMBOBJ object="dc-smartwheel-pos1" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_35" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Tracker/02_swOnWand/PALM_TINY_02_swOnWand.bmp"/>
+<IMAGE ID="Image_39" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Tracker/02_swOnWand/PALM_TINY_02_swOnWand.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>5. With your team member, take turns practicing making the following motions until you have all four motions on the same graph, one after the other.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1090,13 +1090,13 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_36" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Tracker/03A_tr/PALM_TINY_03A_tr.bmp"/>
+<IMAGE ID="Image_40" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Tracker/03a_tr/PALM_TINY_03a_tr.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>4. Practice pulling the cart while draping the connecting cable above the cart so that it doesn't pull the cart one way or the other. One person will need to walk alongside the cart while carrying the handheld computer and keeping the wire from obstructing the movement of the cart as it moves in a straight line.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_37" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Tracker/03b_tr/PALM_TINY_03b_tr.bmp"/>
+<IMAGE ID="Image_41" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Tracker/03b_tr/PALM_TINY_03b_tr.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>5. Predict the resulting graphs for each of the following motions in Notes on your handheld computer. </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1148,7 +1148,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_38" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Tracker/04_tr2/PALM_TINY_04_tr2.bmp"/>
+<IMAGE ID="Image_42" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Tracker/04_tr2/PALM_TINY_04_tr2.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>6. Look at your position versus time graph. How do you know that your cart slowed down? Did it slow down at the same rate for the entire 5 seconds? If not, when and why did the rate change? </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1196,7 +1196,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH linkcolor="000F0F">What are the effects of friction on the motion of the propeller-driven cart?</SNPARAGRAPH>
 <EMBOBJ>
-<IMAGE ID="Image_39" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/propellerCartRev/PALM_TINY_propellerCartRev.bmp"/>
+<IMAGE ID="Image_43" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/propellerCartRev/PALM_TINY_propellerCartRev.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>In this activity you will investigate how friction and the driving force of a propeller mounted on an air cart oppose one another.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1213,7 +1213,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <EMBOBJ object="Propeller_think_23_1" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>Picture a propeller or fan blowing air. Think about how the accelerating air from the propeller relates to your description of the forces found during a sneeze in space. What is accelerating the air? Will your almost frictionless cart move when the propeller is turned on? Will it still move when you add more friction? Use arrows to draw the forces that will make the cart move? </SNPARAGRAPH>
+<SNPARAGRAPH>Picture a propeller or fan blowing air. Think about how the accelerating air from the propeller relates to your description of the forces found during a sneeze in space. What is accelerating the air? Will your almost frictionless cart move when the propeller is turned on? Will it still move when you add more friction? What are the forces that will make the cart move? </SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ object="Propeller_think_24_2" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH/>
@@ -1263,13 +1263,13 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_40" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/02_pr/PALM_TINY_02_pr.bmp"/>
+<IMAGE ID="Image_44" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/02_pr/PALM_TINY_02_pr.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>2. Press the propeller onto the shaft of the motor. The white dab of paint should face toward the motor.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_41" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/01a_pr/PALM_TINY_01a_pr.bmp"/>
+<IMAGE ID="Image_45" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/01a_pr/PALM_TINY_01a_pr.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>3. Turn the propeller with your finger. Look at its shape. How can you tell which way the air will blow? </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1278,13 +1278,13 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_42" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/03a_motorWire/PALM_TINY_03a_motorWire.bmp"/>
+<IMAGE ID="Image_46" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/03a_motorWire/PALM_TINY_03a_motorWire.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>If the propeller doesn't blow away from the cart, reverse the wires.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_43" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/03b_motorWire_rev/PALM_TINY_03b_motorWire_rev.bmp"/>
+<IMAGE ID="Image_47" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/03b_motorWire_rev/PALM_TINY_03b_motorWire_rev.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>5.  Was your prediction correct? If not, write a better explanation. </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1304,7 +1304,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_44" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/07_pr/PALM_TINY_07_pr.bmp"/>
+<IMAGE ID="Image_48" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/07_pr/PALM_TINY_07_pr.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>3. Start the software and observe the position versus time graph.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1324,28 +1324,31 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_45" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/01b_pr/PALM_TINY_01b_pr.bmp"/>
+<IMAGE ID="Image_49" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/01b_pr/PALM_TINY_01b_pr.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>2. Build a sled to drag behind the cart. Fold up one end of a file card. Make a loop of thread about 20cm long and tape one end of it to the file card.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_46" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/08_pr/PALM_TINY_08_pr.bmp"/>
+<IMAGE ID="Image_50" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/08_pr/PALM_TINY_08_pr.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>3. Hook the loop over the bumper. Use clay to add weight to the sled.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_47" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/09_pr/PALM_TINY_09_pr.bmp"/>
+<IMAGE ID="Image_51" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/09_pr/PALM_TINY_09_pr.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>4. Connect the SmartWheel to your handheld computer. Refer to Technical Hints to see how to connect the SmartWheel.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>5. Start the software to measure velocity. Make the following three measurements one after another with the graph running. You will then have all of your data on one graph, and you can analyze it. Note: because the cart is going backwards, the velocity graph will be upside down.</SNPARAGRAPH>
+<SNPARAGRAPH>5. Start the software to measure velocity. Make the following measurements one after another with the graph running. You will then have all of your data on one graph, and you can analyze it.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ object="dc-smartwheel-vel1" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH indent="2">a. With no weight on the sled, start the motor and let the cart go for about 3m.</SNPARAGRAPH>
-<SNPARAGRAPH indent="2">b. Put some clay on the sled and hook it onto the bumper. Give the cart a push so that it rolls to a stop after about 3m.</SNPARAGRAPH>
-<SNPARAGRAPH indent="2">c. With the clay still on the sled, start the motor and let the cart go for about 3m.</SNPARAGRAPH>
+<SNPARAGRAPH indent="2">a. With no weight on the sled, give the cart a gentle push so that it rolls to a stop after about 2m.</SNPARAGRAPH>
+<SNPARAGRAPH indent="2">b. Start the motor and let the cart go for about 2m.</SNPARAGRAPH>
+<SNPARAGRAPH indent="2">c. Put some clay on the sled and hook it onto the bumper. Give the cart a push so that it rolls to a stop after about 2m.</SNPARAGRAPH>
+<SNPARAGRAPH indent="2">d. With the clay still on the sled, start the motor and let the cart go for about 2m.</SNPARAGRAPH>
+<SNPARAGRAPH indent="2">e. Approximately double the amount of clay on the sled, but not so much that the cart won't move! Give the cart a push so that it rolls to a stop after about 2m.</SNPARAGRAPH>
+<SNPARAGRAPH indent="2">f. With the amount of clay still doubled, start the motor and let the cart go for about 2m.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>6. Save the data to your handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1374,11 +1377,14 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>4. Look at your velocity versus time graph in Trial III. For each case, describe the graph and then write why you think it has that shape. </SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH indent="2">a. no friction, push cart</SNPARAGRAPH>
-<SNPARAGRAPH indent="2">b. add friction, push cart</SNPARAGRAPH>
-<SNPARAGRAPH indent="2">c. add friction, run propeller</SNPARAGRAPH>
+<SNPARAGRAPH indent="2">b. no friction, propeller</SNPARAGRAPH>
+<SNPARAGRAPH indent="2">c. some friction, push cart</SNPARAGRAPH>
+<SNPARAGRAPH indent="2">d. some friction, propeller</SNPARAGRAPH>
+<SNPARAGRAPH indent="2">e. more friction, push cart</SNPARAGRAPH>
+<SNPARAGRAPH indent="2">f. more friction, propeller</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ object="Propeller_analysis_32_4" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>5.  Do you think the graphs are evidence that friction exerts a force like the propeller, but in the opposite direction? </SNPARAGRAPH>
+<SNPARAGRAPH>5.  Do you think the graphs are evidence that friction exerts a force like the propeller, but in theopposite direction? </SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ object="Propeller_analysis_33_5" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH>6. The rate of change of velocity is the slope of the velocity versus time graph. What is happening to the cart when the slope of the velocity graph is not zero? What is done to the cart to increase or decrease its rate of change of velocity? </SNPARAGRAPH>
@@ -1398,7 +1404,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH linkcolor="000F0F">What happens when two objects collide?</SNPARAGRAPH>
 <EMBOBJ>
-<IMAGE ID="Image_48" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/wallCollision/PALM_TINY_wallCollision.bmp"/>
+<IMAGE ID="Image_52" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/wallCollision/PALM_TINY_wallCollision.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>In this activity you will investigate what happens during a collision of a cart with a wall.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1463,25 +1469,25 @@ projects contributing to the development of CCProbeware are:
 <EMBOBJ object="dc-force1" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_49" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/01a_c1/PALM_TINY_01a_c1.bmp"/>
+<IMAGE ID="Image_53" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/01a_c1/PALM_TINY_01a_c1.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>4. Try weighing something light, such as a pen hooked on with a paper clip. Expand the force scale so that you can see the change in weight. What is the smallest weight that you can measure?</SNPARAGRAPH>
+<SNPARAGRAPH>4. Try weighing something light, such as a paper clip hooked to a pen. Expand the force scale so that you can see the change in weight. What is the smallest weight that you can measure?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>5. Clear the graph and change the y-axis scale to read from 0 to 20N. Weigh something heavier, like a book. Note that the units are in newtons, not kilograms. What is the difference between newtons and kilograms? </SNPARAGRAPH>
+<SNPARAGRAPH>5. Weigh something heavy, like a book. Note that the units are in newtons, not kilograms. What is the difference between newtons and kilograms? </SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ object="Collision_I_trial_36_1" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH>6. Use a paper clip to make a hook so that you can hang the cart from the Force probe. It can be hooked to the bumper, around the propeller, or through the cardboard.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_50" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/01b_c1/PALM_TINY_01b_c1.bmp"/>
+<IMAGE ID="Image_54" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/01b_c1/PALM_TINY_01b_c1.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>7. Clear the graph. Start recording with the software for force. Hang the cart from the Force probe for 10 seconds. Remove it and check that the force goes back to zero. Stop recording and save your data.</SNPARAGRAPH>
+<SNPARAGRAPH>7. Start recording with the software for force. Hang the cart from the Force probe for 10 seconds. Remove it and check that the force goes back to zero. Stop recording and save your data.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>8.  What was the average value for the weight of the cart? How steady was your reading? How much did it vary and why? </SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ object="Collision_I_trial_37_2" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>9.  If you hang thecart with a rubber band and weigh it, will it be the same? Try it. </SNPARAGRAPH>
+<SNPARAGRAPH>9.  If you hang the cart with a rubber band and weigh it, will it be the same? Try it. </SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ object="Collision_I_trial_38_3" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH>10.  What variations do you get? Can you get a steady reading? </SNPARAGRAPH>
@@ -1503,13 +1509,13 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_52" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/05a_cartPush/PALM_TINY_05a_cartPush.bmp"/>
+<IMAGE ID="Image_56" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/05a_cartPush/PALM_TINY_05a_cartPush.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>2. Make sure the motor and propeller are set for pushing the cart. The white dot on the propeller should be toward the motor.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_53" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/01a_pr/PALM_TINY_01a_pr.bmp"/>
+<IMAGE ID="Image_57" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/01a_pr/PALM_TINY_01a_pr.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>3. Connect the Force probe to your handheld computer. Refer to Technical Hints to see how to connect the cables.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1522,7 +1528,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_54" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/02_c1/PALM_TINY_02_c1.bmp"/>
+<IMAGE ID="Image_58" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/02_c1/PALM_TINY_02_c1.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>7. Start the propeller motor. Use the springiness of the wires to hold them lightly in place.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1552,19 +1558,19 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_55" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/05a_cartPush/PALM_TINY_05a_cartPush.bmp"/>
+<IMAGE ID="Image_59" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/05a_cartPush/PALM_TINY_05a_cartPush.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>3. Cut a long rubber band to make a bungee cord. Attach one end to the Force probe and the other end to the cart. Use several rubber bands if needed so that the cord is about 1/2m long.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_56" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/03_c1/PALM_TINY_03_c1.bmp"/>
+<IMAGE ID="Image_60" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/03_c1/PALM_TINY_03_c1.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>4. Line up the cart with the Force probe, with the rubber band lying loosely between them. Hook things together with paper clips.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_57" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/04_c1/PALM_TINY_04_c1.bmp"/>
+<IMAGE ID="Image_61" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/04_c1/PALM_TINY_04_c1.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>5. Start the software. Start recording the force. Give the cart a push so that it stretches the bungee cord and then bounces back. Catch it before it hits the Force probe. Stop recording. Observe the behavior of the acrobat.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1623,7 +1629,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH linkcolor="000F0F">When two objects hit, is the force on one the same as the force on the other?</SNPARAGRAPH>
 <EMBOBJ>
-<IMAGE ID="Image_58" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/2cartCollision/PALM_TINY_2cartCollision.bmp"/>
+<IMAGE ID="Image_62" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/2cartCollision/PALM_TINY_2cartCollision.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>In this activity you will investigate what happens during a collision between two carts.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1688,7 +1694,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_59" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/01a_c2/PALM_TINY_01a_c2.bmp"/>
+<IMAGE ID="Image_63" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/01a_c2/PALM_TINY_01a_c2.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>3. Connect each Force probe to its own handheld computer. Refer to Technical Hints to see how to connect the cables.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1719,31 +1725,31 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_60" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/02a_c2/PALM_TINY_02a_c2.bmp"/>
+<IMAGE ID="Image_64" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/02a_c2/PALM_TINY_02a_c2.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>3. Punch two holes in the cardboard with your pen or pencil. Enlarge them from both sides so that a screw will just fit through.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_61" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/02b_c2/PALM_TINY_02b_c2.bmp"/>
+<IMAGE ID="Image_65" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/02b_c2/PALM_TINY_02b_c2.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>4. Put the two screws first through the cardboard from the underside, and then screw them into the Force probe plate. Tighten them until the heads squeeze the cardboard a little bit. A paper clip will work as a screwdriver.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_62" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/02c_c2/PALM_TINY_02c_c2.bmp"/>
+<IMAGE ID="Image_66" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/02c_c2/PALM_TINY_02c_c2.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>5. Unscrew the larger eyebolt and set it aside. Glue the bumper on the smaller eyebolt.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_63" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/02d_c2/PALM_TINY_02d_c2.bmp"/>
+<IMAGE ID="Image_67" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/02d_c2/PALM_TINY_02d_c2.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>6. Connect the Force probe to your handheld computer. Refer to Technical Hints to see how to connect the cables.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_64" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/03a_c2/PALM_TINY_03a_c2.bmp"/>
+<IMAGE ID="Image_68" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/03a_c2/PALM_TINY_03a_c2.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>7. Predict what the force graphs will look like if you roll the two carts toward each other. What if they have about the same velocity? What if you roll one cart toward the other which is not moving? </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1757,7 +1763,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_65" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/04a_c2/PALM_TINY_04a_c2.bmp"/>
+<IMAGE ID="Image_69" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/04a_c2/PALM_TINY_04a_c2.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>11. Start recording. Push the carts toward each other at about the same velocity, and let them bounce back.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1784,7 +1790,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_66" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/04b_c2/PALM_TINY_04b_c2.bmp"/>
+<IMAGE ID="Image_70" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/04b_c2/PALM_TINY_04b_c2.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>5. Try this again several times. When you get a good run, save your data to the handheld.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -2414,12 +2420,22 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. What is accelerating the air?</SNPARAGRAPH>
 <SNPARAGRAPH/>
+<EMBOBJ w="140" h="100">
+<DRAWING ID="query_drawing_55" name="think1"/>
+</EMBOBJ>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
 <NOTES ID="query_note_55" name="query_note_55"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. Will your almost frictionless cart move when the propeller is turned on?</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="100">
+<DRAWING ID="query_drawing_56" name="think2"/>
+</EMBOBJ>
+<SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
 <NOTES ID="query_note_56" name="query_note_56"/>
@@ -2428,15 +2444,25 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH>3. Will it still move when you add more friction?</SNPARAGRAPH>
 <SNPARAGRAPH/>
+<EMBOBJ w="140" h="100">
+<DRAWING ID="query_drawing_57" name="think3"/>
+</EMBOBJ>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
 <NOTES ID="query_note_57" name="query_note_57"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>4. Use arrows to draw the forces that will make the cart move?</SNPARAGRAPH>
+<SNPARAGRAPH>4. What are the forces that will make the cart move?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="100">
 <DRAWING ID="query_drawing_58" name="think4"/>
+</EMBOBJ>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="60">
+<NOTES ID="query_note_58" name="query_note_58"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -2584,7 +2610,7 @@ projects contributing to the development of CCProbeware are:
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>2. add friction, push cart</SNPARAGRAPH>
+<SNPARAGRAPH>2. no friction, propeller</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="100">
 <DRAWING ID="query_drawing_71" name="analysis2"/>
@@ -2596,7 +2622,7 @@ projects contributing to the development of CCProbeware are:
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>3. add friction, run propeller</SNPARAGRAPH>
+<SNPARAGRAPH>3. some friction, push cart</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="100">
 <DRAWING ID="query_drawing_72" name="analysis3"/>
@@ -2608,16 +2634,52 @@ projects contributing to the development of CCProbeware are:
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
+<SNPARAGRAPH>4. some friction, propeller</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="100">
+<DRAWING ID="query_drawing_73" name="analysis4"/>
+</EMBOBJ>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="60">
+<NOTES ID="query_note_73" name="query_note_73"/>
+</EMBOBJ>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>5. more friction, push cart</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="100">
+<DRAWING ID="query_drawing_74" name="analysis5"/>
+</EMBOBJ>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="60">
+<NOTES ID="query_note_74" name="query_note_74"/>
+</EMBOBJ>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>6. more friction, propeller</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="100">
+<DRAWING ID="query_drawing_75" name="analysis6"/>
+</EMBOBJ>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="60">
+<NOTES ID="query_note_75" name="query_note_75"/>
+</EMBOBJ>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Propeller_analysis_33_5" name="analysis 5 explain opposite">
 <EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF"> </SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>1. Do you think the graphs are evidence that friction exerts a force like the propeller, but in the opposite direction?</SNPARAGRAPH>
+<SNPARAGRAPH>1. Do you think the graphs are evidence that friction exerts a force like the propeller, but in theopposite direction?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_73" name="query_note_73"/>
+<NOTES ID="query_note_76" name="query_note_76"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -2630,14 +2692,14 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. What is happening to the cart when the slope of the velocity graph is not zero?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_74" name="query_note_74"/>
+<NOTES ID="query_note_77" name="query_note_77"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. What is done to the cart to increase or decrease its rate of change of velocity?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_75" name="query_note_75"/>
+<NOTES ID="query_note_78" name="query_note_78"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -2654,12 +2716,12 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. How would you increase or decrease the forces during a collision?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="100">
-<DRAWING ID="query_drawing_76" name="think1"/>
+<DRAWING ID="query_drawing_79" name="think1"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_76" name="query_note_76"/>
+<NOTES ID="query_note_79" name="query_note_79"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -2669,12 +2731,12 @@ projects contributing to the development of CCProbeware are:
 <FOLDER ID="Collision_I_trial_I_response" name="Trial I Responses      &#10;    ">
 <SUPERNOTES ID="Collision_I_trial_36_1" name="trial 1 explain newtons">
 <EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">Clear the graph and change the y-axis scale to read from 0 to 20N. Weigh something heavier, like a book. Note that the units are in newtons, not kilograms. </SNPARAGRAPH>
+<SNPARAGRAPH linkcolor="0000FF">Weigh something heavy, like a book. Note that the units are in newtons, not kilograms. </SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. What is the difference between newtons and kilograms?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_77" name="query_note_77"/>
+<NOTES ID="query_note_80" name="query_note_80"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -2687,21 +2749,21 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. What was the average value for the weight of the cart?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_78" name="query_note_78"/>
+<NOTES ID="query_note_81" name="query_note_81"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. How steady was your reading?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_79" name="query_note_79"/>
+<NOTES ID="query_note_82" name="query_note_82"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>3. How much did it vary and why?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_80" name="query_note_80"/>
+<NOTES ID="query_note_83" name="query_note_83"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -2711,10 +2773,10 @@ projects contributing to the development of CCProbeware are:
 <EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF"> </SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>1. If you hang thecart with a rubber band and weigh it, will it be the same? Try it.</SNPARAGRAPH>
+<SNPARAGRAPH>1. If you hang the cart with a rubber band and weigh it, will it be the same? Try it.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_81" name="query_note_81"/>
+<NOTES ID="query_note_84" name="query_note_84"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -2727,14 +2789,14 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. What variations do you get?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_82" name="query_note_82"/>
+<NOTES ID="query_note_85" name="query_note_85"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. Can you get a steady reading?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_83" name="query_note_83"/>
+<NOTES ID="query_note_86" name="query_note_86"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -2747,7 +2809,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. What are the weight and the mass?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_84" name="query_note_84"/>
+<NOTES ID="query_note_87" name="query_note_87"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -2760,7 +2822,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. How does this mass compare to the masses of the other carts.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_85" name="query_note_85"/>
+<NOTES ID="query_note_88" name="query_note_88"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -2775,28 +2837,28 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. What is the shape of the graph?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_86" name="query_note_86"/>
+<NOTES ID="query_note_89" name="query_note_89"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. How long did the collision take?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_87" name="query_note_87"/>
+<NOTES ID="query_note_90" name="query_note_90"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>3. What was the maximum force?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_88" name="query_note_88"/>
+<NOTES ID="query_note_91" name="query_note_91"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>4. What did the acrobat do during the collision?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_89" name="query_note_89"/>
+<NOTES ID="query_note_92" name="query_note_92"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -2811,28 +2873,28 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. What is the shape of the plot?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_90" name="query_note_90"/>
+<NOTES ID="query_note_93" name="query_note_93"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. How long did the collision take?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_91" name="query_note_91"/>
+<NOTES ID="query_note_94" name="query_note_94"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>3. What was the maximum force?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_92" name="query_note_92"/>
+<NOTES ID="query_note_95" name="query_note_95"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>4. What did the acrobat do during the collision?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_93" name="query_note_93"/>
+<NOTES ID="query_note_96" name="query_note_96"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -2847,21 +2909,21 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. How long did each collision take?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_94" name="query_note_94"/>
+<NOTES ID="query_note_97" name="query_note_97"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. What was the maximum force?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_95" name="query_note_95"/>
+<NOTES ID="query_note_98" name="query_note_98"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>3. What was the shape of the graph?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="100">
-<DRAWING ID="query_drawing_96" name="analysis3"/>
+<DRAWING ID="query_drawing_99" name="analysis3"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -2874,7 +2936,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. What is the relationship between the behavior of the acrobat and the shape and size of the force graph?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_97" name="query_note_97"/>
+<NOTES ID="query_note_100" name="query_note_100"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -2887,7 +2949,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. Why do you think the forces were different for the bumper versus the bungee cord?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_98" name="query_note_98"/>
+<NOTES ID="query_note_101" name="query_note_101"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -2900,14 +2962,14 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. Which collision would you prefer, a collision with a wall or a collision using a bungee cord?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_99" name="query_note_99"/>
+<NOTES ID="query_note_102" name="query_note_102"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. Why?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_100" name="query_note_100"/>
+<NOTES ID="query_note_103" name="query_note_103"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -2920,14 +2982,14 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. How could you decrease the maximum force when the cart hits the Force probe?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_101" name="query_note_101"/>
+<NOTES ID="query_note_104" name="query_note_104"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. Explain why your idea would work.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_102" name="query_note_102"/>
+<NOTES ID="query_note_105" name="query_note_105"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -2944,14 +3006,14 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. Does each one experience the same force?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_103" name="query_note_103"/>
+<NOTES ID="query_note_106" name="query_note_106"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. Will they each bounce off with the same velocity they started with?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_104" name="query_note_104"/>
+<NOTES ID="query_note_107" name="query_note_107"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -2964,14 +3026,14 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. Is the force on each one the same?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_105" name="query_note_105"/>
+<NOTES ID="query_note_108" name="query_note_108"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. What is the resulting motion of each object?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_106" name="query_note_106"/>
+<NOTES ID="query_note_109" name="query_note_109"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -2986,14 +3048,14 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. When do you think the two force graphs will be the same?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_107" name="query_note_107"/>
+<NOTES ID="query_note_110" name="query_note_110"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. When do you think the two force graphs will be different?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_108" name="query_note_108"/>
+<NOTES ID="query_note_111" name="query_note_111"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -3006,14 +3068,14 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. What can you conclude?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_109" name="query_note_109"/>
+<NOTES ID="query_note_112" name="query_note_112"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. Was your prediction correct?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_110" name="query_note_110"/>
+<NOTES ID="query_note_113" name="query_note_113"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -3028,24 +3090,24 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. What if they have about the same velocity?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="100">
-<DRAWING ID="query_drawing_111" name="trial1"/>
+<DRAWING ID="query_drawing_114" name="trial1"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_111" name="query_note_111"/>
+<NOTES ID="query_note_114" name="query_note_114"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. What if you roll one cart toward the other which is not moving?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="100">
-<DRAWING ID="query_drawing_112" name="trial2"/>
+<DRAWING ID="query_drawing_115" name="trial2"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_112" name="query_note_112"/>
+<NOTES ID="query_note_115" name="query_note_115"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -3058,21 +3120,21 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. Were they the same for both carts?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_113" name="query_note_113"/>
+<NOTES ID="query_note_116" name="query_note_116"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. How long did the collision take?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_114" name="query_note_114"/>
+<NOTES ID="query_note_117" name="query_note_117"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>3. What was the maximum force?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_115" name="query_note_115"/>
+<NOTES ID="query_note_118" name="query_note_118"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -3087,14 +3149,14 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. What will be the velocity for each cart before and after the collision?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="100">
-<DRAWING ID="query_drawing_116" name="trial1"/>
+<DRAWING ID="query_drawing_119" name="trial1"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. What will the velocity graph do just at the moment of collision?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="100">
-<DRAWING ID="query_drawing_117" name="trial2"/>
+<DRAWING ID="query_drawing_120" name="trial2"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -3107,21 +3169,21 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. Were they what you predicted?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_118" name="query_note_118"/>
+<NOTES ID="query_note_121" name="query_note_121"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. How did the initial velocity of one cart compare with the final velocity of the other?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_119" name="query_note_119"/>
+<NOTES ID="query_note_122" name="query_note_122"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>3. Draw the velocity graph for each cart, and write in the velocity values.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="100">
-<DRAWING ID="query_drawing_120" name="trial3"/>
+<DRAWING ID="query_drawing_123" name="trial3"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -3136,14 +3198,14 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. Does it seem to be true in both cases?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_121" name="query_note_121"/>
+<NOTES ID="query_note_124" name="query_note_124"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. Is the result surprising?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_122" name="query_note_122"/>
+<NOTES ID="query_note_125" name="query_note_125"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -3156,7 +3218,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. If you were pushing on each other with Force probes instead of pulling, would they still read the same?"</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_123" name="query_note_123"/>
+<NOTES ID="query_note_126" name="query_note_126"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -3169,7 +3231,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. If one of the Force probes were attached to a wall and you were pulling on the other one, would they read the same force?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_124" name="query_note_124"/>
+<NOTES ID="query_note_127" name="query_note_127"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -3182,7 +3244,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. If a light cart hit a heavy cart at rest, what would you say now about the force on each one and their speeds after the collision?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_125" name="query_note_125"/>
+<NOTES ID="query_note_128" name="query_note_128"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -3195,7 +3257,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. Describe an experiment to test this theory.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_126" name="query_note_126"/>
+<NOTES ID="query_note_129" name="query_note_129"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -3218,7 +3280,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH linkcolor="000F0F">What happens when two objects at different temperatures are left in contact with each other?</SNPARAGRAPH>
 <EMBOBJ>
-<IMAGE ID="Image_67" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/bathtub/PALM_TINY_bathtub.bmp"/>
+<IMAGE ID="Image_71" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/bathtub/PALM_TINY_bathtub.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>In this activity you will investigate how to alter heat flow.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -3279,7 +3341,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_68" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/01_hf/PALM_TINY_01_hf.bmp"/>
+<IMAGE ID="Image_72" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/01_hf/PALM_TINY_01_hf.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>2. What will happen when you touch the end of the probe and then let go? What happens when you put the probe in water? Record your thoughts in Notes on your handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -3290,7 +3352,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH indent="2">c. room temperature water</SNPARAGRAPH>
 <SNPARAGRAPH indent="2">d. warm tap water</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>4. Start the software and observe the temperature versus time graph as you test your two choices of water. Stop the software. Be sure the two samples are at least 10 degrees Celsius different from each other. What are the two temperatures? </SNPARAGRAPH>
+<SNPARAGRAPH>4. Start the software and observe the temperature versus time graph as you test your two choices of water. Stop the software. Be sure the two samples are at least 10 degrees Celsius differentfrom each other. What are the two temperatures? </SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ object="Heat_Flow_trial_64_1" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH>5.  Before mixing the two samples of water together, predict the final temperature. </SNPARAGRAPH>
@@ -3306,7 +3368,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_69" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/02_hf/PALM_TINY_02_hf.bmp"/>
+<IMAGE ID="Image_73" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/02_hf/PALM_TINY_02_hf.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>10.  How many seconds did it take? How good was your prediction? Would this be a good temperature for your bath water? If not, how could you change the final temperature of the mixture? </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -3321,20 +3383,20 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_70" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/03_hf/PALM_TINY_03_hf.bmp"/>
+<IMAGE ID="Image_74" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/03_hf/PALM_TINY_03_hf.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>2. Connect the Temperature probe with your handheld. Refer to Technical Hints to see how to connect the Temperature probe. The sensitive part is just the very tip, where two wires are welded together.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>3. Start the temperature graph and run through this series of measurements so that you get all of your data on one graph.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="dc-temperature2" link="true" linkcolor="FF0000"/>
+<EMBOBJ object="dc-temperature1" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH>4. Measure the air temperature.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>5. Use water from a non-room temperature source. It should be at least 10 degrees Celsius different from room temperature. Place two film canisters of the water into the styrofoam cup so that the clay will be fully immersed. Measure the water temperature with the Temperature probe.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_71" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/04_hf2/PALM_TINY_04_hf2.bmp"/>
+<IMAGE ID="Image_75" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/04_hf2/PALM_TINY_04_hf2.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>6. Stick the probe into the center of the clay ball while the probe is still running.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -3342,13 +3404,13 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_72" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/05a_hf/PALM_TINY_05a_hf.bmp"/>
+<IMAGE ID="Image_76" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/05a_hf/PALM_TINY_05a_hf.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>8. Pull the Temperature probe out of the clay ball and measure the temperature of the water. Save your data to the handheld.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_73" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/05b_hf/PALM_TINY_05b_hf.bmp"/>
+<IMAGE ID="Image_77" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/05b_hf/PALM_TINY_05b_hf.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>9.  What is the final temperature of the combination of water and clay? How many degrees did the clay change? How many degrees did the water change? How did you decide when equilibrium was reached? How many seconds did it take? </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -3375,13 +3437,13 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_74" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/05c_hf/PALM_TINY_05c_hf.bmp"/>
+<IMAGE ID="Image_78" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/05c_hf/PALM_TINY_05c_hf.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>7. Leaving the temperature probe in the clay, pull the clay out of the water and quickly dry it off. Quickly wrap the clay and temperature probe in your insulationsystem.</SNPARAGRAPH>
+<SNPARAGRAPH>7. Leaving the temperature probe in the clay, pull the clay out of the water and quickly dry it off. Quickly wrap the clay and temperature probe in your insulation system.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_75" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/06_hf/PALM_TINY_06_hf.bmp"/>
+<IMAGE ID="Image_79" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/06_hf/PALM_TINY_06_hf.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>8. Monitor the temperature of the clay until it's near to equilibrium. Save your data to the handheld. How long does it take to reach equilibrium? Is the time greater or less than you thought it would be? </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -3430,9 +3492,9 @@ projects contributing to the development of CCProbeware are:
       Discovery Question:
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH linkcolor="000F0F">When you roll a cart up and down a ramp, how does the velocity change as the height of the cart changes?</SNPARAGRAPH>
+<SNPARAGRAPH linkcolor="000F0F">When you roll a cart up and down a ramp, it changes velocity. If the total amount of energy is always the same, how does it change form?</SNPARAGRAPH>
 <EMBOBJ>
-<IMAGE ID="Image_76" name="PALM_TINY_.bmp" url="../images/Energy/Potential_Kinetic_Energy/cartOnRamp/PALM_TINY_cartOnRamp.bmp"/>
+<IMAGE ID="Image_80" name="PALM_TINY_.bmp" url="../images/Energy/Potential_Kinetic_Energy/cartOnRamp/PALM_TINY_cartOnRamp.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>In this activity you will relate the movement and energy of a cart as it rolls up and down a ramp.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -3443,15 +3505,11 @@ projects contributing to the development of CCProbeware are:
       Thinking About the Question
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH linkcolor="000F0F">When you roll a cart up and down a ramp, how does the velocity change as the height of the cart changes?</SNPARAGRAPH>
+<SNPARAGRAPH linkcolor="000F0F">When you roll a cart up and down a ramp, it changes velocity. If the total amount of energy is always the same, how does it change form?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>A basketball player going for a lay up is a good example of an object in motion. Just as the player is ready to release the ball, the player exhibits both gravitational potential energy (how high the player jumps) and the kinetic energy of motion (how fast the player is going). How do these two energies relate? </SNPARAGRAPH>
+<SNPARAGRAPH>A basketball player going for a lay up is a good example of an object in motion. Just as the player is ready to release the ball, the player exhibits both gravitational potential energy (how high the player jumps) and the kinetic energy of motion (how fast the player isgoing). How do these two energies relate?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Potential_Kinetic_Energy_think_75_1" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>Think about what happens when you are swinging on a playground swing. When you are near the ground, you are going fast. At the top of your swing you are stopped for a split second. Draw the motion of the swing. Where do you have the most energy? Where is the (gravitational) potential energy the greatest? Where is the kinetic energy the greatest? </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ object="Potential_Kinetic_Energy_think_76_2" link="true" linkcolor="FF0000"/>
+<SNPARAGRAPH>Think about what happens when you are playing on a playground swing. How does the amount of energy change when you are near the ground compared to the amount of energy at the top of your swing? Use Notes on your handheld computer to draw the motion of a swing. Where is the (gravitational) potential energy the greatest? Where is the kinetic energy the greatest?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Materials" ID="Potential_Kinetic_Energy-materials">
@@ -3464,7 +3522,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>
         - handheld computer</SNPARAGRAPH>
 <SNPARAGRAPH>
-        - CC LabBook software</SNPARAGRAPH>
+        - CC Lab Book software</SNPARAGRAPH>
 <SNPARAGRAPH>
         - constructed air cart (see Investigation: Air Cart)</SNPARAGRAPH>
 <SNPARAGRAPH>
@@ -3493,24 +3551,22 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_77" name="PALM_TINY_.bmp" url="../images/Energy/Potential_Kinetic_Energy/01_pk/PALM_TINY_01_pk.bmp"/>
+<IMAGE ID="Image_81" name="PALM_TINY_.bmp" url="../images/Energy/Potential_Kinetic_Energy/01_pk/PALM_TINY_01_pk.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>2. Connect the SmartWheel to your handheld computer. Refer to Technical Hints to see how to connect the SmartWheel.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>3. Start the software to read a velocity versus time graph.</SNPARAGRAPH>
+<SNPARAGRAPH>3. Start the software to read a velocity versus time graph. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="dc-smartwheel-vel2" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH>4. Let the cart roll down the ramp and continue along the floor or desk. If you have room, let it coast to a stop.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_78" name="PALM_TINY_.bmp" url="../images/Energy/Potential_Kinetic_Energy/02_pk/PALM_TINY_02_pk.bmp"/>
+<IMAGE ID="Image_82" name="PALM_TINY_.bmp" url="../images/Energy/Potential_Kinetic_Energy/02_pk/PALM_TINY_02_pk.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>5. Stop the software immediately after a good roll and save your data.</SNPARAGRAPH>
+<SNPARAGRAPH>5. Stop the software immediately after a good roll and save your data to the handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>6. When the cart is rolling, it has what's called kinetic energy, or energy of motion. Yet when the cart started, it had no kinetic energy because it was not moving. So where did the energy come from? What is the greatest velocity of the cart? Where does this occur? </SNPARAGRAPH>
+<SNPARAGRAPH>6. What is the greatest velocity of the cart? Where does this occur? When the cart is rolling, it has what's called kinetic energy, or energy of motion. Yet when the cart started, it had no kinetic energy because it was not moving. So where did the energy come from? Explain your reasoning in Notes on your handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Potential_Kinetic_Energy_trial_77_1" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Potential_Kinetic_Energy_trial_II" name="Trial II">
@@ -3523,18 +3579,16 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_79" name="PALM_TINY_.bmp" url="../images/Energy/Potential_Kinetic_Energy/03_pk/PALM_TINY_03_pk.bmp"/>
+<IMAGE ID="Image_83" name="PALM_TINY_.bmp" url="../images/Energy/Potential_Kinetic_Energy/03_pk/PALM_TINY_03_pk.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>3. Start the software to read a velocity versus time graph.</SNPARAGRAPH>
+<SNPARAGRAPH>3. Start the software to read a velocity versus time graph. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="dc-smartwheel-vel2" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH>4. Let the cart roll down the ramp and continue along the floor or desk. If you have room, let it coast to a stop.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>5. Stop the software immediately after a good roll and save your data.</SNPARAGRAPH>
+<SNPARAGRAPH>5. Stop the software immediately after a good roll and save your data to the handheld.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>6. When the cart is rolling, it has what's called kinetic energy, or energy of motion. Yet when the cart started, it had no kinetic energy because it was not moving. So where did the energy come from? What is the greatest velocity of the cart? Where does this occur? </SNPARAGRAPH>
+<SNPARAGRAPH>6. What is the greatest velocity of the cart? Where does this occur? When the cart is rolling, it has what's called kinetic energy, or energy of motion. Yet when the cart started, it had no kinetic energy because it was not moving. So where did the energy come from? Explain your reasoning in Notes on your handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Potential_Kinetic_Energy_trial_78_1" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Potential_Kinetic_Energy_trial_III" name="Trial III">
@@ -3547,18 +3601,16 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_80" name="PALM_TINY_.bmp" url="../images/Energy/Potential_Kinetic_Energy/04_pk/PALM_TINY_04_pk.bmp"/>
+<IMAGE ID="Image_84" name="PALM_TINY_.bmp" url="../images/Energy/Potential_Kinetic_Energy/04_pk/PALM_TINY_04_pk.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>3. Start the software to read a velocity versus time graph.</SNPARAGRAPH>
+<SNPARAGRAPH>3. Start the software to read a velocity versus time graph. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="dc-smartwheel-vel3" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH>4. Raise the cart to the top of the ramp and let it go.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>5. Stop recording after it bounces up and down the ramp and comes to rest. Save your data to the handheld.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>6.  At what points in the cart's travels did it have the greatest speed? At what points did it have zero speed? How can you tell from the graph when the cart was going down and when it was going up? </SNPARAGRAPH>
+<SNPARAGRAPH>6. At what points in the cart's travels did it have the greatest speed? At what points did it have zero speed? How can you tell from the graph when the cart was going down and when it was going up? Explain your reasoning in Notes on your handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Potential_Kinetic_Energy_trial_79_1" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Technical Hints" ID="Potential_Kinetic_Energy-hints">
@@ -3578,24 +3630,18 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH linkcolor="0000FF">Potential and Kinetic Energy  Analysis
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>1. In Trials I and II, the cart has two forms of energy. The first, gravitational potential energy, is proportional to an object's height above the Earth. The higher an object, the more gravitational potential energy it has. When did the cart have the greatest potential energy? Why? </SNPARAGRAPH>
+<SNPARAGRAPH>1. In Trials I and II, the cart has two forms of energy. The first, gravitational potential energy, is proportional to an object's height above the Earth. The higher an object, the more gravitational potential energy it has. When in each trial did the cart have the greatest potential energy? Why?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Potential_Kinetic_Energy_analysis_80_1" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>2. The second form is kinetic energy, also called energy of motion. It depends on an object's velocity. When did the cart have the greatest kinetic energy? Why? </SNPARAGRAPH>
+<SNPARAGRAPH>2. The second form is kinetic energy, also called energy of motion. It depends on an object's velocity. When in each trial did the cart have the greatest kinetic energy? Why?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Potential_Kinetic_Energy_analysis_81_2" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>3.  Do you think the cart has as much kinetic energy at the bottom of the ramp as it had potential energy at the top of the ramp? Why? </SNPARAGRAPH>
+<SNPARAGRAPH>3. Do you think the cart has as much kinetic energy at the bottom of the ramp as it had potential energy at the top of the ramp? Why?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Potential_Kinetic_Energy_analysis_82_3" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>4. Energy can also be stored in a stretched rubber band. It's another form of potential energy. If you "hang" a cart down a ramp with a rubber band, then let it bounce up and down, energy is going from (gravitational potential) to (kinetic) to (rubber band potential). Look at your data from Trial III. Draw the graph. Where on the graph is each kind of energy the greatest? </SNPARAGRAPH>
+<SNPARAGRAPH>4. Energy can also be stored in a stretched rubber band. It's another form of potential energy. If you "hang" a cart down a ramp with a rubber band, then let it bounce up and down, energy is going from (gravitational potential) to (kinetic) to (rubber band potential). Look at your data from Trial III. Where on the graph is each kind of energy the greatest?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Potential_Kinetic_Energy_analysis_83_4" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>5. After the cart leaves the ramp, it slows down, losing its kinetic energy. Where does the energy go? </SNPARAGRAPH>
+<SNPARAGRAPH>5. After the cart leaves the ramp, it slows down, losing its kinetic energy. Where does the energy go?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Potential_Kinetic_Energy_analysis_84_5" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>6. We often want to store energy for later use. The useful energy might not always be kinetic energy - it might be light from a bulb, or heat in a room. How many examples of this can you list? List the form of stored energy and the form of useful energy that comes from it. </SNPARAGRAPH>
+<SNPARAGRAPH>6. We often want to store energy for later use. How many examples of this can you list? In each case, what is the form of stored energy, and what is the form of useful energy that comes from it? Hint: The useful energy might not always be kinetic energy; it might be light from a bulb, or heat in a room.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Potential_Kinetic_Energy_analysis_85_6" link="true" linkcolor="FF0000"/>
 </SUPERNOTES>
 </FOLDER>
 <FOLDER view="paging" name="Heating with Electricity " ID="Heating_With_Electricity">
@@ -3610,7 +3656,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH linkcolor="000F0F">Can electricity be used to heat things?</SNPARAGRAPH>
 <EMBOBJ>
-<IMAGE ID="Image_81" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/lightningBolt/PALM_TINY_lightningBolt.bmp"/>
+<IMAGE ID="Image_85" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/lightningBolt/PALM_TINY_lightningBolt.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>In this activity you will investigate heating with electrical devices.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -3623,17 +3669,13 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH linkcolor="000F0F">Can electricity be used to heat things?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>When electricity flows through a wire, some of its energy goes into heating up the wire. Sometimes this is a problem. When electricity travels from a power station to the city, heat energy is wasted. But once the electricity arrives at your house for the purpose of heating a stove or a room, electrical heating is very efficient and flexible. What devices in your house use electricity for heating? </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ object="Heating_With_Electricity_think_86_1" link="true" linkcolor="FF0000"/>
+<SNPARAGRAPH>When electricity flows through a wire, some of its energy goes into heating up the wire. Sometimes this is a problem. When electricity travels from a power station to the city, heat energy is wasted. But once the electricity arrives at your house for the purpose of heating a stove or a room, electrical heating is very efficient and flexible.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_82" name="PALM_TINY_think.bmp" url="../images/Energy/Heating_With_Electricity/01_he/PALM_TINY_01_he.bmp"/>
+<IMAGE ID="Image_86" name="PALM_TINY_think.bmp" url="../images/Energy/Heating_With_Electricity/01_he/PALM_TINY_01_he.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>The Genecon is a little generator with the same basic design as the huge generators run by hydroelectric dams, coal-fired boilers, or nuclear power plants. In every case, some other form of energy (e.g., falling water, burning coal, decaying radioactive material) turns the "crank" of a generator and creates electrical power. In this case, you supply the power. Think of several ways that electric power is generated and the source of energy in each case. </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ object="Heating_With_Electricity_think_87_2" link="true" linkcolor="FF0000"/>
+<SNPARAGRAPH>The Genecon is a little generator with the same basic design as the huge generators run by hydroelectric dams, coal-fired boilers, or nuclear power plants. In every case, some other form of energy (e.g., falling water, burning coal, decaying radioactive material) turns the "crank" of a generator and creates electrical power. In this case, you supply the power. Make a list in Notes on your handheld computer of several ways that electric power is generated and the source of energy in each case.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Materials" ID="Heating_With_Electricity-materials">
@@ -3644,11 +3686,11 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>
         - CC Fast Response Temperature probe</SNPARAGRAPH>
 <SNPARAGRAPH>
-        - CC VoltageCurrent Probe</SNPARAGRAPH>
+        - CC Voltage/Current</SNPARAGRAPH>
 <SNPARAGRAPH>
         - handheld computer</SNPARAGRAPH>
 <SNPARAGRAPH>
-        - CC LabBook software</SNPARAGRAPH>
+        - CC Lab Book software</SNPARAGRAPH>
 <SNPARAGRAPH>
         - handheld generator (Genecon)</SNPARAGRAPH>
 <SNPARAGRAPH>
@@ -3658,7 +3700,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>
         - battery pack</SNPARAGRAPH>
 <SNPARAGRAPH>
-        - 2 -new 1.5V AA batteries</SNPARAGRAPH>
+        - 2 - new 1.5V AA batteries</SNPARAGRAPH>
 <SNPARAGRAPH>
         - clip leads</SNPARAGRAPH>
 </SUPERNOTES>
@@ -3678,72 +3720,62 @@ projects contributing to the development of CCProbeware are:
 <EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Cranking with a Genecon</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>1. Connect the VoltageCurrent probe to your handheld computer. Refer to Technical Hints to see how to set up the VoltageCurrent probe.</SNPARAGRAPH>
+<SNPARAGRAPH>1. Set up the Voltage/Current probe to your handheld computer. Refer to Technical Hints to see how to set up the Voltage/Current probe.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. Locate the parts for your small " heat cell" which consists of a resistor inside a block of aluminum. When you put electrical current through the resistor, it converts the electrical energy into heat and heats up the block of aluminum. The heat cell is placed in insulation to prevent heat loss to the environment.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_83" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/02_he/PALM_TINY_02_he.bmp"/>
+<IMAGE ID="Image_87" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/02_he/PALM_TINY_02_he.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>3. Remove the heat cell from its insulation. Attach the two leads of the Genecon to wires extending from the heat cell. Also connect the voltage leads and the current leads of VoltageCurrent probe to the heat cell. Follow the diagram carefully. Don 't put the heat cell in the insulation yet.</SNPARAGRAPH>
+<SNPARAGRAPH>3. Remove the heat cell from its insulation. Attach the two leads of the Genecon to wires extending from the heat cell. Also connect the voltage leads and the current leads of Voltage/Current probe to the heat cell. Don 't put the heat cell in the insulation yet.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_84" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/03_he2/PALM_TINY_03_he2.bmp"/>
+<IMAGE ID="Image_88" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/03_he/PALM_TINY_03_he.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>4. Start the software to record power. This measures the electrical power, in watts, that you are supplying to the heat cell with the Genecon.</SNPARAGRAPH>
+<SNPARAGRAPH>4. Start the software to record power. This measures the electrical power, in watts, that you are supplying to the heat cell with the Genecon. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="dc-voltage-current-power" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>5. Try cranking at a fairly fast speed and observe the power on your graph. Can you crank at a steady fast rate? Now try to crank at a slower steady rate that produces half as much power.</SNPARAGRAPH>
+<SNPARAGRAPH>5. Try cranking at a fairly fast speed and observe the power on your graph. Can you crank at a steady fast rate? Now try to crank at a slower steady rate that produces half as much power. Record your observations in Notes on your handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>6. Practice until you can do two rates of cranking, slow and fast, where the faster rate produces twice as much power as the slower rate. Stop collecting data and disconnect the voltage and current leads. What is the power of each rate in watts? </SNPARAGRAPH>
+<SNPARAGRAPH>6. Practice until you can do two rates of cranking, slow and fast, where the faster rate produces twice as much power as the slower rate. Disconnect the voltage and current leads.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Heating_With_Electricity_trial_88_1" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH>7. Connect the Temperature probe to your handheld computer. Refer to Technical Hints to connect the Temperature probe. The sensitive part is just the very tip, where two wires are welded together.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>8. Put the tip of the Temperature probe into the small hole in one end of the heat cell.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_85" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/04a_he/PALM_TINY_04a_he.bmp"/>
+<IMAGE ID="Image_89" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/04a_he/PALM_TINY_04a_he.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>9. Set the heat cell in the insulation and close up the box with a rubber band.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_86" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/03_he/PALM_TINY_03_he.bmp"/>
+<IMAGE ID="Image_90" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/04b_he/PALM_TINY_04b_he.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>10. Attach the two Genecon leads to the wires extending from the heat cell.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_87" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/04c_he/PALM_TINY_04c_he.bmp"/>
+<IMAGE ID="Image_91" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/04c_he/PALM_TINY_04c_he.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>11. Start the software for the Temperature probe. Start recording temperature.</SNPARAGRAPH>
+<SNPARAGRAPH>11. Start the software for the Temperature probe. Refer to Technical Hints to see how to use the software. Start recording temperature.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>12. Observe the temperature graph. After 10 seconds, crank the Genecon for 30 seconds at the fast rate. Then crank the Genecon for 30 seconds more at the slower rate. Then stop cranking and continue recording for another 60 seconds.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>13. Stop recording the data. Save your data to the handheld.</SNPARAGRAPH>
+<SNPARAGRAPH>13. Stop recording the data.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>14. Expand the graph so that you can see how much the temperature rose while you were cranking, and how much it fell after you stopped. Write down the following values on a piece of paper: </SNPARAGRAPH>
+<SNPARAGRAPH>14. Expand the graph so that you can see how much the temperature rose while you were cranking, and how much it fell after you stopped. Put marks on the starting temperature, the temperature after fast cranking, after slow cranking, and at the ending temperature. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH indent="2">a. starting temperature</SNPARAGRAPH>
-<SNPARAGRAPH indent="2">b. the temperature after fast cranking</SNPARAGRAPH>
-<SNPARAGRAPH indent="2">c. after slow cranking</SNPARAGRAPH>
-<SNPARAGRAPH indent="2">d. the ending temperature</SNPARAGRAPH>
+<SNPARAGRAPH>15. Save your data to the handheld.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Heating_With_Electricity_trial_89_2" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>15. Calculate the following values on a piece of paper: </SNPARAGRAPH>
+<SNPARAGRAPH>16. Record the change in these values between each of your marks in Notes on your handheld computer. Was each temperature rate over time steady?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH indent="2">a. the temperature change during fast cranking</SNPARAGRAPH>
-<SNPARAGRAPH indent="2">b. the temperature change during slow cranking</SNPARAGRAPH>
-<SNPARAGRAPH indent="2">c. the temperature change while cooling</SNPARAGRAPH>
+<SNPARAGRAPH>17. Take the heat cell out of its insulating box, cool it with tapwater, and dry it off.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Heating_With_Electricity_trial_90_3" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>16. The heat cell is made so that it takes exactly 10 joules of energy to heat it one degree Celsius. How many joules did your 30 seconds of fast cranking produce? What about the 30 seconds of slow cranking? How many joules did the cell lose in 60 seconds as it cooled? </SNPARAGRAPH>
+<SNPARAGRAPH>18. The heat cell is made so that it takes exactly 10 joules of energy to heat it one degree Celsius. How many joules did your 30 seconds of fast cranking produce? What about the 30 seconds of slow cranking? How many joules did the cell lose in 60 seconds as it cooled? Record your answers in Notes on your handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Heating_With_Electricity_trial_91_4" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Heating_With_Electricity_trial_II" name="Trial II">
@@ -3756,52 +3788,42 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_88" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/02_he/PALM_TINY_02_he.bmp"/>
+<IMAGE ID="Image_92" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/02_he/PALM_TINY_02_he.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>3. Insert the tip of the Temperature probe into the small hole in one end of the heat cell. Put on the insulation cover and close the box with a rubber band.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_89" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/04a_he/PALM_TINY_04a_he.bmp"/>
+<IMAGE ID="Image_93" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/04a_he/PALM_TINY_04a_he.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>4. Use a 2-AA battery pack, which will supply somewhat less than 3 volts, to warm the heat cell. You can use the battery pack on the air cart for this. Attach one of the battery leads, but not the other, to the heat cell.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_90" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/05b_he2/PALM_TINY_05b_he2.bmp"/>
+<IMAGE ID="Image_94" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/05b_he2/PALM_TINY_05b_he2.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>5. Start the software for the Temperature probe. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="dc-temperature3" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH>6. When the temperature graph reaches exactly 10 seconds, connect the second lead of the battery pack to the other end of the heat cell.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_91" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/05c_he/PALM_TINY_05c_he.bmp"/>
+<IMAGE ID="Image_95" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/05c_he/PALM_TINY_05c_he.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>7. Heat the cell for 60 seconds, then disconnect one battery lead. Let the graph run another 60 seconds so that you can watch the cooling of the heat cell.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>8. Stop recording the data. Save the data to your handheld computer.</SNPARAGRAPH>
+<SNPARAGRAPH>8. Stop recording the data.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>9. Expand the graph so that you can see how much the temperature rose while the battery was attached and how much it decreased after you stopped. Place marks on the starting temperature, the maximum temperature, and the ending temperature. Write down the following values on a piece of paper. </SNPARAGRAPH>
+<SNPARAGRAPH>9. Expand the graph so that you can see how much the temperature rose while the battery was attached and how much it decreased after you stopped. Refer to Technical Hints to see how to use the software. Place marks on the starting temperature, the maximum temperature, and the ending temperature.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH indent="2">a. the starting temperature</SNPARAGRAPH>
-<SNPARAGRAPH indent="2">b. the maximum temperature</SNPARAGRAPH>
-<SNPARAGRAPH indent="2">c. the ending temperature</SNPARAGRAPH>
+<SNPARAGRAPH>10. Save the data to your handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Heating_With_Electricity_trial_92_1" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>10. Calculate the following values on a piece of paper: </SNPARAGRAPH>
+<SNPARAGRAPH>11. Record the change in these values between each of your marks in Notes on your handheld computer. Was each temperature rate over time steady?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH indent="2">a. temperature change from start to maximum</SNPARAGRAPH>
-<SNPARAGRAPH indent="2">b. temperature change by cooling</SNPARAGRAPH>
+<SNPARAGRAPH>12. Take the heat cell out, cool it with tapwater, and dry it off.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Heating_With_Electricity_trial_93_2" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>11.  Was each temperature rate over time steady? </SNPARAGRAPH>
+<SNPARAGRAPH>13. The heat cell is made so that it takes exactly 10 joules of energy to heat it one degree Celsius. How many joules of heating did the battery produce in 60 seconds? How many joules did the cell lose in 60 seconds? Record your answers in Notes on your handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Heating_With_Electricity_trial_94_3" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>12. The heat cell is made so that it takes exactly 10 joules of energy to heat it one degree Celsius. How many joules of heating did the battery produce in 60 seconds? How many joules did the cell lose in 60 seconds? </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ object="Heating_With_Electricity_trial_95_4" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Heating_With_Electricity_trial_III" name="Trial III">
@@ -3814,12 +3836,12 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_92" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/06a_he/PALM_TINY_06a_he.bmp"/>
+<IMAGE ID="Image_96" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/06a_he/PALM_TINY_06a_he.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH indent="2">a. Tape teams: Hold the tip of the Temperature probe against the mini light with a short piece of clear tape that goes right around the bulb.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_93" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/06b_he/PALM_TINY_06b_he.bmp"/>
+<IMAGE ID="Image_97" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/06b_he/PALM_TINY_06b_he.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH indent="2">b. Foil teams: Wrap the mini light with a small piece of aluminum foil that goes all the way around it. Hold the foil in place with a short piece of clear tape. Slide the tip of the Temperature probe in between the bulb and the aluminum foil.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -3827,31 +3849,26 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_94" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/06c_he/PALM_TINY_06c_he.bmp"/>
+<IMAGE ID="Image_98" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/06c_he/PALM_TINY_06c_he.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>4. Start the software to record temperature.</SNPARAGRAPH>
+<SNPARAGRAPH>4. Start the software to record temperature. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>5. Attach the second battery lead and light up the mini light.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="dc-temperature4" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_95" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/06d_he/PALM_TINY_06d_he.bmp"/>
+<IMAGE ID="Image_99" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/06d_he/PALM_TINY_06d_he.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>6. Monitor the temperature plot. Let it run for 30 seconds, then disconnect the second lead and let it run for another 30 seconds. Stop recording.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>7. Stop recording the data. Save the data to your handheld computer.</SNPARAGRAPH>
+<SNPARAGRAPH>7. Stop recording the data.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>8. Expand the graph so that you can see how much the temperature rose while the battery was attached and how much it decreased after you stopped. Write down the following values on a piece of paper: </SNPARAGRAPH>
+<SNPARAGRAPH>8. Expand the graph so that you can see how much the temperature rose while the battery was attached and how much it decreased after you stopped. Refer to Technical Hints to see how to use the software. Place marks on the starting temperature, the maximum temperature, and the ending temperature.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH indent="2">a. the starting temperature</SNPARAGRAPH>
-<SNPARAGRAPH indent="2">b. the maximum temperature</SNPARAGRAPH>
-<SNPARAGRAPH indent="2">c. the ending temperature</SNPARAGRAPH>
+<SNPARAGRAPH>9. Save the data to your handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Heating_With_Electricity_trial_96_1" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>9.  How many degrees did the light heat up in 30s? How many degrees did it cool down in 30s? </SNPARAGRAPH>
+<SNPARAGRAPH>10. Record the change in these values between each of your marks in Notes on your handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Heating_With_Electricity_trial_97_2" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Technical Hints" ID="Heating_With_Electricity-hints">
@@ -3876,27 +3893,20 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH linkcolor="0000FF">Heating with Electricity  Analysis
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>1. Discuss the shape of the temperature graph when you supplied electrical energy to the heat cell with the Genecon. Draw the graph. Does it start to heat right away? What does the slope of the line tell you? Is it the same for fast and slow cranking? </SNPARAGRAPH>
+<SNPARAGRAPH>1. Discuss the shape of the temperature graph when you supplied electrical energy to the heat cell with the Genecon. Does it start to heat right away? What does the slope of the line tell you? Is it the same for fast and slow cranking?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Heating_With_Electricity_analysis_98_1" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>2. Compare the rate of heating by the Genecon and the batteries. Which heats faster? How can you tell? Are you surprised by the cranking speed it takes to equal what a small battery can do? </SNPARAGRAPH>
+<SNPARAGRAPH>2. Compare the rate of heating by the Genecon and the batteries. Which heats faster? How can you tell? Are you surprised by the amount of cranking it takes to equal what a small battery can do?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Heating_With_Electricity_analysis_99_2" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>3.  Is the amount of cooling significant over the period of 60 seconds? </SNPARAGRAPH>
+<SNPARAGRAPH>3. Is the amount of cooling significant over the period of 60 seconds?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Heating_With_Electricity_analysis_100_3" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>4.  Is the shape of the graph for cooling the same as the shape for heating? How long would it take for the heat cell to cool down to room temperature? </SNPARAGRAPH>
+<SNPARAGRAPH>4. Is the shape of the graph for cooling the same as the shape for heating? How long do you think it would take for the heat cell to cool down to the starting temperature?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Heating_With_Electricity_analysis_101_4" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>5.  Could the energy in the battery be called "potential" energy? What form do you think it is in? </SNPARAGRAPH>
+<SNPARAGRAPH>5. Do you think the energy in the battery could properly be called "potential" energy? What form do you think it is in?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Heating_With_Electricity_analysis_102_5" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>6.  Why did the light bulb heat up so much more rapidly than the heat cell? </SNPARAGRAPH>
+<SNPARAGRAPH>6. Why did the light bulb heat up so much more rapidly than the heat cell?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Heating_With_Electricity_analysis_103_6" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>7. Compare the tape teams' data with the foil teams' data. Did the bulb heat up faster with the clear tape or the aluminum foil? How does the electricity turn into heat? What difference does the covering make? </SNPARAGRAPH>
+<SNPARAGRAPH>7. Compare the tape teams' data with the foil teams' data. Did the bulb heat up faster with the clear tape or the aluminum foil? Explain how you think the light bulb becomes hot and what difference the covering makes.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Heating_With_Electricity_analysis_104_7" link="true" linkcolor="FF0000"/>
 </SUPERNOTES>
 </FOLDER>
 <FOLDER view="paging" name="Forms of Energy: Single Transformations " ID="Single_Transformations">
@@ -3911,7 +3921,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH linkcolor="000F0F">Can all forms of energy be transformed from one form to another?</SNPARAGRAPH>
 <EMBOBJ>
-<IMAGE ID="Image_96" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/singleNRG/PALM_TINY_singleNRG.bmp"/>
+<IMAGE ID="Image_109" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/singleNRG/PALM_TINY_singleNRG.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>In this activity you will investigate the benefits of changing one form of energy into another form of energy.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -3926,9 +3936,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH>Energy comes in many forms - electrical, mechanical, chemical, light, nuclear - and it can be stored in many ways - batteries, springs, water towers, gasoline, radioactive materials. To make use of energy, we often want to change it from one form to another, then store it, then transform it again and use it later on.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>Think of two kinds of energy that you make use of in and around your house. Where does each kind come from? How is it stored before you use it? What do you do with the energy? </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ object="Single_Transformations_think_105_1" link="true" linkcolor="FF0000"/>
+<SNPARAGRAPH>How many kinds of energy can you think of that you make use of in and around your house? Where does each kind come from? How is it stored before you use it? Is it changed from one form to another when you make use of it? What do you do with the energy? On your handheld, answer these questions for each kind of energy.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Materials" ID="Single_Transformations-materials">
@@ -3939,15 +3947,17 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>
         - CC Voltage/Current probe</SNPARAGRAPH>
 <SNPARAGRAPH>
+        - CC Light probe</SNPARAGRAPH>
+<SNPARAGRAPH>
         - CC Fast Response Temperature probe</SNPARAGRAPH>
 <SNPARAGRAPH>
         - handheld computer</SNPARAGRAPH>
 <SNPARAGRAPH>
-        - CC LabBook software</SNPARAGRAPH>
+        - CC Lab Book software</SNPARAGRAPH>
 <SNPARAGRAPH>
         - handheld generator (Genecon)</SNPARAGRAPH>
 <SNPARAGRAPH>
-        - capacitor (1 farad)</SNPARAGRAPH>
+        - capacitor (1 Farad)</SNPARAGRAPH>
 <SNPARAGRAPH>
         - constructed air cart (see Investigation: Air Cart) wire clip leads</SNPARAGRAPH>
 <SNPARAGRAPH>
@@ -3977,32 +3987,30 @@ projects contributing to the development of CCProbeware are:
 <EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Storing electrical energy</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>1. You already know that electrical energy can be stored in a battery. There is an even more direct way with a capacitor. A capacitor stores electrical charges and can release them again as electrical current. Attach the Genecon and Voltage/Current probe to the capacitor. Follow the diagram carefully.</SNPARAGRAPH>
+<SNPARAGRAPH>1. You already know that electrical energy can be stored in a battery. There is an even more direct way with a capacitor. A capacitor stores electrical charges and can release them again as electrical current. Attach the Genecon and Voltage/Current probe to the capacitor.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_97" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/01b_st/PALM_TINY_01b_st.bmp"/>
+<IMAGE ID="Image_110" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/01b_st/PALM_TINY_01b_st.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>2. Connect the Voltage/Current probe to your handheld computer. Refer to Technical Hints to connect the Voltage/Current probe.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>3. Start the software to record energy.</SNPARAGRAPH>
+<SNPARAGRAPH>3. Start the software to record energy. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="dc-voltage-current-power" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>4. Crank until you have charged the capacitor.</SNPARAGRAPH>
+<SNPARAGRAPH>4. Crank until you have charged the capacitor. How can you tell that it's fully charged? Hint: Does the amount of cranking effort change as the capacitor "fills up"?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>5. Quickly disconnect one lead of the Genecon as shown, leaving the Voltage/Current probe attached. Wait for about 20 seconds.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_98" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/01c_st/PALM_TINY_01c_st.bmp"/>
+<IMAGE ID="Image_111" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/01c_st/PALM_TINY_01c_st.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>6. Re-attach the capacitor to the Genecon without cranking it. Obseve what happens.</SNPARAGRAPH>
+<SNPARAGRAPH>6. Re-attach the capacitor to the Genecon without cranking it. What happens? What simple energy transformation has taken place?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>7. When the Genecon stops, stop recording data and save to the handheld computer.</SNPARAGRAPH>
+<SNPARAGRAPH>7. Stop recording data and save to the handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>8. Look at the graph. Sketch the shape of the graph. Did the amount of cranking effort change as the capacitor "filled up"? Could you tell when it was fully charged? What did the graph do when the capacitor "drained out"? </SNPARAGRAPH>
+<SNPARAGRAPH>8. Look at the graph. How did the energy change over the course of this experiment? Record your thoughts in Notes on your handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Single_Transformations_trial_106_1" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Single_Transformations_trial_II" name="Trial II">
@@ -4013,76 +4021,74 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_99" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/02a_st2/PALM_TINY_02a_st2.bmp"/>
+<IMAGE ID="Image_112" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/02a_st2/PALM_TINY_02a_st2.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>2. Connect the charged-up capacitor to power your air cart. Coil up the extra wire so that it doesn't rub against the wheels. Try it several times. How far will it go? </SNPARAGRAPH>
+<SNPARAGRAPH>2. Connect the charged-up capacitor to power your air cart. Coil up the extra wire so that it doesn't rub against the wheels. How far can you make it go?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Single_Transformations_trial_107_1" link="true" linkcolor="FF0000"/>
+<SNPARAGRAPH/>
+<EMBOBJ>
+<IMAGE ID="Image_113" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/03_st/PALM_TINY_03_st.bmp"/>
+</EMBOBJ>
 <SNPARAGRAPH>3. Another possible way to use the energy from the capacitor is to warm up the heat cell. Place the tip of the Temperature probe in the small hole in one end of the heat cell.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_101" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/04a_he/PALM_TINY_04a_he.bmp"/>
+<IMAGE ID="Image_114" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/04a_he/PALM_TINY_04a_he.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>4. Close the heat cell in its insulating box by wrapping it with a rubber band and connecting the two clip leads to the metal wires that are sticking out.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_102" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/04b_st/PALM_TINY_04b_st.bmp"/>
+<IMAGE ID="Image_115" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/04b_st/PALM_TINY_04b_st.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>5. Connect the Temperature probe to your handheld computer. Refer to Technical Hints to connect the Temperature probe.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>6. Start the software for the Temperature probe.</SNPARAGRAPH>
+<SNPARAGRAPH>6. Start the software for the Temperature probe. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="dc-temperature5" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH>7. Charge up the capacitor again with the Genecon and quickly disconnect it.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>8. Connect the capacitor to the heat cell with two clip leads and observe the temperature versus time graph.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_103" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/04c_st/PALM_TINY_04c_st.bmp"/>
+<IMAGE ID="Image_116" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/04c_st/PALM_TINY_04c_st.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>9. Zoom in on the graph until you can read the temperature change. Continue testing until you get a good temperature graph.</SNPARAGRAPH>
+<SNPARAGRAPH>9. Expand the graph until you can read the temperature change. Refer to Technical Hints to see how to use the software. Continue testing until you get a good temperature graph.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>10. Save your data to the handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>11.  Sketch the temperature graph. How long does it take for the energy from the capacitor to transfer into the heat cell? </SNPARAGRAPH>
+<SNPARAGRAPH>11. What can you say about the shape of the temperature graph? How long does it take for the energy from the capacitor to get transferred into the heat cell? Record your thoughts in Notes on your handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Single_Transformations_trial_108_2" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>12. Calculate how much heat energy was stored in the capacitor. The heat cell contains 10 joules for each degree of temperature rise. How many joules of energy were obtained? </SNPARAGRAPH>
+<SNPARAGRAPH>12. Calculate how much heat energy (in joules) you obtained from the capacitor. The heat cell contains 10 joules for each degree of temperature rise. Record your calculations in Notes on your handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Single_Transformations_trial_109_3" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Single_Transformations_trial_III" name="Trial III">
 <EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Heating with sunlight</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>1. Set up the heat cell with the Temperature probe attached, but not in its insulating cover. Mark one face of the cell black with a marker or carbon from a burnt candlewick to increase the absorption of energy.</SNPARAGRAPH>
+<SNPARAGRAPH>1. Set up the heat cell with the Temperature probe attached, but not in its insulating cover. Mark one face of the cell black with a marker or carbon from a burnt candle wick to increase the absorption of energy.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_104" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/05a_st/PALM_TINY_05a_st.bmp"/>
+<IMAGE ID="Image_117" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/05a_st/PALM_TINY_05a_st.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>2. Connect the Temperature probe to your handheld computer. Refer to Technical Hints to connect the Temperature probe.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>3. Start the software for the Temperature probe.</SNPARAGRAPH>
+<SNPARAGRAPH>3. Start the software for the Temperature probe. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="dc-temperature6" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH>4. Try focusing sunlight on the heat cell with the Fresnel lens. If there's no sunlight, try focusing light from an incandescent light bulb.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_105" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/05b_st/PALM_TINY_05b_st.bmp"/>
+<IMAGE ID="Image_118" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/05b_st/PALM_TINY_05b_st.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>5. Monitor the temperature with the Temperature probe. Do not heat the cell above 50 degrees Celsius. The aluminum could be too hot to touch safely.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>6. Save your data to the handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>7.  How fast did the temperature rise? How does this compare to what a battery or a capacitor will do? How many square centimeters of sunlight does the Fresnel lens collect? </SNPARAGRAPH>
+<SNPARAGRAPH>7. How fast did the temperature rise? How many square centimeters of sunlight does the Fresnel lens collect? How does this compare to what a battery or a capacitor will do? Record your thoughts in Notes on your handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Single_Transformations_trial_110_1" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Technical Hints" ID="Single_Transformations-hints">
@@ -4105,21 +4111,16 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH linkcolor="0000FF">Forms of Energy: Single Transformations  Analysis
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>1. In Trial I you charged the capacitor with the Genecon, then ran the Genecon with the capacitor. Do you think you obtained as much mechanical energy out of the capacitor as you put in it? How could you find out? If you didn't, where did the energy go? </SNPARAGRAPH>
+<SNPARAGRAPH>1. When you charged the capacitor with the Genecon, then ran the Genecon with the capacitor, do you think you obtained as much mechanical energy out of the capacitor as you put in it? How could you find out? If you didn't, where did the energy go?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Single_Transformations_analysis_111_1" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>2. Capacitors, with their ability to store electrical energy and release it very fast, have many uses. A familiar one is the flash on a camera. A very small amount of energy is released so fast that it makes a bright, but brief, light. This is just what a camera needs! But when you want a slow, steady supply of energy, as with the air cart motor, a capacitor is not the best source of energy. A battery is much better. What's another situation that uses batteries? What's another situation that might use capacitors? </SNPARAGRAPH>
+<SNPARAGRAPH>2. Capacitors, with their ability to store electrical energy and release it very fast, have many uses. A familiar one is the flash on a camera. A very small amount of energy is released so fast that it makes a bright, but brief, light. This is just what a camera needs! But when you want a slow, steady supply of energy, as with the air cart motor, a capacitor is not the best source of energy. A battery is much better. Think of other situations that use batteries and capacitors for electrical energy storage.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Single_Transformations_analysis_112_2" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>3. The Fresnel lens concentrates light from a larger area to a smaller area, by bending the light that comes through it. This is called refraction. The Fresnel lens increased the amount of sunlight reaching the heat cell compared to being in the Sun without the lens. How much was it increased? Could you calculate it? </SNPARAGRAPH>
+<SNPARAGRAPH>3. The Fresnel lens concentrates light from a larger area to a smaller area, by bending the light that comes through it. This is called refraction. How much do you think the Fresnel lens magnified the amount of sunlight reaching the heat cell compared to just letting it sit out in the Sun without the lens? Compare the area of the Fresnel lens to the area of the focused light on the heat cell.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Single_Transformations_analysis_113_3" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>4.  List some devices that use lenses to focus light? </SNPARAGRAPH>
+<SNPARAGRAPH>4. How many devices can you think of that use lenses to focus light?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Single_Transformations_analysis_114_4" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>5.  How do you think sunlight is converted into heat? Do you think it matters if the heat cell is black instead of plain aluminum? conversion. What is an example of heat being converted into light? </SNPARAGRAPH>
+<SNPARAGRAPH>5. How do you think sunlight is converted into heat? Do you think it matters if the heat cell is black instead of plain aluminum? Can heat be converted back into light? If so, list some examples of this type of conversion.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Single_Transformations_analysis_115_5" link="true" linkcolor="FF0000"/>
 </SUPERNOTES>
 </FOLDER>
 <FOLDER view="paging" name="Forms of Energy: Multiple Transformations " ID="Multiple_Transformations">
@@ -4134,7 +4135,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH linkcolor="000F0F">What energy transformations are used in everyday devices?</SNPARAGRAPH>
 <EMBOBJ>
-<IMAGE ID="Image_106" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/multipleNRG/PALM_TINY_multipleNRG.bmp"/>
+<IMAGE ID="Image_124" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/multipleNRG/PALM_TINY_multipleNRG.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>In this activity you investigate energy being transformed through several steps to obtain a useful form.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -4149,9 +4150,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH>We use many devices that transform energy from one form to another. Sometimes a whole chain of transformations takes place. They often do it so smoothly that we don't even realize what's happening. Each step usually involves some loss of useful energy. An automobile engine, for instance, is only 30 per cent efficient. That is, only 30 percent of the available energy in gasoline is available to move the car.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>Think of an example where energy is transformed several times before it is used. List each of the forms of energy in the chain. What do you think the efficiency is for each step? Where do you think the wasted energy goes? </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ object="Multiple_Transformations_think_116_1" link="true" linkcolor="FF0000"/>
+<SNPARAGRAPH>Think of some examples where energy is transformed several times before it is used. In your handheld Notes, list each of the forms of energy in the chain, and what you think the efficiency is for each step. Where do you think the wasted energy goes?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Materials" ID="Multiple_Transformations-materials">
@@ -4166,7 +4165,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>
         - handheld computer</SNPARAGRAPH>
 <SNPARAGRAPH>
-        - CC LabBook software</SNPARAGRAPH>
+        - CC Lab Book software</SNPARAGRAPH>
 <SNPARAGRAPH>
         - solar cell</SNPARAGRAPH>
 <SNPARAGRAPH>
@@ -4215,33 +4214,30 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. The solar cell changes sunlight directly into electrical energy, which can in turn be used for something else. It is not very efficient, but the source of energy is free! Connect the Voltage/Current probe to your handheld computer. Refer to Technical Hints to connect the Voltage/Current probe.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>2. Start the software to read voltage.</SNPARAGRAPH>
+<SNPARAGRAPH>2. Start the software to read voltage. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="dc-light-100000" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>3. Hook the solar cell to the voltage probe. Try it under different light conditions, such as a light bulb, direct sunlight, and indirect light from the sky. Stop the software and save your data.</SNPARAGRAPH>
+<SNPARAGRAPH>3. Hook the solar cell to the voltage probe. Try it under different light conditions, such as a light bulb, direct sunlight, indirect light from the sky. Stop the software and save your data.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_107" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/01_mt/PALM_TINY_01_mt.bmp"/>
+<IMAGE ID="Image_125" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/01_mt/PALM_TINY_01_mt.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>4.  What were the best and worst light sources? </SNPARAGRAPH>
+<SNPARAGRAPH>4. The maximum voltage is about 2V of the solar cell. Can you get it to read this high? Record your observations in Notes on your handheld.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Multiple_Transformations_trial_117_1" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH>5. Team up with another group and connect two solar cells in parallel, using the clip leads.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_108" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/02a_mt/PALM_TINY_02a_mt.bmp"/>
+<IMAGE ID="Image_126" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/02a_mt/PALM_TINY_02a_mt.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>6. Mount them on a cart at an angle so that they face toward bright sunlight. Clip the leads to the motor.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_109" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/02_mt/PALM_TINY_02_mt.bmp"/>
+<IMAGE ID="Image_127" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/02_mt/PALM_TINY_02_mt.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>7.  Is there enough power to drive the air cart? What energy transformations are happening there? How efficient do you think each step is? </SNPARAGRAPH>
+<SNPARAGRAPH>7. Is there enough power to drive the air cart? What are the energy transformations happening when the sunlight hits the solar cell connected to the motor on your cart? How efficient do you think each step is? Record your thoughts in Notes on your handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Multiple_Transformations_trial_118_2" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Multiple_Transformations_trial_II" name="Trial II">
@@ -4252,35 +4248,34 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_110" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/05_mt/PALM_TINY_05_mt.bmp"/>
+<IMAGE ID="Image_128" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/05_mt/PALM_TINY_05_mt.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>2. Connect the Light probe to your handheld computer. Refer to Technical Hints to connect the Light probe.</SNPARAGRAPH>
+<SNPARAGRAPH>2. Does the amount of light vary according to how hard you crank? Record your observations in Notes on your handheld.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>3. Start the software to read light intensity (lux).</SNPARAGRAPH>
+<SNPARAGRAPH>3. Connect the Light probe to your handheld computer. Refer to Technical Hints to connect the Light probe.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="dc-light-4000" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>4. Measure the light level from light bulbs, direct sunlight, and light from the sky. Stop recording. Write down, in lux, how the three compare. </SNPARAGRAPH>
+<SNPARAGRAPH>4. Start the software to read light intensity (lux). Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Multiple_Transformations_trial_119_1" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>5. Place the light bulb in a black film canister along with the Light probe. Make sure the Light probe faces the light bulb. Hold the Light probe and the mini light in place with pieces of clay.</SNPARAGRAPH>
+<SNPARAGRAPH>5. Measure the light level from light bulbs, direct sunlight, and light from the sky. Stop recording, but don't clear the data.</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>6. Place the light bulb in a black film canister along with the Light probe. Make sure the Light probe faces the light bulb. Hold the Light probe and the mini light in place with pieces of clay.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_111" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/06a_mt/PALM_TINY_06a_mt.bmp"/>
+<IMAGE ID="Image_129" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/06a_mt/PALM_TINY_06a_mt.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>6. Cover the opening with aluminum foil to block as much outside light as you can.</SNPARAGRAPH>
+<SNPARAGRAPH>7. Cover the opening with aluminum foil to block as much outside light as you can.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_112" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/06b_mt/PALM_TINY_06b_mt.bmp"/>
+<IMAGE ID="Image_130" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/06b_mt/PALM_TINY_06b_mt.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>7. Restart the software to read light. Gradually increase the rate of cranking the Genecon. Do not crank too fast, or the light will burn out! See if you can establish a relationship between how fast you crank and how much light is produced. See if you can crank so slowly that no light is produced.</SNPARAGRAPH>
+<SNPARAGRAPH>8. Restart the software to read light. Gradually increase the rate of cranking the Genecon. Do not crank too fast, or the light will burn out! See if you can establish a relationship between how fast you crank and how much light is produced. Can you crank so slowly that no light is produced?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>8. Save the data to your handheld computer.</SNPARAGRAPH>
+<SNPARAGRAPH>9. Save the data to your handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>9.  What are the energy transformations happening here? What is the efficiency of each one? Do you think the mini light is producing only light energy? </SNPARAGRAPH>
+<SNPARAGRAPH>10. What are the energy transformations happening here? What is the efficiency of each one? Do you think the mini light is producing only light energy? Record your answers in Notes on your handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Multiple_Transformations_trial_120_2" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Multiple_Transformations_trial_III" name="Trial III">
@@ -4289,37 +4284,39 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. Team up with another group so that you can monitor two Genecons on one handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>2. Connect the VoltageCurrent probe to your handheld computer. Refer to Technical Hints to connect the VoltageCurrent probe.</SNPARAGRAPH>
+<SNPARAGRAPH>2. Connect the Voltage/Current probe to your handheld computer. Refer to Technical Hints to connect the Voltage/Current probe.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>3. Connect the VoltageCurrent probe leads to the Genecon leads as shown in the diagram.</SNPARAGRAPH>
+<SNPARAGRAPH>3. Connect the Voltage/Current probe leads to the Genecon leads as shown in the diagram.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_113" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/07_mt/PALM_TINY_07_mt.bmp"/>
+<IMAGE ID="Image_131" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/07_mt/PALM_TINY_07_mt.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>4. Start the software to read energy.</SNPARAGRAPH>
+<SNPARAGRAPH>4. Start the software to read energy. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="dc-voltage-current-energy" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>5.  Sketch your graph. How did the graph relate to what you were doing with the Genecons? What are the energy transformations happening here? </SNPARAGRAPH>
+<SNPARAGRAPH>5. Use one Genecon to drive the other, or each try to oppose the other. Watch the energy graph. Does it correspond to what you are doing with the Genecons? What are the energy transformations happening here? Stop recording.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Multiple_Transformations_trial_121_1" link="true" linkcolor="FF0000"/>
+<SNPARAGRAPH/>
+<EMBOBJ>
+<IMAGE ID="Image_132" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/08a_mt/PALM_TINY_08a_mt.bmp"/>
+</EMBOBJ>
 <SNPARAGRAPH>6. Now attach a pulley to one of the Genecons. Leave the wires hooked up. Remove one handle. The pulley comes with a piece of plastic tubing (bushing). Fit the tubing on the Genecon shaft and slide the pulley tightly over the shaft.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_115" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/08c_mt/PALM_TINY_08c_mt.bmp"/>
+<IMAGE ID="Image_133" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/08c_mt/PALM_TINY_08c_mt.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>7. Cut about 2m of thread or string. Tie one end through the hole in the side of the pulley.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_116" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/08d_mt/PALM_TINY_08d_mt.bmp"/>
+<IMAGE ID="Image_134" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/08d_mt/PALM_TINY_08d_mt.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>8. Wind up the string onto the pulley. Attach a hanging weight. You can use a 50g mass from your kit or a heavier one of your own. A paper clip works as a hook. It has a mass of about 0.3g.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_117" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/09a_mt/PALM_TINY_09a_mt.bmp"/>
+<IMAGE ID="Image_135" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/09a_mt/PALM_TINY_09a_mt.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>9. Hold the Genecon with its shaft horizontal and the string hanging down from the pulley. Its leads should still be hooked to the other Genecon, with the Voltage/Current leads in place.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -4327,13 +4324,14 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_118" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/09b_mt/PALM_TINY_09b_mt.bmp"/>
+<IMAGE ID="Image_136" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/09b_mt/PALM_TINY_09b_mt.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>11. Crank the other Genecon to lift the weight. Also try to lower the weight. If the weight is heavy enough, will it fall by itself? Try different things, like raising and lowering slowly and quickly.</SNPARAGRAPH>
+<SNPARAGRAPH>11. Crank the other Genecon to lift the weight. Can you also lower the weight? If the weight is heavy enough, will it fall by itself? Try different things, like raising and lowering slowly and quickly. Record the order in which you did things so that you can relate them to your graph in Notes on your handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>12. Save your data to your handheld computer. Sketch the graph and record the order in which you did things. </SNPARAGRAPH>
+<SNPARAGRAPH>12. Save your data to your handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Multiple_Transformations_trial_122_2" link="true" linkcolor="FF0000"/>
+<SNPARAGRAPH>13. What series of energy transformations is happening here? What do you think the efficiency of this system is? Record your thoughts in Notes on your handheld computer.</SNPARAGRAPH>
+<SNPARAGRAPH/>
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Technical Hints" ID="Multiple_Transformations-hints">
@@ -4358,18 +4356,16 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH linkcolor="0000FF">Forms of Energy: Multiple Transformations  Analysis
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>1. You built a solar car in Trial I! What other features would it need to be a practical vehicle? </SNPARAGRAPH>
+<SNPARAGRAPH>1. You built a solar car in Trial I! What other features would it need to be a practical vehicle?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Multiple_Transformations_analysis_123_1" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>2. You were asked to rate the efficiency of each energy transformation. Low efficiency means that useful energy is lost. Where does the lost energy go, in the case of the solar cell, the light bulb, and the Genecon? How efficient do you think each transformation is? </SNPARAGRAPH>
+<SNPARAGRAPH>2. Open the data from Trials II. Compare all of the different light levels you measured. What was the maximum level? What was the minimum level?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Multiple_Transformations_analysis_124_2" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>3.  What series of energy transformations is happening when one Genecon drives another? What do you think the efficiency of this system is? </SNPARAGRAPH>
+<SNPARAGRAPH>3. You were asked to rate the efficiency of each energy transformation. Low efficiency means that useful energy is lost. Where does the lost energy go, in the case of the Genecon, the solar cell, and the light bulb?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Multiple_Transformations_analysis_125_3" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>4. Design an energy "Rube Goldberg" machine. This type of machine is a wacky series of devices that change energy through various forms and ends up serving a purpose. Please no live animals! Make a drawing of your Rube Goldberg on your handheld computer. </SNPARAGRAPH>
+<SNPARAGRAPH>4. Open the data from Trial III. Compare the energy graph with your list of what you were doing with the two Genecons and the attached mass. What does the graph tell you about energy transfer from one Genecon to the other?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="Multiple_Transformations_analysis_126_4" link="true" linkcolor="FF0000"/>
+<SNPARAGRAPH>5. Design an energy "Rube Goldberg" machine. This type of machine is a wacky series of devices that change energy through various forms and ends up serving a purpose. Make a drawing of your Rube Goldberg on your handheld computer. Refer to Technical Hints to see draw in the software. Please no live animals!</SNPARAGRAPH>
+<SNPARAGRAPH/>
 </SUPERNOTES>
 </FOLDER>
 <FOLDER name="Responses" ID="Energy_response">
@@ -4382,14 +4378,14 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. What are three such situations?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_127" name="query_note_127"/>
+<NOTES ID="query_note_130" name="query_note_130"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. How does energy flow change over time?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_128" name="query_note_128"/>
+<NOTES ID="query_note_131" name="query_note_131"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -4402,14 +4398,14 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. Can you think of other times when you want uniform or non-uniform temperatures?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_129" name="query_note_129"/>
+<NOTES ID="query_note_132" name="query_note_132"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. Which condition (uniform or non-uniform) is easier to keep for the longest period of time?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_130" name="query_note_130"/>
+<NOTES ID="query_note_133" name="query_note_133"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -4419,12 +4415,12 @@ projects contributing to the development of CCProbeware are:
 <FOLDER ID="Heat_Flow_trial_I_response" name="Trial I Responses      &#10;    ">
 <SUPERNOTES ID="Heat_Flow_trial_64_1" name="trial 1 describe temp">
 <EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">Start the software and observe the temperature versus time graph as you test your two choices of water. Stop the software. Be sure the two samples are at least 10 degrees Celsius different from each other. </SNPARAGRAPH>
+<SNPARAGRAPH linkcolor="0000FF">Start the software and observe the temperature versus time graph as you test your two choices of water. Stop the software. Be sure the two samples are at least 10 degrees Celsius differentfrom each other. </SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. What are the two temperatures?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_131" name="query_note_131"/>
+<NOTES ID="query_note_134" name="query_note_134"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -4437,7 +4433,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. Before mixing the two samples of water together, predict the final temperature.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_132" name="query_note_132"/>
+<NOTES ID="query_note_135" name="query_note_135"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -4450,28 +4446,28 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. How many seconds did it take?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_133" name="query_note_133"/>
+<NOTES ID="query_note_136" name="query_note_136"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. How good was your prediction?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_134" name="query_note_134"/>
+<NOTES ID="query_note_137" name="query_note_137"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>3. Would this be a good temperature for your bath water?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_135" name="query_note_135"/>
+<NOTES ID="query_note_138" name="query_note_138"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>4. If not, how could you change the final temperature of the mixture?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_136" name="query_note_136"/>
+<NOTES ID="query_note_139" name="query_note_139"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -4486,35 +4482,35 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. What is the final temperature of the combination of water and clay?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_137" name="query_note_137"/>
+<NOTES ID="query_note_140" name="query_note_140"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. How many degrees did the clay change?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_138" name="query_note_138"/>
+<NOTES ID="query_note_141" name="query_note_141"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>3. How many degrees did the water change?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_139" name="query_note_139"/>
+<NOTES ID="query_note_142" name="query_note_142"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>4. How did you decide when equilibrium was reached?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_140" name="query_note_140"/>
+<NOTES ID="query_note_143" name="query_note_143"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>5. How many seconds did it take?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_141" name="query_note_141"/>
+<NOTES ID="query_note_144" name="query_note_144"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -4529,7 +4525,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. Record why you think your design is good in Notes on your handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_142" name="query_note_142"/>
+<NOTES ID="query_note_145" name="query_note_145"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -4542,14 +4538,14 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. How long does it take to reach equilibrium?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_143" name="query_note_143"/>
+<NOTES ID="query_note_146" name="query_note_146"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. Is the time greater or less than you thought it would be?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_144" name="query_note_144"/>
+<NOTES ID="query_note_147" name="query_note_147"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -4564,21 +4560,21 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. While mixing water at two temperatures, did the result match your prediction?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_145" name="query_note_145"/>
+<NOTES ID="query_note_148" name="query_note_148"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. If they differed, why?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_146" name="query_note_146"/>
+<NOTES ID="query_note_149" name="query_note_149"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>3. Derive a formula for the final temperature when you mix equal amounts of different temperatures of water.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_147" name="query_note_147"/>
+<NOTES ID="query_note_150" name="query_note_150"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -4591,14 +4587,14 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. Which exchanged heat faster, the water mixed together or the clay in the water?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_148" name="query_note_148"/>
+<NOTES ID="query_note_151" name="query_note_151"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. Why?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_149" name="query_note_149"/>
+<NOTES ID="query_note_152" name="query_note_152"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -4611,14 +4607,14 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. Draw the resulting graph of the clay temperature as it approaches the temperature of the water.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="100">
-<DRAWING ID="query_drawing_150" name="analysis1"/>
+<DRAWING ID="query_drawing_153" name="analysis1"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. Why do you think it has that shape?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_151" name="query_note_151"/>
+<NOTES ID="query_note_154" name="query_note_154"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -4631,14 +4627,14 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. Do you think the shape of the clay makes a difference in the results?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_152" name="query_note_152"/>
+<NOTES ID="query_note_155" name="query_note_155"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. Give examples of other shapes besides a ball that you could use and how they would behave differently.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_153" name="query_note_153"/>
+<NOTES ID="query_note_156" name="query_note_156"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -4651,14 +4647,14 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH>1. How did your method of insulation compare to methods used by others?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_154" name="query_note_154"/>
+<NOTES ID="query_note_157" name="query_note_157"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. Explain why the differences occurred.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="60">
-<NOTES ID="query_note_155" name="query_note_155"/>
+<NOTES ID="query_note_158" name="query_note_158"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -4667,1151 +4663,32 @@ projects contributing to the development of CCProbeware are:
 </FOLDER>
 </FOLDER>
 <FOLDER view="paging" name="Potential and Kinetic Energy  Responses" ID="Potential_Kinetic_Energy-response">
-<FOLDER ID="Potential_Kinetic_Energy_think_response" name="Think About Responses ">
-<SUPERNOTES ID="Potential_Kinetic_Energy_think_75_1" name="think 1 predict basketball">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">A basketball player going for a lay up is a good example of an object in motion. Just as the player is ready to release the ball, the player exhibits both gravitational potential energy (how high the player jumps) and the kinetic energy of motion (how fast the player is going). </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. How do these two energies relate?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_156" name="query_note_156"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-<SUPERNOTES ID="Potential_Kinetic_Energy_think_76_2" name="think 2 predict swing">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">Think about what happens when you are swinging on a playground swing. When you are near the ground, you are going fast. At the top of your swing you are stopped for a split second. </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. Draw the motion of the swing.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="100">
-<DRAWING ID="query_drawing_157" name="think1"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. Where do you have the most energy?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_158" name="query_note_158"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>3. Where is the (gravitational) potential energy the greatest?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_159" name="query_note_159"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>4. Where is the kinetic energy the greatest?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_160" name="query_note_160"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-</FOLDER>
-<FOLDER ID="Potential_Kinetic_Energy_trial_I_response" name="Trial I Responses      &#10;    ">
-<SUPERNOTES ID="Potential_Kinetic_Energy_trial_77_1" name="trial 1 describe trial1">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">When the cart is rolling, it has what's called kinetic energy, or energy of motion. Yet when the cart started, it had no kinetic energy because it was not moving. </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. So where did the energy come from?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_161" name="query_note_161"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. What is the greatest velocity of the cart?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_162" name="query_note_162"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>3. Where does this occur?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_163" name="query_note_163"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-</FOLDER>
-<FOLDER ID="Potential_Kinetic_Energy_trial_II_response" name="Trial II Responses      &#10;    ">
-<SUPERNOTES ID="Potential_Kinetic_Energy_trial_78_1" name="trial 1 describe trial2">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">When the cart is rolling, it has what's called kinetic energy, or energy of motion. Yet when the cart started, it had no kinetic energy because it was not moving. </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. So where did the energy come from?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_164" name="query_note_164"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. What is the greatest velocity of the cart?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_165" name="query_note_165"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>3. Where does this occur?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_166" name="query_note_166"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-</FOLDER>
-<FOLDER ID="Potential_Kinetic_Energy_trial_III_response" name="Trial III Responses      &#10;    ">
-<SUPERNOTES ID="Potential_Kinetic_Energy_trial_79_1" name="trial 1 describe trial3">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF"> </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. At what points in the cart's travels did it have the greatest speed?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_167" name="query_note_167"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. At what points did it have zero speed?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_168" name="query_note_168"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>3. How can you tell from the graph when the cart was going down and when it was going up?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_169" name="query_note_169"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-</FOLDER>
-<FOLDER ID="Potential_Kinetic_Energy_analysis_response" name="Analysis Responses">
-<SUPERNOTES ID="Potential_Kinetic_Energy_analysis_80_1" name="analysis 1 describe 1">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">In Trials I and II, the cart has two forms of energy. The first, gravitational potential energy, is proportional to an object's height above the Earth. The higher an object, the more gravitational potential energy it has. </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. When did the cart have the greatest potential energy?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_170" name="query_note_170"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. Why?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_171" name="query_note_171"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-<SUPERNOTES ID="Potential_Kinetic_Energy_analysis_81_2" name="analysis 2 describe 2">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">The second form is kinetic energy, also called energy of motion. It depends on an object's velocity. </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. When did the cart have the greatest kinetic energy?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_172" name="query_note_172"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. Why?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_173" name="query_note_173"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-<SUPERNOTES ID="Potential_Kinetic_Energy_analysis_82_3" name="analysis 3 explain 3">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF"> </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. Do you think the cart has as much kinetic energy at the bottom of the ramp as it had potential energy at the top of the ramp?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_174" name="query_note_174"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. Why?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_175" name="query_note_175"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-<SUPERNOTES ID="Potential_Kinetic_Energy_analysis_83_4" name="analysis 4 explain 4">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">Energy can also be stored in a stretched rubber band. It's another form of potential energy. If you "hang" a cart down a ramp with a rubber band, then let it bounce up and down, energy is going from (gravitational potential) to (kinetic) to (rubber band potential). Look at your data from Trial III. </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. Draw the graph.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="100">
-<DRAWING ID="query_drawing_176" name="analysis1"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. Where on the graph is each kind of energy the greatest?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_177" name="query_note_177"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-<SUPERNOTES ID="Potential_Kinetic_Energy_analysis_84_5" name="analysis 5 explain 5">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">After the cart leaves the ramp, it slows down, losing its kinetic energy. </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. Where does the energy go?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_178" name="query_note_178"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-<SUPERNOTES ID="Potential_Kinetic_Energy_analysis_85_6" name="analysis 6 explain 6">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">We often want to store energy for later use. The useful energy might not always be kinetic energy - it might be light from a bulb, or heat in a room. How many examples of this can you list? </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. List the form of stored energy and the form of useful energy that comes from it.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_179" name="query_note_179"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-</FOLDER>
+<FOLDER ID="Potential_Kinetic_Energy_think_response" name="Think About Responses "/>
+<FOLDER ID="Potential_Kinetic_Energy_trial_I_response" name="Trial I Responses      &#10;    "/>
+<FOLDER ID="Potential_Kinetic_Energy_trial_II_response" name="Trial II Responses      &#10;    "/>
+<FOLDER ID="Potential_Kinetic_Energy_trial_III_response" name="Trial III Responses      &#10;    "/>
+<FOLDER ID="Potential_Kinetic_Energy_analysis_response" name="Analysis Responses"/>
 </FOLDER>
 <FOLDER view="paging" name="Heating with Electricity  Responses" ID="Heating_With_Electricity-response">
-<FOLDER ID="Heating_With_Electricity_think_response" name="Think About Responses ">
-<SUPERNOTES ID="Heating_With_Electricity_think_86_1" name="think 1 describe flows">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">When electricity flows through a wire, some of its energy goes into heating up the wire. Sometimes this is a problem. When electricity travels from a power station to the city, heat energy is wasted. But once the electricity arrives at your house for the purpose of heating a stove or a room, electrical heating is very efficient and flexible. </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. What devices in your house use electricity for heating?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_180" name="query_note_180"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-<SUPERNOTES ID="Heating_With_Electricity_think_87_2" name="think 2 predict genecon">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">The Genecon is a little generator with the same basic design as the huge generators run by hydroelectric dams, coal-fired boilers, or nuclear power plants. In every case, some other form of energy (e.g., falling water, burning coal, decaying radioactive material) turns the "crank" of a generator and creates electrical power. In this case, you supply the power. </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. Think of several ways that electric power is generated and the source of energy in each case.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_181" name="query_note_181"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-</FOLDER>
-<FOLDER ID="Heating_With_Electricity_trial_I_response" name="Trial I Responses      &#10;    ">
-<SUPERNOTES ID="Heating_With_Electricity_trial_88_1" name="trial 1 describe trial1">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">Practice until you can do two rates of cranking, slow and fast, where the faster rate produces twice as much power as the slower rate. Stop collecting data and disconnect the voltage and current leads. </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. What is the power of each rate in watts?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_182" name="query_note_182"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-<SUPERNOTES ID="Heating_With_Electricity_trial_89_2" name="trial 2 describe cranking">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">Expand the graph so that you can see how much the temperature rose while you were cranking, and how much it fell after you stopped. Write down the following values on a piece of paper: </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. starting temperature</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_183" name="query_note_183"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. the temperature after fast cranking</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_184" name="query_note_184"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>3. after slow cranking</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_185" name="query_note_185"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>4. the ending temperature</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_186" name="query_note_186"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-<SUPERNOTES ID="Heating_With_Electricity_trial_90_3" name="trial 3 describe calculate">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">Calculate the following values on a piece of paper: </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. the temperature change during fast cranking</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_187" name="query_note_187"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. the temperature change during slow cranking</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_188" name="query_note_188"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>3. the temperature change while cooling</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_189" name="query_note_189"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-<SUPERNOTES ID="Heating_With_Electricity_trial_91_4" name="trial 4 describe exactly">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">The heat cell is made so that it takes exactly 10 joules of energy to heat it one degree Celsius. </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. How many joules did your 30 seconds of fast cranking produce?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_190" name="query_note_190"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. What about the 30 seconds of slow cranking?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_191" name="query_note_191"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>3. How many joules did the cell lose in 60 seconds as it cooled?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_192" name="query_note_192"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-</FOLDER>
-<FOLDER ID="Heating_With_Electricity_trial_II_response" name="Trial II Responses      &#10;    ">
-<SUPERNOTES ID="Heating_With_Electricity_trial_92_1" name="trial 1 describe battery">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">Expand the graph so that you can see how much the temperature rose while the battery was attached and how much it decreased after you stopped. Place marks on the starting temperature, the maximum temperature, and the ending temperature. Write down the following values on a piece of paper. </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. the starting temperature</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_193" name="query_note_193"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. the maximum temperature</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_194" name="query_note_194"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>3. the ending temperature</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_195" name="query_note_195"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-<SUPERNOTES ID="Heating_With_Electricity_trial_93_2" name="trial 2 describe calcbattery">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">Calculate the following values on a piece of paper: </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. temperature change from start to maximum</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_196" name="query_note_196"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. temperature change by cooling</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_197" name="query_note_197"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-<SUPERNOTES ID="Heating_With_Electricity_trial_94_3" name="trial 3 describe steady">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF"> </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. Was each temperature rate over time steady?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_198" name="query_note_198"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-<SUPERNOTES ID="Heating_With_Electricity_trial_95_4" name="trial 4 describe joules">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">The heat cell is made so that it takes exactly 10 joules of energy to heat it one degree Celsius. </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. How many joules of heating did the battery produce in 60 seconds?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_199" name="query_note_199"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. How many joules did the cell lose in 60 seconds?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_200" name="query_note_200"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-</FOLDER>
-<FOLDER ID="Heating_With_Electricity_trial_III_response" name="Trial III Responses      &#10;    ">
-<SUPERNOTES ID="Heating_With_Electricity_trial_96_1" name="trial 1 describe graph">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">Expand the graph so that you can see how much the temperature rose while the battery was attached and how much it decreased after you stopped. Write down the following values on a piece of paper: </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. the starting temperature</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_201" name="query_note_201"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. the maximum temperature</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_202" name="query_note_202"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>3. the ending temperature</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_203" name="query_note_203"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-<SUPERNOTES ID="Heating_With_Electricity_trial_97_2" name="trial 2 describe cool">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF"> </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. How many degrees did the light heat up in 30s?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_204" name="query_note_204"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. How many degrees did it cool down in 30s?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_205" name="query_note_205"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-</FOLDER>
-<FOLDER ID="Heating_With_Electricity_analysis_response" name="Analysis Responses">
-<SUPERNOTES ID="Heating_With_Electricity_analysis_98_1" name="analysis 1 explain 1">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">Discuss the shape of the temperature graph when you supplied electrical energy to the heat cell with the Genecon. </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. Draw the graph.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="100">
-<DRAWING ID="query_drawing_206" name="analysis1"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. Does it start to heat right away?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_207" name="query_note_207"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>3. What does the slope of the line tell you?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_208" name="query_note_208"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>4. Is it the same for fast and slow cranking?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_209" name="query_note_209"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-<SUPERNOTES ID="Heating_With_Electricity_analysis_99_2" name="analysis 2 explain 2">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">Compare the rate of heating by the Genecon and the batteries. </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. Which heats faster?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_210" name="query_note_210"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. How can you tell?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_211" name="query_note_211"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>3. Are you surprised by the cranking speed it takes to equal what a small battery can do?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_212" name="query_note_212"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-<SUPERNOTES ID="Heating_With_Electricity_analysis_100_3" name="analysis 3 explain 3">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF"> </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. Is the amount of cooling significant over the period of 60 seconds?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_213" name="query_note_213"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-<SUPERNOTES ID="Heating_With_Electricity_analysis_101_4" name="analysis 4 explain 4">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF"> </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. Is the shape of the graph for cooling the same as the shape for heating?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_214" name="query_note_214"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. How long would it take for the heat cell to cool down to room temperature?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_215" name="query_note_215"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-<SUPERNOTES ID="Heating_With_Electricity_analysis_102_5" name="analysis 5 explain 5">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF"> </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. Could the energy in the battery be called "potential" energy?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_216" name="query_note_216"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. What form do you think it is in?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_217" name="query_note_217"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-<SUPERNOTES ID="Heating_With_Electricity_analysis_103_6" name="analysis 6 explain 6">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF"> </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. Why did the light bulb heat up so much more rapidly than the heat cell?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_218" name="query_note_218"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-<SUPERNOTES ID="Heating_With_Electricity_analysis_104_7" name="analysis 7 explain 7">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">Compare the tape teams' data with the foil teams' data. </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. Did the bulb heat up faster with the clear tape or the aluminum foil?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_219" name="query_note_219"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. How does the electricity turn into heat?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_220" name="query_note_220"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>3. What difference does the covering make?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_221" name="query_note_221"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-</FOLDER>
+<FOLDER ID="Heating_With_Electricity_think_response" name="Think About Responses "/>
+<FOLDER ID="Heating_With_Electricity_trial_I_response" name="Trial I Responses      &#10;    "/>
+<FOLDER ID="Heating_With_Electricity_trial_II_response" name="Trial II Responses      &#10;    "/>
+<FOLDER ID="Heating_With_Electricity_trial_III_response" name="Trial III Responses      &#10;    "/>
+<FOLDER ID="Heating_With_Electricity_analysis_response" name="Analysis Responses"/>
 </FOLDER>
 <FOLDER view="paging" name="Forms of Energy: Single Transformations  Responses" ID="Single_Transformations-response">
-<FOLDER ID="Single_Transformations_think_response" name="Think About Responses ">
-<SUPERNOTES ID="Single_Transformations_think_105_1" name="think 1 predict energy">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">Think of two kinds of energy that you make use of in and around your house. </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. Where does each kind come from?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_222" name="query_note_222"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. How is it stored before you use it?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_223" name="query_note_223"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>3. What do you do with the energy?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_224" name="query_note_224"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-</FOLDER>
-<FOLDER ID="Single_Transformations_trial_I_response" name="Trial I Responses      &#10;    ">
-<SUPERNOTES ID="Single_Transformations_trial_106_1" name="trial 1 describe effort">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">Look at the graph. </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. Sketch the shape of the graph.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="100">
-<DRAWING ID="query_drawing_225" name="trial1"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. Did the amount of cranking effort change as the capacitor "filled up"?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_226" name="query_note_226"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>3. Could you tell when it was fully charged?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_227" name="query_note_227"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>4. What did the graph do when the capacitor "drained out"?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_228" name="query_note_228"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-</FOLDER>
-<FOLDER ID="Single_Transformations_trial_II_response" name="Trial II Responses      &#10;    ">
-<SUPERNOTES ID="Single_Transformations_trial_107_1" name="trial 1 describe howfar">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">Connect the charged-up capacitor to power your air cart. Coil up the extra wire so that it doesn't rub against the wheels. Try it several times. </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. How far will it go?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_229" name="query_note_229"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-<SUPERNOTES ID="Single_Transformations_trial_108_2" name="trial 2 describe transfer">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF"> </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. Sketch the temperature graph.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="100">
-<DRAWING ID="query_drawing_230" name="trial1"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. How long does it take for the energy from the capacitor to transfer into the heat cell?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_231" name="query_note_231"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-<SUPERNOTES ID="Single_Transformations_trial_109_3" name="trial 3 explain joules">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">Calculate how much heat energy was stored in the capacitor. The heat cell contains 10 joules for each degree of temperature rise. </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. How many joules of energy were obtained?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_232" name="query_note_232"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-</FOLDER>
-<FOLDER ID="Single_Transformations_trial_III_response" name="Trial III Responses      &#10;    ">
-<SUPERNOTES ID="Single_Transformations_trial_110_1" name="trial 1 describe rise">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF"> </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. How fast did the temperature rise?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_233" name="query_note_233"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. How does this compare to what a battery or a capacitor will do?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_234" name="query_note_234"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>3. How many square centimeters of sunlight does the Fresnel lens collect?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_235" name="query_note_235"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-</FOLDER>
-<FOLDER ID="Single_Transformations_analysis_response" name="Analysis Responses">
-<SUPERNOTES ID="Single_Transformations_analysis_111_1" name="analysis 1 explain mechanical_energy">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">In Trial I you charged the capacitor with the Genecon, then ran the Genecon with the capacitor. </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. Do you think you obtained as much mechanical energy out of the capacitor as you put in it?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_236" name="query_note_236"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. How could you find out?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_237" name="query_note_237"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>3. If you didn't, where did the energy go?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_238" name="query_note_238"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-<SUPERNOTES ID="Single_Transformations_analysis_112_2" name="analysis 2 explain situation">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">Capacitors, with their ability to store electrical energy and release it very fast, have many uses. A familiar one is the flash on a camera. A very small amount of energy is released so fast that it makes a bright, but brief, light. This is just what a camera needs! But when you want a slow, steady supply of energy, as with the air cart motor, a capacitor is not the best source of energy. A battery is much better. </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. What's another situation that uses batteries?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_239" name="query_note_239"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. What's another situation that might use capacitors?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_240" name="query_note_240"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-<SUPERNOTES ID="Single_Transformations_analysis_113_3" name="analysis 3 explain increase">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">The Fresnel lens concentrates light from a larger area to a smaller area, by bending the light that comes through it. This is called refraction. The Fresnel lens increased the amount of sunlight reaching the heat cell compared to being in the Sun without the lens. </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. How much was it increased?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_241" name="query_note_241"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. Could you calculate it?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_242" name="query_note_242"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-<SUPERNOTES ID="Single_Transformations_analysis_114_4" name="analysis 4 explain devices">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF"> </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. List some devices that use lenses to focus light?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_243" name="query_note_243"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-<SUPERNOTES ID="Single_Transformations_analysis_115_5" name="analysis 5 explain heat">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF"> </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. How do you think sunlight is converted into heat?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_244" name="query_note_244"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. Do you think it matters if the heat cell is black instead of plain aluminum? conversion.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_245" name="query_note_245"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>3. What is an example of heat being converted into light?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_246" name="query_note_246"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-</FOLDER>
+<FOLDER ID="Single_Transformations_think_response" name="Think About Responses "/>
+<FOLDER ID="Single_Transformations_trial_I_response" name="Trial I Responses      &#10;    "/>
+<FOLDER ID="Single_Transformations_trial_II_response" name="Trial II Responses      &#10;    "/>
+<FOLDER ID="Single_Transformations_trial_III_response" name="Trial III Responses      &#10;    "/>
+<FOLDER ID="Single_Transformations_analysis_response" name="Analysis Responses"/>
 </FOLDER>
 <FOLDER view="paging" name="Forms of Energy: Multiple Transformations  Responses" ID="Multiple_Transformations-response">
-<FOLDER ID="Multiple_Transformations_think_response" name="Think About Responses ">
-<SUPERNOTES ID="Multiple_Transformations_think_116_1" name="think 1 predict transform">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">Think of an example where energy is transformed several times before it is used. </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. List each of the forms of energy in the chain.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_247" name="query_note_247"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. What do you think the efficiency is for each step?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_248" name="query_note_248"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>3. Where do you think the wasted energy goes?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_249" name="query_note_249"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-</FOLDER>
-<FOLDER ID="Multiple_Transformations_trial_I_response" name="Trial I Responses      &#10;    ">
-<SUPERNOTES ID="Multiple_Transformations_trial_117_1" name="trial 1 describe light_source">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF"> </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. What were the best and worst light sources?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_250" name="query_note_250"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-<SUPERNOTES ID="Multiple_Transformations_trial_118_2" name="trial 2 describe power">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF"> </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. Is there enough power to drive the air cart?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_251" name="query_note_251"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. What energy transformations are happening there?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_252" name="query_note_252"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>3. How efficient do you think each step is?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_253" name="query_note_253"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-</FOLDER>
-<FOLDER ID="Multiple_Transformations_trial_II_response" name="Trial II Responses      &#10;    ">
-<SUPERNOTES ID="Multiple_Transformations_trial_119_1" name="trial 1 describe light">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">Measure the light level from light bulbs, direct sunlight, and light from the sky. Stop recording. </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. Write down, in lux, how the three compare.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_254" name="query_note_254"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-<SUPERNOTES ID="Multiple_Transformations_trial_120_2" name="trial 2 describe efficiency">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF"> </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. What are the energy transformations happening here?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_255" name="query_note_255"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. What is the efficiency of each one?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_256" name="query_note_256"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>3. Do you think the mini light is producing only light energy?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_257" name="query_note_257"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-</FOLDER>
-<FOLDER ID="Multiple_Transformations_trial_III_response" name="Trial III Responses      &#10;    ">
-<SUPERNOTES ID="Multiple_Transformations_trial_121_1" name="trial 1 describe relate">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF"> </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. Sketch your graph. How did the graph relate to what you were doing with the Genecons?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="100">
-<DRAWING ID="query_drawing_258" name="trial1"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_258" name="query_note_258"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. What are the energy transformations happening here?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_259" name="query_note_259"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-<SUPERNOTES ID="Multiple_Transformations_trial_122_2" name="trial 2 describe order">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">Save your data to your handheld computer. </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. Sketch the graph and record the order in which you did things.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="100">
-<DRAWING ID="query_drawing_260" name="trial1"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_260" name="query_note_260"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-</FOLDER>
-<FOLDER ID="Multiple_Transformations_analysis_response" name="Analysis Responses">
-<SUPERNOTES ID="Multiple_Transformations_analysis_123_1" name="analysis 1 explain features">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">You built a solar car in Trial I! </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. What other features would it need to be a practical vehicle?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_261" name="query_note_261"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-<SUPERNOTES ID="Multiple_Transformations_analysis_124_2" name="analysis 2 explain lost_energy">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">You were asked to rate the efficiency of each energy transformation. Low efficiency means that useful energy is lost. </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. Where does the lost energy go, in the case of the solar cell, the light bulb, and the Genecon?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_262" name="query_note_262"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. How efficient do you think each transformation is?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_263" name="query_note_263"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-<SUPERNOTES ID="Multiple_Transformations_analysis_125_3" name="analysis 3 explain system">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF"> </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. What series of energy transformations is happening when one Genecon drives another?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_264" name="query_note_264"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. What do you think the efficiency of this system is?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="60">
-<NOTES ID="query_note_265" name="query_note_265"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-<SUPERNOTES ID="Multiple_Transformations_analysis_126_4" name="analysis 4 describe Rube_Goldberg">
-<EMBOBJ object="teemss_titlebar.bmp"/>
-<SNPARAGRAPH linkcolor="0000FF">Design an energy "Rube Goldberg" machine. This type of machine is a wacky series of devices that change energy through various forms and ends up serving a purpose. Please no live animals! </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. Make a drawing of your Rube Goldberg on your handheld computer.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ w="140" h="100">
-<DRAWING ID="query_drawing_266" name="analysis1"/>
-</EMBOBJ>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-</SUPERNOTES>
-</FOLDER>
+<FOLDER ID="Multiple_Transformations_think_response" name="Think About Responses "/>
+<FOLDER ID="Multiple_Transformations_trial_I_response" name="Trial I Responses      &#10;    "/>
+<FOLDER ID="Multiple_Transformations_trial_II_response" name="Trial II Responses      &#10;    "/>
+<FOLDER ID="Multiple_Transformations_trial_III_response" name="Trial III Responses      &#10;    "/>
+<FOLDER ID="Multiple_Transformations_analysis_response" name="Analysis Responses"/>
 </FOLDER>
 </FOLDER>
 </FOLDER>
