@@ -55,7 +55,10 @@ endif
 $(PLATFORMS): $(PLATFORMS:%=$(CLASSES_DIR)/%)
 	javac -classpath $(call PLATFORM_CP,$(@)):$(call COMPILE_CP,$(@)) -d $(CLASSES_DIR)/$@ -O $(wildcard source/*.java) $(wildcard source/$@/*.java)
 
-$(CLASSES_DIR) $(BIN_DIR) $(PLATFORMS:%=$(CLASSES_DIR)/%) $(WJUMP_DIR):
+$(CLASSES_DIR) $(BIN_DIR) $(WJUMP_DIR):
+	-mkdir $@
+
+$(PLATFORMS:%=$(CLASSES_DIR)/%): $(CLASSES_DIR)
 	-mkdir $@
 
 warp: $(BIN_DIR) $(WARP_PLATFORM)
