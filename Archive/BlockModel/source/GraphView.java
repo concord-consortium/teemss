@@ -129,6 +129,19 @@ class GraphView extends Control implements PropObject
 
     }
 
+    public void updateProbes()
+    {
+	Object [] objArray;
+	int i;
+
+	// Need to collect data from all the probes
+	objArray = probes.toObjectArray();
+	for(i=0; i<objArray.length; i++){
+	    ((VProbeObject)objArray[i]).moved(); 
+	}
+
+    }
+
     public void plot()
     {
 	float x = 0;
@@ -193,6 +206,7 @@ class GraphView extends Control implements PropObject
     {
 	// redraw graph with latest data
 	myG = new JGraphics(this);
+	plot();
 	graph.draw(myG,0,0);
     }
 

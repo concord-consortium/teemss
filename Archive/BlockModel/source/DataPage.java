@@ -130,6 +130,8 @@ public class DataPage extends Container
 	modelCanvas.removeAll();
 	remove(modelCanvas);
 	modelCanvas = new Canvas();
+	modelCanvas.gv = gv;
+	modelCanvas.live = true;
 	dataObj2 = modelCanvas.readExt(ds);
 	add(modelCanvas);
 
@@ -162,6 +164,10 @@ public class DataPage extends Container
 		connection.blocks[curDataBlock++] = (BlockObject)tmpObjs2[i];
 	    }
 	}
+
+	gv.updateProbes();
+	gv.plot();
+	
     }
 
     public void onEvent(Event e)
