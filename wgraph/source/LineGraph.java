@@ -49,6 +49,7 @@ public class LineGraph implements Graph2D
 	yaxis.minimum = minValue;
 	yaxis.ticsInside = false;
 	yaxis.drawgrid = true;
+	yaxis.use_exponent = false;
 
 	length = 0;
 
@@ -104,7 +105,6 @@ public class LineGraph implements Graph2D
 
 	yaxis.setRange(minValue, range + minValue);
 
-	System.out.println("reseting points for " + numPoints + " points");
 	for(i=0; i<numPoints; i++){
 	    curPoint = points[i];
 	    curValue = values[i];
