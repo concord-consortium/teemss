@@ -59,6 +59,7 @@ jboolean debug;
 
 
 /* Forward declarations */
+void addStringToStringArray(JNIEnv *env, jarray arr,char *str,int index);
 jint ParseOptions(int *argcp, char ***argvp, JDK1_1InitArgs *vmargs);
 void AddProperty(char *def);
 void DeleteProperty(const char *name);
@@ -72,6 +73,7 @@ static int numProps, maxProps;	/* Current, max number of properties */
 
 char *mainWabaClassName = "waba/applet/Applet";
 char *addClassPath = "CCProbe.jar;";
+char *mainClassName = "CCProbe";
 /*
  * Main program to invoke Java runtime using JNI invocation API. Supports
  * setting of VM arguments through standard command line options.
@@ -117,8 +119,9 @@ void main(int argc, char *argv[])
     if (JRE_GetCurrentSettings(&set) != 0) {
 #endif
 		if (JRE_GetDefaultSettings(&set) != 0) {
-	    	fprintf(stderr, "Could not locate Java runtime\n");
-	    	exit(1);
+//	    		fprintf(stderr, "Could not locate Java runtime\n");
+	    		MessageBox(NULL,"Could not locate Java runtime","",MB_OK);
+	    		exit(1);
 		}
     }
     short majorVers = 0;
@@ -155,8 +158,10 @@ void main(int argc, char *argv[])
     if (handle == 0) {
   //winerror.h
     	DWORD err = GetLastError();
-		fprintf(stderr, "Could not load runtime library: %s error %u\n",
-		set.runtimeLib,err);
+//		fprintf(stderr, "Could not load runtime library: %s error %u\n",set.runtimeLib,err);
+		char messageStr[1024];
+		sprintf(messageStr,"Could not load runtime library: %s error %u",set.runtimeLib,err);
+		MessageBox(NULL,messageStr,"",MB_OK);
 		exit(1);
     }
 
@@ -230,7 +235,8 @@ void main(int argc, char *argv[])
 		strcat(newPath,set.classPath);
 
 	    if (JRE_GetDefaultJavaVMInitArgs(handle, &vmargs) != 0) {
-			fprintf(stderr, "Could not initialize Java VM\n");
+//			fprintf(stderr, "Could not initialize Java VM\n");
+			MessageBox(NULL,"Could not initialize Java VM","",MB_OK);
 			exit(1);
 	    }
 	    vmargs.classpath = newPath;
@@ -258,7 +264,8 @@ void main(int argc, char *argv[])
     }
 
     if (errorCreateVM) {
-		fprintf(stderr, "Could not create Java VM\n");
+//		fprintf(stderr, "Could not create Java VM\n");
+		MessageBox(NULL,"Could not create Java VM","",MB_OK);
 		exit(1);
    	 }
 
@@ -270,7 +277,10 @@ void main(int argc, char *argv[])
     /* Find class */
     cls = env->FindClass(mainWabaClassName);
     if (cls == 0) {
-	fprintf(stderr, "Class not found: %s\n", *--argv);
+//	fprintf(stderr, "Class not found: %s\n", *--argv);
+		char messageStr[1024];
+		sprintf(messageStr,"Class not found: %s", *--argv);
+		MessageBox(NULL,messageStr,"",MB_OK);
 	exit(1);
     }
 
@@ -278,8 +288,10 @@ void main(int argc, char *argv[])
     mid = env->GetStaticMethodID( cls, "main",
     				    "([Ljava/lang/String;)V");
     if (mid == 0) {
-	fprintf(stderr, "In class %s: public static void main(String args[])"
-			" is not defined\n");
+//	fprintf(stderr, "In class %s: public static void main(String args[]) is not defined\n",mainWabaClassName);
+		char messageStr[1024];
+		sprintf(messageStr,"In class %s: public static void main(String args[]) is not defined\n",mainWabaClassName);
+		MessageBox(NULL,messageStr,"",MB_OK);
 	exit(1);
     }
 
@@ -312,14 +324,20 @@ jint ParseOptions(int *argcp, char ***argvp, JDK1_1InitArgs *vmargs)
     while ((arg = *argv++) != 0 && *arg++ == '-') {
 	if (strcmp(arg, "classpath") == 0) {
 	    if (*argv == 0) {
-		fprintf(stderr, "No class path given for %s option\n", arg);
+//		fprintf(stderr, "No class path given for %s option\n", arg);
+		char messageStr[1024];
+		sprintf(messageStr,"No class path given for %s option", arg);
+		MessageBox(NULL,messageStr,"",MB_OK);
 		return -1;
 	    }
 	    vmargs->classpath = *argv++;
 	} else if (strcmp(arg, "cp") == 0) {
 	    char *cp = vmargs->classpath;
 	    if (*argv == 0) {
-		fprintf(stderr, "No class path given for %s option\n", arg);
+//		fprintf(stderr, "No class path given for %s option\n", arg);
+		char messageStr[1024];
+		sprintf(messageStr,"No class path given for %s option", arg);
+		MessageBox(NULL,messageStr,"",MB_OK);
 		return -1;
 	    }
 	    vmargs->classpath = (char *)malloc(strlen(*argv) + strlen(cp) + 2);
@@ -379,7 +397,10 @@ jint ParseOptions(int *argcp, char ***argvp, JDK1_1InitArgs *vmargs)
 		   strcmp(arg, "help") == 0) {
 	    return -1;
 	} else {
-	    fprintf(stderr, "Illegal option: -%s\n", arg);
+//	    fprintf(stderr, "Illegal option: -%s\n", arg);
+		char messageStr[1024];
+		sprintf(messageStr,"Illegal option: -%s", arg);
+		MessageBox(NULL,messageStr,"",MB_OK);
 	    return -1;
 	}
     }
@@ -441,27 +462,26 @@ void DeleteProperty(const char *name)
  */
 jarray NewStringArray(JNIEnv *env, char **cpp, int count)
 {
-    jclass cls;
-    jarray ary;
-    int i;
-	jstring str;
-    NULL_CHECK(cls = env->FindClass( "java/lang/String"));
-    NULL_CHECK(ary = env->NewObjectArray( count+2, cls, 0));
-	str = env->NewStringUTF( mainWabaClassName);
-	NULL_CHECK(str);
-	env->SetObjectArrayElement((jobjectArray) ary, 0, (jobject)str);
-	env->DeleteLocalRef( str);
-	str = env->NewStringUTF( "/color");
-	NULL_CHECK(str);
-	env->SetObjectArrayElement((jobjectArray) ary, 1, (jobject)str);
-	env->DeleteLocalRef( str);
-    for (i = 0; i < count; i++) {
-		str = env->NewStringUTF( *cpp++);
-		NULL_CHECK(str);
-		env->SetObjectArrayElement((jobjectArray) ary, i+2, (jobject)str);
-		env->DeleteLocalRef( str);
-    }
-    return ary;
+	jclass cls;
+	jarray arr;
+	int i;
+	NULL_CHECK(cls = env->FindClass( "java/lang/String"));
+	NULL_CHECK(arr = env->NewObjectArray( count+3, cls, 0));
+	addStringToStringArray(env,arr,mainWabaClassName,0);
+	addStringToStringArray(env,arr,"/color",1);
+	for (i = 0; i < count; i++) {
+		addStringToStringArray(env,arr,*cpp++,i+2);
+	}
+	addStringToStringArray(env,arr,mainClassName,count+2);
+	return arr;
+}
+
+void addStringToStringArray(JNIEnv *env, jarray arr,char *str,int index){
+	if (env == NULL || arr == NULL || str == NULL) return;
+	jstring jstr = env->NewStringUTF( str);
+	if (jstr == NULL) return;
+	env->SetObjectArrayElement((jobjectArray) arr, index, (jobject)jstr);
+	env->DeleteLocalRef( jstr);
 }
 
 /*
