@@ -63,6 +63,7 @@ public class LabBookFile extends LabBookDB
 
 			// length
 			ds.writeInt(0);
+			file.close();
 			return;
 		} else {
 			curDevId = ds.readInt();

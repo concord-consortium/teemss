@@ -63,6 +63,7 @@ public class LabBookFile extends LabBookDB
 
 			// length
 			ds.writeInt(0);
+			file.close();
 			return;
 		} else {
 			curDevId = ds.readInt();
@@ -378,8 +379,6 @@ public class LabBookFile extends LabBookDB
 
 		if(nextObjId <= ptr.objId) nextObjId = ptr.objId + 1;
 		
-
-
 		fObj = findObj(ptr);
 		int objectFilePos = -1;
 		file = new File(fileName, File.READ_WRITE);
