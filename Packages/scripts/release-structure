@@ -3,18 +3,18 @@ CCProbe Package Release System
 There is a shell script for automating the process for building and
 archiving a package of components for each platform.  The script
 copies the waba code from ./CCProbe/bin/, the labbook from
-./Xml/LabBookXSL/, components from ./releases/components/<platform>/,
+./TeemssXML/LabBookXSL/, components from ./Packages/components/<platform>/,
 documentation from .release/doc/<platform>/ and from
-./releases/doc/all/.  All of these elememts are copied to
-./releases/complete/<platform>/.  This folder contains what will be on
+./Packages/doc/all/.  All of these elememts are copied to
+./Packages/complete/<platform>/.  This folder contains what will be on
 a users computer after downloading and expanding the archive.  Next
-the directory ./releases/complete/<platform> is archived in a platform
+the directory ./Packages/complete/<platform> is archived in a platform
 specific method with the result placed in
-./releases/download/<platform>/.  I use Stuffit Deluxe controlled from
+./Packages/download/<platform>/.  I use Stuffit Deluxe controlled from
 Applescript order to create binhex stuffit archives for MacOS and
 ".exe" stuffit archives for windows.
 
-releases/
+Packages/
   scripts/
     make-macos-classic
     make-macos-classic.applescript

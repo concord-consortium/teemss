@@ -1,11 +1,11 @@
 #! /bin/sh
 
-destination="/Users/stephen/cvsroot/releases/complete/ccprobe-macos-classic"
-download="/Users/stephen/cvsroot/releases/download/ccprobe-macos-classic"
+destination="/Users/stephen/cvsroot/Packages/complete/ccprobe-macos-classic"
+download="/Users/stephen/cvsroot/Packages/download/ccprobe-macos-classic"
 bin="/Users/stephen/cvsroot/CCProbe/bin"
-components="/Users/stephen/cvsroot/releases/components/ccprobe-macos-classic"
-doc="/Users/stephen/cvsroot/releases/doc"
-labbook="/Users/stephen/cvsroot/Xml/LabBookXSL"
+components="/Users/stephen/cvsroot/Packages/components/ccprobe-macos-classic"
+doc="/Users/stephen/cvsroot/Packages/doc"
+labbook="/Users/stephen/cvsroot/TeemssXML/LabBookXSL"
 
 rm -rf $destination/*
 rm -rf $download/*
