@@ -999,7 +999,6 @@ private final static EmptyLabObject emptyObject = new EmptyLabObject();
 								object.setShowMenus(false);
 								LabObject lobj = object.getLabObject();
 								LabObjectView realView = lobj.getView(this,false);
-								if(realView != null) realView.setShowMenus(true);
 								if(owner != null){
 									owner.addChoosenLabObjView(realView);
 								}
@@ -1084,7 +1083,6 @@ private final static EmptyLabObject emptyObject = new EmptyLabObject();
 				removeCursor();
 				LabObject lobj = object.getLabObject();
 				LabObjectView realView = lobj.getView(this,false);
-				if(realView != null) realView.setShowMenus(true);
 				if(owner != null){
 					owner.addChoosenLabObjView(realView);
 				}
@@ -1357,7 +1355,6 @@ private final static EmptyLabObject emptyObject = new EmptyLabObject();
 						if(linkObj == null) return;
 
 						LabObjectView realView = linkObj.getView(this,false);
-						if(realView != null) realView.setShowMenus(true);
 						if(owner != null){
 							owner.addChoosenLabObjView(realView);
 						}

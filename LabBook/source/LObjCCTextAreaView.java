@@ -50,22 +50,27 @@ CCScrollBar				scrollBar;
 		
 		// check if this object is the one we popped up
 		if(source == lObjView){
-			lObjView.setContainer(tArea);
-			lObjView.setEmbeddedState(true);
-			lObjView.setShowMenus(false);
-			tArea.layoutComponents();
- 			waba.util.Vector oldLines = tArea.lines;
-			tArea.setText(tArea.getText());
-			tArea.restoreTextProperty(oldLines);
+			/*
+				lObjView.setContainer(tArea);
+				lObjView.setEmbeddedState(true);
+				lObjView.setShowMenus(false);
+				tArea.layoutComponents();
+				waba.util.Vector oldLines = tArea.lines;
+				tArea.setText(tArea.getText());
+				tArea.restoreTextProperty(oldLines);
 			
-			
-			tArea.removeCursor();
-			// If we are embedded this will be a problem
+				tArea.removeCursor();
+
+				getMainView().closeTopWindowView();
+				if(showMenus) addMenus();
+				lObjView.didLayout = false;
+				lObjView.layout(false);
+				lObjView = null;
+			*/
+			lObjView.close();
+
 			getMainView().closeTopWindowView();
-			if(showMenus) addMenus();
-			lObjView.didLayout = false;
-			lObjView.layout(false);
-			lObjView = null;
+			if(showMenus) addMenus();				
 		}
 	}
 
