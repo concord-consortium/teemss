@@ -12,6 +12,7 @@ Edit 					nameEdit;
 Label					nameLabel;
 boolean					nameEditWasAdded = false;
 boolean					buttonsWasAdded = false;
+boolean					doneButtonWasAdded = false;
 RelativeContainer 		edit = new RelativeContainer();
 
 LObjDocument 			doc;
@@ -21,6 +22,7 @@ TimerButton 			upButton,downButton;
 public boolean 			showName = true;
 
 Menu 					menu = null;
+
 
 	public LObjDocumentView(ViewContainer vc, LObjDocument d,boolean edit){
 		super(vc);
@@ -36,13 +38,14 @@ Menu 					menu = null;
 	
 	public void addMenus(ViewContainer vc){
 		
-		if(menu != null || vc == null) return;
-		menu = new Menu("Notes");
-		menu.add("Load Note ...");
-		menu.add("-");
-		menu.add("Paste");
-		menu.addActionListener(this);
-		vc.getMainView().addMenu(this, menu);
+		if(menu == null){
+			menu = new Menu("Notes");
+			menu.add("Load Note ...");
+			menu.add("-");
+			menu.add("Paste");
+			menu.addActionListener(this);
+		}
+		if(vc != null) vc.getMainView().addMenu(this, menu);
 	}
 	public void setEmbeddedState(boolean embeddedState){
 		boolean oldState = getEmbeddedState();
@@ -94,6 +97,26 @@ Menu 					menu = null;
 
 
 	public void layout(boolean sDone){
+	
+		if(sDone != showDone){
+			showDone = sDone;
+			if(showDone){
+				if(doneButton == null){
+					doneButton = new Button("Done");
+				}
+				if(!doneButtonWasAdded && doneButton != null){
+					add(doneButton);
+					doneButtonWasAdded = true;
+				}
+				doneButton.setRect(width-30,0,30,15);
+			}else{
+				if(doneButtonWasAdded && doneButton != null){
+					remove(doneButton);
+					doneButtonWasAdded = false;
+				}
+			}
+		}
+	
 		if(didLayout) return;
 		didLayout = true;
 		showDone = sDone;
@@ -132,6 +155,7 @@ Menu 					menu = null;
 		if(showDone){
 			doneButton = new Button("Done");
 			add(doneButton);
+			doneButtonWasAdded = true;
 		} 
 	}
 
@@ -141,11 +165,13 @@ Menu 					menu = null;
 
 	public void setRect(int x, int y, int width, int height){
 		super.setRect(x,y,width,height);
+				
 		if(!didLayout) layout(showDone);
 
 		if(showDone){
 			doneButton.setRect(width-30,0,30,15);
 		}
+		
 		if(getEmbeddedState()){
 			edit.setRect(0,0,width,height);
 		}else{

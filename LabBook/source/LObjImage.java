@@ -22,9 +22,10 @@ public LObjImageView view = null;
     	
  		if(view == null){ 
    			view = new LObjImageView(vc, this, edit);
-    	}else if(view.container == null){
+    	}else{
     		view.container = vc;
     	}
+    	view.didLayout = false;
 		return view;
     }
 

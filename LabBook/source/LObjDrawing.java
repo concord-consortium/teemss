@@ -20,7 +20,7 @@ public LObjDrawingView view = null;
     	
     	if(view == null){
     		view = new LObjDrawingView(vc, this);
-    	}else if(view.container == null){
+    	}else{
     		view.container = vc;
     	}
     	view.didLayout = false;

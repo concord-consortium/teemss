@@ -72,7 +72,5 @@ public abstract class LabObjectView extends Container implements extra.ui.Prefer
 		this.embeddedState = embeddedState;
 	}
 	public boolean getEmbeddedState(){return embeddedState;}
-	
-
-	
+		
 }

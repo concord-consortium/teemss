@@ -21,7 +21,7 @@ public LObjDocumentView view = null;
     public LabObjectView getView(ViewContainer vc, boolean edit, LObjDictionary curDict){
  		if(view == null){ 
  			view = new LObjDocumentView(vc, this, edit);
- 		}else if(view.container == null){
+ 		}else{
     		view.container = vc;
     	}
 		return view;

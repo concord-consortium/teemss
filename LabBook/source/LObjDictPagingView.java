@@ -53,8 +53,8 @@ public class LObjDictPagingView extends LabObjectView
 		if(!showMenus && state){
 			// our container wants us to show our menus
 			showMenus = true;
-			addMenus();
 			if(lObjView != null) lObjView.setShowMenus(state);
+			addMenus();
 		} else if(showMenus && !state){
 			// out container wants us to remove our menus
 			showMenus = false;
@@ -282,7 +282,9 @@ public class LObjDictPagingView extends LabObjectView
 			Debug.println("Adding lObjView at: " + x + ", " + y +
 						  ", " + width + ", " + height);
 		}
+		if(container != null && menu != null) container.getMainView().delMenu(this, menu);
 		lObjView.setShowMenus(showMenus);
+		if(container != null && menu != null) container.getMainView().addMenu(this, menu);
 		add(lObjView);
 
 		// do I need this
