@@ -30,7 +30,6 @@ public class Choice extends extra.ui.List{
 		if (event instanceof PenEvent) {		   
 			int px=((PenEvent)event).x;
 			int py=((PenEvent)event).y - initialYOffset;
-			System.out.println("List: " + event.type + " (" + px + ", " + py + ")");
 			switch (event.type){
 			case PenEvent.PEN_DOWN:
 				if (popup==null){
