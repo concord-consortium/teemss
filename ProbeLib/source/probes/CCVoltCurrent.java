@@ -12,18 +12,18 @@ public class CCVoltCurrent extends CCProb{
 	float				energy = 0.0f;
 	public final static int		CURRENT_OUT 			= 0;
 	public final static int		VOLTAGE_OUT 			= 1;
-	public final static int		WATT_OUT 			= 2;
+	public final static int		POWER_OUT 			= 2;
 	public final static int		ENERGY_OUT 			= 3;
 	public final static String [] propNames = {"Port", "Output mode", "Version"};
 
 	float					zeroPointCurrent				= 1257f;//	
 	float					zeroPointVoltage				= 1257f;//	
 	float					currentResolution		= 700f; //       mV(reading)/A
-	float					voltageResolution		= 650f/20; //     mV(reading)/(true)V
+	float					voltageResolution		= 650f/20f; //     mV(reading)/(true)V
 
 	int					outputMode 			= VOLTAGE_OUT;
     String [] portNames = {"A", "B"};
-	public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
+	public static String [] modelNames = {"Current", "Voltage","Power","Energy"};
 	String [] versionNames = {"1.0", "2.0"};
    
 	int 				curChannel = 0;
@@ -103,7 +103,7 @@ public class CCVoltCurrent extends CCProb{
 			case VOLTAGE_OUT:
 				unit = CCUnit.UNIT_CODE_VOLT;
 				break;
-			case WATT_OUT:
+			case POWER_OUT:
 				unit = CCUnit.UNIT_CODE_WATT;
 				break;
 			case ENERGY_OUT:
@@ -183,7 +183,7 @@ public class CCVoltCurrent extends CCProb{
 				case VOLTAGE_OUT:
 					data[dataIndex] = (intData[i+voltOff]*dDesc.tuneValue - zeroPointVoltage)/voltageResolution;
 					break;
-				case WATT_OUT:
+				case POWER_OUT:
 				case ENERGY_OUT:
 					float		amper = (intData[i+currentOff]*dDesc.tuneValue - zeroPointCurrent)/currentResolution;
 					float		voltage = (intData[i+voltOff]*dDesc.tuneValue - zeroPointVoltage)/voltageResolution;
