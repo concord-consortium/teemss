@@ -103,6 +103,7 @@ public class CCForce extends Probe
 		} else if(po == modeProp){
 			if(index == 0){
 				rangeProp.setVisPossibleValues(range1Names);
+				rangeProp.setVisIndex(1);
 			} else if(index == 1){
 				rangeProp.setVisPossibleValues(range2Names);
 			}
@@ -110,12 +111,65 @@ public class CCForce extends Probe
 		return true;
 	}
 
-	public int getInterfaceMode()
+	public int getPrecision()
 	{
 		int rangeIndex = rangeProp.getIndex();
 		int speedIndex = speedProp.getIndex();
 
-		curChannel = 1-rangeIndex;
+		int modeIndex = modeProp.getIndex();
+		
+		if(speedIndex == 1 ||
+		   speedIndex == 2){
+			// a2d 10bit TuneValue in 10bit mode is ~ 3 mV
+			// In 10bit mode it is the resolution of the step
+			// size in the a2d convertor that is the limiting factor
+			// so the return is to round down log(A * TuneValue)
+			// where A is from Ax + b.
+			if(modeIndex == 0){
+				// end of arm
+				if(rangeIndex == 1){
+					// x1
+					return -2;
+				} else {
+					// x10
+					return -3;
+				}
+			} else {
+				// middle of arm
+				return -1;
+			}
+		} else if(speedIndex == 0){
+			// a2d 24
+			// Tune Value is at worse 0.00015f
+			// in twenty four bit mode it is noise not
+			// steps that cause the problems
+			if(modeIndex == 0){
+				// end of arm
+				// regardless of the range the noise if the 
+				// the same
+				return -3;
+			} else {
+				// middle of arm				
+				return -2;
+			}
+		} 
+
+		return DecoratedValue.UNKNOWN_PRECISION;
+	}
+
+	public int getInterfaceMode()
+	{
+		int rangeIndex = rangeProp.getIndex();
+		int speedIndex = speedProp.getIndex();
+		int modeIndex = modeProp.getIndex();
+
+		if(modeIndex == 0){
+			// end of arm
+			curChannel = 1-rangeIndex;
+		} else {
+			// middle of arm
+			curChannel = 0;
+		}
 
 		if(speedIndex == 0){
 			interfaceMode = CCInterfaceManager.A2D_24_MODE;
@@ -152,7 +206,7 @@ public class CCForce extends Probe
 
 		int rangeIndex = rangeProp.getIndex();
 		int modeIndex = modeProp.getIndex();
-		
+
 		if(modeIndex == 0){
 			if(rangeIndex == 1){
 				calDescIndex = 0;

@@ -80,6 +80,21 @@ float				koeff = 2f*Maths.PI;
 		return -1;
 	}
 
+	public int getQuantityPrecision(int mode)
+	{
+		switch(mode){
+		case 0:
+			return -4;
+		case 1:
+			return -2;
+		}
+
+		return DecoratedValue.UNKNOWN_PRECISION;
+	}
+
+
+	public int getPrecision(){ return -1; }
+
 	// Get the default unit
 	public int getUnit()
 	{

@@ -122,7 +122,12 @@ public class CCLightIntens extends Probe
 
 		return interfaceMode;
 	}
-	
+
+	public int getPrecision()
+	{
+		return 0;
+	}
+
 	public int  getActiveCalibrationChannels(){return 1;}
 
 	public boolean startSampling(DataEvent e){

@@ -75,6 +75,20 @@ public class CCRawData extends Probe
 		return super.startSampling(dEvent);
 	}
 
+	public int getPrecision()
+	{
+		// This is for the current part of the probe so...
+		int modeIndex = sampProp.getIndex();
+		if(modeIndex == 0){
+			// A2D 24 mode  +/- 0.00015 milliVolts 
+			return -7;
+		} else { 
+			// A2D 10 mode +/- 3 milliVolts
+			return -3;
+		}
+
+	}
+
     public boolean dataArrived(DataEvent e)
     {
 		int nOffset 		= e.getDataOffset();

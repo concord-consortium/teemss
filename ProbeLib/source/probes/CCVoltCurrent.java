@@ -123,6 +123,54 @@ public class CCVoltCurrent extends Probe
 		return unit;
 	}
 
+	public int getQuantityPrecision(int mode)
+	{
+		int speedIndex = speedProp.getIndex();
+		if(speedIndex == 0){
+			// A2D 24 mode
+			switch(mode){
+			case 1:
+				// voltage mode +/- 40 microVolts
+				return -5;
+			case 2:
+				// This is tricky because it isn't a linear function
+				// for now I'll just guess
+				return -5;
+			case 3:
+				// same here just a guess
+				return -5;
+			}
+		} else {
+			// A2D 10 mode 
+			switch(mode){
+			case 1:
+				// voltage mode +/- 40 microVolts
+				return -3;
+			case 2:
+				// This is tricky because it isn't a linear function
+				// for now I'll just guess
+				return -3;
+			case 3:
+				// same here just a guess
+				return -3;
+			}
+		} 
+		
+		return DecoratedValue.UNKNOWN_PRECISION;
+	}
+
+	public int getPrecision()
+	{
+		// This is for the current part of the probe so...
+		int speedIndex = speedProp.getIndex();
+		if(speedIndex == 0){
+			// A2D 24 mode  +/- 4microAmps
+			return -6;
+		} else {
+			// A2D 10 mode +/- 4 milliAmps
+			return -3;
+		}
+	}
 
 	public int getUnit()
 	{

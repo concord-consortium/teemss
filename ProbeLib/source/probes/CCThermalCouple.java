@@ -67,6 +67,8 @@ public class CCThermalCouple extends Probe
 		return unit;
 	}
 
+	public int getPrecision(){return -1; }
+
 	public int getInterfaceMode()
 	{
 		int outputMode = modeProp.getIndex();
