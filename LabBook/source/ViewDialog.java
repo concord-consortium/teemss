@@ -10,6 +10,7 @@ public class ViewDialog extends Dialog
 {
 	ExtraMainWindow owner = null;
 	LabObjectView view = null;
+	DialogListener listener = null;
 
 	public ViewDialog(ExtraMainWindow owner,DialogListener l,String title, 
 						  LabObjectView view)
@@ -19,6 +20,7 @@ public class ViewDialog extends Dialog
 		this.owner = owner;
 		addDialogListener(l);
 		owner.setDialog(this);
+		listener = l;
 		view.setContainer(this);
 	}
 
@@ -41,6 +43,7 @@ public class ViewDialog extends Dialog
 		source.close();
 		hide();
 		owner.setDialog(null);
+		if(listener != null) listener.dialogClosed(new DialogEvent(this,null,null,null,0));
 	}
 
     public void reload(LabObjectView source)

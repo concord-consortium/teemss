@@ -142,6 +142,17 @@ public class LObjDictionaryView extends LabObjectView
 	public void insertAtSelected(LabObject obj)
 	{
 		insertAtSelected(dict.getNode(obj));		
+
+		/* This is a little hack
+		 * a commit just happened so this object 
+		 * is not "loaded" any more so if lBook.load()
+		 * is called attempting to get this object it will
+		 * create a second object.  So we use a special
+		 * case of reload to handle this.
+		 * this sticks the object back into the "loaded" 
+		 * list so it won't get loaded twice
+		 */
+		dict.lBook.reload(obj);
 	}
 
     public void insertAtSelected(TreeNode node)
@@ -189,7 +200,11 @@ public class LObjDictionaryView extends LabObjectView
 				treeControl.reparse();
 				treeControl.repaint();
 			}
-		}		   
+		} else if(e.getSource() == propDialog){
+			dict.lBook.commit();
+			treeControl.reparse();
+			treeControl.repaint();			
+		}
     }
 
     TreeNode clipboardNode = null;
@@ -299,16 +314,19 @@ public class LObjDictionaryView extends LabObjectView
 		showPage(obj,edit);
 	}
 
+	ViewDialog propDialog = null;
+
 	public void showProperties(LabObject obj)
 	{
 		if(obj == null) return;
-		LabObjectView propView = obj.getPropertyView(null, (LObjDictionary)treeControl.getSelectedParent());
+		LabObjectView propView = obj.getPropertyView(null, null);
 		if(propView == null) return;
 		MainWindow mw = MainWindow.getMainWindow();
 		if(!(mw instanceof ExtraMainWindow)) return;
-		ViewDialog vDialog = new ViewDialog((ExtraMainWindow)mw, null, "Properties", propView);
+		ViewDialog vDialog = new ViewDialog((ExtraMainWindow)mw, this, "Properties", propView);
+		propDialog = vDialog;
 		vDialog.setRect(0,0,150,150);
-		vDialog.show();
+		vDialog.show();		
 	}
 
 	public void showPage(LabObject obj, boolean edit)

@@ -301,8 +301,9 @@ public class LabBook
 
 		if(i == numLoaded){
 			// This object hasn't been loaded or there was a commit since it 
-			// was last loaded.  So it should be loaded using the regular load
+			// was last loaded.  So it should be loaded using the regular load			
 			Debug.println("reload: Not pre-loaded");
+			loaded.add(lObj.ptr);
 			return false;
 		}
 
