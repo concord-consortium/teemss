@@ -496,6 +496,7 @@ public class LObjGraphView extends LabObjectView
 					av.delAnnot(av.getSelectedAnnot());
 				} else if(toolName.equals(TOOL_ANNOT_MARK_NAME)){
 					Annotation a = av.getSelectedAnnot();
+					if(a == null) return;
 					GraphSettings gs = graph.getCurGraphSettings();
 					LObjAnnotation lObjA = gs.findAnnot(a);
 					lObjA.showPropDialog(this);
