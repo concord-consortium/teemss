@@ -280,6 +280,7 @@ public class GraphSettings
 		}
 		bins = new Vector();
 		annots = new Vector();
+		updateGS();
 	}
 	
 

@@ -70,6 +70,7 @@ public class LObjGraphProp extends LabObjectView
 	public void setupProperties()
 	{
 		GraphSettings curGS = graph.getCurGraphSettings();
+		curGS.updateGS();
 		if(curGS == null) return;
 
 		if(propsGraph == null){

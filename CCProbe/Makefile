@@ -19,6 +19,10 @@ JAR_LIST:= -C $(CURDIR)/classes/other org/concord/CCProbe \
 -C $(subst _CUR_PLATFORM_,other,$(WGRAPH_DIR)) graph \
 -C $(subst _CUR_PLATFORM_,other,$(LABBOOK_DIR)) org/concord/LabBook 
 
+define POST_BUILD_TAG_CMDS
+cd $(BIN_DIR); cp * /home/ftp/pub/ccprobeware/bin
+endef
+
 include ../ReleaseSystem/waba.inc
 
 JAR_BUILD := other
