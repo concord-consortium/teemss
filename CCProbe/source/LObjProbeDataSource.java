@@ -14,7 +14,7 @@ import org.concord.LabBook.*;
 
 
 public class LObjProbeDataSource extends LObjSubDict
-	implements DataSource, ProbListener
+	implements DataSource, ProbListener, DialogListener
 {
 	Probe 			probe = null;
 	CCUnit		currentUnit = null;
@@ -27,6 +27,8 @@ public class LObjProbeDataSource extends LObjSubDict
 	static int defaultInterfaceType = CCInterfaceManager.INTERFACE_2;
 
 	ProbManager pb = null;
+
+	Dialog forceDialog = null;
 
     public LObjProbeDataSource()
     {
@@ -48,6 +50,11 @@ public class LObjProbeDataSource extends LObjSubDict
 										 LabBookSession session){
 		return new LObjProbeDataSourceProp(vc, this);
     }
+
+    public void dialogClosed(DialogEvent e)
+	{
+		
+	}
 
     public void showProp()
     {
@@ -164,8 +171,9 @@ public class LObjProbeDataSource extends LObjSubDict
 	public void zeroForce(LabBookSession session)
 	{
 		if(probe instanceof CCForce){
+			forceDialog = Dialog.showMessageDialog(this,"Zeroing Force","Please wait..",
+											"Cancel",Dialog.INFO_DIALOG);
 			CCForce fProbe = (CCForce)probe;
-			
 			fProbe.startZero();
 			startDataDelivery(session);
 		}
@@ -243,6 +251,10 @@ public class LObjProbeDataSource extends LObjSubDict
 		   e.getType() == CCForce.ZEROING_DONE){
 			stopDataDelivery();
 			store();
+			if(forceDialog != null){
+				forceDialog.hide();
+			}
+			forceDialog = null;
 		}
 
     	notifyProbListeners(e);

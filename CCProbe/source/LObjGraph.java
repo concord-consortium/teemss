@@ -302,7 +302,7 @@ public class LObjGraph extends LObjSubDict
 		}
 
 		graphSettings = new Vector(numDataSources);
-		for(int i=0; i<numDataSources; i++){
+		for(int i=0; i<numDataSources; i++){			
 			GraphSettings gs = new GraphSettings(this, i);
 			gs.readExternal(ds);
 			graphSettings.add(gs);

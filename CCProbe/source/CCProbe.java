@@ -55,7 +55,7 @@ public class CCProbe extends MainView
 			*/
 			// GraphSettings.MAX_COLLECTIONS = 1;			
 			lbDB = new LabBookCatalog("LabBook");
-			// lbDB = new LabBookFile("LabBook");
+			// lbDB = new LabBookFile("LabBook"); 
 		} else {
 			lbDB = new LabBookFile("LabBook");
 			GraphSettings.MAX_COLLECTIONS = 4;

@@ -218,7 +218,10 @@ public class GraphSettings
 	// when this function is called
 	public boolean startDataDelivery()
 	{
-		if(ds == null || gv == null) return false;
+		// This is a ugly hack
+		// currently these will only be null if the GraphSettings
+		// is disabled, or not visible on the graph
+		if(ds == null || gv == null) return true;
 
 		// This MAX_COLLECTIONS needs to be centralized somehow
 		if(bins.getCount() < MAX_COLLECTIONS){

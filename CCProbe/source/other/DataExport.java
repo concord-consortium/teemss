@@ -3,7 +3,7 @@ package org.concord.CCProbe;
 import graph.*;
 import waba.util.*;
 import waba.io.*;
-
+import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.io.*;
 
 public class DataExport 
@@ -14,6 +14,13 @@ public class DataExport
 	public DataExport(Bin b)
 	{
 		String name = createNameFile(b);
+		FileDialog fd = FileDialog.getFileDialog(FileDialog.FILE_SAVE, null);
+		if(fd != null){
+			fd.setFile(name);
+			fd.show();
+			name = fd.getFilePath();
+		}
+
 		if(name == null) return;
 
 		file = new File(name, File.CREATE);
