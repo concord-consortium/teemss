@@ -366,9 +366,13 @@ public class CCTextArea  extends Container
     
     public void addObject(LBCompDesc objDesc){
 		Object o = objDesc.getObject();
+
+		/*
 		if((o instanceof LObjCCTextArea) || (o instanceof LObjCCTextAreaView)){
 			return;
 		}
+		*/
+
 		if(o == null || !(o instanceof LabObject)) return;
 		LabObject labObject = (LabObject)o;
 		int nComponents = (components == null)?0:components.length;
