@@ -61,10 +61,10 @@ MainWindow 		owner;
 			}else if (event.target == choosePenButton){
 				if(isChooserUp){
 					remove(scribbleChooser);
+					add(drawArea);
 					drawArea.setPenColor(colorChooser.getChosenColor());
 					byte s = (byte)penChooser.getChosenPenSize();
 					drawArea.setPenSize(s,s);
-					add(drawArea);
 					isChooserUp = false;
 				}else{
 					remove(drawArea);
@@ -237,40 +237,57 @@ CCDrawPath	currPath = null;
 		setMode(MODE_NORMAL);
 		currPath = null;
 		pathList = null;
+     		if(bufIm != null){
+			waba.fx.Graphics ig = new waba.fx.Graphics(bufIm);
+			ig.setColor(255, 255, 255);
+			ig.fillRect(0, 0, this.width, this.height);
+	     		ig.free();
+     		}
 		repaint();
 	}
-
-	public void onPaint(Graphics g){
-     		if(bufIm == null) bufIm=new waba.fx.Image(width,height);
+	public void createOffImage(){
+     		if(bufIm != null) return;
+     		bufIm=new waba.fx.Image(width,height);
 		waba.fx.Graphics ig = new waba.fx.Graphics(bufIm);
 		ig.setColor(255, 255, 255);
 		ig.fillRect(0, 0, this.width, this.height);
+     		ig.free();
+	}
+
+	public void onPaint(Graphics g){
+		createOffImage();
+     		if(bufIm == null) return;
+		g.copyRect(bufIm,0,0,width,height,0,0);
+		waba.fx.Graphics ig = new waba.fx.Graphics(bufIm);
 		CCDrawPath path = pathList;
 		while(path != null){
-			int xc = 0,yc = 0;
-			int xf = 0,yf = 0;
-			ig.setColor(path.rPen,path.gPen,path.bPen);
-			for(int p= 0; p < path.currPos; p+=2){
-				if(p == 0){
-					xc = path.points[p];
-					yc = path.points[p+1];
-					xf = xc;
-					yf = yc;
-				}else{
-					xf = path.points[p];
-					yf = path.points[p+1];
-				}
-				if(path.type == 0){
-					for(int i = 0; i < path.wPen; i++){
-						for(int j = 0; j < path.hPen; j++){
-							ig.drawLine(xc+i, yc+j, xf+i, yf+j);
-						}
+			if(path.getDirty()){
+				int xc = 0,yc = 0;
+				int xf = 0,yf = 0;
+				ig.setColor(path.rPen,path.gPen,path.bPen);
+				for(int p= 0; p < path.currPos; p+=2){
+					if(p == 0){
+						xc = path.points[p];
+						yc = path.points[p+1];
+						xf = xc;
+						yf = yc;
+					}else{
+						xf = path.points[p];
+						yf = path.points[p+1];
 					}
-				}else{
-					ig.fillRect(xc-10,yc-10,20,20);
+					if(path.type == 0){
+						for(int i = 0; i < path.wPen; i++){
+							for(int j = 0; j < path.hPen; j++){
+								ig.drawLine(xc+i, yc+j, xf+i, yf+j);
+							}
+						}
+					}else{
+						ig.fillRect(xc-10,yc-10,20,20);
+					}
+					xc = xf;
+					yc = yf;
 				}
-				xc = xf;
-				yc = yf;
+				path.setDirty(false);
 			}
 			path = path.getNext();
 		}
@@ -291,6 +308,7 @@ int			gPen = 0;
 int			bPen = 0;
 short		[]points = null;
 int			currPos;
+boolean		dirty = true;
 	public CCDrawPath(int type,boolean colorMode,byte wPen,byte hPen,int rPen,int gPen,int bPen){
 		this.type = type;
 		this.colorMode = colorMode;
@@ -301,11 +319,15 @@ int			currPos;
 		this.bPen = bPen;
 		currPos = 0;
 		points = null;
+		dirty = true;
 	}
 	
 	public void 		setNext(CCDrawPath next){this.next = next;}
 	public CCDrawPath 	getNext(){return next;}
 	
+	public void 		setDirty(boolean dirty){this.dirty = dirty;}
+	public boolean 		getDirty(){return dirty;}
+
 	public void openPath(){
 		currPos = 0;
 		if(points == null){
