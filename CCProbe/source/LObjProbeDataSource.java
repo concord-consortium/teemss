@@ -5,12 +5,13 @@ import waba.ui.*;
 import extra.io.*;
 import org.concord.waba.extra.ui.*;
 import extra.ui.*;
-import extra.util.CCUnit;
+import extra.util.*;
 import org.concord.waba.extra.event.*;
 import org.concord.waba.extra.probware.probs.*;
 import org.concord.waba.extra.probware.ProbManager;
 import org.concord.waba.extra.probware.CCInterfaceManager;
 import org.concord.LabBook.*;
+
 
 public class LObjProbeDataSource extends LObjSubDict
 	implements DataSource, DataListener, ProbListener
@@ -54,6 +55,24 @@ public 		waba.util.Vector 	dataListeners = null;
 		if(probe != null) return probe.getLabel();
 		else return null;		
 	}
+
+	public String getSummary()
+	{
+		String summary;
+
+		CCProb p = getProbe();
+
+		summary = p.getName() + "(";
+		PropObject [] props = p.getProperties();
+		int i;
+		for(i=0; i < props.length-1; i++){
+			summary += props[i].getName() + "- " + props[i].getValue() + "; ";
+		}
+		summary += props[i].getName() + "- " + props[i].getValue() + ")";
+
+		return summary;
+	}
+
 
 	public CCUnit 	getUnit()
 	{

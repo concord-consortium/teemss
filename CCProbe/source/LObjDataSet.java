@@ -80,7 +80,7 @@ public class LObjDataSet extends LObjSubDict
 			LObjGraph dataView = (LObjGraph)getObj(0);
 			if(dataView != null){
 				gView = (LObjGraphView)dataView.getView(vc, edit);
-				gView.addDataSource(this);
+				dataView.addDataSource(this);
 				gView.doInstantCollection();
 				return gView;
 			}
@@ -155,6 +155,11 @@ public class LObjDataSet extends LObjSubDict
 	public void setLabel(String l)
 	{
 		label = l;
+	}
+
+	public String getSummary()
+	{
+		return label;
 	}
 
     int [] binInfo = null;

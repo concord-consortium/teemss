@@ -31,8 +31,7 @@ class TimeBin implements DecoratedValue
 }
 
 public class LObjGraphView extends LabObjectView
-    implements ActionListener, DialogListener, DataListener
-
+    implements ActionListener, DataListener
 {
     LObjGraph graph;
     AnnotView av = null;
@@ -50,18 +49,6 @@ public class LObjGraphView extends LabObjectView
     Menu menu = new Menu("Graph");
 	int curViewIndex = 1;
 
-    PropertyDialog pDialog = null;
-    PropContainer props = null;
-	PropObject propTitle;
-    PropObject propXmin;
-    PropObject propXmax;
-	PropObject propXlabel;
-    PropObject propYmin;
-    PropObject propYmax;
-	PropObject propYlabel;
-
-	boolean autoTitle = false;
-
     TimeBin timeBin = new TimeBin();
 
     DigitalDisplay dd;
@@ -70,7 +57,6 @@ public class LObjGraphView extends LabObjectView
 
 	int dd_height = 20;
 
-	LObjDataCollector dc = null;
 	LObjDictionary dataDict;
 	boolean instant = false;
 
@@ -97,163 +83,18 @@ public class LObjGraphView extends LabObjectView
 		graph = g;
 		lObj = g;	
 
-		props = new PropContainer();
-		props.createSubContainer("Graph");
-		props.createSubContainer("YAxis");	
-		props.createSubContainer("XAxis");
-
-		propTitle = new PropObject("Title", graph.title);
-		propTitle.prefWidth = 100;
-
-		propXmin = new PropObject("Min", graph.xmin + "");
-		propXmax = new PropObject("Max", graph.xmax + "");
-		propXlabel = new PropObject("Label", graph.xLabel);
-		propXlabel.prefWidth = 100;
-		propYmin = new PropObject("Min", graph.ymin + "");
-		propYmax = new PropObject("Max", graph.ymax + "");
-		propYlabel = new PropObject("Label", graph.yLabel);
-		propYlabel.prefWidth = 100;
-
-		props.addProperty(propTitle, "Graph");
-
-		props.addProperty(propXmax, "XAxis");
-		props.addProperty(propXmin, "XAxis");
-		props.addProperty(propXlabel, "XAxis");
-
-		props.addProperty(propYmax, "YAxis");
-		props.addProperty(propYmin, "YAxis");
-		props.addProperty(propYlabel, "YAxis");
     }
-
-	DataSource curDS;
-	public void addDataSource(DataSource ds)
-	{
-		// need to pass in object at this point to identify which 
-		// data source is which
-		ds.addDataListener(this);
-		curDS = ds;
-		if(curDS != null){			
-			graph.yUnit = curDS.getUnit();
-			if(graph.name.equals("..auto_title..")){
-				graph.yLabel = curDS.getLabel();
-				autoTitle = true;
-			} 			
-		}
-	}
 
 	public void doInstantCollection()
 	{
 		instant = true;
 	}		
 
-	public void setDC(LObjDataCollector dataC)
-	{
-		dc = dataC;
-		if(graph.name.equals("..auto_title..")){
-			graph.title = dc.getSummaryTitle();		   
-			autoTitle = true;
-		} 			
-	}
-
 	public void updateProp()
 	{
-		if(curDS != null){
-			graph.yUnit = curDS.getUnit();
-			if(autoTitle){
-				graph.yLabel = curDS.getLabel();
-				if(dc != null){
-					graph.title = dc.getSummaryTitle();
-				}
-			}
-
-		}
-		av.setYLabel(graph.yLabel, graph.yUnit);
-		av.setXLabel(graph.xLabel, graph.xUnit);		
-		av.setRange(graph.xmin, graph.xmax, graph.ymin, graph.ymax);
-
-		curBin.setUnit(graph.yUnit);
+		graph.updateAv(av, curBin, true);
+		postEvent(new ControlEvent(1001, this));
 	}
-
-    public void dialogClosed(DialogEvent e)
-    {
-		if(!e.getActionCommand().equals("Cancel")){
-			graph.xmin = propXmin.createFValue();
-			graph.xmax = propXmax.createFValue();
-			graph.ymin = propYmin.createFValue();
-			graph.ymax = propYmax.createFValue();
-			graph.xLabel = propXlabel.getValue();
-
-			String newTitle = propTitle.getValue();
-			String newYLabel = propYlabel.getValue();
-
-			if(!autoTitle && 
-			   ((newTitle.length() > 0 && 
-				 newTitle.charAt(0) == '*') ||
-				(newYLabel.length() > 0 &&
-				 newYLabel.charAt(0) == '*')) && 
-			   dc != null){
-				autoTitle = true;
-				graph.name = "..auto_title..";
-			} else if(autoTitle && 
-			   ((newTitle.length() > 0 && 
-				 newTitle.charAt(0) != '*') ||
-				(newYLabel.length() > 0 &&
-				 newYLabel.charAt(0) != '*'))){
-				autoTitle = false;
-			}
-
-			if(!autoTitle){
-				graph.title = newTitle;
-				graph.yLabel = newYLabel;
-			}
-
-			updateProp();
-
-			if(autoTitle && dc != null){
-				propTitle.setValue("*" + graph.title);
-				propYlabel.setValue("*" + graph.yLabel);
-			} 
-
-			postEvent(new ControlEvent(1001, this));
-		}
-
-		if(e.getActionCommand().equals("Close")){
-			av.repaint();
-		}
-    }
-
-	void updateAv2Graph()
-	{
-		graph.ymin = av.getYmin();
-		graph.ymax = av.getYmax();
-		graph.xmin = av.getXmin();
-		graph.xmax = av.getXmax();		
-	}
-
-    public void showAxisProp()
-	{
-		showAxisProp(0);
-	}
-    public void showAxisProp(int index)
-    {
-		MainWindow mw = MainWindow.getMainWindow();
-		if(mw instanceof ExtraMainWindow){
-			if(autoTitle) propTitle.setValue("*" + graph.title);
-			else propTitle.setValue(graph.title);
-
-			propXmin.setValue("" + graph.xmin);
-			propXmax.setValue("" + graph.xmax);
-			propXlabel.setValue(graph.xLabel);
-
-			propYmin.setValue("" + graph.ymin);
-			propYmax.setValue("" + graph.ymax);
-			propYlabel.setValue(graph.yLabel);
-
-			pDialog = new PropertyDialog((ExtraMainWindow)mw, this, "Properties", props, index);
-			pDialog.setRect(0,0, 140,140);
-			pDialog.show();
-		}
-    }
 
     float val= 0f;
     float time = 0f;
@@ -353,16 +194,19 @@ public class LObjGraphView extends LabObjectView
 
 		if(e.getSource() == menu){
 			if(e.getActionCommand().equals("Properties..")){
-				showAxisProp();
+				graph.showAxisProp();
 			}
 		} else {
 			if(e.getActionCommand().equals("Save Data..")){
 				LObjDataSet dSet = DataObjFactory.createDataSet();
+
 				LObjGraph dsGraph = (LObjGraph)graph.copy();
 				dsGraph.name = "Graph";
+
 				dSet.setDataViewer(dsGraph);
-				dSet.setUnit(graph.yUnit);
-				dSet.setLabel(graph.yLabel);
+				dSet.setUnit(graph.curGS.yUnit);
+				dSet.setLabel(graph.curGS.yLabel);
+
 				for(int i=0; i<bins.getCount(); i++){
 					dSet.addBin((Bin)bins.get(i));				   
 				}
@@ -377,11 +221,7 @@ public class LObjGraphView extends LabObjectView
 			} else if(e.getActionCommand().equals("Export Data..")){
 				if(bins != null ||
 				   bins.getCount() > 0){
-					if(dc != null){
-						((Bin)bins.get(0)).description = dc.getSummaryTitle();
-					} else {
-						((Bin)bins.get(0)).description = graph.title;
-					}
+					((Bin)bins.get(0)).description = graph.title;
 
 					DataExport.export((Bin)bins.get(0), av.lGraph.annots);
 
@@ -505,7 +345,6 @@ public class LObjGraphView extends LabObjectView
 	
 		av = new AnnotView(width, gHeight, 6);
 		av.setPos(0,curY);
-		av.setRange(graph.xmin, graph.xmax, graph.ymin, graph.ymax);
 		if(bins != null){
 			for(int i = 0; i < bins.getCount(); i++){
 				av.addBin((Bin)bins.get(i));
@@ -514,16 +353,15 @@ public class LObjGraphView extends LabObjectView
 				av.lgView.autoScroll = false;
 			}
 		}
-		av.setYLabel(graph.yLabel, graph.yUnit);
-		av.setXLabel(graph.xLabel, graph.xUnit);
+
 		curBin = av.getBin();
-		curBin.setUnit(graph.yUnit);
+		graph.updateAv(av, curBin, false);
 
 		add(av);
 
 		if(instant){
 			startGraph();
-			curDS.startDataDelivery();
+			graph.startDataDelivery();
 			stopGraph();
 			instant = false;
 		}
@@ -532,13 +370,7 @@ public class LObjGraphView extends LabObjectView
     public void close()
     {
 		Debug.println("Got close in graph");
-		graph.ymin = av.getYmin();
-		graph.ymax = av.getYmax();
-		graph.xmin = av.getXmin();
-		graph.xmax = av.getXmax();
-		if(autoTitle) graph.name = "..auto_title..";
 
-		graph.store();
 		if(container != null){
 			container.getMainView().delMenu(this,menu);
 			container.getMainView().removeFileMenuItems(fileStrings, this);
@@ -546,10 +378,8 @@ public class LObjGraphView extends LabObjectView
 
 		av.free();
 
-		if(curDS != null){
-			curDS.removeDataListener(this);
-		}
-
+		graph.removeGV();
+		graph.store();
 		super.close();
     }
 
@@ -573,7 +403,7 @@ public class LObjGraphView extends LabObjectView
 			av.active = false;
 			dd.removeBin(curBin);
 			curBin = av.pause();
-			curBin.setUnit(graph.yUnit);
+			curBin.setUnit(graph.curGS.yUnit);
 			curBin.label = "";
 			postEvent(new ControlEvent(1000, this));	
 		}
@@ -635,11 +465,11 @@ public class LObjGraphView extends LabObjectView
 				// curTime.setText("");
 			}		
 		} else if(e.type == 1004){
-			showAxisProp(2);
+			graph.showAxisProp(2);
 		} else if(e.type == 1005){
-			showAxisProp(1);
+			graph.showAxisProp(1);
 		} else if(e.type == 1006){
-			updateAv2Graph();
+			graph.updateGraph(av);
 		} else if(e.target == viewChoice){
 			if(e.type == ControlEvent.PRESSED){
 				int index = viewChoice.getSelectedIndex();
@@ -669,21 +499,25 @@ public class LObjGraphView extends LabObjectView
 					if(av.lGraph.calcVisibleRange()){
 						float margin = (av.lGraph.maxVisY - av.lGraph.minVisY)*0.1f;
 						int count=0;
+						float ymin, ymax;
 						while(margin == 0f && count < 4){
-							graph.ymin = av.lGraph.minVisY - (-1f)/av.lGraph.yaxis.scale;
-							graph.ymax = av.lGraph.maxVisY + (-1f)/av.lGraph.yaxis.scale;
-							updateProp();
+							ymin = av.lGraph.minVisY - (-1f)/av.lGraph.yaxis.scale;
+							ymax = av.lGraph.maxVisY + (-1f)/av.lGraph.yaxis.scale;
+							av.setRange(av.getXmin(), av.getXmax(), ymin, ymax);
 							av.curView.draw();
 							av.update();
+
 							if(!av.lGraph.calcVisibleRange()) return;
 							margin = (av.lGraph.maxVisY - av.lGraph.minVisY)*0.1f;
 							count++;
 						}
 						if(margin < 1.0E-8f) margin = 1.0E-8f; 
-						graph.ymin = av.lGraph.minVisY - margin;
-						graph.ymax = av.lGraph.maxVisY + margin;
-						updateProp();
-						repaint();
+						ymin = av.lGraph.minVisY - margin;
+						ymax = av.lGraph.maxVisY + margin;
+						av.setRange(av.getXmin(), av.getXmax(), ymin, ymax);
+						graph.updateGraph(av);
+						av.curView.draw();
+						av.update();
 					}
 					break;
 				case 3:

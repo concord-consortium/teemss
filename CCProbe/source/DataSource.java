@@ -27,4 +27,6 @@ public interface DataSource
 	public boolean 	setUnit(CCUnit unit);
 
 	public String getLabel();
+
+	public String getSummary();
 }

@@ -76,10 +76,13 @@ public class LObjDataCollectorProp extends LabObjectView
 		dataSources.add(newDS);
 		dc.setDataSources(dataSources);
 
-		graph.xUnit = CCUnit.getUnit(CCUnit.UNIT_CODE_S);
-		graph.xLabel = "Time";
-		graph.yLabel = newDS.getLabel();
-		graph.yUnit = newDS.getUnit();
+		GraphSettings gs = graph.getNewGS();
+
+		gs.setXUnit(CCUnit.getUnit(CCUnit.UNIT_CODE_S));
+		gs.setXLabel("Time");
+		gs.setYLabel(newDS.getLabel());
+		gs.setYUnit(newDS.getUnit());
+
 		graph.store();
 
 		if(nameEdit.getText() != "" && nameEdit.getText() != null){

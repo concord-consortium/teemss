@@ -40,34 +40,6 @@ public class LObjDataCollector extends LObjSubDict
 		super.store();		
 	}
 
-	public String getSummaryTitle()
-	{
-		String title;
-
-		// What's up with this.
-		Vector dataSources = getDataSources();
-		if(dataSources == null || dataSources.getCount() < 1){
-			return "DS not valid";
-		}
-
-		if(!(dataSources.get(0) instanceof LObjProbeDataSource)){
-			return ((DataSource)(dataSources.get(0))).getLabel();
-		}
-
-		LObjProbeDataSource pds = (LObjProbeDataSource)dataSources.get(0);
-		CCProb p = pds.getProbe();
-
-		title = p.getName() + "(";
-		PropObject [] props = p.getProperties();
-		int i;
-		for(i=0; i < props.length-1; i++){
-			title += props[i].getName() + "- " + props[i].getValue() + "; ";
-		}
-		title += props[i].getName() + "- " + props[i].getValue() + ")";
-
-		return title;
-	}
-
     public void setGraph(LObjGraph g)
     {
 		//	graph = g;
