@@ -6,7 +6,7 @@ import org.concord.waba.extra.event.*;
 import extra.ui.*;
 
 public class LObjDictPagingView extends LabObjectView 
-    implements ActionListener, LObjViewContainer
+    implements ActionListener, ViewContainer
 {
     LabObjectView lObjView = null;
 
@@ -30,7 +30,7 @@ public class LObjDictPagingView extends LabObjectView
 
     org.concord.waba.extra.ui.Menu menu = new org.concord.waba.extra.ui.Menu("View");
 
-    public LObjDictPagingView(LObjViewContainer vc, LObjDictionary d, boolean edit)
+    public LObjDictPagingView(ViewContainer vc, LObjDictionary d, boolean edit)
     {
 	super(vc);
 
@@ -168,11 +168,6 @@ public class LObjDictPagingView extends LabObjectView
 	    lObjView.setRect(x,y,width,height-15);
 	    add(lObjView);
 	}
-    }
-
-    public LObjDictionary getDict()
-    {
-	return dict;
     }
 
     public void showObject()

@@ -30,7 +30,7 @@ public LObjProbesRepView view = null;
 		return me;
 	}
 
-    public LabObjectView getView(LObjViewContainer vc, boolean edit,LObjDictionary curDict)
+    public LabObjectView getView(ViewContainer vc, boolean edit,LObjDictionary curDict)
     {
     	
  		if(view == null){ 
@@ -68,13 +68,13 @@ class LObjProbesRepView extends LabObjectView implements ActionListener
     Menu menu = null;
 	
 	
-	public LObjProbesRepView(LObjViewContainer vc, LObjProbesRep d,boolean edit){
+	public LObjProbesRepView(ViewContainer vc, LObjProbesRep d,boolean edit){
 		super(vc);
 		if(edit) addMenus(vc);
 		lObj = d;	
 	}
 
-	public void addMenus(LObjViewContainer vc){
+	public void addMenus(ViewContainer vc){
 		
 	}
 

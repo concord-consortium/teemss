@@ -73,7 +73,7 @@ public class LObjGraphView extends LabObjectView
 	LObjDictionary dataDict;
 	boolean instant = false;
 
-    public LObjGraphView(LObjViewContainer vc, LObjGraph g, LObjDictionary curDict)
+    public LObjGraphView(ViewContainer vc, LObjGraph g, LObjDictionary curDict)
     {
 		super(vc);
 

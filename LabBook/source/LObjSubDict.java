@@ -22,7 +22,7 @@ public abstract class LObjSubDict extends LabObject
 		dict = d;
     }
 
-    public LabObjectView getPropertyView(LObjViewContainer vc,LObjDictionary curDict){
+    public LabObjectView getPropertyView(ViewContainer vc,LObjDictionary curDict){
 		return null;
     }
     public void store()

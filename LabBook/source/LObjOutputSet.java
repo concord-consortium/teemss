@@ -6,13 +6,13 @@ import extra.io.*;
 import org.concord.waba.extra.ui.*;
 
 public class LObjOutputSet extends LObjSubDict
-    implements LObjViewContainer
+    implements ViewContainer
 {
     LabObject curOutput = null;
     LabObject mainObject = null;
     LObjDictionary outputDict = null;
     
-    LObjViewContainer mObjCont = null;
+    ViewContainer mObjCont = null;
 
     public boolean skipChoice = false;
 
@@ -67,7 +67,7 @@ public class LObjOutputSet extends LObjSubDict
 	}
     }
 
-    public LabObjectView getView(LObjViewContainer vc, boolean edit, LObjDictionary curDict)
+    public LabObjectView getView(ViewContainer vc, boolean edit, LObjDictionary curDict)
     {
 	if(mainObject == null) return null;
 
@@ -95,8 +95,6 @@ public class LObjOutputSet extends LObjSubDict
     }
     
     public void reload(LabObjectView source){mObjCont.reload(source);}
-
-    public LObjDictionary getDict(){return mObjCont.getDict();}
 
     public void writeExternal(DataStream out)
     {

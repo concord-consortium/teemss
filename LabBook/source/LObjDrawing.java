@@ -16,7 +16,7 @@ public LObjDrawingView view = null;
 	objectType = DRAWING;
 
     }
-    public LabObjectView getView(LObjViewContainer vc, boolean edit, LObjDictionary curDict)
+    public LabObjectView getView(ViewContainer vc, boolean edit, LObjDictionary curDict)
     {
     	
     	if(view == null){
@@ -50,7 +50,7 @@ class LObjDrawingView extends LabObjectView
 
     Button doneButton = null;
 
-    public LObjDrawingView(LObjViewContainer vc, LObjDrawing d)
+    public LObjDrawingView(ViewContainer vc, LObjDrawing d)
     {
 	super(vc);
 

@@ -7,7 +7,7 @@ import extra.util.*;
 import extra.ui.*;
 
 public class LObjDictionaryView extends LabObjectView 
-    implements ActionListener, LObjViewContainer, DialogListener
+    implements ActionListener, ViewContainer, DialogListener
 {
     TreeControl treeControl;
     TreeModel treeModel;
@@ -36,7 +36,7 @@ public class LObjDictionaryView extends LabObjectView
 
     boolean editStatus = false;
 
-    public LObjDictionaryView(LObjViewContainer vc, LObjDictionary d)
+    public LObjDictionaryView(ViewContainer vc, LObjDictionary d)
     {
 		super(vc);
 		dict = d;
@@ -389,11 +389,6 @@ public class LObjDictionaryView extends LabObjectView
 			lObjView.setRect(x,y,width,height);
 			add(lObjView);
 		}
-    }
-
-    public LObjDictionary getDict()
-    {
-		return dict;
     }
 
     public void close()

@@ -17,13 +17,13 @@ public boolean 			showName = true;
 
 Menu 					menu = null;
 
-	public LObjDocumentView(LObjViewContainer vc, LObjDocument d,boolean edit){
+	public LObjDocumentView(ViewContainer vc, LObjDocument d,boolean edit){
 		super(vc);
 		doc = d;
 		lObj = doc;
 		/*if(edit) */addMenus(vc);
 	}
-	public void addMenus(LObjViewContainer vc){
+	public void addMenus(ViewContainer vc){
 		
 		if(menu != null || vc == null) return;
 		menu = new Menu("Notes");

@@ -11,28 +11,28 @@ public abstract class LabObjectView extends Container
 
     protected LabObject lObj = null;
 
-    LObjViewContainer container = null;
+    ViewContainer container = null;
 
-    public LabObjectView(LObjViewContainer vc)
+    public LabObjectView(ViewContainer vc)
     {
-	container = vc;
+		container = vc;
     }
 
     public abstract void layout(boolean sDone);
 
     public void close()
     {
-	lObj.store();
+		lObj.store();
     }
 
     public LabObject getLabObject()
     {
-	return lObj;
+		return lObj;
     }
 
     public String getTitle()
     {
-	if(lObj != null) return lObj.name;
-	else return null;
+		if(lObj != null) return lObj.name;
+		else return null;
     }
 }

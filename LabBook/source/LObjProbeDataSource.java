@@ -46,11 +46,11 @@ public 		waba.util.Vector 	dataListeners = null;
 		setProbe(probe);
     }
 
-    public LabObjectView getView(LObjViewContainer vc, boolean edit,LObjDictionary curDict){
+    public LabObjectView getView(ViewContainer vc, boolean edit,LObjDictionary curDict){
     	return null;
     }
     
-    public LabObjectView getPropertyView(LObjViewContainer vc, boolean edit,LObjDictionary curDict){
+    public LabObjectView getPropertyView(ViewContainer vc, boolean edit,LObjDictionary curDict){
     	return null;
     }
 

@@ -12,7 +12,7 @@ import org.concord.waba.extra.probware.probs.*;
 import org.concord.waba.extra.probware.*;
 
 public class LObjDataCollectorView extends LabObjectView
-    implements ActionListener, DialogListener, LObjViewContainer
+    implements ActionListener, DialogListener, ViewContainer
 {
     LObjDataCollector dc;
     LObjGraphView gv;
@@ -32,7 +32,7 @@ public class LObjDataCollectorView extends LabObjectView
     String title1 = "";
 	String  title2 = "";
 
-    public LObjDataCollectorView(LObjViewContainer vc, LObjDataCollector dc, 
+    public LObjDataCollectorView(ViewContainer vc, LObjDataCollector dc, 
 							   LObjDictionary curDict)
     {
 		super(vc);
@@ -246,7 +246,5 @@ public class LObjDataCollectorView extends LabObjectView
     }
 
     public void done(LabObjectView source) {}
-
-    public LObjDictionary getDict(){return null;}
 
 }

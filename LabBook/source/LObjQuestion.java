@@ -43,7 +43,7 @@ public class LObjQuestion extends LObjSubDict
 		return me.outputSet.dict;
     }
 
-    public LabObjectView getView(LObjViewContainer vc, boolean edit, LObjDictionary curDict)
+    public LabObjectView getView(ViewContainer vc, boolean edit, LObjDictionary curDict)
     {
 		outputSet = (LObjOutputSet)getObj(0);
 		questionText = (LObjDocument)getObj(1);

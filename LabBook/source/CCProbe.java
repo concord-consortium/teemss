@@ -4,7 +4,7 @@ import org.concord.waba.extra.event.*;
 import org.concord.LabBook.*;
 
 public class CCProbe extends ExtraMainWindow
-    implements LObjViewContainer
+    implements ViewContainer
 {
     LabBook labBook;
     MenuBar menuBar;
@@ -37,14 +37,6 @@ public class CCProbe extends ExtraMainWindow
 		waba.fx.Rect myRect = content.getRect();
 		myHeight = myRect.height;
 
-	
-		file = new Menu("File");
-		file.add(aboutTitle);
-		file.add("-");
-		file.add("Exit");
-		file.addActionListener(this);
-		menuBar.add(file);
-
 		me.setRect(x,y,width,myHeight);
 
 		add(me);
@@ -65,6 +57,15 @@ public class CCProbe extends ExtraMainWindow
 			// Error;
 			exit(0);
 		}
+
+		file = new Menu("File");
+		file.add(aboutTitle);
+		if(!plat.equals("PalmOS")){
+			file.add("-");
+			file.add("Exit");
+		}
+		file.addActionListener(this);
+		menuBar.add(file);
 
 		labBook = new LabBook();
 		LabObject.lBook = labBook;
@@ -98,8 +99,6 @@ public class CCProbe extends ExtraMainWindow
     }
 
     public void done(LabObjectView source){}
-
-    public LObjDictionary getDict() {return null;}
 
     public void reload(LabObjectView source)
     {

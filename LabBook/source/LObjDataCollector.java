@@ -110,11 +110,11 @@ public class LObjDataCollector extends LObjSubDict
 		objectType = DATA_COLLECTOR;
     }
 
-    public LabObjectView getView(LObjViewContainer vc, boolean edit, LObjDictionary curDict)
+    public LabObjectView getView(ViewContainer vc, boolean edit, LObjDictionary curDict)
     {
 		return new LObjDataCollectorView(vc, this, curDict);
     }
-    public LabObjectView getPropertyView(LObjViewContainer vc, LObjDictionary curDict){
+    public LabObjectView getPropertyView(ViewContainer vc, LObjDictionary curDict){
 		return new LObjDataCollectorProp(vc, this, curDict);
 	}
     public void readExternal(DataStream ds)

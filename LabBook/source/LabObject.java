@@ -99,22 +99,22 @@ public abstract class LabObject
 	return false;
     }
 	  
-    public LabObjectView getView(LObjViewContainer vc, boolean edit)    
+    public LabObjectView getView(ViewContainer vc, boolean edit)    
     {
 		return getView(vc, edit, null);
     }
 
-    public LabObjectView getView(LObjViewContainer vc, boolean edit, 
+    public LabObjectView getView(ViewContainer vc, boolean edit, 
 				 				 LObjDictionary curDict){
 		return null;
     }
 
-    public LabObjectView getPropertyView(LObjViewContainer vc)    
+    public LabObjectView getPropertyView(ViewContainer vc)    
     {
 		return getPropertyView(vc, null);
     }
 
-    public LabObjectView getPropertyView(LObjViewContainer vc,LObjDictionary curDict){
+    public LabObjectView getPropertyView(ViewContainer vc,LObjDictionary curDict){
 		return null;
     }
 

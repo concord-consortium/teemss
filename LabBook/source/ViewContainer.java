@@ -2,7 +2,7 @@ package org.concord.LabBook;
 
 import org.concord.waba.extra.ui.*;
 
-public interface LObjViewContainer
+public interface ViewContainer
 {
     public void addMenu(LabObjectView source, Menu menu);
 
@@ -11,6 +11,4 @@ public interface LObjViewContainer
     public void done(LabObjectView source);
 
     public void reload(LabObjectView source);
-
-    public LObjDictionary getDict();
 }

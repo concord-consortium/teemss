@@ -17,7 +17,7 @@ public LObjUConvertorView view = null;
 		objectType = UCONVERTOR;
 
     }
-    public LabObjectView getView(LObjViewContainer vc, boolean edit, LObjDictionary curDict)
+    public LabObjectView getView(ViewContainer vc, boolean edit, LObjDictionary curDict)
     {
     	
     	if(view == null){
@@ -53,7 +53,7 @@ class LObjUConvertorView extends LabObjectView
 	Edit	numberLeft,numberRight;
 	boolean leftToRight = true;
 
-	public LObjUConvertorView(LObjViewContainer vc, LObjUConvertor d){
+	public LObjUConvertorView(ViewContainer vc, LObjUConvertor d){
 		super(vc);
 		lObj = d;	
 	}

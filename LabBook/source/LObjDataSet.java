@@ -73,7 +73,7 @@ public class LObjDataSet extends LObjSubDict
     public boolean needReadChunks = false;
 	LObjGraphView gView;
 
-    public LabObjectView getView(LObjViewContainer vc, boolean edit, LObjDictionary curDict)
+    public LabObjectView getView(ViewContainer vc, boolean edit, LObjDictionary curDict)
     {
 		if(hasDataView){
 			LObjGraph dataView = (LObjGraph)getObj(0);

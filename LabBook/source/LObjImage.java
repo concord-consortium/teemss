@@ -20,7 +20,7 @@ public LObjImageView view = null;
 
 
     }
-    public LabObjectView getView(LObjViewContainer vc, boolean edit,LObjDictionary curDict)
+    public LabObjectView getView(ViewContainer vc, boolean edit,LObjDictionary curDict)
     {
     	
  		if(view == null){ 
@@ -73,14 +73,14 @@ class LObjImageView extends LabObjectView implements ActionListener
     private boolean isWinCE = false;
 	
 	
-	public LObjImageView(LObjViewContainer vc, LObjImage d,boolean edit){
+	public LObjImageView(ViewContainer vc, LObjImage d,boolean edit){
 		super(vc);
 		if(edit) addMenus(vc);
 		lObj = d;	
 		if(waba.sys.Vm.getPlatform().equals("WinCE")) isWinCE = true;
 	}
 
-	public void addMenus(LObjViewContainer vc){
+	public void addMenus(ViewContainer vc){
 		
 		if(menu != null || vc == null) return;
 		menu = new Menu("Image");

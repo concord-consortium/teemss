@@ -24,7 +24,7 @@ public class LObjQuestionEditView extends LabObjectView
     int optionsY = 0;
     int optionsH = 10;
 
-    public LObjQuestionEditView(LObjViewContainer vc, LObjQuestion lq)
+    public LObjQuestionEditView(ViewContainer vc, LObjQuestion lq)
     {
 	super(vc);
 	quest = lq;

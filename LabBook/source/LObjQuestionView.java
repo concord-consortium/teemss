@@ -15,7 +15,7 @@ public class LObjQuestionView extends LabObjectView
 
     LabObjectView doc;
 
-    public LObjQuestionView(LObjViewContainer vc, LObjQuestion lq)
+    public LObjQuestionView(ViewContainer vc, LObjQuestion lq)
     {
 	super(vc);
 	quest = lq;

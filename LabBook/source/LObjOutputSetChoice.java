@@ -21,7 +21,7 @@ public class LObjOutputSetChoice extends LabObjectView
 
     Label message = new Label("Previously saved answers or data:");
 
-    public LObjOutputSetChoice(LObjViewContainer vc, LObjOutputSet o)
+    public LObjOutputSetChoice(ViewContainer vc, LObjOutputSet o)
     {
 	super(vc);
 

@@ -24,7 +24,7 @@ public class LObjDictionary extends LabObject
 
     }
 
-    public LabObjectView getPropertyView(LObjViewContainer vc, LObjDictionary curDict)
+    public LabObjectView getPropertyView(ViewContainer vc, LObjDictionary curDict)
     {
 		if(hasMainObject){
 	    	LObjSubDict mo = getMainObj();
@@ -34,7 +34,7 @@ public class LObjDictionary extends LabObject
 		}
 		return null;
     }
-    public LabObjectView getView(LObjViewContainer vc, boolean edit, LObjDictionary curDict)
+    public LabObjectView getView(ViewContainer vc, boolean edit, LObjDictionary curDict)
     {
 		if(hasMainObject){
 	    	LObjSubDict mo = getMainObj();

@@ -17,7 +17,7 @@ public class LObjDataCollectorProp extends LabObjectView
     Edit nameEdit = null;
     Label nameLabel = null;
 
-    public LObjDataCollectorProp(LObjViewContainer vc, LObjDataCollector d,
+    public LObjDataCollectorProp(ViewContainer vc, LObjDataCollector d,
 								   LObjDictionary curDict)
     {
 		super(vc);
