@@ -311,6 +311,7 @@ protected void paintCursor(Graphics gr)
 	if (hasCursor){
 		Rect r = new Rect(0,0,0,0);
 		if (getCharRect(curState.cursorPos,curState.cursorLine,r)){
+/*
 //			Image i = new Image(2,r.height);
 			Image i = new Image(1,r.height);//dima
 			Graphics gi = new Graphics(i);
@@ -325,6 +326,10 @@ protected void paintCursor(Graphics gr)
 			g.drawImage(i,r.x+spacing-curState.xShift,spacing+r.y-curState.firstLine*getItemHeight());
 			g.setDrawOp(g.DRAW_OVER);
 			i.free();
+*/			
+			g.drawCursor(r.x+spacing-curState.xShift,spacing+r.y-curState.firstLine*getItemHeight(),1,r.height);
+
+			
 			cursorOn = !cursorOn;
 		}
 	}
@@ -490,8 +495,7 @@ protected Point getPenChar(Point onControl)
 }
 //------------------------------------------------------------------
 protected void clearCursor() {
-	cursorOn = false;//dima
-	/*if (cursorOn) */paintCursor(null);
+	if (cursorOn) paintCursor(null);
 }
 //------------------------------------------------------------------
 //------------------------------------------------------------------
@@ -637,13 +641,17 @@ public void onKeyEvent(KeyEvent ev)
 		checkScrolls();
 		newCursorPos(0,tas.cursorLine,false);
 	}else if (ev.key == IKeys.LEFT){
+		clearCursor();//dima
 		newCursorPos(tas.cursorPos-1,tas.cursorLine,false);
 	}else if (ev.key == IKeys.RIGHT){
+		clearCursor();//dima
 		newCursorPos(tas.cursorPos+1,tas.cursorLine,false);
 	}else if (ev.key == IKeys.UP){
+		clearCursor();//dima
 		checkScrolls();
 		newCursorPos(tas.cursorPos,tas.cursorLine-1,false);
 	}else if (ev.key == IKeys.DOWN){
+		clearCursor();//dima
 		checkScrolls();
 		newCursorPos(tas.cursorPos,tas.cursorLine+1,false);
 	}else if (ev.key >= 32 && ev.key <= 255){
