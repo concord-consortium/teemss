@@ -446,7 +446,6 @@ public class LabBook
 			}
 		}
 
-
 		BufferStream bsIn = new BufferStream();
 		DataStream dsIn = new DataStream(bsIn);
 

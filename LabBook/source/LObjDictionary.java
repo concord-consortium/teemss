@@ -201,11 +201,13 @@ public class LObjDictionary extends LabObject
 
 	public LabObjectPtr getChildAt(int index)
 	{
-		if(index < 0 || index >= objects.getCount()) return null;
-
+		if(index < 0 || index >= objects.getCount()){
+			return null;
+		}
 		LabObjectPtr ptr = (LabObjectPtr)(objects.get(index));
-		if(!lBook.readHeader(ptr)) return null;
-		
+		if(!lBook.readHeader(ptr)){
+			return null;
+		}
 		return ptr;
 	}
 

@@ -119,7 +119,6 @@ public abstract class LObjSubDict extends LabObject
 			return null;
 		}
 		LabObject obj = s.getObj(ptr);
-		if(obj == null) Debug.println("Got null obj from subDict");
 
 		return obj;
     }
