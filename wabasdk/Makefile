@@ -5,7 +5,7 @@ main: classes
 
 classes: $(wildcard $(SRC_DIRS:%=src_desktop/%/*.java))
 	[ -d classes ] || mkdir classes
-	javac -classpath classes:$(CLASSPATH):../Projects/Macintosh/CodeWarrior/jars/MRJClasses.zip \
+	javac -classpath classes:$(CLASSPATH):../Projects/Macintosh/CodeWarrior/jars/MRJClasses.zip:../Projects/Macintosh/CodeWarrior/jars/RXTXcomm.jar \
 -d classes $(filter-out $(SKIP_FILES), $?)
 	touch classes
 
