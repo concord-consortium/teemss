@@ -35,7 +35,7 @@ public int bColor = 255;
 			FontMetrics fm = getFontMetrics(MainWindow.defaultFont);
 			int lineY = fm.getHeight();
 			g.setColor(rColor,gColor,bColor);
-			g.drawLine(0,lineY, width, lineY);
+			g.drawLine(0,lineY, fm.getTextWidth(minObj.getName()), lineY);
 		}
 	}
 
