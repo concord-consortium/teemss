@@ -332,14 +332,14 @@ protected ProbManager	pb = null;
 		// Let the device wake up a bit
 		// But try to stop it as soon as we can
 		
-		waba.sys.Vm.sleep(1000);
 		int tmp = 0 ;
 		buf[0] = (byte)'c';
-		for(int i=0; i<5; i++){
+		for(int i=0; i<10; i++){
 			tmp = port.writeBytes(buf, 0, 1);
-			Vm.sleep(150);
+			Vm.sleep(100);
 		}
 		// in case the the port is left open stop it
+		waba.sys.Vm.sleep(500);
 		if(interfaceType == INTERFACE_2){
 			buf[0] = (byte)'9';
 			port.writeBytes(buf, 0, 1);
