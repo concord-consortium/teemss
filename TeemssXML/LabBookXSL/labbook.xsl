@@ -9,7 +9,7 @@
   doctype-public="-//Concord.ORG//DTD LabBook Description//EN" 
   doctype-system="../../DTD/labbook.dtd"/>
 
-<xsl:strip-space elements="*"/>
+<xsl:strip-space element=*/>
 
 <xsl:template match="/">
   <xsl:apply-templates/>
@@ -191,10 +191,10 @@
 </xsl:template>
 
 <xsl:template match="steps">
-  <xsl:apply-templates select="step"/>
+  <xsl:apply-templates select="step | query-response" mode="step"/>
 </xsl:template>
 
-<xsl:template match="step">
+<xsl:template match="step" mode="step">
   <xsl:variable name="format_depth">
     <xsl:value-of select="count(ancestor::steps)"/>
   </xsl:variable>
@@ -205,6 +205,7 @@
       <xsl:when test="$format_depth ='3'">i</xsl:when>
     </xsl:choose>
   </xsl:variable>
+
   <xsl:element name="SNPARAGRAPH">
     <xsl:if test="$format_depth='2'">
       <xsl:attribute name="indent">2</xsl:attribute>
@@ -214,6 +215,38 @@
     </xsl:if>
     <xsl:number value="position()" format="{$format_label}"/>. <xsl:value-of select="normalize-space(text()[position()=1])"/>
   </xsl:element>
+
+  <xsl:if test="$format_depth='1'"><SNPARAGRAPH/></xsl:if>
+  <xsl:if test="position()=last()">
+    <xsl:if test="$format_depth!='1'">
+      <SNPARAGRAPH/>
+    </xsl:if>
+  </xsl:if>
+  <xsl:apply-templates select="text()[position()!=1]|*"/>
+</xsl:template>
+
+<xsl:template match="query-response" mode="step">
+  <xsl:variable name="format_depth">
+    <xsl:value-of select="count(ancestor::steps)"/>
+  </xsl:variable>
+  <xsl:variable name="format_label">
+    <xsl:choose>
+      <xsl:when test="$format_depth ='1'">1</xsl:when>
+      <xsl:when test="$format_depth ='2'">a</xsl:when>
+      <xsl:when test="$format_depth ='3'">i</xsl:when>
+    </xsl:choose>
+  </xsl:variable>
+
+  <xsl:element name="SNPARAGRAPH">
+    <xsl:if test="$format_depth='2'">
+      <xsl:attribute name="indent">2</xsl:attribute>
+    </xsl:if>
+    <xsl:if test="$format_depth='3'">
+      <xsl:attribute name="indent">4</xsl:attribute>
+    </xsl:if>
+    <xsl:number value="position()" format="{$format_label}"/>. <xsl:value-of select="normalize-space(text()[position()=1])"/>
+  </xsl:element>
+
   <xsl:if test="$format_depth='1'"><SNPARAGRAPH/></xsl:if>
   <xsl:if test="position()=last()">
     <xsl:if test="$format_depth!='1'">
