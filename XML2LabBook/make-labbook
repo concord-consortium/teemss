@@ -2,7 +2,8 @@
 
 # Try to find the directory of this script
 # if the script is on the path then we have problems
-scriptdir=$PWD/`dirname $0`
+
+scriptdir=`dirname $0`
 
 
 # see if this auto determined variable is correct
