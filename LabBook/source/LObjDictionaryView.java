@@ -574,13 +574,6 @@ public class LObjDictionaryView extends LabObjectView
 			folderChoice.repaint();
 */
 		}
-		if(getEmbeddedState()){
-			Object o = getParent();
-			if(o != null && o instanceof CCTextArea){
-//				close();
-				((CCTextArea)o).returnFromFolder();
-			}
-		}
     }
 
     public void reload(LabObjectView source)
