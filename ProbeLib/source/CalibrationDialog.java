@@ -351,6 +351,7 @@ DeviationControl	devControl;
 					doStop();
 					if(event.target == bClose){
 						hide();
+						pb.removeDataListenerFromProb(probe.getName(),this);
 						owner.setDialog(null);
 					}
 					if((probe != null) && (event.target == bApply)){

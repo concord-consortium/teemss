@@ -113,6 +113,10 @@ protected 	static ProbManagerEvent   pmEvent = new ProbManagerEvent();
 		CCProb p = getProbByName(name);
 		if(p!=null) p.addDataListener(l);
 	}
+	public void removeDataListenerFromProb(String name,DataListener l){
+		CCProb p = getProbByName(name);
+		if(p!=null) p.removeDataListener(l);
+	}
 	
     	public boolean transform(DataEvent e){
     		if(probs == null) return false;
