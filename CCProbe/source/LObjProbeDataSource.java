@@ -94,6 +94,12 @@ public class LObjProbeDataSource extends LObjSubDict
 		return ProbFactory.getName(probeId);
 	}
 
+	public String getProbeSummary()
+	{
+		Probe p = getProbe();
+		return p.getSummary();
+	}
+
 	public String getSummary(LabBookSession session)
 	{
 		String summary;
@@ -101,13 +107,7 @@ public class LObjProbeDataSource extends LObjSubDict
 		Probe p = getProbe();
 
 		summary = p.getName() + "(";
-		PropObject [] props = p.getPropArray();
-		int i;
-		for(i=0; i < props.length-1; i++){
-			summary += props[i].getLabel() + "- " + props[i].getValue() + "; ";
-		}
-		summary += props[i].getLabel() + "- " + props[i].getValue() + ")";
-
+		summary += getProbeSummary() + ")";
 		return summary;
 	}
 

@@ -149,7 +149,15 @@ public class LObjIntProbeTrans extends LObjSubDict
 	public String getLabel(){return "";}
 
 	public String getSummary(LabBookSession session)
-	{return "";}
+	{
+		String quant =  getQuantityMeasured(session);
+		if(quant == null) return "";
+
+		getDataSource(session);
+		if(dataSource == null) return quant;
+
+		return quant + "(" + dataSource.getProbeSummary() + ")";
+	}
 
 	// add the root sources to the passed in vector
 	public void getRootSources(Vector sources, LabBookSession session)

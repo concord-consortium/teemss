@@ -106,7 +106,7 @@ public class GraphSettings
 
 	public String getSummary(LabBookSession session)
 	{
-		if(ds == null && gv != null){
+		if(ds == null && graph != null){
 			ds = graph.getDataSource(dsIndex, session);
 		}
 
