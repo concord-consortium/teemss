@@ -120,6 +120,8 @@ public class LObjDictionaryView extends LabObjectView
 			    	container.done(this);
 				}
 		    }	    
+		} else if(e.type == TreeControl.DOUBLE_CLICK){
+			openSelected();
 		}
     }
 
@@ -295,10 +297,10 @@ public class LObjDictionaryView extends LabObjectView
 				if(selObj != null){
 				    if(selObj.toString().equals("..empty..")) return;
 				    rnDialog = Dialog.showInputDialog(this, "Rename Object", "Old Name was " + selObj.toString(),
-								      buttons,Dialog.EDIT_INP_DIALOG);
+								      buttons,Dialog.EDIT_INP_DIALOG,null,selObj.toString());
 				} else {
 				    rnDialog = Dialog.showInputDialog(this, "Rename Parent", "Old Name was " + dict.name,
-								      buttons,Dialog.EDIT_INP_DIALOG);
+								      buttons,Dialog.EDIT_INP_DIALOG,null,selObj.toString());
 				}
 		    } else if(e.getActionCommand().equals("Import..")){
 				FileDialog fd = FileDialog.getFileDialog(FileDialog.FILE_LOAD, null);
