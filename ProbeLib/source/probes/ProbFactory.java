@@ -14,7 +14,7 @@ public final static int Prob_VoltCurrent    = 5;
 
 	public static int DefaultInterfaceType = CCInterfaceManager.INTERFACE_2;
 
-    public static String [] probeNames = {"Temperature", "Light", "SmartWheel", "RawData","Force","Voltage/Current"};
+    public static String [] probeNames = {"Temperature", "Light", "SmartWheel", "RawData","Force","VoltageCurrent"};
 	public static CCProb createProbeFromStream(extra.io.DataStream in){
 		boolean validProbe = in.readBoolean();
 		if(!validProbe) return null;
