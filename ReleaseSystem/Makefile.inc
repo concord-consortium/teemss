@@ -10,7 +10,7 @@
 _DIR_NAMES = $(DEP_NAMES) ReleaseSystem
 
 define MAKE_DEP
-$(foreach el,$(_DIR_NAMES),$(MAKE) -C ../$(el) TAG=`cat tag` $(1)
+$(foreach el,$(_DIR_NAMES),$(MAKE) -C --no-print-directory ../$(el) TAG=`cat tag` $(1)
 )
 endef
 
@@ -60,6 +60,7 @@ tag:
 	@exit 1
 
 cvs-diff:
+	@echo CHECKING IF $(CURDIR) IS SYNCED WITH REPOSITORY
 	@cvs -Q diff > /dev/null || (echo The  directory **$(notdir $(CURDIR))** is different than the repository; test)
 
 #Tag the dependencies with our tag so we can get them back
