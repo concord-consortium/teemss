@@ -145,7 +145,6 @@ int					outputMode = LIN_POS_MODE_OUT;
 		// System.out.println("rad: " + radius + " koeff: " + koeff);
 		for(int i = 0; i < ndata; i+=chPerSample){
 		    wheelIntData[i] = data[nOffset+i];
-			System.out.println("CCSW: int data: " + wheelIntData[i]);
 		    switch(outputMode){
 			case LINEAR_MODE_OUT:
 				wheelData[i] = (float)wheelIntData[i]*calFactor;
