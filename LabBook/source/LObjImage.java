@@ -211,7 +211,7 @@ public class LObjImage extends LabObject
 		}
 		int tmpCmap [] = imageCMAP;
 		if(tmpCmap == null){
-			tmpCmap = CCPalette.getSystemPalette();
+			imageCMAP = tmpCmap = CCPalette.getSystemPalette();
 		}
 		if(isWinCE){
 			tmpCmap = new int [256];

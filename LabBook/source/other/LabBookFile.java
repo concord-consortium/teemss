@@ -9,25 +9,24 @@ class FileObject
 {
     int devId;
     int objId;
-    byte [] buffer;
+	int filePos;
+	int indexPos;
 }
 
 public class LabBookFile implements LabBookDB
 {
-    File file;
-    DataStream ds;
+	String fileName = null;
 
     int objIndexStart = 16;
-    int [] objIndex;
 
     Vector objects = new Vector();
+	Vector objIndexVec = null;
 
     int curDevId;
     int nextObjId;
     int rootDevId;
     int rootObjId;
-
-
+	
     static public void writeString(DataStream ds, String s)
     {
 		ds.writeFixedString(s, s.length());
@@ -37,7 +36,8 @@ public class LabBookFile implements LabBookDB
     {
 		boolean newDB = false;
 
-		file = new File(name, File.DONT_OPEN);
+		fileName = name;
+		File file = new File(name, File.DONT_OPEN);
 		if(file.exists()){
 			file.close();
 			file = new File(name, File.READ_WRITE);
@@ -49,45 +49,34 @@ public class LabBookFile implements LabBookDB
 			newDB = true;
 		}
 
-		ds = new DataStream(file);
+		DataStream ds = new DataStream(file);
 
 		if(newDB){
-			System.out.println("LBF: newDB");
 			curDevId = 0;
 			nextObjId = 0;
 			rootDevId = 0;
 			rootObjId = 0;
+			ds.writeInt(0);
+			ds.writeInt(0);
+			ds.writeInt(0);
+			ds.writeInt(0);
+
+			// length
+			ds.writeInt(0);
 			return;
 		} else {
 			curDevId = ds.readInt();
 			nextObjId = ds.readInt();
 			rootDevId = ds.readInt();
-			System.out.println("LBF: rootDevId: " + rootDevId);
 			rootObjId = ds.readInt();
-			System.out.println("LBF: rootObjId: " + rootObjId);
 		}
 
-		if(!readIndex()){
+		if(!readIndex(file, ds)){
 			// Failed
 			Debug.println("Error Reading index");
 		}
 
-		int curPos = 0;
-		FileObject fObj = null;
-		int filePos;
-		int objSize = 0;
-
-		while(curPos < objIndex.length){
-			fObj = new FileObject();
-			fObj.devId = objIndex[curPos++];
-			fObj.objId = objIndex[curPos++];
-			filePos = objIndex[curPos++];
-			file.seek(filePos);
-			objSize = ds.readInt();
-			fObj.buffer = new byte [objSize];
-			file.readBytes(fObj.buffer, 0, objSize);
-			objects.add(fObj);
-		}
+		file.close();
     }
 
     public int getDevId()
@@ -99,11 +88,6 @@ public class LabBookFile implements LabBookDB
     {
 		return nextObjId++;
     }
-	public void setNextObjId(int nObjId)
-	{
-		if(nObjId > nextObjId) nextObjId = nObjId;
-		return;
-	}
 
     public int getRootDevId(){return rootDevId;}
     public int getRootObjId(){return rootObjId;}
@@ -111,8 +95,10 @@ public class LabBookFile implements LabBookDB
     public void setRootDevId(int id){ rootDevId = id;}
     public void setRootObjId(int id){ rootObjId = id;}
 
+	
     public boolean save()
     {
+		/*
 		int curObjFilePos = 0;
 		int curIndexPos = 0;
 		int numObj = objects.getCount();
@@ -120,14 +106,15 @@ public class LabBookFile implements LabBookDB
 	
 		Debug.println("About to write " + numObj);
 
+		File file = new File(fileName, File.READ_WRITE);
+		DataStream ds = new DataStream(file);
+
 		file.seek(0);
 		ds.writeInt(curDevId);
 		ds.writeInt(nextObjId);
 		ds.writeInt(rootDevId);
 		ds.writeInt(rootObjId);
 	
-	
-
 		file.seek(objIndexStart);
 		ds.writeInt(numObj);
 		ds.writeInt(numObj);
@@ -146,17 +133,20 @@ public class LabBookFile implements LabBookDB
 			file.writeBytes(fObj.buffer, 0, fObj.buffer.length);
 			curObjFilePos += 4 + fObj.buffer.length;
 		}
+
 		file.seek(curIndexPos);
 		ds.writeInt(-1);
 
+		file.close();
+		*/
+
 		return true;
     }
-    
+
+
     public void close()
     {
-		if(file != null){
-			file.close();
-		}
+
     }
 
     /*
@@ -179,37 +169,157 @@ public class LabBookFile implements LabBookDB
      * ...
      * [ <-1> ]
      */
-    public boolean readIndex()
+    public boolean readIndex(File file, DataStream ds)
     {
+		int curFilePos = objIndexStart;
 		file.seek(objIndexStart);
-		int length = ds.readInt();
-		objIndex = new int [length*3];
-		int subLen;
+		int length = ds.readInt();		
+		curFilePos += 4;
+
+		int subLen, subSize;
 		int pos = 0;
 		int i;
-		int nextPos = -1;
+		int nextPos = 0;
+		FileObject fObj = null;
+
+		if(objIndexVec == null) objIndexVec = new Vector();
 
 		while(true){
+			int [] oIndex = {curFilePos, 0, START_INDEX_SIZE};
+			nextPos = ds.readInt();			
+			curFilePos += 4;
+
 			subLen = ds.readInt();
+			curFilePos += 4;
+			oIndex[1] = subLen;
+
+			subSize = ds.readInt();
+			curFilePos += 4;
+			oIndex[2] = subSize;
+
+			objIndexVec.add(oIndex);
+
 			for(i=0; i<subLen; i++){
-				if((pos + 3) > objIndex.length){
+				if(pos  >= length){
 					// file format error
 					return false;
 				}
-				objIndex[pos++] = ds.readInt();
-				objIndex[pos++] = ds.readInt();
-				objIndex[pos++] = ds.readInt();
+				fObj = new FileObject();
+				fObj.indexPos = curFilePos;
+				fObj.devId = ds.readInt();
+				curFilePos += 4;
+				fObj.objId = ds.readInt();
+				curFilePos += 4;
+				fObj.filePos = ds.readInt();
+				curFilePos += 4;
+				objects.add(fObj);
+				pos++;
 			}
-			nextPos = ds.readInt();
-			if(nextPos == -1 || pos >= length*3){
+			if(nextPos == 0 || pos >= length*3){
 				break;
 			} else {
 				file.seek(nextPos);
+				curFilePos = nextPos;
 			}
 		}
 
 		return true;
     }
+
+	private static int START_INDEX_COUNT = 30;
+	private static int START_INDEX_SIZE = 12+START_INDEX_COUNT*12;
+
+	private static int getIndexOffset(int pos)
+	{
+		return 12+pos*12;
+	}
+
+	private void addObjectIndex(File file)
+	{
+		DataStream ds = new DataStream(file);
+
+		int [] oIndex = {file.getLength(), 0, START_INDEX_SIZE};
+		objIndexVec.add(oIndex);
+		int newFileIndex = file.getLength();
+		file.seek(newFileIndex);
+		// next index
+		ds.writeInt(0);
+		// num objects in index
+		ds.writeInt(0);
+		// available size in bytes
+		ds.writeInt(START_INDEX_SIZE);
+		for(int i=0; i<START_INDEX_COUNT; i++){
+			ds.writeInt(0);
+			ds.writeInt(0);
+			ds.writeInt(0);
+		}
+		if(objIndexVec.getCount() > 1){
+			int [] prevIndex = (int [])objIndexVec.get(objIndexVec.getCount() - 2);
+			file.seek(prevIndex[0]);
+			ds.writeInt(newFileIndex);
+		}
+	}
+
+	private void growObjectIndex(File file)
+	{
+		DataStream ds = new DataStream(file);
+
+		if(objIndexVec == null){
+			// this is brand new file
+			objIndexVec = new Vector();
+			addObjectIndex(file);
+		} else {
+			int [] lastIndex = (int [])objIndexVec.get(objIndexVec.getCount() - 1);
+			if(getIndexOffset(lastIndex[1]) >= lastIndex[2]){
+				// we've hit the end of the current index
+				addObjectIndex(file);
+			}
+		}
+	}
+
+	private void setObjectIndex(FileObject fObj, File file)
+	{
+		DataStream ds = new DataStream(file);
+		if(fObj == null) return;
+		if(fObj.indexPos == -1){
+			// this is a new object
+			int [] lastIndex = (int [])objIndexVec.get(objIndexVec.getCount() - 1);
+			file.seek(lastIndex[0] + 4);
+			ds.writeInt(lastIndex[1] + 1);
+
+			fObj.indexPos = lastIndex[0]+getIndexOffset(lastIndex[1]);
+			lastIndex[1]++;
+			file.seek(fObj.indexPos);
+			ds.writeInt(fObj.devId);
+			ds.writeInt(fObj.objId);
+			objects.add(fObj);
+
+			file.seek(16);
+			ds.writeInt(objects.getCount());
+		}
+		file.seek(fObj.indexPos+8);
+		ds.writeInt(fObj.filePos);
+	}
+
+	private FileObject findObj(int devId, int objId)
+	{
+		int numObj = objects.getCount();
+		int i;
+		FileObject fObj = null;
+		
+		for(i=0; i<numObj; i++){
+			fObj = (FileObject)objects.get(i);
+			if(devId == fObj.devId &&
+			   objId == fObj.objId){
+				break;
+			}
+			fObj = null;
+		}
+
+		if(fObj == null) return null;
+
+		return fObj;
+	}
 
     public boolean getError(){return false;};
 
@@ -217,19 +327,24 @@ public class LabBookFile implements LabBookDB
     // and find object bytes
     public byte [] readObjectBytes(int devId, int objId)
     {
-		int numObj = objects.getCount();
-		int i;
-		FileObject fObj;
+		int curPos = 0;
+		FileObject fObj = null;
+		int objSize = 0;
+		int filePos = -1;
 
-		for(i=0; i<numObj; i++){
-			fObj = (FileObject)objects.get(i);
-			if(fObj.devId == devId && fObj.objId == objId){
-				return fObj.buffer;
-			}
-		}
-	
-		return null;
+		fObj = findObj(devId, objId);
+		if(fObj == null) return null;
 
+		File file = new File(fileName, File.READ_WRITE);
+		DataStream ds = new DataStream(file);
+
+		file.seek(fObj.filePos);
+		objSize = ds.readInt();
+		byte [] buffer = new byte [objSize];
+		file.readBytes(buffer, 0, objSize);
+
+		file.close();
+		return buffer;
     }
 
     // check if this object already exists
@@ -245,34 +360,56 @@ public class LabBookFile implements LabBookDB
     {
 		int numObj = objects.getCount();
 		int i;
-		FileObject fObj;
+		FileObject fObj = null;
+		File file;
+		DataStream ds;
 
 		Debug.println(" Saving " + count + " bytes to fObj");
-	
-		if(nextObjId <= objId) nextObjId = objId + 1;
 
-		// Find the object
-		for(i=0; i<numObj; i++){
-			fObj = (FileObject)objects.get(i);
-			if(fObj.devId == devId && fObj.objId == objId){
-				fObj.buffer = new byte [count];
-				Vm.copyArray(buffer, start, fObj.buffer, 0, count);
-				return true;
+		if(nextObjId <= objId) nextObjId = objId + 1;
+		
+
+
+		fObj = findObj(devId, objId);
+		int objectFilePos = -1;
+		file = new File(fileName, File.READ_WRITE);
+		ds = new DataStream(file);
+
+		if(fObj == null){
+			// we need to add an object
+			growObjectIndex(file);
+
+			fObj = new FileObject();
+			fObj.devId = devId;
+			fObj.objId = objId;
+			fObj.indexPos = -1;
+
+			objectFilePos = file.getLength();
+		} else {
+			file.seek(fObj.filePos);
+			int oldSize = ds.readInt();
+			if(oldSize < count){
+				// we need to put the object at the end of the file
+				objectFilePos = file.getLength();
+			} else {
+				objectFilePos =  fObj.filePos;
 			}
 		}
-	
-		fObj = new FileObject();
-		fObj.devId = devId;
-		fObj.objId = objId;
-		fObj.buffer = new byte [count];
-		Vm.copyArray(buffer, start, fObj.buffer, 0, count);
-		objects.add(fObj);
+		file.seek(objectFilePos);
+		fObj.filePos = objectFilePos;
+		ds.writeInt(count);
+		file.writeBytes(buffer, start, count);
+
+		setObjectIndex(fObj, file);
+
 		if(devId == curDevId && nextObjId <= objId){
 			nextObjId = objId;
 		}
+
+		file.seek(4);
+		ds.writeInt(nextObjId);
+
+		file.close();
 		return true;	
-    }
-
-    
-
+	}
 }
