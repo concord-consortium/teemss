@@ -197,7 +197,6 @@ projects contributing to the development of CCProbeware are:
 </LINE>
 </GRAPH>
 </DATACOLLECTOR>
-
 <DATACOLLECTOR ID="probes-dc-smartwheel-vel" name="SmartWheel - Velocity">
 <PROBE ID="probes-probe8" probe="SmartWheel">
 <PROP name="Port" value="A"/>
@@ -786,11 +785,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH>4. Start the software. Observe the position versus time graph as you roll the SmartWheel back and forth along the masking tape line on the floor.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-
-<!--
 <EMBOBJ object="dc-smartwheel-pos1" link="true" linkcolor="FF0000"/>
--->
-
 <SNPARAGRAPH/>
 <EMBOBJ>
 <IMAGE ID="Image_39" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Tracker/02_swOnWand/PALM_TINY_02_swOnWand.bmp"/>
@@ -835,11 +830,7 @@ projects contributing to the development of CCProbeware are:
                 then coastingpulling the cart, then letting it
                 bounce off a wall <SNPARAGRAPH>6. Start the software and observe the position versus time graph as you make the following motions on the same graph. Practice until you have all four motions on the same graph, one after the other. Observe how the acrobat responded during each motion.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-
-<!--
 <EMBOBJ object="dc-smartwheel-pos1" link="true" linkcolor="FF0000"/>
--->
-
 <SNPARAGRAPH indent="2">a. pulling the cart forward at a constant velocity</SNPARAGRAPH>
 <SNPARAGRAPH indent="2">b. pulling the cart at a slow constant velocity, then a faster constant velocity, then coasting</SNPARAGRAPH>
 <SNPARAGRAPH indent="2">c. gradually speeding up the cart, then coasting</SNPARAGRAPH>
@@ -873,11 +864,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH>4. Now try your method out. Start the software and observe the position versus time graph as you roll the cart down the ramp. Be sure to drape the wire to the SmartWheel so that the cart rolls freely. Observe how the acrobat responded during the motion.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-
-<!--
 <EMBOBJ object="dc-smartwheel-pos2" link="true" linkcolor="FF0000"/>
--->
-
 <SNPARAGRAPH>5. Save your data to the handheld.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -1037,11 +1024,7 @@ projects contributing to the development of CCProbeware are:
 </EMBOBJ>
 <SNPARAGRAPH>3. Start the software and observe the position versus time graph.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-
-<!--
 <EMBOBJ object="dc-smartwheel-pos2" link="true" linkcolor="FF0000"/>
--->
-
 <SNPARAGRAPH>4. Start the propeller, holding on to the cart. Let the cart go and let it run for as far as you have space. Be sure to keep the wire floppy, so that it doesn't pull or push on the cart. Try several times until you get a really good graph, then save your data to the handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>What
                 is the shape of the position graph? Is it a straight
@@ -1076,11 +1059,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH>5. Start the software to measure velocity. Make the following measurements one after another with the graph running. You will then have all of your data on one graph, and you can analyze it.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-
-<!--
 <EMBOBJ object="dc-smartwheel-vel1" link="true" linkcolor="FF0000"/>
--->
-
 <SNPARAGRAPH indent="2">a. With no weight on the sled, give the cart a gentle push so that it rolls to a stop after about 2m.</SNPARAGRAPH>
 <SNPARAGRAPH indent="2">b. Start the motor and let the cart go for about 2m.</SNPARAGRAPH>
 <SNPARAGRAPH indent="2">c. Put some clay on the sled and hook it onto the bumper. Give the cart a push so that it rolls to a stop after about 2m.</SNPARAGRAPH>
@@ -1504,11 +1483,7 @@ projects contributing to the development of CCProbeware are:
                 will the velocity graph do just at the moment of collision?Draw your predictions in Notes on the
               handheld computer. <SNPARAGRAPH>3. Start the software to record a velocity versus time graph.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-
-<!--
 <EMBOBJ object="dc-smartwheel-vel2" link="true" linkcolor="FF0000"/>
--->
-
 <SNPARAGRAPH>4. Start recording. Push one cart toward the other and let them bounce. Be sure the bumpers are lined up.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -3045,9 +3020,6 @@ projects contributing to the development of CCProbeware are:
 <LINE xaxis="0" yaxis="0" datasource="dc-f4"/>
 </GRAPH>
 </DATACOLLECTOR>
-
-<!--
-
 <DATACOLLECTOR ID="dc-smartwheel-pos1" name="SmartWheel Data Collector - Pos">
 <PROBE ID="dc-sw-pos1" probe="SmartWheel">
 <PROP name="Port" value="A"/>
@@ -3060,7 +3032,6 @@ projects contributing to the development of CCProbeware are:
 </LINE>
 </GRAPH>
 </DATACOLLECTOR>
-
 <DATACOLLECTOR ID="dc-smartwheel-pos2" name="SmartWheel Data Collector - Pos">
 <PROBE ID="dc-sw-pos2" probe="SmartWheel">
 <PROP name="Port" value="A"/>
@@ -3073,7 +3044,6 @@ projects contributing to the development of CCProbeware are:
 </LINE>
 </GRAPH>
 </DATACOLLECTOR>
-
 <DATACOLLECTOR ID="dc-smartwheel-vel1" name="SmartWheel Velocity">
 <PROBE ID="dc-sw-vel1" probe="SmartWheel">
 <PROP name="Port" value="A"/>
@@ -3086,7 +3056,6 @@ projects contributing to the development of CCProbeware are:
 </LINE>
 </GRAPH>
 </DATACOLLECTOR>
-
 <DATACOLLECTOR ID="dc-smartwheel-vel2" name="SmartWheel Velocity">
 <PROBE ID="dc-sw-vel2" probe="SmartWheel">
 <PROP name="Port" value="A"/>
@@ -3099,8 +3068,27 @@ projects contributing to the development of CCProbeware are:
 </LINE>
 </GRAPH>
 </DATACOLLECTOR>
--->
+</FOLDER>
+</FOLDER>
 
-</FOLDER>
-</FOLDER>
+<SUPERNOTES ID="linktest" name="linktest">
+    <SNPARAGRAPH/>
+    <SNPARAGRAPH>1. linking from a SNPARAGRAPH</SNPARAGRAPH>
+    <SNPARAGRAPH/>
+    <SNPARAGRAPH link="true" linkcolor="FF0000" object="Air_Cart_think_1_1">
+      snparagraph text link:Air_Cart_think_1_1
+    </SNPARAGRAPH>
+    <SNPARAGRAPH/>
+    <SNPARAGRAPH>2. linking from a EMBOBJ</SNPARAGRAPH>
+    <SNPARAGRAPH/>
+    <EMBOBJ object="Air_Cart_think_1_1" link="true" linkcolor="FF0000"/>
+    <SNPARAGRAPH/>
+    <SNPARAGRAPH>3. linking from a OBJ-REF in an EMBOBJ</SNPARAGRAPH>
+    <SNPARAGRAPH/>
+    <EMBOBJ link="true" linkcolor="FF0000"><OBJ-REF ref="Air_Cart_think_1_1"/></EMBOBJ>
+    <SNPARAGRAPH/>
+    <SNPARAGRAPH>...end of supernote ...</SNPARAGRAPH>
+</SUPERNOTES>
+
+
 </LABBOOK>
