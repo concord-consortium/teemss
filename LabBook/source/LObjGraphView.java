@@ -71,6 +71,7 @@ public class LObjGraphView extends LabObjectView
 
 	LObjDataCollector dc = null;
 	LObjDictionary dataDict;
+	boolean instant = false;
 
     public LObjGraphView(LObjViewContainer vc, LObjGraph g, LObjDictionary curDict)
     {
@@ -123,8 +124,15 @@ public class LObjGraphView extends LabObjectView
 		// data source is which
 		ds.addDataListener(this);
 		curDS = ds;
+		if(curDS != null){
+			graph.yUnit = curDS.getUnit();
+		}
 	}
 
+	public void doInstantCollection()
+	{
+		instant = true;
+	}		
 
 	public void setDC(LObjDataCollector dataC)
 	{
@@ -137,8 +145,12 @@ public class LObjGraphView extends LabObjectView
 
 	public void updateProp()
 	{
+		if(curDS != null){
+			graph.yUnit = curDS.getUnit();
+		}
 		av.setYLabel(graph.yLabel, graph.yUnit);
 		av.setXLabel(graph.xLabel, graph.xUnit);		
+
 		curBin.setUnit(graph.yUnit);
 	}
 
@@ -306,10 +318,9 @@ public class LObjGraphView extends LabObjectView
 					dSet.addBin((Bin)bins.get(i));
 				}
 				LObjGraph graph = (LObjGraph)dc.getObj(0);
-				dSet.dict.name = graph.name;
+				dSet.name = graph.name;
 				if(dataDict != null){
-					dataDict.add(dSet.dict);
-					dSet.writeChunks();
+					dataDict.add(dSet);
 				} else {
 					// for now it is an error
 					// latter it should ask the user for the name
@@ -325,11 +336,6 @@ public class LObjGraphView extends LabObjectView
 				}
 			}
 		}
-    }
-
-    public void addBins(Vector bs)
-    {
-		bins = bs;
     }
 
     boolean sTitle;
@@ -462,6 +468,13 @@ public class LObjGraphView extends LabObjectView
 		curBin.setUnit(graph.yUnit);
 
 		add(av);
+
+		if(instant){
+			startGraph();
+			curDS.startDataDelivery();
+			stopGraph();
+			instant = false;
+		}
     }
 
     public void close()

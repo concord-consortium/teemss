@@ -70,7 +70,7 @@ public abstract class LabObject
     public void readExternal(DataStream in)
     {
 	name = in.readString();
-	if(name.equals("_null_name_")) name = null;
+	if(name.equals("_")) name = null;
 	Debug.println("Reading " + name + " " + typeNames[objectType]);
 
     }
@@ -78,7 +78,7 @@ public abstract class LabObject
     public void writeExternal(DataStream out)
     {
 	if(name == null){
-	    out.writeString("_null_name_");
+	    out.writeString("_");
 	    Debug.println("Writing noname " + typeNames[objectType]);
 	} else {
 	    Debug.println("Writing " + name + " " + typeNames[objectType]);

@@ -74,7 +74,6 @@ public class LObjDataCollectorView extends LabObjectView
     {
 		Debug.println("Got closed");	
 		gv.setDC(dc);
-		dc.updateGraphProp();
 		gv.updateProp();
 		setTitle2(graph.title);
 		dc.store();
@@ -94,7 +93,6 @@ public class LObjDataCollectorView extends LabObjectView
 		add(collectButton);
 
 		graph = (LObjGraph)dc.getObj(0);
-		dc.updateGraphProp();
 		gv = (LObjGraphView)graph.getView(this, false, dataDict);
 		gv.showTitle(false);
 		gv.setDC(dc);
@@ -158,7 +156,16 @@ public class LObjDataCollectorView extends LabObjectView
 		if(e.getSource() == menu){
 			if(e.getActionCommand().equals("Properties...")){
 				stop();
-				dc.getProbe().calibrateMe((ExtraMainWindow)(MainWindow.getMainWindow()), this, dc.interfaceId);
+				
+				if(dc.dataSources == null || dc.dataSources.getCount() < 1 ||
+				   !(dc.dataSources.get(0) instanceof LObjProbeDataSource)){
+					return;
+				}
+
+				LObjProbeDataSource pds = (LObjProbeDataSource)dc.dataSources.get(0);
+				CCProb p = pds.getProbe();
+
+				p.calibrateMe((ExtraMainWindow)(MainWindow.getMainWindow()), this, dc.interfaceId);
 
 				Debug.println("Callllll");
 			} else if(e.getActionCommand().equals("Save Profile...")){
@@ -193,6 +200,8 @@ public class LObjDataCollectorView extends LabObjectView
 
 		// need to make sure this unregisters data sources
 		gv.close();
+
+		dc.closeSources();
 
 		super.close();
     }

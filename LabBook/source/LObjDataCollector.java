@@ -13,8 +13,6 @@ public class LObjDataCollector extends LObjSubDict
 	int numDataSources = 0;
 	int [][] dsArray;
 
-    int probeId = ProbFactory.Prob_ThermalCouple;
-    CCProb curProbe = null;
     int interfaceId = CCInterfaceManager.INTERFACE_2;
     int portId = CCProb.INTERFACE_PORT_A;
     //    LObjGraph graph;
@@ -31,19 +29,19 @@ public class LObjDataCollector extends LObjSubDict
 		return me;
     }
 
-	public void updateGraphProp()
-	{
-		CCProb p = getProbe();
-		LObjGraph graph = getGraph();
-		graph.yUnit = CCUnit.getUnit(p.unit);
-	}
-
 	public String getSummaryTitle()
 	{
 		String title;
 
 		// What's up with this.
-		CCProb p = getProbe();
+		if(dataSources == null || dataSources.getCount() < 1 ||
+		   !(dataSources.get(0) instanceof LObjProbeDataSource)){
+			return "DS not a valid";
+		}
+
+		LObjProbeDataSource pds = (LObjProbeDataSource)dataSources.get(0);
+		CCProb p = pds.getProbe();
+
 		title = p.getName() + "(";
 		PropObject [] props = p.getProperties();
 		int i;
@@ -54,14 +52,6 @@ public class LObjDataCollector extends LObjSubDict
 
 		return title;
 	}
-
-    public CCProb getProbe()
-    {
-		if(curProbe == null){
-			curProbe = ProbFactory.createProb(probeId, portId);
-		}
-		return curProbe;
-    }
 
     public void setGraph(LObjGraph g)
     {
@@ -77,7 +67,6 @@ public class LObjDataCollector extends LObjSubDict
 	{
 		numDataSources = sources.getCount();
 		for(int i=0; i<numDataSources; i++){
-			System.out.println("saving data source: " + (DataSource)sources.get(i));
 			setObj((LabObject)sources.get(i), i+1);
 			
 		}
@@ -108,6 +97,13 @@ public class LObjDataCollector extends LObjSubDict
 			((DataSource) dataSources.get(i)).stopDataDelivery();
 		}
 	}		
+
+	public void closeSources()
+	{
+		for(int i=0; i<dataSources.getCount(); i++){
+			((DataSource) dataSources.get(i)).closeEverything();
+		}
+	}
 
     public LObjDataCollector()
     {

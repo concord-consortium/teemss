@@ -68,13 +68,18 @@ public 		waba.util.Vector 	dataListeners = null;
 	public void startDataDelivery(){
 		if(probe == null) return;
 		ProbManager pb = ProbManager.getProbManager(probe.getInterfaceType());
-		if(pb != null) pb.start();
+
+		if(pb != null){
+			pb.start();
+		}
 	}
 	
 	public void stopDataDelivery(){
 		if(probe == null) return;
 		ProbManager pb = ProbManager.getProbManager(probe.getInterfaceType());
-		if(pb != null) pb.stop();
+		if(pb != null){
+			pb.stop();
+		}
 	}
 
 	
@@ -144,21 +149,6 @@ public 		waba.util.Vector 	dataListeners = null;
 		currentUnit = CCUnit.getUnit(probe.getUnit());
 	}
 
-	public boolean dataArrived(org.concord.waba.extra.event.DataEvent e){
-		if(probe == null) return false;
-		return probe.dataArrived(e);
-	}
-	
-	public boolean idle(org.concord.waba.extra.event.DataEvent e){
-		if(probe == null) return false;
-		return probe.idle(e);
-	}
-	
-	public boolean startSampling(org.concord.waba.extra.event.DataEvent e){
-		if(probe == null) return false;
-		return probe.startSampling(e);
-	}
-
 	public void notifyDataListeners(DataEvent e){
 		if(calibrationListener != null){
 			calibrationListener.dataReceived(e);
@@ -196,14 +186,14 @@ public 		waba.util.Vector 	dataListeners = null;
 
     public void writeExternal(extra.io.DataStream out)
     {
-    	ProbFactory.storeProbeToStream(probe,out);
 		super.writeExternal(out);
+    	ProbFactory.storeProbeToStream(probe,out);
     }
 
     public void readExternal(extra.io.DataStream in)
     {
-    	probe = ProbFactory.createProbeFromStream(in);
 		super.readExternal(in);
+    	CCProb probe = ProbFactory.createProbeFromStream(in);
 		setProbe(probe);
     }
 
