@@ -17,6 +17,7 @@ Container 				edit = new Container();
 LObjCCTextArea 			doc;
 Button 					doneButton;
 Button 					insertButton;
+boolean					insertButtonAdded;
 //TimerButton 			upButton;
 //TimerButton 			downButton;
 
@@ -54,7 +55,7 @@ CCScrollBar				scrollBar;
 			lObjView.setShowMenus(false);
 			tArea.layoutComponents();
 			tArea.setText(tArea.getText());
-			tArea.restoreCursor(true);
+			tArea.removeCursor();
 			// If we are embedded this will be a problem
 			getMainView().closeTopWindowView();
 			if(showMenus) addMenus();
@@ -151,13 +152,20 @@ CCScrollBar				scrollBar;
 		if(!(mw instanceof ExtraMainWindow)) return;
 		ViewDialog vDialog = new ViewDialog((ExtraMainWindow)mw, this, "Properties", propView);
 		vDialog.setRect(0,0,150,150);
-		if(tArea != null) propView.setPropertyMode(tArea.getPropertyMode());
+		if(tArea != null) propView.setEditMode(tArea.getEditMode());
+		vDialog.addDialogListener(this);
 		vDialog.show();		
 	}
 	
 	
 	public void dialogClosed(DialogEvent e){
-//		System.out.println("Property Dialog Closed");
+		if(tArea == null) return;
+		boolean editMode = tArea.getEditMode();
+		if(insertButtonAdded != editMode){
+			didLayout = false;
+			waba.fx.Rect r = getRect();
+			setRect(r.x,r.y,r.width,r.height);
+		}
 	}
 	
 	
@@ -211,8 +219,14 @@ CCScrollBar				scrollBar;
 			tArea.subDictionary = doc;
 		}
 		tArea.addTextAreaListener(this);
-		insertButton = new Button("Insert");
-		add(insertButton);
+		if(insertButton == null) insertButton = new Button("Insert");
+		if(tArea == null || tArea.getEditMode()){
+			if(!insertButtonAdded) add(insertButton);
+			insertButtonAdded = true;
+		}else if(insertButtonAdded && insertButton != null){
+			remove(insertButton);
+			insertButtonAdded = false;
+		}
 //		upButton = new TimerButton("Up");
 //		downButton = new TimerButton("Down");
 //		add(upButton);
@@ -220,8 +234,10 @@ CCScrollBar				scrollBar;
 
 		
 		if(showDone){
-			doneButton = new Button("Done");
-			add(doneButton);
+			if(doneButton == null){
+				doneButton = new Button("Done");
+				add(doneButton);
+			}
 		} 
 		add(edit);
 		edit.add(tArea);
@@ -237,13 +253,14 @@ CCScrollBar				scrollBar;
 
 	public void setRect(int x, int y, int width, int height){
 		super.setRect(x,y,width,height);
-		if(!didLayout) layout(false);
-
+		if(!didLayout) layout(showDone);
+		boolean needInserButton = (tArea == null || tArea.getEditMode());
 		if(showDone){
 			doneButton.setRect(width-31,0,30,15);
 		}
 		
-		edit.setRect(1,34,width - 2,height - 36);
+		int yStart = (needInserButton)?34:17;
+		edit.setRect(1,yStart,width - 2,height - 2 - yStart);
 
 		if(nameLabel != null) nameLabel.setRect(1,1,30,15);
 		int editW = (showDone)?width - 62:width - 32;
@@ -260,7 +277,7 @@ CCScrollBar				scrollBar;
 				scrollBar.setRect(rEdit.width - wsb - 1,1,wsb, rEdit.height - 2);
 			}
 		}
-		insertButton.setRect(1,17,30,15);
+		if(needInserButton)	insertButton.setRect(1,17,30,15);
 //		upButton.setRect(35,17,20,15);
 //		downButton.setRect(60,17,30,15);
 		tArea.setText(tArea.getText());

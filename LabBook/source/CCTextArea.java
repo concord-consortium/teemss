@@ -204,11 +204,11 @@ public final static int	yTextBegin = 2;
 		}
 	}
 
-	static boolean propertyMode = false;
+	static boolean editMode = false;
 
 
-	public void setPropertyMode(boolean propertyMode){this.propertyMode = propertyMode;}
-	public boolean getPropertyMode(){return propertyMode;}
+	public void setEditMode(boolean editMode){this.editMode = editMode;}
+	public boolean getEditMode(){return editMode;}
 
     public void dialogClosed(DialogEvent e){
     	if(e.getSource() == currObjPropDialog){
@@ -271,6 +271,10 @@ public final static int	yTextBegin = 2;
 			LBCompDesc obj = (LBCompDesc)e.getInfo();
 			if(obj == null) return;
 			Object o = obj.getObject();
+			if((o instanceof LObjCCTextArea) || (o instanceof LObjCCTextAreaView)){
+				Sound.beep();
+				return;
+			}
 			if(o == null || !(o instanceof LabObject)) return;
 			LabObject labObject = (LabObject)o;
 			int nComponents = (components == null)?0:components.length;
@@ -390,6 +394,10 @@ public final static int	yTextBegin = 2;
 	}
 
 	public void requireClearingAll(){
+		if(!getEditMode()){
+			Sound.beep();
+			return;
+		}
 		confirmDialogClear = Dialog.showConfirmDialog(this,"Clearing All","Are you sure? ",dialogButtonTitles,Dialog.QUEST_DIALOG);
 	}
 	public void clearAll(){
@@ -399,10 +407,18 @@ public final static int	yTextBegin = 2;
 	}
 	
 	public void requireDeleteCurrentObject(){
+		if(!getEditMode()){
+			Sound.beep();
+			return;
+		}
 		confirmDialogDeleteCurrent = Dialog.showConfirmDialog(this,"Delete Object","Are you sure? ",dialogButtonTitles,Dialog.QUEST_DIALOG);
 	}
 	
 	public void deleteCurrentObject(boolean doLayout){
+		if(!getEditMode()){
+			Sound.beep();
+			return;
+		}
 		if(currObjectViewDesc != null){
 			if(currObjectViewDesc.getObject() instanceof LabObjectView){
 				LabObjectView objView = (LabObjectView)currObjectViewDesc.getObject();
@@ -444,6 +460,10 @@ public final static int	yTextBegin = 2;
 	}
 
 	public void requireDeleteAllObjects(){
+		if(!getEditMode()){
+			Sound.beep();
+			return;
+		}
 		confirmDialogDeleteAll = Dialog.showConfirmDialog(this,"Delete All Objects","Are you sure? ",dialogButtonTitles,Dialog.QUEST_DIALOG);
 	}
 	
@@ -452,6 +472,10 @@ public final static int	yTextBegin = 2;
 		deleteAllObjects(true);
 	}
 	public void deleteAllObjects(boolean doLayout){
+		if(!getEditMode()){
+			Sound.beep();
+			return;
+		}
 		deleteCurrentObject(false);
 		if(components != null){
 			for(int i = 0; i < components.length; i++){
@@ -466,7 +490,10 @@ public final static int	yTextBegin = 2;
 	}
 
 	public void insertText(String iStr){
-	
+		if(!getEditMode()){
+			Sound.beep();
+			return;
+		}
 		removeCursor();
 		if(iStr == null) return;
 		int nStr = iStr.length();
@@ -525,6 +552,10 @@ public final static int	yTextBegin = 2;
 		restoreCursor(true);
 	}
 	public void insertEmptyLine(){
+		if(!getEditMode()){
+			Sound.beep();
+			return;
+		}
 		if(lines == null){
 			setText("");
 		}else{
@@ -550,6 +581,10 @@ public final static int	yTextBegin = 2;
 		return text;
 	}
 	public void insertObject(){
+		if(!getEditMode()){
+			Sound.beep();
+			return;
+		}
 		if(labBookDialog != null){
 			labBookDialog.hide();
 			labBookDialog = null;
@@ -796,7 +831,7 @@ public final static int	yTextBegin = 2;
 						object.setShowMenus(true);
 						currObjectViewDesc = cntrlDesc;
 						removeCursor();
-						if(!getPropertyMode()){
+						if(!getEditMode()){
 							if(cntrlDesc.link){
 								LabObject lobj = object.getLabObject();
 								LabObjectView realView = lobj.getView(this,false);
@@ -872,6 +907,10 @@ public final static int	yTextBegin = 2;
 	
 	
 	public void openCurrentObject(){
+		if(!getEditMode()){
+			Sound.beep();
+			return;
+		}
 		if(currObjPropDialog == null && currObjectViewDesc != null){
 			Control cntrl = (Control)currObjectViewDesc.getObject();
 			if(cntrl instanceof LabObjectView){
@@ -890,6 +929,10 @@ public final static int	yTextBegin = 2;
 	}
 	
 	public void openCurrentObjectPropertiesDialog(){
+		if(!getEditMode()){
+			Sound.beep();
+			return;
+		}
 		if(currObjPropDialog == null && currObjectViewDesc != null){
 			openCompProp(currObjectViewDesc);
 		}
@@ -950,6 +993,15 @@ public final static int	yTextBegin = 2;
 		restoreCursor(false);
 	}
 	public void restoreCursor(boolean forseAction){
+		if(!getEditMode()){
+			hasCursor = false;
+			cursorOn = false;
+			if(caretTimer != null){
+				removeTimer(caretTimer);
+				caretTimer = null;
+			}
+			return;
+		}
 		if(!forseAction && currObjectViewDesc != null) return;
 		hasCursor =  true;
 		if(caretTimer == null) caretTimer = addTimer(500);
@@ -1110,10 +1162,7 @@ public final static int	yTextBegin = 2;
 				currObjectViewDesc = null;
 				repaint();
 			}
-			if(getPropertyMode()){
-/*				if(compDesc != null){
-					openCompProp(compDesc);
-				}*/
+			if(!getEditMode()){
 				return;
 			}
 			if(compDesc != null) return;

@@ -11,7 +11,7 @@ CCTextArea 				tArea;
 LObjCCTextArea 			doc;
 Button 					doneButton;
 
-Check					propertyModeCheck;
+Check					editModeCheck;
 
 	public LObjCCTextAreaPropView(ViewContainer vc, LObjCCTextArea d){
 		super(vc);
@@ -23,13 +23,13 @@ Check					propertyModeCheck;
 
 	public void setTextArea(CCTextArea tArea){
 		this.tArea = tArea;
-		if(tArea != null && propertyModeCheck != null){
-			setPropertyMode(tArea.getPropertyMode());
+		if(tArea != null && editModeCheck != null){
+			setEditMode(tArea.getEditMode());
 		}
 	}
-	public void setPropertyMode(boolean state){
-		if(propertyModeCheck != null){
-			propertyModeCheck.setChecked(state);
+	public void setEditMode(boolean state){
+		if(editModeCheck != null){
+			editModeCheck.setChecked(state);
 		}
 	}
 	
@@ -37,9 +37,9 @@ Check					propertyModeCheck;
 	public void layout(boolean sDone){
 		if(didLayout) return;
 		didLayout = true;
-		if(propertyModeCheck == null){
-			propertyModeCheck = new Check("Edit Mode");
-			add(propertyModeCheck);
+		if(editModeCheck == null){
+			editModeCheck = new Check("Edit Mode");
+			add(editModeCheck);
 		}
 		showDone = sDone;
 		if(showDone){
@@ -51,8 +51,8 @@ Check					propertyModeCheck;
 	public void setRect(int x, int y, int width, int height){
 		super.setRect(x,y,width,height);
 		if(!didLayout) layout(false);
-		if(propertyModeCheck != null){
-			propertyModeCheck.setRect(1,5,80,15);
+		if(editModeCheck != null){
+			editModeCheck.setRect(1,5,80,15);
 		}
 		if(showDone){
 			doneButton.setRect(width-31,height-15,30,15);
@@ -65,10 +65,10 @@ Check					propertyModeCheck;
 
 	public void onEvent(Event e){
 		if(e.target == doneButton && e.type == ControlEvent.PRESSED){
+			if(tArea != null && editModeCheck != null) tArea.setEditMode(editModeCheck.getChecked());   
 			if(container != null){
 				container.done(this);
 			}	 
-			if(tArea != null && propertyModeCheck != null) tArea.setPropertyMode(propertyModeCheck.getChecked());   
 		}
 	}
 	public int getPreferredWidth(waba.fx.FontMetrics fm){
