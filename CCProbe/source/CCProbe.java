@@ -3,6 +3,7 @@ import waba.util.*;
 import waba.fx.*;
 import waba.io.*;
 
+import org.concord.waba.graph.*;
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
 
@@ -44,18 +45,18 @@ public class CCProbe extends MainView
 		// Dialog.showImages = false;
 		// ImagePane.showImages = false;
 
-		graph.Bin.START_DATA_SIZE = 25000;
-		graph.LargeFloatArray.MaxNumChunks = 25;
+		Bin.START_DATA_SIZE = 25000;
+		LargeFloatArray.MaxNumChunks = 25;
 
 		objViewHeight = myHeight;
 
 		LabBookDB lbDB;
 		String plat = waba.sys.Vm.getPlatform();
 		if(plat.equals("PalmOS")){
-			graph.Bin.START_DATA_SIZE = 4000;
-			graph.LargeFloatArray.MaxNumChunks = 4;
+			Bin.START_DATA_SIZE = 4000;
+			LargeFloatArray.MaxNumChunks = 4;
 			GraphSettings.MAX_COLLECTIONS = 1;
-			graph.GraphViewLine.scrollStepSize = 0.45f;
+			GraphViewLine.scrollStepSize = 0.45f;
 			lbDB = new LabBookCatalog("LabBook");
 			CCTextArea.INTER_LINE_SPACING = 0;
 			Dialog.showImages = false;

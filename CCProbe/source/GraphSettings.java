@@ -4,7 +4,7 @@ import waba.ui.*;
 import waba.util.*;
 import waba.fx.*;
 import waba.sys.*;
-import graph.*;
+import org.concord.waba.graph.*;
 
 import org.concord.waba.extra.io.*;
 import org.concord.waba.extra.event.*;

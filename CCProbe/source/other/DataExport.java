@@ -1,6 +1,6 @@
 package org.concord.CCProbe;
 
-import graph.*;
+import org.concord.waba.graph.*;
 import waba.util.*;
 import waba.io.*;
 import org.concord.waba.extra.ui.*;

@@ -22,7 +22,7 @@ import waba.fx.*;
 import waba.io.*;
 import waba.sys.*;
 import waba.util.*;
-import graph.*;
+import org.concord.waba.graph.*;
 
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;

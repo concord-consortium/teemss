@@ -2,7 +2,7 @@ package org.concord.CCProbe;
 
 import waba.util.*;
 import waba.ui.*;
-import graph.*;
+import org.concord.waba.graph.*;
 
 import org.concord.waba.extra.io.*;
 import org.concord.waba.extra.event.*;
