@@ -16,17 +16,14 @@ public LObjDrawingView view = null;
 	objectType = DRAWING;
 
     }
-    public void notifyCloseView(){
-    	view = null;
-    }
-
     public LabObjectView getView(LObjViewContainer vc, boolean edit)
     {
     	
-    	if(view != null){
-    		view.close();
+    	if(view == null){
+    		view = new LObjDrawingView(vc, this);
+    	}else if(view.container == null){
+    		view.container = vc;
     	}
-	view = new LObjDrawingView(vc, this);
 	return view;
     }
 
@@ -34,18 +31,21 @@ public LObjDrawingView view = null;
     {
 	super.writeExternal(out);
 	if(view == null) return;
+	view.writeExternal(out);
     }
 
     public void readExternal(DataStream in)
     {
 	super.readExternal(in);
-	if(view == null) return;
+	if(view == null){
+		view = new LObjDrawingView(null, this);
+	}
+	view.readExternal(in);
 	
     }
 }
 class LObjDrawingView extends LabObjectView
 {
-    LObjDrawing draw;
     CCScrible scribble;
 
     Button doneButton = null;
@@ -54,10 +54,23 @@ class LObjDrawingView extends LabObjectView
     {
 	super(vc);
 
-	draw = d;
 	lObj = d;	
     }
 
+    public void writeExternal(DataStream out)
+    {
+	if(scribble == null) return;
+	scribble.writeExternal(out);
+    }
+
+    public void readExternal(DataStream in)
+    {
+	if(scribble == null){
+		scribble = new CCScrible(MainWindow.getMainWindow());
+	}
+	scribble.readExternal(in);
+	
+    }
     public void layout(boolean sDone)
     {
 	if(didLayout) return;
@@ -85,26 +98,31 @@ class LObjDrawingView extends LabObjectView
 	    dHeight -= 16;
 	}
 
-	if(scribble != null){ remove(scribble); }
-	
-	scribble = new CCScrible(MainWindow.getMainWindow(),1,curY,width-2, dHeight);
-
-	add(scribble);
+	if(scribble != null){ 
+		if(!scribble.isAddComponent()) add(scribble);
+		scribble.setRect(1,curY,width-2, dHeight);
+	}else{
+		scribble = new CCScrible(MainWindow.getMainWindow(),1,curY,width-2, dHeight);
+		add(scribble);
+	}
     }
 
     public void close()
     {
-    	scribble.destroy();
-    	draw.notifyCloseView();
+    	scribble.close();
     }
 
     public void onEvent(Event e)
     {
 	if(e.target == doneButton &&
 	   e.type == ControlEvent.PRESSED){
-	    if(container != null){
-		container.done(this);
-	    }	    
+	   if(scribble.isChooserUp()){
+	   	scribble.closeChooser();
+	   }else{
+		    if(container != null){
+			container.done(this);
+		    }	
+	   }    
 	}
     }
 

@@ -1,6 +1,7 @@
 package org.concord.waba.extra.ui;
 import waba.ui.*;
 import waba.fx.*;
+import extra.io.DataStream;
 
 public class CCScrible extends Container{
 DrawArea drawArea;
@@ -10,7 +11,17 @@ CCPenChooser 	penChooser;
 Container  		scribbleChooser;
 boolean 		isChooserUp = false;
 MainWindow 		owner;
-
+static final 	int DATA_PEN		=	1;
+static final 	int DATA_PATH	=	2;
+private boolean  wasAddComponent = true;
+	public CCScrible(MainWindow owner){
+		this.owner = owner;
+		drawArea = new DrawArea();
+		clearButton = new Button("Clear");
+		modeButton = new Button("Eraser");
+		choosePenButton = new Button("Pen");
+		wasAddComponent = false;
+	}
 	public CCScrible(MainWindow owner,int x,int y,int w,int h){
 		this.owner = owner;
 		setRect(x, y, w, h);
@@ -33,6 +44,49 @@ MainWindow 		owner;
 		add(choosePenButton);
 	}
 	
+	public boolean isAddComponent(){return wasAddComponent;}
+	public boolean isChooserUp(){return isChooserUp;}
+	
+	public void closeChooser(){
+		if(!isChooserUp || scribbleChooser == null) return;
+		remove(scribbleChooser);
+		add(drawArea);
+		drawArea.setPenColor(colorChooser.getChosenColor());
+		byte s = (byte)penChooser.getChosenPenSize();
+		drawArea.setPenSize(s,s);
+		isChooserUp = false;
+		drawArea.setMode(DrawArea.MODE_NORMAL);
+		modeButton.setText("Eraser");
+	}
+	
+	public void setRect(int x, int y, int width, int height){
+		super.setRect(x,y,width,height);
+		if(!wasAddComponent){
+			drawArea.setRect(0, 20, this.width, this.height - 20);
+			add(drawArea);
+			clearButton.setRect(0, 2, 35, 15);
+			add(clearButton);
+			modeButton.setRect(40, 2, 35, 15);
+			add(modeButton);
+			choosePenButton.setRect(80, 2, 35, 15);
+			add(choosePenButton);
+			wasAddComponent = true;
+		}
+	}
+	
+	public void writeExternal(DataStream out){
+		if(drawArea == null){
+			out.writeBoolean(false); //error state
+			return;
+		}
+		out.writeBoolean(true); //numb of pathes
+		drawArea.writeExternal(out);
+	}
+
+	public void readExternal(DataStream in){
+		if(!in.readBoolean()) return;
+		drawArea.readExternal(in);
+	}
 	
 	public void createScribleChooser(){
 		scribbleChooser = new Container();
@@ -50,16 +104,18 @@ MainWindow 		owner;
 		if(drawArea != null) drawArea.close();
 		if(isChooserUp){
 			remove(scribbleChooser);
-			scribbleChooser = null;
 		}
 		if(colorChooser != null){
+			if(scribbleChooser != null) scribbleChooser.remove(colorChooser);
 			colorChooser.destroy();
 			colorChooser = null;
 		}
 		if(penChooser != null){
+			if(scribbleChooser != null) scribbleChooser.remove(penChooser);
 			penChooser.destroy();
 			penChooser = null;
 		}
+		scribbleChooser = null;
 	}
 	public void destroy(){
 		if(drawArea != null){
@@ -132,14 +188,62 @@ boolean	wasFirstEraseRect = false;
 waba.fx.Image bufIm = null;
 CCDrawPath	pathList = null;
 CCDrawPath	currPath = null;
+static final 	int DATA_PEN		=	1;
+static final 	int DATA_PATH	=	2;
+
 	public DrawArea(){
 		pen = new org.concord.waba.extra.ui.CCPen();
 		pen.setPenSize((byte)1,(byte)1);
 		pen.setPenColor(0,0,0);
 	}
 	
+	public void writeExternal(extra.io.DataStream out){
+		out.writeInt(DATA_PATH);
+		if(pathList == null){
+			out.writeBoolean(false);
+		}else{
+			out.writeBoolean(true);
+			pathList.writeExternal(out);
+		}
+		out.writeInt(DATA_PEN);
+		if(pen == null){
+			out.writeBoolean(false);
+		}else{
+			out.writeBoolean(true);
+			pen.writeExternal(out);
+		}
+	}
+	public void readExternal(extra.io.DataStream in){
+		int temp = in.readInt();
+		if(temp != DATA_PATH) return;
+		if(in.readBoolean()){
+			pathList = new CCDrawPath(in);
+		}
+		CCDrawPath path = pathList;
+		while(path != null){
+			if(path.getNext() == null){
+				currPath = path;
+			}
+			path = path.getNext();
+		}
+		temp = in.readInt();
+		if(temp != DATA_PEN) return;
+		if(in.readBoolean()){
+			if(pen == null) pen = new CCPen();
+			pen.readExternal(in);
+		}
+	}
+	
+	public CCDrawPath getPathList(){return pathList;}
+	public org.concord.waba.extra.ui.CCPen getDrawPen(){return pen;}
+	
 	public void close(){
 		freeOffImage();
+		CCDrawPath path = pathList;
+		while(path != null){
+			path.setDirty(true);
+			path = path.getNext();
+		}
 	}
 	
 	public void freeOffImage(){
@@ -152,6 +256,7 @@ CCDrawPath	currPath = null;
 	public void destroy(){
 		freeOffImage();
 		currPath = null;
+		pathList = null;
 	}
 	
 	public void setPenColor(int red,int green,int blue){
@@ -365,6 +470,10 @@ int			bPen = 0;
 short		[]points = null;
 int			currPos;
 boolean		dirty = true;
+public final static int BEGIN_PATH_ITEM = 10000;
+public final static int END_PATH_ITEM = 10001;
+public final static int END_PATH_LIST = 10002;
+
 	public CCDrawPath(int type,boolean colorMode,byte wPen,byte hPen,int rPen,int gPen,int bPen){
 		this.type = type;
 		this.colorMode = colorMode;
@@ -376,6 +485,54 @@ boolean		dirty = true;
 		currPos = 0;
 		points = null;
 		dirty = true;
+	}
+	public CCDrawPath(extra.io.DataStream in){
+		int temp = in.readInt();
+		if(temp != BEGIN_PATH_ITEM) return;
+		type = in.readInt();
+		in.readBoolean();//colorMode skip
+		wPen = in.readByte();
+		hPen = in.readByte();
+		rPen = in.readInt();
+		gPen = in.readInt();
+		bPen = in.readInt();
+		currPos = in.readInt();
+		temp = in.readInt();
+		if(temp > 0){
+			points = new short[temp];
+		}
+		for(int i = 0; i < points.length;i++){
+			points[i] = in.readShort();
+		}
+		temp = in.readInt();
+		if(temp == END_PATH_ITEM){
+			next = new CCDrawPath(in);
+		}
+	}
+	
+	public void writeExternal(extra.io.DataStream out){
+		out.writeInt(BEGIN_PATH_ITEM);
+		out.writeInt(type);
+		out.writeBoolean(colorMode);
+		out.writeByte(wPen);
+		out.writeByte(hPen);
+		out.writeInt(rPen);
+		out.writeInt(gPen);
+		out.writeInt(bPen);
+		out.writeInt(currPos);
+		if(points == null){
+			out.writeInt(0);
+		}else{
+			out.writeInt(points.length);
+		}
+		for(int i = 0; i < points.length; i++){
+			out.writeShort(points[i]);
+		}
+		if(next != null){
+			out.writeInt(END_PATH_ITEM);
+			next.writeExternal(out);
+		}
+		else	out.writeInt(END_PATH_LIST);
 	}
 	
 	public void 		setNext(CCDrawPath next){this.next = next;}
