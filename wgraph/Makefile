@@ -1,3 +1,4 @@
+
 WABA_DIR= /home/scytacki/waba/superwaba/vmsrc/classes_java
 WEXTRAS_DIR= /home/scytacki/waba/superwaba/wextras/classes
 
@@ -10,3 +11,5 @@ comp: classes
 
 classes:
 	-mkdir $@
+
+include ../ReleaseSystem/cvs.inc
