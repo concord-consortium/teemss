@@ -3,6 +3,8 @@ package org.concord.LabBook;
 import waba.util.*;
 import waba.ui.*;
 import extra.io.*;
+import extra.util.*;
+
 import org.concord.waba.extra.ui.*;
 import extra.ui.*;
 import extra.util.CCUnit;
@@ -12,13 +14,10 @@ public class LObjDataSource extends LObjSubDict
 {
 
 public LObjDataSourceView view = null;
-
+CCUnit	currentUnit = null;
     public LObjDataSource()
     {
 		objectType = DATASOURCEOBJ;
-		
-
-
     }
     public LabObjectView getView(LObjViewContainer vc, boolean edit,LObjDictionary curDict)
     {
@@ -33,6 +32,9 @@ public LObjDataSourceView view = null;
     	}
 		return view;
     }
+
+
+	public CCUnit 	getUnit(){return currentUnit;}
 
     public void writeExternal(DataStream out)
     {
