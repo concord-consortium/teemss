@@ -26,6 +26,9 @@ LabObjectView			addedLabObjectView		= null;
 
 String [] fileStrings = {"Load Note..."};
 
+Edit 					nameEdit;
+Label					nameLabel;
+boolean					nameEditWasAdded = false;
 
 
 	public LObjCCTextAreaView(ViewContainer vc, LObjCCTextArea d,boolean edit){
@@ -157,6 +160,12 @@ String [] fileStrings = {"Load Note..."};
 		didLayout = true;
 
 		showDone = sDone;
+		if(nameEdit == null) nameEdit = new Edit();
+		nameEdit.setText(getLabObject().name);
+		if(nameLabel == null) nameLabel = new Label("Name");
+		add(nameLabel);
+		add(nameEdit);
+		nameEditWasAdded = true;
 
 		if(tArea == null){
 			tArea = new CCTextArea(this,container.getMainView(),doc.curDict,doc);
@@ -194,18 +203,24 @@ String [] fileStrings = {"Load Note..."};
 		if(!didLayout) layout(false);
 
 		if(showDone){
-			edit.setRect(1,17,width - 2,height - 18);
 			doneButton.setRect(width-31,0,30,15);
-		} else {
-			edit.setRect(1,1,width - 2,height - 2);
 		}
+		
+		edit.setRect(1,34,width - 2,height - 36);
+
+		if(nameLabel != null) nameLabel.setRect(1,1,30,15);
+		int editW = (showDone)?width - 62:width - 32;
+		if(nameEdit != null) nameEdit.setRect(30, 1, editW, 15);
+
+
+
 		if(tArea != null){
 			waba.fx.Rect rEdit = edit.getRect();
 			tArea.setRect(1,1,rEdit.width - 2, rEdit.height - 2);
 		}
-		insertButton.setRect(1,1,30,15);
-		upButton.setRect(35,1,20,15);
-		downButton.setRect(60,1,30,15);
+		insertButton.setRect(1,17,30,15);
+		upButton.setRect(35,17,20,15);
+		downButton.setRect(60,17,30,15);
 		tArea.setText(tArea.getText());
 		tArea.layoutComponents();
 	}
@@ -213,6 +228,9 @@ String [] fileStrings = {"Load Note..."};
 	public void close(){
 		Debug.println("Got close in document");
 		tArea.close();
+    	if(nameEdit != null){
+    		getLabObject().name = nameEdit.getText();
+    	}
 
 		super.close();
 	}
