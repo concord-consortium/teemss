@@ -35,6 +35,7 @@ public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
 		this("unknown");
 	}
 	CCVoltCurrent(String name){
+		probeType = ProbFactory.Prob_VoltCurrent;
 		activeChannels = 2;
 		setName(name);
 		dDesc.setChPerSample(1);

@@ -2,6 +2,7 @@ package org.concord.waba.extra.probware.probs;
 
 public class ProbFactory{
 
+public final static int Prob_Undefine 		= -1;
 public final static int Prob_ThermalCouple 	= 0;
 public final static int Prob_Light 			= 1;
 public final static int Prob_SmartWheel		= 2;
@@ -10,6 +11,21 @@ public final static int Prob_Force        	= 4;
 public final static int Prob_VoltCurrent    = 5;
 
     public static String [] probeNames = {"Temperature", "Light", "SmartWheel", "RawData","Force","Voltage/Current"};
+	public static CCProb createProbeFromStream(extra.io.DataStream in){
+		int portType 		= in.readInt();
+		int interfacePort 	= in.readInt();
+		CCProb probe = createProb(portType,interfacePort);
+		if(probe != null) probe.readExternal(in);
+		return  probe;
+	}
+	public static void storeProbeToStream(CCProb probe,extra.io.DataStream out){
+    	out.writeBoolean(probe != null);
+    	if(probe != null){
+    		out.writeInt(probe.getProbeType());
+    		out.writeInt(probe.getInterfacePort());
+    		probe.writeExternal(out);
+    	}
+	}
 
 	public static CCProb createProb(int probIndex,int interfacePort){
 		CCProb newProb = null;

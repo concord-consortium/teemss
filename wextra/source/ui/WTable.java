@@ -4,7 +4,8 @@ import waba.fx.*;
 import extra.util.*;
 
 public class WTable extends Container{
-Image bufIm = null;
+Image 		bufIm 	= null;
+Graphics 	ig		= null;
 int		startX;
 int		startY;
 int		startPenX;
@@ -411,20 +412,27 @@ boolean		clickable = true;
 		drawColumns(g);
 */
       		if(bufIm == null) bufIm=new Image(width,height);
-		Graphics ig = new Graphics(bufIm);
-		ig.setColor(255, 255, 255);
-		ig.fillRect(0, 0, this.width, this.height);
-		drawColumns(ig);
+//		Graphics ig = new Graphics(bufIm);
+		if(ig == null && bufIm != null){
+			ig = new Graphics(bufIm);
+		}
+		if(ig != null){
+			ig.setColor(255, 255, 255);
+			ig.fillRect(0, 0, this.width, this.height);
+			drawColumns(ig);
      		g.copyRect(bufIm,0,0,width,height,0,0);
-     		ig.free();
-		if(editorActive){
-			Graphics ge = activeEditor.createGraphics();
-			activeEditor.onPaint(ge);
-			ge.free();
+ //    		ig.free();
+			if(editorActive){
+				Graphics ge = activeEditor.createGraphics();
+				activeEditor.onPaint(ge);
+				ge.free();
+			}
 		}
 	}
 	
-	
+	public void free(){
+		if(ig != null) ig.free();
+	}
 	public void addRow(String []s){
 		CCLabel []l = new CCLabel[s.length];
 		for(int i = 0; i < s.length; i++){

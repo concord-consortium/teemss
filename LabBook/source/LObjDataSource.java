@@ -4,13 +4,14 @@ import waba.util.*;
 import waba.ui.*;
 import extra.io.*;
 import extra.util.*;
+import org.concord.waba.extra.probware.Transform;
 
 import org.concord.waba.extra.ui.*;
 import extra.ui.*;
 import extra.util.CCUnit;
 import org.concord.waba.extra.event.*;
 //LabObject implements Storable
-public class LObjDataSource extends LObjSubDict
+public class LObjDataSource extends LObjSubDict implements Transform
 {
 
 public LObjDataSourceView view = null;
@@ -52,6 +53,17 @@ CCUnit	currentUnit = null;
     public boolean equals(TreeNode node){
     	return super.equals(node);
     }
+	public boolean dataArrived(org.concord.waba.extra.event.DataEvent e){
+		return false;
+	}
+	
+	public boolean idle(org.concord.waba.extra.event.DataEvent e){
+		return false;
+	}
+	
+	public boolean startSampling(org.concord.waba.extra.event.DataEvent e){
+		return false;
+	}
 
 }
 class LObjDataSourceView extends LabObjectView implements ActionListener

@@ -40,6 +40,11 @@ int tRed = 0,tGreen = 0,tBlue = 0;
 		this.text = (text == null)?"":text;
 		repaint();
 	}
+	public void setText(String text,boolean redraw){
+		this.text = (text == null)?"":text;
+		if(redraw) repaint();
+	}
+	
 	public String getText(){ return text;}
 	
 	public void onPaint(waba.fx.Graphics g){

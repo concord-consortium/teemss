@@ -21,6 +21,7 @@ int				firstIndex,secondIndex;
 		this("unknown");
 	}
 	CCRawData(String name){
+		probeType = ProbFactory.Prob_RawData;
 		activeChannels = 2;
 		setName(name);
 		dDesc.setChPerSample(2);

@@ -21,7 +21,8 @@ float B = -25.31f;
 		this("unknown");
 	}
 	CCForce(String name){
-	    	activeChannels = 2;
+		probeType = ProbFactory.Prob_Force;
+	    activeChannels = 2;
 		setName(name);
 		dDesc.setChPerSample(1);
 		dDesc.setDt(0.0f);

@@ -38,6 +38,9 @@ float       	deviation = 100.0f;
 float		totalSumm = 0.0f;
 float		totalSamples = 0f;
 DeviationControl	devControl;
+
+public	int drawDevControlCounter = 0;
+public	int drawTableCounter = 0;
 	public CalibrationDialog(ExtraMainWindow owner,DialogListener l,String title, CCProb probe,int interfaceManager){
 		super(title);
 		this.probe = probe;
@@ -333,6 +336,7 @@ DeviationControl	devControl;
 						hide();
 						pb.removeDataListenerFromProb(probe.getName(),this);
 						owner.setDialog(null);
+						if(calTable != null) calTable.free();
 					}
 					if((probe != null) && (event.target == bApply)){
 						if(currContainer == PROP_PANE){
@@ -383,8 +387,13 @@ DeviationControl	devControl;
   	}
   	
   	public void drawDeviation(){
+  		drawDevControlCounter++;
+  		if(drawDevControlCounter != 1){
+  			if(drawDevControlCounter == 10) drawDevControlCounter = 0;
+  			return;
+  		}
   		if(devControl == null) return;
-  		waba.fx.Graphics g = devControl.createGraphics();
+		waba.fx.Graphics g = devControl.createGraphics();
   		if(g != null){
   			devControl.onPaint(g);
   			g.free();
@@ -403,22 +412,28 @@ DeviationControl	devControl;
 			
 			cell = calTable.getCell(nChannels,selIndex);
 			if((cell != null) && (cell instanceof CCLabel)){
-				((CCLabel)cell).setText(""+data[0]);
+				((CCLabel)cell).setText(""+data[0],false);
 			}
 			cell = calTable.getCell(0,selIndex);
 			if((cell != null) && (cell instanceof CCLabel)){
-				((CCLabel)cell).setText(""+data[1]);
+				((CCLabel)cell).setText(""+data[1],false);
 			}
 			if(nChannels == 2 && data.length > 1){
 				cell = calTable.getCell(1,selIndex);
 				if((cell != null) && (cell instanceof CCLabel)){
-					((CCLabel)cell).setText(""+data[2]);
+					((CCLabel)cell).setText(""+data[2],false);
 				}
 			}
-			waba.fx.Graphics g = calTable.createGraphics();
-			if(g != null){
-				calTable.onPaint(g);
-				g.free();
+
+  			drawTableCounter++;
+  			if(drawTableCounter != 1){
+  				if(drawTableCounter == 4) drawTableCounter = 0;
+  			}else{
+				waba.fx.Graphics g = calTable.createGraphics();
+				if(g != null){
+					calTable.onPaint(g);
+					g.free();
+				}
 			}
 		}
 
@@ -426,10 +441,7 @@ DeviationControl	devControl;
 		int ndata = dataEvent.getNumbSamples()*dataEvent.getDataDesc().getChPerSample();
 		int nOffset = dataEvent.getDataOffset();
 		float  dtChannel = dt / (float)chPerSample;
-//		boolean doFFT = false;
 		if(dataEvent.getNumbSamples() > 0){
-//		    if(!doFFT) dataFFT[dataPointer++] = data[nOffset];
-//		    if(dataPointer >= dataDim) doFFT = true;
 		    totalSumm += data[nOffset];
 		    totalSamples++;
 		    if(totalSamples > 1){
@@ -444,7 +456,6 @@ DeviationControl	devControl;
 			}
 		    }
 		}
-		
 //		System.out.println("deviation "+deviation);
 //		System.out.println("totalSamples "+totalSamples);
 //		System.out.println("av "+(totalSumm/totalSamples));
@@ -453,41 +464,6 @@ DeviationControl	devControl;
 		drawDeviation();
 
 
-/*
-		if(doFFT){
-			dataPointer = 0;
-			
-			float maxData = 0.0f;
-			float summ = 0.0f;
-			float summ2 = 0.0f;
-			for(int k = 0; k < dataDim; k++){
-				float d = dataFFT[k];
-				summ += d;
-				summ2 += d*d;
-				if(maxData < d) maxData = d;
-			}
-			float ave = summ/dataDim;
-			for(int k = 0; k < dataDim; k++){
-				dataFFT[k] = dataFFT[k] - ave;
-			}
-			float disp = extra.util.Maths.sqrt(summ2/(float)dataDim - ave*ave)/ave;
-			//System.out.println("FFT Ave: "+ave+" disp "+disp);
-			//org.concord.waba.extra.util.FFT.realft(dataFFT,dataDim,1);
-			float []normKoeff = new float[dataDim/2];
-			
-			
-			float maxKoeff = 0.0f;
-			for(int k = 1; k <= dataDim;k+=2){
-				float nk = extra.util.Maths.sqrt(dataFFT[k]*dataFFT[k]+dataFFT[k+1]*dataFFT[k+1]);
-				if(k == 1) nk /= 2.0;
-				normKoeff[(k - 1)/2] = nk;
-				if(nk > maxKoeff) maxKoeff = nk;
-			}
-			for(int k = 0; k < normKoeff.length ;k++){
-			    //System.out.println("index "+k+"; freq: "+(int)(100.0f*normKoeff[k]/maxKoeff+0.5));
-			}
-		}
-*/
 	}
 	
 	

@@ -27,6 +27,7 @@ float FC = 0.0f;
 		this("unknown");
 	}
 	CCThermalCouple(String name){
+		probeType = ProbFactory.Prob_ThermalCouple;
 		activeChannels = 2;
 		setName(name);
 		dDesc.setChPerSample(2);

@@ -39,6 +39,8 @@ public ProbEvent	pEvent = new ProbEvent();
 protected	int interfacePort = INTERFACE_PORT_A;
 protected int 	activeChannels = 1;
 
+protected	int	probeType = ProbFactory.Prob_Undefine;
+
 DataListener calibrationListener = null;
 	protected CCProb(){
 		this("unknown");
@@ -49,7 +51,6 @@ DataListener calibrationListener = null;
 		calibrationDesc = null;
 		pEvent.setProb(this);
 	}
-
 	public int 	getInterfacePort(){return interfacePort;}
 	public void setInterfacePort(int interfacePort){this.interfacePort =  interfacePort;}
 	
@@ -65,6 +66,8 @@ DataListener calibrationListener = null;
 	public void setCalibrationListener(DataListener calibrationListener){
 		this.calibrationListener = calibrationListener;
 	}
+
+	public int getProbeType(){return probeType;}
 
 	public void clearCalibrationListener(){
 		setCalibrationListener(null);

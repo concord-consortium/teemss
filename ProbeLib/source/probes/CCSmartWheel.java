@@ -24,6 +24,7 @@ int					outputMode = DEFAULT_MODE_OUT;
 		this("unknown");
 	}
 	CCSmartWheel(String name){	   
+		probeType = ProbFactory.Prob_SmartWheel;
 		setName(name);
 		dDesc.setChPerSample(1);
 		dDesc.setDt(0.01f);

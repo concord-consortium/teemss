@@ -25,6 +25,7 @@ public static String [] modelNames = {"High Range", "Low range"};
 		this("unknown");
 	}
 	CCLightIntens(String name){
+		probeType = ProbFactory.Prob_Light;
 	    activeChannels = 2;
 		setName(name);
 		dDesc.setChPerSample(2);

@@ -34,6 +34,7 @@ CCProb probe = null;
 	public void		setProbe(CCProb probe){
 		this.probe = probe;
 		setUnit();
+		name = (probe == null)?null:probe.getName();
 	}
 	
 	void setUnit(){
@@ -43,6 +44,35 @@ CCProb probe = null;
 		}
 		currentUnit = CCUnit.getUnit(probe.getUnit());
 	}
+
+	public boolean dataArrived(org.concord.waba.extra.event.DataEvent e){
+		if(probe == null) return false;
+		return probe.dataArrived(e);
+	}
+	
+	public boolean idle(org.concord.waba.extra.event.DataEvent e){
+		if(probe == null) return false;
+		return probe.idle(e);
+	}
+	
+	public boolean startSampling(org.concord.waba.extra.event.DataEvent e){
+		if(probe == null) return false;
+		return probe.startSampling(e);
+	}
+
+
+    public void writeExternal(extra.io.DataStream out)
+    {
+    	ProbFactory.storeProbeToStream(probe,out);
+		super.writeExternal(out);
+    }
+
+    public void readExternal(extra.io.DataStream in)
+    {
+    	probe = ProbFactory.createProbeFromStream(in);
+		super.readExternal(in);
+    }
+
 	
 	public static LObjProbeDataSource getProbeDataSource(int probeID,int interfacePort){
 		CCProb p = ProbFactory.createProb(probeID,interfacePort);
