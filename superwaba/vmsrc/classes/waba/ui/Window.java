@@ -201,10 +201,13 @@ protected void damageRect(int x, int y, int width, int height)
          height = by - y;
       }
    // guich@102 : makes sure that the paint is inside the area of the control
+   // scytacki : there is no guarentee that the x > 0 or y > 0
+   //    if so paintWidth paintHeight could be greater than the window
+   //    this "clipping" should be done when the window is drawn
    paintX = x;//(x >= this.x)?x:this.x;
    paintY = y;//(y >= this.y)?y:this.y;
-   paintWidth = (width <= this.width)?width:this.width;
-   paintHeight = (height <= this.height)?height:this.height;
+   paintWidth = width;//(width <= this.width)?width:this.width;
+   paintHeight = height;//(height <= this.height)?height:this.height;
    needsPaint = true;
 }
 
