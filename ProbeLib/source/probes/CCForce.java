@@ -75,6 +75,7 @@ float B = -25.31f;
 				curChannel = 0;
 			} else if(value.equals("1")){
 				curChannel = 1;
+				activeChannels = 2;
 			}
 		}
 		return  super.setPValue(p,value);
@@ -140,8 +141,14 @@ float B = -25.31f;
 	}
 	public void  calibrationDone(float []row1,float []row2,float []calibrated){
 		if(row1 == null || calibrated == null) return;
-		float x1 = row1[0];
-		float x2 = row1[1];
+		float x1, x2;
+		if(curChannel ==0){
+		    x1 = row1[0];
+		    x2 = row1[1];
+		} else {
+		    x1 = row2[0];
+		    x2 = row2[1];
+		}
 		float y1 = calibrated[0];
 		float y2 = calibrated[1];
 		A = (y2 - y1)/(x2 - x1);
