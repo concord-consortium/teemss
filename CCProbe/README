@@ -44,7 +44,7 @@ circumstances. The Concord Consortium is committed to leading this
 drive forward by developing and using the best in educational
 technology.
 
-Building CCProbe from the ccprobe-src.tar.zg tarball archive:
+Building CCProbe from the ccprobe-src.tar.gz tarball archive:
 
 tar -xzf ccprobe-src.tar.gz
 
@@ -64,5 +64,9 @@ need to get a complied copy of Pila for MacOSX and copy it to the
 ccprobe-src/palmtools/bin directory.  You can get a copy here:
 
   ftp://concord.org/pub/ccprobeware/src/pila-for-macosx/pila
+
+
+
+
 
 
