@@ -15,7 +15,8 @@ public class LObjDataSource extends LObjSubDict implements Transform
 {
 
 public LObjDataSourceView view = null;
-CCUnit	currentUnit = null;
+CCUnit		currentUnit = null;
+public 		waba.util.Vector 	dataListeners = null;
     public LObjDataSource()
     {
 		objectType = DATASOURCEOBJ;
@@ -33,7 +34,25 @@ CCUnit	currentUnit = null;
     	}
 		return view;
     }
+	public void addDataListener(DataListener l){
+		if(dataListeners == null) dataListeners = new waba.util.Vector();
+		if(dataListeners.find(l) < 0) dataListeners.add(l);
+	}
+	public void removeDataListener(DataListener l){
+		int index = dataListeners.find(l);
+		if(index >= 0) dataListeners.del(index);
+	}
+	public void notifyDataListeners(DataEvent e){
+		if(dataListeners == null) return;
+		for(int i = 0; i < dataListeners.getCount(); i++){
+			DataListener l = (DataListener)dataListeners.get(i);
+			l.dataReceived(e);
+		}
+	}
 
+
+	public void startDataDelivery(){}
+	public void stopDataDelivery(){}
 
 	public CCUnit 	getUnit(){return currentUnit;}
 
