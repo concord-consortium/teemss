@@ -76,6 +76,18 @@
 	</GRAPH>
       </DATACOLLECTOR>
 
+      <DATACOLLECTOR ID="dc-temperature7" name="Measure Temperature">
+       <PROBE ID="dc-temp7" probe="Temperature">
+         <PROP name="Port" value="A"/>
+         <PROP name="Mode" value="C"/>
+       </PROBE>
+       <GRAPH current-line="0" title="">
+         <XAXIS min="0" max="50"/>
+         <YAXIS min="0" max="60"/>
+         <LINE xaxis="0" yaxis="0" datasource="dc-temp7"/>
+	</GRAPH>
+      </DATACOLLECTOR>
+
       <DATACOLLECTOR ID="dc-voltage-current-voltage" name="Measure Voltage" >
        <PROBE ID="dc-vi1" probe="VoltageCurrent">
          <PROP name="Port" value="A"/>
@@ -142,6 +154,29 @@
            <INTPROBETRANS quantity="Power" probe="dc-vi3"/></LINE>
          <LINE xaxis="0" yaxis="3">
            <INTPROBETRANS quantity="Energy" probe="dc-vi3"/></LINE>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+ <DATACOLLECTOR ID="dc-voltage-current-current" name="Measure Current" >
+       <PROBE ID="dc-vi4" probe="VoltageCurrent">
+         <PROP name="Port" value="A"/>
+         <PROP name="Speed" value="3 per second"/>
+         <PROP name="Version" value="2.0"/>
+       </PROBE>
+       <GRAPH current-line="2" title="">
+         <XAXIS min="0" max="60"/>
+         <YAXIS min="0" max="2"/>
+         <YAXIS min="-0.1" max="0.5"/>
+         <YAXIS min="0" max="1"/>
+         <YAXIS min="0" max="5"/>
+         <LINE xaxis="0" yaxis="0">
+           <INTPROBETRANS quantity="Voltage" probe="dc-vi4"/></LINE>
+         <LINE xaxis="0" yaxis="1">
+           <INTPROBETRANS quantity="Current" probe="dc-vi4"/></LINE>
+         <LINE xaxis="0" yaxis="2">
+           <INTPROBETRANS quantity="Power" probe="dc-vi4"/></LINE>
+         <LINE xaxis="0" yaxis="3">
+           <INTPROBETRANS quantity="Energy" probe="dc-vi4"/></LINE>
 	</GRAPH>
       </DATACOLLECTOR>
 

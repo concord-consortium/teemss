@@ -40,7 +40,9 @@
          dc-temperature4 |
          dc-temperature5 |
          dc-temperature6 |
+         dc-temperature7 |   
          dc-voltage-current-voltage |
+	 dc-voltage-current-current |
          dc-voltage-current-power |
          dc-voltage-current-energy |
          dc-light-4000 |
