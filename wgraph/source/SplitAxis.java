@@ -464,6 +464,7 @@ public class SplitAxis extends Axis
 		startPos = 0;
 	}
 
+	boolean readExternalFlag = false;
 	public void readExternal(DataStream ds)
 	{
 		readExternalFlag = true;

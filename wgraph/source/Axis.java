@@ -59,11 +59,6 @@ public class Axis
     public float dispMin;
     public int dispLen;
 
-	// This is set when readExternal is called
-	// it can be used to make the axis maintain it's dispMax
-	// on different scales
-	public float readDispMax;
-    
     // If the absolute min is at 0 in screen coordiates
     // this is the position of dispMin 
     public int dispOffset;
@@ -177,6 +172,8 @@ public class Axis
 		}
 	}
 
+	// Note this will not presever the max value of the
+	// the axis
 	public void setLength(int len)
 	{
 		length = dispLen = len;	
@@ -289,7 +286,7 @@ public class Axis
 		majTicLabels = null;
 		ticOffsets = null;
 		numTics = 0;
-		
+		propContainer = null;		
 
 		if(axisLabel != null)axisLabel.free();
 		axisLabel = null;
@@ -690,9 +687,7 @@ public class Axis
 	{
 		drawnX = x;
 		drawnY = y;
-		if(readExternalFlag){
-			setRange(readDispMax - dispMin);
-		}		
+		setRange(getDispMax() - dispMin);
 	}
 
     boolean needCalcTics = false;
@@ -908,13 +903,83 @@ public class Axis
 		}
     }
 
-	public boolean readExternalFlag = false;
+
+	public final static int PROP_MIN = 0;
+	public final static int PROP_MAX = 1;
+	public final static int PROP_LABEL = 2;
+	public final static int PROP_AUTO = 3;
+	PropContainer propContainer = null;
+
+	public PropContainer getPropContainer()
+	{
+		PropObject prop = null;
+
+		if(propContainer == null){
+			propContainer = new PropContainer("Axis");
+
+
+			prop = new PropObject("Min", "Min", PROP_MIN, getDispMin() + "");
+			propContainer.addProperty(prop);
+
+			prop = new PropObject("Max", "Max", PROP_MAX, getDispMax() + "");
+			propContainer.addProperty(prop);
+
+			prop = new PropObject("Label", "Label", PROP_LABEL, getLabel());
+			prop.prefWidth = 100;
+			propContainer.addProperty(prop);
+
+			prop = new PropObject("Auto", "Auto", PROP_AUTO, autoLabel);
+			propContainer.addProperty(prop);
+		} else {
+			prop = propContainer.findProperty(PROP_MIN);
+			if(prop != null) prop.setValue(getDispMin() + "");
+
+			prop = propContainer.findProperty(PROP_MAX);
+			if(prop != null) prop.setValue(getDispMax() + "");
+
+			prop = propContainer.findProperty(PROP_LABEL);
+			if(prop != null) prop.setValue(getLabel());
+
+			prop = propContainer.findProperty(PROP_AUTO);
+			if(prop != null) prop.setChecked(autoLabel);
+		}
+
+		return propContainer;
+	}
+
+	public void applyProperties()
+	{
+		PropObject prop = null;
+
+		if(propContainer != null){
+			float min = getDispMin();
+			float max = getDispMax();
+
+			prop = propContainer.findProperty(PROP_MIN);
+			if(prop != null) min = prop.getFValue();
+
+			prop = propContainer.findProperty(PROP_MAX);
+			if(prop != null) max = prop.getFValue();
+
+			setRange(min, max-min);
+
+			prop = propContainer.findProperty(PROP_AUTO);
+			if(prop != null) autoLabel = prop.getChecked();
+
+			if(!autoLabel){
+				prop = propContainer.findProperty(PROP_LABEL);
+				if(prop != null) setAxisLabel(prop.getValue(), axisLabelUnit);
+			} else {
+				setAxisLabel("auto", axisLabelUnit);
+			}
+		}
+	}
 
 	public void readExternal(DataStream ds)
 	{
-		readExternalFlag = true;
 		dispMin = ds.readFloat();
-		readDispMax = ds.readFloat();
+		float readDispMax = ds.readFloat();
+		setRange(readDispMax - dispMin);
 		String labelStr = ds.readString();
 
 		int labelUnitCode = ds.readInt();
@@ -931,13 +996,7 @@ public class Axis
     public void writeExternal(DataStream ds)
     {
 		ds.writeFloat(dispMin);
-		if(drawnX == -1 && !readExternalFlag){
-			ds.writeFloat(getDispMax());
-		} else if(drawnX == -1 && readExternalFlag){
-			ds.writeFloat(readDispMax);
-		} else {
-			ds.writeFloat(getDispMax());
-		}
+		ds.writeFloat(getDispMax());
 
 		ds.writeString(axisLabelStr);
 

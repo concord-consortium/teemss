@@ -28,11 +28,6 @@ import extra.util.*;
 
 public class GraphViewLine extends GraphView
 {
-    final static float Y_MAX = (float)50.0;
-    final static float Y_MIN = (float)-5.0;
-    final static float X_MAX = (float)60.0;
-    final static float X_MIN = (float)0.0;
-
     final static char DRAG_MODE = 'D';
     final static char ZOOM_MODE = 'Z';
     final static char ANNOT_MODE = 'A';
@@ -40,11 +35,6 @@ public class GraphViewLine extends GraphView
     public char mode = 'D';
 
     public char curChar = 'A';
-
-    public float minY = Y_MIN;
-    public float maxY = Y_MAX;
-    public float minX = X_MIN;
-    public float maxX = X_MAX;
 
     LineGraph lGraph;
     Annotation curAnnot = null;
@@ -89,28 +79,12 @@ public class GraphViewLine extends GraphView
 
 		graph = lGraph = new LineGraph(w, h, dwX, dwY, 
 									   xaxis, yaxis);
-
-		if(!yaxis.readExternalFlag){
-			yaxis.setRange(minY, maxY - minY);
-		}
-
-		// This is a hack see setRange in AnnotView
-		if(!xaxis.readExternalFlag){
-			xaxis.setRange(minX, maxX - minX);
-		}
     }
 
 	public void setAxis(SplitAxis xaxis, ColorAxis yaxis)
 	{
 		lGraph.switchXAxis(xaxis);
 		lGraph.switchYAxis(yaxis);
-
-		/*
-		yaxis.setRange(minY, maxY - minY);
-
-		// This is a hack see setRange in AnnotView
-		xaxis.setRange(minX, maxX - minX);
-		*/
 	}
 
     public void plot(Graphics myG)

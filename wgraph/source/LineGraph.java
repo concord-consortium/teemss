@@ -103,16 +103,23 @@ public class LineGraph extends Graph2D
 
 	public void setupYAxis(Axis yAx)
 	{
+		// We want to preserve the range of this axis
+		// so we need to save the max
+		float max = yAx.getDispMax();
 		yAx.setLength(-dwHeight);
 		yAx.gridEndOff = dwWidth-1;
+		yAx.setRange(max - yAx.getDispMin());
 		yAx.init(xOriginOff,yOriginOff);
-
 	}
 
 	public void setupXAxis(Axis xAx)
 	{
+		// We want to preserve the range of this axis
+		// so we need to save the max
+		float max = xAx.getDispMax();
 		xAx.setLength(dwWidth);
 		xAx.gridEndOff = -dwHeight+1;
+		xAx.setRange(max - xAx.getDispMin());
 		xAx.init(xOriginOff,yOriginOff);
 	}
 
