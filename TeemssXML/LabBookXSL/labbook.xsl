@@ -83,12 +83,7 @@
       <xsl:value-of select="normalize-space(../question)"/>
     </SNPARAGRAPH>
     <SNPARAGRAPH/>
-    <xsl:for-each select="p">
-      <SNPARAGRAPH>
-        <xsl:value-of select="normalize-space(.)"/>
-      </SNPARAGRAPH>
-      <SNPARAGRAPH/>
-    </xsl:for-each>
+    <xsl:apply-templates/>
   </SUPERNOTES>
 </xsl:template>
 
@@ -296,22 +291,32 @@
       <xsl:apply-templates select="querys" mode="list"/>
     </xsl:when>
   </xsl:choose>
-  <SNPARAGRAPH linkcolor="FF0000">
-    click here to answer
-  </SNPARAGRAPH>
+  <SNPARAGRAPH/>
+
+   <xsl:element name="EMBOBJ">
+    <xsl:attribute name="object">
+
+      <xsl:value-of select="ancestor::investigation/@name"/>_<xsl:value-of select="name(ancestor::*[../../investigation])"/>_<xsl:number level="any"/>_<xsl:number/>
+
+    </xsl:attribute>
+    <xsl:attribute name="link">true</xsl:attribute>
+    <xsl:attribute name="linkcolor">FF0000</xsl:attribute>
+  </xsl:element>
+
   <SNPARAGRAPH/>
 </xsl:template>
 
 <xsl:template match="query-response" mode="response">
   <xsl:element name="SUPERNOTES">
     <xsl:attribute name="ID">
-      <xsl:value-of select="../../@name"/>_<xsl:value-of select="../@name"/>_<xsl:number value="position()"/>
+      <xsl:value-of select="ancestor::investigation/@name"/>_<xsl:value-of select="name(ancestor::*[../../investigation])"/>_<xsl:number level="any"/>_<xsl:number value="position()"/>
     </xsl:attribute>
 
     <xsl:attribute name="name">
-      <xsl:value-of select="../../@name"/>_<xsl:value-of select="../@name"/>_<xsl:number value="position()"/>
+      <xsl:value-of select="ancestor::investigation/@name"/>_<xsl:value-of select="name(ancestor::*[../../investigation])"/>_<xsl:number level="any"/>_<xsl:number value="position()"/>
     </xsl:attribute>
     <EMBOBJ object="teemss_titlebar.bmp"/>
+
     <SNPARAGRAPH linkcolor="0000FF">
       <xsl:apply-templates select="query-description"/>
     </SNPARAGRAPH>
@@ -348,12 +353,8 @@
           <xsl:attribute name="w">140</xsl:attribute>
           <xsl:attribute name="h">80</xsl:attribute>
           <xsl:element name="NOTES">
-            <xsl:attribute name="ID">
-              <xsl:value-of select="ancestor::investigation/@name"/>_<xsl:value-of select="ancestor::think/@name"/>_<xsl:number value="ancestor::query-response[position()]"/>_<xsl:number value="position()"/>
-            </xsl:attribute>
-            <xsl:attribute name="name">
-              <xsl:value-of select="ancestor::investigation/@name"/>_<xsl:value-of select="ancestor::think/@name"/>_<xsl:number value="ancestor::query-response[position()]"/>_<xsl:number value="position()"/>
-            </xsl:attribute>
+            <xsl:attribute name="ID">query_note_<xsl:number level="any"/></xsl:attribute>
+            <xsl:attribute name="name">query_note_<xsl:number level="any"/></xsl:attribute>
           </xsl:element>
         </xsl:element>
       <SNPARAGRAPH/>

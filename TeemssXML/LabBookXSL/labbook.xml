@@ -378,6 +378,12 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH>Have you ever wondered why cars stay on the road when they round a corner? Why is it more difficult to round those corners when the road is wet or covered with ice? Besides the banking of the road, the tires provide a frictional surface against the surface of the road. The ideal car provides friction when you need it (turning and braking) but has little when you don't want it (speeding along in a straight line).</SNPARAGRAPH>
 <SNPARAGRAPH/>
+<SNPARAGRAPH>It's not that easy to make a vehicle move with almost no friction. But that's the goal of this investigation. We want a cart that's almost friction free so that we can study the forces on moving objects without being confused by the forces due to friction. Suppose a frictionless cart is pushed across the floor.How far do you think the cart will go? What forces will affect the motion of a frictionless cart? </SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ object="Air_Cart_think_1_1" link="true" linkcolor="FF0000"/>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>Refer to Technical Hints to see how to use the CC LabBook software.</SNPARAGRAPH>
+<SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Materials" ID="Air_Cart-materials">
 <EMBOBJ object="teemss_titlebar.bmp"/>
@@ -717,6 +723,18 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH linkcolor="000F0F">What does a graph of the motion of a low-friction cart look like?</SNPARAGRAPH>
 <SNPARAGRAPH/>
+<SNPARAGRAPH>Think about how you would describe the motion of your cart to someone.What is the simplest way to describe its motion? Would you need to know its position, or velocity, or both? What tools would you need to measure its motion? </SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ object="Tracker_think_10_1" link="true" linkcolor="FF0000"/>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>The following position versus time graph of a cart was made with a SmartWheel. Discuss the motion shown with your group.Did the cart appear to change velocity at anytime? </SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ object="Tracker_think_11_2" link="true" linkcolor="FF0000"/>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<EMBOBJ>
+<IMAGE ID="Image_37" name="PALM_TINY_think.bmp" url="../images/Motions_and_Forces/Tracker/05_tr_graph/PALM_TINY_05_tr_graph.bmp"/>
+</EMBOBJ>
 </SUPERNOTES>
 <SUPERNOTES name="Materials" ID="Tracker-materials">
 <EMBOBJ object="teemss_titlebar.bmp"/>
@@ -906,6 +924,14 @@ projects contributing to the development of CCProbeware are:
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH linkcolor="000F0F">What are the effects of friction on the motion of the propeller-driven cart?</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>If you sneeze in a weightless environment, as some of the astronauts have done, your body would move backwards and upwards. In order for a motion to happen, a force is needed. So, why does an astronaut's body move when they sneeze?What are the forces that occur during the sneeze? </SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ object="Propeller_think_23_1" link="true" linkcolor="FF0000"/>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>Picture a propeller or fan blowing air. Think about how the accelerating air from the propeller relates to your description of the forces found during a sneeze in space.What is accelerating the air? Will your almost frictionless cart move when the propeller is turned on? Will it still move when you add more friction? What are the forces that will make the cart move? </SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ object="Propeller_think_24_2" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Materials" ID="Propeller-materials">
@@ -1103,6 +1129,12 @@ projects contributing to the development of CCProbeware are:
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH linkcolor="000F0F">What happens when two objects collide?</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>Collisions happen so fast that it's hard to see what was going on during the event. You just see the results of a smashed car or a home run or a sore hand. Sometimes you want big forces, as with a baseball bat or a karate chop, and sometimes you want to decrease the forces, as with a safety helmet.</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>In this activity you will use the Force probe to actually measure what happens during a collision. How big are the forces? How long do they last? What features of the colliding objects make the forces bigger or smaller?How would you increase or decrease the forces during a collision? </SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ object="Collision_I_think_35_1" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Materials" ID="Collision_I-materials">
@@ -1305,6 +1337,14 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH linkcolor="000F0F">When two objects hit, is the force on one the same as the force on the other?</SNPARAGRAPH>
 <SNPARAGRAPH/>
+<SNPARAGRAPH>Suppose two identical balls bounce off of each other.Does each one experience the same force? Will they each bounce off with the same velocity they started with? </SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ object="Collision_II_think_49_1" link="true" linkcolor="FF0000"/>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>In your group, predict and explain what happens when two objects with different masses, like a heavy and a light ball or a heavy truck and a small car collide.Is the force on each one the same? What is the resulting motion of each object? </SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ object="Collision_II_think_50_2" link="true" linkcolor="FF0000"/>
+<SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Materials" ID="Collision_II-materials">
 <EMBOBJ object="teemss_titlebar.bmp"/>
@@ -1490,21 +1530,21 @@ projects contributing to the development of CCProbeware are:
 <FOLDER name="Responses" ID="Motions_and_Forces_response">
 <FOLDER view="paging" name="Air Cart Responses" ID="Air_Cart-response">
 <FOLDER ID="Air_Cart_think_response" name="Think About Responses ">
-<SUPERNOTES ID="Air_Cart_think_1" name="Air_Cart_think_1">
+<SUPERNOTES ID="Air_Cart_think_1_1" name="Air_Cart_think_1_1">
 <EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">It's not that easy to make a vehicle move with almost no friction. But that's the goal of this investigation. We want a cart that's almost friction free so that we can study the forces on moving objects without being confused by the forces due to friction. Suppose a frictionless cart is pushed across the floor.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>How far do you think the cart will go?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="80">
-<NOTES ID="Air_Cart_think_0_1" name="Air_Cart_think_0_1"/>
+<NOTES ID="query_note_1" name="query_note_1"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>What forces will affect the motion of a frictionless cart?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="80">
-<NOTES ID="Air_Cart_think_0_2" name="Air_Cart_think_0_2"/>
+<NOTES ID="query_note_2" name="query_note_2"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -1518,41 +1558,41 @@ projects contributing to the development of CCProbeware are:
 </FOLDER>
 <FOLDER view="paging" name="Tracker Responses" ID="Tracker-response">
 <FOLDER ID="Tracker_think_response" name="Think About Responses ">
-<SUPERNOTES ID="Tracker_think_1" name="Tracker_think_1">
+<SUPERNOTES ID="Tracker_think_10_1" name="Tracker_think_10_1">
 <EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Think about how you would describe the motion of your cart to someone.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>What is the simplest way to describe its motion?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="80">
-<NOTES ID="Tracker_think_0_1" name="Tracker_think_0_1"/>
+<NOTES ID="query_note_22" name="query_note_22"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>Would you need to know its position, or velocity, or both?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="80">
-<NOTES ID="Tracker_think_0_2" name="Tracker_think_0_2"/>
+<NOTES ID="query_note_23" name="query_note_23"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>What tools would you need to measure its motion?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="80">
-<NOTES ID="Tracker_think_0_3" name="Tracker_think_0_3"/>
+<NOTES ID="query_note_24" name="query_note_24"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 </SUPERNOTES>
-<SUPERNOTES ID="Tracker_think_2" name="Tracker_think_2">
+<SUPERNOTES ID="Tracker_think_11_2" name="Tracker_think_11_2">
 <EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">The following position versus time graph of a cart was made with a SmartWheel. Discuss the motion shown with your group.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>Did the cart appear to change velocity at anytime?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="80">
-<NOTES ID="Tracker_think_0_1" name="Tracker_think_0_1"/>
+<NOTES ID="query_note_25" name="query_note_25"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -1566,7 +1606,7 @@ projects contributing to the development of CCProbeware are:
 </FOLDER>
 <FOLDER view="paging" name="Propeller Responses" ID="Propeller-response">
 <FOLDER ID="Propeller_think_response" name="Think About Responses ">
-<SUPERNOTES ID="Propeller_think_1" name="Propeller_think_1">
+<SUPERNOTES ID="Propeller_think_23_1" name="Propeller_think_23_1">
 <EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">If you sneeze in a weightless environment, as some of the astronauts have done, your body would move backwards and upwards. In order for a motion to happen, a force is needed. So, why does an astronaut's body move when they sneeze?</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1575,13 +1615,13 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="80">
-<NOTES ID="Propeller_think_0_1" name="Propeller_think_0_1"/>
+<NOTES ID="query_note_54" name="query_note_54"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 </SUPERNOTES>
-<SUPERNOTES ID="Propeller_think_2" name="Propeller_think_2">
+<SUPERNOTES ID="Propeller_think_24_2" name="Propeller_think_24_2">
 <EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Picture a propeller or fan blowing air. Think about how the accelerating air from the propeller relates to your description of the forces found during a sneeze in space.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1590,7 +1630,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="80">
-<NOTES ID="Propeller_think_0_1" name="Propeller_think_0_1"/>
+<NOTES ID="query_note_55" name="query_note_55"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -1599,7 +1639,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="80">
-<NOTES ID="Propeller_think_0_2" name="Propeller_think_0_2"/>
+<NOTES ID="query_note_56" name="query_note_56"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -1608,7 +1648,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="80">
-<NOTES ID="Propeller_think_0_3" name="Propeller_think_0_3"/>
+<NOTES ID="query_note_57" name="query_note_57"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -1617,7 +1657,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="80">
-<NOTES ID="Propeller_think_0_4" name="Propeller_think_0_4"/>
+<NOTES ID="query_note_58" name="query_note_58"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -1631,7 +1671,7 @@ projects contributing to the development of CCProbeware are:
 </FOLDER>
 <FOLDER view="paging" name="Collision I Responses" ID="Collision_I-response">
 <FOLDER ID="Collision_I_think_response" name="Think About Responses ">
-<SUPERNOTES ID="Collision_I_think_1" name="Collision_I_think_1">
+<SUPERNOTES ID="Collision_I_think_35_1" name="Collision_I_think_35_1">
 <EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">In this activity you will use the Force probe to actually measure what happens during a collision. How big are the forces? How long do they last? What features of the colliding objects make the forces bigger or smaller?</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1640,7 +1680,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="80">
-<NOTES ID="Collision_I_think_0_1" name="Collision_I_think_0_1"/>
+<NOTES ID="query_note_79" name="query_note_79"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -1654,41 +1694,41 @@ projects contributing to the development of CCProbeware are:
 </FOLDER>
 <FOLDER view="paging" name="Collision II Responses" ID="Collision_II-response">
 <FOLDER ID="Collision_II_think_response" name="Think About Responses ">
-<SUPERNOTES ID="Collision_II_think_1" name="Collision_II_think_1">
+<SUPERNOTES ID="Collision_II_think_49_1" name="Collision_II_think_49_1">
 <EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Suppose two identical balls bounce off of each other.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>Does each one experience the same force?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="80">
-<NOTES ID="Collision_II_think_0_1" name="Collision_II_think_0_1"/>
+<NOTES ID="query_note_106" name="query_note_106"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>Will they each bounce off with the same velocity they started with?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="80">
-<NOTES ID="Collision_II_think_0_2" name="Collision_II_think_0_2"/>
+<NOTES ID="query_note_107" name="query_note_107"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 </SUPERNOTES>
-<SUPERNOTES ID="Collision_II_think_2" name="Collision_II_think_2">
+<SUPERNOTES ID="Collision_II_think_50_2" name="Collision_II_think_50_2">
 <EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">In your group, predict and explain what happens when two objects with different masses, like a heavy and a light ball or a heavy truck and a small car collide.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>Is the force on each one the same?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="80">
-<NOTES ID="Collision_II_think_0_1" name="Collision_II_think_0_1"/>
+<NOTES ID="query_note_108" name="query_note_108"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>What is the resulting motion of each object?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="80">
-<NOTES ID="Collision_II_think_0_2" name="Collision_II_think_0_2"/>
+<NOTES ID="query_note_109" name="query_note_109"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -1727,6 +1767,14 @@ projects contributing to the development of CCProbeware are:
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH linkcolor="000F0F">What happens when two objects at different temperatures are left in contact with each other?</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>We are constantly dealing with things at different temperatures. Sometimes we want the heat to flow faster (cooking) and sometimes we want to prevent its flow (sleeping bags). In your group, discuss other situations when you would want to alter heat flow.What are three such situations? How does energy flow change over time? </SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ object="Heat_Flow_think_62_1" link="true" linkcolor="FF0000"/>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>Sometimes we prefer uniform temperatures (a non-drafty room) and sometimes we prefer contrast (hot syrup on ice cream).Can you think of other times when you want uniform or non-uniform temperatures? Which condition (uniform or non-uniform) is easier to keep for the longest period of time? </SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ object="Heat_Flow_think_63_2" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Materials" ID="Heat_Flow-materials">
@@ -1936,6 +1984,8 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH linkcolor="000F0F">When you roll a cart up and down a ramp, it changes velocity. If the total amount of energy is always the same, how does it change form?</SNPARAGRAPH>
 <SNPARAGRAPH/>
+<SNPARAGRAPH>A basketball player going for a lay up is a good example of an object in motion. Just as the player is ready to release the ball, the player exhibits both gravitational potential energy (how high the player jumps) and the kinetic energy of motion (how fast the player isgoing). How do these two energies relate?</SNPARAGRAPH>
+<SNPARAGRAPH/>
 <SNPARAGRAPH>Think about what happens when you are playing on a playground swing. How does the amount of energy change when you are near the ground compared to the amount of energy at the top of your swing? Use Notes on your handheld computer to draw the motion of a swing. Where is the (gravitational) potential energy the greatest? Where is the kinetic energy the greatest?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 </SUPERNOTES>
@@ -2096,6 +2146,12 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH linkcolor="000F0F">Can electricity be used to heat things?</SNPARAGRAPH>
 <SNPARAGRAPH/>
+<SNPARAGRAPH>When electricity flows through a wire, some of its energy goes into heating up the wire. Sometimes this is a problem. When electricity travels from a power station to the city, heat energy is wasted. But once the electricity arrives at your house for the purpose of heating a stove or a room, electrical heating is very efficient and flexible.</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<EMBOBJ>
+<IMAGE ID="Image_86" name="PALM_TINY_think.bmp" url="../images/Energy/Heating_With_Electricity/01_he/PALM_TINY_01_he.bmp"/>
+</EMBOBJ>
 <SNPARAGRAPH>The Genecon is a little generator with the same basic design as the huge generators run by hydroelectric dams, coal-fired boilers, or nuclear power plants. In every case, some other form of energy (e.g., falling water, burning coal, decaying radioactive material) turns the "crank" of a generator and creates electrical power. In this case, you supply the power. Make a list in Notes on your handheld computer of several ways that electric power is generated and the source of energy in each case.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 </SUPERNOTES>
@@ -2355,6 +2411,8 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH linkcolor="000F0F">Can all forms of energy be transformed from one form to another?</SNPARAGRAPH>
 <SNPARAGRAPH/>
+<SNPARAGRAPH>Energy comes in many forms - electrical, mechanical, chemical, light, nuclear - and it can be stored in many ways - batteries, springs, water towers, gasoline, radioactive materials. To make use of energy, we often want to change it from one form to another, then store it, then transform it again and use it later on.</SNPARAGRAPH>
+<SNPARAGRAPH/>
 <SNPARAGRAPH>How many kinds of energy can you think of that you make use of in and around your house? Where does each kind come from? How is it stored before you use it? Is it changed from one form to another when you make use of it? What do you do with the energy? On your handheld, answer these questions for each kind of energy.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 </SUPERNOTES>
@@ -2566,6 +2624,8 @@ projects contributing to the development of CCProbeware are:
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH linkcolor="000F0F">What energy transformations are used in everyday devices?</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>We use many devices that transform energy from one form to another. Sometimes a whole chain of transformations takes place. They often do it so smoothly that we don't even realize what's happening. Each step usually involves some loss of useful energy. An automobile engine, for instance, is only 30 per cent efficient. That is, only 30 percent of the available energy in gasoline is available to move the car.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>Think of some examples where energy is transformed several times before it is used. In your handheld Notes, list each of the forms of energy in the chain, and what you think the efficiency is for each step. Where do you think the wasted energy goes?</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -2788,41 +2848,41 @@ projects contributing to the development of CCProbeware are:
 <FOLDER name="Responses" ID="Energy_response">
 <FOLDER view="paging" name="Heat Flow Responses" ID="Heat_Flow-response">
 <FOLDER ID="Heat_Flow_think_response" name="Think About Responses ">
-<SUPERNOTES ID="Heat_Flow_think_1" name="Heat_Flow_think_1">
+<SUPERNOTES ID="Heat_Flow_think_62_1" name="Heat_Flow_think_62_1">
 <EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">We are constantly dealing with things at different temperatures. Sometimes we want the heat to flow faster (cooking) and sometimes we want to prevent its flow (sleeping bags). In your group, discuss other situations when you would want to alter heat flow.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>What are three such situations?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="80">
-<NOTES ID="Heat_Flow_think_0_1" name="Heat_Flow_think_0_1"/>
+<NOTES ID="query_note_130" name="query_note_130"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>How does energy flow change over time?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="80">
-<NOTES ID="Heat_Flow_think_0_2" name="Heat_Flow_think_0_2"/>
+<NOTES ID="query_note_131" name="query_note_131"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 </SUPERNOTES>
-<SUPERNOTES ID="Heat_Flow_think_2" name="Heat_Flow_think_2">
+<SUPERNOTES ID="Heat_Flow_think_63_2" name="Heat_Flow_think_63_2">
 <EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Sometimes we prefer uniform temperatures (a non-drafty room) and sometimes we prefer contrast (hot syrup on ice cream).</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>Can you think of other times when you want uniform or non-uniform temperatures?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="80">
-<NOTES ID="Heat_Flow_think_0_1" name="Heat_Flow_think_0_1"/>
+<NOTES ID="query_note_132" name="query_note_132"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>Which condition (uniform or non-uniform) is easier to keep for the longest period of time?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ w="140" h="80">
-<NOTES ID="Heat_Flow_think_0_2" name="Heat_Flow_think_0_2"/>
+<NOTES ID="query_note_133" name="query_note_133"/>
 </EMBOBJ>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
