@@ -32,6 +32,15 @@ public abstract class LObjSubDict extends LabObject
     public LabObjectView getPropertyView(ViewContainer vc,LObjDictionary curDict){
 		return null;
     }
+
+	public void setName(String name)
+	{
+		super.setName(name);
+		if(dict != null){
+			dict.setName(name);
+		}
+	}
+
     public void store()
     {
 		if(dict != null){
