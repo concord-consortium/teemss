@@ -12,6 +12,9 @@
 JUMP_JAR = $(CURDIR)/../wj_tools/jump.jar
 export PILAINC= $(CURDIR)/../wj_tools
 
+PILA= $(CURDIR)/../palmtools/bin/pila
+PILRC= $(CURDIR)/../palmtools/bin/pilrc
+
 define POST_BUILD_CMDS
 cd $(BIN_DIR); tar cvzf $(MW_CLASS).tar.gz *
 cp tag $(BIN_DIR)/Version.txt
@@ -30,7 +33,7 @@ WJUMP_DIR= jump-resources
 JAR_BUILD = other
 
 WABA_CLASSES- = $(WABA_DIR):$(CURDIR)/../wabasdk/jars/serialImpl.jar
-WABA_CLASSES-other= $(WABA_DIR)
+WABA_CLASSES-other= $(WABA_DIR):$(CURDIR)/../wabasdk/jars/serialImpl.jar
 WABA_CLASSES-palm= $(WABAJUMP_DIR)
 WABA_CLASSES-ce= $(WABA_DIR)
 
@@ -104,7 +107,7 @@ $(BIN_DIR)/$(MW_CLASS).lnk: $(BIN_DIR) Makefile
 	rm $(MW_CLASS).prc
 
 $(BIN_DIR)/$(MW_CLASS).prc: $(BIN_DIR) $(WJUMP_DIR)/$(MW_CLASS).asm 
-	cd $(WJUMP_DIR); pila $(MW_CLASS).asm
+	cd $(WJUMP_DIR); $(PILA) $(MW_CLASS).asm
 	mv $(WJUMP_DIR)/$(MW_CLASS).prc $(BIN_DIR)
 
 $(WJUMP_DIR)/$(MW_CLASS).asm: $(CLASSES_DIR)/$(JUMP_PLATFORM) $(WJUMP_DIR)/$(MW_CLASS).res
@@ -113,7 +116,7 @@ $(JUMP_JAR):$(call PLATFORM_CP,palm):$(call COMPILE_CP,palm):../$(CLASSES_DIR)/$
 Jump -mw $(MW_CLASS) 
 
 $(WJUMP_DIR)/$(MW_CLASS).res: $(WJUMP_DIR)/$(MW_CLASS).rcp
-	cd $(WJUMP_DIR);pilrc -R $(MW_CLASS).res $(MW_CLASS).rcp
+	cd $(WJUMP_DIR); $(PILRC) -R $(MW_CLASS).res $(MW_CLASS).rcp
 
 empty=
 space= $(empty) $(empty)
