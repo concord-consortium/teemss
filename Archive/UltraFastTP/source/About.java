@@ -45,7 +45,8 @@ public class About extends Container
     {
 	g.setColor(0,0,0);
 	printLine("ProbeWare Tool", g);
-	printLine("© Concord Consortium", g);
+	printLine("©2001 Concord Consortium", g);
+	printLine("All Rights Reserved", g);
 	printLine("", g);
 	printLine("Development Team: ", g);
 	printLine(" Stephen Bannasch", g);

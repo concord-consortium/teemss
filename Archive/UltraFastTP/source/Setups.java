@@ -22,11 +22,11 @@ public class Setups
 	    break;
 	case 1:
 	    AvgWindow avgW = new AvgWindow(10);
-	    uf.setup(100f, -20f, 20f, avgW, avgW, "m/10s", 3);
+	    uf.setup(30f, -20f, 50f, avgW, avgW, "m/10s", 3);
 	    break;
 	case 2:
 	    Accumulator acc = new Accumulator();
-	    uf.setup(100f, -50f, 50f, acc, acc, "mm", 3);
+	    uf.setup(30f, -400f, 400f, acc, acc, "mm", 3);
 	    break;
 	case 3:
 	    pc = new PickChannel(0);

@@ -3,12 +3,12 @@ import graph.*;
 
 public class DigitalDisplay extends Transform
 {
-    Label tLabel, vLabel;
+    LabelBuf tLabel, vLabel;
     TextLine convertor = new TextLine("0");
     String units = "";
     float time, value;
 
-    public DigitalDisplay(Label time, Label value)
+    public DigitalDisplay(LabelBuf time, LabelBuf value)
     {
 	tLabel = time;
 	vLabel = value;

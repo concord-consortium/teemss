@@ -16,8 +16,7 @@ public class GraphTool extends Container
     Label tOffVal, tVal;
     LabelBuf curVal, curTime;
     Label localLabel;
-    Edit addrEdit;
-    Button clearB;
+    Button clearB, exitB;
     TextLine convertor = new TextLine("0");
 
     Transform startingTrans;
@@ -25,7 +24,7 @@ public class GraphTool extends Container
     int curProbe = 3;
 
     Label bytesRead = new Label("-2");
-    Label line2 = new Label("" + (byte)'C');
+    Label line2 = new Label("-1");
 
     MainWindow mw = null;
     String units = "";
@@ -33,6 +32,10 @@ public class GraphTool extends Container
     public GraphTool(AnnotView av, Transform sTrans, int probeMode, 
 		     String units, int w, int h) 
     {
+	int xPos = 0;
+	int buttonWidth;
+       
+
 	this.units = units;
 	lg = av;
 	curProbe = probeMode;
@@ -44,25 +47,44 @@ public class GraphTool extends Container
 	names [0] = "Start";
 	names [1] = "Stop";
 	modControl = Pushbutton.createGroup(names, 1);
-	modControl[0].setRect(0,0,25,18);
-	modControl[1].setRect(28,0,25,18);
+
+	buttonWidth = h-2;
+	if(h < 30) buttonWidth = 30;
+
+	modControl[0].setRect(xPos,0,buttonWidth,h-2);
+	xPos += buttonWidth+2;
+	modControl[1].setRect(xPos,0,buttonWidth,h-2);
+	xPos += buttonWidth;
 	add(modControl[0]);
 	add(modControl[1]);
 
-	clearB = new Button("Clear");
-	clearB.setRect(134, 0, 25, 17);
-	add(clearB);
-
 	curVal = new LabelBuf("");
-	curVal.setRect(55,0,50,10);	
-	curVal.setFont(new Font("Helvetica", Font.BOLD, 12));
+	curVal.setRect(xPos,0,w*50/160,h/2);	
+	curVal.setFont(new Font("Helvetica", 
+				Font.BOLD, h*12/20 - (h-20)*8/20));
 	add(curVal);
 
 	curTime = new LabelBuf("0.0s");
-	curTime.setRect(55,10,50,10);
-	curTime.setFont(new Font("Helvetica", Font.BOLD, 12));
+	curTime.setRect(xPos,h/2,w*50/160,h/2);
+	curTime.setFont(new Font("Helvetica", 
+				 Font.BOLD, h*12/20 - (h-20)*8/20));
 	add(curTime);
 
+	xPos += w*50/160;
+
+	if(w < 170){
+	    clearB = new Button("Clear");
+	    clearB.setRect(w-26, 0, 25, 17);
+	    add(clearB);	    
+	} else {
+	    exitB = new Button("Exit");
+	    exitB.setRect(w-32, 0, 32, h/2);
+	    add(exitB);
+
+	    clearB = new Button("Clear");
+	    clearB.setRect(w-32, h/2, 32, h/2);
+	    add(clearB);	    
+	}
 	pm = new A2DProbeManager("Ultra");
 	((A2DProbeManager)pm).gt = this;
 
@@ -98,7 +120,6 @@ public class GraphTool extends Container
 
     void stop()
     {
-	modControl[1].setSelected(true);
 
 	if(lg.active){
 	    lg.active = false;
@@ -114,7 +135,8 @@ public class GraphTool extends Container
 	}		
 	
 	startingTrans.stop();
-    
+
+	modControl[1].setSelected(true);    
 	repaint();
     }
 
@@ -159,7 +181,10 @@ public class GraphTool extends Container
 		    curVal.setText("");
 		    curTime.setText("0.0s");
 
-	    } 
+	    } else if(target == exitB){
+		    // doit
+		    mw.exit(0);
+	    }
 	} else if(e.type == 1003){
 	    //	    System.out.println("Got 1003");
 	    if(lg.lgView.selAnnot != null){
