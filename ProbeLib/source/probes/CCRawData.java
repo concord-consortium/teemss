@@ -1,18 +1,17 @@
-package org.concord.waba.extra.probware.probs;
-import org.concord.waba.extra.event.DataListener;
-import org.concord.waba.extra.event.DataEvent;
-import extra.util.DataDesc;
-import org.concord.waba.extra.probware.*;
+package org.concord.ProbeLib.probes;
+
+import org.concord.ProbeLib.*;
 import extra.util.*;
 
-public class CCRawData extends CCProb{
-float  			[]rawData = new float[CCInterfaceManager.BUF_SIZE];
-int  			[]rawIntData = new int[CCInterfaceManager.BUF_SIZE];
-int				firstIndex,secondIndex;
+public class CCRawData extends Probe
+{
+	float  			[]rawData = new float[CCInterfaceManager.BUF_SIZE];
+	int  			[]rawIntData = new int[CCInterfaceManager.BUF_SIZE];
+	int				firstIndex,secondIndex;
 
 
-public final static int		SAMPLING_24BIT_MODE = 0;
-public final static int		SAMPLING_10BIT_MODE = 1;
+	public final static int		SAMPLING_24BIT_MODE = 0;
+	public final static int		SAMPLING_10BIT_MODE = 1;
 
 	String	[]samplingModes =  {"24 Bit","10 Bit"};
     String [] channelNames = {"0", "1"};
@@ -58,7 +57,7 @@ public final static int		SAMPLING_10BIT_MODE = 1;
 		return "Voltage " + "Ch. " + curChannel;
 	}
 
-    public boolean startSampling(org.concord.waba.extra.event.DataEvent e){
+    public boolean startSampling(DataEvent e){
 		dEvent.type = e.type;
 		dDesc.setDt(e.getDataDesc().getDt());
 		// Change to Volts
@@ -74,7 +73,7 @@ public final static int		SAMPLING_10BIT_MODE = 1;
 			firstIndex = secondIndex = 0;
 		}
 		return super.startSampling(dEvent);
-   }
+	}
 
     public boolean dataArrived(DataEvent e)
     {

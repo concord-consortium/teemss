@@ -1,22 +1,21 @@
-package org.concord.waba.extra.probware.probs;
-import org.concord.waba.extra.event.DataListener;
-import org.concord.waba.extra.event.DataEvent;
-import extra.util.DataDesc;
-import org.concord.waba.extra.probware.*;
+package org.concord.ProbeLib.probes;
+
+import org.concord.ProbeLib.*;
 import extra.util.*;
 
-public class CCLightIntens extends CCProb{
-float  			[]lightData = new float[CCInterfaceManager.BUF_SIZE/2];
-int  			[]lightIntData = new int[CCInterfaceManager.BUF_SIZE/2];
-float  			dtChannel = 0.0f;
-float				AHigh = 45.7f;
-float				BHigh = -234.0f;
-float				ALow = 1.67f;
-float				BLow = -4.0f;
+public class CCLightIntens extends Probe
+{
+	float  			[]lightData = new float[CCInterfaceManager.BUF_SIZE/2];
+	int  			[]lightIntData = new int[CCInterfaceManager.BUF_SIZE/2];
+	float  			dtChannel = 0.0f;
+	float				AHigh = 45.7f;
+	float				BHigh = -234.0f;
+	float				ALow = 1.67f;
+	float				BLow = -4.0f;
 
-public final static int		HIGH_LIGHT_MODE 			= 0;
-public final static int		LOW_LIGHT_MODE 			= 1;
-int				lightMode = HIGH_LIGHT_MODE;
+	public final static int		HIGH_LIGHT_MODE 			= 0;
+	public final static int		LOW_LIGHT_MODE 			= 1;
+	int				lightMode = HIGH_LIGHT_MODE;
 
 	PropObject rangeProp = new PropObject("Range", "Range", PROP_RANGE, rangeNames);
 	PropObject speedProp = new PropObject("Speed", "Speed", PROP_SPEED, speed1Names);

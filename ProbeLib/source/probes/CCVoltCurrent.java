@@ -1,11 +1,10 @@
-package org.concord.waba.extra.probware.probs;
-import org.concord.waba.extra.event.DataListener;
-import org.concord.waba.extra.event.DataEvent;
-import extra.util.DataDesc;
-import org.concord.waba.extra.probware.*;
+package org.concord.ProbeLib.probes;
+
+import org.concord.ProbeLib.*;
 import extra.util.*;
 
-public class CCVoltCurrent extends CCProb{
+public class CCVoltCurrent extends Probe
+{
 	float  			[]data = new float[CCInterfaceManager.BUF_SIZE/2];
 	int  			[]intData = new int[CCInterfaceManager.BUF_SIZE];
 	float  			dtChannel = 0.0f;
@@ -197,7 +196,7 @@ public class CCVoltCurrent extends CCProb{
 		return interfaceMode;
 	}
 	
-	public boolean startSampling(org.concord.waba.extra.event.DataEvent e)
+	public boolean startSampling(DataEvent e)
 	{
 		energy = 0.0f;
 		dEvent.type = e.type;

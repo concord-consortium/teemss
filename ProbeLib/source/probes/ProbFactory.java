@@ -1,31 +1,31 @@
-package org.concord.waba.extra.probware.probs;
+package org.concord.ProbeLib.probes;
 
-import org.concord.waba.extra.probware.*;
+import org.concord.ProbeLib.*;
 
-public class ProbFactory{
-
-public final static int Prob_Undefine 		= -1;
-public final static int Prob_ThermalCouple 	= 0;
-public final static int Prob_Light 			= 1;
-public final static int Prob_SmartWheel		= 2;
-public final static int Prob_RawData        = 3;
-public final static int Prob_Force        	= 4;
-public final static int Prob_VoltCurrent    = 5;
+public class ProbFactory
+{
+	public final static int Prob_Undefine 		= -1;
+	public final static int Prob_ThermalCouple 	= 0;
+	public final static int Prob_Light 			= 1;
+	public final static int Prob_SmartWheel		= 2;
+	public final static int Prob_RawData        = 3;
+	public final static int Prob_Force        	= 4;
+	public final static int Prob_VoltCurrent    = 5;
 
 	public static int DefaultInterfaceType = CCInterfaceManager.INTERFACE_2;
 
     public static String [] probeNames = {"Temperature", "Light", "SmartWheel", "RawData","Force","VoltageCurrent"};
-	public static CCProb createProbeFromStream(extra.io.DataStream in){
+	public static Probe createProbeFromStream(extra.io.DataStream in){
 		boolean validProbe = in.readBoolean();
 		if(!validProbe) return null;
 
 		int probeType 		= in.readInt();
 		int interfacePort 	= in.readInt();
-		CCProb probe = createProb(false, probeType,interfacePort, DefaultInterfaceType);
+		Probe probe = createProb(false, probeType,interfacePort, DefaultInterfaceType);
 		if(probe != null) probe.readExternal(in);
 		return  probe;
 	}
-	public static void storeProbeToStream(CCProb probe,extra.io.DataStream out){
+	public static void storeProbeToStream(Probe probe,extra.io.DataStream out){
     	out.writeBoolean(probe != null);
     	if(probe != null){
     		out.writeInt(probe.getProbeType());
@@ -34,27 +34,27 @@ public final static int Prob_VoltCurrent    = 5;
     	}
 	}
 
-	public static CCProb createProb(boolean init, int probIndex,int interfacePort, int interfaceType){
-		CCProb newProb = null;
+	public static Probe createProb(boolean init, int probIndex,int interfacePort, int interfaceType){
+		Probe newProb = null;
 		switch(probIndex){
-			case Prob_ThermalCouple:
-				newProb = new CCThermalCouple(init, probeNames[Prob_ThermalCouple], interfaceType);
-				break;
-			case Prob_Light:
-				newProb = new CCLightIntens(init, probeNames[Prob_Light], interfaceType);
-				break;
-			case Prob_SmartWheel:
-				newProb = new CCSmartWheel(init, probeNames[Prob_SmartWheel], interfaceType);
-				break;
-			case Prob_RawData:
-			   newProb = new CCRawData(init, probeNames[Prob_RawData], interfaceType);
-				break;
-			case Prob_Force:
-			   	newProb = new CCForce(init, probeNames[Prob_Force], interfaceType);
-				break;
-			case Prob_VoltCurrent:
-			   	newProb = new CCVoltCurrent(init, probeNames[Prob_VoltCurrent], interfaceType);
-				break;
+		case Prob_ThermalCouple:
+			newProb = new CCThermalCouple(init, probeNames[Prob_ThermalCouple], interfaceType);
+			break;
+		case Prob_Light:
+			newProb = new CCLightIntens(init, probeNames[Prob_Light], interfaceType);
+			break;
+		case Prob_SmartWheel:
+			newProb = new CCSmartWheel(init, probeNames[Prob_SmartWheel], interfaceType);
+			break;
+		case Prob_RawData:
+			newProb = new CCRawData(init, probeNames[Prob_RawData], interfaceType);
+			break;
+		case Prob_Force:
+			newProb = new CCForce(init, probeNames[Prob_Force], interfaceType);
+			break;
+		case Prob_VoltCurrent:
+			newProb = new CCVoltCurrent(init, probeNames[Prob_VoltCurrent], interfaceType);
+			break;
 		}
 		if(newProb != null){
 			newProb.setInterfacePort(interfacePort);
@@ -62,12 +62,12 @@ public final static int Prob_VoltCurrent    = 5;
 		return newProb;
 	}
 
-	public static CCProb createProb(int index, int interfacePort)
+	public static Probe createProb(int index, int interfacePort)
 	{
 		return createProb(true, index, interfacePort, DefaultInterfaceType);
 	}
 
-    public static CCProb createProb(String name,int interfacePort)
+    public static Probe createProb(String name,int interfacePort)
     {
 		return createProb(true, getIndex(name),interfacePort, DefaultInterfaceType);
     }

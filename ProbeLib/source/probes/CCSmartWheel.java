@@ -1,11 +1,12 @@
-package org.concord.waba.extra.probware.probs;
-import org.concord.waba.extra.event.DataListener;
-import org.concord.waba.extra.event.DataEvent;
+package org.concord.ProbeLib.probes;
+
+import org.concord.ProbeLib.*;
+
 import extra.util.*;
-import org.concord.waba.extra.probware.*;
 
 
-public class CCSmartWheel extends CCProb{
+public class CCSmartWheel extends Probe
+{
 float  			[]wheelData 	= new float[CCInterfaceManager.BUF_SIZE*2];
 int  			[]wheelIntData 	= new int[CCInterfaceManager.BUF_SIZE*2];
 float  			dtChannel = 0.0f;

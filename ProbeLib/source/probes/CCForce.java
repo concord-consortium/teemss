@@ -1,14 +1,13 @@
-package org.concord.waba.extra.probware.probs;
-import org.concord.waba.extra.event.DataListener;
-import org.concord.waba.extra.event.DataEvent;
-import extra.util.DataDesc;
-import org.concord.waba.extra.probware.*;
+package org.concord.ProbeLib.probes;
+
+import org.concord.ProbeLib.*;
 import org.concord.waba.extra.event.*;
 import extra.util.*;
 
-public class CCForce extends CCProb{
-float  			[]forceData = new float[CCInterfaceManager.BUF_SIZE/2];
-int  			[]forceIntData = new int[CCInterfaceManager.BUF_SIZE];
+public class CCForce extends Probe
+{
+	float  			[]forceData = new float[CCInterfaceManager.BUF_SIZE/2];
+	int  			[]forceIntData = new int[CCInterfaceManager.BUF_SIZE];
 
 	public final static String [] modeNames = {"End of Arm", "Middle of Arm"};
 	public final static String [] range1Names = {"+/- 2N", "+/- 20N"};

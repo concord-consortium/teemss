@@ -1,30 +1,29 @@
-package org.concord.waba.extra.probware.probs;
-import org.concord.waba.extra.event.DataListener;
-import org.concord.waba.extra.event.DataEvent;
+package org.concord.ProbeLib.probes;
+
+import org.concord.ProbeLib.*;
 import extra.util.*;
-import org.concord.waba.extra.probware.*;
 
-
-public class CCThermalCouple extends CCProb{
-float  			[]tempData 		= new float[3];
-int  			[]tempIntData 	= new int[3];
-float  			dtChannel = 0.0f;
-public final static int		CELSIUS_TEMP_OUT = 0;
-public final static int		FAHRENHEIT_TEMP_OUT = 1;
-public final static int		KELVIN_TEMP_OUT = 2;
+public class CCThermalCouple extends Probe
+{
+	float  			[]tempData 		= new float[3];
+	int  			[]tempIntData 	= new int[3];
+	float  			dtChannel = 0.0f;
+	public final static int		CELSIUS_TEMP_OUT = 0;
+	public final static int		FAHRENHEIT_TEMP_OUT = 1;
+	public final static int		KELVIN_TEMP_OUT = 2;
 
 	PropObject modeProp = new PropObject("Output Mode", "Mode", PROP_MODE, 
 										 tempModes, CELSIUS_TEMP_OUT);
 
-int				outputMode = CELSIUS_TEMP_OUT;
-public final static String	[]tempModes =  {"C","F","K"};
+	int				outputMode = CELSIUS_TEMP_OUT;
+	public final static String	[]tempModes =  {"C","F","K"};
 
-float AC = 17.084f;
-float BC = -0.25863f;
-float CC = 0.011012f;
-float DC = 10f;
-float EC = -50f;
-float FC = 0.0f;
+	float AC = 17.084f;
+	float BC = -0.25863f;
+	float CC = 0.011012f;
+	float DC = 10f;
+	float EC = -50f;
+	float FC = 0.0f;
 
 	CCThermalCouple(boolean init, String name, int interfaceT){
 		super(init, name, interfaceT);
@@ -115,14 +114,14 @@ float FC = 0.0f;
 			tempIntData[0] = data[nOffset+i];
 			tempIntData[1] = data[nOffset+i+1];
 			switch(outputMode){
-				case FAHRENHEIT_TEMP_OUT:
-					tempData[0] = tempData[0]*1.8f + 32f;
-					break;
-				case KELVIN_TEMP_OUT:
-					tempData[0] += 273.15f;
-					break;
-				default:
-					break;
+			case FAHRENHEIT_TEMP_OUT:
+				tempData[0] = tempData[0]*1.8f + 32f;
+				break;
+			case KELVIN_TEMP_OUT:
+				tempData[0] += 273.15f;
+				break;
+			default:
+				break;
 			}
 			if(calibrationListener != null){
 				tempData[1]  = mV;
@@ -143,14 +142,14 @@ float FC = 0.0f;
 		float trueValue = mV * AC + mV2 * BC + mV3 * CC + lastColdJunct;
 		float userValue = calibrated[0];
 		switch(outputMode){
-			case FAHRENHEIT_TEMP_OUT:
-				userValue = (userValue - 32f)/1.8f;
-				break;
-			case KELVIN_TEMP_OUT:
-				userValue -= 273.15f;
-				break;
-			default:
-				break;
+		case FAHRENHEIT_TEMP_OUT:
+			userValue = (userValue - 32f)/1.8f;
+			break;
+		case KELVIN_TEMP_OUT:
+			userValue -= 273.15f;
+			break;
+		default:
+			break;
 		}
 		FC = userValue - trueValue;
 		if(calibrationDesc != null){
