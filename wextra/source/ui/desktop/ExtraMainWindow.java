@@ -243,7 +243,7 @@ public abstract class  ExtraMainWindow extends MainWindow implements ActionListe
 
     this.doubleBuffered=doubleBuffered;
 
-    if (platform==JAVA) setRect(0,0,260,260);
+    // if (platform==JAVA) setRect(0,0,260,260);
 
     super.add(content=new RelativeContainer());
 
