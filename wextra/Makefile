@@ -4,7 +4,7 @@ SKIP_FILES =
 
 PLATFORMS = ce desktop palm
 
-main: $(PLATFORMS)
+main: $(PLATFORMS) icons
 
 $(PLATFORMS): classes $(PLATFORMS:%=classes/%)
 	javac -classpath $(CLASSPATH):../wabasdk/classes -d classes/$@ $(filter-out $(SKIP_FILES), $(wildcard $(SRC_DIRS:%=%/*.java)))
@@ -17,3 +17,5 @@ icons: $(PLATFORMS:%=classes/%/icons)
 $(PLATFORMS:%=classes/%/icons): 
 	mkdir -p $@
 	cp cc_extra/icons/*.bmp $@
+
+include ../ReleaseSystem/Makefile.inc
