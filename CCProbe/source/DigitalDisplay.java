@@ -152,7 +152,9 @@ public class DigitalDisplay extends Container
 			// Should change this to add some historisis.  
 			// Hmm..
 			if(fc.getExponent() >= 0){
-				((LabelBuf)disps.get(i)).setText(fc.getString(fc.getExponent()/3*3));
+				// Temporary hack to remove exponent from display
+				((LabelBuf)disps.get(i)).setText(fc.getString(0));
+				// fc.getExponent()/3*3));
 			} else {
 				((LabelBuf)disps.get(i)).setText(fc.getString((fc.getExponent()-2)/3*3));
 			}
