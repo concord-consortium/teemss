@@ -2,12 +2,13 @@ package org.concord.waba.extra.probware.probs;
 
 public class ProbFactory{
 
-public final static int Prob_ThermalCouple 	= 1;
-public final static int Prob_Light 			= 2;
-public final static int Prob_SmartWheel		= 3;
-public final static int Prob_RawData        = 4;
+public final static int Prob_ThermalCouple 	= 0;
+public final static int Prob_Light 			= 1;
+public final static int Prob_SmartWheel		= 2;
+public final static int Prob_RawData        		= 3;
+public final static int Prob_Force        		= 4;
 
-    public static String [] probeNames = {"Temperature", "Light", "SmartWheel", "RawData"};
+    public static String [] probeNames = {"Temperature", "Light", "SmartWheel", "RawData","Force"};
 
 	public static CCProb createProb(int probIndex,int interfacePort){
 		CCProb newProb = null;
@@ -23,6 +24,9 @@ public final static int Prob_RawData        = 4;
 				break;
 			case Prob_RawData:
 			   newProb = new CCRawData("raw data");
+				break;
+			case Prob_Force:
+			   	newProb = new CCForce(probeNames[Prob_Force]);
 				break;
 		}
 		if(newProb != null){

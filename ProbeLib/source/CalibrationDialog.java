@@ -51,7 +51,7 @@ DeviationControl	devControl;
 //		pb.setMode(CCInterfaceManager.A2D_10_MODE);
 		pb.registerProb(probe);
 		pb.addDataListenerToProb(probe.getName(),this);
-		devControl = new DeviationControl(4.0f);
+		devControl = new DeviationControl(20.0f);
 		nChannels = probe.getActiveChannels();
 		
 	}
@@ -120,12 +120,16 @@ DeviationControl	devControl;
 			waba.fx.FontMetrics fm = getFontMetrics(getFont());
 			int bWidthStart 	= fm.getTextWidth("Start") + 5;
 			int bWidthStop 	= fm.getTextWidth("Stop") + 5;
-			bStart = new CCButton("Start");
-			bStart.setRect(paneRect.width- bWidthStart,1,bWidthStart,bHeight);
-			currentPane.add(bStart);
-			bStop = new CCButton("Stop");
-			bStop.setRect(paneRect.width - 2 - (bWidthStop +bWidthStart) ,1,bWidthStop,bHeight);
-			currentPane.add(bStop);
+			if(bStart == null){
+				bStart = new CCButton("Start");
+				bStart.setRect(paneRect.width- bWidthStart,1,bWidthStart,bHeight);
+				currentPane.add(bStart);
+			}
+			if(bStop == null){
+				bStop = new CCButton("Stop");
+				bStop.setRect(paneRect.width - 2 - (bWidthStop +bWidthStart) ,1,bWidthStop,bHeight);
+				currentPane.add(bStop);
+			}
 			currentPane.add(calTable);
 			if(devControl == null) devControl = new DeviationControl(4f);
 			devControl.setRect(paneRect.width/2 - 50,paneRect.height - 25,100,23);
@@ -357,6 +361,10 @@ DeviationControl	devControl;
 					if((probe != null) && (event.target == bApply)){
 						if(currContainer == PROP_PANE){
 							updateProperties(false);
+							if(nChannels != probe.getActiveChannels()){
+								nChannels = probe.getActiveChannels();
+								calTable = null;
+							}
 						}else{
 		 					CalibrationDesc caldesc = probe.getCalibrationDesc();
 		 					int nRows = caldesc.countParams();
@@ -431,6 +439,7 @@ DeviationControl	devControl;
 			}
 		}
 
+
 		int ndata = dataEvent.getNumbSamples()*dataEvent.getDataDesc().getChPerSample();
 		int nOffset = dataEvent.getDataOffset();
 		float  dtChannel = dt / (float)chPerSample;
@@ -444,6 +453,7 @@ DeviationControl	devControl;
 				float av = (totalSumm/totalSamples);
 //				System.out.println("data[nOffset+i] "+data[nOffset+i]+" totalSumm "+ totalSumm + " av "+av+" totalSamples "+totalSamples);
 				deviation = 100.0f*(data[nOffset+i] - av)/av;
+//				System.out.println("data["+i+"]="+data[nOffset+i]);
 				if(deviation > 100.0f) deviation = 100.0f;
 				if(totalSamples > 16){
 					totalSamples = 1;
@@ -451,6 +461,11 @@ DeviationControl	devControl;
 				}
 			}
 		}
+		
+//		System.out.println("deviation "+deviation);
+//		System.out.println("totalSamples "+totalSamples);
+//		System.out.println("av "+(totalSumm/totalSamples));
+		
 		devControl.setValue(deviation);
 		drawDeviation();
 		
