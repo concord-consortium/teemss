@@ -439,12 +439,18 @@ boolean embeddedState = false;
 		repaint();
 	}
 	public void createOffImage(){
-     		if(bufIm != null) return;
-     		bufIm=new waba.fx.Image(width,height);
-		waba.fx.Graphics ig = new waba.fx.Graphics(bufIm);
-		ig.setColor(255, 255, 255);
-		ig.fillRect(0, 0, this.width, this.height);
-     		ig.free();
+     	if(bufIm != null){
+     		if(bufIm.getWidth() != width || bufIm.getHeight() != height){
+     			freeOffImage();
+     		}
+     	}
+     	if(bufIm == null){
+	     	bufIm=new waba.fx.Image(width,height);
+			waba.fx.Graphics ig = new waba.fx.Graphics(bufIm);
+			ig.setColor(255, 255, 255);
+			ig.fillRect(0, 0, this.width, this.height);
+	     	ig.free();
+	     }
 	}
 
 	public void onPaint(Graphics g){

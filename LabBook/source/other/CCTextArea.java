@@ -224,9 +224,13 @@ Dialog					confirmDialogDeleteCurrent = null;
     			currObjectViewDesc.link 		= EmbedObjectPropertyControl.lastLink;
     			currObjectViewDesc.w 			= EmbedObjectPropertyControl.lastW;
     			currObjectViewDesc.h 			= EmbedObjectPropertyControl.lastH;
+    			
+				if(currObjectViewDesc.getObject() instanceof LabObjectView){
+					LabObjectView objView = (LabObjectView)currObjectViewDesc.getObject();
+					objView.close();
+				}
  				layoutComponents();
 				setText(getText());
-				if(owner != null) owner.repaint();
    			}
     		currObjPropDialog = null;
     		return;
@@ -635,7 +639,7 @@ Dialog					confirmDialogDeleteCurrent = null;
 					LabObjectView object = (LabObjectView)cntrl;
 					object.close();
 				}
-				currObjectViewDesc = null;
+//				currObjectViewDesc = null;
 			}
 		}
 	}
