@@ -355,8 +355,8 @@ static long FAR PASCAL MainWndProc(HWND hWnd, UINT msg, WPARAM wParam, LONG lPar
 	if (vmStatus.errNum > 0 || winObj == 0){
 		if(msg == WM_CREATE){
 			
-			SHFullScreen(hWnd, SHFS_HIDESIPBUTTON);
-			SHFullScreen(hWnd, SHFS_SHOWSIPBUTTON);
+//			SHFullScreen(hWnd, SHFS_HIDESIPBUTTON);
+//			SHFullScreen(hWnd, SHFS_SHOWSIPBUTTON);
 			return 0L;
 
 		} else {
@@ -370,19 +370,19 @@ static long FAR PASCAL MainWndProc(HWND hWnd, UINT msg, WPARAM wParam, LONG lPar
 		{
 		case WM_ENABLE:
 			if((BOOL)wParam){
-				SHFullScreen(hWnd, SHFS_HIDESIPBUTTON);
-				SHFullScreen(hWnd, SHFS_SHOWSIPBUTTON);
+			//	SHFullScreen(hWnd, SHFS_HIDESIPBUTTON);
+			//	SHFullScreen(hWnd, SHFS_SHOWSIPBUTTON);
 			}
 			break;
 		case WM_CREATE:
-			SHFullScreen(hWnd, SHFS_HIDESIPBUTTON);
-			SHFullScreen(hWnd, SHFS_SHOWSIPBUTTON);
+		//	SHFullScreen(hWnd, SHFS_HIDESIPBUTTON);
+		//	SHFullScreen(hWnd, SHFS_SHOWSIPBUTTON);
 			break;
 
 		case WM_ACTIVATE:
 			if(LOWORD(wParam) == WA_ACTIVE){
-				SHFullScreen(hWnd, SHFS_HIDESIPBUTTON);
-				SHFullScreen(hWnd, SHFS_SHOWSIPBUTTON);
+			//	SHFullScreen(hWnd, SHFS_HIDESIPBUTTON);
+			//	SHFullScreen(hWnd, SHFS_SHOWSIPBUTTON);
 			}
 
 		break;
@@ -395,10 +395,12 @@ static long FAR PASCAL MainWndProc(HWND hWnd, UINT msg, WPARAM wParam, LONG lPar
 		    RECT cr;
 
 			if(firstPaint){
-				SHFullScreen(hWnd, SHFS_HIDESIPBUTTON);
+				SHFullScreen(hWnd, SHFS_HIDETASKBAR);
 				SHFullScreen(hWnd, SHFS_SHOWSIPBUTTON);
+
 				firstPaint = FALSE;
 			}
+
 			hDC = BeginPaint(hWnd, &ps);
 			vclass = WOBJ_class(winObj); // get runtime class
 #ifdef QUICKBIND
