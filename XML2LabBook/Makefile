@@ -15,7 +15,7 @@ CCPROBE_DIR:=$(CURDIR)/../CCProbe/classes/_CUR_PLATFORM_
 JAR_LIST:= -C $(CURDIR)/classes/other . \
 -C $(subst _CUR_PLATFORM_,other,$(CCPROBE_DIR)) org/concord/CCProbe \
 -C $(subst _CUR_PLATFORM_,other,$(WGRAPH_DIR)) graph \
--C $(subst _CUR_PLATFORM_,other,$(PROBELIB_DIR)) org/concord/LabBook \
+-C $(subst _CUR_PLATFORM_,other,$(PROBELIB_DIR)) org/concord/ProbeLib \
 -C $(subst _CUR_PLATFORM_,other,$(LABBOOK_DIR)) org/concord/LabBook 
 
 SRC_DIR= src
@@ -24,7 +24,7 @@ include ../ReleaseSystem/waba.inc
 
 JAR_BUILD := other
 
-CLASSPATH := $(CLASSPATH):${WGRAPH_DIR}:${LABBOOK_DIR}:${CCPROBE_DIR}:${PROBELIB_DIR}:jars/QTJava.zip:jars/crimson.jar:jars/xalan.jar
+CLASSPATH := $(CLASSPATH):${WGRAPH_DIR}:${LABBOOK_DIR}:${CCPROBE_DIR}:${PROBELIB_DIR}:jars/QTManager.jar:jars/crimson.jar:jars/xalan.jar
 
 all: dependencies main
 test: dependencies main
