@@ -49,6 +49,7 @@ float FC = 0.0f;
 //		calibrationDesc.addCalibrationParam(new CalibrationParam(1,EC));
 
 		fromConstructor = false;
+		unit = CCUnit.UNIT_CODE_CELSIUS;
 	}
 	public int	getActiveChannels(){return 2;}
 	public void setPropertyValue(String nameProperty,String value){
@@ -64,6 +65,18 @@ float FC = 0.0f;
 					outputMode = i;
 					break;
 				}
+			}
+			switch(outputMode){
+				case FAHRENHEIT_TEMP_OUT:
+					unit = CCUnit.UNIT_CODE_FAHRENHEIT;
+					break;
+				case KELVIN_TEMP_OUT:
+					unit = CCUnit.UNIT_CODE_KELVIN;
+					break;
+				default:
+				case CELSIUS_TEMP_OUT:
+					unit = CCUnit.UNIT_CODE_CELSIUS;
+					break;
 			}
 		}
 	}

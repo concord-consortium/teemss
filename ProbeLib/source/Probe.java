@@ -19,6 +19,7 @@ public String	[]samplingModes =  {"Slow","Fast"};
 public final static int		SAMPLING_24BIT_MODE = 0;
 public final static int		SAMPLING_10BIT_MODE = 1;
 
+public int unit = CCUnit.UNIT_CODE_UNKNOWN;
 
 DataListener calibrationListener = null;
 	protected CCProb(){
@@ -127,4 +128,8 @@ DataListener calibrationListener = null;
 		cDialog.setRect(100,100,160,160);
 		cDialog.show();
 	}
+	public int getUnit(){return unit;}
+	public void setUnit(int unit){this.unit = unit;}
+	
+	
 }
