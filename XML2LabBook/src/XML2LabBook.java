@@ -80,8 +80,16 @@ public static QTManager qtManager = null;
 
 
 		String xmlFile = "labbook.xml";
+		boolean palmDB = true;
 		if(args != null && args.length > 0){
-			xmlFile = args[0];
+			if(args.length > 1){
+				if(args[0].equals("palm")){
+					palmDB = true;
+				} else if(args[0].equals("ce")){
+					palmDB = false;
+				}
+			}			
+			xmlFile = args[args.length-1];
 		}
 		
 	
@@ -128,7 +136,7 @@ public static QTManager qtManager = null;
 			exit(1);
         }
         
-        labBook = createLabBook(doc.getDocumentElement());
+        labBook = createLabBook(doc.getDocumentElement(), palmDB);
    		if(labBook == null){
    			System.out.println("Error creating LabBook");
 			exit(1);
@@ -163,22 +171,35 @@ public static QTManager qtManager = null;
 	}
 	
 	
-	public static LabBook createLabBook(Node labBookNode){
+	public static LabBook createLabBook(Node labBookNode, boolean palmDB){
 		LabBook 	retBook = null;
 		if(labBookNode == null) return retBook;
 		LabBookDB 	lbDB = null;
 		labBookInit();
 		try{
-			File labBookFile = new File("LabBook.PDB");
-			if(labBookFile.exists()){
-				labBookFile.delete();
-			}
-			lbDB = new LabBookCatalog("LabBook");
-			if(lbDB.getError()){
-				retBook = null;
-			}else{
-				retBook = new LabBook();
-			}
+			if(palmDB){
+				File labBookFile = new File("LabBook.PDB");
+				if(labBookFile.exists()){
+					labBookFile.delete();
+				}
+				lbDB = new LabBookCatalog("LabBook");
+				if(lbDB.getError()){
+					retBook = null;
+				}else{
+					retBook = new LabBook();
+				}
+			} else {
+				File labBookFile = new File("LabBook");
+				if(labBookFile.exists()){
+					labBookFile.delete();
+				}
+				lbDB = new LabBookFile("LabBook");
+				if(lbDB.getError()){
+					retBook = null;
+				}else{
+					retBook = new LabBook();
+				}
+			}				
 		}catch(Exception e){
 			e.printStackTrace();
 			retBook = null;
