@@ -260,11 +260,27 @@ This guide is designed to help you convert the investigations your students expe
 </xsl:template>
 
 <xsl:template match="teacher-questions">
+	<fo:list-block
+		space-before="0.25em" space-after="0.25em" >
 <xsl:apply-templates select="question"/>
+	</fo:list-block>
+
 </xsl:template>
 
 <xsl:template match="question">
+		<fo:list-item space-after="0.5em">
+			<fo:list-item-label start-indent="1em">
+				<fo:block>
+				&#x2022;
+				</fo:block>
+			</fo:list-item-label>
+			<fo:list-item-body  start-indent="2em">
+				<fo:block>
+"<xsl:apply-templates/>"
 <xsl:apply-templates select="following-sibling::*[position()=1 and self::answer]"/>
+				</fo:block>
+			</fo:list-item-body>
+		</fo:list-item>			
 </xsl:template>
 
 <xsl:template match="answer">
