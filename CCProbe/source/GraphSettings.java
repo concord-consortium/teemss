@@ -325,7 +325,9 @@ public class GraphSettings
 		case DataEvent.DATA_READY_TO_START:
 			// We could get the dt here and then
 			// set the graph time precision here
-			gv.setTimeStep(dataEvent.getDataDesc().getDt());
+			if(dataEvent.getDataDesc() != null){
+				gv.setTimeStep(dataEvent.getDataDesc().getDt());
+			}
 			//			startGraph();
 			return;
 		case DataEvent.DATA_COLLECTING:
