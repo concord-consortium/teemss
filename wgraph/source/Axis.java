@@ -161,6 +161,7 @@ public class Axis
 		}
 
 		if(axisLabel == null){
+			axisLabelChanged = true;
 			switch(orient){
 			case X_SCREEN_AXIS:
 				axisLabel = new TextLine(TextLine.RIGHT);
