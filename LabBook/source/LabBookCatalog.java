@@ -149,6 +149,14 @@ public class LabBookCatalog extends LabBookDB
 		}
     }
 
+	public void delete()
+	{
+		if(cat != null){
+			cat.delete();
+			cat = null;
+		}
+	}
+
     /*
      * The ObjectIndex format is:
      * [ length ]

@@ -604,14 +604,11 @@ public class LabBook
 		// by looking in the translation table
 		// if so return translated pointer
 		int numTrans = trans.getCount();
-		LabObjectPtr curObjPtr;
+		LabObjectPtr curObjPtr = null;
 
-		// if this is true we have major problems
-		// if(lObjPtr.devId == -1 && lObjPtr.objId == -1) return null;
-		for(int i=0; i<numTrans; i+=2){
+		for(int i=0; i<numTrans; i+= 2){
 			curObjPtr = (LabObjectPtr)trans.get(i);
 			if(curObjPtr.equals(lObjPtr)){
-				// This pointer has already been translated and written
 				return (LabObjectPtr)trans.get(i+1);
 			}
 		}
@@ -720,7 +717,7 @@ public class LabBook
 				int oldTransCount = trans.getCount();
 
 				LabObjectPtr srcPtr = (LabObjectPtr)srcDict.objects.get(i);
-				initPointer(srcPtr, srcDB, false, false);
+				initPointer(srcPtr, srcDB, checkSrcLoaded, false);
 				if(localCopy &&
 				   ((srcPtr.flags & LabObject.FLAG_LOCKED) != 0)){
 					// This is locked object so we shouldn't copy it
@@ -762,15 +759,27 @@ public class LabBook
 			curDict+=2;
 		}
 
-		return retObjPtr;
     }
 
     public boolean close()
     {
-		boolean ret = db.save();
-
-		db.close();
-
-		return ret;
+		return close(true);
     }
+
+    public boolean close(boolean save)
+    {
+		boolean ret = true;
+		if(save){
+			ret = db.save();
+		}
+		db.close();
+		db = null;
+		return ret;	
+    }
+
+	public void delete()
+	{
+		db.delete();
+		db = null;
+	}
 }

@@ -45,4 +45,6 @@ public abstract class LabBookDB
 	public abstract LabObjectPtr getRootPtr();
 
 	public abstract void setRootPtr(LabObjectPtr ptr);
+
+	public void delete(){}
 }
