@@ -460,7 +460,7 @@ public static void toPDB(java.io.OutputStream outStream, Vector records, String 
 	// System.out.println("Writing PDB");
 
    byte name[] = new byte[32];
-   short attributes       = (short)0x8000;
+   short attributes       = (short)0x0008;
    short version          = 1;
    int creationDate       = 0xb08823ad;
    int modificationDate   = 0xb08823ad;
