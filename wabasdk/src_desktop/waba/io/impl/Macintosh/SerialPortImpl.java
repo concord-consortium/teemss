@@ -57,17 +57,17 @@ private int		inpBuffer = 0;
 	public native void initPort(int number, int baudRate, int bits, boolean parity, int stopBits);
 	public native void initPort1(String inPort, String outPort, int baudRate, int bits, boolean parity, int stopBits);
 
-	public native boolean close();
+	public synchronized native boolean close();
 
-	public native boolean isOpen();
+	public synchronized native boolean isOpen();
 
 	public synchronized native int readBytes(byte buf[], int start, int count);
 
-	public native int readCheck();
+	public synchronized native int readCheck();
 
-	public native boolean setFlowControl(boolean on);
+	public synchronized native boolean setFlowControl(boolean on);
 
-	public boolean setReadTimeout(int millis){
+	public synchronized boolean setReadTimeout(int millis){
 		timeOut = (millis < 0) ? 0 : millis;
 		return (millis < 0 || !isOpen());
 	}

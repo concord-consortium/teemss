@@ -120,6 +120,7 @@ public abstract class ExtraMainWindow extends MainWindow  implements  org.concor
 
   protected RelativeContainer content;
 
+ protected static Dialog popupDialog = null;
 
 
   /** the title, if any */
@@ -378,6 +379,16 @@ public abstract class ExtraMainWindow extends MainWindow  implements  org.concor
 
   }
 
+public boolean isControlHDialogOwned(Control c){
+	boolean retValue = false;
+	if(c instanceof Dialog) return true;
+	Control cc = c.getParent();
+	while(cc != null){
+		if(cc instanceof Dialog) return true;
+		cc = cc.getParent();
+	}
+	return retValue;
+}
 
 
   /**
@@ -392,6 +403,17 @@ public abstract class ExtraMainWindow extends MainWindow  implements  org.concor
 
   {
 
+	if(popupDialog != null){
+		if (type == PenEvent.PEN_DOWN){
+			Control c = findChild(x, y);
+			if(!(c instanceof Choice)){
+				if(!isControlHDialogOwned(c)){
+					Sound.beep();
+					return;
+				}
+			}
+		}
+	}
 		if (menubar!=null&&type == KeyEvent.KEY_PRESS&&key==IKeys.MENU)
 
 		  menubar.show();
@@ -725,6 +747,9 @@ public abstract class ExtraMainWindow extends MainWindow  implements  org.concor
 		return frame;
 
 	}
+  public void setDialog(Dialog d){
+  	popupDialog = d;
+  }
 
 }
 
