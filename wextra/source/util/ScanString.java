@@ -239,7 +239,7 @@ public class ScanString extends Object {
 //              try {
                sval = new String(buffer,0,count);
 //               nval = Float.valueOf(sval).floatValue();
-               nval = Convert.toFloat(sval);
+               nval = ConvertExtra.toFloat(sval);
                position += count;
                return NUMBER;
 //	       }

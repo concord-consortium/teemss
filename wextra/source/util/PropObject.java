@@ -98,7 +98,7 @@ Control	valueKeeper = null;
 
 		if(value != null){
 
-			fval = Convert.toFloat(value);
+			fval = ConvertExtra.toFloat(value);
 
 		}
 
