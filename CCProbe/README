@@ -1,0 +1,68 @@
+CCProbe README, March 18, 2002
+
+CCProbe is an open-source application developed at the Concord
+Consortium that is scriptable, configurable, and supports probe-based
+visualization, analysis, and calibration components. CCProbe also
+includes components for folders, text, drawings, and images, which can
+be integrated with the probeware to create curricular activities and a
+lab book portfolio in which work can be saved and shared. CCProbe has
+been specifically designed to run well on handheld computers such as
+those running PalmOS or Microsoft PocketPC. Written in Waba, an open
+source subset of Java specifically designed for Handheld computers
+CCProbe is licensed under the GPL and it runs on PalmOS, WinCE,
+PocketPC, Windows, MacOS, and Unix.  
+
+CCProbe is the first program written using the CC LabBook
+architecture. The CC LabBook system is the underlying software
+architecture that supports a multi-platform object-oriented
+portfolio. This portfolio can contain curricular activities, student
+work and assessments.  CCProbe and the CCLabBook system are written in
+Waba, an open source Java-like language for handhelds which runs on a
+wide range of operating systems including PalmOS, WinCE, PocketPC,
+Windows, MacOS Classic, MacOS X, Linux and other Unix operating
+systems. This means that not only does our software runs on almost any
+computer made in the last five years. As new computers and operating
+systems are created, the software will quickly run on those, as well.
+
+For more information check: http://concord.org/ccprobeware
+
+The current projects at the Concord Consortium contributing to the
+development of CCProbe are: 
+
+- Technology Enhanced Elementary and Middle School Science (TEEMSS)
+- Data and Models
+- Electronic Guidebook (Exploratorium)
+- Modeling across the Curriculum (MAC)
+
+The Concord Consortium [http://concord.org] is a tax-exempt non-profit
+education research and development organization. The appearance of
+new, emerging technologies has the potential to ignite explosive
+strides in learning capacity and curriculum development. Harnessing
+these technological resources can result in a powerful extension of
+educational resources to all people, regardless of their
+circumstances. The Concord Consortium is committed to leading this
+drive forward by developing and using the best in educational
+technology.
+
+Building CCProbe from the ccprobe-src.tar.zg tarball archive:
+
+tar -xzf ccprobe-src.tar.gz
+
+cd ccprobe-src/CCProbe
+make build-local
+cd ../XML2LabBook
+make
+cd ../CCProbe/CCProbeXML
+./make-xml
+./make-labbook
+./ccprobe
+
+*** Problem building CCProbe.prc on MacOSX ***
+
+The Palm assembler Pila does not build properly on MacOSX.  You will
+need to get a complied copy of Pila for MacOSX and copy it to the
+ccprobe-src/palmtools/bin directory.  You can get a copy here:
+
+  ftp://concord.org/pub/ccprobeware/src/pila-for-macosx/pila
+
+
