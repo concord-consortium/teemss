@@ -11,18 +11,38 @@ import org.concord.waba.extra.probware.probs.*;
 import org.concord.waba.extra.probware.ProbManager;
 import org.concord.waba.extra.probware.CCInterfaceManager;
 
-public class LObjProbeDataSource extends LObjDataSource implements DataListener, ProbListener
+public class LObjProbeDataSource extends LObjSubDict
+	implements DataSource, DataListener, ProbListener
 {
 CCProb 			probe = null;
 DataListener 	calibrationListener = null;
-public 			waba.util.Vector 	probListeners = null;
+CCUnit		currentUnit = null;
+public 		waba.util.Vector 	dataListeners = null;
+	public waba.util.Vector probListeners = null;
+
+	public static LObjProbeDataSource makeNew()
+    {
+		LObjProbeDataSource me = new LObjProbeDataSource();
+		me.initSubDict();
+
+		return me;
+    }
+
+	public static LObjProbeDataSource makeNew(CCProb probe)
+	{
+		LObjProbeDataSource me = makeNew();
+		me.setProbe(probe);
+		return me;
+	}
+
     public LObjProbeDataSource()
     {
-		super();
+		objectType = PROBE_DATA_SOURCE;
     }
+
     public LObjProbeDataSource(CCProb probe)
     {
-		super();
+		this();
 		setProbe(probe);
     }
 
@@ -34,6 +54,16 @@ public 			waba.util.Vector 	probListeners = null;
     	return null;
     }
 
+	public void addDataListener(DataListener l){
+		if(dataListeners == null) dataListeners = new waba.util.Vector();
+		if(dataListeners.find(l) < 0) dataListeners.add(l);
+	}
+	public void removeDataListener(DataListener l){
+		int index = dataListeners.find(l);
+		if(index >= 0) dataListeners.del(index);
+	}
+
+	public CCUnit 	getUnit(){return currentUnit;}
 
 	public void startDataDelivery(){
 		if(probe == null) return;
@@ -133,9 +163,14 @@ public 			waba.util.Vector 	probListeners = null;
 		if(calibrationListener != null){
 			calibrationListener.dataReceived(e);
 		}else{
-			super.notifyDataListeners(e);
+			if(dataListeners == null) return;
+			for(int i = 0; i < dataListeners.getCount(); i++){
+				DataListener l = (DataListener)dataListeners.get(i);
+				l.dataReceived(e);
+			}
 		}
 	}
+
 	public void addProbListener(ProbListener l){
 		if(probListeners == null) probListeners = new waba.util.Vector();
 		if(probListeners.find(l) < 0) probListeners.add(l);
@@ -182,7 +217,7 @@ public 			waba.util.Vector 	probListeners = null;
 		CCProb p = ProbFactory.createProb(probeID,interfacePort);
 		if(p == null) return null;
 		p.setInterfaceType(interfaceType);
-		return new LObjProbeDataSource(p);
+		return makeNew(p);
 	}
 
 }

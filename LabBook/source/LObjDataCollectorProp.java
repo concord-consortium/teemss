@@ -1,6 +1,7 @@
 package org.concord.LabBook;
 
 import waba.ui.*;
+import waba.util.*;
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
 import org.concord.waba.extra.probware.probs.*;
@@ -8,15 +9,15 @@ import org.concord.waba.extra.probware.*;
 import extra.ui.*;
 import extra.util.*;
 
-public class LObjDataControlEditView extends LabObjectView
+public class LObjDataCollectorProp extends LabObjectView
 {
-    LObjDataControl dc;
+    LObjDataCollector dc;
     Button doneButton;
     Choice probeChoice = null;
     Edit nameEdit = null;
     Label nameLabel = null;
 
-    public LObjDataControlEditView(LObjViewContainer vc, LObjDataControl d,
+    public LObjDataCollectorProp(LObjViewContainer vc, LObjDataCollector d,
 								   LObjDictionary curDict)
     {
 		super(vc);
@@ -39,10 +40,6 @@ public class LObjDataControlEditView extends LabObjectView
 		add(nameEdit);
 
 		probeChoice = new Choice(ProbFactory.getProbNames());	
-		String oldName = ProbFactory.getName(dc.probeId);
-		if(oldName != null){
-			probeChoice.setSelectedIndex(oldName);
-		}
 		add(probeChoice);
 
 		if(showDone){
@@ -69,18 +66,18 @@ public class LObjDataControlEditView extends LabObjectView
     public void close()
     {
 		Debug.println("Got close in document");
-		dc.probeId = ProbFactory.getIndex(probeChoice.getSelected());
+		int probeId = ProbFactory.getIndex(probeChoice.getSelected());
 		LObjGraph graph = dc.getGraph();
 
-		CCProb newProbe = ProbFactory.createProb(dc.probeId, -1);
-		graph.xLabel = "Time";
-		graph.xUnit = CCUnit.getUnit(CCUnit.UNIT_CODE_S);
+		Vector dataSources = new Vector(1);
+		dataSources.add(LObjProbeDataSource.getProbeDataSource(probeId, CCProb.INTERFACE_PORT_A,
+															   dc.interfaceId));
+		dc.setDataSources(dataSources);
 
-		graph.yLabel = newProbe.getName();
-		graph.yUnit = CCUnit.getUnit(newProbe.unit);
+		graph.xUnit = CCUnit.getUnit(CCUnit.UNIT_CODE_S);
+		graph.xLabel = "Time";
 		graph.store();
 
-		dc.curProbe = null;
 		if(nameEdit.getText() != "" && nameEdit.getText() != null){
 			dc.name = nameEdit.getText();
 		}

@@ -30,7 +30,8 @@ public class LObjDictionaryView extends LabObjectView
 
     PropContainer creationProps = new PropContainer();
     PropContainer subCreateProps = creationProps.createSubContainer("Sub");
-    String [] creationTypes = {"Folder", "Notes", "Questions", "Data Collector", "Drawing","UnitConvertor","Image","DataSource","Probes"};
+    String [] creationTypes = {"Folder", "Notes", "Questions", "Data Collector", 
+							   "Drawing","UnitConvertor","Image","DataSource","Probes"};
     PropObject newObjType = new PropObject("Type", creationTypes);
 
     boolean editStatus = false;
@@ -159,7 +160,7 @@ public class LObjDictionaryView extends LabObjectView
 				    newObj = LObjQuestion.makeNewQuestionSet();
 				    autoEdit = true;
 				} else if(objType.equals("Data Collector")){	       
-					newObj = LObjDataControl.makeNew();
+					newObj = LObjDataCollector.makeNew();
 					autoProp = true;
 				} else if(objType.equals("Drawing")){
 				    newObj = new LObjDrawing();
@@ -169,9 +170,6 @@ public class LObjDictionaryView extends LabObjectView
 				    autoEdit = true;
 				} else if(objType.equals("Image")){
 				    newObj = new LObjImage();
-				    autoEdit = true;
-				} else if(objType.equals("DataSource")){
-				    newObj = new LObjDataSource();
 				    autoEdit = true;
 				} else if(objType.equals("Probes")){
 					newObj = LObjProbesRep.makeNew();

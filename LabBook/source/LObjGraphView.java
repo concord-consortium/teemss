@@ -69,7 +69,7 @@ public class LObjGraphView extends LabObjectView
 
 	int dd_height = 20;
 
-	LObjDataControl dc = null;
+	LObjDataCollector dc = null;
 	LObjDictionary dataDict;
 
     public LObjGraphView(LObjViewContainer vc, LObjGraph g, LObjDictionary curDict)
@@ -116,7 +116,17 @@ public class LObjGraphView extends LabObjectView
 		props.addProperty(propYlabel, "Y Axis");
     }
 
-	public void setDC(LObjDataControl dataC)
+	DataSource curDS;
+	public void addDataSource(DataSource ds)
+	{
+		// need to pass in object at this point to identify which 
+		// data source is which
+		ds.addDataListener(this);
+		curDS = ds;
+	}
+
+
+	public void setDC(LObjDataCollector dataC)
 	{
 		dc = dataC;
 		if(graph.name.equals("..auto_title..")){
@@ -469,6 +479,10 @@ public class LObjGraphView extends LabObjectView
 		}
 
 		av.free();
+
+		if(curDS != null){
+			curDS.removeDataListener(this);
+		}
 
 		super.close();
     }

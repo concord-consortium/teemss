@@ -10,20 +10,20 @@ public abstract class LabObject
     final public static int FORM = 2;
     final public static int DATA_SET = 3;
     final public static int GRAPH = 4;
-    final public static int DATA_CONTROL = 5;
+    final public static int DATA_COLLECTOR = 5;
     final public static int DOCUMENT = 6;
     final public static int OUTPUT_SET = 7;
     final public static int QUESTION = 8;
     final public static int DRAWING = 9;
     final public static int UCONVERTOR = 10;
     final public static int IMAGEOBJ = 11;
-    final public static int DATASOURCEOBJ = 12;
+    final public static int PROBE_DATA_SOURCE = 12;
     final public static int PROBESREPOBJ = 13;
     final public static int PROBEOBJ = 14;
 
     public static String [] typeNames = {
 	"Zero", "Dict", "Form", "DataSet", "Graph", "DataControl", "Doc", "OutputSet", "Quest","Drawing",
-	"UnitConvertor","Image","DataSource","Probes","Probe"};
+	"UnitConvertor","Image","ProbeDataSource","Probes","Probe"};
 
     public static LabObject getNewObject(int objectType)
     {
@@ -36,8 +36,8 @@ public abstract class LabObject
 	    return new LObjDataSet();
 	case GRAPH:
 	    return new LObjGraph();
-	case DATA_CONTROL:
-	    return new LObjDataControl();
+	case DATA_COLLECTOR:
+	    return new LObjDataCollector();
 	case DOCUMENT:
 	    return new LObjDocument();
 	case OUTPUT_SET:
@@ -50,8 +50,8 @@ public abstract class LabObject
 	    return new LObjUConvertor();
 	case IMAGEOBJ:
 	    return new LObjImage();
-	case DATASOURCEOBJ:
-		return new LObjDataSource();
+	case PROBE_DATA_SOURCE:
+		return new LObjProbeDataSource();
 	case PROBESREPOBJ:
 		return new LObjProbesRep();
 	case PROBEOBJ:

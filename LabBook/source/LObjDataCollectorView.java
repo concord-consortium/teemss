@@ -3,6 +3,7 @@ package org.concord.LabBook;
 import graph.*;
 import waba.ui.*;
 import waba.fx.*;
+import waba.util.*;
 import extra.util.*;
 import extra.ui.*;
 import org.concord.waba.extra.ui.*;
@@ -10,10 +11,10 @@ import org.concord.waba.extra.event.*;
 import org.concord.waba.extra.probware.probs.*;
 import org.concord.waba.extra.probware.*;
 
-public class LObjDataControlView extends LabObjectView
+public class LObjDataCollectorView extends LabObjectView
     implements ActionListener, DialogListener, LObjViewContainer
 {
-    LObjDataControl dc;
+    LObjDataCollector dc;
     LObjGraphView gv;
     LObjDictionary dataDict = null;
 
@@ -24,17 +25,14 @@ public class LObjDataControlView extends LabObjectView
 
     Menu menu = new Menu("Probe");
 
-    ProbManager pm = null;
     ToggleButton collectButton;
     Button doneB;
-
-    CCProb curProbe = null;
 
 	Label title1Label, title2Label;
     String title1 = "";
 	String  title2 = "";
 
-    public LObjDataControlView(LObjViewContainer vc, LObjDataControl dc, 
+    public LObjDataCollectorView(LObjViewContainer vc, LObjDataCollector dc, 
 							   LObjDictionary curDict)
     {
 		super(vc);
@@ -49,8 +47,6 @@ public class LObjDataControlView extends LabObjectView
 		this.dc = dc;
 		lObj = dc;
 		dataDict = curDict;
-
-		pm = ProbManager.getProbManager(dc.interfaceId);
     }
 
 	public void setTitle1(String t1)
@@ -67,7 +63,7 @@ public class LObjDataControlView extends LabObjectView
 
     void stop()
     {
-		pm.stop();
+		dc.stop();
 		collectButton.setSelected(false);    
 		gv.stopGraph();
 
@@ -117,9 +113,10 @@ public class LObjDataControlView extends LabObjectView
 
 		add(gv);
 
-		curProbe = dc.getProbe();
-		pm.registerProb(curProbe);
-		pm.addDataListenerToProb(curProbe.getName(),gv);
+		Vector dataSources = dc.getDataSources();
+		for(int i=0; i<dataSources.getCount(); i++){
+			gv.addDataSource((DataSource)dataSources.get(i));
+		}
 
     }
 
@@ -194,11 +191,9 @@ public class LObjDataControlView extends LabObjectView
 
 		stop();	
 
+		// need to make sure this unregisters data sources
 		gv.close();
 
-		if(curProbe != null){
-			pm.unRegisterProb(curProbe);
-		}
 		super.close();
     }
 
@@ -216,7 +211,7 @@ public class LObjDataControlView extends LabObjectView
 			if(target == collectButton && collectButton.isSelected()){
 				// need to tell the GraphView to start
 				gv.startGraph();
-				pm.start();
+				dc.start();
 			} else if(target == collectButton && ! collectButton.isSelected()){
 				// need to tell the GraphView to stop
 				stop();

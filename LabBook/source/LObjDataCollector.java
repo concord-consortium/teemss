@@ -1,13 +1,18 @@
 package org.concord.LabBook;
 
+import waba.util.*;
 import extra.io.*;
 import extra.util.*;
 import org.concord.waba.extra.util.*;
 import org.concord.waba.extra.probware.probs.*;
 import org.concord.waba.extra.probware.*;
 
-public class LObjDataControl extends LObjSubDict
+public class LObjDataCollector extends LObjSubDict
 {
+	Vector dataSources;
+	int numDataSources = 0;
+	int [][] dsArray;
+
     int probeId = ProbFactory.Prob_ThermalCouple;
     CCProb curProbe = null;
     int interfaceId = CCInterfaceManager.INTERFACE_2;
@@ -17,7 +22,7 @@ public class LObjDataControl extends LObjSubDict
 	
 	public static LObjSubDict makeNew()
     {
-		LObjDataControl me = new LObjDataControl();
+		LObjDataCollector me = new LObjDataCollector();
 		me.initSubDict();
 
 		LObjGraph graph = new LObjGraph();
@@ -68,41 +73,68 @@ public class LObjDataControl extends LObjSubDict
 		return (LObjGraph)getObj(0);
 	}
 
-    public LObjDataControl()
+	public void setDataSources(Vector sources)
+	{
+		numDataSources = sources.getCount();
+		for(int i=0; i<numDataSources; i++){
+			System.out.println("saving data source: " + (DataSource)sources.get(i));
+			setObj((LabObject)sources.get(i), i+1);
+			
+		}
+		dataSources = sources;
+	}
+
+	public Vector getDataSources()
+	{
+		dataSources = new Vector(numDataSources);
+		for(int i=0; i<numDataSources; i++){
+			dataSources.add(getObj(i+1));
+		}
+
+		return dataSources;
+	}
+
+	public void start()
+	{ 
+		for(int i=0; i<dataSources.getCount(); i++){
+			((DataSource) dataSources.get(i)).startDataDelivery();
+		}
+
+	}
+
+	public void stop()
+	{
+		for(int i=0; i<dataSources.getCount(); i++){
+			((DataSource) dataSources.get(i)).stopDataDelivery();
+		}
+	}		
+
+    public LObjDataCollector()
     {
-		objectType = DATA_CONTROL;
+		objectType = DATA_COLLECTOR;
     }
 
     public LabObjectView getView(LObjViewContainer vc, boolean edit, LObjDictionary curDict)
     {
-		return new LObjDataControlView(vc, this, curDict);
+		return new LObjDataCollectorView(vc, this, curDict);
     }
     public LabObjectView getPropertyView(LObjViewContainer vc, LObjDictionary curDict){
-		return new LObjDataControlEditView(vc, this, curDict);
+		return new LObjDataCollectorProp(vc, this, curDict);
 	}
     public void readExternal(DataStream ds)
     {
 		super.readExternal(ds);
-		probeId = ds.readInt();
-		portId = ds.readInt();
-		curProbe = ProbFactory.createProb(probeId, portId);
-		curProbe.readExternal(ds);
-		//	graph = (LObjGraph)getObj(0);
+		numDataSources = ds.readInt();
     }
 
     public void writeExternal(DataStream ds)
     {
 		super.writeExternal(ds);
-		ds.writeInt(probeId);
-		ds.writeInt(portId);
-		getProbe().writeExternal(ds);
+		if(dataSources == null){
+			ds.writeInt(0);
+		} else {
+			numDataSources = dataSources.getCount();
+			ds.writeInt(numDataSources);
+		}
     }
-
-    /*
-	  public void setDict(LObjDictionary d)
-	  {
-	  super.setDict(d);
-	  if(graph != null) setObj(graph, 0);
-	  }
-    */
 }

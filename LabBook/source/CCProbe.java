@@ -133,7 +133,7 @@ public class CCProbe extends ExtraMainWindow
 					exit(0);
 				}
 			}else if(command.equals(aboutTitle)){
-				Dialog.showAboutDialog(aboutTitle,AboutMessages.messages);
+				Dialog.showAboutDialog(aboutTitle,AboutMessages.getMessage());
 			}
 		}
     }

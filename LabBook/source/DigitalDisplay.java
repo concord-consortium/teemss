@@ -24,9 +24,11 @@ import waba.sys.*;
 import waba.util.*;
 import graph.*;
 import extra.ui.*;
+import extra.util.*;
 import org.concord.waba.extra.probware.*;
 import org.concord.waba.extra.probware.probs.*;
 import org.concord.waba.extra.event.*;
+import org.concord.waba.extra.util.*;
 
 public class DigitalDisplay extends Container
 {
@@ -70,7 +72,8 @@ public class DigitalDisplay extends Container
 		DecoratedValue curBin;
 		LabelBuf curDisp;
 		String curLabel;
-		String curUnit;
+		String curUnitStr;
+		CCUnit curUnit;
 
 		int x=RIGHT_PADDING;
 
@@ -84,9 +87,14 @@ public class DigitalDisplay extends Container
 			curDisp = (LabelBuf)disps.get(i);
 			curDisp.setPos(x,0);	    
 			x += curDisp.getWidth();
-			curUnit = curBin.getUnit().abbreviation;
-			g.drawText(curUnit, x, 0);
-			x += fm.getTextWidth(curUnit) + OUTER_PADDING;
+			curUnit = curBin.getUnit();
+			if(curUnit != null){
+				curUnitStr = curUnit.abbreviation;
+				g.setColor(0,0,0);
+				g.drawText(curUnitStr, x, 0);
+				x += fm.getTextWidth(curUnitStr);
+			}
+			x += OUTER_PADDING;
 		}
 		g.setFont(MainWindow.defaultFont);
     }
