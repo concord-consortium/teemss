@@ -175,7 +175,7 @@ public class GraphTool extends Container
 		numVals += dataEvent.numbSamples;
 
 		val = dataEvent.data[dataEvent.dataOffset];
-		time = dataEvent.time;		
+		time = dataEvent.getTime();		
 	    } else {
 		int startPTime = Vm.getTimeStamp();
 		if(pTimes != null){
@@ -223,7 +223,7 @@ public class GraphTool extends Container
 		lg.update();
 	    }
 	    curVal.setText(dataEvent.data[dataEvent.dataOffset] + "");
-	    curTime.setText(dataEvent.time + "s");
+	    curTime.setText(dataEvent.getTime() + "s");
 	}
     }
     
