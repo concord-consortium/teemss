@@ -6,7 +6,7 @@ import org.concord.waba.extra.probware.*;
 import extra.util.*;
 
 public class CCVoltCurrent extends CCProb{
-float  			[]data = new float[2];
+float  			[]data = new float[CCInterfaceManager.BUF_SIZE/2];
 float  			dtChannel = 0.0f;
 float				energy = 0.0f;
 public final static int		CURRENT_OUT 			= 0;
@@ -148,29 +148,32 @@ public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
 		}
 	}else{
 		int  	chPerSample = e.dataDesc.getChPerSample();
+		int	dataIndex = 0;
 		for(int i = 0; i < ndata; i+=chPerSample){
 			dEvent.setTime(t0 + dtChannel*(float)i);
 			switch(outputMode){
 				case CURRENT_OUT:
-					data[0] = (dataEvent[nOffset+i] - zeroPointCurrent)/currentResolution;
+					data[dataIndex] = (dataEvent[nOffset+i] - zeroPointCurrent)/currentResolution;
 //					System.out.println("amper "+data[0]);
 					break;
 				case VOLTAGE_OUT:
-					data[0] = (dataEvent[nOffset+i +1] - zeroPointVoltage)/voltageResolution;
+					data[dataIndex] = (dataEvent[nOffset+i +1] - zeroPointVoltage)/voltageResolution;
 //					System.out.println("voltage "+data[0]);
 					break;
 				case WATT_OUT:
 				case ENERGY_OUT:
 					float		amper = (data[nOffset+i] - zeroPointCurrent)/currentResolution;
 					float		voltage = (data[nOffset+i +1] - zeroPointVoltage)/voltageResolution;
-					data[0] = amper*voltage;
+					data[dataIndex] = amper*voltage;
 					if(outputMode == ENERGY_OUT){
-						energy 	+= data[0]*dDesc.dt; 
-						data[0] 	= energy;
+						energy 	+= data[dataIndex]*dDesc.dt; 
+						data[dataIndex] 	= energy;
 					}
 					break;
 			}
+			dataIndex++;
 		}
+		dEvent.setNumbSamples(dataIndex);
 	}
 	notifyDataListeners(dEvent);
 	return true;
@@ -185,7 +188,7 @@ public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
 		if(outputMode != CURRENT_OUT && outputMode != VOLTAGE_OUT) return;
 		if(row1 == null  || calibrated == null) return;
 		float zeroPoint = (calibrated[0]*row1[1] - calibrated[1]*row1[0])/(calibrated[0] - calibrated[1]);
-		float resolution = (row1[0] - zeroPoint)/calibrated[0];
+		float resolution = (row1[0] - row1[1])/(calibrated[0] - calibrated[1]);
 		
 		if(outputMode == CURRENT_OUT){
 			zeroPointCurrent 		= zeroPoint;
