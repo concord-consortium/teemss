@@ -8,6 +8,10 @@ public class LabelBuf extends Control
     Image buffer = null;
     Graphics bufG;
 
+    static final int LEFT = 0;
+    static final int RIGHT = 1;
+    static final int CENTER = 2;
+
     String text;
     Font font = MainWindow.defaultFont;
     int align = LEFT;
