@@ -167,6 +167,7 @@ public class Bin extends DecoratedValue
 
 		if(valid){
 			a = new Annotation(label, time, tempVal[0], xaxis);
+			a.setPrecision(getPrecision());
 			// This could be a memory leak if we don't clear this link
 			a.bin = this;
 			a.setUnit(unit);

@@ -174,7 +174,7 @@ public class FloatConvert
 		}
 
 		String intFracStr = null;
-		if(exp - precision >= 0){
+		if(exp - precision > 0){
 			int startPos = expOffset + 1;
 			if(startPos < 0){
 				intFracStr = "";
