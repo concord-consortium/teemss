@@ -172,7 +172,11 @@ public static QTManager qtManager = null;
 				loDict.add(obj);
 			}
    		}
-   		   		
+   		
+		// We should locking consistensy
+		// System.out.println("checking and fixing object locking");
+		// checkAndFixLocks(loDict);
+   		
 		labBook.commit();
 		labBook.close();
    		
@@ -331,6 +335,11 @@ public static QTManager qtManager = null;
 				}else{
 					labObject.setName("");
 				}
+				String lockedFlag = element.getAttribute("locked");
+				if(lockedFlag != null && lockedFlag.equals("true")){
+					labObject.setFlags(LabObject.FLAG_LOCKED);
+				}
+
 				if(labObject instanceof LObjDictionary){
 					// folders can contain objects that reference the parent folder
 					// so if we add the object here it will stop this recursion

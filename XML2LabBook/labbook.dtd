@@ -12,34 +12,39 @@
 
 <!ELEMENT FOLDER (%CCOBJECTS;)*>
 <!ATTLIST FOLDER
-	ID			ID					#REQUIRED
+	ID			ID					#IMPLIED
 	name		CDATA				#IMPLIED
+    locked      %boolean;           #IMPLIED
 	view		(paging | tree)		"tree"
 	url			CDATA				#IMPLIED
 >
 <!ELEMENT NOTES (#PCDATA)>
 <!ATTLIST NOTES
-	ID			ID			#REQUIRED
+	ID			ID			#IMPLIED
 	name		CDATA		#IMPLIED
+    locked      %boolean;           #IMPLIED
 	indent   	CDATA 		#IMPLIED
 >
 
 <!ELEMENT DRAWING EMPTY>
 <!ATTLIST DRAWING
-	ID			ID			#REQUIRED
+	ID			ID			#IMPLIED
 	name		CDATA		#IMPLIED
+    locked      %boolean;           #IMPLIED
 >
 
 <!ELEMENT UNITCONV EMPTY>
 <!ATTLIST UNITCONV
-	ID			ID			#REQUIRED
+	ID			ID			#IMPLIED
 	name		CDATA		#IMPLIED
+    locked      %boolean;           #IMPLIED
 >
 
 <!ELEMENT IMAGE EMPTY>
 <!ATTLIST IMAGE
 	ID			ID			#REQUIRED
 	name		CDATA		#IMPLIED
+    locked      %boolean;           #IMPLIED
 	url			CDATA		#IMPLIED
 >
 
@@ -49,6 +54,7 @@
 <!ATTLIST SUPERNOTES
 	ID			ID			#REQUIRED
 	name		CDATA		#IMPLIED
+    locked      %boolean;           #IMPLIED
 >
 <!ELEMENT EMBOBJ (%SNOBJECTS;)?>
 <!ATTLIST EMBOBJ
@@ -100,6 +106,7 @@
 <!ELEMENT PROBE (PROP)*>
 <!ATTLIST PROBE
     ID         ID            #IMPLIED
+    locked      %boolean;    #IMPLIED
     probe      %probes;      "Temperature"
     interface  (0 | 2)       "2"
 >
@@ -127,12 +134,14 @@
 <!ATTLIST GRAPH
     current-line   CDATA    #IMPLIED
     title          CDATA    #IMPLIED
+    locked      %boolean;           #IMPLIED
 >
 
 <!ELEMENT DATACOLLECTOR ((PROBE | INTPROBETRANS | EXPOBJECT | OBJ-REF)*,GRAPH)>
 <!ATTLIST DATACOLLECTOR
 	ID			ID			#IMPLIED
 	name		CDATA		#IMPLIED
+    locked      %boolean;           #IMPLIED
 >
 
 <!ELEMENT OBJ-REF EMPTY>
