@@ -38,7 +38,7 @@ build-tag:
 	$(call MAKE_DEP, )
 	$(MAKE) 
 	mv new_build build
-	echo $(MODULE)_$(subst .,_,$(VERSION_EXP))_$(BUILD_EXP) > tag
+	echo $(MODULE)_$(subst .,_,$(VERSION_EXP))_`cat build` > tag
 	cvs commit -m "build checkin" $(basename $(VERSION_TEMPLATE)) build version tag
 	$(call MAKE_DEP, cvs-tag)
 	$(MAKE) cvs-tag
