@@ -48,27 +48,33 @@ public class TextLine extends Object {
     public int direction = 0;
 
     protected boolean cleared = false;
-    protected int x,y;
     protected int width = 0;
     protected int height = 0;
     protected int textWidth = 0;
     protected int textHeight = 0;
 
-    public TextLine(String s) {
-	this.text = s;
-	font = MainWindow.defaultFont;
-	fontMet = MainWindow.getMainWindow().getFontMetrics(font);	
+    public int edge;
+
+    public TextLine(String s, Font f) {
+	text = s;
+	font = f;
+	fontMet = MainWindow.getMainWindow().getFontMetrics(font);
+	parseText();	
+    }
+
+    public TextLine(String s){
+	this(s, MainWindow.defaultFont);
+	font = null;
     }
 
     public TextLine(String s, Font f, Color c) {
-	this(s);
-	font = f;
-	fontMet = MainWindow.getMainWindow().getFontMetrics(font);
+	this(s, f);
 	color = c;
     }
 
     public TextLine(String s, int d){
 	this(s);
+	font = null;
 	direction = d;
     }
 
@@ -90,10 +96,15 @@ public class TextLine extends Object {
 	int count;
 	String absLabel;
 
-	for(j=0; j<maxDigits; j++) val *= 10;
+	for(j=0; j<maxDigits; j++) val *= (float)10;
+	if(val < 0) val -= (float)0.5;
+	else val += (float)0.5;
 
 	if(((int)val) == 0){
-	    return new String("0.0");
+	    if(minDigits != 0)
+		return new String("0.0");
+	    else
+		return new String("0");
 	}
 
 	intChars = String.valueOf((int)Maths.abs(val)).toCharArray();
@@ -151,52 +162,28 @@ public class TextLine extends Object {
 	return true;
     }
 
-
-    public int getWidth()
+    public void setText(String s)
     {
-	if(!parseText())
-	    return 0;
-
-	return width;
-    }
-    
-    public int getHeight()
-    {
-	if(!parseText())
-	    return 0;
-
-	return height;
+	text = s;
+	parseText();
     }
 
-    /* Draw starting at the upper right hand corner
+    /* Draw starting at the upper left hand corner
      */
 
     public void drawRight(JGraphics g, int x, int y)
     {
-	JGraphics lg;
 
-	if(!parseText()){
-	    return;
-	}
-
-	lg = g.create();
-	
 	if(background != null && !cleared) {
-	    lg.setColor(background);
-	    lg.fillRect(x, y, width, height);
-	    lg.setColor(g.getColor());
+	    g.setColor(background);
+	    g.fillRect(x, y, textWidth, textHeight);
 	}
 
-	if(font != null) lg.setFont(font);
-	if(color != null) lg.setColor(color);
+	if(font != null) g.setFont(font);
+	if(color != null) g.setColor(color);
 
-	lg.drawString(text, x, y);
+	g.drawString(text, x, y);
 
-	lg.dispose();
-
-	lg = null;
-	this.x = x;
-	this.y = y;
 	cleared = false;
 	return;
     }
@@ -208,23 +195,13 @@ public class TextLine extends Object {
 	JGraphics offsG = null;
 	Graphics rotG = null;
 
-	if(!parseText()){
-	    return;
-	}
-
 	if(direction == RIGHT){
 	    drawRight(g, x, y);
 	    return;
 	}
 
 	offsI = new Image(textWidth, textHeight);
-	offsG = new JGraphics(offsI);
-
-	if(background == null) {
-	    // HACK we should copy the current background to this back
-	    // ground
-	    background = new Color(255,255,255);
-	}
+	offsG = new JGraphics((ISurface)offsI);
 
 	offsG.setFont(g.getFont());
 	offsG.setColor(g.getColor());
@@ -240,13 +217,11 @@ public class TextLine extends Object {
 
 	g.drawImage(rotImage, x, y);
 	rotImage.free();
-	this.x = x;
-	this.y = y;
     }
 
-    public void clear(JGraphics g)
+    public void clear(JGraphics g, int x, int y)
     {
-	if(cleared == false){
+	if(cleared == false && background != null){
 	    g.setColor(background);
 	    g.fillRect(x,y,width,height);
 	    cleared = true;
@@ -256,10 +231,6 @@ public class TextLine extends Object {
     public void drawCenter(JGraphics g, int x, int y, int edge)
     {
 	int x0, y0;
-
-	if(!parseText()){
-	    return;
-	}
 
 	switch(edge){
 	case RIGHT_EDGE:
@@ -284,7 +255,35 @@ public class TextLine extends Object {
 	draw(g, x0, y0);
     }
 
-    
+    public int getXOffset(int edge)
+    {
+
+	switch(edge){
+	case RIGHT_EDGE:
+	    return -width - 1;
+	case LEFT_EDGE:
+	    return 0;
+	case TOP_EDGE:
+	case BOTTOM_EDGE:
+	default :
+	    return  -(width/2);
+	}
+    }
+
+    public int getYOffset(int edge)
+    {
+	switch(edge){
+	case RIGHT_EDGE:
+	case LEFT_EDGE:
+	    return  -(height/2);
+	case TOP_EDGE:
+	    return 0;
+	case BOTTOM_EDGE:
+	default :
+	    return -height - 1;
+	}
+    }
+
     public void rotateImage(Image srcImg, Graphics destG) 
     {
 	int x, y;

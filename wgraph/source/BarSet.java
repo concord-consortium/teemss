@@ -10,7 +10,7 @@ public class BarSet extends Object
 {
 
     public Color linecolor = null;
-    public Axis axis = null;
+    public ColorAxis axis = null;
 
     // DataSet stuff
     protected int length;
@@ -29,6 +29,7 @@ public class BarSet extends Object
     
     protected int orientation;
     protected int barPos[];
+    public boolean barSel[];
     protected int barDir = 1;
     public Color upColor = null;
     public Color downColor = null;
@@ -37,12 +38,15 @@ public class BarSet extends Object
     static final int MAXDIGITS = 4;
     static final int BAR_SPACE = 2;
 
-    public BarSet(Axis a, int num, int orien)
+    static final int BOTTOM = 0;
+
+    public BarSet(ColorAxis a, int num, int orien)
     {
 	axis = a;
 	nBars = num;
 	oldBarLen = new int[num];
 	barPos = new int[num];
+	barSel = new boolean[num];
 	orientation = orien;
 	length = 0;
 	barDir = -1;
@@ -61,53 +65,26 @@ public class BarSet extends Object
 	    digitals[i].color = upColor;
 	    labels[i].background = downColor;
 	    labels[i].color = upColor;
+	    barSel[i] = false;
 	}
     }
 
     public void reset()
     {
 	// Length scale
-	lenScale = axis.yScale;
-	maxHeight = axis.axisLen - 1;
+	lenScale = axis.scale;
+	maxHeight = axis.length - 1;
 
 	length = 0;
     }
 
-    void setBarColor(JGraphics graphics, int percent)
-    {
-	int r, g, b;
-	r = 0;
-	b = 0;
-	g = 0;
-
-	if(percent < 25){
-	    b = 255;
-	    g = (255 * percent) / 25;
-	} else if(percent < 50){
-	    g = 255;
-	    b = (255 * (50 - percent)) / 25;
-	} else if(percent < 75){
-	    g = 255;
-	    r = (255 * (percent - 50)) / 25;
-	} else {
-	    r = 255;
-	    g = (255 * (100 - percent)) / 25;
-	} 
-	
-	graphics.setColor(r, g, b);
-
-	return;
-    }
-
     public void drawLabel(JGraphics g, float val, int index)
     {
-	digitals[index].clear(g);
-
-	digitals[index].text = label.fToString(val);
+	digitals[index].setText(label.fToString(val));
 	
 	int labelY = start+1;
 	if(interleaveLabels && (index % 2) == 1){
-	    labelY += label.getHeight();
+	    labelY += label.height;
 	}
 	// clear old label
 	
@@ -128,11 +105,11 @@ public class BarSet extends Object
 	
 	if(length > 0){
 	    for(i=0; i<nBars; i++){
-		barLen = barDir*(int)((val[i] - axis.minimum) * lenScale);
+		barLen = barDir*(int)((val[i] - axis.dispMin) * lenScale);
 		if(barLen < 0){
 		    barLen = 0;
-		} else if(barLen > (barDir*axis.axisLen)){
-		    barLen = (barDir*axis.axisLen);
+		} else if(barLen > (barDir*axis.dispLen)){
+		    barLen = (barDir*axis.dispLen);
 		}
 		if(oldBarLen[i] > barLen){
 		    g.setColor(downColor);
@@ -143,25 +120,35 @@ public class BarSet extends Object
 	    }
 	} 
 
+	g.setColor(255,255,255);
+	if(interleaveLabels)
+	    g.fillRect(drawnX, start+1, axisLen, label.height*2+1);
+	else
+	    g.fillRect(drawnX, start+1, axisLen, label.height+1);
+
 	for(i=0; i<nBars; i++){
-	    barLen = barDir* (int)((val[i] - axis.minimum) * lenScale);
+	    barLen = barDir* (int)((val[i] - axis.dispMin) * lenScale);
 	    if(barLen < 0){
 		barLen = 0;
-	    } else if(barLen > (barDir*axis.axisLen)){
-		barLen = barDir*axis.axisLen;
+	    } else if(barLen > (barDir*axis.dispLen)){
+		barLen = barDir*axis.dispLen;
 	    }
-	    if(barDir*axis.axisLen == 0){
+	    if(barDir*axis.length == 0){
 		barPercent = 0;
 	    } else {
-		barPercent = (int)((barLen * 100) / (barDir*axis.axisLen));
+		barPercent = (int)((barLen * 1000) / (barDir*axis.dispLen));
 	    }
 	    
-	    setBarColor(g, barPercent);
+	    axis.setBarColor(g, barPercent);
 	    // Hack for bottom only bar graphs
 	    g.fillRect(barPos[i], start - barLen, 
 		       barWidth, barLen);
 	    oldBarLen[i] = barLen;
-	    
+	    if(barSel[i]){
+		g.setColor(0,0,0);
+		g.drawRect(barPos[i], start - barLen,
+			   barWidth, barLen);
+	    }
 	    // also need to put label on bottom
 	    drawLabel(g, val[i], i);
 	    
@@ -183,7 +170,7 @@ public class BarSet extends Object
 
 	if(length > 0){
 	    for(i=0; i<nBars; i++){
-		barLen = (int)((val[i] - axis.minimum) * lenScale);
+		barLen = (int)((val[i] - axis.dispMin) * lenScale);
 		if(oldBarLen[i] > barLen){
 		    g.setColor(upColor);
 		    g.fillRect(barPos[i], start + barLen, barWidth, 
@@ -201,7 +188,7 @@ public class BarSet extends Object
 	    // Watch out for color changes
 	    for(i=0; i<nBars; i++){
 		g.setColor(upColor);
-		barLen = (int)((val[i] - axis.minimum) * lenScale);
+		barLen = (int)((val[i] - axis.dispMin) * lenScale);
 		// Hack for bottom only bar graphs
 		g.fillRect(barPos[i], start + barLen, 
 			   barWidth, barDir*barLen);
@@ -215,6 +202,9 @@ public class BarSet extends Object
 
     }
 
+    int drawnX = 0;
+    int axisLen = 0;
+
 	/* This is a hack
 	 * it should take into account the orientation
 	 */
@@ -225,11 +215,14 @@ public class BarSet extends Object
 	float barScale;
 	int i;
 
+	drawnX = x;
+	axisLen = aLen;
+
 	barScale = (float)((float)(aLen - BAR_SPACE)/ (float)nBars);
 	maxSpacing = (int)barScale;
 	// Keep at least a 2:1 ratio of height:width of the bars 
-	if(maxSpacing > barDir*axis.axisLen / 2){
-	    maxSpacing = barDir*axis.axisLen / 2;
+	if(maxSpacing > barDir*axis.dispLen / 2){
+	    maxSpacing = barDir*axis.dispLen / 2;
 	}
 
 	barWidth = maxSpacing - BAR_SPACE;
@@ -242,8 +235,8 @@ public class BarSet extends Object
 	start = y-1;
 
 	// Length scale
-	lenScale = axis.yScale;
-	maxHeight = axis.axisLen - 1;
+	lenScale = axis.scale;
+	maxHeight = axis.dispLen - 1;
 
 	// When this funct is called the background has been cleared
 	// so tell all our labels so they don't draw in their old pos
@@ -255,9 +248,9 @@ public class BarSet extends Object
 	configLabels();
 
 	// also need to put text label on bottom
-	int labelY = start+1+label.getHeight();
+	int labelY = start+1+label.height;
 	if(interleaveLabels){
-	    labelY += label.getHeight();
+	    labelY += label.height;
 	}
 	for(i=0; i<nBars; i++){
 	    labels[i].drawCenter(g, barPos[i]+barWidth/2,
@@ -270,10 +263,10 @@ public class BarSet extends Object
     {
 
 	// Compute how to print the labels
-	label.text = label.fToString(axis.minimum);
-	int max_label_width = label.getWidth();
-	label.text = label.fToString(axis.maximum);
-	max_label_width = Maths.max(max_label_width, label.getWidth()); 
+	label.setText(label.fToString(axis.min));
+	int max_label_width = label.width;
+	label.setText(label.fToString(axis.dispMin + (axis.dispLen / axis.scale)));
+	max_label_width = Maths.max(max_label_width, label.width); 
 	interleaveLabels = false;
 	if(max_label_width + 2 > barWidth){
 	    interleaveLabels = true;
@@ -293,9 +286,9 @@ public class BarSet extends Object
 
 	configLabels();
 	if(interleaveLabels){
-	    return 3*label.getHeight();
+	    return 3*label.height;
 	} else {
-	    return 2*label.getHeight();
+	    return 2*label.height;
 	}
     }
 

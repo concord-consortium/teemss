@@ -1,27 +1,27 @@
 package graph;
 
-public interface Graph2D
+public abstract class Graph2D
 {
-    public void resize(int w, int h);
+    boolean redraw = true;
 
-    public void setRange(float min, float range);
+    public abstract void resize(int w, int h);
 
-    public Object addBin(int location, String label);
+    public abstract void setYRange(float min, float range);
 
-    public boolean removeBin(Object id);
+    public abstract void setXRange(float min, float range);
 
-    public void draw(JGraphics g, int x, int y);
+    public abstract Object addBin(int location, String label);
 
-    public int plot(JGraphics g);
+    public abstract boolean removeBin(Object id);
 
-    public void reset();
+    public abstract void draw(JGraphics g, int x, int y);
 
-    public int getNextBin();
+    public abstract int plot(JGraphics g);
 
-    public boolean addPoint(int confId, int x, float values[]);
+    public abstract void reset();
 
-    public boolean addPoint(int confId, int locId, int x, float value);
+    public abstract boolean addPoint(float x, float values[]);
 
-    public int transLocId(int confId, int locId);
+    public abstract boolean addPoint(Object binID, float x, float value);
 
 }
