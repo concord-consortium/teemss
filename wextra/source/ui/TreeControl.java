@@ -256,7 +256,6 @@ public class TreeControl extends Control implements TreeModelListener
 
     public void treeModelChanged()
     {
-	System.out.println("TreeModelChanged");
 	reparse();
 	repaint();
     }

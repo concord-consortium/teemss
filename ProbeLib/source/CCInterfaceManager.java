@@ -47,7 +47,7 @@ protected ProbManager	pb = null;
 		dDesc.setChPerSample(2);
 		dEvent.setDataOffset(1);
 		dEvent.setDataDesc(dDesc);
-		System.out.println("start");
+		//System.out.println("start");
 	}
 	public void stop(){
 		if(timer != null){

@@ -177,7 +177,7 @@ boolean		clickable = true;
 		if(event.type == KeyEvent.KEY_PRESS){
 	   		if(event.target instanceof waba.ui.Edit){
 				KeyEvent ke = (KeyEvent)event;
-				System.out.println("KeyEvent.KEY_PRESS "+ke.key);
+				//System.out.println("KeyEvent.KEY_PRESS "+ke.key);
 				if (ke.key == IKeys.ENTER){
 					deActivateEditor();
 				}
@@ -243,7 +243,7 @@ boolean		clickable = true;
 				}
 				if(isColumnMoveable() && c != null){
 					deActivateEditor();
-					System.out.println("Column "+c.getTitle());
+					//System.out.println("Column "+c.getTitle());
 					startdrugging = true;
 					startX = rColumn.x;
 					currColumn = c;
@@ -379,7 +379,7 @@ boolean		clickable = true;
 			bufIm.free();
 			bufIm=new Image(width,height);
 		}
-		System.out.println("setRect  w "+this.width + " h "+this.height);
+		//System.out.println("setRect  w "+this.width + " h "+this.height);
 	}
 	
 	

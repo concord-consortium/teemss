@@ -144,7 +144,7 @@ boolean	editable = true;
 	}
 	public void onEvent(Event event){
 		if (event.type == PenEvent.PEN_DOWN){
-			System.out.println("PEN_DOWN Column  name "+getTitle()+" x "+x+" y "+y+" w "+width+" h "+height);
+		    //System.out.println("PEN_DOWN Column  name "+getTitle()+" x "+x+" y "+y+" w "+width+" h "+height);
 		}
 	}
 	public void setRect(int x,int y,int w,int h){

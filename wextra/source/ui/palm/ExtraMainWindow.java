@@ -427,8 +427,6 @@ public boolean isControlHDialogOwned(Control c){
 
   }
 
-
-
   /**
 
    * Called by the VM to repaint an area. This method is not private
@@ -563,29 +561,7 @@ public boolean isControlHDialogOwned(Control c){
 
 	{
 
-	  boolean needrepaint = false;
-
-	  if(this.menubar != null){//dima
-
-	  	remove(this.menubar);
-
-		needrepaint = true;
-
-	  }
-
 	  this.menubar=menubar;
-
-	  if(menubar != null){//dima
-
-	    menubar.setRect(0,0,MenuBar.getMenuBarWidth(),MenuBar.getMenuBarHeight());
-
-		add(menubar);
-
-		needrepaint = true;
-
-	  }
-
-	  if(needrepaint) repaint();
 
 	}
 

@@ -102,7 +102,7 @@ int					outputMode = DEFAULT_MODE_OUT;
 		dtChannel = dt / (float)chPerSample;
 	}
 	public boolean transform(DataEvent e){
-		System.out.println("wheel transform "+e);
+	    //System.out.println("wheel transform "+e);
 		float t0 = e.getTime();
 		float[] data = e.getData();
 		int ndata = e.getNumbData();

@@ -462,8 +462,8 @@ DeviationControl	devControl;
 				dataFFT[k] = dataFFT[k] - ave;
 			}
 			float disp = extra.util.Maths.sqrt(summ2/(float)dataDim - ave*ave)/ave;
-			System.out.println("FFT Ave: "+ave+" disp "+disp);
-			org.concord.waba.extra.util.FFT.realft(dataFFT,dataDim,1);
+			//System.out.println("FFT Ave: "+ave+" disp "+disp);
+			//org.concord.waba.extra.util.FFT.realft(dataFFT,dataDim,1);
 			float []normKoeff = new float[dataDim/2];
 			
 			
@@ -475,7 +475,7 @@ DeviationControl	devControl;
 				if(nk > maxKoeff) maxKoeff = nk;
 			}
 			for(int k = 0; k < normKoeff.length ;k++){
-				System.out.println("index "+k+"; freq: "+(int)(100.0f*normKoeff[k]/maxKoeff+0.5));
+			    //System.out.println("index "+k+"; freq: "+(int)(100.0f*normKoeff[k]/maxKoeff+0.5));
 			}
 		}
 	}

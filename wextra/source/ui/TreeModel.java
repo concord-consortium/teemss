@@ -30,7 +30,6 @@ public class TreeModel
 
     public void insertNodeInto(TreeNode newChild, TreeNode parent, int index)
     {
-	System.out.println("InsertNodeInto");
 	parent.insert(newChild, index);
 	if(listener != null) listener.treeNodeInserted(newChild, parent);
     }
