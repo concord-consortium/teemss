@@ -499,10 +499,11 @@ public final static int END_PATH_LIST = 10002;
 		currPos = in.readInt();
 		temp = in.readInt();
 		if(temp > 0){
-			points = new short[temp];
-		}
-		for(int i = 0; i < points.length;i++){
+		    points = new short[temp];
+		    for(int i = 0; i < points.length;i++){
 			points[i] = in.readShort();
+		    }
+
 		}
 		temp = in.readInt();
 		if(temp == END_PATH_ITEM){
@@ -524,9 +525,9 @@ public final static int END_PATH_LIST = 10002;
 			out.writeInt(0);
 		}else{
 			out.writeInt(points.length);
-		}
-		for(int i = 0; i < points.length; i++){
-			out.writeShort(points[i]);
+			for(int i = 0; i < points.length; i++){
+			    out.writeShort(points[i]);
+			}
 		}
 		if(next != null){
 			out.writeInt(END_PATH_ITEM);

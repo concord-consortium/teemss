@@ -99,6 +99,28 @@ public class TreeControl extends Control implements TreeModelListener
 	g.translate(-1,-1);
     }
 
+    public void setSelected(TreeNode node)
+    {
+	if(selected != null){
+	    selected.selected = false;
+	    selected = null;
+	}
+
+	if(node == null) return;
+	
+	TreeLine line = null;
+	for(int i=0; i < lines.getCount(); i++){
+	    line = (TreeLine)lines.get(i);
+	    if(line.node == node){
+		line.selected = true;
+		selected = line;
+		break;
+	    }
+	}
+
+	repaint();
+    }
+
     public TreeNode getSelected()
     {
 	if(selected == null) return null;
@@ -218,17 +240,8 @@ public class TreeControl extends Control implements TreeModelListener
 	    }
 	}
 
-	if(selected != null) selected.selected  = false;
-	for(i=0; i < lines.getCount(); i++){
-	    line = (TreeLine)lines.get(i);
-	    if(line.node == node){
-		line.selected = true;
-		selected = line;
-		break;
-	    }
-	}
-
-	repaint();
+	// This calls repaint
+	setSelected(node);
     }
 
     public void reparse()
@@ -259,7 +272,7 @@ public class TreeControl extends Control implements TreeModelListener
 		newLine = (TreeLine)(newLines.get(i));
 		for(j=0; j < numLines; j++){
 		    curLine = (TreeLine)(lines.get(j));
-		    if(newLine.node == curLine.node){
+		    if(newLine.node.equals(curLine.node)){
 			if(curLine.selected == true) {
 			    newLine.selected = true;
 			    newSelected = newLine;

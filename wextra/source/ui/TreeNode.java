@@ -23,4 +23,6 @@ public interface TreeNode
     void remove(TreeNode node);
 
     String toString();
+
+    boolean equals(TreeNode node);
 }
