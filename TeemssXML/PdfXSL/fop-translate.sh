@@ -1,6 +1,6 @@
 #! /bin/bash
 
-CLASSPATH=../jars/bsf.jar:../jars/js.jar:../jars/xalan.jar:../jars/xerces.jar
+CLASSPATH=../../jars
 
 for XSL_FILE in investigations.xsl teachernotes.xsl
  do
