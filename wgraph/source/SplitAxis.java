@@ -107,7 +107,6 @@ public class SplitAxis extends Axis
 		// update dispMin for safety
 		getDispMin();
 		startPos = startPos + (int)((newDispMin - dispMin) * scale);
-		System.out.println("SAx: setDispOff: newDispMin: " + newDispMin + " oldDispMin: " + dispMin + " newStartPos: " + startPos);
 		dispMin = newDispMin;
 
 		notifyListeners(ORIGIN_CHANGE);
