@@ -295,22 +295,27 @@ public class CCProbe extends MainView
 										 "Please Wait... saving the LabBook",
 										 "Cancel", Dialog.INFO_DIALOG);
 
-
 				LabBookCatalog lbCat = new LabBookCatalog("_tmp_LabBook_");
 				LabObjectPtr rootPtr = labBook.getRoot();
 				mainSession = rootPtr.getSession();
 
 				LObjDictionary loDict = (LObjDictionary)mainSession.getObj(rootPtr);
+				System.err.println("CCP: starting export");
 				labBook.export(loDict, lbCat);
+				System.err.println("CCP: starting saving");
 				lbCat.save();
+				System.err.println("CCP: starting close");
 				lbCat.close();
+				System.err.println("CCP: starting delete");
+				labBook.delete();
+				File newLabFile = new File("_tmp_LabBook_.PDB", File.DONT_OPEN);
+				File oldLabFile = new File("LabBook.PDB", File.DONT_OPEN);
+				oldLabFile.delete();
+				newLabFile.rename("LabBook.PDB");
+			} else {
+				labBook.close();
 			}
-			labBook.close();
 			labBook = null;			
-			File newLabFile = new File("_tmp_LabBook_.PDB", File.DONT_OPEN);
-			File oldLabFile = new File("LabBook.PDB", File.DONT_OPEN);
-			oldLabFile.delete();
-			newLabFile.rename("LabBook.PDB");
 		}
     }
 
