@@ -242,18 +242,9 @@ public class CCProbe extends MainView
 		if(e.getSource() == file){
 			command = e.getActionCommand();
 			if(command.equals("Exit")){
-				Debug.println("commiting");
-				if(curFullView != null) curFullView.close();
-				else lObjView.close();
-				if(!labBook.commit() ||
-				   !labBook.close()){
-					//error
-				} else {
-					labBook = null;
-					exit(0);
-				}
+				handleQuit();
 			}else if(command.equals(aboutTitle)){
-				Dialog.showAboutDialog(aboutTitle,AboutMessages.getMessage());
+				handleAbout();
 			} else if(command.equals("Serial Port Setup..")){
 				DataExport.showSerialDialog();
 			} else {
