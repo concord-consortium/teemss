@@ -34,7 +34,7 @@ public class Image implements ISurface
 	int width=0;
 	int height=0;
 	int iResID=0;
-	int winHandle=-1;
+	int winHandle=0;
 
 	/**
 	 * Creates an image of the specified width and height. The image has
@@ -48,9 +48,14 @@ public class Image implements ISurface
 		winHandle=Palm.WinCreateOffscreenWindow(width,height,0,new ShortHolder((short)0));
 		if(winHandle == 0) { 
 			// There is no more image memory
-			width = -1;
-			height = -1;
-			winHandle = -1;
+			// try a gc and try again:
+			jump.Runtime.gc();
+			winHandle=Palm.WinCreateOffscreenWindow(width,height,0,new ShortHolder((short)0));
+			if(winHandle == 0){
+				width = -1;
+				height = -1;
+				return;
+			}
 		}
 		int iOldWinHandle=Palm.WinSetDrawWindow(winHandle);
 		Palm.WinPalette(RGBColor.winPaletteSet, 0, Graphics.getPalette().length, 
@@ -147,6 +152,7 @@ public class Image implements ISurface
 	public void setPixels(int bitsPerPixel, int colorMap[], int bytesPerRow,
 						  int numRows, int y, byte pixels[]) 
 	{
+		if(winHandle == 0) return;
 		// Efficient way(maybe):
 		// CreateBmp
 		// BmpBitsSize (returns number of bytes in data)
@@ -303,6 +309,9 @@ public class Image implements ISurface
 				memHandle = Palm.MemHandleNew(20 + 2+ 256*4);
 			}
 
+			// check for out of memory problem
+			if(memHandle == 0) return;
+
 			int memPtr = Palm.MemHandleLock(memHandle);
 
 			// Int16    width
@@ -362,7 +371,7 @@ public class Image implements ISurface
 	 */
 	public void free()
 	{
-		if (winHandle == -1)
+		if (winHandle == 0)
 			return;
 
 		if(this == Graphics.getCurSurface()){
@@ -375,7 +384,9 @@ public class Image implements ISurface
 
 		Palm.WinDeleteWindow(winHandle, false);
 
-		winHandle = -1;
+		winHandle = 0;
+		width = -1;
+		height = -1;
 	}
 
 

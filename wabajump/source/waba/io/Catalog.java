@@ -572,8 +572,19 @@ public boolean setRecordPos(int pos)
 		iRecH=Palm.DmGetRecord(iDmRef, pos);
 	}
    if(iRecH==0){
-       errString = "DmQuery/GetRecord";
-      return false;
+	   // Potentially out of memory
+	   // try a gc and then try again
+	   jump.Runtime.gc();
+	   if(_mode==READ_ONLY){
+		   iRecH=Palm.DmQueryRecord(iDmRef,pos);
+	   } else{
+		   iRecH=Palm.DmGetRecord(iDmRef, pos);
+	   }
+	   if(iRecH == 0){
+		   errString = "DmQuery/GetRecord";
+		   _recordPos = -1;
+		   return false;
+	   }
    }
 
    iRecSize=Palm.MemHandleSize(iRecH);
@@ -615,12 +626,14 @@ private int _readWriteBytes(byte buf[], int start, int count, boolean isRead)
       return -1;
    }
 
-   byte[] bBytes=new byte[count];
+   if(iRecH == 0) return -1;
 
    iRecPtr=Palm.MemHandleLock(iRecH);
    if(iRecPtr==0){
 	   return -1;
    }
+
+   byte[] bBytes=new byte[count];
 
    if(isRead){
      //this next line is counting on a new overloaded MemMove method

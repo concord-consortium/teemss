@@ -130,6 +130,7 @@ public class Graphics
 	{
 		this.surface = surface;
 		iWinHandle=surface.getWinHandle();
+		if(iWinHandle == 0) return;
 
 		setColor(0,0,0);
 
