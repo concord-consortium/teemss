@@ -581,9 +581,7 @@ public boolean setRecordPos(int pos)
 		   iRecH=Palm.DmGetRecord(iDmRef, pos);
 	   }
 	   if(iRecH == 0){
-		   errString = "DmQuery/GetRecord";
-		   _recordPos = -1;
-		   return false;
+		   throw new OutOfMemoryError("catalog setRecordPos");
 	   }
    }
 
@@ -630,7 +628,7 @@ private int _readWriteBytes(byte buf[], int start, int count, boolean isRead)
 
    iRecPtr=Palm.MemHandleLock(iRecH);
    if(iRecPtr==0){
-	   return -1;
+	   throw new OutOfMemoryError("catalog read_write bytes");
    }
 
    if(isRead){
