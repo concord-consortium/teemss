@@ -45,6 +45,10 @@ FTP_FILES=\
 FTP_COMMAND= echo $(IP_ADDRESS); $(patsubst %],% ; , $(FTP_FILES:[%=$(FTP_PRE) %))
 
 first: all
+warp: $(BIN_DIR)/$(MW_CLASS).wrp
+exegen: $(BIN_DIR)/$(MW_CLASS).lnk 
+jump: $(BIN_DIR)/$(MW_CLASS).prc
+jar: $(BIN_DIR)/$(MW_CLASS).jar
 
 main: $(CLASSES_DIR) $(PLATFORMS:%=$(CLASSES_DIR)/%)
 ifeq ($(PLATFORMS),)
@@ -67,21 +71,28 @@ $(PLATFORMS:%=$(CLASSES_DIR)/%): $(CLASSES_DIR)/% : source/*.java $(wildcard sou
 $(BIN_DIR) $(WJUMP_DIR):
 	mkdir $@
 
-warp: $(BIN_DIR) $(CLASSES_DIR)/$(WARP_PLATFORM)
-	cd $(CLASSES_DIR)/$(WARP_PLATFORM); java \
--classpath .:$(call PLATFORM_CP,$(WARP_PLATFORM)):$(WEXTRA_CLASSES-ce):$(WEXTRA_CLASSES-other) \
-wababin.Warp c ../../$(BIN_DIR)/$(MW_CLASS) $(MW_CLASS).class
+$(BIN_DIR)/$(MW_CLASS).wrp: $(BIN_DIR) $(CLASSES_DIR)/$(WARP_PLATFORM)
+	java -classpath $(CLASSES_DIR)/$(WARP_PLATFORM):$(call PLATFORM_CP,$(WARP_PLATFORM)):$(WEXTRA_CLASSES-ce):$(WEXTRA_CLASSES-other) \
+wababin.Warp c $(MW_CLASS) $(MW_CLASS).class
+	mv $(MW_CLASS).wrp $(BIN_DIR)
+	rm $(MW_CLASS).pdb
 
-exegen: $(BIN_DIR) 
-	cd $(CLASSES_DIR); java -classpath $(CLASSPATH):$(WEXTRAS_DIR) wababin.Exegen /l $(EXE_CLASS_HEAP_SIZE) /m $(EXE_OBJ_HEAP_SIZE) /s 5000 /t 50 $(MW_CLASS) $(MW_CLASS) $(MW_CLASS); mv $(MW_CLASS).lnk ../bin
+$(BIN_DIR)/$(MW_CLASS).lnk: $(BIN_DIR) Makefile
+	java -classpath $(CLASSPATH):$(WEXTRAS_DIR) wababin.Exegen /l $(EXE_CLASS_HEAP_SIZE) /m $(EXE_OBJ_HEAP_SIZE) /s 5000 /t 50 $(MW_CLASS) $(MW_CLASS) $(MW_CLASS)
+	mv $(MW_CLASS).lnk $(BIN_DIR)
+	rm $(MW_CLASS).prc
 
-jump: $(BIN_DIR) $(CLASSES_DIR)/$(JUMP_PLATFORM)
-	cd $(WJUMP_DIR);pilrc -R $(MW_CLASS).res $(MW_CLASS).rcp
-	cd $(WJUMP_DIR);java -classpath $(JUMP_JAR):$(call PLATFORM_CP,palm):$(call COMPILE_CP,palm):../$(CLASSES_DIR)/$(JUMP_PLATFORM) \
- 	   Jump -mw $(MW_CLASS) 
+$(BIN_DIR)/$(MW_CLASS).prc: $(BIN_DIR) $(WJUMP_DIR)/$(MW_CLASS).asm $(WJUMP_DIR)/$(MW_CLASS).res 
 	cd $(WJUMP_DIR); pila $(MW_CLASS).asm
 	mv $(WJUMP_DIR)/$(MW_CLASS).prc $(BIN_DIR)
-	cd $(WJUMP_DIR);rm *.res *.asm *.bin
+
+$(WJUMP_DIR)/$(MW_CLASS).asm: $(CLASSES_DIR)/$(JUMP_PLATFORM)
+	cd $(WJUMP_DIR);java -classpath \
+$(JUMP_JAR):$(call PLATFORM_CP,palm):$(call COMPILE_CP,palm):../$(CLASSES_DIR)/$(JUMP_PLATFORM) \
+Jump -mw $(MW_CLASS) 
+
+$(WJUMP_DIR)/$(MW_CLASS).res: $(WJUMP_DIR)/$(MW_CLASS).rcp
+	cd $(WJUMP_DIR);pilrc -R $(MW_CLASS).res $(MW_CLASS).rcp
 
 empty=
 space= $(empty) $(empty)
@@ -91,18 +102,12 @@ replace_space = $(subst $(space),$(fill),$(strip $(1)))
 foreach_array = $(foreach element, $(subst ;,$(space),$(call replace_space, $(1))), \
 $(call $(2), $(subst $(fill),$(space),$(element))))
 
-command = echo start $(subst $(space), inside ,$(strip $(1))) ending;
 test: 
 	echo $$PILAINC
-	$(call foreach_array, $(array), command)
 
-jar_command=cd $(subst $(space),;jar c0vf $(CURDIR)/$(BIN_DIR)/$(MW_CLASS).jar ,$(strip $(1)));
-
-
-# JAR_LIST:= $(WABA_DIR) .; $(WEXTRA_CLASSES-) .; $(JAR_LIST)
-# this might need to have it's classpath twiddled with
-jar: $(BIN_DIR) $(CLASSES_DIR)/$(JAR_BUILD)
-	cd $(CLASSES_DIR)/$(JAR_BUILD); jar c0vf ../../$(BIN_DIR)/$(MW_CLASS).jar $(EXT_FILES) *.class -C $(WABA_DIR) waba/ -C $(WEXTRA_CLASSES-) org/ -C $(WEXTRA_CLASSES-) wababin/ -C $(WEXTRA_CLASSES-) extra/ \
+$(BIN_DIR)/$(MW_CLASS).jar: $(BIN_DIR) $(CLASSES_DIR)/$(JAR_BUILD)
+	cd $(CLASSES_DIR)/$(JAR_BUILD); jar c0vf ../../$(BIN_DIR)/$(MW_CLASS).jar $(EXT_FILES) *.class \
+-C $(WABA_DIR) waba/ -C $(WEXTRA_CLASSES-) org/ -C $(WEXTRA_CLASSES-) extra/ \
 $(JAR_LIST)
 
 ftp: get-clients
