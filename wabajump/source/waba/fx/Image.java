@@ -134,7 +134,41 @@ private native void _nativeLoad(String path);*/
  * @param pixels array containing the source pixels
  */
 public void setPixels(int bitsPerPixel, int colorMap[], int bytesPerRow,
-	int numRows, int y, byte pixels[]) {}
+	int numRows, int y, byte pixels[]) 
+{
+    // Efficient way(maybe):
+    // CreateBmp
+    // BmpBitsSize (returns number of bytes in data)
+    // BmpGetBits (returns data)
+    // Set bmp palette
+    // CreateBmpWin
+    // WinDrawLine ...
+    // WinCopyRect
+    // DestroyWin
+    // DestroyBmp
+
+    int j;
+    int curCol =0;
+    Graphics g = new Graphics(this, 256);
+    int lineOffset = 0;
+    int mask = 0xFF >> (8 - bitsPerPixel);
+    int colorIndex;
+    int pixPtr;
+    for(int i = 0; i < numRows && (i + y) < height; i++){
+	pixPtr = 0;
+	while(pixPtr < width && pixPtr*bitsPerPixel/8 < bytesPerRow){
+	    colorIndex = (pixels[lineOffset + pixPtr*bitsPerPixel/8] >>> 
+			  (8 - ((pixPtr*bitsPerPixel)%8 + bitsPerPixel))) & mask;
+	    curCol = colorMap[colorIndex];
+	    g.setColor((curCol >> 16) & 0xFF, (curCol >> 8) & 0xFF, curCol & 0xFF);
+	    g.drawLine(pixPtr, y+i, pixPtr, y+i);
+	    pixPtr++;
+	}
+	lineOffset += bytesPerRow;
+    }
+    
+
+}
 
 
 /**
