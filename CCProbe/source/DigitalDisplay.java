@@ -149,7 +149,11 @@ public class DigitalDisplay extends Container
 				fc.setPrecision(fc.getExponent() - 3);
 			}
 			
-			((LabelBuf)disps.get(i)).setText(fc.getString(fc.getExponent()/3*3));
+			if(fc.getExponent() >= 0){
+				((LabelBuf)disps.get(i)).setText(fc.getString(fc.getExponent()/3*3));
+			} else {
+				((LabelBuf)disps.get(i)).setText(fc.getString((fc.getExponent()-2)/3*3));
+			}
 		}
     }
 }
