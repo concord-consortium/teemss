@@ -34,7 +34,7 @@ public class LObjDataCollectorView extends LabObjectView
     String title1 = "";
 	String  title2 = "";
 
-	String [] fileStrings = {"Save Data..", "Export Data.."};
+	String [] fileStrings = {"Beam", "Save Data..", "Export Data.."};
 	String [] palmFileStrings = {"Save Data.."};
 
     public LObjDataCollectorView(ViewContainer vc, LObjDataCollector dc, 

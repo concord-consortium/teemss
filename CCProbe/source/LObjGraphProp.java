@@ -17,6 +17,7 @@ public class LObjGraphProp extends LabObjectView
     PropertyDialog pDialog = null;
     PropContainer props = null;
 	PropObject propTitle;
+	PropObject propDataSources;
     PropObject propXmin;
     PropObject propXmax;
 	PropObject propXlabel;
@@ -56,6 +57,8 @@ public class LObjGraphProp extends LabObjectView
 		propView.setRect(0,0,width,height);
 	}
 
+	String [] dsStrings = null;
+
 	public void setupProperties()
 	{
 		GraphSettings curGS = graph.getCurGraphSettings();
@@ -69,24 +72,33 @@ public class LObjGraphProp extends LabObjectView
 		if(graph.autoTitle)  propTitle = new PropObject("Title", "*" + graph.title);
 		else propTitle = new PropObject("Title", graph.title);
 		propTitle.prefWidth = 100;
+		dsStrings = new String [graph.numDataSources];
+		for(int i=0; i<graph.numDataSources; i++){
+			DataSource ds = graph.getDataSource(i);
+			if(ds instanceof LabObject){
+				dsStrings[i] = ((LabObject)ds).name;
+			}
+		}
+		propDataSources = new PropObject("Data", dsStrings);
+		propDataSources.prefWidth = 100;
+		props.addProperty(propTitle, "Graph");
+		props.addProperty(propDataSources, "Graph");
+		PropContainer pc = props.getPropertiesContainer(0);
+		pc.addButton("Settings");
 
 		propXmin = new PropObject("Min", curGS.xmin + "");
 		propXmax = new PropObject("Max", curGS.xmax + "");
 		propXlabel = new PropObject("Label", curGS.xLabel);
 		propXlabel.prefWidth = 100;
-		propYmin = new PropObject("Min", curGS.ymin + "");
-		propYmax = new PropObject("Max", curGS.ymax + "");
-
-		if(graph.autoTitle) propYlabel = new PropObject("Label", "*" + curGS.yLabel);
-		else propYlabel = new PropObject("Label", curGS.yLabel);
-		propYlabel.prefWidth = 100;
-
-		props.addProperty(propTitle, "Graph");
-
 		props.addProperty(propXmax, "XAxis");
 		props.addProperty(propXmin, "XAxis");
 		props.addProperty(propXlabel, "XAxis");
 
+		propYmin = new PropObject("Min", curGS.ymin + "");
+		propYmax = new PropObject("Max", curGS.ymax + "");
+		if(graph.autoTitle) propYlabel = new PropObject("Label", "*" + curGS.yLabel);
+		else propYlabel = new PropObject("Label", curGS.yLabel);
+		propYlabel.prefWidth = 100;
 		props.addProperty(propYmax, "YAxis");
 		props.addProperty(propYmin, "YAxis");
 		props.addProperty(propYlabel, "YAxis");
@@ -128,6 +140,21 @@ public class LObjGraphProp extends LabObjectView
 			}
 			
 			graph.notifyObjListeners(new LabObjEvent(graph, 0));
+		} else if(e.getActionCommand().equals("Settings")){
+			// This should be an index for safety
+			String dataSourceName = propDataSources.getValue();
+			if(dsStrings != null){
+				for(int i=0; i<dsStrings.length; i++){
+					if(dsStrings[i].equals(dataSourceName)){
+						DataSource selDS = graph.getDataSource(i);
+						if(selDS instanceof LObjProbeDataSource){
+							LObjProbeDataSource pds = (LObjProbeDataSource)selDS;
+							pds.showProp();
+						}
+						return;
+					}
+				}
+			}
 		} else {
 			// this is a cancel or close
 			if(container != null){

@@ -55,7 +55,7 @@ public class LObjDataCollectorProp extends LabObjectView
 
 		numDCs = new Edit();
 		numDCs.setText("1");
-		add(numDCs);
+		//		add(numDCs);
 
 		if(showDone){
 			doneButton = new Button("Done");
