@@ -32,6 +32,11 @@ public class LObjAnnotation extends LObjSubDict
 		binIndex = bIndex;
 	}
 
+    public LabObjectView getPropertyView(ViewContainer vc,LObjDictionary curDict)
+	{
+		return new AnnotationProp(vc, this);
+    }
+
 	public void addToBin(Bin b)
 	{
 		annot = b.addAnnot(label, time);
@@ -41,6 +46,34 @@ public class LObjAnnotation extends LObjSubDict
 	{
 		if(annot != null) return annot;
 		return null;
+	}
+	
+	public void setLabel(String label)
+	{
+		if(annot != null){
+			annot.label = label;
+			// need to notify bin/graph somehow
+		} else {
+			this.label = label;
+		}
+	}
+
+	public String getLabel()
+	{
+		if(annot != null) return annot.label;
+		else return label;
+	}
+
+	public float getTime()
+	{
+		if(annot != null) return annot.time;
+		else return time;
+	}
+
+	public float getValue()
+	{
+		if(annot != null) return annot.value;
+		else return value;
 	}
 
     public void readExternal(DataStream ds)
@@ -55,15 +88,9 @@ public class LObjAnnotation extends LObjSubDict
     public void writeExternal(DataStream ds)
     {
 		super.writeExternal(ds);
-		if(annot != null){
-			ds.writeString(annot.label);
-			ds.writeFloat(annot.time);
-			ds.writeFloat(annot.value);
-		} else {
-			ds.writeString(label);
-			ds.writeFloat(time);
-			ds.writeFloat(value);
-		}
+		ds.writeString(getLabel());
+		ds.writeFloat(getTime());
+		ds.writeFloat(getValue());
 		ds.writeInt(binIndex);
     }
 

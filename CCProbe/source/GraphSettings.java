@@ -48,11 +48,27 @@ public class GraphSettings
 		dsIndex = dataSourceIndex;
 	}
 
+	public GraphSettings(LObjGraph g, int dataSourceIndex, int lX, int lY)
+	{
+		this(g, dataSourceIndex);
+
+		linkX = lX;
+		xaxis = (SplitAxis)graph.getXAxis(linkX);
+		
+		linkY = lY;
+		yaxis = (ColorAxis)graph.getYAxis(linkY);				
+
+		if(graph != null && ds == null && dsIndex >= 0){
+			ds = graph.getDataSource(dsIndex);
+		}
+	}
+
 	public void init(LObjGraphView gv)
 	{
 		this.gv = gv;
+
 		xaxis = (SplitAxis)graph.getXAxis(linkX);
-		yaxis = (ColorAxis)graph.getYAxis(linkY);
+		yaxis = (ColorAxis)graph.getYAxis(linkY);		
 
 		if(xaxis == null || yaxis == null){
 			return;
@@ -77,12 +93,33 @@ public class GraphSettings
 
 		// Is this necessary???
 		setYUnit(ds.getUnit());
+	   
+		xUnit = xaxis.getUnit();
+		
+		// update the yaxis label just to be safe
+		if(getYAuto()){
+
+			// need to set the ylabel to it's auto name
+			if(ds != null){
+				yLabel = ds.getLabel();
+			} else {
+				yLabel = "null DS";
+			}
+			yaxis.setAxisLabel(yLabel, yUnit);
+		}
+
+		// update the xaxis label just to be safe
+		if(getXAuto()){
+			xLabel = "Time";
+			xaxis.setAxisLabel(xLabel, xUnit);
+		}
+
 		if(graph != null && 
 		   graph.autoTitle){
-			setYLabel(ds.getLabel());
 			graph.title = ds.getSummary();
 			graph.notifyObjListeners(new LabObjEvent(graph, 0));
 		}
+
 		// might need to do a notify here
 
 	}
@@ -117,32 +154,67 @@ public class GraphSettings
 
 		ds = null;
 
+		
 		// might also need to remove our selves from 
 		// listening to the axis if we are doing that
 	}
 
+	// This needs to be fixed
+	public float getXMin(){return xaxis.getDispMin();}
+	public float getXMax(){return xaxis.getDispMax();}
 	public void setXValues(float min, float max)
 	{
 		if(xaxis != null) xaxis.setRange(min, max-min);
 	}
 
+	public float getYMin(){return yaxis.dispMin;} 
+	public float getYMax(){return yaxis.getDispMax();}
 	public void setYValues(float min, float max)
 	{
 		if(yaxis != null) yaxis.setRange(min, max-min);
 	}
 
+	public String getXLabel(){ return xaxis.getLabel();}
 	public void setXLabel(String label)
 	{
+		if(getXAuto()){ return; }
 		xLabel = label;
 		if(xaxis != null) xaxis.setAxisLabel(xLabel, xUnit);
 	}
 
+	public String getYLabel(){ return yaxis.getLabel();}
 	public void setYLabel(String label)
 	{
+		if(getYAuto()){ return; }
 		yLabel = label;
 		if(yaxis != null) yaxis.setAxisLabel(yLabel, yUnit);
 	}
 
+	public boolean getYAuto(){ return yaxis.autoLabel;}
+	public void setYAuto(boolean flag)
+	{
+		if(flag){
+			// need to set the ylabel to it's auto name
+			if(ds != null){
+				setYLabel(ds.getLabel());
+			} else {
+				setYLabel("null DS");
+			}
+		}
+		yaxis.autoLabel = flag;
+	}
+
+	public boolean getXAuto(){ return xaxis.autoLabel;}
+	public void setXAuto(boolean flag)
+	{
+		if(flag){
+			// need to set the xlabel to it's auto name
+			setXLabel("Time");
+		}
+		xaxis.autoLabel = flag;
+	}
+
+	
 	public void setYUnit(CCUnit unit)
 	{
 		// Probably want to check if this a valid switch
@@ -174,19 +246,6 @@ public class GraphSettings
 		}
 	}
 
-	public String getYLabel()
-	{
-		if(graph.autoTitle) return "*" + yaxis.getLabel();
-		else return yaxis.getLabel();
-	}
-
-	public float getYMin(){return yaxis.dispMin;}
-	public float getYMax(){return yaxis.getDispMax();}
-
-	public String getXLabel(){ return xaxis.getLabel();}
-	// This needs to be fixed
-	public float getXMin(){return xaxis.getDispMin();}
-	public float getXMax(){return xaxis.getDispMax();}
 
 	// The last x axis should always be empty
 	// when this function is called
@@ -201,7 +260,7 @@ public class GraphSettings
 				// or the curBin is linked to an old xaxis
 				if(curBin != null){
 					// This should also pass in the old axis
-					xaxis.setAxisEndPoint(curBin.xaxis, curBin.maxX);
+					xaxis.setAxisEndPoint(curBin.xaxis, curBin.getCurX());
 				}
 				curBin = new Bin(xaxis.lastAxis, yaxis);
 			} else if(curBin.getNumVals() <= 0 && curBin.xaxis != xaxis.lastAxis){
@@ -236,7 +295,7 @@ public class GraphSettings
 		if(needDSStop) ds.stopDataDelivery();
 		if(curBin == null) return;
 
-		if(curBin.maxX < 0 || curBin.getNumVals() < 3){
+		if(curBin.getCurX() < 0 || curBin.getNumVals() < 3){
 			// Save this bin and xaxis for the next time
 			curBin.reset();
 			// remove this bin because it hasn't been used yet
@@ -259,11 +318,13 @@ public class GraphSettings
 		// by the LineGraph
 		xaxis.reset();
 
+		annots = null;
 		if(curBin != null){
 			// This is a hack need to figure out
 			// about reseting the curBin
+			gv.clear(curBin);
 			curBin.reset();
-		}
+		} 
 
 		// Don't free the last bin
 		for(int i=0 ; i < bins.getCount()-1; i++){
@@ -305,21 +366,54 @@ public class GraphSettings
 		}
     }
 
+	public void delAnnot(Annotation a)
+	{
+		for(int i=0; i<annots.getCount(); i++){
+			LObjAnnotation lObjA = (LObjAnnotation)annots.get(i);
+			if(lObjA.getAnnot() == a){
+				annots.del(i);
+			}
+		}
+	}
+
+	public LObjAnnotation findAnnot(Annotation a)
+	{
+		int index;
+		for(int i=0; i<annots.getCount(); i++){
+			LObjAnnotation lObjA = (LObjAnnotation)annots.get(i);
+			if(lObjA.getAnnot() == a){
+				return lObjA;
+			}
+		}
+		return null;
+	}
+
 	public void actionPerformed(ActionEvent annotEvent)
 	{
 		Object obj = annotEvent.getSource();
 		if(obj instanceof Bin){
-			if(annotEvent.type == Bin.ANNOT_ADDED){
-				int index = bins.find(obj);
-				if(index < 0) return;
-				Bin b = (Bin)obj;
-				Annotation a = b.getCurAnnot();
+			int bIndex = bins.find(obj);
+			if(bIndex < 0 || annots == null) return;
+			Bin b = (Bin)obj;
+			Annotation a = b.getCurAnnot();
+			int aIndex;
+
+			switch(annotEvent.type){
+			case Bin.ANNOT_ADDED:
 				LObjAnnotation lObjA = DataObjFactory.createAnnotation();
 				// watch out for this
-				lObjA.setup(a, null, index);
+				lObjA.setup(a, null, bIndex);
 				annots.add(lObjA);		
-
-				if(gv != null) gv.annotAdded(a);
+				break;
+			case Bin.ANNOT_DELETED:				
+				delAnnot(a);
+				break;
+			case Bin.ANNOTS_CLEARED:
+				Vector binAnnots = b.annots;
+				for(int i=0; i<binAnnots.getCount(); i++){
+					delAnnot((Annotation)binAnnots.get(i));
+				}
+				break;
 			} 
 		}
 	}

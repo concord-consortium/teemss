@@ -102,12 +102,10 @@ public class LObjGraphProp extends LabObjectView
 				}
 			}
 			
-			if(graph.autoTitle)  propTitle = new PropObject("Title", "*" + graph.title);
-			else propTitle = new PropObject("Title", graph.title);
+			propTitle = new PropObject("Title", graph.title);
 			propTitle.prefWidth = 120;
 
-			propAutoTitle = new PropObject("Auto");
-			propAutoTitle.setType(PropObject.CHECK);
+			propAutoTitle = new PropObject("Auto", graph.autoTitle);
 			
 			propsGraph.addProperty(propDataSources);
 			if(propVisibleSources != null) propsGraph.addProperty(propVisibleSources);
@@ -118,8 +116,7 @@ public class LObjGraphProp extends LabObjectView
 			propXmax = new PropObject("Max", curGS.getXMax() + "");
 			propXlabel = new PropObject("Label", curGS.getXLabel());
 			propXlabel.prefWidth = 100;
-			propAutoXlabel = new PropObject("Auto");
-			propAutoXlabel.setType(PropObject.CHECK);
+			propAutoXlabel = new PropObject("Auto", curGS.getXAuto());
 
 			propsXAxis.addProperty(propXmax);
 			propsXAxis.addProperty(propXmin);
@@ -130,8 +127,7 @@ public class LObjGraphProp extends LabObjectView
 			propYmax = new PropObject("Max", curGS.getYMax() + "");
 
 			propYlabel = new PropObject("Label", curGS.getYLabel());
-			propAutoYlabel = new PropObject("Auto");
-			propAutoYlabel.setType(PropObject.CHECK);
+			propAutoYlabel = new PropObject("Auto", curGS.getYAuto());
 
 			propYlabel.prefWidth = 100;
 			propsYAxis.addProperty(propYmax);
@@ -139,9 +135,8 @@ public class LObjGraphProp extends LabObjectView
 			propsYAxis.addProperty(propYlabel);
 			propsYAxis.addProperty(propAutoYlabel);
 		} else {
-			if(graph.autoTitle)  propTitle.setValue("*" + graph.title);
-			else propTitle.setValue(graph.title);
-
+			propAutoTitle.setChecked(graph.autoTitle);
+			propTitle.setValue(graph.title);
 			propDataSources.setValue(dsStrings[graph.getCurGraphSettings().dsIndex]);
 			
 			if(propVisibleSources != null){
@@ -153,10 +148,12 @@ public class LObjGraphProp extends LabObjectView
 			propXmin.setValue(curGS.getXMin() + "");
 			propXmax.setValue(curGS.getXMax() + "");
 			propXlabel.setValue(curGS.getXLabel());
+			propAutoXlabel.setChecked(curGS.getXAuto());
 
 			propYmin.setValue(curGS.getYMin() + "");
 			propYmax.setValue(curGS.getYMax() + "");
 			propYlabel.setValue("*" + curGS.getYLabel());
+			propAutoYlabel.setChecked(curGS.getYAuto());
 		}
 	}
 
@@ -177,11 +174,12 @@ public class LObjGraphProp extends LabObjectView
 			curGS.setXValues(propXmin.getFValue(), propXmax.getFValue());
 			curGS.setYValues(propYmin.getFValue(), propYmax.getFValue());
 			
+			curGS.setXAuto(propAutoXlabel.getChecked());
 			curGS.setXLabel(propXlabel.getValue());
-		   
-			String newTitle = propTitle.getValue();
-			String newYLabel = propYlabel.getValue();
 
+			curGS.setYAuto(propAutoYlabel.getChecked());
+			curGS.setYLabel(propYlabel.getValue());
+		   
 			if(propVisibleSources != null){
 				String [] dsNames = propVisibleSources.getPossibleValues();
 				for(int i=0; i<dsNames.length; i++){
@@ -189,25 +187,15 @@ public class LObjGraphProp extends LabObjectView
 				}
 			}
 
-			if(!graph.autoTitle && 
-			   ((newTitle.length() > 0 && 
-				 newTitle.charAt(0) == '*') ||
-				(newYLabel.length() > 0 &&
-				 newYLabel.charAt(0) == '*'))){
-				graph.autoTitle = true;
+			// This should be cleaned up
+			boolean autoTitle = propAutoTitle.getChecked();
+			if(autoTitle){
 				graph.name = "..auto_title..";
-			} else if(graph.autoTitle && 
-			   ((newTitle.length() > 0 && 
-				 newTitle.charAt(0) != '*') ||
-				(newYLabel.length() > 0 &&
-				 newYLabel.charAt(0) != '*'))){
-				graph.autoTitle = false;
+				graph.autoTitle = true;
+			} else {
 				graph.name = "Graph";
-			}
-
-			if(!graph.autoTitle){
-				graph.title = newTitle;
-				curGS.setYLabel(newYLabel);
+				graph.autoTitle = false;
+				graph.title = propTitle.getValue();
 			}
 			
 			graph.notifyObjListeners(new LabObjEvent(graph, 0));

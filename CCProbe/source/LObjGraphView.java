@@ -58,6 +58,11 @@ public class LObjGraphView extends LabObjectView
 	String [] fileStrings = {"Save Data..", "Export Data.."};
 	String [] palmFileStrings = {"Save Data.."};
 
+	public static String TOOL_DEL_MARK_NAME = "Delete Mark";
+	public static String TOOL_ZOOM_SELECT_NAME =  "Zoom";
+	public static String TOOL_AUTO_ZOOM_NAME = "Auto Resize";
+	public static String TOOL_ANNOT_MARK_NAME = "Annotate Mark";
+
     public LObjGraphView(ViewContainer vc, LObjGraph g, LObjDictionary curDict)
     {
 		super(vc);
@@ -178,7 +183,7 @@ public class LObjGraphView extends LabObjectView
 
 		addMark = new Button("Mark");
 
-		String [] toolsChoices = {"Delete Mark", "Toggle Scrolling", "Auto Resize", "Zoom"};
+		String [] toolsChoices = {TOOL_DEL_MARK_NAME, "Toggle Scrolling", TOOL_AUTO_ZOOM_NAME, TOOL_ZOOM_SELECT_NAME};
 		toolsChoice = new Choice(toolsChoices);
 		toolsChoice.setName("Tools");
 		add(toolsChoice);
@@ -315,17 +320,6 @@ public class LObjGraphView extends LabObjectView
 		super.close();
     }
 
-	// I don't know if this should be here
-	// I guess this is now leaning towards the removal
-	// of the AnnotView and replacing it with just
-	// this GraphView
-	public void annotAdded(Annotation a)
-	{
-		// Add bar to bargraph
-		// FIXME: this won't work right if the graph is running
-		av.bGraph.addBar(av.bGraph.numBars, a);
-	}
-
 	int numStarted = 0;
 	public void startGraph(Bin curBin)
 	{
@@ -348,7 +342,7 @@ public class LObjGraphView extends LabObjectView
 	{
 		numStarted--;
 
-		av.removeBin(curBin);
+		av.closeBin(curBin);
 		dd.removeBin(curBin);
 
 		if(numStarted == 0){
@@ -359,7 +353,7 @@ public class LObjGraphView extends LabObjectView
 		av.update();
 	}
 
-	public void clear(Object cookie, Bin curBin)
+	public void clear(Bin curBin)
 	{
 		av.removeBin(curBin);
 		dd.removeBin(curBin);		
@@ -388,47 +382,30 @@ public class LObjGraphView extends LabObjectView
 		} else if(e.target == addMark &&
 				  e.type == ControlEvent.PRESSED){
 			av.addAnnot();
+		} else if(e.type == 1008){
+			System.out.println("LOGV: got 1008");
+			// annotation selection change event
+			Annotation selAnnot = av.getSelectedAnnot();
+			// might need to remove the current probe bin to save space
+			if(curAnnot != selAnnot){
+				dd.removeBin(curAnnot);
+			}
+
+			curAnnot = selAnnot;
+
+			if(curAnnot != null){
+				timeBin.setValue(selAnnot.time);
+				dd.addBin(curAnnot);
+			}
+				
+			dd.update();
 		} else if(e.type == 1003){
-			if(av.lgView.selAnnot != null){
-				timeBin.setValue(av.lgView.selAnnot.time);
-				// need to make sure lg.lgView.selAnnot has been added to dd
-				if(curAnnot == null){
-					// might need to remove the curBin to save space
-					curAnnot = av.lgView.selAnnot;
-					dd.addBin(curAnnot);
-				} else if(curAnnot != av.lgView.selAnnot){
-					dd.removeBin(curAnnot);
-					curAnnot = av.lgView.selAnnot;
-					dd.addBin(curAnnot);
-				}
-
-				dd.update();
-
-				// curVal.setText(convertor.fToString(lg.lgView.selAnnot.value) + units);
-				// curTime.setText(convertor.fToString() + "s");
-			} else {
-				// hack
-				// Need to remove annot bin from dd
-				// set value of timeBin to last time
-				if(curAnnot != null){
-					dd.removeBin(curAnnot);
-					curAnnot = null;
-				}
-				dd.update();
-		
-				// curVal.setText("");
-				// curTime.setText("");
-			}		
+			// annotation dragged event
+			dd.update();
 		} else if(e.type == 1004){
 			graph.showAxisProp(2);
 		} else if(e.type == 1005){
 			graph.showAxisProp(1);
-		} else if(e.type == 1006){
-			// really this shouldn't be necessay
-			// the graph settings can listen to the axis
-		} else if(e.type == 1007){
-			// Annotation has been held down
-			// we should popup the property dialog for the Annotation
 		}else if(e.target == viewChoice){
 			if(e.type == ControlEvent.PRESSED){
 				int index = viewChoice.getSelectedIndex();
@@ -449,12 +426,8 @@ public class LObjGraphView extends LabObjectView
 			}
 		} else if(e.target == toolsChoice){
 			if(e.type == ControlEvent.PRESSED){
-				int index = toolsChoice.getSelectedIndex();
-				switch(index){
-				case 0:
-				case 1:
-					break;
-				case 2:
+				String toolName  = toolsChoice.getSelected();
+				if(toolName.equals(TOOL_AUTO_ZOOM_NAME)){
 					GraphSettings gs = graph.getCurGraphSettings();
 					if(gs.calcVisibleRange()){
 						float margin = (gs.maxVisY - gs.minVisY)*0.1f;
@@ -476,10 +449,14 @@ public class LObjGraphView extends LabObjectView
 						gs.setYValues(ymin, ymax);
 						av.update();
 					}
-					break;
-				case 3:
+				} else if(toolName.equals(TOOL_ZOOM_SELECT_NAME)){
 					av.lgView.zoomSelect();
-					break;
+				} else if(toolName.equals(TOOL_DEL_MARK_NAME)){
+					av.delAnnot(av.getSelectedAnnot());
+				} else if(toolName.equals(TOOL_ANNOT_MARK_NAME)){
+					Annotation a = av.getSelectedAnnot();
+					GraphSettings gs = graph.getCurGraphSettings();
+					LObjAnnotation lObjA = gs.findAnnot(a);
 				}
 			}
 		}else if(e.target == clear &&

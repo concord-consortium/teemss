@@ -145,25 +145,21 @@ public class LObjGraph extends LObjSubDict
 		}
 
 		if(newSettings){
-			GraphSettings gs = new GraphSettings(this, numDataSources);
-			Axis xaxis = getXAxis(linkX);
-			if(xaxis != null){
-				xaxis.setAxisLabel("Time", CCUnit.getUnit(CCUnit.UNIT_CODE_S));
-			}
+			GraphSettings gs = new GraphSettings(this, numDataSources, linkX, linkY);
+			gs.setXAuto(true);
+			gs.setXUnit(CCUnit.getUnit(CCUnit.UNIT_CODE_S));
 			
-			Axis yaxis = getYAxis(linkY);
-			if(yaxis != null){
-				//			if(ds instanceof DataSource){
-				yaxis.setAxisLabel(ds.getLabel(), ds.getUnit());
-			}
+			gs.setYAuto(true);
+			gs.setYUnit(ds.getUnit());
+
 			title = ds.getSummary();
 
-			gs.linkX = linkX;
-			gs.linkY = linkY;
 			graphSettings.add(gs);
+			gs.close();
 		} else if(graphSettings.getCount() > numDataSources){
 			GraphSettings gs = (GraphSettings)graphSettings.get(numDataSources);
 			gs.dsIndex = numDataSources;
+			gs.ds = null;
 		}
 		numDataSources++;
 	}
