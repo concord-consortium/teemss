@@ -127,6 +127,8 @@ public class LabBookCatalog
     
 	cat.skipBytes(4);
 	ds.writeInt(nextObjId);
+	ds.writeInt(rootDevId);
+	ds.writeInt(rootObjId);
 
 	cat.setRecordPos(-1);
 
@@ -258,9 +260,11 @@ public class LabBookCatalog
 	} else {
 	    objIndex = new int [3];
 	    
-	    cat.addRecord(12);
+	    cat.addRecord(20);
 	    ds.writeInt(curDevId);
 	    ds.writeInt(nextObjId);
+	    ds.writeInt(rootDevId);
+	    ds.writeInt(rootObjId);
 	    ds.writeInt(0);
 	}
 
@@ -275,9 +279,9 @@ public class LabBookCatalog
 	int objPos = objIndex.length - 3;
 
 	if(!cat.setRecordPos(0)) return false;
-	cat.resizeRecord(cat.getRecordSize() + 12);
+	cat.resizeRecord(cat.getRecordSize() + 20);
 
-	cat.skipBytes(8);
+	cat.skipBytes(16);
 	ds.writeInt(objIndex.length / 3);
 	cat.skipBytes(objPos*4);
 

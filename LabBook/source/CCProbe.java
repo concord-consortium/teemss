@@ -55,7 +55,7 @@ public class CCProbe extends ExtraMainWindow
 	    graph.LargeFloatArray.MaxNumChunks = 4;
 	    lbDB = new LabBookCatalog("LabBook");
 	} else {
-	    lbDB = new LabBookFile("LabBook");
+	    lbDB = new LabBookCatalog("LabBook");
 	}
 
 	if(lbDB.getError()){
