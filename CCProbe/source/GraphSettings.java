@@ -95,9 +95,9 @@ public class GraphSettings
 
 		// Is this necessary???
 		setYUnit(ds.getUnit());
-	   
-		xUnit = xaxis.getUnit();
 		
+		xUnit = xaxis.getUnit();
+
 		// update the yaxis labels just to be safe
 		updateAxis();
 

@@ -117,7 +117,7 @@ public class CCProbe extends ExtraMainWindow
 		loDict = (LObjDictionary)labBook.load(labBook.getRoot());
 		if(loDict == null){
 			loDict = DefaultFactory.createDictionary();
-			loDict.setName("Root");
+			loDict.setName("Home");
 			labBook.store(loDict);
 
 		}
