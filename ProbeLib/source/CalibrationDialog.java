@@ -200,52 +200,6 @@ DeviationControl	devControl;
 			}
 			
  		}
-/*
-		waba.util.Vector prop = propContainer.getProperties(currContainer);
-		if(prop == null) return;
-		int nProperties = prop.getCount();
- 		if(propertiesPanes[currContainer] == null){
-			propertiesPanes[currContainer] = new Container();
-			int pHeight = contentRect.height - (25 + bHeight);
-			int pWidth = contentRect.width - 2*widthBorder;
-			propertiesPanes[currContainer].setRect(widthBorder,20, pWidth ,pHeight);
-			int y0 = pHeight / 2  - (nProperties * 20) / 2;
-			if (y0 < 0) y0 = 0;
-			int x0 = 5;
-			for(int i = 0; i < nProperties; i++){
-				PropObject po = (PropObject)prop.get(i);
-				String name = po.getName();
-				String value = po.getValue();
-				waba.ui.Label lName = new waba.ui.Label(name);
-				waba.ui.Control c = null;
-				String []possibleValues = po.getPossibleValues();
-				if(possibleValues == null){
-					waba.ui.Edit   eValue = new waba.ui.Edit();
-					eValue.setText(value);
-					c = eValue;
-				}else{
-					int index = -1;
-					for(int j = 0; j < possibleValues.length; j++){
-						if(value.equals(possibleValues[j])){
-							index = j;
-							break;
-						}
-					}
-					Choice ch = new Choice(possibleValues);
-					if(index >= 0){
-						ch.setSelectedIndex(index);
-					}
-					c = ch;
-				}
-				po.setValueKeeper(c);
-				lName.setRect(width/2 - 65,y0,60,16);
-				c.setRect(width/2 + 5,y0,60,16);
-				y0 += 20;
-				propertiesPanes[currContainer].add(lName);
-				propertiesPanes[currContainer].add(c);
-			}
-		}
-*/
 		getContentPane().add(propertiesPanes[currContainer]);
 		currentPane = propertiesPanes[currContainer];
  	}
@@ -266,6 +220,30 @@ DeviationControl	devControl;
 			}
 			if(clearKeepers) po.setValueKeeper(null);
 		}
+
+
+		for(int j = 0; j < nProperties; j++){
+			PropObject po = (PropObject)probe.getProperty(j);
+			Control c = po.getValueKeeper();
+			if(c == null) continue;
+			String value = po.getValue();
+			String []possibleValues = po.getPossibleValues();
+			if(possibleValues == null){
+				((waba.ui.Edit)c).setText(value);
+			}else{
+				int index = -1;
+				for(int k = 0; k < possibleValues.length; k++){
+					if(value.equals(possibleValues[k])){
+						index = k;
+						break;
+					}
+				}
+				if(index >= 0) ((Choice)c).setSelectedIndex(index);
+
+			}
+		}
+
+
 		int newContainers = (probe != null && probe.needCalibration())?2:1;
 		if(newContainers != oldContainers){
 		}

@@ -31,14 +31,36 @@ public class LabBookFile implements LabBookDB
 	ds.writeFixedString(s, s.length());
     }
 
+        static String create2DigitString(int n){
+        	String retValue = "";
+		if(n < 10) retValue += "0";
+		retValue += n;
+		return retValue;
+        }
+	static  String createNameFile(Bin b){
+		if(b == null ||  b.time == null) return null;
+		String retValue = "Data-" + b.time.year;
+		retValue += "_";
+		retValue += create2DigitString(b.time.month);
+		retValue += "_";
+		retValue += create2DigitString(b.time.day);
+		retValue += "-";
+		retValue += create2DigitString(b.time.hour);
+		retValue += "_";
+		retValue += create2DigitString(b.time.minute);
+		retValue += ".txt";
+		return retValue;
+	} 
+
     static public void export(Bin b, Vector points)
     {
 	int i;
-
 	if(b == null ||
 	   b.time == null) return;
-	String name = "Data-" + b.time.year + "_" + b.time.month + "_" + b.time.day + "-" +
-	    b.time.hour + "_" + b.time.minute + ".txt";
+//	String name = "Data-" + b.time.year + "_" + b.time.month + "_" + b.time.day + "-" +
+//	    b.time.hour + "_" + b.time.minute + ".txt";
+	   String name = createNameFile(b);
+	   if(name == null) return;
 	File file = new File(name, File.DONT_OPEN);
 	if(file.exists()){
 	    file.close();
@@ -60,7 +82,7 @@ public class LabBookFile implements LabBookDB
 	    writeString(ds, "time\tvalue\r\n");
 	    float curTime = 0f;
 	    for(i=0; i < b.lfArray.getCount(); i++){
-		writeString(ds, curTime + "\t" + b.lfArray.getFloat(i) + "\r\n");
+		writeString(ds, curTime + "\t" + (b.lfArray.getFloat(i)+b.lfArray.ref) + "\r\n");
 		curTime += b.dT;
 	    }
 
