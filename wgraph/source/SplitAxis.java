@@ -297,7 +297,6 @@ public class SplitAxis extends Axis
 			xa.draw(g, xaxisOffset + (curStartPos - startPos), yOriginOff);
 			curStartPos += axisLen + 10;
 		}
-
     }
 
 	public void reset()

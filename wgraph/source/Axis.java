@@ -242,6 +242,11 @@ public class Axis
 		}
 	}
 
+	public float getDispMax()
+	{
+		return dispMin+dispLen/scale;
+	}
+
     /**
      * SERC: this comes from the SpecialFunction class
      */
@@ -368,7 +373,6 @@ public class Axis
 			firstTic = (float)intFloor * majTicStep;
 		}
 
-		//		System.out.println("firstTic: " + firstTic + " approxLTic: " + (length/scale + firstTic));
 		int firstTicExp = getRoundExp(firstTic);
 		int approxLastTicExp = getRoundExp(length/scale + firstTic);
 		int maxEndExp = firstTicExp;
@@ -545,6 +549,7 @@ public class Axis
 			if(nonNegative && min < (float)0){
 				min = (float)0;
 			}
+			setDispOffset(dispMin, 0);
 			setFirstTic();
 			needCalcTics = true;
 		}

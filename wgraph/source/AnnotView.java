@@ -42,13 +42,13 @@ public class AnnotView extends Container
 	SplitAxis xaxis = null;
 	ColorAxis yaxis = null;
 
-    public AnnotView(int w, int h, int numYdigits)
+    public AnnotView(int w, int h, 
+					 SplitAxis xAx, ColorAxis yAx)
     {
 		setRect(0,0,w,h);
 
-		xaxis = new SplitAxis(Axis.BOTTOM);
-		yaxis = new ColorAxis(Axis.LEFT);
- 		yaxis.setMaxDigits(numYdigits);
+		xaxis = xAx;
+		yaxis = yAx;
 
 		curView = lgView = new GraphViewLine(w, h, xaxis, yaxis);
 		bgView = new GraphViewBar(w, h);	
@@ -59,18 +59,16 @@ public class AnnotView extends Container
 		bGraph = bgView.bGraph;
 	
 		add(curView);
-		
-
     }
 
 	public void setYLabel(String label, CCUnit unit)
 	{
-		lGraph.yaxis.setAxisLabel(label, unit);
+		yaxis.setAxisLabel(label, unit);
 	}
 
 	public void setXLabel(String label, CCUnit unit)
 	{
-		lGraph.xaxis.setAxisLabel(label, unit);
+		xaxis.setAxisLabel(label, unit);
 	}
 
     public void addBin(Bin b)
@@ -89,19 +87,19 @@ public class AnnotView extends Container
 
     public float getXmin()
     {
-		return lgView.lGraph.xaxis.dispMin;
+		return xaxis.dispMin;
     }
     public float getXmax()
     {
-		return lgView.lGraph.xaxis.dispMin+lgView.lGraph.dwWidth/lgView.lGraph.xaxis.scale;
+		return xaxis.getDispMax();
     }
     public float getYmin()
     {
-		return lgView.lGraph.yaxis.dispMin;
+		return yaxis.dispMin;
     }
     public float getYmax()
     {
-		return lgView.lGraph.yaxis.dispMin+lgView.lGraph.yaxis.dispLen/lgView.lGraph.yaxis.scale;
+		return yaxis.getDispMax();
     }
 
     float minX, maxX;
@@ -126,39 +124,6 @@ public class AnnotView extends Container
     {
 		setRect(x,y,width,height);
     }
-
-    /*
-	  public void updateProp(PropPage pp, int action)
-	  {
-	  if(pp == annotPage){
-	  if(bgView.selBar == null)
-	  return;
-
-	  if(!(bgView.selBar instanceof Annotation)) return;
-
-	  Annotation a = (Annotation)bgView.selBar;
-	  if(a == null)
-	  return;
-
-	  switch(action){
-	  case PropPage.UPDATE:
-	  a.label = ((Edit)(pp.props.get(0))).getText();
-	  a.text = ((Edit)(pp.props.get(1))).getText();
-	  ((Bar)(a.bin)).setLabel(a.label);
-
-	  repaint();
-	  break;
-	  case PropPage.REFRESH:
-	  ((Edit)(pp.props.get(0))).setText(a.label);
-	  if(a.text != null)
-	  ((Edit)(pp.props.get(1))).setText(a.text);
-	  else 
-	  ((Edit)(pp.props.get(1))).setText("");		    
-	  break;
-	  }
-	  }
-	  }
-    */
 
     public void reset()
     {
@@ -199,7 +164,6 @@ public class AnnotView extends Container
 
     boolean barDown = false;
     Timer timer = null;
-
     public void onEvent(Event e)
     {
 		int i;
