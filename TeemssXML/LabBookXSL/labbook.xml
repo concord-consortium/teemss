@@ -1,7 +1,218 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE LABBOOK PUBLIC "-//Concord.ORG//DTD LabBook Description//EN" "../../DTD/labbook.dtd">
 <LABBOOK>
-<FOLDER name="CCProbe" ID="folder-ccprobe"/>
+<FOLDER ID="folder-ccprobe" name="CCProbe">
+
+    <FOLDER ID="folder-ccprobe-info" name="CCProbe Info" view="paging">
+      <SUPERNOTES ID="about-ccprobe" name="About CCProbe">
+	<SNPARAGRAPH linkcolor="0000FF">
+          About CCProbe
+       </SNPARAGRAPH>
+       <SNPARAGRAPH/>
+	<SNPARAGRAPH>
+          About CCProbe
+       </SNPARAGRAPH>
+      </SUPERNOTES>
+      <SUPERNOTES ID="ccprobe-credits" name="CCProbe Credits">
+	<SNPARAGRAPH linkcolor="0000FF">
+          CCProbe Credits
+       </SNPARAGRAPH>
+       <SNPARAGRAPH/>
+	<SNPARAGRAPH>
+          CCProbe Credits
+       </SNPARAGRAPH>
+      </SUPERNOTES>
+      <SUPERNOTES ID="ccprobe-license" name="CCProbe License">
+	<SNPARAGRAPH linkcolor="0000FF">
+          CCProbe License
+       </SNPARAGRAPH>
+       <SNPARAGRAPH/>
+	<SNPARAGRAPH>
+          CCProbe License
+       </SNPARAGRAPH>
+      </SUPERNOTES>
+      <SUPERNOTES ID="ccprobe-interface" name="CCProbe Interface">
+	<SNPARAGRAPH linkcolor="0000FF">
+          CCProbe Interface
+       </SNPARAGRAPH>
+       <SNPARAGRAPH/>
+	<SNPARAGRAPH>
+          CCProbe Interface
+       </SNPARAGRAPH>
+      </SUPERNOTES>
+      <SUPERNOTES ID="ccprobe-probes" name="CCProbe Probes">
+	<SNPARAGRAPH linkcolor="0000FF">
+          CCProbe Probes
+       </SNPARAGRAPH>
+       <SNPARAGRAPH/>
+	<SNPARAGRAPH>
+          CCProbe License
+       </SNPARAGRAPH>
+      </SUPERNOTES>
+    </FOLDER>
+
+    <FOLDER ID="folder-probes" name="Probes" view="paging">
+
+      <DATACOLLECTOR ID="dc-temperature" name="Temperature">
+       <PROBE ID="probe1" probe="Temperature"/>
+       <GRAPH>
+         <XAXIS min="0" max="60"/>
+         <YAXIS min="10" max="40"/>
+         <LINE xaxis="0" yaxis="0" datasource="probe1"/>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+      <DATACOLLECTOR ID="dc-light-4000" name="Light - 4000 Lux">
+       <PROBE ID="probe2" probe="Light"/>
+       <GRAPH>
+         <XAXIS min="0" max="60"/>
+         <YAXIS min="0" max="4000"/>
+         <LINE xaxis="0" yaxis="0" datasource="probe2"/>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+
+      <DATACOLLECTOR ID="dc-light-125000" name="Light - 125000 Lux">
+       <PROBE ID="probe3" probe="Light"/>
+       <GRAPH>
+         <XAXIS min="0" max="60"/>
+         <YAXIS min="0" max="125000"/>
+         <LINE xaxis="0" yaxis="0" datasource="probe3"/>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+
+      <DATACOLLECTOR ID="dc-force-200" name="Force - 200 N">
+       <PROBE ID="probe4" probe="Force"/>
+       <GRAPH>
+         <XAXIS min="0" max="30"/>
+         <YAXIS min="-200" max="200"/>
+         <LINE xaxis="0" yaxis="0" datasource="probe4"/>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+      <DATACOLLECTOR ID="dc-force-20" name="Force - 20 N">
+       <PROBE ID="probe5" probe="Force"/>
+       <GRAPH>
+         <XAXIS min="0" max="30"/>
+         <YAXIS min="-20" max="20"/>
+         <LINE xaxis="0" yaxis="0" datasource="probe5"/>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+      <DATACOLLECTOR ID="dc-force-2" name="Force - 2 N">
+       <PROBE ID="probe6" probe="Force"/>
+       <GRAPH>
+         <XAXIS min="0" max="30"/>
+         <YAXIS min="-2" max="2"/>
+         <LINE xaxis="0" yaxis="0" datasource="probe6"/>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+      <DATACOLLECTOR ID="dc-smartwheel-pos" name="SmartWheel - Position">
+       <PROBE ID="probe7" probe="SmartWheel"/>
+       <INTPROBETRANS ID="p7-position" quantity="Position" probe="probe7"/>
+       <INTPROBETRANS ID="p7-velocity" quantity="Velocity" probe="probe7"/>
+       <GRAPH>
+         <XAXIS min="0" max="30"/>
+         <YAXIS min="-3" max="3"/>
+         <YAXIS min="-5" max="5"/>
+         <YAXIS min="-3" max="3"/>
+         <LINE xaxis="0" yaxis="0" datasource="p7-position"/>
+         <LINE xaxis="0" yaxis="1" datasource="p7-velocity"/>
+         <LINE xaxis="0" yaxis="2" datasource="probe7"/>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+      <DATACOLLECTOR ID="dc-smartwheel-vel" name="SmartWheel - Velocity">
+       <PROBE ID="probe8" probe="SmartWheel"/>
+       <INTPROBETRANS ID="p8-position" quantity="Position" probe="probe8"/>
+       <INTPROBETRANS ID="p8-velocity" quantity="Velocity" probe="probe8"/>
+       <GRAPH>
+         <XAXIS min="0" max="30"/>
+         <YAXIS min="-5" max="5"/>
+         <YAXIS min="-3" max="3"/>
+         <YAXIS min="-3" max="3"/>
+         <LINE xaxis="0" yaxis="0" datasource="p8-velocity"/>
+         <LINE xaxis="0" yaxis="1" datasource="p8-position"/>
+         <LINE xaxis="0" yaxis="2" datasource="probe8"/>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+      <DATACOLLECTOR ID="voltage-current-v" name="VoltageCurrent - Voltage">
+       <PROBE ID="probe9" probe="VoltageCurrent"/>
+       <INTPROBETRANS ID="p9-energy" quantity="Energy" probe="probe9"/>
+       <INTPROBETRANS ID="p9-power" quantity="Power" probe="probe9"/>
+       <INTPROBETRANS ID="p9-voltage" quantity="Voltage" probe="probe9"/>
+       <GRAPH>
+         <XAXIS min="0" max="60"/>
+         <YAXIS min="-10" max="10"/>
+         <YAXIS min="-0.2" max="0.2"/>
+         <YAXIS min="0" max="2"/>
+         <YAXIS min="0" max="20"/>
+         <LINE xaxis="0" yaxis="0" datasource="p9-voltage"/>
+         <LINE xaxis="0" yaxis="1" datasource="probe9"/>
+         <LINE xaxis="0" yaxis="2" datasource="p9-power"/>
+         <LINE xaxis="0" yaxis="3" datasource="p9-energy"/>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+      <DATACOLLECTOR ID="voltage-current-a" name="VoltageCurrent - Amps">
+       <PROBE ID="probe10" probe="VoltageCurrent"/>
+       <INTPROBETRANS ID="p10-energy" quantity="Energy" probe="probe10"/>
+       <INTPROBETRANS ID="p10-power" quantity="Power" probe="probe10"/>
+       <INTPROBETRANS ID="p10-voltage" quantity="Voltage" probe="probe10"/>
+       <GRAPH>
+         <XAXIS min="0" max="60"/>
+         <YAXIS min="-0.2" max="0.2"/>
+         <YAXIS min="0" max="2"/>
+         <YAXIS min="0" max="20"/>
+         <YAXIS min="-10" max="10"/>
+         <LINE xaxis="0" yaxis="3" datasource="probe10"/>
+         <LINE xaxis="0" yaxis="0" datasource="p10-power"/>
+         <LINE xaxis="0" yaxis="1" datasource="p10-energy"/>
+         <LINE xaxis="0" yaxis="2" datasource="p10-voltage"/>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+      <DATACOLLECTOR ID="voltage-current-w" name="VoltageCurrent - Watts">
+       <PROBE ID="probe11" probe="VoltageCurrent"/>
+       <INTPROBETRANS ID="p11-energy" quantity="Energy" probe="probe11"/>
+       <INTPROBETRANS ID="p11-power" quantity="Power" probe="probe11"/>
+       <INTPROBETRANS ID="p11-voltage" quantity="Voltage" probe="probe11"/>
+       <GRAPH>
+         <XAXIS min="0" max="60"/>
+         <YAXIS min="0" max="2"/>
+         <YAXIS min="0" max="20"/>
+         <YAXIS min="-10" max="10"/>
+         <YAXIS min="-0.2" max="0.2"/>
+         <LINE xaxis="0" yaxis="0" datasource="p11-power"/>
+         <LINE xaxis="0" yaxis="1" datasource="p11-energy"/>
+         <LINE xaxis="0" yaxis="2" datasource="p11-voltage"/>
+         <LINE xaxis="0" yaxis="3" datasource="probe11"/>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+      <DATACOLLECTOR ID="voltage-current-j" name="VoltageCurrent - Joules">
+       <PROBE ID="probe12" probe="VoltageCurrent"/>
+       <INTPROBETRANS ID="p12-energy" quantity="Energy" probe="probe12"/>
+       <INTPROBETRANS ID="p12-power" quantity="Power" probe="probe12"/>
+       <INTPROBETRANS ID="p12-voltage" quantity="Voltage" probe="probe12"/>
+       <GRAPH>
+         <XAXIS min="0" max="60"/>
+         <YAXIS min="-0.2" max="0.2"/>
+         <YAXIS min="0" max="20"/>
+         <YAXIS min="0" max="2"/>
+         <YAXIS min="-10" max="10"/>
+         <LINE xaxis="0" yaxis="0" datasource="probe12"/>
+         <LINE xaxis="0" yaxis="1" datasource="p12-energy"/>
+         <LINE xaxis="0" yaxis="2" datasource="p12-power"/>
+         <LINE xaxis="0" yaxis="3" datasource="p12-voltage"/>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+    </FOLDER>
+  </FOLDER>
 <FOLDER name="TEEMSS" ID="TEEMSS">
 <FOLDER name="Motions and Forces" ID="Motions_and_Forces">
 <FOLDER view="paging" name="Air Cart" ID="Air_Cart">
@@ -468,18 +679,13 @@
 </EMBOBJ>
           <SNPARAGRAPH>5. </SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>Predict the resulting graphs for each of the following motions in Notes on your handheld computer. Observe how the acrobat responded during each motion.</SNPARAGRAPH>
+<SNPARAGRAPH>Draw and then describe in words each of the following movements of your cart.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-                <SNPARAGRAPH>pulling the cart forward at a constant velocity</SNPARAGRAPH>
-<SNPARAGRAPH/>
-                <SNPARAGRAPH>pulling the cart at a slow constant velocity, then a faster constant velocity, then coasting</SNPARAGRAPH>
-<SNPARAGRAPH/>
-                <SNPARAGRAPH>gradually speeding up the cart, then coasting</SNPARAGRAPH>
-<SNPARAGRAPH/>
-                <SNPARAGRAPH>pulling the cart, then letting it bounce off a wall</SNPARAGRAPH>
-<SNPARAGRAPH/>
-              
-            
+<SNPARAGRAPH>pulling the cart forward at a constant velocity.</SNPARAGRAPH>
+<SNPARAGRAPH>pulling the cart at a slow constant velocity, then a faster constant velocity, then coasting</SNPARAGRAPH>
+<SNPARAGRAPH>speeding up the cart, then coasting</SNPARAGRAPH>
+<SNPARAGRAPH>pulling the cart, then letting it bounce off a wall</SNPARAGRAPH>
+<SNPARAGRAPH linkcolor="FF0000">Click this link to answer the questions.</SNPARAGRAPH>
           <SNPARAGRAPH>6. Start the software and observe the position versus time graph as you make the following motions on the same graph. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH indent="2">a. pulling the cart forward at a constant velocity</SNPARAGRAPH>
@@ -496,21 +702,27 @@
 <SUPERNOTES ID="Tracker_trial_III" name="Trial III">
 <SNPARAGRAPH linkcolor="0000FF">Rolling to a stop</SNPARAGRAPH>
 <SNPARAGRAPH/>
-        <SNPARAGRAPH>1. Using the ramp to initiate motion of the cart, design a method to slow down the cart and bring it to a stop in exactly 5 seconds as it rolls across a rug or another rough surface. Explain your design in Notes on your handheld computer.</SNPARAGRAPH>
+        <SNPARAGRAPH>1. </SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>2. In Notes on your handheld computer, predict and sketch the resulting position versus time graph. Share your method with other members of your group.</SNPARAGRAPH>
+<SNPARAGRAPH>Using the ramp to initiate motion of the cart, design a method to slow down the cart and bring it to a stop in exactly 5 seconds as it rolls across a rug or another rough surface.Explain your design in Notes on your handheld computer </SNPARAGRAPH>
+<SNPARAGRAPH linkcolor="FF0000">click here to answer</SNPARAGRAPH>
+          <SNPARAGRAPH>2. In Notes on your handheld computer, predict and sketch the resulting position versus time graph. Share your method with other members of your group.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>3. Connect the SmartWheel to your handheld computer. Refer to Technical Hints to see how to connect the cables.</SNPARAGRAPH>
+<SNPARAGRAPH>3. </SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>4. Now try your method out. Start the software and observe the position versus time graph as you roll the cart down the ramp. Refer to Technical Hints to see how to use the software. Be sure to drape the wire to the SmartWheel so that the cart rolls freely. Observe how the acrobat responded during the motion.</SNPARAGRAPH>
+<SNPARAGRAPH>What will the position versus time graph look like? </SNPARAGRAPH>
+<SNPARAGRAPH linkcolor="FF0000">Sketch the graph in In Notes on your handheld computer.</SNPARAGRAPH>
+          <SNPARAGRAPH>4. Connect the SmartWheel to your handheld computer. Refer to Technical Hints to see how to connect the cables.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>5. Save your data to the handheld.</SNPARAGRAPH>
+<SNPARAGRAPH>5. Now try your method out. Start the software and observe the position versus time graph as you roll the cart down the ramp. Refer to Technical Hints to see how to use the software. Be sure to drape the wire to the SmartWheel so that the cart rolls freely. Observe how the acrobat responded during the motion.</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>6. Save your data to the handheld.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
 <IMAGE ID="Image_38" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Tracker/04_tr2/PALM_TINY_04_tr2.bmp"/>
 </EMBOBJ>
-          <SNPARAGRAPH>6. By looking at your position versus time graph, how do you know that your cart slowed down? Did it slow down at the same rate for the entire 5 seconds? If not, when and why did the rate change? Explain your reasoning in Notes on your handheld computer.</SNPARAGRAPH>
+          <SNPARAGRAPH>7. By looking at your position versus time graph, how do you know that your cart slowed down? Did it slow down at the same rate for the entire 5 seconds? If not, when and why did the rate change? Explain your reasoning in Notes on your handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
       <SNPARAGRAPH/>
 </SUPERNOTES>
@@ -1108,7 +1320,7 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. Predict what the velocity graphs will look like if one cart is stationary and you roll the other cart against it. What will be the velocity for each cart before and after the collision? What will the velocity graph do just at the moment of collision? Record your predictions in Notes on the handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>3. Start the software to record a velocity versus timegraph. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
+<SNPARAGRAPH>3. Start the software to record a velocity versus time graph. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>4. Start recording. Push one cart toward the other and let them bounce. Be sure the bumpers are lined up.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1154,6 +1366,58 @@
 <SNPARAGRAPH>5. Newton's Second Law asserts that a force is needed to change the velocity of an object. The greater the force, the more quickly the velocity changes. Do your trials support this theory?</SNPARAGRAPH>
 <SNPARAGRAPH/>
       </SUPERNOTES>
+</FOLDER>
+<FOLDER name="Responses" ID="Motions_and_Forces-response">
+<FOLDER view="paging" name="Air Cart Responses" ID="Air_Cart-response">
+<FOLDER ID="Air_Cart_trial_I_response&#10;    " name="Trial I Responses      &#10;    "/>
+<FOLDER ID="Air_Cart_trial_II_response&#10;    " name="Trial II Responses      &#10;    "/>
+<FOLDER ID="Air_Cart_trial_III_response&#10;    " name="Trial III Responses      &#10;    "/>
+<SUPERNOTES name="Analysis" ID="Air_Cart-analysis-response">
+<SNPARAGRAPH linkcolor="0000FF">Air Cart Analysis
+    </SNPARAGRAPH>
+<SNPARAGRAPH/>
+</SUPERNOTES>
+</FOLDER>
+<FOLDER view="paging" name="Tracker Responses" ID="Tracker-response">
+<FOLDER ID="Tracker_trial_I_response&#10;    " name="Trial I Responses      &#10;    "/>
+<FOLDER ID="Tracker_trial_II_response&#10;    " name="Trial II Responses      &#10;    "/>
+<FOLDER ID="Tracker_trial_III_response&#10;    " name="Trial III Responses      &#10;    "/>
+<SUPERNOTES name="Analysis" ID="Tracker-analysis-response">
+<SNPARAGRAPH linkcolor="0000FF">Tracker Analysis
+    </SNPARAGRAPH>
+<SNPARAGRAPH/>
+</SUPERNOTES>
+</FOLDER>
+<FOLDER view="paging" name="Propeller Responses" ID="Propeller-response">
+<FOLDER ID="Propeller_trial_I_response&#10;    " name="Trial I Responses      &#10;    "/>
+<FOLDER ID="Propeller_trial_II_response&#10;    " name="Trial II Responses      &#10;    "/>
+<FOLDER ID="Propeller_trial_III_response&#10;    " name="Trial III Responses      &#10;    "/>
+<SUPERNOTES name="Analysis" ID="Propeller-analysis-response">
+<SNPARAGRAPH linkcolor="0000FF">Propeller Analysis
+    </SNPARAGRAPH>
+<SNPARAGRAPH/>
+</SUPERNOTES>
+</FOLDER>
+<FOLDER view="paging" name="Collision I Responses" ID="Collision_I-response">
+<FOLDER ID="Collision_I_trial_I_response&#10;    " name="Trial I Responses      &#10;    "/>
+<FOLDER ID="Collision_I_trial_II_response&#10;    " name="Trial II Responses      &#10;    "/>
+<FOLDER ID="Collision_I_trial_III_response&#10;    " name="Trial III Responses      &#10;    "/>
+<SUPERNOTES name="Analysis" ID="Collision_I-analysis-response">
+<SNPARAGRAPH linkcolor="0000FF">Collision I Analysis
+    </SNPARAGRAPH>
+<SNPARAGRAPH/>
+</SUPERNOTES>
+</FOLDER>
+<FOLDER view="paging" name="Collision II Responses" ID="Collision_II-response">
+<FOLDER ID="Collision_II_trial_I_response&#10;    " name="Trial I Responses      &#10;    "/>
+<FOLDER ID="Collision_II_trial_II_response&#10;    " name="Trial II Responses      &#10;    "/>
+<FOLDER ID="Collision_II_trial_III_response&#10;    " name="Trial III Responses      &#10;    "/>
+<SUPERNOTES name="Analysis" ID="Collision_II-analysis-response">
+<SNPARAGRAPH linkcolor="0000FF">Collision II Analysis
+    </SNPARAGRAPH>
+<SNPARAGRAPH/>
+</SUPERNOTES>
+</FOLDER>
 </FOLDER>
 </FOLDER>
 <FOLDER name="Transfer of Energy" ID="Energy">
@@ -1261,7 +1525,7 @@
 </EMBOBJ>
           <SNPARAGRAPH>2. Set up the Temperature probe with your handheld. Refer to Technical Hints to see how set up the Temperature probe. The sensitive part is just the very tip, where two wires are welded together.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>3. Start the temperature graph and run through this series of measurements so that you get all of your data on one graph. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
+<SNPARAGRAPH>3. Start the temperature graph and run through this series of measurements so that you get all of your data on one graph. Refer to TechnicalHints to see how to use the software.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>4. Measure the air temperature.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1444,7 +1708,7 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH>5. Stop the software immediately after a good roll and save your data to the handheld.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>6. What is the greatest velocity of the cart? Where does this occur? When the cart is rolling, it has what's called kinetic energy, or energy of motion. Yet when the cartstarted, it had no kinetic energy because it was not moving. So where did the energy come from? Explain your reasoning in Notes on your handheld computer.</SNPARAGRAPH>
+<SNPARAGRAPH>6. What is the greatest velocity of the cart? Where does this occur? When the cart is rolling, it has what's called kinetic energy, or energy of motion. Yet when the cart started, it had no kinetic energy because it was not moving. So where did the energy come from? Explain your reasoning in Notes on your handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
       <SNPARAGRAPH/>
 </SUPERNOTES>
@@ -1704,7 +1968,7 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH>7. Stop recording the data.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>8. Expand the graph so that you can see how much the temperature rose while the battery was attached and how much it decreased after you stopped. Refer to Technical Hints to see how to use the software. Place marks on the starting temperature, the maximum temperature, and the ending temperature.</SNPARAGRAPH>
+<SNPARAGRAPH>8. Expand the graph so that you can see how much the temperature rose while the battery was attached and how much it decreased after you stopped. Refer to Technical Hints to see how to usethe software. Place marks on the starting temperature, the maximum temperature, and the ending temperature.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>9. Save the data to your handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -2072,7 +2336,7 @@
 </EMBOBJ>
           <SNPARAGRAPH>2. Does the amount of light vary according to how hard you crank? Record your observations in Notes on your handheld.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>3. Connect the Light probe to your handheld computer. Refer to Technical Hints to connect the Light probe.</SNPARAGRAPH>
+<SNPARAGRAPH>3. Connect the Light probe to your handheld computer. Referto Technical Hints to connect the Light probe.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>4. Start the software to read light intensity (lux). Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -2184,6 +2448,58 @@
 <SNPARAGRAPH>5. Design an energy "Rube Goldberg" machine. This type of machine is a wacky series of devices that change energy through various forms and ends up serving a purpose. Make a drawing of your Rube Goldberg on your handheld computer. Refer to Technical Hints to see draw in the software. Please no live animals!</SNPARAGRAPH>
 <SNPARAGRAPH/>
       </SUPERNOTES>
+</FOLDER>
+<FOLDER name="Responses" ID="Energy-response">
+<FOLDER view="paging" name="Heat Flow Responses" ID="Heat_Flow-response">
+<FOLDER ID="Heat_Flow_trial_I_response&#10;    " name="Trial I Responses      &#10;    "/>
+<FOLDER ID="Heat_Flow_trial_II_response&#10;    " name="Trial II Responses      &#10;    "/>
+<FOLDER ID="Heat_Flow_trial_III_response&#10;    " name="Trial III Responses      &#10;    "/>
+<SUPERNOTES name="Analysis" ID="Heat_Flow-analysis-response">
+<SNPARAGRAPH linkcolor="0000FF">Heat Flow Analysis
+    </SNPARAGRAPH>
+<SNPARAGRAPH/>
+</SUPERNOTES>
+</FOLDER>
+<FOLDER view="paging" name="Potential and Kinetic Energy  Responses" ID="Potential_Kinetic_Energy-response">
+<FOLDER ID="Potential_Kinetic_Energy_trial_I_response&#10;    " name="Trial I Responses      &#10;    "/>
+<FOLDER ID="Potential_Kinetic_Energy_trial_II_response&#10;    " name="Trial II Responses      &#10;    "/>
+<FOLDER ID="Potential_Kinetic_Energy_trial_III_response&#10;    " name="Trial III Responses      &#10;    "/>
+<SUPERNOTES name="Analysis" ID="Potential_Kinetic_Energy-analysis-response">
+<SNPARAGRAPH linkcolor="0000FF">Potential and Kinetic Energy  Analysis
+    </SNPARAGRAPH>
+<SNPARAGRAPH/>
+</SUPERNOTES>
+</FOLDER>
+<FOLDER view="paging" name="Heating with Electricity  Responses" ID="Heating_With_Electricity-response">
+<FOLDER ID="Heating_With_Electricity_trial_I_response&#10;    " name="Trial I Responses      &#10;    "/>
+<FOLDER ID="Heating_With_Electricity_trial_II_response&#10;    " name="Trial II Responses      &#10;    "/>
+<FOLDER ID="Heating_With_Electricity_trial_III_response&#10;    " name="Trial III Responses      &#10;    "/>
+<SUPERNOTES name="Analysis" ID="Heating_With_Electricity-analysis-response">
+<SNPARAGRAPH linkcolor="0000FF">Heating with Electricity  Analysis
+    </SNPARAGRAPH>
+<SNPARAGRAPH/>
+</SUPERNOTES>
+</FOLDER>
+<FOLDER view="paging" name="Forms of Energy: Single Transformations  Responses" ID="Single_Transformations-response">
+<FOLDER ID="Single_Transformations_trial_I_response&#10;    " name="Trial I Responses      &#10;    "/>
+<FOLDER ID="Single_Transformations_trial_II_response&#10;    " name="Trial II Responses      &#10;    "/>
+<FOLDER ID="Single_Transformations_trial_III_response&#10;    " name="Trial III Responses      &#10;    "/>
+<SUPERNOTES name="Analysis" ID="Single_Transformations-analysis-response">
+<SNPARAGRAPH linkcolor="0000FF">Forms of Energy: Single Transformations  Analysis
+    </SNPARAGRAPH>
+<SNPARAGRAPH/>
+</SUPERNOTES>
+</FOLDER>
+<FOLDER view="paging" name="Forms of Energy: Multiple Transformations  Responses" ID="Multiple_Transformations-response">
+<FOLDER ID="Multiple_Transformations_trial_I_response&#10;    " name="Trial I Responses      &#10;    "/>
+<FOLDER ID="Multiple_Transformations_trial_II_response&#10;    " name="Trial II Responses      &#10;    "/>
+<FOLDER ID="Multiple_Transformations_trial_III_response&#10;    " name="Trial III Responses      &#10;    "/>
+<SUPERNOTES name="Analysis" ID="Multiple_Transformations-analysis-response">
+<SNPARAGRAPH linkcolor="0000FF">Forms of Energy: Multiple Transformations  Analysis
+    </SNPARAGRAPH>
+<SNPARAGRAPH/>
+</SUPERNOTES>
+</FOLDER>
 </FOLDER>
 </FOLDER>
 </FOLDER>

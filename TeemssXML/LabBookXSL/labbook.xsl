@@ -15,30 +15,39 @@
 </xsl:template>
 
 <xsl:template match="project">
-<LABBOOK>
-  <FOLDER ID="folder-ccprobe" name="CCProbe">
-  </FOLDER>
-  <FOLDER ID="{title}" name="{title}">
-  <xsl:apply-templates select="unit"/>
-  </FOLDER>
-</LABBOOK>
+  <LABBOOK>
+    <xsl:copy-of select="document('ccprobe.xml')"/>
+    <FOLDER ID="{title}" name="{title}">
+    <xsl:apply-templates select="unit"/>
+    </FOLDER>
+  </LABBOOK>
 </xsl:template>
 
 <xsl:template match="unit">
   <FOLDER ID="{@name}" name="{title}">
-    <xsl:apply-templates select="investigation"/>
+    <xsl:apply-templates select="investigation" mode="investigate"/>
+    <FOLDER ID="{@name}-response" name="Responses">
+      <xsl:apply-templates select="investigation" mode="response"/>
+    </FOLDER>
   </FOLDER>
 </xsl:template>
 
-<xsl:template match="investigation">
+<xsl:template match="investigation" mode="investigate">
   <FOLDER ID="{@name}" name="{title}" view="paging">
     <xsl:apply-templates select="intro"/>
     <xsl:apply-templates select="think"/>
     <xsl:apply-templates select="materials"/>
     <xsl:apply-templates select="safety"/>
-    <xsl:apply-templates select="trial"/>
+    <xsl:apply-templates select="trial" mode="investigate"/>
     <xsl:apply-templates select="hints"/>
-    <xsl:apply-templates select="analysis"/>
+    <xsl:apply-templates select="analysis" mode="investigate"/>
+  </FOLDER>
+</xsl:template>
+
+<xsl:template match="investigation" mode="response">
+  <FOLDER ID="{@name}-response" name="{title} Responses" view="paging">
+    <xsl:apply-templates select="trial" mode="response"/>
+    <xsl:apply-templates select="analysis" mode="response"/>
   </FOLDER>
 </xsl:template>
 
@@ -123,7 +132,7 @@
   </SUPERNOTES>
 </xsl:template>
 
-<xsl:template match="analysis">
+<xsl:template match="analysis" mode="investigate">
   <SUPERNOTES ID="{../@name}-analysis" name="Analysis">
     <SNPARAGRAPH linkcolor="0000FF">
       <xsl:value-of select="../title"/> Analysis
@@ -133,11 +142,21 @@
   </SUPERNOTES>
 </xsl:template>
 
+<xsl:template match="analysis" mode="response">
+  <SUPERNOTES ID="{../@name}-analysis-response" name="Analysis">
+    <SNPARAGRAPH linkcolor="0000FF">
+      <xsl:value-of select="../title"/> Analysis
+    </SNPARAGRAPH>
+    <SNPARAGRAPH/>
+  </SUPERNOTES>
+</xsl:template>
 
-<xsl:template match="trial">
+
+<xsl:template match="trial" mode="investigate">
   <xsl:element name="SUPERNOTES">
     <xsl:attribute name="ID">
-      <xsl:value-of select="../@name"/>_trial_<xsl:number value="position()" format="I"/>       </xsl:attribute>
+      <xsl:value-of select="../@name"/>_trial_<xsl:number value="position()" format="I"/>
+    </xsl:attribute>
     <xsl:attribute name="name">Trial <xsl:number value="position()" format="I"/>      
     </xsl:attribute>
     <SNPARAGRAPH linkcolor="0000FF">
@@ -146,6 +165,17 @@
     <SNPARAGRAPH/>
     <xsl:apply-templates/>
     <SNPARAGRAPH/>
+  </xsl:element>
+</xsl:template>
+
+<xsl:template match="trial" mode="response">
+  <xsl:element name="FOLDER">
+    <xsl:attribute name="ID">
+      <xsl:value-of select="../@name"/>_trial_<xsl:number value="position()" format="I"/>_response
+    </xsl:attribute>
+    <xsl:attribute name="name">Trial <xsl:number value="position()" format="I"/> Responses      
+    </xsl:attribute>
+    <xsl:apply-templates select="query-response" mode="response"/>
   </xsl:element>
 </xsl:template>
 
@@ -192,8 +222,73 @@
   <xsl:apply-templates select="text()[position()!=1]|*"/>
 </xsl:template>
 
+<xsl:template match="query-response">
+  <xsl:choose>
+    <xsl:when test="@layout='paragraph'">
+      <SNPARAGRAPH>
+      <xsl:apply-templates select="query-description"/>
+      <xsl:apply-templates select="querys" mode="paragraph"/>
+      </SNPARAGRAPH>
+    </xsl:when>
+    <xsl:when test="@layout='list'">
+      <SNPARAGRAPH>
+      <xsl:apply-templates select="query-description"/>
+      </SNPARAGRAPH>
+      <SNPARAGRAPH/>
+      <xsl:apply-templates select="querys" mode="list"/>
+    </xsl:when>
+  </xsl:choose>
+  <xsl:apply-templates select="query-link"/>
+</xsl:template>
+
+<xsl:template match="query-response" mode="response">
+  <xsl:element name="SUPERNOTES">
+    <xsl:attribute name="ID">
+      <xsl:value-of select="../@name"/>_trial_<xsl:number value="position()" format="I"/>_response
+    </xsl:attribute>
+
+    <xsl:attribute name="name">Trial <xsl:number value="position()" format="I"/> Responses      
+    </xsl:attribute>
+    <SNPARAGRAPH linkcolor="0000FF">
+      <xsl:apply-templates select="query-description"/>
+    </SNPARAGRAPH>
+    <SNPARAGRAPH/>
+    <SNPARAGRAPH/>
+  </xsl:element>
+</xsl:template>
+
+
+<xsl:template match="query-description">
+    <xsl:value-of select="normalize-space(.) "/>
+</xsl:template>
+
+<xsl:template match="querys" mode="paragraph">
+  <xsl:apply-templates select="query" mode="paragraph"/>
+</xsl:template>
+
+<xsl:template match="querys" mode="list">
+  <xsl:apply-templates select="query" mode="list"/>
+</xsl:template>
+
+<xsl:template match="query" mode="paragraph">
+    <xsl:value-of select="normalize-space(.)"/>
+    <xsl:text> </xsl:text>
+</xsl:template>
+
+<xsl:template match="query" mode="list">
+    <SNPARAGRAPH>
+    <xsl:value-of select="normalize-space(.) "/>
+    </SNPARAGRAPH>
+</xsl:template>
+
+<xsl:template match="query-link">
+  <SNPARAGRAPH linkcolor="FF0000">
+    <xsl:value-of select="normalize-space(.)"/>
+  </SNPARAGRAPH>
+</xsl:template>
+
 <xsl:template match="ext-image-sequence">
-  <xsl:apply-templates />
+  <xsl:apply-templates/>
 </xsl:template>
 
 
