@@ -18,7 +18,15 @@ Button 					downButton;
 
 
 Menu 					menu = null;
+Menu 					menuEdit = null;
+
 LabObjectView			addedLabObjectView		= null;
+
+
+String [] fileStrings = {"Load Note..."};
+
+
+
 	public LObjCCTextAreaView(ViewContainer vc, LObjCCTextArea d,boolean edit){
 		super(vc);
 		doc = d;
@@ -26,7 +34,9 @@ LabObjectView			addedLabObjectView		= null;
 	}
 	public void delMenus(){
 		if(container != null){
-			container.getMainView().delMenu(this, menu);
+			if(menu != null) container.getMainView().delMenu(this, menu);
+			if(menuEdit != null) container.getMainView().delMenu(this, menuEdit);
+			container.getMainView().removeFileMenuItems(fileStrings, this);
 		}
 	}
 	public void addMenus(){
@@ -34,26 +44,58 @@ LabObjectView			addedLabObjectView		= null;
 	}
 	
 	public void addMenus(ViewContainer vc){
-		
+		if(menuEdit == null){
+			menuEdit = new Menu("Edit");
+			menuEdit.add("Paste");
+			menuEdit.add("Clear");
+			menuEdit.add("-");
+			menuEdit.add("Properties");
+			menuEdit.addActionListener(this);
+		}	
+		if(vc != null) vc.getMainView().addMenu(this, menuEdit);
 		if(menu == null){
-			menu = new Menu("SNotes");
-			menu.add("Load Note ...");
-			menu.add("-");
-			menu.add("Paste");
-			menu.add("Clear");
-			menu.add("-");
-			menu.add("Insert Object ...");
-			menu.add("Delete Current Object");
-			menu.add("Delete All Objects");
-			menu.add("-");
-			menu.add("Test");
-			menu.addActionListener(this);
+			menu = new Menu("Object");
+		}else{
+			menu.removeAll();
 		}
+		menu.add("Insert Object ...");
+		menu.add("-");
+		menu.add("Delete Current Object");
+		menu.add("Delete All Objects");
+		menu.add("-");
+		menu.addActionListener(this);
 		if(vc != null) vc.getMainView().addMenu(this, menu);
+		container.getMainView().addFileMenuItems(fileStrings, this);
+	}
+	
+	public void numbObjectChanged(){
+		if(menu == null || tArea == null) return;
+		menu.removeAll();
+		menu.add("Insert Object ...");
+		menu.add("-");
+		menu.add("Delete Current Object");
+		menu.add("Delete All Objects");
+		menu.add("-");
+		LBCompDesc []components = tArea.components;
+		if(components == null || components.length < 1) return;
+		for(int i = 0; i < components.length; i++){
+			LBCompDesc cdesc = components[i];
+			if(cdesc == null) continue;
+			String item = "Object "+(i+1)+" (";
+			LabObjectView 	oView = (LabObjectView)components[i].getObject();
+			if(oView != null){
+				LabObject 		tempObj = (oView == null)?null:oView.getLabObject();
+				if(tempObj != null){
+					item += (tempObj.name);
+				}
+			}
+			item += ")...";
+			menu.add(item);
+		}
 	}
 
     public void actionPerformed(ActionEvent e){
-		if(e.getActionCommand().equals("Load Note ...")){
+		if(e.getActionCommand().equals("Load Note...")){
 			openFileDialog();
 		}else if(e.getActionCommand().equals("Insert Object ...")){
 			if(tArea != null) tArea.insertObject();
@@ -68,10 +110,15 @@ LabObjectView			addedLabObjectView		= null;
 			tArea.test();
 		}else if(e.getActionCommand().equals("Clear")){
 			if(tArea != null) tArea.clearAll();
+			numbObjectChanged();
 		}else if(e.getActionCommand().equals("Delete Current Object")){
 			if(tArea != null) tArea.deleteCurrentObject();
+			numbObjectChanged();
 		}else if(e.getActionCommand().equals("Delete All Objects")){
 			if(tArea != null) tArea.deleteAllObjects();
+			numbObjectChanged();
+		}else if(e.getSource() == menu){
+			System.out.println("OBJECTS");
 		}
     }
 

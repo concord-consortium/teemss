@@ -191,7 +191,7 @@ LObjSubDict				subDictionary;
 LObjCCTextAreaView		owner;
 String				text;
 
-
+boolean		needNotifyAboutMenu = true;
 	public CCTextArea(LObjCCTextAreaView owner,MainView mainView,LObjDictionary dict,LObjSubDict subDictionary){
 		super();
 		this.mainView = mainView;
@@ -261,6 +261,7 @@ String				text;
 		add(view);
 		layoutComponents();
 		setText(getText());
+		if(owner != null) owner.numbObjectChanged();
     }
     public void writeExternal(DataStream out){
     	out.writeString(getText());
@@ -461,6 +462,10 @@ String				text;
 						cntrl.setRect(x+insetLeft,yTop,c.w,c.h);
 					}
 				}
+			}
+			if(needNotifyAboutMenu){
+				if(owner != null) owner.numbObjectChanged();
+				needNotifyAboutMenu = false;
 			}
 		}
 	}
