@@ -10,6 +10,12 @@ import org.concord.LabBook.*;
 //LabObject implements Storable
 public class LObjUConvertor extends LabObject
 {
+	public float	lastLeftNumber = -1f;
+	public float	lastRightNumber = -1f;
+	public int		lastCatIndex = -1;
+	public int		lastLeftIndex = -1;
+	public int		lastRightIndex = -1;
+	public int		lastDirection = 0;	
 
     public LObjUConvertor()
     {
@@ -19,19 +25,37 @@ public class LObjUConvertor extends LabObject
     public LabObjectView getView(ViewContainer vc, 
 								 boolean edit, LObjDictionary curDict)
     {    	
-    	 return new LObjUConvertorView(vc, this);
+    	LObjUConvertorView newView = new LObjUConvertorView(vc, this);
+    	if(newView != null){
+    		newView.setPrevValues(lastLeftNumber,lastRightNumber,lastCatIndex,lastLeftIndex,lastRightIndex,lastDirection);
+    	}
+    	return newView;
     }
 
     public void writeExternal(DataStream out)
     {
 		super.writeExternal(out);
+		out.writeFloat(lastLeftNumber);
+		out.writeFloat(lastRightNumber);
+		out.writeInt(lastCatIndex);
+		out.writeInt(lastLeftIndex);
+		out.writeInt(lastRightIndex);
+		out.writeInt(lastDirection);
     }
 
     public void readExternal(DataStream in)
     {
 		super.readExternal(in);	
+		lastLeftNumber = in.readFloat();
+		lastRightNumber = in.readFloat();
+		lastCatIndex = in.readInt();
+		lastLeftIndex = in.readInt();
+		lastRightIndex = in.readInt();
+		lastDirection = in.readInt();
     }
 }
+
+
 class LObjUConvertorView extends LabObjectView
 {
 	Button clearButton,convertButton,doneButton,dirButton;
@@ -44,10 +68,20 @@ class LObjUConvertorView extends LabObjectView
 	Edit 	nameEdit;
 	boolean	nameEditWasAdded = false;
 	boolean doneButtonWasAdded = false;
+	
+	LObjUConvertor	owner;
+	
+	public float	lastLeftNumber = -1f;
+	public float	lastRightNumber = -1f;
+	public int		lastCatIndex = -1;
+	public int		lastLeftIndex = -1;
+	public int		lastRightIndex = -1;
+	public int		lastDirection = 0;	
 
 	public LObjUConvertorView(ViewContainer vc, LObjUConvertor d){
 		super(vc);
 		lObj = d;	
+		owner = d;
 	}
 
     public void writeExternal(DataStream out){
@@ -62,8 +96,6 @@ class LObjUConvertorView extends LabObjectView
 
 		showDone = sDone;
 
-		if(numberLeft == null) numberLeft = new Edit();
-		if(numberRight == null) numberRight = new Edit();
 		if(clearButton == null) clearButton = new Button("Clear");
 		add(clearButton);
 		if(convertButton == null) convertButton = new Button("=");
@@ -71,7 +103,13 @@ class LObjUConvertorView extends LabObjectView
 		if(dirButton == null) dirButton = new Button("->");
 		add(dirButton);
 		createCatChoice();
-		createCurrCat(CCUnit.UNIT_CAT_LENGTH);
+		if(numberLeft == null) numberLeft = new Edit();
+		if(numberRight == null) numberRight = new Edit();
+		if(lastCatIndex >= 0){
+			createCurrCat(CCUnit.UNIT_CAT_LENGTH+lastCatIndex);
+		}else{
+			createCurrCat(CCUnit.UNIT_CAT_LENGTH);
+		}
 		add(numberLeft);
 		add(numberRight);
 		if(showDone){
@@ -125,6 +163,9 @@ class LObjUConvertorView extends LabObjectView
 		}
 		add(catChoice);
 	}
+	
+	boolean    needCreateCurrCat = true;
+	
 	public void createCurrCat(int index){
 		if(index < CCUnit.UNIT_CAT_LENGTH || index > CCUnit.UNIT_CAT_ELECTRICITY) return;
 		if(currChoiceFrom != null){
@@ -144,12 +185,41 @@ class LObjUConvertorView extends LabObjectView
 		}
 		add(currChoiceFrom);
 		add(currChoiceTo);
-		numberLeft.setText("");
-		numberRight.setText("");
+		needCreateCurrCat = false;
+		catChoice.setSelectedIndex(index - CCUnit.UNIT_CAT_LENGTH);
+		needCreateCurrCat = true;
 		
-		nameEdit = new Edit();
+		if(lastLeftNumber >= 0f){
+			numberLeft.setText(""+lastLeftNumber);
+		}else{
+			numberLeft.setText("");
+		}
+		if(lastRightNumber >= 0f){
+			numberRight.setText(""+lastRightNumber);
+		}else{
+			numberRight.setText("");
+		}
+		if(lastLeftIndex >= 0 && (currChoiceFrom != null)){
+			currChoiceFrom.setSelectedIndex(lastLeftIndex);
+		}
+		if(lastRightIndex >= 0 && (currChoiceTo != null)){
+			currChoiceTo.setSelectedIndex(lastRightIndex);
+		}
+		
+		if(lastDirection != 0 && dirButton != null){
+			leftToRight = (lastDirection == 1);
+			if(leftToRight){
+				dirButton.setText("->");
+			}else{
+				dirButton.setText("<-");
+			}
+		}
+
+		
+		if(nameEdit == null) nameEdit = new Edit();
 		nameEdit.setText(getLabObject().name);
-		nameLabel = new Label("Name");
+		if(nameLabel == null) nameLabel = new Label("Name");
+		
 		if(getEmbeddedState()){
 			nameEditWasAdded = false;
 		}else{
@@ -219,8 +289,60 @@ class LObjUConvertorView extends LabObjectView
 			numberRight.setRect(width - 65, yStart + 45, 60, 15);
 		}
 	}
+	public void setPrevValues(float lastLeftNumber,float  lastRightNumber,int  lastCatIndex,
+							  int lastLeftIndex,int lastRightIndex,int lastDirection){
+		this.lastLeftNumber 	= lastLeftNumber;
+		this.lastRightNumber 	= lastRightNumber;
+		this.lastCatIndex 		= lastCatIndex;
+		this.lastLeftIndex 		= lastLeftIndex;
+		this.lastRightIndex 	= lastRightIndex;
+		this.lastDirection 		= lastDirection;
+
+/*
+		System.out.println("lastCatIndex "+this.lastCatIndex+" lastDirection "+this.lastDirection);
+		System.out.println("lastLeftNumber "+this.lastLeftNumber+" lastRightNumber "+this.lastRightNumber);
+		System.out.println("lastLeftIndex "+this.lastLeftIndex+" lastRightIndex "+this.lastRightIndex);
+*/
+	}
 
     public void close(){
+    	if(owner != null){
+			owner.lastLeftNumber = -1f;
+			if(numberLeft != null){
+				owner.lastLeftNumber = extra.util.ConvertExtra.toFloat(numberLeft.getText());
+				if(owner.lastLeftNumber < 0f) owner.lastLeftNumber = 0f;
+			}
+			owner.lastRightNumber = -1f;
+			if(numberRight != null){
+				owner.lastRightNumber = extra.util.ConvertExtra.toFloat(numberRight.getText());
+				if(owner.lastRightNumber < 0f) owner.lastRightNumber = 0f;
+			}
+			owner.lastCatIndex = -1;
+			if(catChoice != null){
+				owner.lastCatIndex = catChoice.getSelectedIndex();
+			}
+			owner.lastLeftIndex = -1;
+			if(currChoiceFrom != null){
+				owner.lastLeftIndex = currChoiceFrom.getSelectedIndex();
+			}
+			owner.lastRightIndex = -1;
+			if(currChoiceTo != null){
+				owner.lastRightIndex = currChoiceTo.getSelectedIndex();
+			}
+			owner.lastDirection = (leftToRight)?1:-1;	
+		}
+		lastLeftNumber 	= owner.lastLeftNumber;
+		lastRightNumber = owner.lastRightNumber;
+		lastCatIndex 	= owner.lastCatIndex;
+		lastLeftIndex 	= owner.lastLeftIndex;
+		lastRightIndex 	= owner.lastRightIndex;
+		lastDirection 	= owner.lastDirection;
+
+/*
+		System.out.println("lastCatIndex "+lastCatIndex+" lastDirection "+lastDirection);
+		System.out.println("lastLeftNumber "+lastLeftNumber+" lastRightNumber "+lastRightNumber);
+		System.out.println("lastLeftIndex "+lastLeftIndex+" lastRightIndex "+lastRightIndex);
+*/
     	super.close();
     	if(nameEdit != null){
     		getLabObject().name = nameEdit.getText();
@@ -233,10 +355,19 @@ class LObjUConvertorView extends LabObjectView
 			if(container != null){
 				container.done(this);
 			}	
-		}else if(e.target == catChoice &&
+		}else if(e.target == catChoice && 
 			e.type == ControlEvent.PRESSED){
 			int index = CCUnit.UNIT_CAT_LENGTH + catChoice.getSelectedIndex();
-			createCurrCat(index);
+			waba.fx.Rect oldRect = getRect();
+			if(needCreateCurrCat){
+				lastLeftNumber 	= owner.lastLeftNumber = -1f;
+				lastRightNumber = owner.lastRightNumber = -1f;
+				lastCatIndex = owner.lastCatIndex = index - CCUnit.UNIT_CAT_LENGTH;
+				lastLeftIndex = owner.lastLeftIndex = 0;
+				lastRightIndex = owner.lastRightIndex = 0;
+				createCurrCat(index);
+			}
+			setRect(oldRect.x,oldRect.y,oldRect.width,oldRect.height);
 		}else if(e.target == convertButton &&
 			e.type == ControlEvent.PRESSED){
 			convert();
@@ -252,6 +383,11 @@ class LObjUConvertorView extends LabObjectView
 			}else{
 				dirButton.setText("<-");
 			}
+			lastDirection = owner.lastDirection = (leftToRight)?1:-1;	
+		} else if(e.target == currChoiceFrom){
+			lastLeftIndex = owner.lastLeftIndex = currChoiceFrom.getSelectedIndex();
+		} else if(e.target == currChoiceTo){
+			lastRightIndex 	= owner.lastRightIndex = currChoiceTo.getSelectedIndex();
 		}   
 	}
 
@@ -294,6 +430,18 @@ class LObjUConvertorView extends LabObjectView
 		}else{
 			eTo.setText(""+valTo);
 		}
+		owner.lastLeftNumber = -1f;
+		if(numberLeft != null){
+			owner.lastLeftNumber = extra.util.ConvertExtra.toFloat(numberLeft.getText());
+			if(owner.lastLeftNumber < 0f) owner.lastLeftNumber = 0f;
+		}
+		lastLeftNumber 	= owner.lastLeftNumber;
+		owner.lastRightNumber = -1f;
+		if(numberRight != null){
+			owner.lastRightNumber = extra.util.ConvertExtra.toFloat(numberRight.getText());
+			if(owner.lastRightNumber < 0f) owner.lastRightNumber = 0f;
+		}
+		lastRightNumber = owner.lastRightNumber;
 	}
 
 }

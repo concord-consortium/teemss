@@ -71,8 +71,8 @@ public class LObjDictionaryView extends LabObjectView
 			buttons.add(newButton, 0, 0);
 			buttons.add(openButton, 1, 0);
 			buttons.add(delButton, 2, 0);
+			me.add(buttons);
 		}
-		me.add(buttons);
     }
 
     public void setRect(int x, int y, int width, int height)
@@ -81,9 +81,13 @@ public class LObjDictionaryView extends LabObjectView
 		if(!didLayout) layout(false);
 	
 		me.setRect(0,0, width, height);
-		treeControl.setRect(1,1,width-2, height-22);
 		Debug.println("Setting grid size: " + width + " " + height);
-		buttons.setRect(0,height-20,width,20);
+		if(viewFromExternal){
+			treeControl.setRect(1,1,width-2, height-2);
+		}else{
+			treeControl.setRect(1,24,width-2, height-25);
+			buttons.setRect(1,1,width - 2,22);
+		}
     }
 
     Dialog newDialog = null;
@@ -363,7 +367,6 @@ public class LObjDictionaryView extends LabObjectView
 
 	public void addMenus()
 	{
-		if(container == null) return;
 		
 		if(waba.sys.Vm.getPlatform().equals("PalmOS")){
 			fileStrings = palmFileStrings;
@@ -378,12 +381,12 @@ public class LObjDictionaryView extends LabObjectView
 
 	public void delMenus()
 	{
-		if(container != null){
-			if(editMenu != null) container.getMainView().delMenu(this,editMenu);
-			if(viewMenu != null) container.getMainView().delMenu(this,viewMenu);
-			container.getMainView().removeFileMenuItems(fileStrings, this);
-			addedMenus = false;
-		}		
+		
+		
+		if(editMenu != null) getMainView().delMenu(this,editMenu);
+		if(viewMenu != null) getMainView().delMenu(this,viewMenu);
+		getMainView().removeFileMenuItems(fileStrings, this);
+		addedMenus = false;
 	}
 
 	public MainView getMainView()

@@ -19,7 +19,7 @@ EmbedObjectPropertyControl		objProperty;
 	public void setContent(){
 		Rect r = getContentPane().getRect();
 		super.setContent();
-		if(view != null) view.setRect(0,0,r.width,r.height - 30);
+		if(view != null) view.setRect(0,0,r.width,r.height - 52);
 		if(objProperty == null){
 			objProperty = new EmbedObjectPropertyControl(null);
 			objProperty.layout(false);
@@ -901,7 +901,7 @@ public final static int	yTextBegin = 2;
 		if (ev.key == IKeys.BACKSPACE) {
 		}else if (ev.key == IKeys.DELETE){
 		}else if (ev.key == IKeys.ENTER){// && editable(this)){
-			insertEmptyLine();
+			if(ev.target == this) insertEmptyLine();
 		}else if (ev.key == IKeys.END){
 		}else if (ev.key == IKeys.HOME){
 			if(firstLine != 0){

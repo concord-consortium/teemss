@@ -30,7 +30,9 @@ Menu 					menu = null;
 		lObj = doc;
 	}
 	public void delMenus(){
-		if(container != null) container.getMainView().delMenu(this, menu);
+		if(!waba.sys.Vm.getPlatform().equals("PalmOS")){
+			if(container != null) container.getMainView().delMenu(this, menu);
+		}
 	}
 	public void addMenus(){
 		addMenus(container);
@@ -38,14 +40,16 @@ Menu 					menu = null;
 	
 	public void addMenus(ViewContainer vc){
 		
-		if(menu == null){
-			menu = new Menu("Notes");
-			menu.add("Load Note ...");
-			menu.add("-");
-			menu.add("Paste");
-			menu.addActionListener(this);
+		if(!waba.sys.Vm.getPlatform().equals("PalmOS")){
+			if(menu == null){
+				menu = new Menu("Notes");
+				menu.add("Load Note ...");
+				menu.add("-");
+				menu.add("Paste");
+				menu.addActionListener(this);
+			}
+			if(vc != null) vc.getMainView().addMenu(this, menu);
 		}
-		if(vc != null) vc.getMainView().addMenu(this, menu);
 	}
 	public void setEmbeddedState(boolean embeddedState){
 		boolean oldState = getEmbeddedState();
@@ -83,13 +87,15 @@ Menu 					menu = null;
 	}
 
     public void actionPerformed(ActionEvent e){
-		if(e.getActionCommand().equals("Load Note ...")){
-			openFileDialog();
-		}else if(e.getActionCommand().equals("Paste")){
-			if(!CCClipboard.isClipboardEmpty()){
-				String str = CCClipboard.getStringContent();
-				if(str != null){
-					tArea.insertText(str);
+		if(!waba.sys.Vm.getPlatform().equals("PalmOS")){
+			if(e.getActionCommand().equals("Load Note ...")){
+				openFileDialog();
+			}else if(e.getActionCommand().equals("Paste")){
+				if(!CCClipboard.isClipboardEmpty()){
+					String str = CCClipboard.getStringContent();
+					if(str != null){
+						tArea.insertText(str);
+					}
 				}
 			}
 		}

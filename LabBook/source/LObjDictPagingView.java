@@ -16,11 +16,11 @@ public class LObjDictPagingView extends LabObjectView
     LObjDictionary dict;
  
     Button doneButton = new Button("Done");
-    Button backButton = new Button("Back");
+    Button backButton = new Button("Prev");
     Choice objectChoice = null;
     Button nextButton = new Button("Next");
 	
-    Button delButton = new Button("Del");
+//    Button delButton = new Button("Del");
 
     TreeNode [] childArray;
 
@@ -98,13 +98,14 @@ public class LObjDictPagingView extends LabObjectView
 		if(childArray != null){
 			for(int i=0; i < childArray.length; i++){
 				objList.add(childArray[i].toString());
+				
 			}
 		}
 
 		objectChoice = new Choice(objList);
 		add(objectChoice);
 
-		if(editStatus) add(delButton);
+//		if(editStatus) add(delButton);
 	
 		showObject();
     }
@@ -114,16 +115,18 @@ public class LObjDictPagingView extends LabObjectView
 		super.setRect(x,y,width,height);
 		if(!didLayout) layout(false);
 	
-		int curX = 0;
-		backButton.setRect(0, height-15, 25, 15);
-		curX += 25;
-		objectChoice.setRect(curX, height-15, 60, 15);
-		curX += 60;
-		nextButton.setRect(curX, height-15, 25, 15);
-		curX+=25;
-		if(editStatus) delButton.setRect(width-50, height-15, 25, 15);
+		int curX = 2;
+		backButton.setRect(curX, height-16, 25, 15);
+		curX += 27;
+		nextButton.setRect(curX, height-16, 25, 15);
+		curX+=27;
+		int choiceWidth = width - curX - 2;
+		if(choiceWidth > 120) choiceWidth = 120;
+		objectChoice.setRect(curX, height-16, choiceWidth, 15);
+		curX += choiceWidth;
+//		if(editStatus) delButton.setRect(width-50, height-15, 25, 15);
 		if(showDone){
-			doneButton.setRect(width-25, height-15, 25, 15);
+			doneButton.setRect(width-25, height-16, 25, 15);
 		}
 		if(lObjView != null){
 			lObjView.setRect(0,0,width, height-15);
@@ -163,7 +166,7 @@ public class LObjDictPagingView extends LabObjectView
 				}
 				showObject();
 		
-			} else if(e.target == delButton){
+			}/* else if(e.target == delButton){
 				if(childArray == null) return;
 				if(childArray[index] == null) return;
 				dict.remove(childArray[index]);
@@ -181,7 +184,7 @@ public class LObjDictPagingView extends LabObjectView
 					}
 				}
 				showObject();
-			} else if(e.target == backButton){
+			} */else if(e.target == backButton){
 				index--;
 				if(index < 0) index = 0;
 				showObject();
