@@ -13,7 +13,7 @@
 
 <xsl:template match="/project/unit/investigation/teacher-notes/teacher-discuss">
 Writing: <xsl:value-of select="ancestor::unit/@name"/>_<xsl:value-of select="ancestor::investigation/@name"/>
-<redirect:write file="html/{ancestor::unit/@name}_{ancestor::investigation/@name}_teacher_discuss.html">
+<redirect:write file="html/{ancestor::unit/@name}/{ancestor::investigation/@name}_teacher_discuss.html">
 
 <html>
 <head><title>Teacher Notes</title></head>

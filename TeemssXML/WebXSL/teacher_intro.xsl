@@ -13,7 +13,7 @@
 
 <xsl:template match="project/unit/investigation/teacher-notes/teacher-intro">
 Found intro
-<redirect:write file="html/{ancestor::unit/@name}_{ancestor::investigation/@name}_teacher_intro.html">
+<redirect:write file="html/{ancestor::unit/@name}/{ancestor::investigation/@name}_teacher_intro.html">
 
 <html>
 <head><title>Teacher Notes</title></head>

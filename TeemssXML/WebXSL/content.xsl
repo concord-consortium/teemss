@@ -77,7 +77,14 @@ width="158" height="140" border="1"/>
 </xsl:template>
 
 <xsl:template match="shared-image">
-<img src="../../images/Technical_Hints/{@name}/WEB_{@name}.gif"/>
+<xsl:choose>
+<xsl:when test="@screenshot = 'true'">
+<img src="../../images/Technical_Hints/screenshot/{@name}/WEB_{@name}.gif"/>
+</xsl:when>
+<xsl:otherwise>
+<img src="../../images/Technical_Hints/pictures/{@name}/WEB_{@name}.gif"/>
+</xsl:otherwise>
+</xsl:choose>
 </xsl:template>
 
 <xsl:template match="ext-image-sequence">
