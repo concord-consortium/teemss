@@ -189,15 +189,11 @@ public class LabBook
     // object is already in the hashtable so it won't be "loaded" again.
 
     Vector loaded = new Vector();
-    BufferStream bsIn = new BufferStream();
-    DataStream dsIn = new DataStream(bsIn);
-
     public LabObject load(LabObjectPtr lObjPtr)
     {
 	int i;
 	int numLoaded = loaded.getCount();
 	LabObjectPtr curObjPtr;
-
 	if(lObjPtr.devId == -1 && lObjPtr.objId == -1) return null;
 
 	for(i=0; i<numLoaded; i++){
@@ -208,6 +204,9 @@ public class LabBook
 		return curObjPtr.obj;
 	    }
 	}
+
+	BufferStream bsIn = new BufferStream();
+	DataStream dsIn = new DataStream(bsIn);
 
 	// We didn't find it so we need to parse it from the file
 	byte [] buffer = db.readObjectBytes(lObjPtr.devId, lObjPtr.objId);
