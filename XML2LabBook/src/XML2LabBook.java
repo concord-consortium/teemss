@@ -3,6 +3,7 @@ package xml2labbook;
 import org.concord.LabBook.*;
 import org.concord.CCProbe.*;
 import org.concord.waba.extra.probware.probs.*;
+import extra.util.*;
 import waba.fx.*;
 import graph.*;
 
@@ -544,7 +545,6 @@ public static QTManager qtManager = null;
 
 		if(graph == null) return null;
 		dc.setGraph(graph);
-		dc.store();
 		return (LabObject)dc;
 	}
 
@@ -569,6 +569,15 @@ public static QTManager qtManager = null;
 					}
 				}
 			}
+		}
+
+		String curLine = element.getAttribute("current-line");
+		if(curLine != null && curLine.length() > 0){
+			graph.setCurGSIndex(getIntFromString(curLine));
+		}
+		String title = element.getAttribute("title");
+		if(title != null && title.length() > 0){
+			graph.setTitle(title);
 		}
 
 		return (LabObject)graph;
@@ -649,10 +658,63 @@ public static QTManager qtManager = null;
 		String interfaceType = element.getAttribute("interface");
 		if(interfaceType != null && interfaceType.length() > 0){
 			int interId = getIntFromString(interfaceType);
-			return LObjProbeDataSource.getProbeDataSource(probeStr, interId);
+			pds = LObjProbeDataSource.getProbeDataSource(probeStr, interId);
 		} else {
-			return LObjProbeDataSource.getProbeDataSource(probeStr);
+			pds =  LObjProbeDataSource.getProbeDataSource(probeStr);
 		}
+
+		if(pds == null){
+			System.out.println("X2L: error invalid probe");
+			return null;
+		}
+		CCProb probe = pds.getProbe();
+		if(probe == null){
+			System.out.println("X2L: error invalid probe");
+			return null;
+		}
+
+		boolean invalidProps = false;
+		NodeList nodeList = element.getChildNodes();
+		for(int i = 0; i < nodeList.getLength(); i++){
+			Node node = nodeList.item(i);
+			int type = node.getNodeType();
+			if(type == Node.ELEMENT_NODE){
+				String tagName = ((Element)node).getTagName();
+				if(tagName.equals("PROP")){
+					Element prop = (Element)node;
+					String propName = prop.getAttribute("name");
+					String propVal = prop.getAttribute("value");
+					PropObject propObj = probe.getProperty(propName);
+					if(propObj == null){
+						invalidProps = true;
+						System.out.println("X2L invalid property: " + propName);
+						continue;
+					}
+					propObj.setValue(propVal);
+				}
+			}
+		}
+
+		if(invalidProps){
+			waba.util.Vector props = probe.getProperties();
+			System.out.println("  Valid properties are:");
+			for(int i=0; i<props.getCount(); i++){
+				PropObject propObj = (PropObject)props.get(i);
+				System.out.print("   " + propObj.getName());
+				String [] posVals = propObj.getPossibleValues();
+				if(posVals == null){
+					System.out.println("");
+				} else {
+					System.out.print(": ( ");
+					for(int j=0; j<posVals.length-1; j++){
+						System.out.print("\"" + posVals[j] + "\" | ");
+					}
+					System.out.println("\"" + posVals[posVals.length-1] + "\" )");
+				}
+			}			
+		}
+
+		return pds;
 	}
 
 	public static LabObject getIntProbeTrans(LabBook labBook, Element element,
