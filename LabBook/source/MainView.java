@@ -138,6 +138,11 @@ public abstract class MainView extends ExtraMainWindow
 		menuBar.add(file);
 	}
 
+	public void setLabBook(LabBook lBook)
+	{
+		labBook = lBook;
+		LabObject.lBook = labBook;
+	}
 
     public void actionPerformed(ActionEvent e)
     {
