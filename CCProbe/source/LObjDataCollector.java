@@ -42,6 +42,15 @@ public class LObjDataCollector extends LObjSubDict
 		return me;
     }
 
+	public void store()
+	{
+		if(dataSources == null) return;
+		for(int i=0; i<dataSources.getCount(); i++){
+			((LabObject)dataSources.get(i)).store();			
+		}
+		super.store();		
+	}
+
 	public String getSummaryTitle()
 	{
 		String title;
