@@ -76,7 +76,7 @@ CCUnit		currentUnit = null;
 		CCProb p = getProbe();
 
 		summary = p.getName() + "(";
-		PropObject [] props = p.getProperties();
+		PropObject [] props = p.getPropArray();
 		int i;
 		for(i=0; i < props.length-1; i++){
 			summary += props[i].getName() + "- " + props[i].getValue() + "; ";

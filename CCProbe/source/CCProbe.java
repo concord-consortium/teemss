@@ -329,6 +329,12 @@ public class CCProbe extends ExtraMainWindow
     {
 		Debug.println("closing");
 		if(labBook != null){
+			if(fullViews != null){
+				for(int i=0; i<fullViews.getCount(); i++){
+					LabObjectView curFullView = (LabObjectView)fullViews.get(i);	
+					curFullView.close();
+				}				
+			}
 			labBook.store(loDict);
 			labBook.commit();
 			labBook.close();

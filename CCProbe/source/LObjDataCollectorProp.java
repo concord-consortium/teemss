@@ -17,7 +17,7 @@ public class LObjDataCollectorProp extends LabObjectView
     Choice probeChoice = null;
     Edit nameEdit = null;
     Label nameLabel = null;
-	Check addIntegral = new Check("Add Integral");
+	Check addIntegral = new Check("Add Integral");	
 
     public LObjDataCollectorProp(ViewContainer vc, LObjDataCollector d,
 								   LObjDictionary curDict)

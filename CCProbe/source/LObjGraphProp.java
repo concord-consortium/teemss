@@ -14,8 +14,9 @@ import extra.util.*;
 public class LObjGraphProp extends LabObjectView
 	implements ActionListener
 {
-    PropertyDialog pDialog = null;
-    PropContainer props = null;
+    PropContainer propsGraph = null;
+	PropContainer propsXAxis = null;
+	PropContainer propsYAxis = null;
 	PropObject propTitle;
 	PropObject propDataSources;
 	PropObject propVisibleSources;
@@ -48,7 +49,11 @@ public class LObjGraphProp extends LabObjectView
 		if(didLayout) return;
 		didLayout = true;
 
-		propView = new PropertyView(props, index, this);
+		propView = new PropertyView(this);
+		propView.addContainer(propsGraph);
+		propView.addContainer(propsYAxis);
+		propView.addContainer(propsXAxis);
+		propView.setCurTab(index);
 		add(propView);
 	}
 
@@ -67,55 +72,75 @@ public class LObjGraphProp extends LabObjectView
 		GraphSettings curGS = graph.getCurGraphSettings();
 		if(curGS == null) return;
 
-		props = new PropContainer();
-		props.createSubContainer("Graph");
-		props.createSubContainer("YAxis");	
-		props.createSubContainer("XAxis");
+		if(propsGraph == null){
+			propsGraph = new PropContainer("Graph");
+			propsYAxis = new PropContainer("YAxis");
+			propsXAxis = new PropContainer("XAxis");
 
-		if(graph.autoTitle)  propTitle = new PropObject("Title", "*" + graph.title);
-		else propTitle = new PropObject("Title", graph.title);
-		propTitle.prefWidth = 120;
-		dsStrings = new String [graph.numDataSources];
-		for(int i=0; i<graph.numDataSources; i++){
-			DataSource ds = graph.getDataSource(i);
-			if(ds instanceof LabObject){
-				dsStrings[i] = ((LabObject)ds).name;
+			if(graph.autoTitle)  propTitle = new PropObject("Title", "*" + graph.title);
+			else propTitle = new PropObject("Title", graph.title);
+			propTitle.prefWidth = 120;
+
+			dsStrings = new String [graph.numDataSources];
+			for(int i=0; i<graph.numDataSources; i++){
+				DataSource ds = graph.getDataSource(i);
+				if(ds instanceof LabObject){
+					dsStrings[i] = ((LabObject)ds).name;
+				}
 			}
+			int defIndex = graph.getCurGraphSettings().dsIndex;
+			propDataSources = new PropObject("Data", dsStrings, defIndex);
+			propDataSources.prefWidth = 120;
+			propDataSources.setType(PropObject.CHOICE_SETTINGS);
+			propDataSources.setSettingsButtonName("Setup");
+			
+			propVisibleSources = new PropObject("Visible", dsStrings);
+			propVisibleSources.prefWidth = 120;
+			propVisibleSources.setType(PropObject.MULTIPLE_SEL_LIST);
+			for(int i=0; i<dsStrings.length; i++){
+				propVisibleSources.setCheckedValue(i, graph.getVisible(i));
+			}
+			
+			propsGraph.addProperty(propTitle);
+			propsGraph.addProperty(propDataSources);
+			propsGraph.addProperty(propVisibleSources);
+			
+			propXmin = new PropObject("Min", curGS.xmin + "");
+			propXmax = new PropObject("Max", curGS.xmax + "");
+			propXlabel = new PropObject("Label", curGS.xLabel);
+			propXlabel.prefWidth = 100;
+			propsXAxis.addProperty(propXmax);
+			propsXAxis.addProperty(propXmin);
+			propsXAxis.addProperty(propXlabel);
+
+			propYmin = new PropObject("Min", curGS.ymin + "");
+			propYmax = new PropObject("Max", curGS.ymax + "");
+			if(graph.autoTitle) propYlabel = new PropObject("Label", "*" + curGS.yLabel);
+			else propYlabel = new PropObject("Label", curGS.yLabel);
+			propYlabel.prefWidth = 100;
+			propsYAxis.addProperty(propYmax);
+			propsYAxis.addProperty(propYmin);
+			propsYAxis.addProperty(propYlabel);			
+		} else {
+			if(graph.autoTitle)  propTitle.setValue("*" + graph.title);
+			else propTitle.setValue(graph.title);
+
+			propDataSources.setValue(dsStrings[graph.getCurGraphSettings().dsIndex]);
+			
+			for(int i=0; i<dsStrings.length; i++){
+				propVisibleSources.setCheckedValue(i, graph.getVisible(i));
+			}
+
+			propXmin.setValue(curGS.xmin + "");
+			propXmax.setValue(curGS.xmax + "");
+			propXlabel.setValue(curGS.xLabel);
+
+			propYmin.setValue(curGS.ymin + "");
+			propYmax.setValue(curGS.ymax + "");
+			if(graph.autoTitle) propYlabel.setValue("*" + curGS.yLabel);
+			else propYlabel.setValue(curGS.yLabel);
 		}
-		int defIndex = graph.getCurGraphSettings().dsIndex;
-		propDataSources = new PropObject("Data", dsStrings, defIndex);
-		propDataSources.prefWidth = 120;
-		propDataSources.setType(PropObject.CHOICE_SETTINGS);
-		propDataSources.setSettingsButtonName("Setup");
-
-		propVisibleSources = new PropObject("Visible", dsStrings);
-		propVisibleSources.prefWidth = 120;
-		propVisibleSources.setType(PropObject.MULTIPLE_SEL_LIST);
-		for(int i=0; i<dsStrings.length; i++){
-			propVisibleSources.setCheckedValue(i, graph.getVisible(i));
-		}
-
-		props.addProperty(propTitle, "Graph");
-		props.addProperty(propDataSources, "Graph");
-		props.addProperty(propVisibleSources, "Graph");
-
-		propXmin = new PropObject("Min", curGS.xmin + "");
-		propXmax = new PropObject("Max", curGS.xmax + "");
-		propXlabel = new PropObject("Label", curGS.xLabel);
-		propXlabel.prefWidth = 100;
-		props.addProperty(propXmax, "XAxis");
-		props.addProperty(propXmin, "XAxis");
-		props.addProperty(propXlabel, "XAxis");
-
-		propYmin = new PropObject("Min", curGS.ymin + "");
-		propYmax = new PropObject("Max", curGS.ymax + "");
-		if(graph.autoTitle) propYlabel = new PropObject("Label", "*" + curGS.yLabel);
-		else propYlabel = new PropObject("Label", curGS.yLabel);
-		propYlabel.prefWidth = 100;
-		props.addProperty(propYmax, "YAxis");
-		props.addProperty(propYmin, "YAxis");
-		props.addProperty(propYlabel, "YAxis");
-    }
+	}
 
 	public void actionPerformed(ActionEvent e)
 	{
@@ -126,11 +151,13 @@ public class LObjGraphProp extends LabObjectView
 			graph.setCurGSIndex(dsIndex);
 
 			GraphSettings newGS = graph.getCurGraphSettings();
-			if(newGS != curGS) return;
+			if(newGS != curGS){
+				return;
+			}
 
 			if(curGS == null) return;
-			curGS.setXValues(propXmin.createFValue(), propXmax.createFValue());
-			curGS.setYValues(propYmin.createFValue(), propYmax.createFValue());
+			curGS.setXValues(propXmin.getFValue(), propXmax.getFValue());
+			curGS.setYValues(propYmin.getFValue(), propYmax.getFValue());
 			
 			curGS.setXLabel(propXlabel.getValue());
 		   
@@ -178,7 +205,7 @@ public class LObjGraphProp extends LabObjectView
 					}
 				}
 			}
-		} else {
+		} else if(e.getActionCommand().equals("Close")){
 			// this is a cancel or close
 			if(container != null){
 				container.done(this);

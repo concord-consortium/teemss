@@ -16,7 +16,8 @@ public class LObjProbeDataSourceProp extends LabObjectView
 	implements ActionListener
 {
 	LObjProbeDataSource pds;
-	CalibrationView cView = null;
+	PropertyView pView = null;
+	CalibrationPane cPane = null;
 
 	public LObjProbeDataSourceProp(ViewContainer vc, LObjProbeDataSource ds)
 	{
@@ -30,8 +31,10 @@ public class LObjProbeDataSourceProp extends LabObjectView
 		if(didLayout) return;
 		didLayout = true;
 
-		cView = new CalibrationView(pds.getProbe(), pds.interfaceType, this);
-		add(cView);
+		pView = new PropertyView(this);
+		pView.addContainer(pds.getProbe());
+		pView.addPane(new CalibrationPane(pds.getProbe(), pds.interfaceType, null, pView));
+		add(pView);
 	}
 
     public void setRect(int x, int y, int width, int height)
@@ -39,16 +42,16 @@ public class LObjProbeDataSourceProp extends LabObjectView
 		super.setRect(x,y,width,height);
 		if(!didLayout) layout(false);
 
-		cView.setRect(0,0,width,height);
+		pView.setRect(0,0,width,height);
 	}
 
 	public void actionPerformed(ActionEvent ae)
 	{
 		if(ae.getActionCommand().equals("Close")){
-			// this is a cancel or close
 			if(container != null){
 				container.done(this);
 			}	    
+			return;
 		}
 
 		pds.notifyObjListeners(new LabObjEvent(pds, 0));
