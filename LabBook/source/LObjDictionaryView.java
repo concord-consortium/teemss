@@ -1,13 +1,51 @@
 package org.concord.LabBook;
 
 import waba.ui.*;
+import waba.fx.*;
+import waba.io.*;
 import org.concord.waba.extra.ui.*;
+import org.concord.waba.extra.io.*;
 import org.concord.waba.extra.event.*;
 import org.concord.waba.extra.util.*;
+// import org.concord.waba.WFTPClient.*;
+
+/*
+class ScreenWriter 
+	implements LinePrinter
+{
+	Graphics g = null;
+	FontMetrics fm = null;
+	int lineY = 10;
+	int lineX = 0;
+
+	ScreenWriter(Graphics g, FontMetrics fm)
+	{
+		this.g = g;
+		this.fm = fm;
+	}
+
+	public void print(String s)
+	{
+		g.drawText(s, lineX, lineY);
+		lineX += fm.getTextWidth(s);
+		// System.out.print(s);
+	}
+
+	public void println(String s)
+	{
+		g.drawText(s, lineX, lineY);
+		lineY += 10;
+		lineX = 0;
+		// System.out.println(s);
+	}
+}
+*/
 
 public class LObjDictionaryView extends LabObjectView 
     implements ActionListener, DialogListener, ScrollListener, TreeControlListener
 {
+	final static String beamCatName = "CCBeamTemp";
+
 	public		boolean viewFromExternal = false;
     TreeControl treeControl;
     TreeModel treeModel;
@@ -30,12 +68,19 @@ public class LObjDictionaryView extends LabObjectView
 
     boolean editStatus = false;
 
+	//	String [] fileStrings = {"New..", "Open", "Rename..", "Send via FTP", "FTP settings..", 
+	// 						 "Import..", "Export..", "Delete"};
 	String [] fileStrings = {"New..", "Open", "Rename..", "Import..", "Export..", "Delete"};
-	String [] palmFileStrings = {"New..", "Open", "Beam", "Receive", "Rename..", "Delete"};
-
+	String [] palmFileStrings = {"New..", "Open", "Beam", "Rename..", "Delete"};
 
 	CCScrollBar				scrollBar;
 	waba.util.Vector 		pathTree;
+
+	/*
+	String username = "scytacki";
+	String ftpServer = "4.19.234.31";
+	String ftpDirectory = ".";
+	*/
 
     public LObjDictionaryView(ViewContainer vc, LObjDictionary d,
 							  LabBookSession session)
@@ -363,27 +408,40 @@ public class LObjDictionaryView extends LabObjectView
 			} else if(e.getActionCommand().equals("Open")){
 				openSelected();
 			} else if(e.getActionCommand().equals("Beam")){
+				Catalog ccBeam = new Catalog("CCBEAM.cCCB.appl", Catalog.READ_ONLY);
+				if(ccBeam.isOpen()){
+					ccBeam.close();
+				} else {
+					// This user doesn't have CCBeam installed
+					// if we could we should try to intall it for them
+					Dialog.showMessageDialog(null, "Beam Error",
+											 "You need to install CCBeam.",
+											 "Ok",
+											 Dialog.INFO_DIALOG);
+					return;
+				}
+
+
 				TreeNode curNode = treeControl.getSelected();
 				DictTreeNode parent = (DictTreeNode)treeControl.getSelectedParent();
 				if(parent == null) return;
 				
 				LabObject obj = parent.getObj(curNode);
 				
-				LabBookCatalog lbCat = new LabBookCatalog("Beamed");
+				LabBookCatalog lbCat = new LabBookCatalog(beamCatName);
 
 				dict.lBook.export(obj, lbCat);
 				lbCat.save();
 				lbCat.close();
+
+				waba.sys.Vm.exec("CCBEAM", beamCatName + "," + obj.getName(), 0, true);
+
+				Catalog beamCat = new Catalog(beamCatName + ".LaBk.DATA", Catalog.READ_WRITE);
+				if(beamCat.isOpen()){
+					beamCat.delete();
+				}
 			} else if(e.getActionCommand().equals("Receive")){
-				LabBookCatalog bmCat = new LabBookCatalog("Beamed");
-
-				LabObject newObj = dict.lBook.importDB(bmCat);
-				bmCat.close();
-
-				if(newObj != null){
-				    TreeNode newNode = rootNode.getNode(newObj);
-				    insertAtSelected(newNode);
-				}			
+				checkForBeam();
 		    } else if(e.getActionCommand().equals("Rename..")){
 				TreeNode selObj = treeControl.getSelected();
 				String [] buttons = {"Cancel", "Ok"};
@@ -396,6 +454,29 @@ public class LObjDictionaryView extends LabObjectView
 				} else {
 					waba.fx.Sound.beep();
 				}
+			} else if(e.getActionCommand().equals("Send via FTP")){
+				/*
+				TreeNode curNode = treeControl.getSelected();
+				DictTreeNode parent = (DictTreeNode)treeControl.getSelectedParent();
+				if(parent == null) return;
+				
+				LabObject obj = parent.getObj(curNode);
+				
+				LabBookFile lbFile = new LabBookFile("LabObj-" + username);
+
+				dict.lBook.export(obj, lbFile);
+				lbFile.save();
+				lbFile.close();
+				
+				ftpSend("LabObj-" + username);
+
+				File objFile = new File("LabObj-" + username, File.DONT_OPEN);
+				if(objFile.exists()){
+					objFile.delete();
+				}
+				*/
+			} else if(e.getActionCommand().equals("FTP settings..")){
+
 		    } else if(e.getActionCommand().equals("Import..")){
 				FileDialog fd = FileDialog.getFileDialog(FileDialog.FILE_LOAD, null);
 
@@ -424,10 +505,16 @@ public class LObjDictionaryView extends LabObjectView
 				    LabObject obj = parent.getObj(curNode);
 				    
 				    FileDialog fd = FileDialog.getFileDialog(FileDialog.FILE_SAVE, null);
-				    fd.setFile(obj.getName());
-				    fd.show();
+					String fileName = null;
+					if(fd != null){
+						fd.setFile(obj.getName());
+						fd.show();
+						fileName = fd.getFilePath();
+					} else {
+						fileName = "LabObj-export";
+					}
 
-				    LabBookFile lbFile = new LabBookFile(fd.getFilePath());
+				    LabBookFile lbFile = new LabBookFile(fileName);
 				    dict.lBook.export(obj, lbFile);
 				    lbFile.save();
 				    lbFile.close();
@@ -436,7 +523,69 @@ public class LObjDictionaryView extends LabObjectView
 				delSelected();
 			}
 		}
-    }
+	}
+
+	public boolean checkForBeam()
+	{
+		Catalog beamCat = new Catalog(beamCatName + ".LaBk.DATA", Catalog.READ_ONLY);
+		if(!beamCat.isOpen()){
+			return false;
+		} else {
+			beamCat.close();
+		}
+		
+		LabBookCatalog bmCat = new LabBookCatalog(beamCatName);				
+
+		LabObject newObj = dict.lBook.importDB(bmCat);
+		bmCat.close();
+
+		if(newObj != null){
+			TreeNode newNode = rootNode.getNode(newObj);
+			insertAtSelected(newNode);
+		}			
+		beamCat = new Catalog(beamCatName + ".LaBk.DATA", Catalog.READ_WRITE);
+		if(beamCat.isOpen()){
+			beamCat.delete();
+		}
+
+		return true;
+	}
+
+	public void ftpSend(String fileName)
+	{
+		/*
+		ScreenWriter sWriter = new ScreenWriter(createGraphics(), getFontMetrics(MainWindow.defaultFont));
+
+		// connect and test supplying port no.
+		FTPClient ftp = new FTPClient(ftpServer, 21, sWriter);
+		
+		byte [] testBuf = { (byte)'t', (byte)'e', (byte)'s', (byte)'t',
+							(byte)'\r', (byte)'\n',};
+
+		int errorCode = ftp.getError();
+		if(errorCode != 0){
+			sWriter.println("opening error num: " + errorCode);
+			return;
+		}
+
+		if(!ftp.login(username, password)){
+			sWriter.println("login error num: " + ftp.getError() +
+							" str: " + ftp.getErrorStr());
+			return;
+		}
+
+		// do binary by default
+		ftp.setType(FTPTransferType.BINARY);
+
+		// change dir
+		ftp.chdir(ftpDirectory);
+
+		// put a local file to remote host
+		ftp.put(fileName, fileName);
+
+		ftp.quit();		
+		*/
+	}
 
     public void showPage(TreeNode curNode, boolean edit)
     {

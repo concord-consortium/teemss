@@ -142,6 +142,7 @@ public class LabBookCatalog extends LabBookDB
     {
 		if(cat != null){	    
 			cat.close();
+			cat = null;
 		}
     }
 
@@ -239,6 +240,7 @@ public class LabBookCatalog extends LabBookDB
 			ds.writeInt(rootDevId);
 			ds.writeInt(rootObjId);
 			ds.writeInt(0);
+			cat.setRecordPos(-1);
 		}
 
 		// add the record to the catalog
