@@ -15,8 +15,8 @@ public class CCTextArea  extends Container
 
 	public Vector		lines = null;
 	FontMetrics 		fm = null;
-	int 				insetLeft = 5;
-	int 				insetRight = 10;
+	int 				insetLeft = 2;
+	int 				insetRight = 2;
 	protected Timer 	caretTimer = null;
 	protected boolean 	hasCursor = false,cursorOn = false;
 	protected Font font = new Font("Helvetica",Font.PLAIN,12);
@@ -714,9 +714,9 @@ public class CCTextArea  extends Container
 				}	
 				if(cntrl != null){
 					if(c.alignment == LBCompDesc.ALIGNMENT_RIGHT){
-						cntrl.setRect(x+width-insetRight-c.w,yTop,c.w,c.h);
+						cntrl.setRect(width-insetRight-c.w,yTop,c.w,c.h);
 					}else{
-						cntrl.setRect(x+insetLeft,yTop,c.w,c.h);
+						cntrl.setRect(insetLeft,yTop,c.w,c.h);
 					}
 				}
 			}
@@ -830,8 +830,8 @@ public class CCTextArea  extends Container
 						}
 					}
 				}
-				int leftMargin = r.x + insetLeft;
-				int rightMargin = r.x + r.width - insetRight;
+				int leftMargin = insetLeft;
+				int rightMargin = r.width - insetRight;
 				int skipRows = 0;
 				if(compDesc == null){
 					lines.add(new CCStringWrapper(this,sb.toString(),lastRow));
@@ -839,9 +839,9 @@ public class CCTextArea  extends Container
 					int addH = compDesc.h;
 					int addRows = 1 + (addH / getItemHeight());
 					if(compDesc.alignment == LBCompDesc.ALIGNMENT_LEFT){
-						leftMargin = r.x + insetLeft + compDesc.w;
+						leftMargin = insetLeft + compDesc.w;
 					}else{
-						rightMargin = r.x + r.width - insetRight - compDesc.w;
+						rightMargin = r.width - insetRight - compDesc.w;
 					}
 					if(!compDesc.wrapping){
 						lastRow += addRows;
@@ -863,7 +863,7 @@ public class CCTextArea  extends Container
 				if(addRows > 0){
 					for(int k = nRows; k < nRows + addRows; k++){
 						CCTARow newRow = new CCTARow();
-						newRow.setMargins(r.x + insetLeft,r.x + r.width - insetRight);
+						newRow.setMargins(insetLeft,r.width - insetRight);
 						rows.add(newRow);
 					}
 				}				
@@ -893,7 +893,7 @@ public class CCTextArea  extends Container
 					if(addRows > 0){
 						for(int rw = nRows; rw < nRows + addRows; rw++){
 							CCTARow newRow = new CCTARow();
-							newRow.setMargins(r.x + insetLeft,r.x + r.width - insetRight);
+							newRow.setMargins(insetLeft,r.width - insetRight);
 							rows.add(newRow);
 						}
 					}		
@@ -923,8 +923,8 @@ public class CCTextArea  extends Container
 					}
 				}
 			}
-			int leftMargin = r.x + insetLeft;
-			int rightMargin = r.x + r.width - insetRight;
+			int leftMargin = insetLeft;
+			int rightMargin = r.width - insetRight;
 			int skipRows = 0;
 			CCStringWrapper curLine = (CCStringWrapper)lines.get(nLines); 
 			if(compDesc == null){
@@ -933,9 +933,9 @@ public class CCTextArea  extends Container
 				int addH = compDesc.h;
 				int addRows = 1 + (addH / getItemHeight());
 				if(compDesc.alignment == LBCompDesc.ALIGNMENT_LEFT){
-					leftMargin = r.x + insetLeft + compDesc.w;
+					leftMargin = insetLeft + compDesc.w;
 				}else{
-					rightMargin = r.x + r.width - insetRight - compDesc.w;
+					rightMargin = r.width - insetRight - compDesc.w;
 				}
 				if(!compDesc.wrapping){
 					lastRow += addRows;
@@ -957,7 +957,7 @@ public class CCTextArea  extends Container
 			if(addRows > 0){
 				for(int k = nRows; k < nRows + addRows; k++){
 					CCTARow newRow = new CCTARow();
-					newRow.setMargins(r.x + insetLeft,r.x + r.width - insetRight);
+					newRow.setMargins(insetLeft,r.width - insetRight);
 					rows.add(newRow);
 				}
 			}				
@@ -981,7 +981,7 @@ public class CCTextArea  extends Container
 					if(addRows > 0){
 						for(int rw = nRows; rw < nRows + addRows; rw++){
 							CCTARow newRow = new CCTARow();
-							newRow.setMargins(r.x + insetLeft,r.x + r.width - insetRight);
+							newRow.setMargins(insetLeft,r.width - insetRight);
 							rows.add(newRow);
 						}
 					}		
@@ -1564,16 +1564,6 @@ public class CCTextArea  extends Container
 		}
 	}
 
-	public static CCStringWrapper createCCStringWrapper(String str,String color,boolean link,LabObject labObj){
-		CCStringWrapper wrapper = new CCStringWrapper(null,null,0);
-		wrapper.str = str;
-		wrapper.link = link;
-		wrapper.rColor = TextObjPropertyView.byteFromHexa(color.substring(0,2));
-		wrapper.gColor = TextObjPropertyView.byteFromHexa(color.substring(2,4));
-		wrapper.bColor = TextObjPropertyView.byteFromHexa(color.substring(4,6));
-		return wrapper;
-	}
-
 	static byte [] charWidthMappers = null;
 	byte [] getCharWidths()
 	{
@@ -1585,7 +1575,12 @@ public class CCTextArea  extends Container
 		for(int i = 0; i < 256; i++){
 			charWidthMappers[i] = (byte)fm.getCharWidth((char)(i));
 		}
-		
+
+		if(waba.sys.Vm.getPlatform().equals("PalmOS")){
+			charWidthMappers[(int)'\t'] = (byte)fm.getCharWidth(' ');
+		} else {
+			charWidthMappers[(int)'\t'] = (byte)(fm.getCharWidth(' ')*3);
+		}			
 		return charWidthMappers;
 	}
 
@@ -1650,200 +1645,6 @@ class ObjPropertyViewDialog extends ViewDialog{
 
 
 
-class TextObjPropertyView extends LabObjectView{
-	CCStringWrapper stringWrapper;
-	public Edit		strEdit;
-	public Button	doneButton;
-	public Button	cancelButton;
-	public Edit		colorEdit;
-	public Label	colorLabel;
-	public Check	linkCheck;
-	ExtraMainWindow owner;
-	LObjDictionary dict;
-
-	LObjDictionaryView	view;
-
-	LabBookSession session;
-
-
-	public TextObjPropertyView(ExtraMainWindow owner,LObjDictionary dict,
-							   ViewContainer vc, CCStringWrapper stringWrapper, 
-							   LabBookSession session){
-		super(vc, (LabObject)dict, session);
-		this.stringWrapper 	= stringWrapper;
-		this.dict 	= dict;
-		this.owner 	= owner;
-		this.session = session;
-	}
-	public void layout(boolean sDone){
-		if(didLayout) return;
-		didLayout = true;
-		if(strEdit == null){
-			strEdit = new Edit();
-			if(stringWrapper != null){
-				strEdit.setText(stringWrapper.getStr());
-			}
-			add(strEdit);
-		}
-		if(colorEdit == null){
-			colorEdit = new Edit();
-			add(colorEdit);
-			if(stringWrapper != null){
-				colorEdit.setText(hexaFromColor(stringWrapper.rColor,stringWrapper.gColor,stringWrapper.bColor));
-			}
-		}
-		if(colorLabel == null){
-			colorLabel = new Label("Color 0x");
-			add(colorLabel);
-		}
-		if(linkCheck == null){
-			linkCheck = new Check("Link");
-			add(linkCheck);
-			if(stringWrapper != null){
-				linkCheck.setChecked(stringWrapper.link);
-			}
-		}
-		if(view == null && container != null && dict != null){
-			view = (LObjDictionaryView)dict.getView(container, true, session);
-			view.viewFromExternal = true;
-			view.layout(false);
-			add(view);
-		}
-		if(cancelButton == null){
-			cancelButton = new Button("Cancel");
-			add(cancelButton);
-		}
-		if(doneButton == null){
-			doneButton = new Button("Done");
-			add(doneButton);
-		}
-	}
-	public void setRect(int x, int y, int width, int height){
-		super.setRect(x,y,width,height);
-		if(!didLayout) layout(false);
-		if(doneButton != null)	doneButton.setRect(width-31,height-15,30,15);
-		if(cancelButton != null) cancelButton.setRect(2,height-15,40,15);
-
-		if(strEdit != null){
-			strEdit.setRect(2,2, width - 4, 15);
-		}
-		
-		if(colorLabel != null){
-			colorLabel.setRect(2,20,36,15);
-		}
-		if(colorEdit != null){
-			colorEdit.setRect(40,20,40,15);
-		}
-		if(linkCheck != null){
-			linkCheck.setRect(2,40,50,15);
-		}
-		if(view != null){
-			view.setRect(2,60,width - 4,height - 77);
-		}
-		
-	}
-	
-	static char hexaFromDigit(int d){
-		if(d >=0 && d <= 9){
-			return (char)(d + '0');
-		}else if(d >=10 && d <= 15){
-			return (char)(d - 10 + 'A');
-		}
-		return '0';
-	}
-	static String hexaFromColor(int r, int g, int b){
-		if(r < 0) 	r = 0;
-		if(r > 255) r = 255;
-		if(g < 0) 	g = 0;
-		if(g > 255) g = 255;
-		if(b < 0) 	b = 0;
-		if(b > 255) b = 255;
-		String str = "";
-		
-		str += hexaFromDigit(r >>> 4);
-		str += hexaFromDigit(r & 0xF);
-		str += hexaFromDigit(g >>> 4);
-		str += hexaFromDigit(g & 0xF);
-		str += hexaFromDigit(b >>> 4);
-		str += hexaFromDigit(b & 0xF);
-		
-		return str;		
-	}
-	
-	static int byteFromHexa(String str){
-		int retValue = 0;
-		if(str == null) return retValue;
-		int base = 1;
-		int curCharInd = str.length() - 1;
-		while(curCharInd >= 0){
-			char c = str.charAt(curCharInd);
-			if(c >= '0' && c <= '9'){
-				retValue += base*(int)(c - '0');
-			}else if(c >= 'A' && c <= 'F'){
-				retValue += base*(int)(c - 'A' + 10);
-			}else if(c >= 'a' && c <= 'f'){
-				retValue += base*(int)(c - 'a' + 10);
-			}
-			curCharInd--;
-			base <<= 4;
-		}
-		
-		return retValue;
-		
-	}
-
-	public void onEvent(Event e){
-		if(e.target == cancelButton && e.type == ControlEvent.PRESSED){
-			if(container != null) container.done(this);
-		}else if(e.target == doneButton && e.type == ControlEvent.PRESSED){
-			if(container != null){
-				container.done(this);
-				if(stringWrapper == null) return;
-				if(linkCheck != null){
-					stringWrapper.link = linkCheck.getChecked();
-				}
-				if(colorEdit != null){
-					String strColor = colorEdit.getText();
-					int n = strColor.length();
-					if(n < 6){
-						for(int i = 0; i < 6-n; i++) strColor += "0";
-					}else{
-						strColor = strColor.substring(0,6);
-					}
-					stringWrapper.rColor = byteFromHexa(strColor.substring(0,2));
-					stringWrapper.gColor = byteFromHexa(strColor.substring(2,4));
-					stringWrapper.bColor = byteFromHexa(strColor.substring(4,6));
-					
-				}
-				int oldIndex = stringWrapper.indexInDict;
-				stringWrapper.indexInDict = -1;
-				if(stringWrapper.link && (view != null) && (stringWrapper.owner != null) && (stringWrapper.owner.objDictionary != null)){
-					TreeNode curNode = view.treeControl.getSelected();
-					if(curNode == null){
-						stringWrapper.indexInDict = oldIndex;
-					}else{
-						LabObject obj = ((DictTreeNode)(view.treeControl.getRootNode())).getObj(curNode);
-						if(obj != null){
-							int dIndex = stringWrapper.owner.objDictionary.getIndex(obj);
-							if(dIndex >= 0){
-								stringWrapper.indexInDict = dIndex;
-							}else{
-								stringWrapper.owner.objDictionary.add(obj);
-								stringWrapper.indexInDict = stringWrapper.owner.objDictionary.getChildCount() - 1;
-							}
-						}
-					}
-				}		
-
-
-				if(strEdit != null && stringWrapper.owner != null){
-					stringWrapper.owner.changeLineContent(strEdit.getText(),stringWrapper);
-				}
-				stringWrapper.owner.repaint();
-			}	 
-		}
-	}
-}
 
 final class EmptyLabObject extends LabObject{
 	public EmptyLabObject(){super(-1);}

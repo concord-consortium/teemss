@@ -16,22 +16,26 @@ class RowOffsets{
 }
 
 public class CCStringWrapper{
-String str;
-CCTextArea owner = null;
-int  	beginPos 	= 5;
-int		endPos 		= 50;
+	String str;
+	CCTextArea owner = null;
+	int  	beginPos 	= 5;
+	int		endPos 		= 50;
 
-int		beginRow	= -1;
-int		endRow		= -1;
-char 	[]chars = null;
+	int		beginRow	= -1;
+	int		endRow		= -1;
+	char 	[]chars = null;
 	Vector delimiters = null;
-byte	[]charWidthMappers = null;
-int		rColor = 0;
-int		gColor = 0;
-int		bColor = 0;
+	byte	[]charWidthMappers = null;
+	int		rColor = 0;
+	int		gColor = 0;
+	int		bColor = 0;
+	byte    indent = 0;
+	int     indentSize = 0;
+	byte    firstLineOffset = 0;
+	int    firstLineOffsetSize = 0; 
 
-boolean		link 		= false;
-int			indexInDict = -1;
+	boolean		link 		= false;
+	int			indexInDict = -1;
 
 	CCStringWrapper(CCTextArea owner,String str,int beginRow){
 		this.str = str;
@@ -42,10 +46,25 @@ int			indexInDict = -1;
 		str = in.readString();
 		if(str == null) str = "";
 		link = in.readBoolean();
+		indent = in.readByte();
+		firstLineOffset = in.readByte();
 		rColor = in.readByte() & 0xFF;
 		gColor = in.readByte() & 0xFF;
 		bColor = in.readByte() & 0xFF;
 		indexInDict = in.readInt();
+	}
+
+	public CCStringWrapper(String str,String color,boolean link, 
+						   byte indent, byte  firstLOffset)
+	{
+		this(null,null,0);
+		this.str = str;
+		this.link = link;
+		this.indent = indent;		
+		firstLineOffset = firstLOffset;
+		this.rColor = TextObjPropertyView.byteFromHexa(color.substring(0,2));
+		this.gColor = TextObjPropertyView.byteFromHexa(color.substring(2,4));
+		this.bColor = TextObjPropertyView.byteFromHexa(color.substring(4,6));
 	}
 
 	public void init(CCTextArea owner, int beginRow)
@@ -53,15 +72,24 @@ int			indexInDict = -1;
 		this.owner = owner;
 		if(owner != null){
 			Rect r = owner.getRect();
-			beginPos 	= r.x + owner.insetLeft;
-			endPos 		= r.x + r.width - owner.insetRight;
+			if(charWidthMappers == null){
+				createCharWidthMappers(owner);
+			}
+			indentSize = charWidthMappers[(int)'\t']*indent;
+			firstLineOffsetSize = charWidthMappers[(int)'\t']*firstLineOffset;
+			beginPos 	= indentSize + owner.insetLeft;
+			endPos 		= r.width - indentSize - owner.insetRight;
 			setStr(str,beginRow);
 		}		
 	}
+
+
 	
 	public void writeExternal(DataStream out){
 		out.writeString(str);
 		out.writeBoolean(link);
+		out.writeByte(indent);
+		out.writeByte(firstLineOffset);
 		out.writeByte((byte)rColor);
 		out.writeByte((byte)gColor);
 		out.writeByte((byte)bColor);
@@ -79,6 +107,15 @@ int			indexInDict = -1;
 		return str.substring(rOffset.startChar, rOffset.startChar + rOffset.count - 1);
 	}
 
+	public int startX(int currRow, int nRows)
+	{
+		if(currRow >= nRows || owner.rows == null){
+			return beginPos;
+		} else {
+			return indentSize + ((CCTARow)owner.rows.get(currRow)).beginPos;
+		}
+	}
+
 	String getStr(){return str;}
 	void setStr(String str,int beginRow){
 		this.beginRow 	= beginRow;
@@ -93,7 +130,7 @@ int			indexInDict = -1;
 		
 		this.str = str;
 		int currRow = beginRow;
-		int x 			= (currRow >= numbTotalRows || owner.rows == null)?beginPos:((CCTARow)owner.rows.get(currRow)).beginPos;
+		int x  = startX(currRow, numbTotalRows) + firstLineOffsetSize;
 		int limitX = (currRow >= numbTotalRows || owner.rows == null)?endPos:((CCTARow)owner.rows.get(currRow)).endPos;
 		int lastWord 	= 0;
 		int lastWordX    = x;
@@ -134,7 +171,7 @@ int			indexInDict = -1;
 
 				rOffsets = new RowOffsets();
 				currRow++;
-				x = (currRow >= numbTotalRows || owner.rows == null)?beginPos:((CCTARow)owner.rows.get(currRow)).beginPos;
+				x = startX(currRow, numbTotalRows);
 				limitX = (currRow >= numbTotalRows || owner.rows == null)?endPos:((CCTARow)owner.rows.get(currRow)).endPos;
 				rOffsets.startChar = i;
 				rOffsets.startX = x;
@@ -212,7 +249,7 @@ int			indexInDict = -1;
 	}
 	
 
-private static char []wordDelimChars = {' ','\t',';','.',',','/','\\'};	
+	private static char []wordDelimChars = {' ','\t',';','.',',','/','\\'};	
 
 }
 
