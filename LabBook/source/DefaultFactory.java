@@ -3,7 +3,7 @@ package org.concord.LabBook;
 public class DefaultFactory 
 	extends LabObjectFactory
 {
-	final public static int DEFAULT_FACTORY 	= 0x00010000;
+	final public static int DEFAULT_FACTORY 	= 0x0001;
 
 /*
 */

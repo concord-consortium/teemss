@@ -5,7 +5,7 @@ import org.concord.LabBook.*;
 public class DataObjFactory
 	extends LabObjectFactory
 {
-	final public static int DATAOBJ_FACTORY 	= 0x00020000;
+	final public static int DATAOBJ_FACTORY 	= 0x0002;
 
     final public static int DATA_SET 			= 3;
     final public static int GRAPH 				= 4;

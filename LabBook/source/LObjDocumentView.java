@@ -7,7 +7,6 @@ import extra.ui.*;
 
 public class LObjDocumentView extends LabObjectView implements ActionListener{
 TextArea 				tArea;
-//CCTextArea 				tArea;
 Edit 					nameEdit;
 RelativeContainer 		edit = new RelativeContainer();
 
@@ -42,8 +41,7 @@ Menu 					menu = null;
 			if(!CCClipboard.isClipboardEmpty()){
 				String str = CCClipboard.getStringContent();
 				if(str != null){
-    				tArea.setText(str);
-//					tArea.insertText(str);
+					tArea.insertText(str);
 				}
 			}
 		}
@@ -65,7 +63,6 @@ Menu 					menu = null;
 		} 
 
 		tArea = new TextArea();
-//		tArea = new CCTextArea();
 		if(doc.text != null)  tArea.setText(doc.text);
 		edit.add(tArea, 1, RelativeContainer.BELOW, 
 		RelativeContainer.REST, RelativeContainer.REST);
@@ -78,8 +75,7 @@ Menu 					menu = null;
 	}
 
 	public int getHeight(){
-//		return (tArea.getFontMetrics().getHeight() + 2) * tArea.getNumLines() + tArea.spacing*2 + 3;
-		return 0;
+		return (tArea.getFontMetrics().getHeight() + 2) * tArea.getNumLines() + tArea.spacing*2 + 3;
 	}
 
 	public void setRect(int x, int y, int width, int height){
@@ -92,7 +88,6 @@ Menu 					menu = null;
 		} else {
 			edit.setRect(0,0,width,height);
 		}
-		tArea.setText(tArea.getText());
 	}
 
 	public void close(){
