@@ -787,6 +787,11 @@ public final static int	yTextBegin = 2;
 				if(cntrlDesc != null){
 					Control cntrl = (Control)cntrlDesc.getObject();
 					if(cntrl instanceof LabObjectView){
+						if(currObjectViewDesc != null){
+							if(currObjectViewDesc.getObject() instanceof LabObjectView){
+								((LabObjectView)currObjectViewDesc.getObject()).setShowMenus(false);
+							}
+						}
 						LabObjectView object = (LabObjectView)cntrl;
 						object.setShowMenus(true);
 						currObjectViewDesc = cntrlDesc;
@@ -801,6 +806,7 @@ public final static int	yTextBegin = 2;
 								}
 							}
 						}
+						repaint();
 					}
 				}
 			}
@@ -1078,6 +1084,7 @@ public final static int	yTextBegin = 2;
 			LBCompDesc compDesc = findComponentDesc(ev.target);
 			if(compDesc == null && currObjectViewDesc != null){
 				currObjectViewDesc = null;
+				repaint();
 			}
 			if(getPropertyMode()){
 				if(compDesc != null){
@@ -1156,12 +1163,29 @@ public final static int	yTextBegin = 2;
 		g.fillRect(0,0,r.width,r.height);
 		g.setColor(0,0,0);
 		doPaintData(g);
+		
+		
+		
 //		g.drawRect(0,0,r.width,r.height);
 	}
 	public void doPaintData(Graphics g){
 		if(lines == null) return;
 		for (int i = 0; i<lines.getCount(); i++){
 			((CCStringWrapper)lines.get(i)).draw(g,firstLine);
+		}
+	}
+	public void paintChildren(Graphics g, int x, int y, int width, int height){
+		super.paintChildren(g,x,y,width,height);
+		if(g != null && currObjectViewDesc != null){
+			if(currObjectViewDesc.getObject() instanceof LabObjectView){
+				LabObjectView objView = (LabObjectView)currObjectViewDesc.getObject();
+				Rect rClip = getRect();
+				g.setClip(0,0,rClip.width,rClip.height);
+				Rect rObj = objView.getRect();
+				g.setColor(0,0,0);
+				g.drawRect(rObj.x,rObj.y,rObj.width,rObj.height);
+				g.clearClip();
+			}
 		}
 	}
 

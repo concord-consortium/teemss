@@ -116,10 +116,10 @@ class LObjImageView extends LabObjectView implements ActionListener
 					nameEditWasAdded = true;
 				}
 			}
-			if(getEmbeddedState() && imagePane != null){
-				imagePane.setRect(0,0);
+			if(getEmbeddedState()){
+				if(imagePane != null) imagePane.setRect(0,0);
 			}else{
-				imagePane.setRect(0,17);
+				if(imagePane != null) imagePane.setRect(0,17);
 			}
 		}
 	}
