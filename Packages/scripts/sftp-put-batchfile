@@ -5,7 +5,9 @@ put ccprobe-macos-classic/CCProbe.sea.hqx
 cd ../ccprobe-macosx
 put ccprobe-macosx/CCProbe.sea.hqx
 cd ../ccprobe-palmos
-put CCProbe.exe CCProbe.sea.hqx CCProbe.tgz
+put ccprobe-palmos/CCProbe.exe
+put ccprobe-palmos/CCProbe.sea.hqx
+put ccprobe-palmos/CCProbe.tgz
 cd ../ccprobe-unix
 put ccprobe-unix/CCProbe.tgz
 cd ../ccprobe-windows

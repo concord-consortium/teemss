@@ -1,11 +1,11 @@
 #! /bin/sh
 
-destination="/Users/stephen/cvsroot/Packages/complete/ccprobe-pocketpc"
-download="/Users/stephen/cvsroot/Packages/download/ccprobe-pocketpc"
-bin="/Users/stephen/cvsroot/CCProbe/bin"
-components="/Users/stephen/cvsroot/Packages/components/ccprobe-pocketpc"
-doc="/Users/stephen/cvsroot/Packages/doc"
-labbook="/Users/stephen/cvsroot/TeemssXML/LabBookXSL"
+destination=$workingcopy"/Packages/complete/ccprobe-pocketpc"
+download=$workingcopy"/Packages/download/ccprobe-pocketpc"
+bin=$workingcopy"/CCProbe/bin"
+components=$workingcopy"/Packages/components/ccprobe-pocketpc"
+doc=$workingcopy"/Packages/doc"
+labbook=$workingcopy"/TeemssXML/LabBookXSL"
 
 rm -rf $destination/*
 rm -rf $download/*
@@ -14,7 +14,7 @@ cp $bin/CCProbe.wrp  $destination
 cp $bin/CCProbe.lnk  $destination
 cp $doc/ccprobe-pocketpc/* $destination
 cp $doc/all/* $destination
-cp $labbook/LabBook.PDB $destination
+cp $labbook/LabBook $destination
 cp -r $components/* $destination
 
 echo $destination

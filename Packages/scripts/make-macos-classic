@@ -1,20 +1,24 @@
 #! /bin/sh
 
-destination="/Users/stephen/cvsroot/Packages/complete/ccprobe-macos-classic"
-download="/Users/stephen/cvsroot/Packages/download/ccprobe-macos-classic"
-bin="/Users/stephen/cvsroot/CCProbe/bin"
-components="/Users/stephen/cvsroot/Packages/components/ccprobe-macos-classic"
-doc="/Users/stephen/cvsroot/Packages/doc"
-labbook="/Users/stephen/cvsroot/TeemssXML/LabBookXSL"
+destination=$workingcopy"/Packages/complete/ccprobe-macos-classic"
+download=$workingcopy"/Packages/download/ccprobe-macos-classic"
+bin=$workingcopy"/CCProbe/bin"
+components=$workingcopy"/Packages/components/ccprobe-macos-classic"
+doc=$workingcopy"/Packages/doc"
+tempdir=$workingcopy"/Packages/tempdir"
+labbook=$workingcopy"/TeemssXML/LabBookXSL"
 
 rm -rf $destination/*
 rm -rf $download/*
+rm -rf $tempdir/*
 
 cp $bin/CCProbe.jar  $destination
-cp $doc/ccprobe-macos-classic/* $destination
-cp $doc/all/* $destination
+cp $doc/ccprobe-macos-classic/* $tempdir
+cp $doc/all/* $tempdir
+SetFile -c ttxt -t TEXT $tempdir/*
+CpMac $tempdir/* $destination
 cp $labbook/LabBook.PDB $destination
-/Developer/Tools/CpMac $components/CCProbe $components/CCProbe.properties $destination
+CpMac $components/CCProbe $components/CCProbe.properties $destination
 
 echo $destination
 ls -l $destination
