@@ -33,7 +33,6 @@ public class GraphViewBar extends GraphView
     int numBars;
     int length = 0;
 
-    PropPage yAxisPage;
     BarGraph bGraph;
 
     FloatConvert fConvert = new FloatConvert();
@@ -56,11 +55,13 @@ public class GraphViewBar extends GraphView
 	numBars = 0;	
 	
 	// Make the popup!
+	/*
 	yAxisPage = new PropPage(this);
 	yAxisPage.addEdit("Max", 50);
 	yAxisPage.addEdit("Min", 50);
+	*/
     }
-
+    /*
     public void updateProp(PropPage pp, int action)
     {
 	if(pp == yAxisPage){
@@ -80,6 +81,7 @@ public class GraphViewBar extends GraphView
 	}
 
     }
+    */
 
     boolean barDown, yAxisDown;
     Object selBar = null;

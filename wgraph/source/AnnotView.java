@@ -22,7 +22,7 @@ import waba.fx.*;
 import waba.util.*;
 import waba.sys.*;
 
-public class AnnotView extends Container implements PropObject
+public class AnnotView extends Container
 {
     public GraphView curView = null;
     public GraphViewLine lgView = null;
@@ -35,8 +35,6 @@ public class AnnotView extends Container implements PropObject
     Object bgBins [] = new Object [1];
 
     int buttonSpace = 20;
-
-    PropPage annotPage;
 
     Button annotButton = new Button("Add Mark");
     Button delButton = new Button("Del Mark");
@@ -69,10 +67,6 @@ public class AnnotView extends Container implements PropObject
 
 	viewButton.setRect(2*w/3, butStart, w/3, 17);
 	add(viewButton);
-
-	annotPage = new PropPage(this);
-	annotPage.addEdit("Label", 30);
-	annotPage.addEdit("Notes", 60);
 
     }
 
@@ -126,6 +120,7 @@ public class AnnotView extends Container implements PropObject
 	setRect(x,y,width,height);
     }
 
+    /*
     public void updateProp(PropPage pp, int action)
     {
 	if(pp == annotPage){
@@ -156,6 +151,7 @@ public class AnnotView extends Container implements PropObject
 	    }
 	}
     }
+    */
 
     public void reset()
     {
@@ -287,7 +283,7 @@ public class AnnotView extends Container implements PropObject
 	    }
 	    if(barDown &&
 	       (bgView.selBar instanceof Annotation)){
-	       annotPage.showProp();
+		//	       annotPage.showProp();
 	    }
 	    barDown = false;
 	}

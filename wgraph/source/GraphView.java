@@ -20,7 +20,7 @@ package graph;
 import waba.ui.*;
 import waba.fx.*;
 
-public abstract class GraphView extends Container implements PropObject
+public abstract class GraphView extends Container
 {
     Graphics myG = null;
     boolean drawn = false;

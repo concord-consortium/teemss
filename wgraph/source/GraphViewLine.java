@@ -21,8 +21,13 @@ import waba.ui.*;
 import waba.fx.*;
 import waba.util.*;
 import waba.sys.*;
+import org.concord.waba.extra.ui.*;
+import org.concord.waba.extra.util.*;
+import org.concord.waba.extra.event.*;
+import extra.util.*;
 
 public class GraphViewLine extends GraphView
+    implements DialogListener
 {
     final static float Y_MAX = (float)50.0;
     final static float Y_MIN = (float)-5.0;
@@ -37,11 +42,19 @@ public class GraphViewLine extends GraphView
 
     public char curChar = 'A';
 
-    public float maxY, minY, maxX, minX;
+    public float minY = Y_MIN;
+    public float maxY = Y_MAX;
+    public float minX = X_MIN;
+    public float maxX = X_MAX;
+
     public String units = null;
 
-    PropPage yAxisPage;
-    PropPage xAxisPage;
+    PropertyDialog pDialog = null;
+    PropContainer props = null;
+    PropObject propXmin = new PropObject("Min", minX + "");
+    PropObject propXmax = new PropObject("Max", maxX + "");
+    PropObject propYmin = new PropObject("Min", minY + "");
+    PropObject propYmax = new PropObject("Max", maxY + "");
 
     LineGraph lGraph;
     Annotation curAnnot = null;
@@ -55,60 +68,32 @@ public class GraphViewLine extends GraphView
 	fConvert.minDigits = 2;
 	fConvert.maxDigits = 4;
 
-	minY = Y_MIN;
-	maxY = Y_MAX;
-	minX = X_MIN;
-	maxX = X_MAX;
-
 	graph = lGraph = new LineGraph(w, h);
 	lGraph.setYRange(minY, maxY - minY);
 	lGraph.setXRange(0, minX, maxX - minX);
 
 	units = new String("C");
 	
-	// Make the popups!
-	yAxisPage = new PropPage(this);
-	yAxisPage.addEdit("Max", 50);
-	yAxisPage.addEdit("Min", 50);
+	props = new PropContainer();
+	PropContainer pCont = props.createSubContainer("X Axis");
+	props.createSubContainer("Y Axis");	
+	props.addProperty(propXmin, "X Axis");
+	props.addProperty(propXmax, "X Axis");
+	props.addProperty(propYmin, "Y Axis");
+	props.addProperty(propYmax, "Y Axis");
 
-	xAxisPage = new PropPage(this);
-	xAxisPage.addEdit("Max", 50);
-	xAxisPage.addEdit("Min", 50);
     }
 
-    public void updateProp(PropPage pp, int action)
+    public void dialogClosed(DialogEvent e)
     {
-	if(pp == yAxisPage){
-	    switch(action){
-	    case PropPage.UPDATE:
-		maxY = fConvert.toFloat(((Edit)(pp.props.get(0))).getText());
-		minY = fConvert.toFloat(((Edit)(pp.props.get(1))).getText());
-		lGraph.setYRange(minY, maxY - minY);
-		repaint();
-		break;
-	    case PropPage.REFRESH:
-		maxY = lGraph.yaxis.min + (float)lGraph.yaxis.length/lGraph.yaxis.scale;
-		minY = lGraph.yaxis.min;
-		((Edit)(pp.props.get(0))).setText(fConvert.toString(maxY));
-		((Edit)(pp.props.get(1))).setText(fConvert.toString(minY));
-		break;
-	    }
-	} else if(pp == xAxisPage){
-	    switch(action){
-	    case PropPage.UPDATE:
-		maxX = fConvert.toFloat(((Edit)(pp.props.get(0))).getText());
-		minX = fConvert.toFloat(((Edit)(pp.props.get(1))).getText());
-		lGraph.setXRange(minX, maxX - minX);
-		repaint();
-		break;
-	    case PropPage.REFRESH:
-		maxX = lGraph.xaxis.min + (float)lGraph.xaxis.dispLen/lGraph.xaxis.scale;
-		minX = lGraph.xaxis.min;
-		((Edit)(pp.props.get(0))).setText(fConvert.toString(maxX));
-		((Edit)(pp.props.get(1))).setText(fConvert.toString(minX));
-		break;
-	    }
-	} 
+	if(!e.getActionCommand().equals("Cancel")){
+	    minX = propXmin.createFValue();
+	    maxX = propXmax.createFValue();
+	    minY = propYmin.createFValue();
+	    maxY = propYmax.createFValue();
+	    lGraph.setYRange(minY, minY + maxY);
+	    lGraph.setXRange(minX, minX + maxX);
+	}
     }
 
     public boolean autoScroll = true;
@@ -295,10 +280,17 @@ public class GraphViewLine extends GraphView
 		    // We have already cleared the timer so ignore this 
 		    return;
 		}
-		if(xAxisDown)
-		    xAxisPage.showProp();
-		if(yAxisDown)
-		    yAxisPage.showProp();
+		MainWindow mw = MainWindow.getMainWindow();
+		if(mw instanceof ExtraMainWindow){
+		    propXmin.setValue("" + lGraph.xaxis.dispMin);
+		    propXmax.setValue("" + (lGraph.xaxis.dispMin+lGraph.dwWidth/lGraph.xaxis.scale));
+		    propYmin.setValue("" + lGraph.yaxis.dispMin);
+		    propYmax.setValue("" + (lGraph.yaxis.dispMin+lGraph.yaxis.dispLen/lGraph.yaxis.scale));
+
+		    PropertyDialog pd = new PropertyDialog((ExtraMainWindow)mw, this, "Properties", props);
+		    pd.setRect(0,0, 140,140);
+		    pd.show();
+		}
 	    }
 	}
     }

@@ -254,7 +254,7 @@ public class Bin
 	int i;
 
 	if(time > 0f && time < maxX){
-	    value[0] = lfArray.getFloat((int)(time / dT ));
+	    value[0] = lfArray.getFloat((int)(time / dT )) + refY;
 	    return true;
 	}
 
