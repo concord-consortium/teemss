@@ -125,7 +125,7 @@ public final static int UNIT_CODE_LUMEN				= 59;
 public final static int UNIT_CODE_LUX				= 60;
 
 public final static int UNIT_CAT_UNKNOWN			= 0;
-public final static int UNIT_CAT_LENGTH			= 1;
+public final static int UNIT_CAT_LENGTH				= 1;
 public final static int UNIT_CAT_MASS				= 2;
 public final static int UNIT_CAT_TIME				= 3;
 public final static int UNIT_CAT_TEMPERATURE		= 4;
@@ -135,19 +135,21 @@ public final static int UNIT_CAT_ENERGY				= 7;
 public final static int UNIT_CAT_FORCE				= 8;
 public final static int UNIT_CAT_POWER				= 9;
 public final static int UNIT_CAT_PRESSURE			= 10;
-public final static int UNIT_CAT_MISC				= 11;
-public final static int UNIT_CAT_ELECTRICITY		= 12;
-public final static int UNIT_CAT_LIGHT				= 13;
+public final static int UNIT_CAT_ELECTRICITY		= 11;
+public final static int UNIT_CAT_LIGHT				= 12;
+public final static int UNIT_CAT_MISC				= 13;
+
+public static String[] catNames = {"Unknown","Length","Weights","Time","Temperature","Area","Volumes/Capacity","Energy","Force","Power","Pressure","Electricity","Light","Miscellaneous"};
 
 
-private  static CCUnit 	[]unitTable = 
+public  static CCUnit 	[]unitTable = 
 	{
 		new CCUnit("kilogram","kg",false,UNIT_CAT_MASS,UNIT_CODE_KG,UNIT_CODE_KG,0,1,0,0,0,0,0,0,0,1.0f,0.0f,false),
 		new CCUnit("gram","g",true,UNIT_CAT_MASS,UNIT_CODE_G,UNIT_CODE_KG,0,1,0,0,0,0,0,0,0,0.001f,0.0f,false),
 		new CCUnit("metric ton","tn",true,UNIT_CAT_MASS,UNIT_CODE_MT,UNIT_CODE_KG,0,1,0,0,0,0,0,0,0,1000f,0.0f,false),
 		new CCUnit("pound","lb",true,UNIT_CAT_MASS,UNIT_CODE_LB,UNIT_CODE_KG,0,1,0,0,0,0,0,0,0,0.45359237f,0.0f,false),
 		new CCUnit("ounce","oz",true,UNIT_CAT_MASS,UNIT_CODE_OZ,UNIT_CODE_G,0,1,0,0,0,0,0,0,0,0.028349523f,0.0f,false),
-		new CCUnit("atomic mass unit","amu",true,UNIT_CAT_LENGTH,UNIT_CODE_AMU,UNIT_CODE_KG,0,1,0,0,0,0,0,0,0,1.66054e-27f,0.0f,false),
+		new CCUnit("atomic mass unit","amu",true,UNIT_CAT_MASS,UNIT_CODE_AMU,UNIT_CODE_KG,0,1,0,0,0,0,0,0,0,1.66054e-27f,0.0f,false),
 		new CCUnit("meter","m",false,UNIT_CAT_LENGTH,UNIT_CODE_METER,UNIT_CODE_METER,1,0,0,0,0,0,0,0,0,1f,0.0f,false),
 		new CCUnit("inch","in",false,UNIT_CAT_LENGTH,UNIT_CODE_INCH,UNIT_CODE_METER,1,0,0,0,0,0,0,0,0,0.0254f,0.0f,false),
 		new CCUnit("yard","yd",false,UNIT_CAT_LENGTH,UNIT_CODE_YARD,UNIT_CODE_METER,1,0,0,0,0,0,0,0,0,0.9144f,0.0f,false),
@@ -188,6 +190,7 @@ private  static CCUnit 	[]unitTable =
 		new CCUnit("horsepower","hp",true,UNIT_CAT_POWER,UNIT_CODE_HP_MECH,UNIT_CODE_WATT,2,1,-3,0,0,0,0,0,0,745.7f,0.0f,false),
 		new CCUnit("horsepower (el)","hp",true,UNIT_CAT_POWER,UNIT_CODE_HP_EL,UNIT_CODE_WATT,2,1,-3,0,0,0,0,0,0,746f,0.0f,false),
 		new CCUnit("horsepower (metric)","hp",true,UNIT_CAT_POWER,UNIT_CODE_HP_METR,UNIT_CODE_WATT,2,1,-3,0,0,0,0,0,0,735.499f,0.0f,false),
+		new CCUnit("lumen","lm",true,UNIT_CAT_POWER,UNIT_CODE_LUMEN,UNIT_CODE_WATT,2,1,-3,0,0,0,0,0,0,0.0014641288f,0.0f,false),
 
 		new CCUnit("Pascal","Pa",true,UNIT_CAT_PRESSURE,UNIT_CODE_PASCAL,UNIT_CODE_PASCAL,-1,1,-1,0,0,0,0,0,0,1f,0.0f,false),
 		new CCUnit("bar","bar",true,UNIT_CAT_PRESSURE,UNIT_CODE_BAR,UNIT_CODE_PASCAL,-1,1,-1,0,0,0,0,0,0,1e5f,0.0f,false),
@@ -202,7 +205,7 @@ private  static CCUnit 	[]unitTable =
 		new CCUnit("volt","V",true,UNIT_CAT_ELECTRICITY,UNIT_CODE_VOLT,UNIT_CODE_VOLT,2,1,-3,-1,0,0,0,0,0,1f,0.0f,false),
 		new CCUnit("coulomb","Q",true,UNIT_CAT_ELECTRICITY,UNIT_CODE_COULOMB,UNIT_CODE_COULOMB,0,0,1,1,0,0,0,0,0,1f,0.0f,false),
 		new CCUnit("millivolt","mV",true,UNIT_CAT_ELECTRICITY,UNIT_CODE_MILLIVOLT,UNIT_CODE_VOLT,2,1,-3,-1,0,0,0,0,0,0.001f,0.0f,false),
-		new CCUnit("lumen","lm",true,UNIT_CAT_LIGHT,UNIT_CODE_LUMEN,UNIT_CODE_WATT,2,1,-3,0,0,0,0,0,0,0.0014641288f,0.0f,false),
+		
 		new CCUnit("lux","lx",true,UNIT_CAT_LIGHT,UNIT_CODE_LUX,UNIT_CODE_LUX,0,1,-3,0,0,0,0,0,0,0.0014641288f,0.0f,false),
 
 

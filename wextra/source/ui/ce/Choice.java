@@ -5,6 +5,10 @@ public class Choice extends extra.ui.List{
 		super(options);
 		initialYOffset = 15;
 	}
+	public Choice(){
+		super();
+		initialYOffset = 15;
+	}
 	
 	  public void onEvent(waba.ui.Event event){
     		if (event instanceof waba.ui.PenEvent){
