@@ -633,25 +633,14 @@ private int _readWriteBytes(byte buf[], int start, int count, boolean isRead)
 	   return -1;
    }
 
-   byte[] bBytes=new byte[count];
-
    if(isRead){
      //this next line is counting on a new overloaded MemMove method
      //which should be available in Jump2a8 and higher
-     Palm.MemMove(bBytes, iRecPtr + iRecOffset, count);
-
-     for(int i=0; i<count; i++){
-       buf[start+i]=bBytes[i];
-     }
-
+     Palm.MemMove(buf, start, iRecPtr + iRecOffset, count);
    }
    else{
-      for(int i=0; i<count; i++){
-         bBytes[i]=buf[start+i];
-      }
-
       //this might need to be MemMove
-      if(Palm.DmWrite(iRecPtr, iRecOffset, bBytes, count)!=0){
+      if(Palm.DmWrite(iRecPtr, iRecOffset, buf, start, count)!=0){
          return -1;
       }
       flgCurRecModified=true;

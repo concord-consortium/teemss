@@ -168,8 +168,10 @@ public void _postEvent(int type, int key, int x, int y, int modifiers, int timeS
 		}
 	event.target = _focus;
 	event.timeStamp = timeStamp;
-	if (_focus != null)
+	if (_focus != null){
 		_focus.postEvent(event);
+		event.target = null;
+	}
 	if (needsPaint)
 		_doPaint(paintX, paintY, paintWidth, paintHeight);
 	}

@@ -34,7 +34,7 @@ public class JumpApp
 
 	private static final int pageUpChr = 0x000B;
 	private static final int pageDownChr = 0x000C;
-	private static final int returnChr = 0x000D;
+	private static final int returnChr = 0x000A;
 	private static final int escapeChr = 0x001B;
 	private static final int backspaceChr = 0x0008;
 	private static final int tabChr = 0x0009;
