@@ -179,12 +179,14 @@
     </SNPARAGRAPH>
     <SNPARAGRAPH/>
     <xsl:for-each select="*|text()">
-      <xsl:if test="name()='steps'">
-           <xsl:apply-templates select="steps" mode="investigate"/>
-      </xsl:if>
-      <xsl:if test="name()!='steps'">
-           <xsl:apply-templates/>
-      </xsl:if>
+      <xsl:choose>
+        <xsl:when test="name()='steps'">
+          <xsl:apply-templates select="." mode="investigate"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:apply-templates select="."/>
+        </xsl:otherwise>
+      </xsl:choose>
     </xsl:for-each>
     <SNPARAGRAPH/>
   </xsl:element>
@@ -211,6 +213,10 @@
   <SNPARAGRAPH linkcolor="0000FF"><xsl:value-of select="@title"/></SNPARAGRAPH>
   <SNPARAGRAPH/>
   <xsl:apply-templates select="steps" mode="investigate"/>
+</xsl:template>
+
+<xsl:template match="steps">
+  <xsl:apply-templates select="step | query-response" mode="step"/>
 </xsl:template>
 
 <xsl:template match="steps" mode="investigate">
@@ -271,17 +277,14 @@
     </xsl:if>
     <xsl:number value="position()" format="{$format_label}"/>. <xsl:value-of select="normalize-space(text()[position()=1])"/>
     <xsl:apply-templates select="query-description"/>    
-  </xsl:element>  
-  <xsl:choose>
-    <xsl:when test="@layout='paragraph'">
-      <SNPARAGRAPH>
+    <xsl:if test="@layout='paragraph'">
       <xsl:apply-templates select="querys" mode="paragraph"/>
-      </SNPARAGRAPH>
-    </xsl:when>
-    <xsl:when test="@layout='list'">
-      <xsl:apply-templates select="querys" mode="list"/>
-    </xsl:when>
-  </xsl:choose>
+    </xsl:if>
+  </xsl:element>
+  <xsl:if test="@layout='list'">
+    <SNPARAGRAPH/>
+    <xsl:apply-templates select="querys" mode="list"/>
+  </xsl:if>
   <xsl:if test="$format_depth='1'"><SNPARAGRAPH/></xsl:if>
   <xsl:if test="position()=last()">
     <xsl:if test="$format_depth!='1'">
@@ -335,10 +338,6 @@
 
       <xsl:value-of select="name(ancestor::*[../../investigation])"/> <xsl:number value="position()"/><xsl:text> </xsl:text><xsl:value-of select="@type"/><xsl:text> </xsl:text><xsl:value-of select="@title"/>
 
-<!--
-      <xsl:value-of select="ancestor::investigation/@name"/><xsl:text> </xsl:text><xsl:value-of select="name(ancestor::*[../../investigation])"/> <xsl:number value="position()"/>
--->
-
     </xsl:attribute>
     <EMBOBJ object="teemss_titlebar.bmp"/>
     <SNPARAGRAPH linkcolor="0000FF">
@@ -366,7 +365,7 @@
 <xsl:template match="querys" mode="response">
   <xsl:for-each select="query">
     <SNPARAGRAPH>
-      <xsl:value-of select="normalize-space(.) "/>
+      <xsl:number value="position()" format="1"/>. <xsl:value-of select="normalize-space(.)"/>
     </SNPARAGRAPH>
     <xsl:if test="@drawing-response='true'">
       <SNPARAGRAPH/>
@@ -404,9 +403,24 @@
 </xsl:template>
 
 <xsl:template match="query" mode="list">
-    <SNPARAGRAPH>
-      <xsl:value-of select="normalize-space(.) "/>
-    </SNPARAGRAPH>
+  <xsl:variable name="format_depth">
+    <xsl:value-of select="count(ancestor::steps)"/>
+  </xsl:variable>
+  <xsl:variable name="format_label">
+    <xsl:choose>
+      <xsl:when test="$format_depth ='1'">a</xsl:when>
+      <xsl:when test="$format_depth ='2'">i</xsl:when>
+    </xsl:choose>
+  </xsl:variable>
+  <xsl:element name="SNPARAGRAPH">
+    <xsl:if test="$format_depth='1'">
+      <xsl:attribute name="indent">2</xsl:attribute>
+    </xsl:if>
+    <xsl:if test="$format_depth='2'">
+      <xsl:attribute name="indent">4</xsl:attribute>
+    </xsl:if>
+    <xsl:number value="position()" format="{$format_label}"/>. <xsl:value-of select="normalize-space(text()[position()=1])"/>
+  </xsl:element>
 </xsl:template>
 
 <xsl:template match="datacollector-link">
@@ -436,7 +450,6 @@
   </xsl:element>
 </xsl:template>
 
-<!-- /node()[position()=1 and name(.)='ext-image'] -->
 
 <xsl:template name="level_label">
   <xsl:variable name="depth">

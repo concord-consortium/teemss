@@ -114,7 +114,156 @@
     <tech-hint name="CCLabBook">
       <title>Using the CC LabBook software  </title>
       <heading>To use CC LabBook software:</heading>
-      <tech-hint-body/>
+      <tech-hint-body>To use CC LabBook just follow these easy steps!<instructions>
+          <instruction title="Opening the software ">
+            <steps>
+              <step>To open the software, tap the CCProbe
+                icon.  <shared-image name="01_th_openccprobe" screenshot="true"/>
+              </step>
+              <step>The first screen you see is the LabBook. </step>
+            </steps>
+          </instruction>
+          <instruction title="Opening folders and subfolders ">
+            <shared-image name="02_th_openfolder" screenshot="true"/>
+            <steps>
+              <step>The LabBook lists all of the folders, data
+                collectors, notes, saved datasets, and other objects in
+                the LabBook. To open folders and subfolders, tap the
+                triangles or double-tap the folder name. <shared-image name="03_th_home" screenshot="true"/>
+              </step>
+              <step>Click Home (upper left) to go back to the top level
+                folder. </step>
+            </steps>
+          </instruction>
+          <instruction title="Opening a data collector ">
+            <steps>
+              <step>To take data with a CC probe, you must open or
+                create a data collector. In these investigations, the
+                data collectors have already been created.
+                  <shared-image name="04_th_openprobe" screenshot="true"/>
+              </step>
+              <step>To open an existing data collector, highlight its
+                name, then tap it twice or tap Open. It may take a few
+                seconds for the graph to appear.   </step>
+            </steps>
+          </instruction>
+          <instruction title="Collecting and clearing data ">
+            <shared-image name="05_th_collect" screenshot="true"/>
+            <steps>
+              <step>To start collecting data, tap Collect. <shared-image
+                  name="06_th_values" screenshot="true"/>
+              </step>
+              <step>As data is collected, the current values appear at
+                the top of the graph. To stop collecting, tap Collect
+                again. <shared-image name="07_th_clear" screenshot="true"/>
+              </step>
+              <step>You can clear the data with Clear, and then continue
+                collecting data with Collect.   </step>
+            </steps>
+          </instruction>
+          <instruction title="Reading graph values ">
+            <steps>
+              <step>To read values of a graph once it has been
+                collected, tap on the Mark flag and tap where you want
+                to read the value.  <shared-image name="22_th_mark" screenshot="true"/>
+              </step>
+              <step>A little triangle will appear, connected to crossed
+                lines. The mark can be moved around with the cursor, and
+                the x and y values of the graph will show at the top.  </step>
+            </steps>
+          </instruction>
+          <instruction title="Recognizing collection limits ">
+            <p>Currently             there is a limit to how much data
+              can be collected at once,             about 4000 data
+              points. The collecting will stop when this
+              amount is reached, so plan your experiments with this in
+              mind. In terms of time, the limits are as follows: </p>
+            <p>Force               probe, 400/sec = about 7 seconds </p>
+            <p>Force probe, 200/sec = about 15 seconds </p>
+            <p>SmartWheel = about 40 seconds </p>
+            <p>All others 3/sec = several minutes </p>
+          </instruction>
+          <instruction title="Scrolling around the graph ">
+            <p>To scroll             around the graph, tap and drag
+              within the graph area itself.             There may be a
+              slight delay before the graph               responds.</p>
+            <shared-image name="11_th_scrollgraph" screenshot="true"/>
+          </instruction>
+          <instruction title="Changing the scale of an axis ">
+            <steps>
+              <step>To change the scale of an axis, tap and drag on the
+                region along the axis. Drag away from zero to expand the
+                scale and toward zero to shrink the scale. There may be
+                a slight delay before the graph responds.  <shared-image
+                  name="12_th_scaleaxes" screenshot="true"/>
+              </step>
+              <step>If you stretch or shrink the scale a great deal, it
+                will switch by a factor of 1000, shown as 10^3 (for
+                large numbers) or 10^-3 (for small numbers). For
+                example, in the following screen, time is in
+                milliseconds (1/1000 of a second) and light intensity is
+                in kilolux (1000 lux).  <shared-image
+                  name="13_th_exponents" screenshot="true"/>
+              </step>
+            </steps>
+          </instruction>
+          <instruction title="Zooming in on the graph ">
+            <steps>
+              <step>To zoom in on part of a graph, tap on the area
+                selector at the bottom of the screen.  <shared-image
+                  name="14_th_selectarea" screenshot="true"/>
+              </step>
+              <step>Drag the outline around the area of the graph you
+                want to zoom in on, then tap Tools.  <shared-image
+                  name="15_th_zoomoutline" screenshot="true"/>
+              </step>
+              <step>Click Zoom in the Tools list. <shared-image
+                  name="16_th_zoom" screenshot="true"/>
+              </step>
+              <step>The graph will reappear showing just the area you
+                  selected.<shared-image name="17_th_zoomed" screenshot="true"/>
+              </step>
+            </steps>
+          </instruction>
+          <instruction title="Changing graph properties ">
+            <steps>
+              <step>To change graph properties, tap the Palm menu icon
+                at the bottom left corner, then the Edit menu item. Tap
+                Graph Properties.   <shared-image name="08_th_graphprop" screenshot="true"/>
+              </step>
+              <step>To change the title, go to the Graph tab. Write the
+                new title, and then tap OK.  <shared-image
+                  name="09_th_graphname" screenshot="true"/>
+              </step>
+              <step>To change the range and the label of an axis, tap on
+                the YAxis or XAxis tab. Write in the Max, the Min, and
+                the Label, and then tap OK.  <shared-image
+                  name="10_th_yaxis" screenshot="true"/>
+              </step>
+              <step>Another method of changing the range and the label
+                of an axis is to tap on the ends of axes to open graph
+                properties.  </step>
+            </steps>
+          </instruction>
+          <instruction title="Saving data ">
+            <steps>
+              <step>To save your data, tap the Palm menu icon at the
+                bottom left corner. Then tap Save Data in the File menu.
+                The menu will disappear when the data is saved. This may
+                take several seconds.  <shared-image name="18_th_save" screenshot="true"/>
+              </step>
+              <step>When prompted, give your data set a name. It will be
+                saved in your LabBook.   </step>
+            </steps>
+          </instruction>
+          <instruction title="Closing the data collector">
+            <p>To close the             data collector and go back to
+              the LabBook screen, tap Done.             Your data will
+              NOT automatically be saved.  </p>
+            <shared-image name="19_th_done" screenshot="true"/>
+          </instruction>
+        </instructions>
+      </tech-hint-body>
     </tech-hint>
     <tech-hint name="connectforce">
       <title>Connecting the Force probe</title>
@@ -188,7 +337,7 @@
     </tech-hint>
   </tech-hint-list>
   <unit name="Motions_and_Forces">
-    <title>Motions and Forces</title>
+    <title>Motions and Forces Instructional Unit</title>
     <investigation name="Air_Cart">
       <title>Air Cart</title>
       <teacher-notes>
@@ -331,9 +480,9 @@
         little friction</summary>
       <question> What happens to a vehicle when there&apos;s very little friction?</question>
       <intro>
-        <ext-image  name="smallCart"/> In this
-        activity you will build and test an air cart that operates with
-        very little friction.</intro>
+        <ext-image name="smallCart"/> In this         activity you will
+        build and test an air cart that operates with         very
+        little friction.</intro>
       <think name="think">
         <p>Have you ever wondered why cars stay on the road when they
           round a corner? Why is it more difficult to round those
@@ -410,9 +559,9 @@
                 wide and 14cm long, starting 4cm from one end of the cart.</step>
               <step> Cut out the slot with a utility knife. Please be
                 very careful! <ext-image-sequence>
-                  <ext-image  name="01a_cardboard"/>
-                  <ext-image  name="01b_slotCutMark"/>
-                  <ext-image  name="01c_slotCutOut"/>
+                  <ext-image name="01a_cardboard"/>
+                  <ext-image name="01b_slotCutMark"/>
+                  <ext-image name="01c_slotCutOut"/>
                 </ext-image-sequence>
               </step>
             </steps>
@@ -426,10 +575,10 @@
                 Let it stick out on either side.  </step>
               <step>Cut off each end of the straw a bit longer than the cardboard.</step>
               <step>The finished straw is now ready for the axle.<ext-image-sequence>
-                  <ext-image  name="02a_strawMark"/>
-                  <ext-image  name="02b_strawGlued"/>
-                  <ext-image  name="02c_strawCut"/>
-                  <ext-image  name="02d_strawInstall"/>
+                  <ext-image name="02a_strawMark"/>
+                  <ext-image name="02b_strawGlued"/>
+                  <ext-image name="02c_strawCut"/>
+                  <ext-image name="02d_strawInstall"/>
                 </ext-image-sequence>
               </step>
             </steps>
@@ -453,10 +602,10 @@
                 little bit. A paper clip will work as a screwdriver. </step>
               <step>Now the SmartWheel is in place. It can be taken on
                 and off. You will need to do this for the Tracker Investigation.<ext-image-sequence>
-                  <ext-image  name="03a_swMarkHoles" type="gif"/>
-                  <ext-image  name="03b_makeHoles" type="gif"/>
-                  <ext-image  name="03c_swScrews" type="gif"/>
-                  <ext-image  name="03d_swInstalled" type="gif"/>
+                  <ext-image name="03a_swMarkHoles" type="gif"/>
+                  <ext-image name="03b_makeHoles" type="gif"/>
+                  <ext-image name="03c_swScrews" type="gif"/>
+                  <ext-image name="03d_swInstalled" type="gif"/>
                 </ext-image-sequence>
               </step>
             </steps>
@@ -473,10 +622,9 @@
               <step>Slide the axle through the straw and then slide on
                 the other CD ROM wheel. The picture shows the cart
                 upside down.  <ext-image-sequence>
-                  <ext-image  name="04a_pressInHub" type="gif"/>
-                  <ext-image 
-                    name="04b_oneWheelAxle" type="gif"/>
-                  <ext-image  name="04c_wheelPair" type="gif"/>
+                  <ext-image name="04a_pressInHub" type="gif"/>
+                  <ext-image name="04b_oneWheelAxle" type="gif"/>
+                  <ext-image name="04c_wheelPair" type="gif"/>
                 </ext-image-sequence>
               </step>
             </steps>
@@ -496,8 +644,8 @@
                 holder. Glue it down in the center next to the motor.
                 Leave a little bit of space between the battery holder
                 and the motor.  <ext-image-sequence>
-                  <ext-image  name="06a_motor"/>
-                  <ext-image  name="06b_batteries"/>
+                  <ext-image name="06a_motor"/>
+                  <ext-image name="06b_batteries"/>
                 </ext-image-sequence>
               </step>
             </steps>
@@ -522,10 +670,10 @@
                 removed when you mount the Force probe on the cart.  </step>
               <step>Put bits of clay into the acrobat&apos;s hands so
                 that it has a good grip. Hang the acrobat on the wire.  <ext-image-sequence>
-                  <ext-image  name="08a_wireU"/>
-                  <ext-image  name="08b_wireCrimped"/>
-                  <ext-image  name="08c_wireAttach"/>
-                  <ext-image  name="08d_wireAcrobat"/>
+                  <ext-image name="08a_wireU"/>
+                  <ext-image name="08b_wireCrimped"/>
+                  <ext-image name="08c_wireAttach"/>
+                  <ext-image name="08d_wireAcrobat"/>
                 </ext-image-sequence>
               </step>
             </steps>
@@ -547,10 +695,10 @@
                 &quot;U&quot; to make the edges stiff and keep the cart
                 from running off the edge. </step>
               <step>Then the cardboard ramp rests easily on a flat surface.<ext-image-sequence>
-                  <ext-image  name="10a_rampSize"/>
-                  <ext-image  name="10b_rampMark"/>
-                  <ext-image  name="10c_rampFold"/>
-                  <ext-image  name="10d_rampEnd"/>
+                  <ext-image name="10a_rampSize"/>
+                  <ext-image name="10b_rampMark"/>
+                  <ext-image name="10c_rampFold"/>
+                  <ext-image name="10d_rampEnd"/>
                 </ext-image-sequence>
               </step>
             </steps>
@@ -821,7 +969,7 @@
             instant relative to your starting point. Here&apos;s an
             example of going in one direction, stopping and then
             returning to the starting location.   </p>
-          <ext-image name="pos-fd-bk2" type="jpg"/>
+          <shared-image name="23_th_posfdbk" screenshot="true"/>
           <p>A similar distinction can be made between speed and
             velocity. Speed is how fast you&apos;re going (change in
             distance / change in time), regardless of what direction
@@ -833,21 +981,21 @@
             go forward and your position increases. It&apos;s zero when
             you stop. Then it&apos;s negative as you go backward and
             your position decreases.   </p>
-          <ext-image name="vel-fd-bk2" type="jpg"/>
+          <shared-image name="24_th_velfdbk" screenshot="true"/>
           <p>If your cart bounces off a wall, it might have similar
             speeds before and after the bounce, but its velocity has
             reversed direction. This will be shown on the SmartWheel
             graph as a positive velocity before the collision and a
             negative velocity afterwards. The position graph will
             increase, then decrease as the cart rolls backwards.   </p>
-          <ext-image name="vel-bounce2" type="jpg"/>
+          <shared-image name="26_th_velbounce" screenshot="true"/>
           <p>When the SmartWheel is used for one-dimensional motion
             along a straight line, position can be thought of as the
             distance, positive or negative, from the starting point.
             Velocity can be thought of as either positive or negative
             speed, where positive velocity increases position, and
             negative velocity decreases position.   </p>
-          <ext-image name="pos-bounce2" type="jpg"/>
+          <shared-image name="25_th_posbounce" screenshot="true"/>
           <p>Motion in two or three dimensions, such a circular motion,
             is not explored in these Investigations. It may come up,
             however. For example, suppose you&apos;re driving a car in a
@@ -956,14 +1104,14 @@
               floor.<ext-image name="01a_swTaped2"/>
           </step>
           <step>Place a piece of masking tape on the floor to make a
-            straight line at least 3m long. You will use this line when
+            straight line 2-3m long. You will use this line when
             navigating your SmartWheel.  </step>
           <step>Connect the SmartWheel to your handheld computer. Refer
             to Technical Hints to see how to connect the cables.</step>
           <step>Start the software. Observe the position versus time
             graph as you roll the SmartWheel back and forth along the
-            masking tape line on the floor.  
-            <datacollector-link type="dc-smartwheel-pos1"/>
+            masking tape line on the floor.
+              <datacollector-link type="dc-smartwheel-pos1"/>
             <ext-image name="02_swOnWand"/>
           </step>
           <step>With your team member, take turns practicing making the
@@ -1034,8 +1182,7 @@
             graph as you make the following motions on the same graph.
             Practice until you have all four motions on the same graph,
             one after the other. Observe how the acrobat responded
-            during each motion.
-            <datacollector-link type="dc-smartwheel-pos1"/>
+            during each motion.             <datacollector-link type="dc-smartwheel-pos1"/>
             <steps>
               <step>pulling the cart forward at a constant velocity</step>
               <step>pulling the cart at a slow constant velocity, then a
@@ -1045,7 +1192,7 @@
             </steps>
           </step>
           <step>Save your data to the handheld computer.</step>
-          <query-response layout="list" title="movements" type="describe">
+          <query-response layout="list" title="describemovements" type="describe">
             <query-description>Draw and describe a graph for each set of
               movements in Notes on your handheld computer.</query-description>
             <querys>
@@ -1108,8 +1255,7 @@
             the position versus time graph as you roll the cart down the
             ramp. Be sure to drape the wire to the SmartWheel so that
             the cart rolls freely. Observe how the acrobat responded
-            during the motion.  
-            <datacollector-link type="dc-smartwheel-pos2"/>
+            during the motion.               <datacollector-link type="dc-smartwheel-pos2"/>
           </step>
           <step>Save your data to the handheld.<ext-image name="04_tr2"/>
           </step>
@@ -1382,15 +1528,15 @@
             relates to your description of the forces found during a
             sneeze in space. </query-description>
           <querys>
-            <query drawing-response="true" note-response="true">What is
+            <query drawing-response="false" note-response="true">What is
               accelerating the air? </query>
-            <query drawing-response="true" note-response="true">Will
+            <query drawing-response="false" note-response="true">Will
               your almost frictionless cart move when the propeller is
               turned on? </query>
-            <query drawing-response="true" note-response="true">Will it
+            <query drawing-response="false" note-response="true">Will it
               still move when you add more friction? </query>
-            <query drawing-response="true" note-response="true">What are
-              the forces that will make the cart move?</query>
+            <query drawing-response="true" note-response="false">Use
+              arrows to draw the forces that will make the cart move?</query>
           </querys>
           <query-static-link>Write (or draw) your ideas in Notes on your
             handheld computer.  </query-static-link>
@@ -1478,8 +1624,7 @@
             along with it, keeping the wire floppy.  <ext-image name="07_pr"/>
           </step>
           <step>Start the software and observe the position versus time
-            graph. 
-            <datacollector-link type="dc-smartwheel-pos2"/>
+            graph.              <datacollector-link type="dc-smartwheel-pos2"/>
           </step>
           <step>Start the propeller, holding on to the cart. Let the
             cart go and let it run for as far as you have space. Be sure
@@ -1519,24 +1664,19 @@
           <step>Connect the SmartWheel to your handheld computer. Refer
             to Technical Hints to see how to connect the SmartWheel.  </step>
           <step>Start the software to measure velocity. Make the
-            following measurements one after another with the graph
-            running. You will then have all of your data on one graph,
-            and you can analyze it.  
-            <datacollector-link type="dc-smartwheel-vel1"/>
+            following three measurements one after another with the
+            graph running. You will then have all of your data on one
+            graph, and you can analyze it. Note: because the cart is
+            going backwards, the velocity graph will be upside down.
+              <datacollector-link type="dc-smartwheel-vel1"/>
             <steps>
-              <step>With no weight on the sled, give the cart a gentle
-                push so that it rolls to a stop after about 2m.  </step>
-              <step>Start the motor and let the cart go for about 2m.</step>
+              <step>With no weight on the sled, start the motor and let
+                the cart go for about 3m.</step>
               <step>Put some clay on the sled and hook it onto the
                 bumper. Give the cart a push so that it rolls to a stop
-                after about 2m.  </step>
+                after about 3m.</step>
               <step>With the clay still on the sled, start the motor and
-                let the cart go for about 2m.</step>
-              <step>Approximately double the amount of clay on the sled,
-                but not so much that the cart won&apos;t move! Give the
-                cart a push so that it rolls to a stop after about 2m.</step>
-              <step>With the amount of clay still doubled, start the
-                motor and let the cart go for about 2m.  </step>
+                let the cart go for about 3m.</step>
             </steps>
           </step>
           <step>Save the data to your handheld computer.</step>
@@ -1583,16 +1723,10 @@
             <querys>
               <query drawing-response="true" note-response="true">no
                 friction, push cart</query>
-              <query drawing-response="true" note-response="true">no
-                friction, propeller  </query>
-              <query drawing-response="true" note-response="true">some
+              <query drawing-response="true" note-response="true">add
                 friction, push cart</query>
-              <query drawing-response="true" note-response="true">some
-                friction, propeller  </query>
-              <query drawing-response="true" note-response="true">more
-                friction, push cart</query>
-              <query drawing-response="true" note-response="true">more
-                friction, propeller</query>
+              <query drawing-response="true" note-response="true">add
+                friction, run propeller</query>
             </querys>
           </query-response>
           <query-response layout="paragraph" title="opposite" type="explain">
@@ -1824,12 +1958,13 @@
       <intro>
         <ext-image name="wallCollision"/>In this activity you will
         investigate what happens during a collision of a cart with a wall.</intro>
-      <think name="think">Collisions happen so fast that it&apos;s hard to see what
-        was going on during the event. You just see the results of a
-        smashed car or a home run or a sore hand. Sometimes you want big
-        forces, as with a baseball bat or a karate chop, and sometimes
-        you want to decrease the forces, as with a safety helmet.
-          <query-response layout="paragraph" title="forces" type="predict">
+      <think name="think">Collisions happen so fast that it&apos;s hard
+        to see what         was going on during the event. You just see
+        the results of a         smashed car or a home run or a sore
+        hand. Sometimes you want big         forces, as with a baseball
+        bat or a karate chop, and sometimes         you want to decrease
+        the forces, as with a safety helmet.           <query-response
+          layout="paragraph" title="forces" type="predict">
           <query-description>In this activity you will use the Force
             probe to actually measure what happens during a collision.
             How big are the forces? How long do they last? What features
@@ -1872,17 +2007,19 @@
           <step> Hold the Force probe so that you can hang things from
             the smaller eye bolt at the end of the arm. Set the force
             probe to zero in this position. Refer to Technical Hints to
-            see how to set the Force probe to zero.  
-            <datacollector-link type="dc-force1"/>
+            see how to set the Force probe to zero.
+              <datacollector-link type="dc-force1"/>
             <ext-image name="01a_c1"/>
           </step>
-          <step>Try weighing something light, such as a paper clip
-            hooked to a pen. Expand the force scale so that you can see
-            the change in weight. What is the smallest weight that you
-            can             measure?   </step>
+          <step>Try weighing something light, such as a pen hooked on
+            with a paper clip. Expand the force scale so that you can
+            see             the change in weight. What is the smallest
+            weight that you             can             measure?   </step>
           <query-response layout="paragraph" title="newtons" type="explain">
-            <query-description>Weigh something heavy, like a book. Note
-              that the units are in newtons, not kilograms. </query-description>
+            <query-description>Clear the graph and change the y-axis
+              scale to read from 0 to 20N. Weigh something heavier, like
+              a book. Note               that the units are in newtons,
+              not kilograms. </query-description>
             <querys>
               <query drawing-response="false" note-response="true">What
                 is the difference between newtons and kilograms?</query>
@@ -1894,10 +2031,10 @@
             cart from the Force probe. It can be hooked to the bumper,
             around the propeller, or through the cardboard. <ext-image name="01b_c1"/>
           </step>
-          <step>Start recording with the software for force. Hang the
-            cart from the Force probe for 10 seconds. Remove it and
-            check that the force goes back to zero. Stop recording and
-            save your data.</step>
+          <step>Clear the graph. Start recording with the software for
+            force. Hang the             cart from the Force probe for 10
+            seconds. Remove it and             check that the force goes
+            back to zero. Stop recording and             save your data.</step>
           <query-response layout="paragraph" title="steady" type="describe">
             <query-description/>
             <querys>
@@ -1963,8 +2100,7 @@
           </step>
           <step>Connect the Force probe to your handheld computer. Refer
             to Technical Hints to see how to connect the cables. </step>
-          <step>Start the software.
-            <datacollector-link type="dc-force2"/>
+          <step>Start the software.             <datacollector-link type="dc-force2"/>
           </step>
           <step>Set the force probe to zero in this position. Refer to
             Technical Hints to see how to set the Force probe to zero.</step>
@@ -2023,8 +2159,8 @@
           <step>Start the software. Start recording the force. Give the
             cart a push so that it stretches the bungee cord and then
             bounces back. Catch it before it hits the Force probe. Stop
-            recording. Observe the behavior of the acrobat.  
-            <datacollector-link type="dc-force3"/>
+            recording. Observe the behavior of the acrobat.
+              <datacollector-link type="dc-force3"/>
           </step>
           <step>Try this several times, and after a good bounce save
             your data to the handheld computer.</step>
@@ -2374,8 +2510,8 @@
             <query-static-link>Record your prediction in Notes on the
               handheld computer. </query-static-link>
           </query-response>
-          <step>Start the software for each Force probe. 
-            <datacollector-link type="dc-force1"/>
+          <step>Start the software for each Force probe.
+              <datacollector-link type="dc-force1"/>
           </step>
           <step>Set the force probe to zero. Refer to Technical Hints to
             see how to set the Force probe to zero.  </step>
@@ -2436,8 +2572,8 @@
           </query-response>
           <step>Start the software. Set the force probe to zero. Refer
             to Technical Hints to see how to set the Force probe to
-            zero. Weigh each cart by hanging it from the small eyebolt.  
-            <datacollector-link type="dc-force4"/>
+            zero. Weigh each cart by hanging it from the small eyebolt.
+              <datacollector-link type="dc-force4"/>
           </step>
           <step>Make the carts equal in mass by adding some clay to one
             of them if needed. </step>
@@ -2483,8 +2619,8 @@
             <query-static-link>Draw your predictions in Notes on the
               handheld computer. </query-static-link>
           </query-response>
-          <step>Start the software to record a velocity versus time graph. 
-            <datacollector-link type="dc-smartwheel-vel2"/>
+          <step>Start the software to record a velocity versus time
+            graph.              <datacollector-link type="dc-smartwheel-vel2"/>
           </step>
           <step>Start recording. Push one cart toward the other and let
             them bounce. Be sure the bumpers are lined up.<ext-image name="04b_c2"/>
@@ -2582,7 +2718,7 @@
     </investigation>
   </unit>
   <unit name="Energy">
-    <title>Transfer of Energy</title>
+    <title>Transfer of Energy Instructional Unit</title>
     <investigation name="Heat_Flow">
       <title>Heat Flow</title>
       <teacher-notes>
@@ -2890,8 +3026,8 @@
               temperature versus time graph as you test your two choices
               of water. Stop the software. Be sure the two samples are
               at least 10 degrees Celsius different from each other.
-              <datacollector-link type="dc-temperature1"/>
-           </query-description>
+                <datacollector-link type="dc-temperature1"/>
+            </query-description>
             <querys>
               <query drawing-response="false" note-response="true">What
                 are the two temperatures?  </query>
@@ -2947,8 +3083,8 @@
             probe. The sensitive part is just the very tip, where two
             wires are welded together.</step>
           <step>Start the temperature graph and run through this series
-            of measurements so that you get all of your data on one graph.
-              <datacollector-link type="dc-temperature1"/>
+            of measurements so that you get all of your data on one
+            graph.               <datacollector-link type="dc-temperature2"/>
           </step>
           <step>Measure the air temperature.</step>
           <step>Use water from a non-room temperature source. It should
@@ -3008,8 +3144,7 @@
           </query-response>
           <step>Start the temperature graph and run through the complete
             series of measurements so that you obtain all of your data
-            on one graph.  
-              <datacollector-link type="dc-temperature2"/>
+            on one graph.                 <datacollector-link type="dc-temperature2"/>
           </step>
           <step>Measure the air temperature. Place the Temperature probe
             into the center of the clay ball.  </step>
@@ -3307,30 +3442,47 @@
       </teacher-notes>
       <summary>Examine the movement and energy of a cart as it rolls up
         and down a ramp </summary>
-      <question>When you roll a cart up and down a ramp, it changes
-        velocity. If the total amount of energy is always the same, how
-        does it change form?   </question>
+      <question>When you roll a cart up and down a ramp, how does the
+        velocity change as the height of the cart changes?  </question>
       <intro>
         <ext-image name="cartOnRamp"/>In this activity you will relate
         the movement and energy of a cart as it rolls up and down a
         ramp.  </intro>
-      <think name="think">A basketball player going for a lay up is a good example of
-        an object in motion. Just as the player is ready to release the
-        ball, the player exhibits both gravitational potential energy
-        (how high the player jumps) and the kinetic energy of motion
-        (how fast the player is going). How do these two energies
-        relate?  <p>Think about what happens when you are playing on a
-          playground swing. How does the amount of energy change when
-          you are near the ground compared to the amount of energy at
-          the top of your swing? Use Notes on your handheld computer to
-          draw the motion of a swing. Where is the (gravitational)
-          potential energy the greatest? Where is the kinetic energy the
-          greatest?  </p>
+      <think name="think">
+        <query-response title="basketball" type="predict">
+          <query-description>A basketball player going for a lay up is a
+            good example of an object in motion. Just as the player is
+            ready to release the ball, the player exhibits both
+            gravitational potential energy (how high the player jumps)
+            and the kinetic energy of motion (how fast the player is
+            going). </query-description>
+          <querys>
+            <query drawing-response="false" note-response="true">How do
+              these two energies relate? </query>
+          </querys>
+        </query-response>
+        <query-response title="swing" type="predict">
+          <query-description>Think about what happens when you are
+            swinging on a playground swing. When you are near the
+            ground, you are going fast. At the top of your swing you are
+            stopped for a split second. </query-description>
+          <querys>
+            <query drawing-response="true" note-response="false">Draw
+              the motion of the swing. </query>
+            <query drawing-response="false" note-response="true">Where
+              do you have the most energy? </query>
+            <query drawing-response="false" note-response="true">Where
+              is the (gravitational) potential energy the greatest?</query>
+            <query drawing-response="false" note-response="true">Where
+              is the kinetic energy the greatest?</query>
+          </querys>
+          <query-static-link>Use Notes on your handheld computer. </query-static-link>
+        </query-response>
       </think>
       <materials>
         <item>CC SmartWheel probe  </item>
         <item>handheld computer  </item>
-        <item>CC Lab Book software</item>
+        <item>CC LabBook software</item>
         <item>constructed air cart (see Investigation: Air Cart)</item>
         <item>cardboard ramp (see Investigation: Air Cart)  </item>
         <item>books to prop up ramp</item>
@@ -3350,20 +3502,31 @@
           </step>
           <step>Connect the SmartWheel to your handheld computer. Refer
             to Technical Hints to see how to connect the SmartWheel.  </step>
-          <step>Start the software to read a velocity versus time graph.
-            Refer to Technical Hints to see how to use the software.  </step>
+          <step>Start the software to read a velocity versus time graph. 
+            <datacollector-link type="dc-smartwheel-vel2"/>
+          </step>
           <step>Let the cart roll down the ramp and continue along the
             floor or desk. If you have room, let it coast to a stop.
               <ext-image name="02_pk"/>
           </step>
           <step>Stop the software immediately after a good roll and save
-            your data to the handheld computer.   </step>
-          <step>What is the greatest velocity of the cart? Where does
-            this occur? When the cart is rolling, it has what&apos;s
-            called kinetic energy, or energy of motion. Yet when the
-            cart started, it had no kinetic energy because it was not
-            moving. So where did the energy come from? Explain your
-            reasoning in Notes on your handheld computer.</step>
+            your data.   </step>
+          <query-response title="trial1" type="describe">
+            <query-description>When the cart is rolling, it has
+              what&apos;s called kinetic energy, or energy of motion.
+              Yet when the cart started, it had no kinetic energy
+              because it was not moving. </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">So
+                where did the energy come from?</query>
+              <query drawing-response="false" note-response="true">What
+                is the greatest velocity of the cart? </query>
+              <query drawing-response="false" note-response="true">Where
+                does this occur?</query>
+            </querys>
+            <query-static-link>Explain your reasoning in Notes on your
+              handheld computer.</query-static-link>
+          </query-response>
         </steps>
       </trial>
       <trial title="Changing the starting height of the cart">
@@ -3376,17 +3539,28 @@
             the experiment several times.<ext-image name="03_pk"/>
           </step>
           <step>Start the software to read a velocity versus time graph.
-            Refer to Technical Hints to see how to use the software.  </step>
+            <datacollector-link type="dc-smartwheel-vel2"/>
+          </step>
           <step>Let the cart roll down the ramp and continue along the
             floor or desk. If you have room, let it coast to a stop.  </step>
           <step>Stop the software immediately after a good roll and save
-            your data to the handheld. </step>
-          <step>What is the greatest velocity of the cart? Where does
-            this occur? When the cart is rolling, it has what&apos;s
-            called kinetic energy, or energy of motion. Yet when the
-            cart started, it had no kinetic energy because it was not
-            moving. So where did the energy come from? Explain your
-            reasoning in Notes on your handheld computer.</step>
+            your data. </step>
+          <query-response title="trial2" type="describe">
+            <query-description>When the cart is rolling, it has
+              what&apos;s called kinetic energy, or energy of motion.
+              Yet when the cart started, it had no kinetic energy
+              because it was not moving. </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">So
+                where did the energy come from?</query>
+              <query drawing-response="false" note-response="true">What
+                is the greatest velocity of the cart? </query>
+              <query drawing-response="false" note-response="true">Where
+                does this occur? </query>
+            </querys>
+            <query-static-link>Explain your reasoning in Notes on your
+              handheld computer.</query-static-link>
+          </query-response>
         </steps>
       </trial>
       <trial title="Bouncing a cart down and up a hill Bouncing a cart down and up a hill  Bouncing a cart down and up a hill   ">
@@ -3402,15 +3576,26 @@
             the rubber bands.  <ext-image name="04_pk"/>
           </step>
           <step>Start the software to read a velocity versus time graph.
-            Refer to Technical Hints to see how to use the software.</step>
+            <datacollector-link type="dc-smartwheel-vel3"/>
+          </step>
           <step>Raise the cart to the top of the ramp and let it go.</step>
           <step>Stop recording after it bounces up and down the ramp and
             comes to rest. Save your data to the handheld.  </step>
-          <step>At what points in the cart&apos;s travels did it have
-            the greatest speed? At what points did it have zero speed?
-            How can you tell from the graph when the cart was going down
-            and when it was going up? Explain your reasoning in Notes on
-            your handheld computer.  </step>
+          <query-response title="trial3" type="describe">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">At
+                what points in the cart&apos;s travels did it have the
+                greatest speed?      </query>
+              <query drawing-response="false" note-response="true">At
+                what points did it have zero speed?</query>
+              <query drawing-response="false" note-response="true">How
+                can you tell from the graph when the cart was going down
+                and when it was going up?</query>
+            </querys>
+            <query-static-link>Explain your reasoning in Notes on your
+              handheld computer.</query-static-link>
+          </query-response>
         </steps>
       </trial>
       <hints>
@@ -3426,35 +3611,70 @@
       </hints>
       <analysis>
         <steps>
-          <step>In Trials I and II, the cart has two forms of energy.
-            The           first, gravitational potential energy, is
-            proportional to an           object&apos;s height above the
-            Earth. The higher an object,           the more
-            gravitational potential energy it has. When in each
-            trial did the cart have the greatest potential energy? Why?   </step>
-          <step>The second form is kinetic energy, also called energy of
-            motion. It depends on an object&apos;s velocity. When in
-            each           trial did the cart have the greatest kinetic
-            energy? Why?  </step>
-          <step>Do you think the cart has as much kinetic energy at the
-            bottom of the ramp as it had potential energy at the top of
-            the ramp? Why? </step>
-          <step>Energy can also be stored in a stretched rubber band.
-            It&apos;s another form of potential energy. If you
-            &quot;hang&quot; a cart down a ramp with a rubber band, then
-            let it bounce up and down, energy is going from
-            (gravitational           potential) to (kinetic) to (rubber
-            band potential). Look at           your data from Trial III.
-            Where on the graph is each kind of           energy the
-            greatest?   </step>
-          <step>After the cart leaves the ramp, it slows down, losing
-            its           kinetic energy. Where does the energy go?  </step>
-          <step>We often want to store energy for later use. How many
-            examples of this can you list? In each case, what is the
-            form           of stored energy, and what is the form of
-            useful energy that           comes from it? Hint: The useful
-            energy might not always be           kinetic energy; it
-            might be light from a bulb, or heat in a           room.     </step>
+          <query-response title="1" type="describe">
+            <query-description>In Trials I and II, the cart has two
+              forms of energy. The first, gravitational potential
+              energy, is proportional to an object&apos;s height above
+              the Earth. The higher an object, the more gravitational
+              potential energy it has.  </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">When
+                did the cart have the greatest potential energy?</query>
+              <query drawing-response="false" note-response="true">Why? </query>
+            </querys>
+          </query-response>
+          <query-response title="2" type="describe">
+            <query-description>The second form is kinetic energy, also
+              called energy of motion. It depends on an object&apos;s velocity.</query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">When
+                did the cart have the greatest kinetic energy?</query>
+              <query drawing-response="false" note-response="true">Why?</query>
+            </querys>
+          </query-response>
+          <query-response title="3">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">Do
+                you think the cart has as much kinetic energy at the
+                bottom of the ramp as it had potential energy at the top
+                of the ramp?   </query>
+              <query drawing-response="false" note-response="true">Why?</query>
+            </querys>
+          </query-response>
+          <query-response title="4">
+            <query-description>Energy can also be stored in a stretched
+              rubber band. It&apos;s another form of potential energy.
+              If you &quot;hang&quot; a cart down a ramp with a rubber
+              band, then let it bounce up and down, energy is going from
+              (gravitational potential) to (kinetic) to (rubber band
+              potential). Look at your data from Trial III.  </query-description>
+            <querys>
+              <query drawing-response="true" note-response="false">Draw
+                the graph.</query>
+              <query drawing-response="false" note-response="true">Where
+                on the graph is each kind of energy the greatest? </query>
+            </querys>
+          </query-response>
+          <query-response title="5">
+            <query-description>After the cart leaves the ramp, it slows
+              down, losing its kinetic energy. </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">Where
+                does the energy go? </query>
+            </querys>
+          </query-response>
+          <query-response title="6">
+            <query-description>We often want to store energy for later
+              use. The useful energy might not always be kinetic energy
+              - it might be light from a bulb, or heat in a room. How
+              many examples of this can you list? </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">List
+                the form of stored energy and the form of useful energy
+                that comes from it.  </query>
+            </querys>
+          </query-response>
         </steps>
       </analysis>
       <further>
@@ -3486,8 +3706,6 @@
             the position reading. Add the PE and KE together. Does the
             sum remain constant? Should it remain constant?  </p>
         </item>
-        <item>Change the data from Trial III to view position instead of
-          velocity. How is the graph the same, and how is it different?</item>
       </further>
     </investigation>
     <investigation name="Heating_With_Electricity">
@@ -3870,27 +4088,43 @@
       <intro>
         <ext-image name="lightningBolt"/>In this activity you will
         investigate heating with electrical devices.</intro>
-      <think name="think">When electricity flows through a wire, some of its energy
-        goes into heating up the wire. Sometimes this is a problem. When
-        electricity travels from a power station to the city, heat
-        energy is wasted. But once the electricity arrives at your house
-        for the purpose of heating a stove or a room, electrical heating
-        is very efficient and flexible.  <ext-image name="01_he"/>
-        <p>The Genecon is a little generator with the same basic design
-          as the huge generators run by hydroelectric dams, coal-fired
-          boilers, or nuclear power plants. In every case, some other
-          form of energy (e.g., falling water, burning coal, decaying
-          radioactive material) turns the &quot;crank&quot; of a
-          generator and creates electrical power. In this case, you
-          supply the power. Make a list in Notes on your handheld
-          computer of several ways that electric power is generated and
-          the source of energy in each case.  </p>
+      <think name="think">
+        <query-response layout="paragraph" title="flows" type="describe">
+          <query-description>When electricity flows through a wire, some
+            of its energy goes into heating up the wire. Sometimes this
+            is a problem. When electricity travels from a power station
+            to the city, heat energy is wasted. But once the electricity
+            arrives at your house for the purpose of heating a stove or
+            a room, electrical heating is very efficient and flexible.</query-description>
+          <querys>
+            <query drawing-response="false" note-response="true">What
+              devices in your house use electricity for heating?</query>
+          </querys>
+          <query-static-link>Make a list in Notes on your handheld computer.</query-static-link>
+        </query-response>
+        <ext-image name="01_he"/>
+        <query-response title="genecon" type="predict">
+          <query-description>The Genecon is a little generator with the
+            same basic design as the huge generators run by
+            hydroelectric dams, coal-fired boilers, or nuclear power
+            plants. In every case, some other form of energy (e.g.,
+            falling water, burning coal, decaying radioactive material)
+            turns the &quot;crank&quot; of a generator and creates
+            electrical power. In this case, you supply the power.</query-description>
+          <querys>
+            <query drawing-response="false" note-response="true">Think
+              of several ways that electric power is generated and the
+              source of energy in each case. </query>
+          </querys>
+          <query-static-link>Make a list in Notes on your handheld
+            computer. </query-static-link>
+        </query-response>
       </think>
       <materials>
         <item>CC Fast Response Temperature probe  </item>
-        <item>CC Voltage/Current </item>
+        <item>CC VoltageCurrent Probe</item>
         <item>handheld computer</item>
-        <item>CC Lab Book software</item>
+        <item>CC LabBook software</item>
         <item>handheld generator (Genecon)</item>
         <item>heat cell with insulating cover</item>
         <item>mini light</item>
@@ -3908,9 +4142,9 @@
       </safety>
       <trial title="Cranking with a Genecon">
         <steps>
-          <step>Set up the Voltage/Current probe to your handheld
+          <step>Connect the VoltageCurrent probe to your handheld
             computer. Refer to Technical Hints to see how to set up the
-            Voltage/Current probe.   </step>
+            VoltageCurrent probe.   </step>
           <step>Locate the parts for your small &quot; heat cell&quot;
             which consists of a resistor inside a block of aluminum.
             When you put electrical current through the resistor, it
@@ -3921,22 +4155,29 @@
           <step>Remove the heat cell from its insulation. Attach the two
             leads of the Genecon to wires extending from the heat cell.
             Also connect the voltage leads and the current leads of
-            Voltage/Current probe to the heat cell. Don &apos;t put the
-            heat cell in the insulation yet.  <ext-image name="03_he"/>
+            VoltageCurrent probe to the heat cell. Follow the diagram
+            carefully. Don &apos;t put the heat cell in the insulation
+            yet.  <ext-image name="03_he2"/>
           </step>
           <step>Start the software to record power. This measures the
             electrical power, in watts, that you are supplying to the
-            heat cell with the Genecon. Refer to Technical Hints to see
-            how to use the software.  </step>
+            heat cell with the Genecon.
+            <datacollector-link type="dc-voltage-current-power"/>
+          </step>
           <step>Try cranking at a fairly fast speed and observe the
             power on your graph. Can you crank at a steady fast rate?
             Now try to crank at a slower steady rate that produces half
-            as much power. Record your observations in Notes on your
-            handheld computer.   </step>
-          <step>Practice until you can do two rates of cranking, slow
-            and fast, where the faster rate produces twice as much power
-            as the slower rate. Disconnect the voltage and current
-            leads.  </step>
+            as much power. </step>
+          <query-response title="trial1" type="describe">
+            <query-description>Practice until you can do two rates of
+              cranking, slow and fast, where the faster rate produces
+              twice as much power as the slower rate. Stop collecting
+              data and disconnect the voltage and current leads.  </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">What
+                is the power of each rate in watts?</query>
+            </querys>
+          </query-response>
           <step>Connect the Temperature probe to your handheld computer.
             Refer to Technical Hints to connect the Temperature probe.
             The sensitive part is just the very tip, where two wires are
@@ -3945,37 +4186,62 @@
             in one end of the heat cell.  <ext-image name="04a_he"/>
           </step>
           <step>Set the heat cell in the insulation and close up the box
-            with a rubber band.<ext-image name="04b_he"/>
+            with a rubber band.<ext-image name="03_he"/>
           </step>
           <step>Attach the two Genecon leads to the wires extending from
             the heat cell.  <ext-image name="04c_he"/>
           </step>
-          <step>Start the software for the Temperature probe. Refer to
-            Technical Hints to see how to use the software. Start
+          <step>Start the software for the Temperature probe. Start
             recording temperature.  </step>
           <step>Observe the temperature graph. After 10 seconds, crank
             the Genecon for 30 seconds at the fast rate. Then crank the
             Genecon for 30 seconds more at the slower rate. Then stop
             cranking and continue recording for another 60 seconds.  </step>
-          <step>Stop recording the data.</step>
-          <step>Expand the graph so that you can see how much the
-            temperature rose while you were cranking, and how much it
-            fell after you stopped. Put marks on the starting
-            temperature, the temperature after fast cranking, after slow
-            cranking, and at the ending temperature. Refer to Technical
-            Hints to see how to use the software.   </step>
-          <step>Save your data to the handheld.  </step>
-          <step>Record the change in these values between each of your
-            marks in Notes on your handheld computer. Was each
-            temperature rate over time steady?</step>
-          <step>Take the heat cell out of its insulating box, cool it
-            with tapwater, and dry it off.  </step>
-          <step>The heat cell is made so that it takes exactly 10 joules
-            of energy to heat it one degree Celsius. How many joules did
-            your 30 seconds of fast cranking produce? What about the 30
-            seconds of slow cranking? How many joules did the cell lose
-            in 60 seconds as it cooled? Record your answers in Notes on
-            your handheld computer.   </step>
+          <step>Stop recording the data. Save your data to the handheld.</step>
+          <query-response layout="list" title="cranking" type="describe">
+            <query-description>Expand the graph so that you can see how
+              much the temperature rose while you were cranking, and how
+              much it fell after you stopped.  Write down the following
+              values on a piece of paper:</query-description>
+            <querys>
+              <query drawing-response="false"
+                note-response="true">starting temperature</query>
+              <query drawing-response="false" note-response="true">the
+                temperature after fast cranking</query>
+              <query drawing-response="false" note-response="true">after
+                slow cranking  </query>
+              <query drawing-response="false" note-response="true">the
+                ending temperature</query>
+            </querys>
+            <query-static-link>Record these values in Notes.</query-static-link>
+          </query-response>
+          <query-response layout="list" title="calculate" type="describe">
+            <query-description>Calculate the following values on a piece
+              of paper:</query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">the
+                temperature change during fast cranking  </query>
+              <query drawing-response="false" note-response="true">the
+                temperature change during slow cranking</query>
+              <query drawing-response="false" note-response="true">the
+                temperature change while cooling</query>
+            </querys>
+            <query-static-link>Record these values in Notes.</query-static-link>
+          </query-response>
+          <query-response title="exactly" type="describe">
+            <query-description>The heat cell is made so that it takes
+              exactly 10 joules of energy to heat it one degree Celsius. </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">How
+                many joules did your 30 seconds of fast cranking produce?</query>
+              <query drawing-response="false" note-response="true">What
+                about the 30 seconds of slow cranking?</query>
+              <query drawing-response="false" note-response="true">How
+                many joules did the cell lose in 60 seconds as it cooled?</query>
+            </querys>
+            <query-static-link>Record your answers in Notes on your
+              handheld computer. </query-static-link>
+          </query-response>
         </steps>
       </trial>
       <trial title="Heating with a battery">
@@ -4003,7 +4269,9 @@
             leads, but not the other, to the heat cell.   <ext-image name="05b_he2"/>
           </step>
           <step>Start the software for the Temperature probe. Refer to
-            Technical Hints to see how to use the software. </step>
+            Technical Hints to see how to use the software. 
+            <datacollector-link type="dc-temperature3"/>
+          </step>
           <step>When the temperature graph reaches exactly 10 seconds,
             connect the second lead of the battery pack to the other end
             of the heat cell.  <ext-image name="05c_he"/>
@@ -4011,24 +4279,54 @@
           <step>Heat the cell for 60 seconds, then disconnect one
             battery lead. Let the graph run another 60 seconds so that
             you can watch the cooling of the heat cell.  </step>
-          <step>Stop recording the data.</step>
-          <step>Expand the graph so that you can see how much the
-            temperature rose while the battery was attached and how much
-            it decreased after you stopped. Refer to Technical Hints to
-            see how to use the software. Place marks on the starting
-            temperature, the maximum temperature, and the ending
-            temperature.  </step>
-          <step>Save the data to your handheld computer.</step>
-          <step>Record the change in these values between each of your
-            marks in Notes on your handheld computer. Was each
-            temperature rate over time steady?  </step>
-          <step>Take the heat cell out, cool it with tapwater, and dry
-            it off.</step>
-          <step>The heat cell is made so that it takes exactly 10 joules
-            of energy to heat it one degree Celsius. How many joules of
-            heating did the battery produce in 60 seconds? How many
-            joules did the cell lose in 60 seconds? Record your answers
-            in Notes on your handheld computer.  </step>
+          <step>Stop recording the data. Save the data to your handheld computer.</step>
+          <query-response layout="list" title="battery" type="describe">
+            <query-description>Expand the graph so that you can see how
+              much the temperature rose while the battery was attached
+              and how much it decreased after you stopped. Place marks
+              on the starting temperature, the maximum temperature, and
+              the ending temperature. Write down the following values on
+              a piece               of paper.</query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">the
+                starting temperature  </query>
+              <query drawing-response="false" note-response="true">the
+                maximum temperature</query>
+              <query drawing-response="false" note-response="true">the
+                ending temperature</query>
+            </querys>
+            <query-static-link>Record these values in Notes. </query-static-link>
+          </query-response>
+          <query-response layout="list" title="calcbattery" type="describe">
+            <query-description>Calculate the following values on a piece
+              of paper:</query-description>
+            <querys>
+              <query drawing-response="false"
+                note-response="true">temperature change from start to maximum</query>
+              <query drawing-response="false"
+                note-response="true">temperature change by cooling</query>
+            </querys>
+            <query-static-link>Record these values in Notes.</query-static-link>
+          </query-response>
+          <query-response title="steady" type="describe">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">Was
+                each temperature rate over time steady?</query>
+            </querys>
+          </query-response>
+          <query-response title="joules" type="describe">
+            <query-description>The heat cell is made so that it takes
+              exactly 10 joules of energy to heat it one degree Celsius. </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">How
+                many joules of heating did the battery produce in 60 seconds?</query>
+              <query drawing-response="false" note-response="true">How
+                many joules did the cell lose in 60 seconds? </query>
+            </querys>
+            <query-static-link>Record your answers in Notes on your
+              handheld computer. </query-static-link>
+          </query-response>
         </steps>
       </trial>
       <trial title="Heating with a light bulb">
@@ -4056,24 +4354,43 @@
           <step>Attach one lead of the battery to the mini light, but
             not the other.<ext-image name="06c_he"/>
           </step>
-          <step>Start the software to record temperature. Refer to
-            Technical Hints to see how to use the software.</step>
+          <step>Start the software to record temperature.</step>
           <step>Attach the second battery lead and light up the mini
-            light. <ext-image name="06d_he"/>
+            light. 
+             <datacollector-link type="dc-temperature4"/>
+             <ext-image name="06d_he"/>
           </step>
           <step>Monitor the temperature plot. Let it run for 30 seconds,
             then disconnect the second lead and let it run for another
             30 seconds. Stop recording.   </step>
-          <step>Stop recording the data.  </step>
-          <step>Expand the graph so that you can see how much the
-            temperature rose while the battery was attached and how much
-            it decreased after you stopped. Refer to Technical Hints to
-            see how to use the software. Place marks on the starting
-            temperature, the maximum temperature, and the ending
-            temperature.  </step>
-          <step>Save the data to your handheld computer.  </step>
-          <step>Record the change in these values between each of your
-            marks in Notes on your handheld computer.   </step>
+          <step>Stop recording the data. Save the data to your handheld
+            computer.  </step>
+          <query-response layout="list" title="graph" type="describe">
+            <query-description>Expand the graph so that you can see how
+              much the temperature rose while the battery was attached
+              and how much it decreased after you stopped. Write down
+              the following values on a piece of paper:</query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">the
+                starting temperature</query>
+              <query drawing-response="false" note-response="true">the
+                maximum temperature</query>
+              <query drawing-response="false" note-response="true">the
+                ending temperature</query>
+            </querys>
+            <query-static-link>Record these values in Notes.</query-static-link>
+          </query-response>
+          <query-response title="cool" type="describe">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">How
+                many degrees did the light heat up in 30s?</query>
+              <query drawing-response="false" note-response="true">How
+                many degrees did it cool down in 30s?</query>
+            </querys>
+            <query-static-link>Record these values in Notes on your
+              handheld computer.  </query-static-link>
+          </query-response>
         </steps>
       </trial>
       <hints>
@@ -4096,30 +4413,84 @@
       </hints>
       <analysis>
         <steps>
-          <step>Discuss the shape of the temperature graph when you
-            supplied electrical energy to the heat cell with the
-            Genecon.           Does it start to heat right away? What
-            does the slope of the           line tell you? Is it the
-            same for fast and slow cranking?  </step>
-          <step>Compare the rate of heating by the Genecon and the
-            batteries. Which heats faster? How can you tell? Are you
-            surprised by the amount of cranking it takes to equal what a
-            small battery can do?  </step>
-          <step>Is the amount of cooling significant over the period of
-            60 seconds?</step>
-          <step>Is the shape of the graph for cooling the same as the
-            shape for heating? How long do you think it would take for
-            the           heat cell to cool down to the starting
-            temperature?  </step>
-          <step>Do you think the energy in the battery could properly be
-            called &quot;potential&quot; energy? What form do you think
-            it           is in?  </step>
-          <step>Why did the light bulb heat up so much more rapidly than
-            the heat cell?  </step>
-          <step>Compare the tape teams&apos; data with the foil
-            teams&apos; data. Did the bulb heat up faster with the clear
-            tape or the aluminum foil? Explain how you think the light
-            bulb becomes hot and what difference the covering makes.   </step>
+          <query-response title="1">
+            <query-description>Discuss the shape of the temperature
+              graph when you supplied electrical energy to the heat cell
+              with the Genecon. </query-description>
+            <querys>
+              <query drawing-response="true" note-response="false">Draw
+                the graph. </query>
+              <query drawing-response="false" note-response="true">Does
+                it start to heat right away?</query>
+              <query drawing-response="false" note-response="true">What
+                does the slope of the line tell you?</query>
+              <query drawing-response="false" note-response="true">Is it
+                the same for fast and slow cranking?</query>
+            </querys>
+          </query-response>
+          <query-response title="2">
+            <query-description>Compare the rate of heating by the
+              Genecon and the batteries.  </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">Which
+                heats faster?</query>
+              <query drawing-response="false" note-response="true">How
+                can you tell?</query>
+              <query drawing-response="false" note-response="true">Are
+                you surprised by the cranking speed it takes to equal
+                what a small battery can do?</query>
+            </querys>
+          </query-response>
+          <query-response title="3">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">Is
+                the amount of cooling significant over the period of 60
+                seconds?  </query>
+            </querys>
+          </query-response>
+          <query-response title="4">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">Is
+                the shape of the graph for cooling the same as the shape
+                for heating? </query>
+              <query drawing-response="false" note-response="true">How
+                long would it take for the heat cell to cool down to
+                room temperature? </query>
+            </querys>
+          </query-response>
+          <query-response title="5">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">Could
+                the energy in the battery be called
+                &quot;potential&quot; energy? </query>
+              <query drawing-response="false" note-response="true">What
+                form do you think it is in?</query>
+            </querys>
+          </query-response>
+          <query-response title="6">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">Why
+                did the light bulb heat up so much more rapidly than the
+                heat cell?  </query>
+            </querys>
+          </query-response>
+          <query-response title="7">
+            <query-description>Compare the tape teams&apos; data with
+              the foil teams&apos; data.</query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">Did
+                the bulb heat up faster with the clear tape or the
+                aluminum foil? </query>
+              <query drawing-response="false" note-response="true">How
+                does the electricity turn into heat?</query>
+              <query drawing-response="false" note-response="true">What
+                difference does the covering make?</query>
+            </querys>
+          </query-response>
         </steps>
       </analysis>
       <further>
@@ -4533,13 +4904,14 @@
         <ext-image name="singleNRG"/>In this activity you will
         investigate the benefits of changing one form of energy into
         another form of energy.  </intro>
-      <think name="think">Energy comes in many forms - electrical, mechanical,
-        chemical, light, nuclear - and it can be stored in many ways -
-        batteries, springs, water towers, gasoline, radioactive
-        materials. To make use of energy, we often want to change it
-        from one form to another, then store it, then transform it again
-        and use it later on.  <p>How many kinds of energy can you think
-          of that you make use of in and around your house? Where does
+      <think name="think">Energy comes in many forms - electrical,
+        mechanical,         chemical, light, nuclear - and it can be
+        stored in many ways -         batteries, springs, water towers,
+        gasoline, radioactive         materials. To make use of energy,
+        we often want to change it         from one form to another,
+        then store it, then transform it again         and use it later
+        on.  <p>How many kinds of energy can you think           of that
+          you make use of in and around your house? Where does
           each kind come from? How is it stored before you use it? Is it
           changed from one form to another when you make use of it? What
           do you do with the energy? On your handheld, answer these
@@ -4579,7 +4951,9 @@
             computer. Refer to Technical Hints to connect the
             Voltage/Current probe. </step>
           <step>Start the software to record energy. Refer to Technical
-            Hints to see how to use the software.  </step>
+            Hints to see how to use the software.  
+            <datacollector-link type="dc-voltage-current-power"/>
+          </step>
           <step>Crank until you have charged the capacitor. How can you
             tell that it&apos;s fully charged? Hint: Does the amount of
             cranking effort change as the capacitor &quot;fills
@@ -4618,7 +4992,9 @@
           <step>Connect the Temperature probe to your handheld computer.
             Refer to Technical Hints to connect the Temperature probe.  </step>
           <step>Start the software for the Temperature probe. Refer to
-            Technical Hints to see how to use the software.  </step>
+            Technical Hints to see how to use the software.  
+            <datacollector-link type="dc-temperature5"/>
+          </step>
           <step>Charge up the capacitor again with the Genecon and
             quickly disconnect it.</step>
           <step>Connect the capacitor to the heat cell with two clip
@@ -4650,7 +5026,9 @@
           <step>Connect the Temperature probe to your handheld computer.
             Refer to Technical Hints to connect the Temperature probe.  </step>
           <step>Start the software for the Temperature probe. Refer to
-            Technical Hints to see how to use the software.  </step>
+            Technical Hints to see how to use the software.  
+            <datacollector-link type="dc-temperature6"/>
+          </step>
           <step>Try focusing sunlight on the heat cell with the Fresnel
             lens. If there&apos;s no sunlight, try focusing light from
             an incandescent light bulb.<ext-image name="05b_st"/>
@@ -5014,10 +5392,11 @@
         <ext-image name="multipleNRG"/>In this activity you investigate
         energy being transformed through several steps to obtain a
         useful form.  </intro>
-      <think name="think">We use many devices that transform energy from one form to
-        another. Sometimes a whole chain of transformations takes place.
-        They often do it so smoothly that we don&apos;t even realize
-        what&apos;s happening. Each step usually involves some loss of
+      <think name="think">We use many devices that transform energy from
+        one form to         another. Sometimes a whole chain of
+        transformations takes place.         They often do it so
+        smoothly that we don&apos;t even realize         what&apos;s
+        happening. Each step usually involves some loss of
         useful energy. An automobile engine, for instance, is only 30
         per cent efficient. That is, only 30 percent of the available
         energy in gasoline is available to move the car.   <p>Think of
@@ -5062,7 +5441,9 @@
             Refer to Technical Hints to connect the Voltage/Current
             probe.   </step>
           <step>Start the software to read voltage. Refer to Technical
-            Hints to see how to use the software.  </step>
+            Hints to see how to use the software.  
+            <datacollector-link type="dc-light-100000"/>
+          </step>
           <step>Hook the solar cell to the voltage probe. Try it under
             different light conditions, such as a light bulb, direct
             sunlight, indirect light from the sky. Stop the software and
@@ -5096,7 +5477,9 @@
           <step>Connect the Light probe to your handheld computer. Refer
             to Technical Hints to connect the Light probe.   </step>
           <step>Start the software to read light intensity (lux). Refer
-            to Technical Hints to see how to use the software.  </step>
+            to Technical Hints to see how to use the software.  
+            <datacollector-link type="dc-light-4000"/>
+          </step>
           <step>Measure the light level from light bulbs, direct
             sunlight, and light from the sky. Stop recording, but
             don&apos;t clear the data.</step>
@@ -5132,7 +5515,9 @@
             leads as shown in the diagram.  <ext-image name="07_mt"/>
           </step>
           <step>Start the software to read energy. Refer to Technical
-            Hints to see how to use the software.  </step>
+            Hints to see how to use the software.  
+            <datacollector-link type="dc-voltage-current-energy"/>
+          </step>
           <step>Use one Genecon to drive the other, or each try to
             oppose the other. Watch the energy graph. Does it correspond
             to what you are doing with the Genecons? What are the energy
@@ -5219,3 +5604,4 @@
     </investigation>
   </unit>
 </project>
+

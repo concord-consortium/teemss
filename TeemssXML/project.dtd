@@ -34,8 +34,15 @@
 <!ATTLIST datacollector-link
   type  (dc-temperature1 |
          dc-temperature2 |
-         dc-light1 |
-         dc-light2 |
+         dc-temperature3 |
+         dc-temperature4 |
+         dc-temperature5 |
+         dc-temperature6 |
+         dc-voltage-current-voltage |
+         dc-voltage-current-power |
+         dc-voltage-current-energy |
+         dc-light-4000 |
+         dc-light-100000 |
          dc-force1 |
          dc-force2 |
          dc-force3 |
@@ -43,7 +50,8 @@
          dc-smartwheel-pos1 |
          dc-smartwheel-pos2 |
          dc-smartwheel-vel1 |
-         dc-smartwheel-vel2)     #REQUIRED>
+         dc-smartwheel-vel2 |
+         dc-smartwheel-vel3)     #REQUIRED>
 
 <!ELEMENT teacher-notes (teacher-intro, teacher-discuss, teacher-background, teacher-timeline)>
 <!ELEMENT teacher-intro (summary, skills)>
