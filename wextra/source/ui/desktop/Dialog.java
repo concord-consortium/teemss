@@ -55,7 +55,18 @@ public class Dialog extends waba.ui.Window{
 				getWabaWindow().setFocus(inpControl);
 			}
 		}
-
+		
+		// This is a little hack to help the dialog get painted
+		// immediately 
+		// first we must wait for the dialog to show up
+		// then we call paint on it
+		synchronized(waba.applet.Applet.uiLock){
+			try{
+				waba.applet.Applet.uiLock.wait(250);			
+				_doPaint(0,0,width,height);
+			} catch(InterruptedException e){
+			}	
+		}
 	}
 
 	public void hide()
