@@ -65,7 +65,7 @@ CCProb probe = null;
 			}else if(event.target == calButton){
 				CalibrationDialog cDialog = new CalibrationDialog(this,this,"Calibration",probe);
 				cDialog.setRect(100,100,160,160);
-				cDialog.setContent();
+//				cDialog.setContent();
 				cDialog.show();
 			}
 		}

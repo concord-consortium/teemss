@@ -139,11 +139,11 @@ DeviationControl	devControl;
  		System.out.println("needNewProp "+needNewProp);
  		if(propertiesPanes[currContainer] == null){
 			propertiesPanes[currContainer] = new Container();
-			int pHeight = contentRect.height - (25 + bHeight);
-			int pWidth = contentRect.width - 2*widthBorder;
-			propertiesPanes[currContainer].setRect(widthBorder,20, pWidth ,pHeight);
-			currentPane = propertiesPanes[currContainer];
  		}
+		int pHeight = contentRect.height - (25 + bHeight);
+		int pWidth = contentRect.width - 2*widthBorder;
+		propertiesPanes[currContainer].setRect(widthBorder,20, pWidth ,pHeight);
+		currentPane = propertiesPanes[currContainer];
  		doStop();
  		if(currContainer == CAL_PANE){
  			setUpTable();
