@@ -739,7 +739,6 @@ String				text;
 			removeCursor();
 			firstLine--;
 			layoutComponents();
-			setText(getText());//dima for test
 			repaint();
 		}
 	}
@@ -749,7 +748,6 @@ String				text;
 			removeCursor();
 			firstLine++;
 			layoutComponents();
-			setText(getText());//dima for test
 			repaint();
 		}
 	}
