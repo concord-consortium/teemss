@@ -5,8 +5,8 @@ FORKS= waba superwaba
 
 MW_CLASS= Tester
 PLATFORMS= palm other
-RUN_FORK= palm
-RUN_PLATFORM = palm
+RUN_FORK= other
+RUN_PLATFORM = other
 WARP_PLATFORM = other
 JUMP_PLATFORM = palm
 

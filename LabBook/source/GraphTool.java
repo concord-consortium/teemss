@@ -184,6 +184,11 @@ public class GraphTool extends Container
 	}
     }
 
+    public void showAxisProp()
+    {
+	lg.lgView.showAxisProp();
+    }
+
 
     public void setPos(int x, int y)
     {

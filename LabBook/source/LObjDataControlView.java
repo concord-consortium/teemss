@@ -20,17 +20,21 @@ public class LObjDataControlView extends LabObjectView
     int gt_height = 40;
     GraphTool gt = null;
 
-    Menu menu = new Menu("Probe");
+    Menu pMenu = new Menu("Probe");
+    Menu gMenu = new Menu("Graph");
 
     public LObjDataControlView(LObjViewContainer vc, LObjDataControl dc)
     {
 	super(vc);
 
-	menu.add("Settings...");
-	menu.add("Save Data...");
-	menu.addActionListener(this);
+	pMenu.add("Properties...");
+	pMenu.add("Save Data...");
+	pMenu.addActionListener(this);
+	gMenu.add("Change Axis...");
+	gMenu.addActionListener(this);
 	if(vc != null){
-	    vc.addMenu(this, menu);
+	    vc.addMenu(this, pMenu);
+	    vc.addMenu(this, gMenu);
 	}
 
 	this.dc = dc;
@@ -92,8 +96,8 @@ public class LObjDataControlView extends LabObjectView
 	String command;
 	Debug.println("Got action: " + e.getActionCommand());
 
-	if(e.getSource() == menu){
-	    if(e.getActionCommand().equals("Settings...")){
+	if(e.getSource() == pMenu){
+	    if(e.getActionCommand().equals("Properties...")){
 		gt.stop();
 		dc.getProbe().calibrateMe((ExtraMainWindow)(MainWindow.getMainWindow()), this, dc.interfaceId);
 
@@ -113,6 +117,10 @@ public class LObjDataControlView extends LabObjectView
 		    // latter it should ask the user for the name
 		}
 	    }
+	} else if(e.getSource() == gMenu){
+	    if(e.getActionCommand().equals("Change Axis...")){
+		gt.showAxisProp();
+	    } 
 	}
     }
 
@@ -120,7 +128,11 @@ public class LObjDataControlView extends LabObjectView
     {
 	Debug.println("Got close in graph");
 	gv.close();
-	if(container != null)  container.delMenu(this,menu);
+	if(container != null){
+	    container.delMenu(this,pMenu);
+	    container.delMenu(this,gMenu);
+	}
+
 	gt.onExit();
 
     }
