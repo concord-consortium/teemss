@@ -33,6 +33,14 @@ public class LabBookSession
 		return index >= 0;
 	}
 
+	public void storeNew(LabObject lObj)
+	{
+		lObj.store();
+		lObj.incRefCount();
+		labObjects.add(lObj);
+	}
+
+
 	// This gets the real object
 	// it should only be used interally by 
 	// dictionaries and things.
