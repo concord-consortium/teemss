@@ -378,8 +378,9 @@ public class CCProbe extends ExtraMainWindow
 		if(labBook != null){
 			if(curFullView != null){
 				curFullView.close();
+			} else {
+				lObjView.close();
 			}
-			lObjView.close();
 			labBook.commit();
 			labBook.close();
 		}
