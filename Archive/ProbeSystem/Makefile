@@ -11,7 +11,7 @@ CLASSES= ProbeSystem.java ProbeManager.java ManagerWorker.java \
 	TBProbeManager.java
 
 main:
-	javac -d ../classes -O $(CLASSES)
+	javac -d classes -O $(CLASSES:%=source/%)
 
 tini: main
 	javac -bootclasspath /home/scytacki/tini1.01/bin/tiniclasses.jar \
@@ -20,4 +20,4 @@ tini: main
 -o ProbeSystem.tini -d /home/scytacki/tini1.01/bin/tini.db -t /home/scytacki/owire/lib/tini_dependencies/ 28
 
 clean:
-	rm -rf ../classes/*
+	rm -rf classes/*
