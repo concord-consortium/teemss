@@ -12,7 +12,7 @@ public class LabBookCatalog
 {
     DataStream ds;
 
-    int [] objIndex = null;
+	Vector objIndexVec = new Vector();
 
     int curDevId;
     int nextObjId;
@@ -170,15 +170,99 @@ public class LabBookCatalog
 		rootObjId = ds.readInt();
 
 		int length = ds.readInt();
-		objIndex = new int [length*3];
-		int pos = 0;
-		int i;
+		objIndexVec = new Vector();
+		int [] curChunk = null;
+		for(int j=0; j < (length - 1)/objIndexChunkSize; j++){
+			curChunk = new int [objIndexChunkSize * 3];
+			objIndexVec.add(curChunk);
+			ds.readInts(curChunk, 0, curChunk.length);
+		}
+		curChunk = new int [objIndexChunkSize * 3];
+		objIndexVec.add(curChunk);
+		ds.readInts(curChunk, 0, (length % objIndexChunkSize) * 3);
 
-		ds.readInts(objIndex, 0, length*3);
+		objIndexLen = length;
 
 		cat.setRecordPos(-1);
 		return true;
     }
+
+	public int findObject(int devId, int objId)
+	{
+		for(int j=0; j < objIndexVec.getCount(); j++){
+			int [] objIndex = (int [])objIndexVec.get(j);
+			for(int i=0; i < objIndex.length; i+=3){
+				if(objIndex[i] == devId &&
+				   objIndex[i+1] == objId){
+					return objIndex[i+2];
+				} 
+			}
+		}
+		return -1;
+	}
+
+	int objIndexLen = 0;
+	int objIndexChunkSize = 200;
+
+	int addObject(int devId, int objId, int newRecCount)
+	{
+		if(objIndexVec.getCount() == 0){
+			// this is the first object added
+			// initialize the index record
+			cat.addRecord(20);
+			ds.writeInt(curDevId);
+			ds.writeInt(nextObjId);
+			ds.writeInt(rootDevId);
+			ds.writeInt(rootObjId);
+			ds.writeInt(0);
+		}
+
+		// add the record to the catalog
+		int newRecPos = cat.addRecord(newRecCount);
+		if(newRecPos < 0) return newRecPos;
+		cat.setRecordPos(-1);
+
+		// find the chunk where we will store this new record index
+		int curChunkIndex = objIndexLen / objIndexChunkSize;
+
+		// See if we need to make a new chunk
+		if(curChunkIndex >= objIndexVec.getCount()){
+			// we need to add a new chunk to the objIndexVec
+			objIndexVec.add(new int [objIndexChunkSize * 3]);
+		}
+
+		
+		int [] curChunk = (int []) objIndexVec.get(curChunkIndex);
+		
+		// find the position in the chunk
+		int objPos = (objIndexLen - curChunkIndex*objIndexChunkSize) * 3;
+
+		// store the object info in the chunk
+		curChunk[objPos] = devId;
+		curChunk[objPos+1] = objId;
+		curChunk[objPos+2] = newRecPos;
+
+		// Prepare to store the object info in the catalog
+		if(!cat.setRecordPos(0)) return -1;
+		cat.resizeRecord(cat.getRecordSize() + 12);
+
+		cat.skipBytes(4);
+		ds.writeInt(nextObjId);
+
+		cat.skipBytes(8);
+		ds.writeInt(objIndexLen + 1);
+		cat.skipBytes(objIndexLen*12);
+
+		ds.writeInt(devId);
+		ds.writeInt(objId);
+		ds.writeInt(newRecPos);
+
+		cat.setRecordPos(-1);
+
+		objIndexLen++;	
+		
+		return newRecPos;
+	}
 
     public boolean getError(){return error;};
 
@@ -190,26 +274,20 @@ public class LabBookCatalog
 		int objSize = 0;
 		byte [] buffer = null;
 
-		if(objIndex == null) return null;
+		int index = findObject(devId, objId);
+		if(index < 0) return null;
 
-		for(i=0; i < objIndex.length; i+=3){
-			if(objIndex[i] == devId &&
-			   objIndex[i+1] == objId){
-				if(!cat.setRecordPos(objIndex[i+2])){
-					error = true; 
-					openErr("read:" + i);
-					return null;
-				}
-
-				objSize = cat.getRecordSize();
-				buffer = new byte [objSize];
-				cat.readBytes(buffer, 0, objSize);
-				cat.setRecordPos(-1);
-				return buffer;
-			}
+		if(!cat.setRecordPos(index)){
+			error = true; 
+			openErr("read:" + index);
+			return null;
 		}
-	
-		return null;
+		
+		objSize = cat.getRecordSize();
+		buffer = new byte [objSize];
+		cat.readBytes(buffer, 0, objSize);
+		cat.setRecordPos(-1);
+		return buffer;
     }
 
     // check if this object already exists
@@ -227,71 +305,36 @@ public class LabBookCatalog
 
 		if(nextObjId <= objId) nextObjId = objId + 1;
 
-		if(objIndex != null){
-			for(i=0; i < objIndex.length; i+=3){
-				if(objIndex[i] == devId &&
-				   objIndex[i+1] == objId){
-					if(!cat.setRecordPos(objIndex[i+2])){
-						error = true; 
-						openErr("write:" + i);
-						return false;
-					}
-
-					if(cat.getRecordSize() != count){
-						if(!cat.resizeRecord(count)) return closeErr("5:" + cat.getError());
-						if(!cat.setRecordPos(objIndex[i+2])) return closeErr("6:" + cat.getError());
-					}
-
-					cat.writeBytes(buffer, start, count);	
-					cat.setRecordPos(-1);
-					return true;
-				}	    
+		int index = findObject(devId, objId);
+		if(index >= 0){
+			if(!cat.setRecordPos(index)){
+				error = true; 
+				openErr("write:" + index);
+				return false;
 			}
 
-			int [] newObjIndex = new int [objIndex.length + 3];
-			Vm.copyArray(objIndex, 0, newObjIndex, 0, objIndex.length);
-			objIndex = newObjIndex;
-
-		} else {
-			objIndex = new int [3];
-	    
-			cat.addRecord(20);
-			ds.writeInt(curDevId);
-			ds.writeInt(nextObjId);
-			ds.writeInt(rootDevId);
-			ds.writeInt(rootObjId);
-			ds.writeInt(0);
+			if(cat.getRecordSize() != count){
+				if(!cat.resizeRecord(count)) return closeErr("5:" + cat.getError());
+				if(!cat.setRecordPos(index)) return closeErr("6:" + cat.getError());
+			}
+			
+			cat.writeBytes(buffer, start, count);	
+			cat.setRecordPos(-1);
+			return true;
 		}
 
-		int newRecPos = cat.addRecord(count);
+		// We didn't find the object so add it
+		int newRecPos = addObject(devId, objId, count);
+
 		if(newRecPos < 0){
 			return false;
 		}
 	    
+		cat.setRecordPos(newRecPos);
 		cat.writeBytes(buffer, start, count);
 		cat.setRecordPos(-1);
 
-		int objPos = objIndex.length - 3;
 
-		if(!cat.setRecordPos(0)) return false;
-		cat.resizeRecord(cat.getRecordSize() + 12);
-
-		cat.skipBytes(4);
-		ds.writeInt(nextObjId);
-
-		cat.skipBytes(8);
-		ds.writeInt(objIndex.length / 3);
-		cat.skipBytes(objPos*4);
-
-		ds.writeInt(devId);
-		ds.writeInt(objId);
-		ds.writeInt(newRecPos);
-
-		objIndex[objPos] = devId;
-		objIndex[objPos+1] = objId;
-		objIndex[objPos+2] = newRecPos;
-
-		cat.setRecordPos(-1);
 		return true;       
     }
   

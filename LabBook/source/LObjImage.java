@@ -34,13 +34,13 @@ public class LObjImage extends LabObject
 	public int getImageWidth(){ return imageWidth; }
 	public int getImageHeight(){ return imageHeight; }
     
-    public void loadImage(byte []buffer){
-    	if(buffer == null) return;
-		translateBmpImage(buffer);
+    public boolean loadImage(byte []buffer){
+    	if(buffer == null) return false;
+		return translateBmpImage(buffer);
     }
 
-    public void loadImage(String url){
-    	if(url == null) return;
+    public boolean loadImage(String url){
+    	if(url == null) return false;
     	byte bytes[] = null;
 		waba.io.File wabaFile = new waba.io.File(url, waba.io.File.READ_ONLY);
 		if(wabaFile.exists()){
@@ -54,9 +54,9 @@ public class LObjImage extends LabObject
 	    	}
 	    	wabaFile.close();
 		}
-		
-		if(bytes == null) return;
-		translateBmpImage(bytes);
+
+		if(bytes == null) return false;
+		return translateBmpImage(bytes);
     }
 	
 	private static int inGetUInt32(byte bytes[], int off)
