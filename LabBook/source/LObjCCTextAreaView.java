@@ -1,6 +1,7 @@
 package org.concord.LabBook;
 
 import waba.ui.*;
+import waba.util.*;
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
 import org.concord.waba.extra.io.*;
@@ -9,38 +10,45 @@ public class LObjCCTextAreaView extends LabObjectView
 	implements ActionListener,DialogListener, ScrollListener, TextAreaListener,
 	ViewContainer
 {
-public CCTextArea 				tArea;
-boolean					tAreaWasAdded = false;
-//RelativeContainer 		edit = new RelativeContainer();
-Container 				edit = new Container();
-
-LObjCCTextArea 			doc;
-Button 					doneButton;
-Button 					insertButton;
-boolean					insertButtonAdded;
-
-Menu 					menu = null;
-Menu 					menuEdit = null;
-boolean					fileMenuWasAdded = false;
-
-
-String [] fileStrings = {"Load Note..."};
-
-Edit 					nameEdit;
-Label 					nameEditAsLabel;
-Label					nameLabel;
-boolean					nameEditWasAdded = false;
-boolean					nameEditAsLabelWasAdded = false;
-
-CCScrollBar				scrollBar;
-
+	public CCTextArea 				tArea;
+	boolean					tAreaWasAdded = false;
+	//RelativeContainer 		edit = new RelativeContainer();
+	Container 				edit = new Container();
+	
+	LObjCCTextArea 			doc;
+	Button 					doneButton;
+	Button 					insertButton;
+	boolean					insertButtonAdded;
+	
+	Menu 					menu = null;
+	Menu 					menuEdit = null;
+	boolean					fileMenuWasAdded = false;
+	
+	
+	String [] fileStrings = {"Load Note..."};
+	
+	Edit 					nameEdit;
+	Label 					nameEditAsLabel;
+	Label					nameLabel;
+	boolean					nameEditWasAdded = false;
+	boolean					nameEditAsLabelWasAdded = false;
+	
+	CCScrollBar				scrollBar;
+	
 	LObjDictionary localDict = null;
+	Vector lines = null;
+	LBCompDesc [] components = null;
+	int firstLine = 0;
 
 	public LObjCCTextAreaView(ViewContainer vc, LObjCCTextArea d,boolean edit, 
-							  LabBookSession session, LObjDictionary localDict){
+							  LabBookSession session, LObjDictionary localDict,
+							  Vector lines, LBCompDesc [] components)
+	{
 		super(vc, (LabObject)d, session);
 		doc = d;
 		this.localDict = localDict;
+		this.lines = lines;
+		this.components = components;
 	}
 
 	public void setSession(LabBookSession session)
@@ -156,9 +164,8 @@ CCScrollBar				scrollBar;
 
     }
 
-
-
-	public void showProperties(){
+	public void showProperties()
+	{
 		LObjCCTextAreaPropView propView = (LObjCCTextAreaPropView)doc.getPropertyView(null, null);
 		propView.setEditMode(doc.editMode);
 		if(propView == null) return;
@@ -169,9 +176,9 @@ CCScrollBar				scrollBar;
 		vDialog.addDialogListener(this);
 		vDialog.show();		
 	}
-	
-	
-	public void dialogClosed(DialogEvent e){
+		
+	public void dialogClosed(DialogEvent e)
+	{
 		if(tArea == null) return;
 		boolean editMode = tArea.getEditMode();
 		if(insertButtonAdded != editMode){
@@ -185,36 +192,6 @@ CCScrollBar				scrollBar;
 		}
 	}
 	
-	
-   public void writeExternal(DataStream out){
-    	out.writeBoolean(tArea != null);
-    	if(tArea != null){
-    		tArea.writeExternal(out);
-    	}
-    }
-
-	public void createTArea(waba.util.Vector lines,waba.util.Vector linkComponents,waba.util.Vector components){
-		if(tArea != null && tAreaWasAdded){
-			if(edit != null) edit.remove(tArea);
-			tAreaWasAdded = false;
-		}
-		tArea = new CCTextArea(this,null,doc.curDict,doc,session);
-		tArea.setup(lines, linkComponents, components);		
-		if(edit != null){			
-			edit.add(tArea);
-			tAreaWasAdded = true;
-		}
-		doc.store();
-	}
-
-    public void readExternal(DataStream in){
-		boolean wasText = in.readBoolean();
-		if(wasText){
-			tArea = new CCTextArea(this,null,doc.curDict,doc,session);
-			tArea.readExternal(in);
-		}
-    }
-
 	public MainView getMainView()
 	{
 		if(container != null) return container.getMainView();
@@ -226,7 +203,8 @@ CCScrollBar				scrollBar;
 		getMainView().showFullWindowObj(false, localDict, ptr);
 	}
 
-	public void layout(boolean sDone){
+	public void layout(boolean sDone)
+	{
 		if(didLayout) return;
 		didLayout = true;
 
@@ -249,16 +227,13 @@ CCScrollBar				scrollBar;
 				nameEditAsLabelWasAdded = true;
 			}
 		}
-
-		if(tArea == null){
-			tArea = new CCTextArea(this,getMainView(),doc.curDict,doc, session);
-
-		}else{
-			if(tAreaWasAdded) edit.remove(tArea);
-			tArea.mainView 	= getMainView();
-			tArea.dict 		= doc.curDict;
-			tArea.subDictionary = doc;
+		
+		if(tArea != null){
+			tArea.close();
 		}
+
+		tArea = new CCTextArea(this, getMainView(), localDict, doc, session,
+							   lines, components);
 		
 		tArea.initLineDictionary();
 		tArea.addTextAreaListener(this);
@@ -283,16 +258,23 @@ CCScrollBar				scrollBar;
 		if(scrollBar == null) scrollBar = new CCScrollBar(this);
 		edit.add(scrollBar);
 
+		if(firstLine != 0){
+			tArea.setFirstLine(firstLine);
+			// redesignScrollBar();
+		}
+
 		edit.add(tArea);
 		tAreaWasAdded = true;
 	}
 
-	public int getHeight(){
+	public int getHeight()
+	{
 //		return (tArea.getFontMetrics().getHeight() + 2) * tArea.getNumLines() + tArea.spacing*2 + 3;
 		return 0;
 	}
 
-	public void setRect(int x, int y, int width, int height){
+	public void setRect(int x, int y, int width, int height)
+	{
 		super.setRect(x,y,width,height);
 		if(!didLayout) layout(showDone);
 		boolean needInserButton = (tArea == null || tArea.getEditMode());
@@ -329,7 +311,8 @@ CCScrollBar				scrollBar;
 		if(needInserButton)	insertButton.setRect(1,yStart - 17,30,15);
 	}
 
-	public void close(){
+	public void close()
+	{
 		Debug.println("Got close in document");
 		tArea.close();
 		if(getViewType() == LObjDictionary.TREE_VIEW){
@@ -347,14 +330,16 @@ CCScrollBar				scrollBar;
 		// super.close();
 	}
 
-	public void onPaint(waba.fx.Graphics g){
+	public void onPaint(waba.fx.Graphics g)
+	{
 		if(g != null && edit != null){
 			waba.fx.Rect r = edit.getRect();
 			g.setColor(0,0,0);
 			g.drawRect(r.x, r.y, r.width, r.height);
 		}
 	}
-	public void onEvent(Event e){
+	public void onEvent(Event e)
+	{
 		if( e.type == ControlEvent.PRESSED){
 			if(e.target == insertButton){
 				if(tArea != null){
@@ -373,7 +358,8 @@ CCScrollBar				scrollBar;
 		  }
 		}
 	}
-    public void openFileDialog(){
+    public void openFileDialog()
+	{
     	String []extensions = {".txt",".TXT"};
     	FileDialog fd = FileDialog.getFileDialog(FileDialog.FILE_LOAD,null);
     	if(fd == null) return;
@@ -395,24 +381,27 @@ CCScrollBar				scrollBar;
     	tArea.setText(new String(chars,0,chars.length));
     	
     }
-	public int getPreferredWidth(){
+	public int getPreferredWidth()
+	{
 		return 100;
 	}
 
-	public int getPreferredHeight(){
+	public int getPreferredHeight()
+	{
 		return 100;
 	}
 	
-	public void textAreaWasChanged(TextAreaEvent textAreaEvent){
+	public void textAreaWasChanged(TextAreaEvent textAreaEvent)
+	{
 		redesignScrollBar();
 	}
 	
-	public void redesignScrollBar(){
+	public void redesignScrollBar()
+	{
 		if(scrollBar == null) return;
 		if(tArea == null) return;
 		int allLines = tArea.getRowsNumber();
-		int maxVisLine = tArea.getVisRows();
-				
+		int maxVisLine = tArea.getVisRows();				
 		scrollBar.setMinMaxValues(0,allLines - maxVisLine);
 		scrollBar.setAreaValues(allLines,maxVisLine);
 		scrollBar.setIncValue(1);
@@ -420,19 +409,35 @@ CCScrollBar				scrollBar;
 		scrollBar.setRValueRect();
 		if(allLines > maxVisLine){
 			scrollBar.setValue(tArea.firstLine);
+			scrollBar.setRValueRect();
 		}else{
-			tArea.setFirstLine(0,false);
 			scrollBar.setValue(0);
 		}
 		scrollBar.repaint();
 	}
 	
-	public void scrollValueChanged(ScrollEvent se){
+	public void saveState(DataStream ds)
+	{
+		if(tArea != null){
+			ds.writeInt(tArea.getFirstLine());
+		} else {
+			ds.writeInt(0);
+		}
+	}
+
+	public void restoreState(DataStream ds)
+	{
+		firstLine = ds.readInt();		
+	}
+
+	public void scrollValueChanged(ScrollEvent se)
+	{
 		if(se.target != scrollBar) return;
 		if(tArea != null) tArea.setFirstLine(se.getScrollValue());
 	}
 
-	public int getViewType(){
+	public int getViewType()
+	{
 		return (showDone)?LObjDictionary.TREE_VIEW:LObjDictionary.PAGING_VIEW;
 	}	
 

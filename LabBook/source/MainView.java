@@ -5,6 +5,7 @@ import waba.util.*;
 
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
+import org.concord.waba.extra.io.*;
 
 class PtrWindow
 {
@@ -13,13 +14,39 @@ class PtrWindow
 		this.ptr = ptr;
 		this.dictPtr = dictPtr;
 		this.edit = edit;
+		savedState = null;
 	}
 
 	LabObjectPtr ptr;
 	LabObjectPtr dictPtr;
 
 	boolean edit;
+
+	byte [] savedState;
 }
+
+/*
+		BufferStream bsIn = new BufferStream();
+		DataStream dsIn = new DataStream(bsIn);
+
+		// We didn't find it so we need to parse it from the file
+		byte [] buffer = db.readObjectBytes(lObj.ptr.devId, lObj.ptr.objId);
+		if(buffer == null) return false;
+
+		// set bufferStream buffer
+		// read buffer by
+		bsIn.setBuffer(buffer);
+*/
+
+/*
+    BufferStream bsOut = new BufferStream();
+    DataStream dsOut = new DataStream(bsOut);
+
+	curObjPtr.obj.writeExternal(dsOut);
+	outBuf = bsOut.getBuffer();
+
+	bsOut.setBuffer(null);
+*/
 
 public abstract class MainView extends ExtraMainWindow
     implements ViewContainer
@@ -139,15 +166,7 @@ public abstract class MainView extends ExtraMainWindow
 		if(fullViews != null &&
 		   fullViews.getCount() > 0){
 
-			curFullView.setShowMenus(false);
-			curFullView.close();
-			remove(curFullView);
-			curFullView = null;
-	    
-			// release it's session
-			if(curWinSession != null) curWinSession.release();
-
-			setFocus(null);
+			closeCurFullView();
 
 			fullViews.del(fullViews.getCount()-1);			
 
@@ -155,6 +174,25 @@ public abstract class MainView extends ExtraMainWindow
 				winChangeTimer = addTimer(50);		
 			}
 		}
+	}
+
+	void closeCurFullView()
+	{
+		if(curFullView == null) return;
+
+		curFullView.setShowMenus(false);
+		if(curFullView.getContainer() != this) return; //throw new RuntimeException("error")
+
+		// close the view
+		curFullView.close();
+
+		remove(curFullView);
+		curFullView = null;
+	    
+		// release it's session
+		if(curWinSession != null) curWinSession.release();
+		
+		setFocus(null);
 	}
 
 	void showLastWindow()
@@ -173,6 +211,14 @@ public abstract class MainView extends ExtraMainWindow
 
 			curFullView = lObj.getView(this, pWin.edit, dict, curWinSession);
 
+			if(pWin.savedState != null){
+				BufferStream bsIn = new BufferStream();
+				DataStream dsIn = new DataStream(bsIn);
+
+				// set bufferStream buffer
+				bsIn.setBuffer(pWin.savedState);
+				curFullView.restoreState(dsIn);
+			}
 			curFullView.layout(true);
 			curFullView.setRect(0,0,width,myHeight);
 
@@ -215,27 +261,23 @@ public abstract class MainView extends ExtraMainWindow
 			// by us 
 			lObjView.setShowMenus(false);
 			remove(me);
+
+			setFocus(null);
 		} else {
-			curFullView.setShowMenus(false);
-			if(curFullView.getContainer() != this) return; //throw new RuntimeException("error")
 
-			// close the view
-			curFullView.close();
+			// Save the state of this window
+			BufferStream bsOut = new BufferStream();
+			DataStream dsOut = new DataStream(bsOut);
+			curFullView.saveState(dsOut);
+
+			closeCurFullView();
+
+			if(fullViews != null &&
+			   fullViews.getCount() > 0){
+				((PtrWindow)fullViews.get(fullViews.getCount() - 1)).savedState = bsOut.getBuffer();
 				
-			if(curWinSession != null){
-				// we need to release it's session
-				// first we save the objects pointer
-				// incase this object is owned by the session
-				// (it ought to be)
-
-				 curWinSession.release();
-
 			}
-			remove(curFullView);	
-			curFullView = null;		
 		}
-
-		setFocus(null);
 
 		fullViews.add(new PtrWindow(ptr, dictPtr, edit));		
 		

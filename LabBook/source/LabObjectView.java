@@ -3,6 +3,7 @@ package org.concord.LabBook;
 import waba.ui.*;
 import org.concord.waba.extra.event.*;
 import org.concord.waba.extra.ui.*;
+import org.concord.waba.extra.io.*;
 
 public abstract class LabObjectView extends Container
 {
@@ -33,12 +34,16 @@ public abstract class LabObjectView extends Container
 
     public abstract void layout(boolean sDone);
 
+	public void restoreState(DataStream ds){};
+
     public void close()
     {
 		if(lObj != null) lObj.store();
 		setShowMenus(false);
 		if(session != null) session = null;
     }
+
+	public void saveState(DataStream ds){};
 
     public LabObject getLabObject(){ return lObj; }
 	public void setLabObject(LabObject obj){ lObj = obj; }

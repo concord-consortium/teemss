@@ -1,12 +1,13 @@
 package org.concord.LabBook;
 
-import org.concord.waba.extra.ui.*;
-import org.concord.waba.extra.event.*;
-import org.concord.waba.extra.io.*;
 import waba.ui.*;
 import waba.fx.*;
 import waba.sys.*;
 import waba.util.Vector;
+
+import org.concord.waba.extra.ui.*;
+import org.concord.waba.extra.event.*;
+import org.concord.waba.extra.io.*;
 
 public class CCTextArea  extends Container 
 	implements ViewContainer, DialogListener
@@ -32,7 +33,7 @@ public class CCTextArea  extends Container
 	LBCompDesc			currObjectViewDesc = null;
 
 	CCTextAreaChooser		labBookDialog = null;
-	LObjSubDict				subDictionary;
+	LObjCCTextArea    doc;
 	LabBookSession          session;
 	LObjCCTextAreaView		owner;
 	String				text;
@@ -60,14 +61,21 @@ public class CCTextArea  extends Container
 	private final static EmptyLabObject emptyObject = new EmptyLabObject();
 
 	private CCStringWrapper textWasChosen = null;
+	boolean needInitLines = false;
+
 
 	public CCTextArea(LObjCCTextAreaView owner,MainView mainView,LObjDictionary dict,
-					  LObjSubDict subDictionary, LabBookSession sess){
+					  LObjCCTextArea doc, LabBookSession sess,
+					  Vector lines, LBCompDesc [] components)
+	{
 		super();
 		this.mainView = mainView;
 		this.dict = dict;
-		this.subDictionary = subDictionary;
+		this.doc = doc;
 		this.owner = owner;
+		this.lines = lines;
+		this.components = components;
+		needInitLines = true;
 		session = sess;
 	}
 
@@ -238,121 +246,24 @@ public class CCTextArea  extends Container
     }
     
     public void initLineDictionary(){
-    	if(subDictionary == null) return;
+    	if(doc == null) return;
+		objDictionary = doc.getObjDict(session);
+    }
+    
+    public void setObj(LabObject lobj,int index){    
+		if(doc == null) return;
+		doc.setObj(lobj, index + 1);
+    }
 
-    	LabObject zeroObject = subDictionary.getObj(0, session);
-		if(objDictionary == null){
-			if(zeroObject instanceof LObjDictionary){
-				objDictionary = (LObjDictionary)zeroObject;
-			}else{
-				objDictionary = DefaultFactory.createDictionary();
-				session.storeNew(objDictionary);
-				if(objDictionary == null) return;
-				if(subDictionary.getNumObjs() > 0){
-					for(int i = subDictionary.getNumObjs(); i >= 0; i--){
-						LabObject o = subDictionary.getObj(i, session);
-						subDictionary.setObj(o,i+1);
-					}
-				}
-				subDictionary.setObj(objDictionary,0);
-			}
-		}
-    }
-    
-    public void setObj(LabObject lobj,int index){
-    
-    
-		if(subDictionary == null) return;
-    	LabObject zeroObject = subDictionary.getObj(0, session);
-    	if(zeroObject instanceof LObjDictionary){
-			subDictionary.setObj(lobj,index + 1);
-    	}else{
-			subDictionary.setObj(lobj,index);
-		}
-    }
     public LabObject getObj(int index){
-    	LabObject retObject = null;
-    	if(subDictionary == null) return retObject;
-    	LabObject zeroObject = subDictionary.getObj(0, session);
-    	if(zeroObject instanceof LObjDictionary){
-    		retObject = subDictionary.getObj(index + 1, session);
-    	}else{
-    		retObject = subDictionary.getObj(index, session);
-    	}
-    	return retObject;
-    }
-
-    public LabObjectPtr getPtr(int index){
-    	LabObjectPtr retPtr = null;
-    	if(subDictionary == null) return retPtr;
-    	LabObject zeroObject = subDictionary.getObj(0, session);
-    	if(zeroObject instanceof LObjDictionary){
-    		retPtr = subDictionary.getPtr(index + 1);
-    	}else{
-    		retPtr = subDictionary.getPtr(index);
-    	}
-    	return retPtr;
+    	if(doc == null) return null;
+		return doc.getObj(index + 1, session);
 	}
 
-
-    public void writeExternal(DataStream out){
-		if(lines == null){
-			out.writeInt(0);
-		} else {
-			out.writeInt(lines.getCount());
-		}
-		if(components == null){
-			out.writeInt(0);
-		} else {
-			out.writeInt(components.length);
-		}
-		if(lines != null){
-			for(int i=0; i<lines.getCount(); i++){
-				CCStringWrapper sWrap = (CCStringWrapper)lines.get(i);
-				if(sWrap == null){
-					out.writeBoolean(false);
-				} else {
-					out.writeBoolean(true);
-					sWrap.writeExternal(out);
-				}
-			}
-		}
-		if(components != null){
-			for(int i=0; i<components.length; i++){
-	    		LBCompDesc d = components[i];
-				if(d == null){
-					out.writeBoolean(false);
-				} else {
-					out.writeBoolean(true);
-					d.writeExternal(out);
-				}
-			}
-		}
-    }
-
-	boolean needInitLines = false;
-
-    public void readExternal(DataStream in){
-		int nLines = in.readInt();
-		int nComp = in.readInt();
-		lines = new Vector();
-		for(int i=0; i<nLines; i++){
-			if(in.readBoolean()){
-				lines.add(new CCStringWrapper(in));
-			} else {
-				lines.add(null);
-			}
-		}
-
-		components = new LBCompDesc[nComp];
-		for(int i = 0; i < nComp; i++){
-			boolean wasPart = in.readBoolean();
-			if(!wasPart) 	components[i] = null;
-			else			components[i] = new LBCompDesc(in);
-		}
-
-		needInitLines = true;
-    }
+    public LabObjectPtr getPtr(int index){
+    	if(doc == null) return null;
+		return doc.getPtr(index + 1);
+	}
 
     public void done(LabObjectView source){
 		if(labBookDialog != null){
@@ -376,6 +287,11 @@ public class CCTextArea  extends Container
 		if(loadingTimer != null){
 			removeTimer(loadingTimer);
 			loadingTimer = null;
+		}
+		
+		if(doc != null){
+			doc.setComponents(components);
+			doc.setLines(lines);
 		}
 
 		if(components == null || components.length < 1) return;
@@ -531,51 +447,6 @@ public class CCTextArea  extends Container
 		}
 		textWasChosen = null;
 		initLines();
-	}
-
-	public void setup(waba.util.Vector linesVector,
-					  waba.util.Vector linkComponents,
-					  waba.util.Vector embedComponents){
-		if(linesVector == null) return;
-		int i;
-		textWasChosen = null;
-		int linkObjectIndex = 0;
-		initLineDictionary();
-		for(i = 0; i < linesVector.getCount(); i++){
-			CCStringWrapper wrapper = (CCStringWrapper)linesVector.get(i);
-			wrapper.owner = this;
-			if(wrapper.link && linkComponents != null){
-				LabObject lObject = (LabObject)linkComponents.get(linkObjectIndex);
-				if(lObject != null){
-					objDictionary.add(lObject);
-					wrapper.indexInDict = (linkObjectIndex++);
-				}
-			}
-		}
-		lines = linesVector;
-
-		if(embedComponents != null && embedComponents.getCount() > 0){
-			for(i = 0; i < embedComponents.getCount(); i++){
-				LBCompDesc objDesc = (LBCompDesc)embedComponents.get(i);
-				Object o = objDesc.getObject();
-
-				if(o == null || !(o instanceof LabObject)) continue;
-
-				LabObject labObject = (LabObject)o;
-
-				int nComponents = (components == null)?0:components.length;
-				LBCompDesc []newComponents = new LBCompDesc[nComponents+1];
-				if(components != null){
-					waba.sys.Vm.copyArray(components,0,newComponents,0,nComponents);
-				}
-				components = newComponents;
-
-				components[nComponents] = objDesc;
-
-				setObj(labObject,nComponents);
-			}
-		}
-		needInitLines = true;
 	}
 
 	public void insertText(String iStr){
@@ -989,6 +860,14 @@ public class CCTextArea  extends Container
 				}
 			}
 		}
+		if(firstLine != 0){
+			int nRows = getRowsNumber();
+
+			// validate firstLine
+			if(lines == null || firstLine >= nRows - 1 || firstLine < 0){
+				firstLine = 0;
+			}
+		}
 		layoutComponents();
 		notifyListeners(0);
 	}
@@ -1307,13 +1186,18 @@ public class CCTextArea  extends Container
 		}
 	}
 
-
-	public void setFirstLine(int fl){
+	public int getFirstLine(){ return firstLine; }
+		
+	public void setFirstLine(int fl)
+	{
 		setFirstLine(fl,true);
 	}
-	public void setFirstLine(int fl,boolean dorepaint){
+	public void setFirstLine(int fl,boolean dorepaint)
+	{
 		int nRows = getRowsNumber();
-		if(lines != null && fl < nRows - 1 && fl >= 0){
+		if(needInitLines){
+			firstLine = fl;
+		} else if(lines != null && fl < nRows - 1 && fl >= 0){
 			removeCursor();
 			firstLine = fl;
 			if(dorepaint){
@@ -1532,9 +1416,7 @@ public class CCTextArea  extends Container
 						g.setColor(0,0,255);
 					}	
 					g.drawRect(rObj.x,rObj.y,rObj.width,rObj.height);
-					
-				
-				
+									
 					g.setColor(0,0,0);
 					g.clearClip();
 				}

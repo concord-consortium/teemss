@@ -51,9 +51,6 @@ public int	linkColor = 0x0000FF;
     	link 	= in.readBoolean();
 		linkColor = in.readInt();
     }
-
-
-
 	
 	public String toString(){
 		String str = "LBCompDesc ";

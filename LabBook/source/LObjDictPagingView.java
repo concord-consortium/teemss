@@ -1,10 +1,12 @@
 package org.concord.LabBook;
 
 import waba.ui.*;
+import waba.fx.*;
 import waba.util.*;
+
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
-import org.concord.waba.extra.ui.*;
+import org.concord.waba.extra.io.*;
 
 public class LObjDictPagingView extends LabObjectView 
     implements ViewContainer
@@ -24,6 +26,8 @@ public class LObjDictPagingView extends LabObjectView
 //    Button delButton = new Button("Del");
 
     int index;
+	int curIndex = -1;
+	Vector savedStates = new Vector();
 
     LabObject curObj;
     boolean editStatus = true;
@@ -45,6 +49,13 @@ public class LObjDictPagingView extends LabObjectView
 		editStatus = edit;	
     }
 
+	/*
+	public void onPaint(Graphics g)
+	{
+		(new Exception("onPaint")).printStackTrace();
+	}
+	*/
+
 	public void setShowMenus(boolean state)
 	{
 		if(!showMenus && state){
@@ -59,6 +70,23 @@ public class LObjDictPagingView extends LabObjectView
 	}
 
 	Vector objList = new Vector();
+
+	public void restoreState(DataStream ds)
+	{
+		index = ds.readInt();
+		int numStates = ds.readInt();
+		savedStates = new Vector(numStates);
+		for(int i = 0; i < numStates; i++){
+			short len = ds.readShort();
+			if(len > 0){
+				byte [] buf = new byte [len];
+				ds.readBytes(buf, 0, len);
+				savedStates.add(buf);
+			} else {
+				savedStates.add(null);
+			}
+		}
+	}
 
     public void layout(boolean sDone)
     {
@@ -224,7 +252,10 @@ public class LObjDictPagingView extends LabObjectView
 		if(index < 0 || index >= childLength) return;
 
 
-		if(lObjView != null){
+		if(lObjView != null && curIndex != -1){
+			// Save the state of this view
+			saveCurViewState();
+
 			lObjView.close();
 			if(lObjSession != null) lObjSession.release();
 			remove(lObjView);
@@ -232,7 +263,7 @@ public class LObjDictPagingView extends LabObjectView
 			curObj = null;
 			lObjSession = null;
 			listSession.release();
-
+			
 			showObjectTimer = addTimer(60);
 			return;
 		}
@@ -268,8 +299,18 @@ public class LObjDictPagingView extends LabObjectView
 		curObj = obj;
 
 		lObjSession  = dict.lBook.getSession();
-		lObjView = obj.getView(this, editStatus,dict, lObjSession);//dima add dict
+		lObjView = obj.getView(this, editStatus, dict, lObjSession);//dima add dict
 
+		if(index < savedStates.getCount() &&
+		   savedStates.get(index) != null){
+			BufferStream bsIn = new BufferStream();
+			DataStream dsIn = new DataStream(bsIn);
+
+			// set bufferStream buffer
+			bsIn.setBuffer((byte [])savedStates.get(index));
+
+			lObjView.restoreState(dsIn);
+		}
 		lObjView.layout(false);
 		if(width > 0 || height > 15){
 			lObjView.setRect(0,15,width,height-15);
@@ -280,10 +321,48 @@ public class LObjDictPagingView extends LabObjectView
 		add(lObjView);
 
 		MainWindow.getMainWindow().setFocus(lObjView);
+		curIndex = index;
     }
 
-    public void close()
-    {
+	void saveCurViewState()
+	{
+		if(lObjView != null && curIndex != -1){
+			// Save the state of this view
+			BufferStream bsOut = new BufferStream();
+			DataStream dsOut = new DataStream(bsOut);
+			lObjView.saveState(dsOut);
+			if(savedStates.getCount() <= curIndex){
+				for(int i=savedStates.getCount(); i<= curIndex; i++){
+					savedStates.add(null);
+				}
+			}
+			savedStates.set(curIndex, bsOut.getBuffer());
+		}
+	}
+
+	public void saveState(DataStream ds)
+	{
+		ds.writeInt(index);
+		
+		// need to save the state of the current object
+		saveCurViewState();
+
+		ds.writeInt(savedStates.getCount());
+
+		for(int i=0; i< savedStates.getCount(); i++){
+			if(savedStates.get(i) != null){
+				byte [] state = (byte [])savedStates.get(i);
+				ds.writeShort(state.length);
+				ds.writeBytes(state, 0, state.length);
+			} else {
+				ds.writeShort(0);
+			}
+		}		   
+	}
+
+	public void close()
+	{
+
 		if(lObjView != null){
 			lObjView.close();
 			if(lObjSession != null) lObjSession.release();
