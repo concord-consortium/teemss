@@ -19,7 +19,7 @@ dependencies: $(DEP_NAMES:%=../%)
 $(DEP_NAMES:%=../%):
 	cd $@ && $(MAKE)
 
-release: tag $(DEP_TAGS) $(DEP_NAMES)
+release: tag $(DEP_TAGS) $(DEP_NAMES) ReleaseSystem
 	# supposably this means we have taged everything
 	# so now we can call the realease makefile which will checkout
 	# all these files using our tag and try to build it and publish it
@@ -29,11 +29,11 @@ tag:
 	@echo "You must make a version or branch first for " $(MOD_NAME)
 	@exit 1
 
-$(DEP_TAGS) : ../%/tag:
+$(DEP_TAGS) ../ReleaseSystem : ../%/tag:
 	@echo You must make a version or branch first for **$(*)**
 	@exit 1
 	
-$(DEP_NAMES) : % : tag ../%/tag
+$(DEP_NAMES) ReleaseSystem : % : tag ../%/tag
 	#Tag the dependencies with our tag so we can get them back
 	cvs rtag -r $(shell cat ../$@/tag) $(shell cat tag) $@
 

@@ -16,15 +16,18 @@ CLASSES= *.java
 
 first: all
 
-main:
+main: $(CLASSES_DIR)
 	cp  $(EXT_CLASSES) $(CLASSES_DIR)
-	javac -d classes -O $(CLASSES:%=source/%)
+	javac -d $(CLASSES_DIR) -O $(CLASSES:%=source/%)
 	cp $(EXT_FILES) $(CLASSES_DIR)
 
-warp: main
+$(CLASSES_DIR) $(BIN_DIR):
+	-mkdir $@
+
+warp: main $(BIN_DIR)
 	cd $(CLASSES_DIR); java wababin.Warp c ../$(BIN_DIR)/$(MW_CLASS) $(MW_CLASS).class
 
-jar: main
+jar: main $(BIN_DIR)
 	cd $(CLASSES_DIR); jar cvf ../$(BIN_DIR)/$(MW_CLASS).jar $(EXT_FILES) *.class -C $(WABA_DIR) waba $(JAR_EXTRAS)
 
 run:
