@@ -6,7 +6,6 @@ import waba.sys.*;
 import extra.io.*;
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
-import graph.*;
 
 public class LabBookFile 
     implements LabBookDB
@@ -34,6 +33,4 @@ public class LabBookFile
 
     public void setRootDevId(int id){}
     public void setRootObjId(int id){}
-
-    static public void export(Bin b, Vector points){}
 }

@@ -6,7 +6,6 @@ import waba.sys.*;
 import extra.io.*;
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
-import graph.*;
 
 public class LabBookCatalog 
     implements LabBookDB, DialogListener
