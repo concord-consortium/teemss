@@ -124,7 +124,7 @@ public class GraphViewLine extends GraphView
 				super.plot();
 			}
 			postEvent(new ControlEvent(1006, this));
-		} else {	  
+		} else {
 			myG = createGraphics();
 			if(myG == null) return;
 

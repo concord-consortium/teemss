@@ -81,7 +81,9 @@ public class Bin
 
 	public void actionPerformed(ActionEvent e)
 	{
-		if(e.type == Axis.SCALE_CHANGE) needRecalc = true;
+		if(e.type == Axis.SCALE_CHANGE){
+			needRecalc = true;
+		}
 	}
 
     public String getLabel()
@@ -284,7 +286,6 @@ public class Bin
 		lastCalcValue = 1;
 		numXs = 1;
 		numPoints = 1;
-		needRecalc = true;
 	}
 
     public void reset()
@@ -301,6 +302,7 @@ public class Bin
 		}
 		lastPlottedPoint = -1;
 		resetPts();
+		needRecalc = true;
     }
 
     public boolean getValue(float time, float [] value)
