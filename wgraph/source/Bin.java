@@ -27,12 +27,12 @@ import org.concord.waba.extra.util.*;
 import extra.util.*;
 
 public class Bin
-    implements DecoratedValue
+    implements DecoratedValue, ActionListener
 {
     public static int START_DATA_SIZE = 10000;
 
-    int [] points = null;
-    int numPoints;
+    public int [] points = null;
+    public int numPoints;
     int lastPlottedPoint;
     int c;
     int collection;
@@ -41,23 +41,28 @@ public class Bin
     int numXs;
     int minPtY;
     int maxPtY;
-    float refX = 0f;
-    float refY = 0f;
+    public float refX = 0f;
+    public float refY = 0f;
     public float minX, minY, maxX, maxY;
     int [] color = {255,0,0};
-    public int xaIndex = 0;
-    
+    public Axis xaxis = null;
+	public Axis yaxis = null;
+	boolean needRecalc = false;
+
     public String label;
     public LargeFloatArray lfArray = new LargeFloatArray();
     public String description = null;
     public Time time = null;
 	float curXscale, curYscale;
-
 	CCUnit unit;
 
-    public Bin(int xIndex)
+    public Bin(Axis xAx, Axis yAx)
     {
-		xaIndex = xIndex;
+		xaxis = xAx;
+		yaxis = yAx;
+
+		xaxis.addActionListener(this);
+		yaxis.addActionListener(this);
 
 		// We store three ints for each point
 		// (x),(avgY),(maxOff << 16 | -minOff)
@@ -67,6 +72,11 @@ public class Bin
 
 		reset();
     }
+
+	public void actionPerformed(ActionEvent e)
+	{
+		if(e.type == Axis.SCALE_CHANGE) needRecalc = true;
+	}
 
     public String getLabel()
     {
@@ -113,24 +123,25 @@ public class Bin
 	int remainder;
 	int remainderSum;
 
-    public void recalc(float xscale, float yscale)
+    public void recalc()
     {
-		curXscale = xscale;
-		curYscale = yscale;
+		curXscale = xaxis.scale;
+		curYscale = yaxis.scale;
 
 		lastCalcValue = 1;
-
-		update();
+		needRecalc = false;
     }
 
     int lastCalcValue = 0;
 
-    public boolean update()
+    public boolean update(boolean recalc)
     {
 		int i;
 		int numValues = lfArray.getCount();
 		int newX, newY;
 		int avgY;
+
+		if(recalc && needRecalc) recalc();
 
 		if(numValues < 2 ||
 		   numValues - lastCalcValue < 1){
@@ -219,19 +230,14 @@ public class Bin
 		}
 		// else the curX == newX so 
 		// we should be ok
-
-
-
 		numPoints = curPtPos / 3;
 		lastCalcValue = i-1;
 
 		return true;
     }
 
-
     public float dT = 0f;
     int sampSize = 1;
-
     public boolean dataReceived(DataEvent dataEvent)
     {
 		if(lfArray.getCount() == 0 && dataEvent.numbSamples > 0){
@@ -272,38 +278,32 @@ public class Bin
 		lastCalcValue = 1;
 		numXs = 1;
 		numPoints = 1;
+		needRecalc = true;
 	}
 
     void reset()
     {
 		int i;
-
 		lfArray.clear();
-
 		minX = minY = 1;
 		maxY = -1;
 		maxX = 0f;
-
 		for(i=0; i<100; i++){
 			minX *= (float)10;
 			minY *= (float)10;
 			maxY *= (float)10;
 		}
-
 		lastPlottedPoint = -1;
-
 		resetPts();
     }
 
     public boolean getValue(float time, float [] value)
     {
 		int i;
-
 		if(time > 0f && time < maxX){
 			value[0] = lfArray.getFloat((int)(time / dT )) + refY;
 			return true;
 		}
-
 		return false;
     }
 
@@ -313,10 +313,9 @@ public class Bin
     {
 		DataEvent dEvent;
 		DataDesc dDesc = new DataDesc(dT, 1);
-
 		float [] data = lfArray.getFloats(0, lfArray.getCount());
-
 		int numValues = lfArray.getCount();
+
 		for(int i=0; i<numValues; i++){
 			data[i] += refY;
 		}
@@ -325,10 +324,140 @@ public class Bin
 							   0, data , dDesc);
 		dEvent.dataOffset = 0;
 		dEvent.numbSamples = numValues;
-
 		return dEvent;
     }
+
+	public void draw(Graphics g)
+	{
+		if(xaxis.estimateScale || yaxis.estimateScale){
+			drawEst(g);
+			return;
+		}
+
+		int i,j,k;
+		int lastX, lastY, curX, curY;
+		Axis xa = xaxis;
+
+		if(xa.drawnX == -1) return;
+
+		update(true);
+
+		if(numPoints < 2) return;
+
+		int lastOffset = numPoints*3;	    
+		int xOffset = (int)((xa.dispMin - refX) * xa.scale);
+		int xTrans = xa.drawnX - xOffset + xa.axisDir;
+		int yTrans = (int)((refY - yaxis.dispMin) * yaxis.scale) + yaxis.drawnY + yaxis.axisDir;
 	    
+		g.translate(xTrans, yTrans);
+		g.setColor(color[0], color[1], color[2]);
+
+		if(lastPlottedPoint == -1){
+			i=0;
+		} else {
+			// Start 1 before the lastPlottedPoint, because the lastpp might have
+			// moved
+			i = lastPlottedPoint*3 - 3;
+		}
+				
+		lastX = points[i++];
+		lastY = points[i++];
+		i++;
+		
+		for(; i<lastOffset;){
+			curX = points[i++];
+			curY = points[i++];
+			i++;
+		
+			if(curX > (xOffset - 1) && curX <= (xOffset + xa.dispLen))
+				g.drawLine(lastX, lastY, curX, curY);
+			
+			lastY = curY;
+			lastX = curX;
+		}
+	    
+		g.translate(-xTrans, -yTrans);
+
+		lastPlottedPoint = numPoints - 1;
+	}
+
+	public static int FIXED_PT_DENOM = 1000;
+
+	public void drawEst(Graphics g)
+	{
+		int xNum = (int)(xaxis.scale*(float)FIXED_PT_DENOM/curXscale); 
+		int yNum = (int)(yaxis.scale*(float)FIXED_PT_DENOM/curYscale);
+		int i,j,k;
+		int lastOffset;
+		int lastX, lastY, curX, curY;
+		Axis xa = xaxis;
+
+		if(xa.drawnX == -1) return;
+		update(false);
+
+		if(numPoints < 2) return;
+	    
+		lastOffset = numPoints*3;
+	    
+		int xOffset = (int)((xa.dispMin - refX) * xa.scale);
+		int xTrans = xa.drawnX - xOffset + xa.axisDir;
+		int yTrans = (int)((refY - yaxis.dispMin) * yaxis.scale) + yaxis.drawnY + yaxis.axisDir;
+
+		g.translate(xTrans, yTrans);
+		g.setColor(color[0], color[1], color[2]);
+
+		if(lastPlottedPoint == -1){
+			i=0;
+		} else {
+				i = lastPlottedPoint*3;
+		}
+				
+		lastX = points[i++] * xNum / FIXED_PT_DENOM;
+		lastY = points[i++] * yNum / FIXED_PT_DENOM;
+		i++;
+		
+		if(yaxis.scale == curYscale ){
+			for(; i<lastOffset;){
+				curX = points[i++] * xNum / FIXED_PT_DENOM;
+				curY = points[i++];
+				i++;
+					
+				if(curX > (xOffset - 1) && curX <= (xOffset + xa.dispLen))
+					g.drawLine(lastX, lastY, curX, curY);
+					
+				lastY = curY;
+				lastX = curX;
+			}
+		} else if(xaxis.scale == curXscale){
+			for(; i<lastOffset;){
+				curX = points[i++];
+				curY = points[i++] * yNum / FIXED_PT_DENOM;
+				i++;
+					
+				if(curX > (xOffset - 1) && curX <= (xOffset + xa.dispLen))
+					g.drawLine(lastX, lastY, curX, curY);
+					
+				lastY = curY;
+				lastX = curX;
+			}
+		} else {
+			for(; i<lastOffset;){
+				curX = points[i++] * xNum / FIXED_PT_DENOM;
+				curY = points[i++] * yNum / FIXED_PT_DENOM;
+				i++;
+					
+				if(curX > (xOffset - 1) && curX <= (xOffset + xa.dispLen))
+					g.drawLine(lastX, lastY, curX, curY);
+					
+				lastY = curY;
+				lastX = curX;
+			}
+		}
+	    
+		g.translate(-xTrans, -yTrans);
+
+		lastPlottedPoint = numPoints - 1;
+	}
 }
 
 

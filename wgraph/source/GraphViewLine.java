@@ -317,7 +317,7 @@ public class GraphViewLine extends GraphView
 							yChange = (float)(lGraph.yOriginOff - pe.y)/ (float)(lGraph.yOriginOff - downY);
 				
 							if(e.type == PenEvent.PEN_DRAG){
-								lGraph.setYscaleEst(lGraph.yaxis.scale * yChange);
+								lGraph.yaxis.setScale(lGraph.yaxis.scale * yChange, true);
 							} else {
 								lGraph.yaxis.setScale(lGraph.yaxis.scale * yChange);
 								postEvent(new ControlEvent(1006, this));
@@ -328,7 +328,7 @@ public class GraphViewLine extends GraphView
 							xChange = (float)(lGraph.xOriginOff - pe.x)/ (float)(lGraph.xOriginOff - downX);
 
 							if(e.type == PenEvent.PEN_DRAG){
-								lGraph.setXscaleEst(lGraph.xaxis.scale * xChange);
+								lGraph.xaxis.setScale(lGraph.xaxis.scale * xChange, true);
 							} else {
 								lGraph.xaxis.setScale(lGraph.xaxis.scale * xChange);
 								postEvent(new ControlEvent(1006, this));

@@ -72,20 +72,6 @@ public class SplitAxis extends Axis
 		return Maths.NaN;
 	}
 
-	public int getIndex(Axis xa)
-	{
-		int i;
-
-		for(i=0; i<numAxis; i++){
-			if(xa == axisArray[i]){
-				break;
-			}
-		}
-
-		if(i == numAxis) return -1;
-		return i;
-	}
-
 	public Axis getAxis(int i)
 	{
 		if((i >= 0) && (i < numAxis)){
@@ -102,8 +88,10 @@ public class SplitAxis extends Axis
      * the scale.  However we need to keep the startPos
      * in the same place
      */
-    public void setScale(float newScale)
+    public void setScale(float newScale, boolean eScale)
     {
+		if(!estimateScale && eScale) oldScale = scale;
+		estimateScale = eScale;
 
 		scale = newScale;
 		axisDir = 1;
@@ -132,7 +120,7 @@ public class SplitAxis extends Axis
 				newXaxisStartPos = curStartPos + (int)(xa.dispMin * scale);
 			}
 			oldScaleSP += 10 + xa.dispMin * scale + xa.dispLen;
-			xa.setScale(scale);
+			xa.setScale(scale, eScale);
 			curStartPos += 10 + (int)(xa.max * xa.scale);
 		}
 
@@ -145,7 +133,7 @@ public class SplitAxis extends Axis
 		startPos = newXaxisStartPos;
 
 		labelExp = lastAxis.labelExp;
-		notifyListeners();
+		notifyListeners(SCALE_CHANGE);
     }
 
     public void scrollStartPos(int xDist)
@@ -173,6 +161,8 @@ public class SplitAxis extends Axis
 		return null;
 	}
 
+	public final static int ADDED_AXIS = 4002;
+
 	// Return index of newAxis
     public int addAxis(float oldMax)
 	{
@@ -193,6 +183,7 @@ public class SplitAxis extends Axis
 		lastAxis.setScale(scale);
 		numAxis++;
 
+		notifyListeners(ADDED_AXIS);
 		return numAxis -1;
 
 		/* 

@@ -37,8 +37,6 @@ public class AnnotView extends Container
     Bin lgBins [] = new Bin [1];
     Object bgBins [] = new Object [1];
 
-    public boolean active = false;
-
 	SplitAxis xaxis = null;
 	ColorAxis yaxis = null;
 
@@ -71,16 +69,12 @@ public class AnnotView extends Container
 		xaxis.setAxisLabel(label, unit);
 	}
 
-    public void addBin(Bin b)
-    {
-		lgBins[0] = b;
-		lgView.lGraph.addBin(b);
-		bGraph.addBar(0, lgBins[0]);
-    }
-
     public Bin getBin()
     {
-		lgBins[0] = lgView.lGraph.addBin(0, "Probe", false);
+		lgBins[0] = new Bin(xaxis.lastAxis, yaxis);
+		lgBins[0].label = "Probe";
+	
+		lgView.lGraph.addBin(lgBins[0]);
 		bGraph.addBar(0, lgBins[0]);
 		return lgBins[0];
     }
@@ -132,6 +126,13 @@ public class AnnotView extends Container
 		lgView.curChar = 'A';
 
 		if(lgBins[0] != null){
+			// This is a hack need to figure out
+			// about reseting the curBin
+			lgBins[0].reset();
+			lgBins[0].xaxis = xaxis.lastAxis;
+			lgBins[0].label = "Probe";
+			lGraph.addBin(lgBins[0]);
+
 			bGraph.addBar(0, lgBins[0]);
 		}
 
@@ -144,9 +145,7 @@ public class AnnotView extends Container
 		// Watch out here because we need to fix this bin in the 
 		// bar graph on start we'll need to save a pointer to this 
 		// old bin
-       
-	
-		Annotation a = lGraph.addAnnot("" + lgView.curChar, lgBins[0].getCurX());
+   		Annotation a = lGraph.addAnnot("" + lgView.curChar, lgBins[0].getCurX());
 		if(a != null){
 			lgView.curChar++;
 			bGraph.addBar(bGraph.numBars - 1, a);
@@ -154,7 +153,22 @@ public class AnnotView extends Container
 	
 		//	  Hack to save memory on palm
 		bGraph.removeBar(lgBins[0]);
-		lgBins[0] = lGraph.addBin(0, "Probe", true);
+
+		// need to pass in the curBin or track it so
+		Bin curBin = lgBins[0];
+
+		if(curBin.maxX < 0 || curBin.getNumVals() < 3){
+			curBin.reset();
+			curBin.xaxis = xaxis.lastAxis;
+			curBin.label = "Probe";
+		} else {
+			xaxis.addAxis(curBin.maxX);
+			curBin = new Bin(xaxis.lastAxis, yaxis);
+			curBin.label = "Probe";
+			lGraph.addBin(curBin);
+			lgBins[0] = curBin;
+		}
+
 		bGraph.addBar(bGraph.numBars, lgBins[0]);
 	
 		curView.draw();
@@ -275,8 +289,6 @@ public class AnnotView extends Container
     
     public void free()
     {
-		if(yaxis != null)yaxis.free();
-		if(xaxis != null)xaxis.free();
 		if(lgView != null) lgView.free();
 		if(bgView != null) bgView.free();
     }

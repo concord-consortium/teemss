@@ -96,11 +96,14 @@ public class Axis
 
 	int maxDigits = 3;
 
-    int drawnX = -1;
+    public int drawnX = -1;
     int drawnY = -1;
     int drawnOffset = 1;
 
     boolean nonNegative = true;
+
+	boolean estimateScale = false;
+	float oldScale = 1f;
 
 	TextLine axisLabel;
 	String axisLabelStr;
@@ -153,20 +156,22 @@ public class Axis
 		maxDigits = axisDigits;
 	}
 
-	ActionEvent scaleEvent = new ActionEvent(this, null, null);
+	ActionEvent changeEvent = new ActionEvent(this, null, null);
 	public final static int SCALE_CHANGE = 3000;
+	public final static int ORIGIN_CHANGE = 3001;
+	public final static int LABEL_CHANGE = 3002;
 
 	public void addActionListener(ActionListener al)
 	{
 		scaleListeners.add(al);
 	}
 
-    void notifyListeners()
+    void notifyListeners(int type)
 	{
-		scaleEvent.type = SCALE_CHANGE;
+		changeEvent.type = type;
 		for(int i=0; i<scaleListeners.getCount(); i++){
 			ActionListener al = (ActionListener)scaleListeners.get(i);
-			al.actionPerformed(scaleEvent);
+			al.actionPerformed(changeEvent);
 		}
 	}
 
@@ -174,6 +179,7 @@ public class Axis
 	{
 		axisLabelStr = label;
 		axisLabelUnit = unit;
+		notifyListeners(LABEL_CHANGE);
 	}
 
     public void setRange(float min, float range)
@@ -491,17 +497,24 @@ public class Axis
 		}
     }
 
+	public void setScale(float s)
+	{
+		setScale(s, false);
+	}
 
     // This holds the dispMin fixed and changes the scale around that
-    public void setScale(float s)
+    public void setScale(float newScale, boolean eScale)
     {
-		scale = s;
+		if(!estimateScale && eScale) oldScale = scale;
+		estimateScale = eScale;
+
+		scale = newScale;
 		axisDir = 1;
 		if(scale < (float)0) axisDir = -1;
 		setDispOffset(dispMin, 0);
 		setStepSize();
 		needCalcTics = true;
-		notifyListeners();
+		notifyListeners(SCALE_CHANGE);
     }
 
     public void setDispOffset(float startMin, int newDO)
@@ -517,6 +530,8 @@ public class Axis
 			setFirstTic();
 			needCalcTics = true;
 		}
+		
+		notifyListeners(ORIGIN_CHANGE);
     }
 
     public void setDispMin(float newDM)
