@@ -188,7 +188,7 @@
     </tech-hint>
   </tech-hint-list>
   <unit name="Motions_and_Forces">
-    <title>Motions and Forces Instructional Unit</title>
+    <title>Motions and Forces</title>
     <investigation name="Air_Cart">
       <title>Air Cart</title>
       <teacher-notes>
@@ -1872,7 +1872,9 @@
           <step> Hold the Force probe so that you can hang things from
             the smaller eye bolt at the end of the arm. Set the force
             probe to zero in this position. Refer to Technical Hints to
-            see how to set the Force probe to zero.  <ext-image name="01a_c1"/>
+            see how to set the Force probe to zero.  
+            <datacollector-link type="dc-force1"/>
+            <ext-image name="01a_c1"/>
           </step>
           <step>Try weighing something light, such as a paper clip
             hooked to a pen. Expand the force scale so that you can see
@@ -1961,7 +1963,9 @@
           </step>
           <step>Connect the Force probe to your handheld computer. Refer
             to Technical Hints to see how to connect the cables. </step>
-          <step>Start the software.</step>
+          <step>Start the software.
+            <datacollector-link type="dc-force2"/>
+          </step>
           <step>Set the force probe to zero in this position. Refer to
             Technical Hints to see how to set the Force probe to zero.</step>
           <step>Line up the cart bumper with the Force probe, then roll
@@ -2019,7 +2023,9 @@
           <step>Start the software. Start recording the force. Give the
             cart a push so that it stretches the bungee cord and then
             bounces back. Catch it before it hits the Force probe. Stop
-            recording. Observe the behavior of the acrobat.  </step>
+            recording. Observe the behavior of the acrobat.  
+            <datacollector-link type="dc-force3"/>
+          </step>
           <step>Try this several times, and after a good bounce save
             your data to the handheld computer.</step>
           <step>Examine the graph. Zoom in on your collision until it
@@ -2368,7 +2374,9 @@
             <query-static-link>Record your prediction in Notes on the
               handheld computer. </query-static-link>
           </query-response>
-          <step>Start the software for each Force probe. </step>
+          <step>Start the software for each Force probe. 
+            <datacollector-link type="dc-force1"/>
+          </step>
           <step>Set the force probe to zero. Refer to Technical Hints to
             see how to set the Force probe to zero.  </step>
           <step>Start recording. Vary the amount of pulling, who pulls
@@ -2428,7 +2436,9 @@
           </query-response>
           <step>Start the software. Set the force probe to zero. Refer
             to Technical Hints to see how to set the Force probe to
-            zero. Weigh each cart by hanging it from the small eyebolt.  </step>
+            zero. Weigh each cart by hanging it from the small eyebolt.  
+            <datacollector-link type="dc-force4"/>
+          </step>
           <step>Make the carts equal in mass by adding some clay to one
             of them if needed. </step>
           <step>With the carts horizontal, set each Force probe to zero.
@@ -2473,8 +2483,9 @@
             <query-static-link>Draw your predictions in Notes on the
               handheld computer. </query-static-link>
           </query-response>
-          <step>Start the software to record a velocity versus time
-            graph. </step>
+          <step>Start the software to record a velocity versus time graph. 
+            <datacollector-link type="dc-smartwheel-vel2"/>
+          </step>
           <step>Start recording. Push one cart toward the other and let
             them bounce. Be sure the bumpers are lined up.<ext-image name="04b_c2"/>
           </step>
