@@ -108,22 +108,12 @@ public class Menu extends Control
 	}
 
 	/**
-	 * Remove an item from the menu. 
-	 * Deleting separators will be a problem "-" to the menu.
-	 * @param name the item to add
+	 * Remove all items from the menu. 
 	 */
-	public void remove(String nameItem)
+	public void removeAll()
 	{
-		for(int i = 0; i < options.getCount(); i++){
-			String opt = options.get(i);
-			if(opt.equals(nameItem)){
-				options.del(i);
-				return;
-			}
-		}
-		
-		// need to recompute expandedWidth
-		// calcSizes();
+		options = new Vector();
+		expandedWidth=0;
 	}
 
 	/**

@@ -44,6 +44,11 @@ public class Menu implements java.awt.event.ActionListener
 	{
 		menu.add(nameItem);
 	}
+
+	public void removeAll()
+	{
+		menu.removeAll();
+	}
   
 	public java.awt.Menu getAWTMenu() {return menu;}
 	public void 	addActionListener(ActionListener l){
