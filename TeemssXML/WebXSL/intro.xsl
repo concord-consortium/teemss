@@ -17,7 +17,7 @@
 <html>
 <head><title>TEEMSS: <xsl:value-of select="../title"/> 
 Introduction</title>
-<xsl:copy-of select="document('test.xml')"/>
+<xsl:apply-templates select="document('html-header.html')"/>
 </head>
 <body>
 
@@ -32,6 +32,10 @@ Introduction</title>
 </xsl:call-template>
 </body></html>
 </redirect:write>
+</xsl:template>
+
+<xsl:template match="raw-html">
+<xsl:copy-of select="node()"/>
 </xsl:template>
 
 </xsl:stylesheet>
