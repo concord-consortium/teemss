@@ -320,6 +320,10 @@ protected ProbManager	pb = null;
 	boolean stopSampling(){
 		// Let the device wake up a bit
 		// But try to stop it as soon as we can
+		
+		try{
+			Thread.sleep(1000);
+		}catch(Exception e){}
 		int tmp = 0 ;
 		buf[0] = (byte)'c';
 		for(int i=0; i<5; i++){
@@ -327,16 +331,21 @@ protected ProbManager	pb = null;
 			Vm.sleep(150);
 		}
 		// in case the the port is left open stop it
-		buf[0] = 9;
-		port.writeBytes(buf, 0, 1);
-		int ret;
-		if((ret = Command((byte)'c', (byte)67)) != 1){
-			port.close();
-			port = null;
-			return false;
+		if(mode == INTERFACE_2){
+			buf[0] = (byte)'9';
+			port.writeBytes(buf, 0, 1);
+		}else if(mode == INTERFACE_0){
+			int ret;
+			if((ret = Command((byte)'c', (byte)67)) != 1){
+				port.close();
+				port = null;
+				return false;
+			}
 		}
 		port.setReadTimeout(0);
-		tmp = port.readBytes(buf, 0, BUF_SIZE);//workaround 
+		if(mode == INTERFACE_0){
+			tmp = port.readBytes(buf, 0, BUF_SIZE);//workaround 
+		}
 		return true;
 	}
 

@@ -31,8 +31,8 @@ final static int CAL_PANE = 1;
 public static ProbManager pb = null;
 
 int 		dataDim = 128;
-float 	[]dataFFT = new float[dataDim*2];
-int		dataPointer = 0;
+//float 	[]dataFFT = new float[dataDim*2];
+//int		dataPointer = 0;
 
 float       	deviation = 100.0f;
 float		totalSumm = 0.0f;
@@ -303,7 +303,7 @@ DeviationControl	devControl;
 		checkApplyEnabled();
 	}
 	public void doStart(){
-		dataPointer = 0;
+//		dataPointer = 0;//FFT
 		deviation = 100.0f;
 		totalSumm = 0.0f;
 		totalSamples = 0;
@@ -444,9 +444,9 @@ DeviationControl	devControl;
 		int ndata = dataEvent.getNumbSamples()*dataEvent.getDataDesc().getChPerSample();
 		int nOffset = dataEvent.getDataOffset();
 		float  dtChannel = dt / (float)chPerSample;
-		boolean doFFT = false;
+//		boolean doFFT = false;
 		if(dataEvent.getNumbSamples() > 0){
-		    if(!doFFT) dataFFT[dataPointer++] = data[nOffset];
+//		    if(!doFFT) dataFFT[dataPointer++] = data[nOffset];
 //		    if(dataPointer >= dataDim) doFFT = true;
 		    totalSumm += data[nOffset];
 		    totalSamples++;
@@ -470,6 +470,8 @@ DeviationControl	devControl;
 		devControl.setValue(deviation);
 		drawDeviation();
 
+
+/*
 		if(doFFT){
 			dataPointer = 0;
 			
@@ -503,6 +505,7 @@ DeviationControl	devControl;
 			    //System.out.println("index "+k+"; freq: "+(int)(100.0f*normKoeff[k]/maxKoeff+0.5));
 			}
 		}
+*/
 	}
 	
 	
