@@ -92,7 +92,7 @@ public class GraphViewLine extends GraphView
 	    minY = propYmin.createFValue();
 	    maxY = propYmax.createFValue();
 	    lGraph.setYRange(minY, maxY - minY);
-	    lGraph.setXRange(minX, maxX - minY);
+	    lGraph.setXRange(minX, maxX - minX);
 	}
     }
 
@@ -157,9 +157,13 @@ public class GraphViewLine extends GraphView
 		    xAxisDown = yAxisDown = graphDown = annotDown = false;
 		    Object obj = lGraph.getObjAtPoint(pe.x, pe.y);
 		    if(obj == lGraph.xaxis){
-			xAxisDown = true;
+			showAxisProp();
+			return;
+			// xAxisDown = true;
 		    } else if(obj == lGraph.yaxis) {
-			yAxisDown = true;
+			showAxisProp();
+			return;
+			// yAxisDown = true;
 		    } else if(obj != null){
 			Annotation oldAnnot = selAnnot;
 			if(selAnnot != null){
@@ -276,26 +280,29 @@ public class GraphViewLine extends GraphView
 		if(timer != null){
 		    removeTimer(timer);
 		    timer = null;
+		    showAxisProp();
 		} else {
 		    // We have already cleared the timer so ignore this 
 		    return;
-		}
-		MainWindow mw = MainWindow.getMainWindow();
-		if(mw instanceof ExtraMainWindow){
-		    propXmin.setValue("" + lGraph.xaxis.dispMin);
-		    propXmax.setValue("" + (lGraph.xaxis.dispMin+lGraph.dwWidth/lGraph.xaxis.scale));
-		    propYmin.setValue("" + lGraph.yaxis.dispMin);
-		    propYmax.setValue("" + (lGraph.yaxis.dispMin+lGraph.yaxis.dispLen/lGraph.yaxis.scale));
-
-		    PropertyDialog pd = new PropertyDialog((ExtraMainWindow)mw, this, "Properties", props);
-		    pd.setRect(0,0, 140,140);
-		    pd.show();
 		}
 	    }
 	}
     }
 	
-
+    public void showAxisProp()
+    {
+	MainWindow mw = MainWindow.getMainWindow();
+	if(mw instanceof ExtraMainWindow){
+	    propXmin.setValue("" + lGraph.xaxis.dispMin);
+	    propXmax.setValue("" + (lGraph.xaxis.dispMin+lGraph.dwWidth/lGraph.xaxis.scale));
+	    propYmin.setValue("" + lGraph.yaxis.dispMin);
+	    propYmax.setValue("" + (lGraph.yaxis.dispMin+lGraph.yaxis.dispLen/lGraph.yaxis.scale));
+	    
+	    PropertyDialog pd = new PropertyDialog((ExtraMainWindow)mw, this, "Properties", props);
+	    pd.setRect(0,0, 140,140);
+	    pd.show();
+	}
+    }
 
 
 }
