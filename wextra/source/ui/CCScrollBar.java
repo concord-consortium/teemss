@@ -35,6 +35,7 @@ int	pressState = 0;
 
 int incValue 		= 0;
 int pageIncValue 	= 0;
+boolean	forceNotify = false;
 	public CCScrollBar(ScrollListener listener){
 		this.listener = listener;
 		rBody 		= new Rect(0,0,0,0);
@@ -47,18 +48,21 @@ int pageIncValue 	= 0;
 		this.minValue = minValue;
 		this.maxValue = maxValue;
 		if(this.maxValue < this.minValue) this.maxValue = this.minValue;
+		forceNotify = true;
 	}
 
 	public void setPageIncValue(int pageIncValue){
 		this.pageIncValue = pageIncValue;
 		if(this.pageIncValue < incValue) this.pageIncValue = incValue;
 		if(this.pageIncValue > (maxValue - minValue)) this.pageIncValue = (maxValue - minValue);
+		forceNotify = true;
 	}
 	
 	public void setIncValue(int incValue){
 		this.incValue = incValue;
 		if(this.incValue < 1) this.incValue = 1;
 		if(this.incValue > (maxValue - minValue)) this.incValue = (maxValue - minValue);
+		forceNotify = true;
 	}
 
 	public void setAreaValues(int allAreaValue,int visAreaValue){
@@ -76,6 +80,7 @@ int pageIncValue 	= 0;
     	}else{
     		CCUtil.setRect(rValue,rBody.x,rBody.y,rBody.width,rBody.height);
     	}
+		forceNotify = true;
 	}
 
 
@@ -159,6 +164,7 @@ int pageIncValue 	= 0;
 					scrollType = ScrollEvent.SCROLL_DRAG_FINISH;
 					doNotify = true;
 				}else if(pressState != 0){
+					int oldCValue = cValue;
 					int oldValue = value;
 					if(pressState == -1){
 						scrollType = ScrollEvent.SCROLL_DECREMENT;
@@ -174,7 +180,8 @@ int pageIncValue 	= 0;
 						setValue(value + pageIncValue);
 					}
 					setRValueRect();
-					doNotify = (oldValue != value);				
+					doNotify = (forceNotify || (oldCValue != cValue));	
+					if(forceNotify) forceNotify = false;
 				}
 				firstPress = true;
 				if(scrollType != 0 && doNotify && listener != null){
@@ -192,7 +199,7 @@ int pageIncValue 	= 0;
 				}
 			}else if(pe.type == PenEvent.PEN_DRAG){
 				if(startDrag){
-					int oldValue = value;
+					int oldValue = cValue;
 					int newY = firstRValueY + (pe.y - firstClickY);
 					setRValue(newY - rBody.y);
 					value = minValue;
@@ -200,7 +207,7 @@ int pageIncValue 	= 0;
 						float v = (float)cValue *(float)(maxValue - minValue)/(float)(rBody.height - rValue.height);
 						value = (v >= 0f) ? value + (int)(v+0.5f) : value + (int)(v-0.5f);
 					}
-					if(oldValue != value){
+					if(oldValue != cValue){
 						setRValueRect();
 						Graphics g = createGraphics();
 						if(g != null){
@@ -251,6 +258,8 @@ int pageIncValue 	= 0;
     	if(this.value > maxValue) this.value = maxValue;
 		if(maxValue > minValue && (rBody != null) && (rValue != null)){
 			setRValue((int)(0.5f+(float)(value - minValue)*(float)(rBody.height - rValue.height)/(float)(maxValue - minValue)));
+		}else{
+			setRValue(0);
 		}
     }
     

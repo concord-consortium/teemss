@@ -352,7 +352,7 @@ CCScrollBar				scrollBar;
 		int allLines = tArea.getRowsNumber();
 		int maxVisLine = tArea.getVisRows();
 				
-		scrollBar.setMinMaxValues(0,allLines);
+		scrollBar.setMinMaxValues(0,allLines - maxVisLine);
 		scrollBar.setAreaValues(allLines,maxVisLine);
 		scrollBar.setIncValue(1);
 		scrollBar.setPageIncValue((int)(0.8f*maxVisLine+0.5f));

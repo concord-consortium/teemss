@@ -11,13 +11,11 @@ TextArea 				tArea;
 Edit 					nameEdit;
 Label					nameLabel;
 boolean					nameEditWasAdded = false;
-//boolean					buttonsWasAdded = false;
 boolean					doneButtonWasAdded = false;
 RelativeContainer 		edit = new RelativeContainer();
 
 LObjDocument 			doc;
 Button 					doneButton;
-//TimerButton 			upButton,downButton;
 
 public boolean 			showName = true;
 
@@ -59,32 +57,18 @@ CCScrollBar				scrollBar;
 			if(nameEdit != null){
 				if(tArea != null) edit.remove(tArea);
 				if(getEmbeddedState()){
-/*
-					if(buttonsWasAdded){
-						remove(upButton);
-						remove(downButton);
-					}
-*/
 					if(nameEditWasAdded){
 						remove(nameEdit);
 						remove(nameLabel);
 						if(tArea != null) edit.add(tArea, 1, RelativeContainer.TOP,RelativeContainer.REST, RelativeContainer.REST);
 					}
 					nameEditWasAdded = false;
-//					buttonsWasAdded = false;
 				}else{
-/*
-					if(!buttonsWasAdded){
-						add(upButton);
-						add(downButton);
-					}
-*/
 					if(!nameEditWasAdded){
 						add(nameLabel);
 						add(nameEdit);
 						if(tArea != null) edit.add(tArea, 1, RelativeContainer.TOP,RelativeContainer.REST, RelativeContainer.REST);
 					}
-//					buttonsWasAdded = true;
 					nameEditWasAdded = true;
 				}
 			}
@@ -131,9 +115,6 @@ CCScrollBar				scrollBar;
 		if(didLayout) return;
 		didLayout = true;
 		showDone = sDone;
-//		if(upButton == null) 	upButton 	= new TimerButton("Up");
-//		if(downButton == null) 	downButton 	= new TimerButton("Down");
-
 
 		if(showName){
 			if(doc.name == null) doc.name = "";
@@ -148,15 +129,6 @@ CCScrollBar				scrollBar;
 				nameEditWasAdded = true;
 			}
 		} 
-/*
-		if(getEmbeddedState()){
-			buttonsWasAdded = false;
-		}else{
-			add(upButton);
-			add(downButton);
-			buttonsWasAdded = true;
-		}
-*/
 		if(tArea == null) tArea = new TextArea();
 		tArea.addTextAreaListener(this);
 		if(doc.text != null)  tArea.setText(doc.text);
@@ -193,14 +165,10 @@ CCScrollBar				scrollBar;
 				scrollBar.setRect(width - 7,0,7, height);
 			}
 		}else{
-//			edit.setRect(0,34,width-8,height-36);
 			edit.setRect(0,17,width-8,height-19);
 			if(scrollBar != null){
-//				scrollBar.setRect(width - 7,34,7, height-36);
 				scrollBar.setRect(width - 7,17,7, height-19);
 			}
-//			if(upButton != null)    upButton.setRect(1,17,30,15);
-//			if(downButton != null)  downButton.setRect(35,17,30,15);
 			if(nameLabel != null) nameLabel.setRect(1,1,30,15);
 			int editW = (showDone)?width - 62:width - 32;
 			if(nameEdit != null) nameEdit.setRect(30, 1, editW, 15);
@@ -224,17 +192,7 @@ CCScrollBar				scrollBar;
 			if(container != null){
 				container.done(this);
 			}	    
-		}/*else if(e.target == upButton && e.type == ControlEvent.PRESSED){
-			if(tArea != null) tArea.scrollUp();
-		}else if(e.target == downButton && e.type == ControlEvent.PRESSED){
-			if(tArea != null) tArea.scrollDown();
-		}else if(e instanceof ControlEvent && e.type == ControlEvent.TIMER){
-			if(e.target == upButton){
-				if(tArea != null)	tArea.scrollUp();
-			}else if(e.target == downButton){
-				if(tArea != null)	tArea.scrollDown();
-			}
-		}*/
+		}
 	}
     public void openFileDialog(){
     	String []extensions = {".txt",".TXT"};
@@ -287,8 +245,7 @@ CCScrollBar				scrollBar;
 		if(tArea == null) return;
 		int allLines = tArea.getNumLines();
 		int maxVisLine = tArea.getScreenRows();
-				
-		scrollBar.setMinMaxValues(0,allLines);
+		scrollBar.setMinMaxValues(0,allLines - maxVisLine);
 		scrollBar.setAreaValues(allLines,maxVisLine);
 		scrollBar.setIncValue(1);
 		scrollBar.setPageIncValue((int)(0.8f*maxVisLine+0.5f));
