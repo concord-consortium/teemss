@@ -65,6 +65,8 @@ public class DataExport
 
     public void export(Bin b)
     {
+		if(ds == null) return;
+
 		int i;
 		if(b == null ||
 		   b.time == null) return;
@@ -100,6 +102,7 @@ public class DataExport
 
 	public void close()
 	{
+		if(file == null) return;
 		file.close();
 	}
 
