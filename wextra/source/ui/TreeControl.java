@@ -96,6 +96,37 @@ public class TreeControl extends Container implements TreeModelListener
 
     }
 
+	public boolean clipClip(Graphics g, int cx1, int cy1, int width, int height)
+	{
+		Rect clip = new Rect(0,0,0,0);
+		g.getClip(clip);
+
+		int x1 = clip.x;
+		int y1 = clip.y;
+		int x2 = clip.x + clip.width - 1;
+		int y2 = clip.y + clip.height - 1;
+		int cx2 = cx1 + width - 1;
+		int cy2 = cy1 + height - 1;
+
+		// trivial clip
+		if (x2 < cx1 || x1 > cx2 || y2 < cy1 || y1 > cy2){
+			return false;
+		}
+
+		if (x1 < cx1)
+			x1 = cx1;
+		if (y1 < cy1)
+			y1 = cy1;
+		if (x2 > cx2)
+			x2 = cx2;
+		if (y2 > cy2)
+			y2 = cy2;
+
+		g.setClip(x1, y1, x2 - x1 + 1, y2 - y1 + 1);
+
+		return true;
+	}
+
     public void onPaint(Graphics g)
     {
 		int numLines = lines.getCount();
@@ -105,7 +136,8 @@ public class TreeControl extends Container implements TreeModelListener
 
 		g.setColor(0,0,0);
 		g.drawRect(0,0,width,height-1);
-		g.setClip(1,1,width-2,height-3);
+
+		clipClip(g, 1,1,width-2, height-2);
 
 		g.setColor(255,255,255);
 		g.fillRect(1,1,width-2,height-3);
