@@ -1,7 +1,8 @@
-package org.concord.waba.extra.probware;
+package org.concord.ProbeLib;
 
-public class CalibrationDesc{
-waba.util.Vector params = null;
+public class CalibrationDesc
+{
+	waba.util.Vector params = null;
 	public CalibrationDesc(){
 		params = new waba.util.Vector();
 	}

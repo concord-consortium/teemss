@@ -1,9 +1,9 @@
-package org.concord.waba.extra.ui;
+package org.concord.ProbeLib;
+
 import extra.util.*;
 import org.concord.waba.extra.event.*;
+import org.concord.waba.extra.ui.*;
 import waba.ui.*;
-import org.concord.waba.extra.probware.probs.CCProb;
-import org.concord.waba.extra.probware.*;
 
 public class CalibrationDialog extends Dialog 
 	implements ActionListener{
@@ -12,7 +12,7 @@ public class CalibrationDialog extends Dialog
 	PropertyPane pPane = null;
 	PropertyView pView = null;
 
-	public CalibrationDialog(ExtraMainWindow owner,DialogListener l,String title, CCProb probe){
+	public CalibrationDialog(ExtraMainWindow owner,DialogListener l,String title, Probe probe){
 		super(title);
 		this.owner = owner;
 		addDialogListener(l);

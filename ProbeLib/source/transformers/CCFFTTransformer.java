@@ -1,16 +1,17 @@
-package org.concord.waba.extra.probware.transformers;
+package org.concord.ProbLib.transformers;
 
-import org.concord.waba.extra.probware.*;
+import org.concord.ProbLib.*;
 import org.concord.waba.extra.event.*;
 import extra.util.*;
 
-public class CCFFTTransformer extends CCTransformer{
-int 				dataDim = 128;
-float 				[]dataFFT = null;
-int					dataPointer = 0;
-public DataDesc		dDesc = new DataDesc();
-public DataEvent	dEvent = new DataEvent();
-float 				[]normKoeff = null;
+public class CCFFTTransformer extends CCTransformer
+{
+	int 				dataDim = 128;
+	float 				[]dataFFT = null;
+	int					dataPointer = 0;
+	public DataDesc		dDesc = new DataDesc();
+	public DataEvent	dEvent = new DataEvent();
+	float 				[]normKoeff = null;
 	public CCFFTTransformer(String name){
 		super(name);
 		dDesc.setChPerSample(1);
@@ -56,12 +57,12 @@ float 				[]normKoeff = null;
 			float disp = extra.util.Maths.sqrt(summ2/(float)dataDim - ave*ave)/ave;
 			org.concord.waba.extra.util.FFT.realft(dataFFT,dataDim,1);			
 			
-//			float maxKoeff = 0.0f;
+			//			float maxKoeff = 0.0f;
 			for(int k = 1; k <= dataDim;k+=2){
 				float nk = extra.util.Maths.sqrt(dataFFT[k]*dataFFT[k]+dataFFT[k+1]*dataFFT[k+1]);
 				if(k == 1) nk /= 2.0;
 				normKoeff[(k - 1)/2] = nk;
-//				if(nk > maxKoeff) maxKoeff = nk;
+				//				if(nk > maxKoeff) maxKoeff = nk;
 			}
 			notifyDataListeners(dataEvent);
 		}

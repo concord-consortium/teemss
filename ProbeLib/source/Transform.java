@@ -1,1 +1,7 @@
-package org.concord.waba.extra.probware;public interface Transform{    	boolean dataArrived(org.concord.waba.extra.event.DataEvent e);    	boolean idle(org.concord.waba.extra.event.DataEvent e);    	boolean startSampling(org.concord.waba.extra.event.DataEvent e);}
+package org.concord.ProbeLib;
+
+public interface Transform{
+	boolean dataArrived(DataEvent e);
+	boolean idle(DataEvent e);
+	boolean startSampling(DataEvent e);
+}

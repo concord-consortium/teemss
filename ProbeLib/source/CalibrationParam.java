@@ -1,4 +1,4 @@
-package org.concord.waba.extra.probware;
+package org.concord.ProbeLib;
 
 public class CalibrationParam{
 boolean   valid = false;

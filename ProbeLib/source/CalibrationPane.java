@@ -1,18 +1,19 @@
-package org.concord.waba.extra.ui;
+package org.concord.ProbeLib;
+
 import extra.util.*;
 import org.concord.waba.extra.event.*;
+import org.concord.waba.extra.ui.*;
 import waba.ui.*;
-import org.concord.waba.extra.probware.probs.CCProb;
-import org.concord.waba.extra.probware.*;
 
 public class CalibrationPane extends PropertyPane
-	implements DataListener{
+	implements DataListener
+{
 	CCButton bStart = null;
 	CCButton bStop = null;
 
 	int 	bHeight = 16;
 	WTable 		calTable = null;
-	CCProb	probe = null;
+	Probe	probe = null;
 	int nChannels = 1;
 	int   []calibratedRows = null;
 
@@ -33,7 +34,7 @@ public class CalibrationPane extends PropertyPane
 	int widthBorder = 1;
 	PropertyView pView = null;
 
-	public CalibrationPane(CCProb probe, ActionListener al, PropertyView pv){
+	public CalibrationPane(Probe probe, ActionListener al, PropertyView pv){
 		super(pv);
 		this.probe = probe;
 

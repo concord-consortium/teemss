@@ -1,19 +1,19 @@
-package org.concord.waba.extra.event;
-import extra.util.DataDesc;
+package org.concord.ProbeLib;
 
-public class DataEvent extends waba.ui.Event{
-public static final int DATA_RECEIVED 		= 1000;
-public static final int DATA_COLLECTING 	= 1001;
-public static final int DATA_READY_TO_START = 1002;
-public static final int DATA_STOPPED        = 1003;
+public class DataEvent extends waba.ui.Event
+{
+	public static final int DATA_RECEIVED 		= 1000;
+	public static final int DATA_COLLECTING 	= 1001;
+	public static final int DATA_READY_TO_START = 1002;
+	public static final int DATA_STOPPED        = 1003;
 
-public float 	[]data = null;
-public DataDesc	dataDesc = null;
-public int		numbSamples = 1;
-public int		dataOffset = 0;
-public float	deltaT;
-public int		intTime;
-public int	 	[]intData = null;
+	public float 	[]data = null;
+	public DataDesc	dataDesc = null;
+	public int		numbSamples = 1;
+	public int		dataOffset = 0;
+	public float	deltaT;
+	public int		intTime;
+	public int	 	[]intData = null;
 	public float    refVal = 0;
 
     public int [] pTimes = new int [10];

@@ -1,13 +1,14 @@
-package org.concord.waba.extra.probware;
-import org.concord.waba.extra.event.*;
-import org.concord.waba.extra.probware.probs.CCProb;
+package org.concord.ProbeLib;
+
 import extra.util.*;
 
-public class ProbManager implements ProbListener, Transform{
-public static ProbManager pb = null;
-CCInterfaceManager im;
+public class ProbManager 
+	implements ProbListener, Transform
+{
+	public static ProbManager pb = null;
+	CCInterfaceManager im;
 
-protected CCProb[]				probsArray = null;
+	protected Probe[]				probsArray = null;
 
 	protected ProbManager(int interfaceType){
 		im = CCInterfaceManager.getInterfaceManager(interfaceType);
@@ -23,7 +24,7 @@ protected CCProb[]				probsArray = null;
 	public void probChanged(ProbEvent e){
 	}
 	
-	public int findProb(CCProb prob){
+	public int findProb(Probe prob){
 		int retValue = -1;
 		if(probsArray == null || prob == null  || probsArray.length < 1) return retValue;
 		for(int i = 0; i < probsArray.length; i++){
@@ -35,15 +36,15 @@ protected CCProb[]				probsArray = null;
 		return retValue;
 	}
 	
-	public void registerProb(CCProb prob){
+	public void registerProb(Probe prob){
 		boolean probAdded = false;
 		if(probsArray == null){
-			probsArray = new CCProb[1];
+			probsArray = new Probe[1];
 			probsArray[0] = prob;
 			probAdded = true;
 		}else{
 			if(findProb(prob) < 0){
-				CCProb []newArray = new CCProb[probsArray.length + 1];
+				Probe []newArray = new Probe[probsArray.length + 1];
 				waba.sys.Vm.copyArray(probsArray,0,newArray,0,probsArray.length);
 				newArray[probsArray.length] = prob;
 				probsArray = newArray;
@@ -55,7 +56,7 @@ protected CCProb[]				probsArray = null;
 		}
 		syncModeWithProb();
 	}
-	public void unRegisterProb(CCProb prob){
+	public void unRegisterProb(Probe prob){
 		int index = findProb(prob);
 		if(index >= 0){
 			if(probsArray.length == 1){
@@ -64,7 +65,7 @@ protected CCProb[]				probsArray = null;
 				for(int i = index + 1; i < probsArray.length; i++){
 					probsArray[i - 1] = probsArray[i];
 				}
-				CCProb []newArray = new CCProb[probsArray.length - 1];
+				Probe []newArray = new Probe[probsArray.length - 1];
 				waba.sys.Vm.copyArray(probsArray,0,newArray,0,probsArray.length - 1);
 				probsArray = newArray;
 			}
@@ -77,7 +78,7 @@ protected CCProb[]				probsArray = null;
 		int firstMode = -1;
 		boolean isTheSame = true;
 		for(int i = 0; i < probsArray.length; i++){
-			CCProb p = probsArray[i];
+			Probe p = probsArray[i];
 			int curMode = p.getInterfaceMode();
 
 			if(curMode < 0) continue;
@@ -103,15 +104,15 @@ protected CCProb[]				probsArray = null;
 		return probsArray.length;
 	}
 	
-	public CCProb getProbByIndex(int i){
+	public Probe getProbByIndex(int i){
 		if(i < 0 || i >= getNumbProbs()) return null;
 		return probsArray[i];
 	}
 	
-	protected CCProb getProbByName(String name){
+	protected Probe getProbByName(String name){
 		if(getNumbProbs() < 1) return null;
 		for(int i = 0; i < probsArray.length; i++){
-			CCProb p = probsArray[i];
+			Probe p = probsArray[i];
 			if(p == null) continue;
 			if(name.equals(p.getName())){
 				return p;
@@ -152,11 +153,11 @@ protected CCProb[]				probsArray = null;
 	}
 	public void dispose(){
 		if(probsArray != null && probsArray.length > 0){
-			CCProb []newArray = new CCProb[probsArray.length];
+			Probe []newArray = new Probe[probsArray.length];
 			waba.sys.Vm.copyArray(probsArray,0,newArray,0,probsArray.length);
 
 			for(int i = 0; i < newArray.length; i++){
-				CCProb prob = newArray[i];
+				Probe prob = newArray[i];
 				if(prob != null) unRegisterProb(prob);
 			}
 		}
@@ -166,30 +167,30 @@ protected CCProb[]				probsArray = null;
 		pb = null;
 	}
 	
-//	public static java.io.FileWriter pbstream = null;
+	//	public static java.io.FileWriter pbstream = null;
 	
 	public void start(){
 		if(im == null) return;
-/*
-		try{
-			pbstream = new java.io.FileWriter("VOLTMETER.txt");
-		}catch(Exception e){
-			pbstream = null;
-		}
-*/
+		/*
+		  try{
+		  pbstream = new java.io.FileWriter("VOLTMETER.txt");
+		  }catch(Exception e){
+		  pbstream = null;
+		  }
+		*/
 		syncModeWithProb();
 
 		im.start();
 	}
 	public void stop(){
-/*
-		if(pbstream != null){
-			try{
-				pbstream.close();
-			}catch(Exception e){}
-			pbstream = null;
-		}
-*/
+		/*
+		  if(pbstream != null){
+		  try{
+		  pbstream.close();
+		  }catch(Exception e){}
+		  pbstream = null;
+		  }
+		*/
 		if(im == null) return;
 		im.stop();
 	}

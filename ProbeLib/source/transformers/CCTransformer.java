@@ -1,13 +1,16 @@
-package org.concord.waba.extra.probware.transformers;
+package org.concord.ProbLib.transformers;
 
-import org.concord.waba.extra.probware.*;
+import org.concord.ProbLib.*;
+
 import org.concord.waba.extra.event.*;
 import extra.util.PropObject;
 
-public abstract class CCTransformer implements Transform{
-String		name = null;
-PropObject		[]properties = null;
-public 		waba.util.Vector 	dataListeners = null;
+public abstract class CCTransformer 
+	implements Transform
+{
+	String		name = null;
+	PropObject		[]properties = null;
+	public 		waba.util.Vector 	dataListeners = null;
 
 	public CCTransformer(){
 		this("unknown");

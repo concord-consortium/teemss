@@ -1,14 +1,11 @@
-package org.concord.waba.extra.probware;
+package org.concord.ProbeLib;
+
 import waba.ui.Control;
 import waba.sys.Vm;
 import waba.io.SerialPort;
 import waba.ui.Event;
 import waba.ui.ControlEvent;
 import waba.ui.Timer;
-import org.concord.waba.extra.event.DataListener;
-import org.concord.waba.extra.event.DataEvent;
-import extra.util.DataDesc;
-import org.concord.waba.extra.probware.probs.CCProb;
 import org.concord.waba.extra.ui.*;
 
 public class CCInterfaceManager extends Control{
@@ -855,11 +852,11 @@ public class CCInterfaceManager extends Control{
 		int numbProbs = pb.getNumbProbs();
 		if(numbProbs < 1) return 0;
 		if(numbProbs == 1){
-			CCProb pr = pb.getProbByIndex(0);
+			Probe pr = pb.getProbByIndex(0);
 			if(pr == null) return 0;
 			int interfacePort = pr.getInterfacePort();
 			if(mode == A2D_24_MODE){
-				if(interfacePort == CCProb.INTERFACE_PORT_A){
+				if(interfacePort == Probe.INTERFACE_PORT_A){
 					return 'a';
 				}else{
 					return 'b';
@@ -870,13 +867,13 @@ public class CCInterfaceManager extends Control{
 				    timeStepSize = timeStepSize/2;
 				    dDesc.setDt(timeStepSize);
 				    dDesc.setChPerSample(1);				    
-				    if(interfacePort == CCProb.INTERFACE_PORT_A){					
+				    if(interfacePort == Probe.INTERFACE_PORT_A){					
 						return 'e';
 				    }else{
 						return 'f';
 				    }
 				}else{
-				    if(interfacePort == CCProb.INTERFACE_PORT_A){
+				    if(interfacePort == Probe.INTERFACE_PORT_A){
 						return 'g';
 				    }else{
 						return 'h';

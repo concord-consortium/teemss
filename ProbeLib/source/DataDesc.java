@@ -1,16 +1,16 @@
-package extra.util;
+package org.concord.ProbeLib;
 
+public class DataDesc
+{
+	public int 	chPerSample;
+	public int 	chIntPerSample;
+	public float 	dt;
+	public int        dataType = DataSequence;
+	public final static 	int DataSequence = 0;
+	public final static 	int DataSeries = 1;
 
-public class DataDesc{
-public int 	chPerSample;
-public int 	chIntPerSample;
-public float 	dt;
-public int        dataType = DataSequence;
-public final static 	int DataSequence = 0;
-public final static 	int DataSeries = 1;
-
-public	int 	unit = 0;
-public  float tuneValue = 1.0f;
+	public	int 	unit = 0;
+	public  float tuneValue = 1.0f;
 
 	public DataDesc(){
 		this(0.0f,1,1);

@@ -1,6 +1,4 @@
-package org.concord.ProbeLib.probes;
-
-import org.concord.ProbeLib.*;
+package org.concord.ProbeLib;
 
 import org.concord.waba.extra.event.*;
 import org.concord.waba.extra.ui.ExtraMainWindow;
@@ -12,7 +10,7 @@ public abstract class Probe extends PropContainer
 	public 		waba.util.Vector 	dataListeners = null;
 	public 		waba.util.Vector 	probListeners = null;
 	String		name = null;
-	CalibrationDesc	calibrationDesc;
+	protected CalibrationDesc	calibrationDesc;
 	public static final String defaultModeName = "Default";
 
 	public final static int		INTERFACE_PORT_A	= 0;
@@ -34,7 +32,7 @@ public abstract class Probe extends PropContainer
 
 	protected int 	activeChannels = 1;
 
-	protected	int	probeType = ProbFactory.Prob_Undefine;
+	protected	int	probeType = -1;
 
 	/*
 	  interface modes
@@ -51,13 +49,13 @@ public abstract class Probe extends PropContainer
 	public final static int PROP_CHAN_NUM = 5;
 	public final static int PROP_VERSION = 6;
 
-	DataListener calibrationListener = null;
+	protected DataListener calibrationListener = null;
 
 	String [] portNames = {"A", "B"};
 	PropObject port = null;
-	static String speedUnit = " per second";
+	protected static String speedUnit = " per second";
 
-	protected CCProb(boolean init, String name, int interfaceT){
+	protected Probe(boolean init, String name, int interfaceT){
 		super("Properties");
 		setName(name);
 		calibrationDesc = null;
@@ -253,8 +251,8 @@ public abstract class Probe extends PropContainer
 	}
 	public void calibrationDescReady(){}
 
-	String [] quantityNames = null;
-	String defQuantityName;
+	protected String [] quantityNames = null;
+	protected String defQuantityName;
 	public String [] getQuantityNames()
 	{
 		String [] retNames = quantityNames;
