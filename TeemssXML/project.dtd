@@ -2,6 +2,7 @@
 <!ENTITY % TEXT1 "#PCDATA | image | ext-image-sequence | ext-image | p"> 
 <!ENTITY % TEXT "(%TEXT1;)*">
 <!ENTITY % TEXT2 "%TEXT1; | equation | table | ul">
+<!ENTITY % TEXT3 "%TEXT1; | query-response">
 
 <!ELEMENT project (title, skill-list?, unit+)>
 <!ELEMENT title (#PCDATA)>
@@ -38,16 +39,17 @@
 <!ELEMENT summary (#PCDATA)>
 <!ELEMENT question (#PCDATA)>
 <!ELEMENT intro    %TEXT;>
-<!ELEMENT think    %TEXT;>
+<!ELEMENT think    (%TEXT3;)*>
 <!ELEMENT safety (item+)>
 <!ELEMENT materials (ext-image?,item+)>
-<!ELEMENT trial (%TEXT1; | instructions | steps)*>
+<!ELEMENT trial (instructions | steps)*>
   <!ATTLIST trial title   CDATA #REQUIRED>
 <!ELEMENT instructions (instruction+)>
-<!ELEMENT instruction (%TEXT1; | steps)*>
+<!ELEMENT instruction (steps)*>
 <!ATTLIST instruction title CDATA #REQUIRED>
-<!ELEMENT steps (step+)>
+<!ELEMENT steps (step+ | query-reponse)>
 <!ELEMENT step (%TEXT1; | steps)*>
+
 <!ELEMENT hints (hint+)>
 <!ELEMENT hint (title,heading,body)>
 <!ELEMENT heading (#PCDATA)>
@@ -57,6 +59,18 @@
   <!ATTLIST data trial CDATA #REQUIRED>
 <!ELEMENT further (item+)>
 <!ELEMENT item %TEXT;>
+
+<!ELEMENT query-response (query-description,querys)>
+<!ATTLIST query-response
+  title    CDATA #REQUIRED 
+  type    (predict | describe | explain)  #REQUIRED
+  layout  (paragraph | list)          #REQUIRED>
+<!ELEMENT query-description (#PCDATA)>
+<!ELEMENT querys (query+)>
+<!ELEMENT query (#PCDATA)*>
+<!ATTLIST query
+  drawing-response  (true | false)  #REQUIRED
+  note-response     (true | false)  #REQUIRED>
 
 <!ELEMENT ext-image EMPTY>
   <!ATTLIST ext-image type (gif|jpg) "gif">

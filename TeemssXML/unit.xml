@@ -427,12 +427,31 @@ The energy lost to friction always ends up as heat energy in the form of random 
             the wire from obstructing the movement of the
               cart.<ext-image name="03b_tr"/>
           </step>
-          <step>Predict the resulting graphs for each of the following
-            motions in Notes on your handheld computer. Observe how the
-            acrobat responded during each motion. </step>
+          <step>
+            <query-response type="describe" layout="list" title="cart movements">
+              <query-description> Draw and then describe in words each of the following movements of your cart.
+              </query-description>
+              <querys>
+                <query drawing-response="true" note-response="true">
+                  pulling the cart forward at a constant velocity.
+                </query>
+                <query drawing-response="true" note-response="true">
+                  pulling the cart at a slow constant velocity, then a
+                  faster constant velocity, then coasting
+                </query>
+                <query drawing-response="true" note-response="true">
+                  speeding up the cart, then coasting
+                </query>
+                <query drawing-response="true" note-response="true">
+                  pulling the cart, then letting it bounce off a wall
+                </query>
+              </querys>
+            </query-response>
+          </step>
           <step>Start the software and observe the position versus time
             graph as you make the following motions on the same graph.
-            Refer to Technical Hints to see how to use the software. <steps>
+            Refer to Technical Hints to see how to use the software. 
+            <steps>
               <step>pulling the cart forward at a constant velocity</step>
               <step>pulling the cart at a slow constant velocity, then a
                 faster constant velocity, then coasting</step>
@@ -450,14 +469,36 @@ The energy lost to friction always ends up as heat energy in the form of random 
       </trial>
       <trial title="Rolling to a stop">
         <steps>
-          <step>Using the ramp to initiate motion of the cart, design a
-            method to slow down the cart and bring it to a stop in
-            exactly 5 seconds as it rolls across a rug or another rough
-            surface. Explain your design in Notes on your handheld
-            computer. </step>
+          <step>
+            <query-response type="explain" layout="paragraph" title="ramp">
+              <query-description> 
+                Using the ramp to initiate motion of the cart, design a
+                method to slow down the cart and bring it to a stop in
+                exactly 5 seconds as it rolls across a rug or another rough
+                surface. 
+              </query-description>
+              <querys>
+                <query drawing-response="true" note-response="true">
+                  Explain your design in Notes on your handheld computer.
+                </query>
+              </querys>
+            </query-response>
+          </step>
           <step>In Notes on your handheld computer, predict and sketch
             the resulting position versus time graph. Share your method
             with other members of your group.  </step>
+          <step>
+            <query-response type="predict" layout="paragraph" title="position-time graph">
+              <query-description> 
+                  What will the position versus time graph look like?               </query-description>
+              <querys>
+                <query drawing-response="true" note-response="true">
+                  What will the position versus time graph look like? Sketch the graph in In Notes on your handheld computer. 
+                </query>
+              </querys>
+            </query-response>
+          </step>
+
           <step>Connect the SmartWheel to your handheld computer. Refer
             to Technical Hints to see how to connect the cables.</step>
           <step>Now try your method out. Start the software and observe

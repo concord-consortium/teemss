@@ -9,6 +9,7 @@
   doctype-public="-//Concord.ORG//DTD LabBook Description//EN" 
   doctype-system="../../DTD/labbook.dtd"/>
 
+<xsl:strip-space elements="*"/>
 
 <xsl:template match="/">
   <xsl:apply-templates/>
@@ -238,7 +239,10 @@
       <xsl:apply-templates select="querys" mode="list"/>
     </xsl:when>
   </xsl:choose>
-  <xsl:apply-templates select="query-link"/>
+  <SNPARAGRAPH linkcolor="FF0000">
+    click here to answer
+  </SNPARAGRAPH>
+  <SNPARAGRAPH/>
 </xsl:template>
 
 <xsl:template match="query-response" mode="response">
@@ -277,14 +281,8 @@
 
 <xsl:template match="query" mode="list">
     <SNPARAGRAPH>
-    <xsl:value-of select="normalize-space(.) "/>
+      <xsl:value-of select="normalize-space(.) "/>
     </SNPARAGRAPH>
-</xsl:template>
-
-<xsl:template match="query-link">
-  <SNPARAGRAPH linkcolor="FF0000">
-    <xsl:value-of select="normalize-space(.)"/>
-  </SNPARAGRAPH>
 </xsl:template>
 
 <xsl:template match="ext-image-sequence">
