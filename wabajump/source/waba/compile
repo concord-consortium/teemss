@@ -1,2 +1,0 @@
-#!/bin/bash
-javac -deprecation -classpath ~/jump/jar/jump.jar:.. -d ../../classes  fx/*.java io/*.java sys/*.java ui/*.java util/*.java
