@@ -21,7 +21,7 @@ SRC_DIR= src
 include ../ReleaseSystem/waba.inc
 
 JAR_BUILD := other
-CLASSPATH := $(CLASSPATH):${WGRAPH_DIR}:${LABBOOK_DIR}:${CCPROBE_DIR}:jars/QTJava.zip
+CLASSPATH := $(CLASSPATH):${WGRAPH_DIR}:${LABBOOK_DIR}:${CCPROBE_DIR}:jars/QTJava.zip:jars/crimson.jar:jars/xalan.jar
 
 all: dependencies main jar
 test: dependencies main
