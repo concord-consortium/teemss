@@ -70,7 +70,9 @@ public Timer addTimer(int millis)
 public boolean removeTimer(Timer timer)
 	{
 	MainWindow win = MainWindow.getMainWindow();
-	return win.removeTimer(timer);
+	boolean ret = win.removeTimer(timer);
+	if(ret) timer.target = null;
+	return ret;
 	}
 
 /** Returns the font metrics for a given font. */
