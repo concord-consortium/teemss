@@ -295,27 +295,26 @@ public class CCProbe extends MainView
 										 "Please Wait... saving the LabBook",
 										 "Cancel", Dialog.INFO_DIALOG);
 
-				LabBookCatalog lbCat = new LabBookCatalog("_tmp_LabBook_");
+				// This is dangerous but I don't see another way to do it
+				File oldLabFile = new File("LabBook.PDB", File.DONT_OPEN);
+				oldLabFile.delete();
+
+				LabBookCatalog lbCat = new LabBookCatalog("LabBook");
 				LabObjectPtr rootPtr = labBook.getRoot();
 				mainSession = rootPtr.getSession();
 
 				LObjDictionary loDict = (LObjDictionary)mainSession.getObj(rootPtr);
-				System.err.println("CCP: starting export");
+				System.out.println("CCP: exit start export");
 				labBook.export(loDict, lbCat);
-				System.err.println("CCP: starting saving");
+				System.out.println("CCP: exit start save");
 				lbCat.save();
-				System.err.println("CCP: starting close");
+				System.out.println("CCP: exit start close");
 				lbCat.close();
-				System.err.println("CCP: starting delete");
-				labBook.delete();
-				File newLabFile = new File("_tmp_LabBook_.PDB", File.DONT_OPEN);
-				File oldLabFile = new File("LabBook.PDB", File.DONT_OPEN);
-				oldLabFile.delete();
-				newLabFile.rename("LabBook.PDB");
+				labBook = null;
 			} else {
 				labBook.close();
+				labBook = null;			
 			}
-			labBook = null;			
 		}
     }
 
