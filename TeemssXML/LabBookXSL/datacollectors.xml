@@ -163,7 +163,7 @@
          <PROP name="Speed" value="3 per second"/>
          <PROP name="Version" value="2.0"/>
        </PROBE>
-       <GRAPH current-line="2" title="">
+       <GRAPH current-line="1" title="">
          <XAXIS min="0" max="60"/>
          <YAXIS min="0" max="2"/>
          <YAXIS min="-0.1" max="0.5"/>

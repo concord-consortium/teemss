@@ -3250,7 +3250,8 @@
       10cm at the higher end. Mark two distances up the ramp, one twice as far
       as the other. Place the cart on the ramp with the back wheels on the
       upper mark. <ext-image name="03_pk" /></step><step>Start the software to
-      read a velocity versus time graph.</step><step>Let the cart roll down
+      read a velocity versus time graph. <datacollector-link type="dc-smartwheel-vel3" />
+      </step><step>Let the cart roll down
       the ramp and continue along the floor or desk. As soon as it leaves the
       ramp completely, pick it up and place it with the back wheels on the
       lower mark. Let the cart roll down the ramp.</step><step>Stop the
@@ -4964,14 +4965,20 @@
       changes sunlight directly into electrical energy, which can in turn be
       used for something else. It is not very efficient, but the source of
       energy is free! Connect the Voltage/Current probe to your handheld
-      computer. Refer to Technical Hints to connect the Voltage/Current probe.</step><step>Start
-      the software to read current. <datacollector-link
-      type="dc-voltage-current-current" /></step><step>Hook the solar cell to
+      computer. Refer to Technical Hints to connect the Voltage/Current probe.</step>
+
+      <step>Hook the solar cell to
       the VoltageCurrent probe. To have a positive current reading, attach the
       red wire to the yellow clip and the black wire to the green clip. Try it
       under different light conditions, such as a light bulb, direct sunlight,
       and indirect light from the sky. Stop the software and save your data.
-      <ext-image name="01_mt" /></step><query-response layout="paragraph"
+      <ext-image name="01_mt" /></step>
+
+     <step>Start
+      the software to read current. <datacollector-link
+      type="dc-voltage-current-current" /></step>
+
+      <query-response layout="paragraph"
       title="light_source" type="describe"><query-description></query-description><querys><query
       drawing-response="false" note-response="true">What were the best and
       worst light sources?</query></querys><query-static-link>Record your
