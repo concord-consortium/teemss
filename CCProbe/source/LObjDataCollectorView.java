@@ -18,13 +18,14 @@ public class LObjDataCollectorView extends LabObjectView
     LObjDataCollector dc;
     LObjGraphView gv;
     LObjDictionary dataDict = null;
+    LObjGraph graph = null;
 
     Label nameLabel = null;
     Edit nameEdit = null;
 
     int gt_height = 40;
 
-    Menu menu = new Menu("Probe");
+    Menu menu = new Menu("Edit");
 
     ToggleButton collectButton;
     Button doneB;
@@ -37,9 +38,9 @@ public class LObjDataCollectorView extends LabObjectView
 							   LObjDictionary curDict)
     {
 		super(vc);
-
-		menu.add("Properties...");
-		menu.add("Save Profile...");
+		menu.add("Graph Properties..");
+		menu.add("Probe Properties..");
+		menu.add("Save Profile..");
 		menu.addActionListener(this);
 
 		this.dc = dc;
@@ -52,8 +53,6 @@ public class LObjDataCollectorView extends LabObjectView
 		if(container != null){
 			container.getMainView().addMenu(this, menu);
 		}
-		if(gv != null) gv.addMenus();
-
 	}
 
 	public void delMenus()
@@ -61,7 +60,6 @@ public class LObjDataCollectorView extends LabObjectView
 		if(container != null){
 			container.getMainView().delMenu(this,menu);
 		}
-		if(gv != null) gv.delMenus();
 	}
 
 	public void setTitle1(String t1)
@@ -108,8 +106,6 @@ public class LObjDataCollectorView extends LabObjectView
 			dc.store();
 		}
 	}		
-
-    LObjGraph graph = null;
 
     public void layout(boolean sDone)
     {
@@ -187,7 +183,7 @@ public class LObjDataCollectorView extends LabObjectView
 		Debug.println("Got action: " + e.getActionCommand());
 
 		if(e.getSource() == menu){
-			if(e.getActionCommand().equals("Properties...")){
+			if(e.getActionCommand().equals("Probe Properties..")){
 				stop(true);
 
 				if(dc.dataSources == null || dc.dataSources.getCount() < 1 ||
@@ -199,6 +195,8 @@ public class LObjDataCollectorView extends LabObjectView
 				pds.showProp();
 
 				Debug.println("Callllll");
+			} else if(e.getActionCommand().equals("Graph Properties..")){
+				graph.showAxisProp();
 			} else if(e.getActionCommand().equals("Save Profile...")){
 				/*
 				LObjDocument dProf = DefaultFactory.createDocument();

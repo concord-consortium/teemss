@@ -1,5 +1,6 @@
 import waba.ui.*;
 import waba.util.*;
+import extra.ui.*;
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
 import org.concord.LabBook.*;
@@ -17,6 +18,7 @@ public class CCProbe extends ExtraMainWindow
     Container me = new Container();
     LabObjectView lObjView = null;
     int myHeight;
+	int yOffset = 0;
 	Vector fileMenuStrings = new Vector();
 	
     int newIndex = 0;
@@ -67,6 +69,14 @@ public class CCProbe extends ExtraMainWindow
 			lbDB = new LabBookFile("LabBook");
 		}	    
 
+		if(myHeight < 180){
+			yOffset = 10;
+			myHeight -= 10;
+			Title title = new Title("CCProbe");
+			title.setRect(0,0,width, 10);
+			me.add(title);
+		}
+
 		if(lbDB.getError()){
 			// Error;
 			exit(0);
@@ -103,7 +113,7 @@ public class CCProbe extends ExtraMainWindow
 
 		}
 		LabObjectView view = (LabObjectView)loDict.getView(this, true);
-		view.setRect(x,y,width,myHeight);
+		view.setRect(x,yOffset,width,myHeight);
 		view.setShowMenus(true);
 		me.add(view);
 		lObjView = view;
@@ -258,7 +268,7 @@ public class CCProbe extends ExtraMainWindow
 		me.remove(source);
 		LabObjectView replacement = obj.getView(this, true);
 		// This automatically does the layout call for us
-		replacement.setRect(x,y,width,myHeight);
+		replacement.setRect(x,yOffset,width,myHeight);
 		replacement.setShowMenus(true);
 		me.add(replacement);
 		lObjView = replacement;
@@ -303,4 +313,30 @@ public class CCProbe extends ExtraMainWindow
 
     }
 
+	LabObjectView curFullView = null;
+
+	public void showFullWindowView(LabObjectView view)
+	{
+		if(view == curFullView){
+			// the view isn't being changed
+			return;
+		}
+
+		if(view == null){
+			// the curFullView must not be null
+			remove(curFullView);
+			curFullView = null;
+			add(me);
+		} else {
+			if(curFullView == null) remove(me);
+			else remove(curFullView);
+
+			view.layout(true);
+			view.setRect(0,0,width,height);
+			view.setShowMenus(true);
+			add(view);
+			curFullView = view;
+		} 
+		return;
+	}
 }
