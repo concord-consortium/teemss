@@ -373,7 +373,7 @@ public class LObjGraphView extends LabObjectView
 						((Bin)bins.get(0)).description = graph.title;
 					}
 
-					LabBookFile.export((Bin)bins.get(0), av.lGraph.annots);
+					DataExport.export((Bin)bins.get(0), av.lGraph.annots);
 
 				}
 			}
