@@ -59,7 +59,7 @@ public class LObjQuestionView extends LabObjectView
 	add(doc);
 
 	switch(quest.questionType){
-	case quest.TRUE_FALSE:
+	case LObjQuestion.TRUE_FALSE:
 	    radios = new Radio [2];
 	    radios[0] = new Radio("True");
 	    add(radios[0]);
@@ -74,7 +74,7 @@ public class LObjQuestionView extends LabObjectView
 		}
 	    }
 	    break;
-	case quest.MULTIPLE_CHOICE:
+	case LObjQuestion.MULTIPLE_CHOICE:
 	    if(quest.options != null){
 		TreeNode [] answers = null;
 		TreeNode [] choices = quest.options.childArray();
@@ -117,7 +117,7 @@ public class LObjQuestionView extends LabObjectView
 		}
 	    }
 	    break;
-	case quest.ESSAY:
+	case LObjQuestion.ESSAY:
 	    if(answer != null &&
 	       answer instanceof LObjDocument){
 		essay = answer.getView(null, true);
@@ -147,13 +147,13 @@ public class LObjQuestionView extends LabObjectView
 	curY += height/2;
 
 	switch(quest.questionType){
-	case quest.TRUE_FALSE:
+	case LObjQuestion.TRUE_FALSE:
 	    radios[0].setRect(1,curY, width-2, 16);
 	    curY += 16;
 	    radios[1].setRect(1, curY, width-2, 16);
 	    curY += 16;
 	    break;
-	case quest.MULTIPLE_CHOICE:
+	case LObjQuestion.MULTIPLE_CHOICE:
 	    if(quest.options != null){
 		int optHeight;
 		for(int i=0; i<radios.length; i++){
@@ -164,7 +164,7 @@ public class LObjQuestionView extends LabObjectView
 		}
 	    }
 	    break;
-	case quest.ESSAY:
+	case LObjQuestion.ESSAY:
 	    essay.setRect(1,curY, width-2, height - curY - 16);
 	    break;
 	}
@@ -200,7 +200,7 @@ public class LObjQuestionView extends LabObjectView
 	}
 
 	switch(quest.questionType){
-	case quest.TRUE_FALSE:
+	case LObjQuestion.TRUE_FALSE:
 	    // make document for true or false
 	    if(answer == null){		
 		answer =  new LObjDocument();
@@ -213,7 +213,7 @@ public class LObjQuestionView extends LabObjectView
 		((LObjDocument)answer).setText("False");
 	    }
 	    break;
-	case quest.MULTIPLE_CHOICE:
+	case LObjQuestion.MULTIPLE_CHOICE:
 	    if(quest.options != null){
 		if(answer == null){		
 		    answer =  new LObjDictionary();
@@ -231,7 +231,7 @@ public class LObjQuestionView extends LabObjectView
 		}
 	    }
 	    break;
-	case quest.ESSAY:
+	case LObjQuestion.ESSAY:
 	    if(answer == null){		
 		answer = (LabObject) essay.getLabObject();
 		answer.name = "*";
