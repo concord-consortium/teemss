@@ -66,18 +66,22 @@ public class TreeControl extends Control implements TreeModelListener
 	g.setColor(0,0,0);
 	for(int i = 0; i<numLines; i++){
 	    line = (TreeLine)lines.get(i);
-	    if(!line.node.isLeaf()){
-		drawTwist(g, (line.depth)* indentSize, curY, line.expanded);
-	    }
-	    if(!line.selected){
-		g.drawText(line.node.toString(), (line.depth+1)*indentSize, curY);
+	    if(line.node == null) {
+		g.drawText("..null..", (line.depth+1)*indentSize, curY);
 	    } else {
-		int tWidth = myFM.getTextWidth(line.node.toString());
-		g.setColor(0,0,0);
-		g.fillRect((line.depth+1)*indentSize, curY, tWidth, textHeight);
-		g.setColor(255,255,255);
-		g.drawText(line.node.toString(), (line.depth+1)*indentSize, curY);
-		g.setColor(0,0,0);
+		if(!line.node.isLeaf()){
+		    drawTwist(g, (line.depth)* indentSize, curY, line.expanded);
+		}
+		if(!line.selected){
+		    g.drawText(line.node.toString(), (line.depth+1)*indentSize, curY);
+		} else {
+		    int tWidth = myFM.getTextWidth(line.node.toString());
+		    g.setColor(0,0,0);
+		    g.fillRect((line.depth+1)*indentSize, curY, tWidth, textHeight);
+		    g.setColor(255,255,255);
+		    g.drawText(line.node.toString(), (line.depth+1)*indentSize, curY);
+		    g.setColor(0,0,0);
+		}
 	    }
 	    curY += textHeight;
 	}
@@ -169,7 +173,7 @@ public class TreeControl extends Control implements TreeModelListener
 	    line.expanded = false;
 	    while(curIndex < lines.getCount()){
 		next = (TreeLine)lines.get(curIndex);
-		if(next.depth == line.depth){
+		if(next.depth <= line.depth){
 		    break;
 		}
 		lines.del(curIndex);
