@@ -85,7 +85,7 @@ float B = -25.31f;
     	public boolean idle(DataEvent e){
 		dEvent.type = e.type;
 		if(calibrationListener == null){
-//			notifyDataListeners(dEvent);
+		    notifyDataListeners(dEvent);
 		}
 	    	return true;
 	}
