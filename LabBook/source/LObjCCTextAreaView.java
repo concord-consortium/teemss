@@ -32,7 +32,6 @@ String [] fileStrings = {"Load Note..."};
 
 Edit 					nameEdit;
 Label					nameLabel;
-Label					nameEditAsLabel;
 boolean					nameEditWasAdded = false;
 
 
@@ -235,16 +234,15 @@ CCScrollBar				scrollBar;
 
 		showDone = sDone;
 		if(nameEdit == null) nameEdit = new Edit();
-		if(nameEditAsLabel == null) nameEditAsLabel = new Label(getLabObject().name);
 		nameEdit.setText(getLabObject().name);
 		if(nameLabel == null) nameLabel = new Label("Name");
 		add(nameLabel);
 		if(getViewType() == LObjDictionary.TREE_VIEW){
 			add(nameEdit);
+			nameEditWasAdded = true;
 		}else{
-			add(nameEditAsLabel);
+			nameEditWasAdded = false;
 		}
-		nameEditWasAdded = true;
 
 		if(tArea == null){
 			tArea = new CCTextArea(this,container.getMainView(),doc.curDict,doc);
@@ -299,12 +297,15 @@ CCScrollBar				scrollBar;
 		}
 		
 		int yStart = (needInserButton)?34:17;
+		if(!nameEditWasAdded){
+			yStart -= 16;
+		}
+		
 		edit.setRect(1,yStart,width - 2,height - 2 - yStart);
 
 		if(nameLabel != null) nameLabel.setRect(1,1,30,15);
 		int editW = (showDone)?width - 62:width - 32;
 		if(nameEdit != null) 		nameEdit.setRect(30, 1, editW, 15);
-		if(nameEditAsLabel != null) nameEditAsLabel.setRect(30, 1, editW, 15);
 
 
 
@@ -333,10 +334,6 @@ CCScrollBar				scrollBar;
 		if(getViewType() == LObjDictionary.TREE_VIEW){
     		if(nameEdit != null){
     			getLabObject().name = nameEdit.getText();
-    		}
-		}else{
-    		if(nameEditAsLabel != null){
-    			getLabObject().name = nameEditAsLabel.getText();
     		}
 		}
 
