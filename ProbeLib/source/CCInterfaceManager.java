@@ -36,6 +36,25 @@ public class CCInterfaceManager extends Control{
 		this.interfaceType = interfaceType;
 	}
 	
+	public static float getTuneValue(int interfaceType, int interfaceMode)
+	{
+		switch (interfaceMode) {
+		case A2D_24_MODE:
+			if(interfaceType == INTERFACE_2){
+				return 0.00015f;
+			} else {
+				return 0.000075f;
+			}
+		case A2D_10_MODE:
+			if(interfaceType == INTERFACE_2){
+				return 2.441406f;
+			} else {
+				return 3.22f;
+			}
+		}
+		return 0f;
+	}
+
 
 	public void setProbManager(ProbManager pb){
 		this.pb = pb;
@@ -485,25 +504,16 @@ public class CCInterfaceManager extends Control{
 		curDataPos = 0;
 		tuneValue = 1.0f;
 		readSize = 512;
+		tuneValue = getTuneValue(interfaceType, mode);
 		switch(mode){
 		case A2D_24_MODE:
 			MASK = (byte)(0x0FF << bitsPerByte);
-			if(interfaceType == INTERFACE_2){
-				tuneValue = 0.00015f;
-			} else {
-				tuneValue = 0.000075f;
-			}
 			break;
 		case A2D_10_MODE:
 			numBytes = 2;
 			bitsPerByte = 7;
 			MASK = (byte)(0x0FF << bitsPerByte);
 			timeStepSize = (float)0.005;
-			if(interfaceType == INTERFACE_2){
-				tuneValue = 2.441406f;
-			} else {
-				tuneValue = 3.22f;
-			}
 			break;
 		case DIG_COUNT_MODE:
 			numBytes = 2;
@@ -635,7 +645,8 @@ public class CCInterfaceManager extends Control{
 		    
 		    dEvent.setIntData(valueData);
 
-
+			//			System.out.println("CCIM: stGen2: valueData: " + valueData[0] +
+			//				   ", " + valueData[1]);
 			pb.dataArrived(dEvent);
 
 			// We need to update the time of this second event
@@ -717,6 +728,10 @@ public class CCInterfaceManager extends Control{
 				    gotChannel0 = false;
 				    valueData[curDataPos++] = curDataCh0;
 				    valueData[curDataPos++] = value;
+					// System.out.println("CCIM: st10bit2: valueData: " + 
+					//				   valueData[curDataPos-2] +
+					//				   ", " + valueData[curDataPos-1]);
+
 				} else {
 				    // Return a reasonable resolution
 				    gotChannel0 = (curChannel == 0);
@@ -813,6 +828,8 @@ public class CCInterfaceManager extends Control{
 
 				// Return a reasonable resolution
 				valueData[curDataPos++] = value;
+				// System.out.println("CCIM: st10bit2_fast: valueData: " + 
+				//				   valueData[curDataPos-1]);				
 
 		    }
 

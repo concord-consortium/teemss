@@ -79,14 +79,11 @@ public class CCForce extends Probe
 	boolean zeroing = false;
 	int zeroCount = 0;
 	float zeroSum = 0f;
-	int zeroOrigSpeed = 0;
 	public void startZero()
 	{
 		zeroing = true;
 		zeroCount = 0;
 		zeroSum = 0f;
-		zeroOrigSpeed = speedProp.getIndex();
-		speedProp.setIndex(0);
 	}
 
 	public void setDataDescParam(int chPerSample,float dt){
@@ -154,7 +151,7 @@ public class CCForce extends Probe
 		if(curChannel > activeChannels - 1) channelOffset = activeChannels - 1;
 
 		int rangeIndex = rangeProp.getIndex();
-		int modeIndex = speedProp.getIndex();
+		int modeIndex = modeProp.getIndex();
 		
 		if(modeIndex == 0){
 			if(rangeIndex == 1){
@@ -179,7 +176,7 @@ public class CCForce extends Probe
     }
 
 	public final static int ZEROING_DONE = 0;
-	public final static int ZEROING_END_POINT = 8;
+	public final static int ZEROING_END_POINT = 10;
 	public final static int ZEROING_START_POINT = 4;
 
 	public boolean idle(DataEvent e){
@@ -202,16 +199,16 @@ public class CCForce extends Probe
 				if(zeroCount >= ZEROING_START_POINT){
 					zeroSum += (float)(data[dOff + i+channelOffset]);
 				}
-				zeroCount++;
+				zeroCount++;			   
 				if(zeroCount > ZEROING_END_POINT){
 					notifyProbListeners(new ProbEvent(this, ZEROING_DONE, null));
-					curB = -curA*v*(zeroSum/(float)(zeroCount-ZEROING_START_POINT));
+					float offsetN = -curA*v*(zeroSum/(float)(zeroCount-ZEROING_START_POINT));
 					if(calibrationDesc != null){
 						// need to find the which calibration this is;
 						CalibrationParam p = calibrationDesc.getCalibrationParam(calDescIndex + 1);
-						if(p != null) p.setValue(curB);
+						if(p != null) p.setValue(offsetN);
+						curB = offsetN;
 					}
-					speedProp.setIndex(zeroOrigSpeed);
 					zeroing = false;
 					break;
 				}
