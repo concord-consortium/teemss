@@ -118,7 +118,7 @@ private waba.ui.Container		contentPane;
 	int bHeight = 20;
 	int mHeight = fm.getHeight();
 	int h = bHeight + 10 + (10 + mHeight);
-	d.setRect(50,50,w,h);
+	d.setRect(50,50,w,h + 15);
 	waba.ui.Container cp = d.getContentPane();
 	
 	int xButtonCurr = w/2 - bWidth/2;
