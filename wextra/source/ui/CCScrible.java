@@ -69,9 +69,9 @@ private boolean  wasAddComponent = true;
 		}
 		if(drawArea != null){
 			if(embeddedState){
-				drawArea.setRect(0, 20, this.width, this.height);
+				drawArea.setRect(1, 20, this.width - 2, this.height - 21);
 			}else{
-				drawArea.setRect(0, 20, this.width, this.height - 20);
+				drawArea.setRect(1, 20, this.width - 2, this.height - 21);
 			}
 			add(drawArea);
 		}
@@ -157,6 +157,13 @@ private boolean  wasAddComponent = true;
 			penChooser.destroy();
 			penChooser = null;
 		}
+	}
+	public void onPaint(Graphics g){
+		if(g == null || drawArea == null) return;
+		Rect r = drawArea.getRect();
+		if(r == null) return;
+		g.setColor(0,0,0);
+		g.drawRect(r.x-1,r.y-1,r.width+2,r.height+2);
 	}
 	
 	public void onEvent(Event event){

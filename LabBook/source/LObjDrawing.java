@@ -46,6 +46,9 @@ public LObjDrawingView view = null;
 }
 class LObjDrawingView extends LabObjectView
 {
+	Edit 					nameEdit;
+	Label					nameLabel;
+	boolean					nameEditWasAdded = false;
     CCScrible scribble;
 
     Button doneButton = null;
@@ -76,6 +79,24 @@ class LObjDrawingView extends LabObjectView
 		boolean oldState = getEmbeddedState();
 		super.setEmbeddedState(embeddedState);
 		if(oldState != getEmbeddedState()){
+			if(nameEdit != null){
+				if(scribble != null) remove(scribble);
+				if(getEmbeddedState()){
+					if(nameEditWasAdded){
+						remove(nameEdit);
+						remove(nameLabel);
+						add(scribble);
+					}
+					nameEditWasAdded = false;
+				}else{
+					if(!nameEditWasAdded){
+						add(nameLabel);
+						add(nameEdit);
+						add(scribble);
+					}
+					nameEditWasAdded = true;
+				}
+			}
 			if(scribble != null) scribble.setEmbeddedState(embeddedState);
 		}
 	}
@@ -83,6 +104,26 @@ class LObjDrawingView extends LabObjectView
     {
 		if(didLayout) return;
 		didLayout = true;
+		if(nameEdit == null) nameEdit = new Edit();
+		nameEdit.setText(getLabObject().name);
+		if(nameLabel == null) nameLabel = new Label("Name");
+		if(getEmbeddedState()){
+			nameEditWasAdded = false;
+		}else{
+			add(nameLabel);
+			add(nameEdit);
+			nameEditWasAdded = true;
+		}
+		if(scribble != null){ 
+			if(!scribbleWasAdded){
+				add(scribble);
+				scribbleWasAdded = true;
+			}
+		}else{
+			scribble = new CCScrible(MainWindow.getMainWindow());
+			add(scribble);
+			scribbleWasAdded = true;
+		}
 		if(doneButton != null){
 			remove(doneButton);
 		}
@@ -100,24 +141,27 @@ class LObjDrawingView extends LabObjectView
 		super.setRect(x,y,width,height);
 		if(!didLayout) layout(false);
 
-		int curY = 1;
-		int dHeight = height;
+		int curY = 2;
+		int dHeight = height - 2*curY;
+
+
 
 		if(showDone){
-		    doneButton.setRect(width-30,height-15,30,15);
-		    dHeight -= 16;
+		    doneButton.setRect(width-32,curY+2,30,15);
+		}
+		if(!getEmbeddedState() && nameEdit != null && nameEditWasAdded){
+			waba.fx.Rect r = getRect();
+			nameLabel.setRect(1, curY+2, 30, 15);
+			int editW = (showDone)?r.width - 62:r.width - 32;
+			nameEdit.setRect(30, curY+2, editW, 15);
+			
+			curY += 15;
+			dHeight -= 15;
+			
 		}
 		
 		if(scribble != null){ 
-			if(!scribbleWasAdded){
-				add(scribble);
-				scribbleWasAdded = true;
-			}
-			scribble.setRect(1,curY,width-2, dHeight);
-		}else{
-			scribble = new CCScrible(MainWindow.getMainWindow(),1,curY,width-2, dHeight);
-			add(scribble);
-			scribbleWasAdded = true;
+			scribble.setRect(2,curY,width-4, dHeight);
 		}
     }
 
@@ -125,6 +169,9 @@ class LObjDrawingView extends LabObjectView
     {
     	scribble.close();
 		super.close();
+    	if(nameEdit != null){
+    		getLabObject().name = nameEdit.getText();
+    	}
     }
 
     public void onEvent(Event e)
