@@ -434,7 +434,7 @@ public static java.io.InputStream openInputStream(String path)
 	try 
 	{	   
 	    if (isApp){
-		System.out.println("My isApp path: " + (path));
+			//System.out.println("My isApp path: " + (path));
 		   stream = new java.io.FileInputStream(path); 
 	   } else
 	   {

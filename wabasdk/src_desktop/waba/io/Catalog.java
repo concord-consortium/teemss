@@ -169,8 +169,8 @@ public int addRecord(int size)
 		return -1;
 	_recordPos = _records.size();
 	_records.addElement(new byte[size]);
-	System.out.println("Catalog: added record " + _recordPos +
-		" (" + size + " bytes)");
+	//System.out.println("Catalog: added record " + _recordPos +
+	//	" (" + size + " bytes)");
 	_cursor = 0;
 	return _recordPos;
 }
@@ -409,7 +409,7 @@ public boolean setRecordPos(int pos)
 	}
 	_recordPos = pos;
 	_cursor = 0;
-	System.out.println("Catalog: setting record position to " + _recordPos);
+	//System.out.println("Catalog: setting record position to " + _recordPos);
 	return true;
 }
 /**
@@ -450,7 +450,7 @@ public int writeBytes(byte buf[], int start, int count)
 // added by guich@120
 public static void toPDB(java.io.OutputStream outStream, Vector records, String creatorId, String dbName, String typeId) throws Exception
 {
-    System.out.println("Writing PDB");
+	// System.out.println("Writing PDB");
 
    byte name[] = new byte[32];
    short attributes       = (short)0x8000;
@@ -493,7 +493,7 @@ public static void toPDB(java.io.OutputStream outStream, Vector records, String 
    int nextRecordListID = 0;
    os.writeInt(nextRecordListID);
    os.writeShort(numRecords);
-   System.out.println(" Writing " + numRecords + " records");
+   //System.out.println(" Writing " + numRecords + " records");
    for (int i = 0; i < numRecords; i++) 
    {
       os.writeInt(offset); // LocalChunkID
@@ -513,10 +513,10 @@ public static void toPDB(java.io.OutputStream outStream, Vector records, String 
 /** reads a pdb file and returns a vector of records. added by guich@120 */
 public static Vector fromPDB(java.io.InputStream sourceStream, String creatorId, String typeId) throws Exception
 {
-    System.out.println("Reading PDB");
+	//System.out.println("Reading PDB");
 
    int available = sourceStream.available();
-   System.out.println("Avalible bytes from input: " + available);
+   //System.out.println("Avalible bytes from input: " + available);
    if(available == 0){
        return new Vector();
    }
@@ -552,7 +552,7 @@ public static Vector fromPDB(java.io.InputStream sourceStream, String creatorId,
    // RecordListType
    int nextRecordListID = is.readInt();
    short numRecords = is.readShort();
-   System.out.println(" Found " + numRecords + " records");
+   //System.out.println(" Found " + numRecords + " records");
 
    // reads the header (meaningless)
    int recOffsets[] = new int[numRecords+1];
@@ -578,7 +578,7 @@ public static Vector fromPDB(java.io.InputStream sourceStream, String creatorId,
       byte []bytes = new byte[size];
       is.read(bytes);
       v.addElement(bytes);
-      System.out.println("record "+i+": "+size);
+      //System.out.println("record "+i+": "+size);
    }
    is.close();
       

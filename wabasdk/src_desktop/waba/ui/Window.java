@@ -248,8 +248,8 @@ public void _doPaint(int x, int y, int width, int height)
 		}
 	}
 	public void setRect(int x, int y, int width, int height){
-		System.out.println("Window setRect: x: " + x + " y: " + y + 
-						   "width: " + width + " height: " + width);
+		//		System.out.println("Window setRect: x: " + x + " y: " + y + 
+		//				   "width: " + width + " height: " + width);
 		java.awt.Container awtContainer = (java.awt.Container)_winCanvas.getParent();
 		awtContainer.setSize(width,height);
 		awtContainer.setLocation(x,y);

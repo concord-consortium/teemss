@@ -78,7 +78,7 @@ private waba.ui.Container		contentPane;
     }
 
   public void wasAWTAddNotify(){
-	  System.out.println("In wasAWTAddNotify:");
+	  //	  System.out.println("In wasAWTAddNotify:");
   	super.wasAWTAddNotify();
   	boolean doSetContent = false;
 	java.awt.Window awtWindow = (java.awt.Window)getAWTCanvas().getParent();
