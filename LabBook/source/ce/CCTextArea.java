@@ -817,12 +817,13 @@ String				text;
 		if(row > getRowsNumber()) return lines.getCount() - 1;
 		int ind = 0;
 		for(int i = 0; i < lines.getCount(); i++){
+			ind = ((CCStringWrapper)lines.get(i)).beginRow;
 			int swRows = ((CCStringWrapper)lines.get(i)).getRows();
 			if(row < ind + swRows){
 				retValue = i;
 				break;
 			}
-			ind += swRows;
+//			ind += swRows;
 		}
 		return retValue;
 	}
