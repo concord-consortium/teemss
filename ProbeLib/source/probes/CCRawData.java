@@ -22,7 +22,6 @@ public final static int		SAMPLING_10BIT_MODE = 1;
 	PropObject chanProp = new PropObject("Channel #", "Channel", PROP_CHAN_NUM, channelNames);
 	PropObject speedProp = new PropObject("Speed", "Speed", PROP_SPEED, speedNames);
 
-	PropObject speed = null;
     int curChannel = 0;
 
 	CCRawData(boolean init, String name, int interfaceT){
@@ -167,7 +166,7 @@ public final static int		SAMPLING_10BIT_MODE = 1;
 				curChannel = 1;
 				activeChannels = 2;
 			}
-			if(speed.getIndex() == 0){
+			if(speedProp.getIndex() == 0){
 				activeChannels = 2;
 			} else {
 				activeChannels = 1;
