@@ -13,8 +13,8 @@ int	paletteVersion = CC_VERSION_PALETTE;
 	private static void createPalette(boolean web){
 		int r,g,b,i;
 		int count = 0;
-		if(colors == null || colors.length != 216){
-			colors = new waba.fx.Color[216];
+		if(colors == null || colors.length != 217){
+			colors = new waba.fx.Color[217];
 		}
 		colors[0] = new waba.fx.Color(255,255,255);
 		count = 1;
