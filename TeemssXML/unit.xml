@@ -336,6 +336,118 @@
         </steps>
       </tech-hint-body>
     </tech-hint>
+    <tech-hint name="connecttemp">
+      <title>Connecting the Temperature probe </title>
+      <heading>To connect the Temperature probe:</heading>
+      <tech-hint-body>
+        <shared-image name="05_tempProbe" screenshot="false"/>
+        <steps>
+          <step>Connect the flexible cable from the Temperature probe to
+            the Temperature probe card. Plug the Temperature probe card
+            into Port A of the Interface Box. Be careful not to bend any
+            of the copper prongs, or it won&apos;t work.  <shared-image
+              name="02_th_det" screenshot="false"/>
+          </step>
+          <step>Attach the CCProbe Interface Box to your handheld with
+            the Velcro square. Connect the CCProbe Interface Box to your
+            handheld with the provided connector cable. <shared-image
+              name="01_th" screenshot="false"/>
+          </step>
+          <step>Tap on the CCProbe icon to open the software. Open or
+            create a Temperature probe data collector.</step>
+        </steps>
+      </tech-hint-body>
+    </tech-hint>
+    <tech-hint name="connectVC">
+      <title>Connecting the VoltageCurrent probe </title>
+      <heading>To connect the VoltageCurrent probe:  </heading>
+      <tech-hint-body>
+        <shared-image name="07_VIProbe" screenshot="false"/>
+        <steps>
+          <step>Connect the flexible cable from the VoltageCurrent probe
+            to the VoltageCurrent probe card. Plug the VoltageCurrent
+            probe card into Port A of the Interface Box. Be careful not
+            to bend any of the copper prongs, or it won&apos;t work.
+              <shared-image name="02_th_det" screenshot="false"/>
+          </step>
+          <step>Attach the CCProbe Interface Box to your handheld with
+            the Velcro square. Connect the CCProbe Interface Box to your
+            handheld with the provided connector cable. <shared-image
+              name="01_th" screenshot="false"/>
+          </step>
+          <step>Tap on the the CCProbe icon to open the software. Open
+            or create a VoltageCurrent probe data collector. Choose to
+            read voltage, current, power, or energy.  </step>
+        </steps>
+      </tech-hint-body>
+    </tech-hint>
+    <tech-hint name="connectVCcircuit">
+      <title>Connecting the VoltageCurrent probe leads in a circuit  </title>
+      <heading>To connect the VoltageCurrent probe leads in a circuit:</heading>
+      <tech-hint-body>
+        <steps>
+          <step>The Voltage/Current Probe measures either voltage or
+            current. It can also measure both at the same time. The
+            CCProbe software can use these readings to calculate and
+            display power (watts) and energy (joules).  <shared-image
+              name="07_VIProbe" screenshot="false"/>
+          </step>
+          <step>Voltage difference is measured in volts (V). The red
+            clip lead goes to the positive (+) place, and the black clip
+            lead goes to the negative (-) place. Here is how to measure
+            voltage between two ends of a heat cell attached to a
+            battery:  <shared-image name="01_vi" screenshot="false"/>
+          </step>
+          <step>To measure the current in a wire, you have to break the
+            wire and force the current to go through your current probe.
+            The convention is that current is positive when it flows
+            from a positive to a negative voltage, that is, from red to
+            black. For the current through the probe to be positive, it
+            should flow into the yellow clip lead and out of the green
+            clip lead. Here is how to measure current going through a
+            heat cell attached to a battery. Current is measured in
+            amperes (A).  <shared-image name="02_vi" screenshot="false"/>
+          </step>
+          <step>Electrical power, the rate of using energy, is voltage
+            difference times current. It can be pictured as the number
+            of electrons flowing per second, multiplied by the energy
+            each one loses. Power is measured in watts (W).  </step>
+          <step>Electrical energy is the power accumulated over time. It
+            can be pictured as the total number of electrons that flow,
+            multiplied by the energy that each one gains (or loses).
+            Energy is measured in joules (J).   </step>
+          <step>To measure the power or energy, you must measure both
+            voltage and current. Here is how to measure current going
+            through a heat cell attached to a battery.  <shared-image
+              name="03_vi" screenshot="false"/>
+          </step>
+          <step>The CCProbeware will calculate and display the power or
+            energy from these measurements.  </step>
+        </steps>
+      </tech-hint-body>
+    </tech-hint>
+    <tech-hint name="connectlight">
+      <title>Connecting the Light probe </title>
+      <heading>To connect the Light probe:</heading>
+      <tech-hint-body>
+        <shared-image name="01_light_probe" screenshot="false"/>
+        <steps>
+          <step>Connect the flexible cable from the Light probe to the
+            Light probe card. Plug the Light probe card into Port A of
+            the Interface Box. Be careful not to bend any of the copper
+            prongs, or it won&apos;t work. <shared-image
+              name="02_th_det" screenshot="false"/>
+          </step>
+          <step>Attach the CCProbe Interface Box to your handheld with
+            the Velcro square. Connect the CCProbe Interface Box to your
+            handheld with the provided connector cable.   <shared-image
+              name="01_th" screenshot="false"/>
+          </step>
+          <step>Tap on the the CCProbe icon to open the software. Open
+            or create a Light probe data collector.   </step>
+        </steps>
+      </tech-hint-body>
+    </tech-hint>
   </tech-hint-list>
   <unit name="Motions_and_Forces">
     <title>Motions and Forces</title>
@@ -3175,12 +3287,8 @@
         </steps>
       </trial>
       <hints>
-        <hint>
-          <title>Setting up the Temperature probe   </title>
-        </hint>
-        <hint>
-          <title>Using the CC Lab Book software</title>
-        </hint>
+        <tech-hint-ref ref="connecttemp"/>
+        <tech-hint-ref ref="CCLabBook"/>
       </hints>
       <analysis>
         <steps>
@@ -3600,15 +3708,8 @@
         </steps>
       </trial>
       <hints>
-        <hint>
-          <title>Connecting cables from the SmartWheel to the handheld computer</title>
-        </hint>
-        <hint>
-          <title>Using the CC Lab Book software</title>
-        </hint>
-        <hint>
-          <title>Opening saved data in the CC Lab Book software</title>
-        </hint>
+        <tech-hint-ref ref="connectsmartwheel"/>
+        <tech-hint-ref ref="CCLabBook"/>
       </hints>
       <analysis>
         <steps>
@@ -3943,7 +4044,7 @@
           <p>If the heat cell, without insulation, is connected to the
             Genecon that is cranked for 30s. The graph would look like
             this: </p>
-          <shared-image name="heatcell" screenshot="true"/>
+          <shared-image name="31_th_heatcell" screenshot="true"/>
           <p>If the cranking rate is constant, the heating portion of
             the graph is a straight line with a positive slope. The
             power input (the slope of the line) is constant. </p>
@@ -4393,22 +4494,10 @@
         </steps>
       </trial>
       <hints>
-        <hint>
-          <title>Setting up the Voltage/Current probe </title>
-        </hint>
-        <hint>
-          <title>Using the CC Lab Book software for the Voltage/Current
-            probe  </title>
-        </hint>
-        <hint>
-          <title>Setting up the Temperature probe </title>
-        </hint>
-        <hint>
-          <title>Using the CC Lab Book software for the Temperature probe</title>
-        </hint>
-        <hint>
-          <title>Opening saved data in the CC Lab Book software</title>
-        </hint>
+        <tech-hint-ref ref="connectVC"/>
+        <tech-hint-ref ref="connectVCcircuit"/>
+        <tech-hint-ref ref="connecttemp"/>
+        <tech-hint-ref ref="CCLabBook"/>
       </hints>
       <analysis>
         <steps>
@@ -5090,19 +5179,10 @@
         </steps>
       </trial>
       <hints>
-        <hint>
-          <title>Setting up the Voltage/Current probe </title>
-        </hint>
-        <hint>
-          <title>Using the CC Lab Book software for the Voltage/Current probe</title>
-        </hint>
-        <hint>
-          <title>Setting up the Temperature probe   </title>
-        </hint>
-        <hint>
-          <title>Using the CC Lab Book software for the Temperature
-            probe  </title>
-        </hint>
+        <tech-hint-ref ref="connectVC"/>
+        <tech-hint-ref ref="connectVCcircuit"/>
+        <tech-hint-ref ref="connecttemp"/>
+        <tech-hint-ref ref="CCLabBook"/>
       </hints>
       <analysis>
         <steps>
@@ -5675,22 +5755,10 @@
         </steps>
       </trial>
       <hints>
-        <hint>
-          <title>Setting up the Voltage/Current probe   </title>
-        </hint>
-        <hint>
-          <title>Using the CC Lab Book software for the Voltage/Current
-            probe  </title>
-        </hint>
-        <hint>
-          <title>Setting up the Light probe </title>
-        </hint>
-        <hint>
-          <title>Using the CC Lab Book software for the Light probe</title>
-        </hint>
-        <hint>
-          <title>Drawing in the CC Lab Book software</title>
-        </hint>
+        <tech-hint-ref ref="connectVC"/>
+        <tech-hint-ref ref="connectVCcircuit"/>
+        <tech-hint-ref ref="connectlight"/>
+        <tech-hint-ref ref="CCLabBook"/>
       </hints>
       <analysis>
         <steps>
