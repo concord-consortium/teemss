@@ -584,7 +584,7 @@ public static QTManager qtManager = null;
 		LObjGraph graph = dc.getGraph();
 		if(graph != null){
 			graph.clear();
-			graph.initAxis();
+			graph.createDefaultAxis();
 
 			Axis xaxis = graph.getXAxis(0);
 			float xmin = xaxis.getDispMin();
