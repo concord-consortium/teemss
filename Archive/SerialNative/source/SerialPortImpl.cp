@@ -249,8 +249,8 @@ JNIEXPORT jint JNICALL Java_waba_io_impl_SerialPortImpl_readBytes
 				pInBlock.ioPosMode 		= 0;            				//not used by the Serial Driver
 				errInp = PBRead((ParmBlkPtr)&pInBlock,false);
 				if(errInp != noErr) break;
-				currBuffer 	+= needBytes;
-				readData 	+= needBytes;
+				currBuffer 	+= pInBlock.ioActCount;
+				readData 	+= pInBlock.ioActCount;
 			}
 		}
     }while((readData < actNeedData) && !doExit);

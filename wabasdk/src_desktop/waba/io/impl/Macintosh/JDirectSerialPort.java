@@ -173,9 +173,10 @@ short		outputRefNumber = 0;
 	    
 	    byte []srcBytes = myBuffer.getBytes();
 	    int srcLength 	= srcBytes.length;
-	    int needLength	= buf.length;
+	    int needLength	= readData;
+	    if(needLength > buf.length - start) needLength = buf.length - start;
 	    if(srcLength < needLength) needLength = srcLength;
-	    System.arraycopy(srcBytes,0,buf,0,needLength);
+	    System.arraycopy(srcBytes,0,buf,start,needLength);
 	    
 		myBuffer.freePointer();
 		jdirect.DisposePtr(pointer);
