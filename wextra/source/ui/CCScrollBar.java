@@ -128,7 +128,6 @@ public class CCScrollBar extends Control{
 	int		firstRValueY = 0;
 	ScrollEvent scrollEvent;
 
-
     public void onEvent(Event e){
 		if (e instanceof PenEvent){
 			PenEvent pe = (PenEvent)e;
@@ -233,8 +232,43 @@ public class CCScrollBar extends Control{
 				}
 			}
 
+		} else if(e instanceof KeyEvent){
+		  KeyEvent ev = (KeyEvent)e;
+		  
+		  move(ev.key);
 		}
     }
+
+    public void move(int key)
+    { 
+	  int scrollType = 0;
+
+	  if(key == IKeys.UP){
+		scrollType = ScrollEvent.SCROLL_DECREMENT;
+		setValue(value - incValue);
+	  } else if(key == IKeys.DOWN){
+		scrollType = ScrollEvent.SCROLL_INCREMENT;
+		setValue(value + incValue);
+	  } else if(key == IKeys.PAGE_UP){
+		scrollType = ScrollEvent.SCROLL_PAGE_DEC;
+		setValue(value - pageIncValue);
+	  } else if(key == IKeys.PAGE_DOWN){
+		scrollType = ScrollEvent.SCROLL_PAGE_INC;
+		setValue(value + pageIncValue);
+	  }
+	  setRValueRect();
+	  if(scrollType != 0 && listener != null){
+		if(scrollEvent == null){
+		  scrollEvent = new ScrollEvent(this,scrollType,value);
+		}else{
+		  scrollEvent.type = scrollType;
+		  scrollEvent.scrollValue = value;
+		}
+		listener.scrollValueChanged(scrollEvent);
+		repaint();
+	  }
+
+	}
     
     public void setRect(int x, int y, int width, int height){
 		int wsb = (isWinCE)?11:7;
