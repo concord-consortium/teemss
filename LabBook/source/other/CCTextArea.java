@@ -221,13 +221,8 @@ public final static int	yTextBegin = 2;
 					ov.setShowMenus(false);
 				}
 			}
-			if(view == null){				
-				owner.setShowMenus(true);
-				mainView.showFullWindowView(owner);
-			} else {				
-				owner.setShowMenus(false);
-				mainView.showFullWindowView(view);
-			}
+			owner.setShowMenus(view == null);
+			mainView.showFullWindowView((view == null)?owner:view);
     	}
 	}
 

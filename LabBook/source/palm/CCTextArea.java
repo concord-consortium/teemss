@@ -156,10 +156,6 @@ public final static int	yTextBegin = 2;
 		this.owner = owner;
 	}
 	
-	public void returnFromFolder(){
-		owner.container.reload(owner);
-	}
-	
 	public void addTextAreaListener(TextAreaListener l){
 		if(listeners == null){
 			listeners = new Vector();
@@ -225,8 +221,8 @@ public final static int	yTextBegin = 2;
 					ov.setShowMenus(false);
 				}
 			}
-			owner.setShowMenus(false);
-    		mainView.showFullWindowView(view);
+			owner.setShowMenus(view == null);
+			mainView.showFullWindowView((view == null)?owner:view);
     	}
 	}
 
