@@ -14,12 +14,10 @@ import org.concord.LabBook.*;
 
 
 public class LObjProbeDataSource extends LObjSubDict
-	implements DataSource, DataListener, ProbListener
+	implements DataSource, ProbListener
 {
 CCProb 			probe = null;
-DataListener 	calibrationListener = null;
 CCUnit		currentUnit = null;
-public 		waba.util.Vector 	dataListeners = null;
 	public waba.util.Vector probListeners = null;
 	public static int interfaceType = CCInterfaceManager.INTERFACE_0;
 
@@ -54,12 +52,16 @@ public 		waba.util.Vector 	dataListeners = null;
     }
 
 	public void addDataListener(DataListener l){
-		if(dataListeners == null) dataListeners = new waba.util.Vector();
-		if(dataListeners.find(l) < 0) dataListeners.add(l);
+		ProbManager pb = ProbManager.getProbManager(probe.getInterfaceType());
+		if(pb != null && probe != null){
+			pb.addDataListenerToProb(probe.getName(),l);
+		}
 	}
+
 	public void removeDataListener(DataListener l){
-		int index = dataListeners.find(l);
-		if(index >= 0) dataListeners.del(index);
+		if(this.probe != null){
+			this.probe.removeDataListener(l);
+		}
 	}
 
 	public String getLabel()
@@ -120,26 +122,19 @@ public 		waba.util.Vector 	dataListeners = null;
 
 	
 	public void setCalibrationListener(DataListener calibrationListener){
-		if(probe != null){
-			this.calibrationListener = calibrationListener;
-			if(calibrationListener != null)
-				probe.setCalibrationListener(this);
-			else
-				probe.setCalibrationListener(null);
-		}else{
-			calibrationListener = null;
+		if(probe != null && calibrationListener != null){
+			probe.setCalibrationListener(calibrationListener);
 		}
 	}
 	
 	public void clearCalibrationListener(){
-		setCalibrationListener(null);
+		if(probe != null) probe.setCalibrationListener(null);
 	}
 
 	public CCProb 	getProbe(){return probe;}
 	public void		setProbe(CCProb probe){
 		unRegisterProbeWithPM();
 		if(this.probe != null){
-			this.probe.removeDataListener(this);
 			this.probe.removeProbListener(this);
 		}
 		this.probe = probe;
@@ -161,7 +156,6 @@ public 		waba.util.Vector 	dataListeners = null;
 		ProbManager pb = ProbManager.getProbManager(probe.getInterfaceType());
 		if(pb == null) return;
 		pb.registerProb(probe);
-		pb.addDataListenerToProb(probe.getName(),this);
 	}
 	
 	public void addProbManagerListener(ProbManagerListener l){
@@ -185,31 +179,6 @@ public 		waba.util.Vector 	dataListeners = null;
 		currentUnit = CCUnit.getUnit(probe.getUnit());
 	}
 
-	public void notifyDataListenersEvent(DataEvent e){
-		if(calibrationListener != null){
-			calibrationListener.dataStreamEvent(e);
-		}else{
-			if(dataListeners == null) return;
-			for(int i = 0; i < dataListeners.getCount(); i++){
-				DataListener l = (DataListener)dataListeners.get(i);
-				l.dataStreamEvent(e);
-			}
-		}
-	}
-
-	public void notifyDataListenersReceived(DataEvent e){
-		if(calibrationListener != null){
-			calibrationListener.dataReceived(e);
-		}else{
-			if(dataListeners == null) return;
-			for(int i = 0; i < dataListeners.getCount(); i++){
-				DataListener l = (DataListener)dataListeners.get(i);
-				l.dataReceived(e);
-			}
-		}
-	}
-
-
 	public void addProbListener(ProbListener l){
 		if(probListeners == null) probListeners = new waba.util.Vector();
 		if(probListeners.find(l) < 0) probListeners.add(l);
@@ -226,14 +195,6 @@ public 		waba.util.Vector 	dataListeners = null;
 		}
 	}
 	
-	public void dataReceived(DataEvent dataEvent){
-		notifyDataListenersReceived(dataEvent);
-	}
-
-	public void dataStreamEvent(DataEvent dataEvent){
-		notifyDataListenersEvent(dataEvent);
-	}
-
     public void probChanged(ProbEvent e){
     	notifyProbListeners(e);
     }

@@ -72,10 +72,10 @@ public class CCProbe extends ExtraMainWindow
 		}
 
 		if(myHeight < 180){
-			yOffset = 10;
-			dictHeight -= 10;
+			yOffset = 13;
+			dictHeight -= 13;
 			Title title = new Title("CCProbe");
-			title.setRect(0,0,width, 10);
+			title.setRect(0,0,width, 13);
 			me.add(title);
 		}
 
