@@ -1,11 +1,14 @@
 package org.concord.ProbeLib;
 
-public class CalibrationParam{
-boolean   valid = false;
-float      value = 0.0f;
-float     defaultValue = 1.0f;
-int		index = 0;
-boolean   available = true;
+import org.concord.waba.extra.io.*;
+
+public class CalibrationParam
+{
+	boolean   valid = false;
+	float      value = 0.0f;
+	float     defaultValue = 1.0f;
+	int		index = 0;
+	boolean   available = true;
 	public CalibrationParam(){
 		this(0,1.0f);
 		valid = false;
@@ -13,7 +16,7 @@ boolean   available = true;
 	public CalibrationParam(int index){
 		this(index,1.0f);
 	}
-	public CalibrationParam(extra.io.DataStream in){
+	public CalibrationParam(DataStream in){
 		valid = true;
 		available = true;
 		readExternal(in);
@@ -42,12 +45,12 @@ boolean   available = true;
 	public void setValueToDefault(){
 		setValue(defaultValue);
 	}
-	public void writeExternal(extra.io.DataStream out){
+	public void writeExternal(DataStream out){
 		out.writeInt(index);
 		out.writeFloat(value);
 		out.writeFloat(defaultValue);
 	}
-	public void readExternal(extra.io.DataStream in){
+	public void readExternal(DataStream in){
 		this.index 		= in.readInt();
 		this.value 		= in.readFloat();
 		this.defaultValue 	= in.readFloat();

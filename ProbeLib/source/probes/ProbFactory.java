@@ -1,6 +1,7 @@
 package org.concord.ProbeLib.probes;
 
 import org.concord.ProbeLib.*;
+import org.concord.waba.extra.io.*;
 
 public class ProbFactory
 {
@@ -15,7 +16,7 @@ public class ProbFactory
 	public static int DefaultInterfaceType = CCInterfaceManager.INTERFACE_2;
 
     public static String [] probeNames = {"Temperature", "Light", "SmartWheel", "RawData","Force","VoltageCurrent"};
-	public static Probe createProbeFromStream(extra.io.DataStream in){
+	public static Probe createProbeFromStream(DataStream in){
 		boolean validProbe = in.readBoolean();
 		if(!validProbe) return null;
 
@@ -25,7 +26,7 @@ public class ProbFactory
 		if(probe != null) probe.readExternal(in);
 		return  probe;
 	}
-	public static void storeProbeToStream(Probe probe,extra.io.DataStream out){
+	public static void storeProbeToStream(Probe probe, DataStream out){
     	out.writeBoolean(probe != null);
     	if(probe != null){
     		out.writeInt(probe.getProbeType());

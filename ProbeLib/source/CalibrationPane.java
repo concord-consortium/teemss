@@ -1,9 +1,10 @@
 package org.concord.ProbeLib;
 
-import extra.util.*;
+import waba.ui.*;
+
+import org.concord.waba.extra.util.*;
 import org.concord.waba.extra.event.*;
 import org.concord.waba.extra.ui.*;
-import waba.ui.*;
 
 public class CalibrationPane extends PropertyPane
 	implements DataListener

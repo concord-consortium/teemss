@@ -1,8 +1,9 @@
 package org.concord.ProbeLib;
 
 import org.concord.waba.extra.event.*;
-import org.concord.waba.extra.ui.ExtraMainWindow;
-import extra.util.*;
+import org.concord.waba.extra.io.*;
+import org.concord.waba.extra.ui.*;
+import org.concord.waba.extra.util.*;
 
 public abstract class Probe extends PropContainer
 	implements Transform
@@ -214,7 +215,7 @@ public abstract class Probe extends PropContainer
 	public int getUnit(){return unit;}
 	public boolean setUnit(int unit){this.unit = unit;return true;}
 
-	public void writeExternal(extra.io.DataStream out){
+	public void writeExternal(DataStream out){
 		out.writeInt(interfaceType);
 		out.writeInt(CALIBRATION_PROB_START);
 		out.writeBoolean(calibrationDesc != null);
@@ -228,12 +229,12 @@ public abstract class Probe extends PropContainer
 		writeInternal(out);
 	}
 
-	protected void writeInternal(extra.io.DataStream out){
+	protected void writeInternal(DataStream out){
 	}
-	protected void readInternal(extra.io.DataStream in){
+	protected void readInternal(DataStream in){
 	}
 	
-	public void readExternal(extra.io.DataStream in){
+	public void readExternal(DataStream in){
 		interfaceType = in.readInt();
 		int temp = in.readInt();
 		if(temp != CALIBRATION_PROB_START) return;

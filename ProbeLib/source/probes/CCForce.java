@@ -1,8 +1,9 @@
 package org.concord.ProbeLib.probes;
 
 import org.concord.ProbeLib.*;
+
 import org.concord.waba.extra.event.*;
-import extra.util.*;
+import org.concord.waba.extra.util.*;
 
 public class CCForce extends Probe
 {

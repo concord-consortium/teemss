@@ -1,5 +1,7 @@
 package org.concord.ProbeLib;
 
+import org.concord.waba.extra.io.*;
+
 public class CalibrationDesc
 {
 	waba.util.Vector params = null;
@@ -36,7 +38,7 @@ public class CalibrationDesc
 	public void addCalibrationParam(CalibrationParam cp){
 		params.add(cp);
 	}
-	public void writeExternal(extra.io.DataStream out){
+	public void writeExternal(DataStream out){
 		out.writeInt(countTotalParams());
 		for(int i = 0; i < countTotalParams(); i++){
 			CalibrationParam cp = (CalibrationParam)params.get(i);
@@ -45,7 +47,7 @@ public class CalibrationDesc
 			cp.writeExternal(out);
 		}
 	}
-	public void readExternal(extra.io.DataStream in){
+	public void readExternal(DataStream in){
 		int nParam = in.readInt();
 		if(nParam < 1) return;
 		params = new waba.util.Vector();

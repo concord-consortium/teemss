@@ -1,7 +1,7 @@
 package org.concord.ProbeLib.probes;
 
 import org.concord.ProbeLib.*;
-import extra.util.*;
+import org.concord.waba.extra.util.*;
 
 public class CCLightIntens extends Probe
 {

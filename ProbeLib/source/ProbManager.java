@@ -1,6 +1,6 @@
 package org.concord.ProbeLib;
 
-import extra.util.*;
+import org.concord.waba.extra.util.*;
 
 public class ProbManager 
 	implements ProbListener, Transform
