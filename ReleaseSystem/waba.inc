@@ -128,6 +128,12 @@ $(BIN_DIR)/$(MW_CLASS).jar: $(BIN_DIR) $(CLASSES_DIR)/$(JAR_BUILD)
 -C $(WABA_DIR) waba/ -C $(WEXTRA_CLASSES-) org/ -C $(WEXTRA_CLASSES-) extra/ \
 $(JAR_LIST)
 
+ftp-web: get-clients
+	mkdir -p __tmp__/$(BIN_DIR)
+	ncftpget ftp.concord.org  __tmp__/bin pub/ccprobeware/bin/*.wrp pub/ccprobeware/bin/*.lnk
+	cd __tmp__; $(foreach IP_ADDRESS, $(CLIENT_IPS), $(FTP_COMMAND))
+
+
 ftp: get-clients
 	@$(foreach IP_ADDRESS, $(CLIENT_IPS), $(FTP_COMMAND))
 
