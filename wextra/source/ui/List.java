@@ -72,21 +72,23 @@ public class List extends Control implements PreferredSize
 
   boolean dropped=false;
 
-  Popup popup=null;
+  protected Popup popup=null;
 
-  Vector options;
+  protected Vector options;
 
   int selected=0;
 
   int oldselected=0;
 
-  int textHeight;
+  protected int textHeight;
 
-  int expandedWidth=0;
+  protected int expandedWidth=0;
 
-  int numDisplayed=0;
+  protected int numDisplayed=0;
 
-  int scrollOffset=0;
+  protected int scrollOffset=0;
+
+  protected int initialYOffset = 0;
 
   int maxScrollOffset=0;
 
@@ -374,13 +376,13 @@ public class List extends Control implements PreferredSize
 
       {
 
-        g.fillRect(1,i*textHeight+1,width-3,textHeight);
+        g.fillRect(1,i*textHeight+1+initialYOffset,width-3,textHeight);
 
         g.setColor(255,255,255);
 
       }
 
-      g.drawText((String)options.get(i+scrollOffset),3,i*textHeight+1);
+      g.drawText((String)options.get(i+scrollOffset),3,i*textHeight+1+initialYOffset);
 
       if (i+scrollOffset==selected)
 
@@ -450,7 +452,7 @@ public class List extends Control implements PreferredSize
 
       int px=((PenEvent)event).x;
 
-      int py=((PenEvent)event).y;
+      int py=((PenEvent)event).y - initialYOffset;
 
       switch (event.type)
 
@@ -512,17 +514,17 @@ public class List extends Control implements PreferredSize
 
               g.setColor(255,255,255);
 
-              g.fillRect(1,(oldselected-scrollOffset)*textHeight+1,width-3,textHeight);
+              g.fillRect(1,(oldselected-scrollOffset)*textHeight+1+initialYOffset,width-3,textHeight);
 
               g.setColor(0,0,0);
 
-              g.drawText((String)options.get(oldselected),3,(oldselected-scrollOffset)*textHeight+1);
+              g.drawText((String)options.get(oldselected),3,(oldselected-scrollOffset)*textHeight+1+initialYOffset);
 
-              g.fillRect(1,(selected-scrollOffset)*textHeight+1,width-3,textHeight);
+              g.fillRect(1,(selected-scrollOffset)*textHeight+1+initialYOffset,width-3,textHeight);
 
               g.setColor(255,255,255);
 
-              g.drawText((String)options.get(selected),3,(selected-scrollOffset)*textHeight+1);
+              g.drawText((String)options.get(selected),3,(selected-scrollOffset)*textHeight+1+initialYOffset);
 
               oldselected=selected;
 
@@ -552,9 +554,7 @@ public class List extends Control implements PreferredSize
 
             maxScrollOffset=options.getCount()-numDisplayed;
 
-            popup=new Popup(this);
-
-            popup.popup(x,y,expandedWidth+10,textHeight*numDisplayed+3);
+            doPopup();
 
             oldselected=selected;
 
@@ -591,5 +591,25 @@ public class List extends Control implements PreferredSize
     }
 
   }
+
+  
+
+  public void doPopup(){
+
+       popup=new Popup(this);
+
+       popup.popup(x,y,expandedWidth+10,textHeight*numDisplayed+3);
+
+  }
+
+  public boolean isPopup(){return (popup != null);}
+
+  public int getNumbDisplayed(){return numDisplayed;}
+
+  public int getScrollOffset(){return scrollOffset;}
+
+  public int getTextHeight(){return textHeight;}
+
+  public waba.fx.FontMetrics getFontMetrics(){return fm;}
 
 }

@@ -9,13 +9,15 @@ public class Dialog extends waba.ui.Container{
  waba.fx.Font font;
  private int widthBorder = 3;
  private int heightBorder = 3;
- org.concord.waba.extra.event.ActionListener	listener;//dima
- 
+ org.concord.waba.extra.event.DialogListener	listener;//dima
+ waba.ui.Control	inpControl = null;
  public final static  int  DEF_DIALOG = 0;
  public final static  int  ERR_DIALOG = 1;
  public final static  int  WARN_DIALOG = 2;
  public final static  int  INFO_DIALOG = 3;
  public final static  int  QUEST_DIALOG = 4;
+ public final static  int  EDIT_INP_DIALOG = 5;
+ public final static  int  CHOICE_INP_DIALOG = 6;
 
  public Dialog(String title){
   	this.title = title;
@@ -25,18 +27,18 @@ public class Dialog extends waba.ui.Container{
   	this("");
   }
   public waba.fx.Font getFont(){return font;}
-	public void addActionListener(org.concord.waba.extra.event.ActionListener l){
+	public void addDialogListener(org.concord.waba.extra.event.DialogListener l){
 		if(listener == null){
 			listener = l;
 		}
 	}
 
-	public void removeActionListener(org.concord.waba.extra.event.ActionListener l){
+	public void removeDialogListener(org.concord.waba.extra.event.DialogListener l){
 		if(listener == l){
 			listener = null;
 		}
 	}
-  public static void showConfirmDialog(org.concord.waba.extra.event.ActionListener l,String title,String message,String []buttonTitles,int messageType){
+  public static void showConfirmDialog(org.concord.waba.extra.event.DialogListener l,String title,String message,String []buttonTitles,int messageType){
   	if(buttonTitles == null) return;
   	Dialog d = new Dialog(title);
   	waba.fx.FontMetrics fm = d.getFontMetrics(d.getFont());
@@ -84,11 +86,11 @@ public class Dialog extends waba.ui.Container{
 	ImagePane ip = new ImagePane(imagePath);
 	ip.setRect(d.widthBorder + 2,17,16,16);
 	d.add(ip);
-	d.addActionListener(l);
+	d.addDialogListener(l);
 	d.show();
   }
  
-  public static void showMessageDialog(org.concord.waba.extra.event.ActionListener l,String title,String message,String buttonTitle,int messageType){
+  public static void showMessageDialog(org.concord.waba.extra.event.DialogListener l,String title,String message,String buttonTitle,int messageType){
   	Dialog d = new Dialog(title);
   	waba.fx.FontMetrics fm = d.getFontMetrics(d.getFont());
 	int messageWidth 	= fm.getTextWidth(message);
@@ -127,7 +129,46 @@ public class Dialog extends waba.ui.Container{
 	ImagePane ip = new ImagePane(imagePath);
 	ip.setRect(d.widthBorder + 2,17,16,16);
 	d.add(ip);
-	d.addActionListener(l);
+	d.addDialogListener(l);
+	d.show();
+  }
+  public static void showInputDialog(org.concord.waba.extra.event.DialogListener l,String title,String message,String buttonTitle,int messageType){
+  	Dialog d = new Dialog(title);
+  	waba.fx.FontMetrics fm = d.getFontMetrics(d.getFont());
+	int messageWidth 	= fm.getTextWidth(message);
+	int titleWidth 		= fm.getTextWidth(title);
+	int bWidth = fm.getTextWidth(buttonTitle) + 10;
+	int w = (messageWidth > titleWidth)?messageWidth:titleWidth;
+	if(w < bWidth) w = bWidth;
+	w += 20 + 20;//space + image
+	int bHeight = 20;
+	int mHeight = fm.getHeight();
+	int h = 15 + bHeight + 10 + (15 + 2*mHeight);
+	d.setRect(50,50,w,h);
+	waba.ui.Button b = new waba.ui.Button(buttonTitle);
+	b.setRect(w/2 - bWidth/2,h - 5 - bHeight,bWidth,bHeight);
+	d.add(b);
+
+	waba.ui.Label label = new waba.ui.Label(message,waba.ui.Label.CENTER);
+	label.setRect(10 + w/2 - messageWidth/2,20,messageWidth,mHeight);
+	d.add(label);
+
+	int editWidth =w - 10 - 10;
+	if(messageType == EDIT_INP_DIALOG){
+		d.inpControl = new waba.ui.Edit();
+		d.inpControl.setRect(10 + w/2 - editWidth/2,25 + mHeight ,messageWidth,mHeight+5);
+		d.add(d.inpControl);
+	}else if(messageType == CHOICE_INP_DIALOG){
+		String []items = {"item1","item2","item3","item4","item5","item6"};
+//		d.inpControl = new Choice(items);
+		d.inpControl = new extra.ui.List(items);
+		d.inpControl.setRect(10 + w/2 - editWidth/2,25 + mHeight ,messageWidth,mHeight+5);
+		d.add(d.inpControl);
+	}
+	ImagePane ip = new ImagePane("cc_extra/icons/QuestionSmall.bmp");
+	ip.setRect(d.widthBorder + 2,17,16,16);
+	d.add(ip);
+	d.addDialogListener(l);
 	d.show();
   }
   
@@ -186,10 +227,24 @@ public class Dialog extends waba.ui.Container{
 	if (event.type == waba.ui.ControlEvent.PRESSED){
 		if(listener != null){
 			String message = "";
+			Object info = null;
+			int infoType = org.concord.waba.extra.event.DialogEvent.UNKNOWN;
+
 			if(event.target instanceof waba.ui.Button){
 				message = ((waba.ui.Button)event.target).getText();
+			}else if(event.target instanceof extra.ui.List){
+				return;
 			}
-			listener.actionPerformed(new org.concord.waba.extra.event.ActionEvent(this,(waba.ui.Control)event.target,message));
+			if(inpControl != null){
+				if(inpControl instanceof waba.ui.Edit){
+					info = ((waba.ui.Edit)inpControl).getText();
+					infoType = org.concord.waba.extra.event.DialogEvent.EDIT;
+				}else if(inpControl instanceof Choice){
+					info = ((extra.ui.List)inpControl).getSelected();
+					infoType = org.concord.waba.extra.event.DialogEvent.CHOICE;
+				}
+			}
+			listener.dialogClosed(new org.concord.waba.extra.event.DialogEvent(this,(waba.ui.Control)event.target,message,info,infoType));
 		}
 		hide();
 	}else if(event.type == waba.ui.PenEvent.PEN_UP){
