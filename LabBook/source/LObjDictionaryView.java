@@ -37,7 +37,6 @@ public class LObjDictionaryView extends LabObjectView
 
 	CCScrollBar				scrollBar;
 
-
     public LObjDictionaryView(ViewContainer vc, LObjDictionary d)
     {
 		super(vc);
@@ -99,6 +98,7 @@ public class LObjDictionaryView extends LabObjectView
 			waba.fx.Rect rT = treeControl.getRect();
 			scrollBar.setRect(width-7,rT.y,7, rT.height);
 		}
+		redesignScrollBar();
     }
 
     Dialog newDialog = null;
