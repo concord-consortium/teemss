@@ -40,7 +40,7 @@ private waba.ui.Container		contentPane;
     	add(contentPane);
     	doSetContent = true;
     }
-    contentPane.setRect(0,15,width,height-15);
+    contentPane.setRect(widthBorder,15,width-widthBorder*2,height-15-heightBorder);
     if(doSetContent) setContent();
   }
 

@@ -235,7 +235,7 @@ public class Menu extends Control
 				popup=new Popup(this);
 				Rect r = MainWindow.getMainWindow().getRect();
 				int mh = (textHeight*numDisplayed+3);
-				popup.popup(x,r.height - MenuBar.getMenuBarHeight() - mh,expandedWidth+10,mh);
+				popup.popup(x,r.height - mh,expandedWidth+10,mh);
 				oldselected=selected=-1;
 				clicked=false;
 			}
