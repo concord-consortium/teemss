@@ -221,6 +221,8 @@ public class LineGraph extends Graph2D
     // return the maximum x offset plotted
     public int plot(Graphics g)
     {
+		if(g == null) return 0;
+
 		// set the clipping region
 		g.setClip(xOriginOff+1, yOriginOff-dwHeight, dwWidth, dwHeight);
 		for(int k=0; k<bins.getCount(); k++){
@@ -276,6 +278,8 @@ public class LineGraph extends Graph2D
 
     public void drawAxis(Graphics g)
     {
+		if(g == null || yaxis == null || xaxis == null) return;
+
 		g.setColor(255,255,255);
 		g.fillRect(0,0,width,height);
 	
