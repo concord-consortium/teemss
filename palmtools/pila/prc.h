@@ -10,7 +10,9 @@
 #define __PRC_H__
 
 #ifndef	__USE_MISC
+#ifndef __APPLE__
 	typedef unsigned short ushort;  // us
+#endif
 	typedef unsigned long ulong;    // ul
 #endif
 
