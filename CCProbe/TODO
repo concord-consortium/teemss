@@ -32,7 +32,19 @@ to be abstracted but also customizable
 - Line and Bar graph yaxis are not synchronized correctly.  Currently the 
     the Bar graph inherites the yaxis from the line graph, but then the
 	line graph doesn't inherit the axis from the bar graph.
-
+- set window location of dialogs relative to the upper left corner
+  of the main window - add tab to sequence through fields of dialog 
+- add optional default property to dialog button which is mapped to the
+  return key and draws the button in a bolder outline to indicate a default
+  selection
+- dialogs should remember the selections used during their last invocation
+  and use these as the defaults for the subsequent invocation -- for example
+  when creating a second new temperature datacollector the probe type 
+  should default to temperature the second time through
+- add double-click on bar opening of annotate mark when viewing bar graph
+- display time values in bar graph
+- when a selection rectangle is made on the graph display statistics
+  including X and Y extent
 
 MAJOR
 
@@ -46,3 +58,5 @@ MAJOR
 - Add synchronized/cached objects from external DataBase.
 - Toggle between velocity and distance graphs.  This should convert
 	the current graph data.
+- UI and underlying structures for selecting different interfaces
+- copy graph data in export format into system clipboard
