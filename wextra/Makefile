@@ -1,4 +1,5 @@
-SRC_DIRS = cc_extra/event cc_extra/icons cc_extra/ui cc_extra/ui/$(@) extra/ui extra/io extra/util
+SRC_DIRS = cc_extra/event cc_extra/icons cc_extra/ui cc_extra/ui/$(@) extra/ui extra/io extra/util \
+	wababin
 SKIP_FILES = 
 
 PLATFORMS = ce desktop palm
