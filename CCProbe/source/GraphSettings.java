@@ -174,6 +174,12 @@ public class GraphSettings
 	public void setVisible(boolean val)
 	{
 		visible = val;
+		if(bins != null){
+			for(int i=0; i<bins.getCount(); i++){
+				Bin b = (Bin)bins.get(i);
+				b.setVisible(visible);
+			}
+		}
 	}
 
 	public void updateGS()

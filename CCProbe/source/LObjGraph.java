@@ -75,28 +75,32 @@ public class LObjGraph extends LObjSubDict
 
 	public void addDataSource(DataSource ds, boolean newSettings)
 	{
+		if(graphSettings == null){
+			graphSettings = new Vector();
+			curGSIndex = 0;
+			numDataSources = 0;
+		}
 		if(ds instanceof LabObject){
-			if(graphSettings == null){
-				graphSettings = new Vector();
-				curGSIndex = 0;
-				numDataSources = 0;
-			}
 			setObj((LabObject)ds, numDataSources);
-			if(newSettings){
-				GraphSettings gs = new GraphSettings(this, numDataSources);
-				gs.setXUnit(CCUnit.getUnit(CCUnit.UNIT_CODE_S));
-				gs.setXLabel("Time");
+		} else {
+			setObj(null, numDataSources);
+		}
+
+		if(newSettings){
+			GraphSettings gs = new GraphSettings(this, numDataSources);
+			gs.setXUnit(CCUnit.getUnit(CCUnit.UNIT_CODE_S));
+			gs.setXLabel("Time");
+			if(ds instanceof DataSource){
 				gs.setYLabel(ds.getLabel());
 				gs.setYUnit(ds.getUnit());
 				title = ds.getSummary();
-
-				graphSettings.add(gs);
-			} else if(graphSettings.getCount() > numDataSources){
-				GraphSettings gs = (GraphSettings)graphSettings.get(numDataSources);
-				gs.dsIndex = numDataSources;
 			}
-			numDataSources++;
+			graphSettings.add(gs);
+		} else if(graphSettings.getCount() > numDataSources){
+			GraphSettings gs = (GraphSettings)graphSettings.get(numDataSources);
+			gs.dsIndex = numDataSources;
 		}
+		numDataSources++;
 	}
 
 	public DataSource getDataSource(int index)
@@ -108,6 +112,15 @@ public class LObjGraph extends LObjSubDict
 			}
 		}
 		return null;
+	}
+
+	public void setCurGSIndex(int index)
+	{
+		if(index >= 0 && index < graphSettings.getCount() &&
+		   index != curGSIndex){
+			curGSIndex = index;
+			notifyObjListeners(new LabObjEvent(this, 1));
+		}
 	}
 
 	public GraphSettings getCurGraphSettings()

@@ -82,10 +82,12 @@ public class LObjGraphProp extends LabObjectView
 				dsStrings[i] = ((LabObject)ds).name;
 			}
 		}
-		propDataSources = new PropObject("Data", dsStrings);
+		int defIndex = graph.getCurGraphSettings().dsIndex;
+		propDataSources = new PropObject("Data", dsStrings, defIndex);
 		propDataSources.prefWidth = 120;
 		propDataSources.setType(PropObject.CHOICE_SETTINGS);
 		propDataSources.setSettingsButtonName("Setup");
+
 		propVisibleSources = new PropObject("Visible", dsStrings);
 		propVisibleSources.prefWidth = 120;
 		propVisibleSources.setType(PropObject.MULTIPLE_SEL_LIST);
@@ -120,12 +122,18 @@ public class LObjGraphProp extends LabObjectView
 		GraphSettings curGS = graph.getCurGraphSettings();
 
 		if(e.getActionCommand().equals("Apply")){
+			int dsIndex = propDataSources.getIndex();
+			graph.setCurGSIndex(dsIndex);
+
+			GraphSettings newGS = graph.getCurGraphSettings();
+			if(newGS != curGS) return;
+
 			if(curGS == null) return;
 			curGS.setXValues(propXmin.createFValue(), propXmax.createFValue());
 			curGS.setYValues(propYmin.createFValue(), propYmax.createFValue());
 			
 			curGS.setXLabel(propXlabel.getValue());
-
+		   
 			String newTitle = propTitle.getValue();
 			String newYLabel = propYlabel.getValue();
 			String [] dsNames = propVisibleSources.getPossibleValues();

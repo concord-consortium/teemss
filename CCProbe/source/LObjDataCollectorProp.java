@@ -55,7 +55,7 @@ public class LObjDataCollectorProp extends LabObjectView
 
 		numDCs = new Edit();
 		numDCs.setText("1");
-		//		add(numDCs);
+		add(numDCs);
 
 		if(showDone){
 			doneButton = new Button("Done");
@@ -92,17 +92,18 @@ public class LObjDataCollectorProp extends LabObjectView
 												   CCProb.INTERFACE_PORT_A);
 		dataSources.add(newDS);
 
-		/*
 		int numSources = waba.sys.Convert.toInt(numDCs.getText());
 		for(int i= 1; i < numSources; i++){
 			dataSources.add(null);
 		}
-		*/
 
 		dc.setDataSources(dataSources);
 
 		graph.clearDataSources();
 		graph.addDataSource(newDS);
+		for(int i= 1; i < numSources; i++){
+			graph.addDataSource(null);
+		}
 
 		graph.store();
 

@@ -78,8 +78,16 @@ public class LObjGraphView extends LabObjectView
 
 	public void labObjChanged(LabObjEvent e)
 	{
-		if(e.getObject() == graph){
-			av.update();
+		if(e.getType() == 0){
+			if(e.getObject() == graph){
+				av.update();
+			}
+		} else {
+			// curGS change
+			GraphSettings gs = graph.getCurGraphSettings();
+			if(gs != null){
+				av.setAxis(gs.xaxis, gs.yaxis);
+			}
 		}
 	}
 
@@ -288,6 +296,8 @@ public class LObjGraphView extends LabObjectView
 			gs.init(this, (Object)av, xaxis, yaxis);
 		}
 
+		gs = graph.getCurGraphSettings();
+		av.setAxis(gs.xaxis, gs.yaxis);
 		add(av);
 
 		if(instant){
@@ -435,7 +445,10 @@ public class LObjGraphView extends LabObjectView
 			// the graph settings can listen to the axis
 			GraphSettings curGS = graph.getCurGraphSettings();
 			curGS.updateGS();
-		} else if(e.target == viewChoice){
+		} else if(e.type == 1007){
+			// Annotation has been held down
+			// we should popup the property dialog for the Annotation
+		}else if(e.target == viewChoice){
 			if(e.type == ControlEvent.PRESSED){
 				int index = viewChoice.getSelectedIndex();
 				av.setViewType(index);
