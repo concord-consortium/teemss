@@ -4,6 +4,8 @@ import waba.ui.*;
 import waba.fx.*;
 import waba.sys.*;
 
+import org.concord.waba.extra.io.*;
+
 /** a popup keyboard to be used with the edit class. guich@102 */
 
 public final class KeyboardDialog extends Dialog
@@ -126,6 +128,21 @@ public final class KeyboardDialog extends Dialog
 		}
 		if(extMW != null) extMW.kbDialogClosed();
 	}
+	
+	public void setCharCase(boolean upper)
+	{
+		String text[] = names[TEXT_PAD];
+		if(upper){
+			for(int i=0; i<text.length; i++){
+				text[i] = DataStream.toUpperCase(text[i]);
+			}
+		} else {
+			for(int i=0; i<text.length; i++){
+				text[i] = DataStream.toLowerCase(text[i]);
+			}
+		}
+		pbs[TEXT_PAD].repaint();
+	}
 
 	public void onEvent(Event event)
 	{
@@ -140,13 +157,23 @@ public final class KeyboardDialog extends Dialog
 				case 'D': pb.setSelected(-1); hide(); break;
 				case '«': key = IKeys.BACKSPACE; break;
 				case ' ': key = ' '; break;
-				case 'S': isShift = !isShift; isCaps = false; break;
-				case 'C': isCaps =  !isCaps; isShift = false; break;
+				case 'S': 
+					isShift = !isShift; 
+					isCaps = false;
+					setCharCase(isShift);
+					break;
+				case 'C': 
+					isCaps =  !isCaps; 
+					isShift = false; 
+					setCharCase(isCaps);
+					break;
 				}
+
+
 				if (key != -1) insertKey(key);
 			} else {
+				if (isShift || isCaps) st = DataStream.toUpperCase(st);
 				char c = st.charAt(0);
-				//				if (isShift || isCaps) c = DataStream.toUpperCase(c);
 				insertKey(c); 
 				cancelShift();
 			}
@@ -157,6 +184,7 @@ public final class KeyboardDialog extends Dialog
 		if (isShift){
 			isShift = false;
 			pbs[CAPS_PAD].setSelected(-1);
+			setCharCase(false);
 		}
 	}
 
