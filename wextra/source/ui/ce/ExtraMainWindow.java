@@ -66,8 +66,6 @@ public abstract class ExtraMainWindow extends MainWindow  implements  org.concor
 
 
 
-
-
   // positioning constants
 
 
@@ -738,20 +736,6 @@ public boolean isControlHDialogOwned(Control c){
       content.setRect(x,y,width,height);
 
   }
-
-    /*
-	protected java.awt.Frame foundAWTFrame(){
-
-		waba.applet.Applet applet = waba.applet.Applet.currentApplet;
-
-		if(applet == null) return null;
-
-		java.awt.Frame frame = (java.awt.Frame)applet.getParent();
-
-		return frame;
-
-	}
-    */
 
   public void setDialog(Dialog d){
   	popupDialog = d;

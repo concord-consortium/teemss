@@ -393,7 +393,7 @@ boolean		clickable = true;
 			nColumns++;
 			c = c.getNextColumn();
 		}
-		int colWidth = (int)((float)rTable.width/(float)nColumns + 0.5);
+		int colWidth = (int)((float)rTable.width/(float)nColumns + 0.5f);
 		c = columns;
 		int x0 = 0;
 		while(c != null){

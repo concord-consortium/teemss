@@ -192,6 +192,7 @@ private waba.ui.Container		contentPane;
 
 	d.setRect(5,5,w,h);
 	waba.ui.Container cp = d.getContentPane();
+	h -= 15;
 
 	int xButtonCurr = w/2 - bWidth/2;
 	for(int i = 0; i < buttonTitles.length; i++){
@@ -203,17 +204,17 @@ private waba.ui.Container		contentPane;
 	}
 
 	waba.ui.Label label = new waba.ui.Label(message,waba.ui.Label.CENTER);
-	label.setRect(10 + w/2 - messageWidth/2,20,messageWidth,mHeight);
+	label.setRect(10 + w/2 - messageWidth/2,2,messageWidth,mHeight);
 	cp.add(label);
 
 	int editWidth =w - 10 - 10;
 	if(messageType == EDIT_INP_DIALOG){
 		d.inpControl = new waba.ui.Edit();
-		d.inpControl.setRect(20,25 + mHeight ,d.width - 24,mHeight+5);
+		d.inpControl.setRect(20,7 + mHeight ,d.width - 24,mHeight+5);
 		cp.add(d.inpControl);
 	}else if(messageType == CHOICE_INP_DIALOG){
 		d.inpControl = new Choice(choices);
-		d.inpControl.setRect(20,25 + mHeight ,d.width - 24,mHeight+5);
+		d.inpControl.setRect(20,7 + mHeight ,d.width - 24,mHeight+5);
 		cp.add(d.inpControl);
 	}
 	if(showImages){

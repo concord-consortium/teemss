@@ -1,6 +1,9 @@
 package org.concord.waba.extra.ui;
 public class ImagePane extends waba.ui.Control{
 String imagePath = null;
+
+    public static boolean showImages = true;
+
 	public ImagePane(String path){
 		imagePath = path;
 	}
