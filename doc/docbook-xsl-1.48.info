@@ -1,0 +1,19 @@
+file: docbook-xsl-1.48.info
+Stephen Bannasch, 19 Feb 2002
+
+The xml files are meant to be proccessed with Norman Walsh's DocBook
+XSL files.  I used the docbook-xsl-1.48 distribution which is
+available in the Files area at:
+
+  http://sourceforge.net/projects/docbook/
+
+However there are a number of issues when using this xsl and fop
+v0.20.rc3.  In the doc/ directory is a file named customization.xsl.
+This is used to override some of the functions in the
+docbook-xsl-1.48/fo/ xsl files in order to make the fo output work
+more cleanly with fop.  After downloading the docbook-xsl-1.48
+distribution unpack it in this directory and copy the file
+customization.xsl into docbook-xsl-1.48/fo.
+
+
+
