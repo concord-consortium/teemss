@@ -400,6 +400,10 @@ public	int drawTableCounter = 0;
   		}
   	}
   	
+	public void dataStreamEvent(DataEvent dataEvent)
+	{		
+	}
+
 	public void dataReceived(DataEvent dataEvent){
 		float[] data = dataEvent.getData();
 		float t0 = dataEvent.getTime();

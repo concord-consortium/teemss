@@ -5,6 +5,8 @@ public class DataEvent extends waba.ui.Event{
 public static final int DATA_RECEIVED 		= 1000;
 public static final int DATA_COLLECTING 	= 1001;
 public static final int DATA_READY_TO_START = 1002;
+public static final int DATA_STOPPED        = 1003;
+
 public float 	[]data = null;
 public DataDesc	dataDesc = null;
 public int		numbSamples = 1;
@@ -23,7 +25,7 @@ public int	 	[]intData = null;
 		this(DATA_RECEIVED,intTime,null,null,null);
 	}
 	public DataEvent(int type,int time){
-		this(type,0,null,null,null);
+		this(type,time,null,null,null);
 	}
 	public DataEvent(int type,int intTime, float[] data,DataDesc dataDesc){
 		this(type,intTime,data,null,dataDesc);

@@ -103,7 +103,20 @@ DataListener calibrationListener = null;
 		int index = dataListeners.find(l);
 		if(index >= 0) dataListeners.del(index);
 	}
-	public void notifyDataListeners(DataEvent e){
+
+	public void notifyDataListenersEvent(DataEvent e){
+		if(calibrationListener != null){
+			calibrationListener.dataStreamEvent(e);
+		}else{
+			if(dataListeners == null) return;
+			for(int i = 0; i < dataListeners.getCount(); i++){
+				DataListener l = (DataListener)dataListeners.get(i);
+				l.dataStreamEvent(e);
+			}
+		}
+	}
+
+	public void notifyDataListenersReceived(DataEvent e){
 		if(calibrationListener != null){
 			calibrationListener.dataReceived(e);
 		}else{
@@ -115,8 +128,20 @@ DataListener calibrationListener = null;
 		}
 	}
 
+	public boolean startSampling(DataEvent e){
+		if(calibrationListener == null){
+			notifyDataListenersEvent(e);
+		}
+		return true;
+	}
+
+	public boolean dataArrived(DataEvent e){
+		notifyDataListenersReceived(e);
+		return true;
+	}
+
      public boolean idle(DataEvent e){
-		notifyDataListeners(e);
+		notifyDataListenersEvent(e);
 		return true;
      }
    	

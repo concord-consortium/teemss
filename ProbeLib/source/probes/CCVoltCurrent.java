@@ -131,7 +131,7 @@ public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
 		}
 		dDesc.setIntChPerSample(2);
 		dtChannel = dDesc.getDt() / (float)dDesc.getChPerSample();
-		return true;
+		return super.startSampling(dEvent);
 	}
     public boolean dataArrived(DataEvent e)
     {
@@ -187,8 +187,7 @@ public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
 		}
 		dEvent.setNumbSamples(dataIndex);
 	}
-	notifyDataListeners(dEvent);
-	return true;
+	return super.dataArrived(dEvent);
     }
     
 	protected void writeInternal(extra.io.DataStream out){}

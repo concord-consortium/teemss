@@ -70,9 +70,9 @@ int				firstIndex,secondIndex;
 			dDesc.setIntChPerSample(1);
 			firstIndex = secondIndex = 0;
 		}
-		notifyDataListeners(dEvent);
- 		return true;
+		return super.startSampling(dEvent);
    }
+
     public boolean dataArrived(DataEvent e)
     {
 		int nOffset 		= e.getDataOffset();
@@ -103,8 +103,7 @@ int				firstIndex,secondIndex;
 			}
 		}
 		dEvent.setNumbSamples(nSamples);
-		notifyDataListeners(dEvent);
-		return true;
+		return super.dataArrived(dEvent);
     }
 
 	protected boolean setPValue(PropObject p,String value){

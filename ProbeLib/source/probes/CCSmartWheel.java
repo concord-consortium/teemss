@@ -109,9 +109,8 @@ int					outputMode = DEFAULT_MODE_OUT;
 		dt = dDesc.getDt();
 		dEvent.setData(wheelData);
 		dEvent.setIntData(wheelIntData);
-		notifyDataListeners(dEvent);
-		return true;
-    	}
+		return super.startSampling(dEvent);
+	}
     	
 	public boolean dataArrived(DataEvent e){
 		dEvent.type = e.type;
@@ -134,8 +133,7 @@ int					outputMode = DEFAULT_MODE_OUT;
 		    wheelData[1] = wheelData[0] ;
 		    wheelData[0] = calibrated * radius*koeff;
 		    dEvent.setTime(t0);
-		    notifyDataListeners(dEvent);
-		    return true;
+		    return super.dataArrived(dEvent);
 		}
 
 		dEvent.intTime = e.intTime;
@@ -158,8 +156,7 @@ int					outputMode = DEFAULT_MODE_OUT;
 		    }
 			    
 		}
-		notifyDataListeners(dEvent);
-		return true;
+		return super.dataArrived(dEvent);
 	}
 	public void  calibrationDone(float []row1,float []row2,float []calibrated){
 		if(row1 == null || calibrated == null) return;

@@ -89,14 +89,8 @@ float B = -25.31f;
 
 	int chPerSample = 2;
 	int channelOffset = 0;
-    	public boolean idle(DataEvent e){
-		dEvent.type = e.type;
-		if(calibrationListener == null){
-		    notifyDataListeners(dEvent);
-		}
-	    	return true;
-	}
-    	public boolean startSampling(DataEvent e){
+
+	public boolean startSampling(DataEvent e){
 		dEvent.type = e.type;
 		dDesc.setDt(e.getDataDesc().getDt());
 		chPerSample = e.getDataDesc().getChPerSample();
@@ -112,10 +106,7 @@ float B = -25.31f;
 		dDesc.setIntChPerSample(1);
 		channelOffset = curChannel;
 		if(curChannel > activeChannels - 1) channelOffset = activeChannels - 1;
-		if(calibrationListener == null){
-			notifyDataListeners(e);
-		}
-	    	return true;
+		return super.startSampling(dEvent);
     }
 
 	public boolean dataArrived(DataEvent e){
@@ -147,9 +138,9 @@ float B = -25.31f;
 				currPos++;
 			}
 		}
-		notifyDataListeners(dEvent);
-		return true;
+		return super.dataArrived(dEvent);
 	}
+
 	public void  calibrationDone(float []row1,float []row2,float []calibrated){
 		if(row1 == null || calibrated == null) return;
 		float x1, x2;

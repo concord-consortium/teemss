@@ -105,8 +105,7 @@ float FC = 0.0f;
 		}
 		dDesc.setIntChPerSample(2);
 		dtChannel = dDesc.getDt() / (float)dDesc.getChPerSample();
-		notifyDataListeners(dEvent);
-		return true;
+		return super.startSampling(dEvent);
     }
 
 	public boolean dataArrived(DataEvent e){
@@ -141,7 +140,7 @@ float FC = 0.0f;
 				tempData[1]  = mV;
 				tempData[2]  = ch2;
 			}
-			notifyDataListeners(dEvent);
+			super.dataArrived(dEvent);
 		}
 		return true;
 	}

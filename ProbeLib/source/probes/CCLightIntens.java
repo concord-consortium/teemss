@@ -88,7 +88,8 @@ public static String [] modelNames = {"High Range", "Low range"};
 	}
 	
 	public int  getActiveCalibrationChannels(){return 1;}
-    	public boolean startSampling(DataEvent e){
+
+	public boolean startSampling(DataEvent e){
 		dEvent.type = e.type;
 		dDesc.setDt(e.getDataDesc().getDt());
 		dDesc.setChPerSample(e.getDataDesc().getChPerSample());
@@ -98,8 +99,9 @@ public static String [] modelNames = {"High Range", "Low range"};
 			dDesc.setChPerSample(1);
 		}
 		dDesc.setTuneValue(e.getDataDesc().getTuneValue());
-	    return true;
+	    return super.startSampling(dEvent);
     }
+
 	public boolean dataArrived(DataEvent e){
 		dEvent.type = e.type;
 		int[] data = e.getIntData();
@@ -134,8 +136,7 @@ public static String [] modelNames = {"High Range", "Low range"};
 			}
 			dEvent.setNumbSamples(dataIndex);
 		}
-		notifyDataListeners(dEvent);
-		return true;
+		return super.dataArrived(dEvent);
 	}
 	public void  calibrationDone(float []row1,float []row2,float []calibrated){
 		if(row1 == null || calibrated == null) return;
