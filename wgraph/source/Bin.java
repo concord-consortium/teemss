@@ -49,7 +49,9 @@ public class Bin
     public int xaIndex = 0;
     
     public String label;
-    LargeFloatArray lfArray = new LargeFloatArray();
+    public LargeFloatArray lfArray = new LargeFloatArray();
+    public String description = null;
+    public Time time = null;
 
     public Bin(int xIndex)
     {
@@ -73,6 +75,11 @@ public class Bin
     {
 	if(lfArray.getCount() == 0) return 0f;
 	return lfArray.getFloat(lfArray.getCount()-1) + lfArray.ref;
+    }
+
+    public float getTime()
+    {
+	return getCurX();
     }
 
     public Color getColor()
@@ -207,7 +214,7 @@ public class Bin
     }
 
 
-    float dT = 0f;
+    public float dT = 0f;
     int sampSize = 1;
 
     public boolean dataReceived(DataEvent dataEvent)

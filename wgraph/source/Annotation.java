@@ -62,6 +62,12 @@ public class Annotation
 	return null;
     }
 
+    public float getTime()
+    {
+	return time;
+    }
+
+
     /*
      * Give the top left corner of where to draw
      */

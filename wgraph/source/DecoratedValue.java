@@ -28,4 +28,6 @@ public interface DecoratedValue
     public float getValue();
 
     public Color getColor();
+
+    public float getTime();
 }

@@ -29,7 +29,7 @@ public class AnnotView extends Container
     GraphViewBar bgView = null;
     
     BarGraph bGraph;
-    LineGraph lGraph;
+    public LineGraph lGraph;
 
     Bin lgBins [] = new Bin [1];
     Object bgBins [] = new Object [1];

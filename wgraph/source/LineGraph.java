@@ -69,7 +69,7 @@ public class LineGraph extends Graph2D
     int numBins = 0;
     int binStorSize = 0;
 
-    Vector annots = new Vector();
+    public Vector annots = new Vector();
     Bin curBin;
     Bin binArray [];
 
