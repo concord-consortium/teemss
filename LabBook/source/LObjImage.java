@@ -56,6 +56,9 @@ class LObjImageView extends LabObjectView implements ActionListener
     Menu menu = null;
 	ImagePane	imagePane = null;
 //	private 	byte []bytes = null;
+	Label	nameLabel;
+	Edit 	nameEdit;
+	boolean	nameEditWasAdded = false;
 	
 	
 	private int			imageBPP 					= -1;
@@ -90,6 +93,30 @@ class LObjImageView extends LabObjectView implements ActionListener
 		}
 		if(vc != null) vc.getMainView().addMenu(this, menu);
 	}
+	public void setEmbeddedState(boolean embeddedState){
+		boolean oldState = getEmbeddedState();
+		super.setEmbeddedState(embeddedState);
+		if(oldState != getEmbeddedState()){
+			if(nameEdit != null){
+				if(imagePane != null) remove(imagePane);
+				if(getEmbeddedState()){
+					if(nameEditWasAdded){
+						remove(nameEdit);
+						remove(nameLabel);
+						add(imagePane);
+					}
+					nameEditWasAdded = false;
+				}else{
+					if(!nameEditWasAdded){
+						add(nameLabel);
+						add(nameEdit);
+						add(imagePane);
+					}
+					nameEditWasAdded = true;
+				}
+			}
+		}
+	}
 
     public void onPaint(waba.fx.Graphics g){
     	if(needCreateImageAfterRead){
@@ -105,7 +132,11 @@ class LObjImageView extends LabObjectView implements ActionListener
 					wabaImage.setPixels(imageBPP,tmpCmap,imageScanlen,imageHeight,0,imagePixels);
 					imagePane = new ImagePane(wabaImage);
 					add(imagePane);
-					imagePane.setRect(0,0);
+					if(getEmbeddedState()){
+						imagePane.setRect(0,0);
+					}else{
+						imagePane.setRect(0,17);
+					}
 				}
 			}
 			needCreateImageAfterRead = false;
@@ -170,6 +201,14 @@ class LObjImageView extends LabObjectView implements ActionListener
 			if(doneButton == null) doneButton = new Button("Done");
 			add(doneButton);
 		}
+		if(nameEdit == null) nameEdit = new Edit();
+		nameEdit.setText(getLabObject().name);
+		if(nameLabel == null) nameLabel = new Label("Name");
+		if(!getEmbeddedState()){
+			add(nameLabel);
+			add(nameEdit);
+			nameEditWasAdded = true;
+		}
 	}
 
 	public void setRect(int x, int y, int width, int height){
@@ -177,18 +216,23 @@ class LObjImageView extends LabObjectView implements ActionListener
 		if(!didLayout) layout(showDone);
 
 		if(doneButton != null){
-			doneButton.setRect(width/2 - 20, height - 17, 40, 15);
+			doneButton.setRect(width-30,1,30,15);
+		}
+		if(!getEmbeddedState() && nameEdit != null && nameEditWasAdded){
+			if(nameLabel != null) nameLabel.setRect(1,1,30,15);
+			int editW = (showDone)?width - 62:width - 32;
+			if(nameEdit != null) nameEdit.setRect(30, 1, editW, 15);
 		}
 
 	}
 	public int getPreferredWidth(waba.fx.FontMetrics fm){
-		if(imagePane == null) return 10;
-		return imagePane.getPreferredWidth(fm);
+		if(imageWidth <= 0) return 10;
+		return imageWidth;
 	}
 
 	public int getPreferredHeight(waba.fx.FontMetrics fm){
-		if(imagePane == null) return 10;
-		return imagePane.getPreferredHeight(fm);
+		if(imageHeight <= 0) return 10;
+		return imageHeight;
 	}
 
 	private extra.ui.Dimension preferrDimension;
@@ -207,6 +251,9 @@ class LObjImageView extends LabObjectView implements ActionListener
 		imagePane = null;
 		needCreateImageAfterRead = true;
 		super.close();
+    	if(nameEdit != null){
+    		getLabObject().name = nameEdit.getText();
+    	}
     }
 
 	public void onEvent(Event e){
@@ -237,7 +284,11 @@ class LObjImageView extends LabObjectView implements ActionListener
 		if(wabaImage == null) return;
 		imagePane = new ImagePane(wabaImage);
 		add(imagePane);
-		imagePane.setRect(0,0);
+		if(getEmbeddedState()){
+			imagePane.setRect(0,0);
+		}else{
+			imagePane.setRect(0,17);
+		}
 		lObj.name = fd.getFile();
     	
     }

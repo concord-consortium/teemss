@@ -16,7 +16,7 @@ RelativeContainer 		edit = new RelativeContainer();
 
 LObjDocument 			doc;
 Button 					doneButton;
-Button 					upButton,downButton;
+TimerButton 			upButton,downButton;
 
 public boolean 			showName = true;
 
@@ -56,8 +56,8 @@ Menu 					menu = null;
 						remove(downButton);
 					}
 					if(nameEditWasAdded){
-						edit.remove(nameEdit);
-						edit.remove(nameLabel);
+						remove(nameEdit);
+						remove(nameLabel);
 						if(tArea != null) edit.add(tArea, 1, RelativeContainer.TOP,RelativeContainer.REST, RelativeContainer.REST);
 					}
 					nameEditWasAdded = false;
@@ -68,9 +68,9 @@ Menu 					menu = null;
 						add(downButton);
 					}
 					if(!nameEditWasAdded){
-						edit.add(nameLabel, 1, 1, 30, 15);
-						edit.add(nameEdit, 30, 1, RelativeContainer.REST, 15);
-						if(tArea != null) edit.add(tArea, 1, RelativeContainer.BELOW,RelativeContainer.REST, RelativeContainer.REST);
+						add(nameLabel);
+						add(nameEdit);
+						if(tArea != null) edit.add(tArea, 1, RelativeContainer.TOP,RelativeContainer.REST, RelativeContainer.REST);
 					}
 					buttonsWasAdded = true;
 					nameEditWasAdded = true;
@@ -97,8 +97,8 @@ Menu 					menu = null;
 		if(didLayout) return;
 		didLayout = true;
 		showDone = sDone;
-		if(upButton == null) 	upButton 	= new Button("Up");
-		if(downButton == null) 	downButton 	= new Button("Down");
+		if(upButton == null) 	upButton 	= new TimerButton("Up");
+		if(downButton == null) 	downButton 	= new TimerButton("Down");
 
 
 		if(showName){
@@ -109,8 +109,8 @@ Menu 					menu = null;
 			if(getEmbeddedState()){
 				nameEditWasAdded = false;
 			}else{
-				edit.add(nameLabel, 1, 1, 30, 15);
-				edit.add(nameEdit, 30, 1, RelativeContainer.REST, 15);
+				add(nameLabel);
+				add(nameEdit);
 				nameEditWasAdded = true;
 			}
 		} 
@@ -124,7 +124,7 @@ Menu 					menu = null;
 
 		if(tArea == null) tArea = new TextArea();
 		if(doc.text != null)  tArea.setText(doc.text);
-		edit.add(tArea, 1, RelativeContainer.BELOW, 
+		edit.add(tArea, 1, RelativeContainer.TOP, 
 		RelativeContainer.REST, RelativeContainer.REST);
 		add(edit);
 		if(doc.text != null)  tArea.setText(doc.text);
@@ -144,15 +144,17 @@ Menu 					menu = null;
 		if(!didLayout) layout(showDone);
 
 		if(showDone){
-			edit.setRect(0,15,width,height-15);
 			doneButton.setRect(width-30,0,30,15);
-		} else {
-			if(getEmbeddedState()) edit.setRect(0,0,width,height);
-			else				   edit.setRect(0,15,width,height-15);
 		}
-		if(!getEmbeddedState()){
-			if(upButton != null)    upButton.setRect(1,0,30,15);
-			if(downButton != null)  downButton.setRect(35,0,30,15);
+		if(getEmbeddedState()){
+			edit.setRect(0,0,width,height);
+		}else{
+			edit.setRect(0,34,width,height-36);
+			if(upButton != null)    upButton.setRect(1,17,30,15);
+			if(downButton != null)  downButton.setRect(35,17,30,15);
+			if(nameLabel != null) nameLabel.setRect(1,1,30,15);
+			int editW = (showDone)?width - 62:width - 32;
+			if(nameEdit != null) nameEdit.setRect(30, 1, editW, 15);
 		}
 	}
 
@@ -175,6 +177,12 @@ Menu 					menu = null;
 			if(tArea != null) tArea.scrollUp();
 		}else if(e.target == downButton && e.type == ControlEvent.PRESSED){
 			if(tArea != null) tArea.scrollDown();
+		}else if(e instanceof ControlEvent && e.type == ControlEvent.TIMER){
+			if(e.target == upButton){
+				if(tArea != null)	tArea.scrollUp();
+			}else if(e.target == downButton){
+				if(tArea != null)	tArea.scrollDown();
+			}
 		}
 	}
     public void openFileDialog(){
