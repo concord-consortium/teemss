@@ -66,6 +66,7 @@ float FC = 0.0f;
 					break;
 				}
 			}
+			
 			switch(outputMode){
 				case FAHRENHEIT_TEMP_OUT:
 					unit = CCUnit.UNIT_CODE_FAHRENHEIT;
