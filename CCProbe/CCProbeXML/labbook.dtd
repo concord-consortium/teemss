@@ -84,7 +84,13 @@
     max        CDATA        #IMPLIED
 > 
 
-<!ELEMENT PROBE EMPTY>
+<!ELEMENT PROP EMPTY>
+<!ATTLIST PROP 
+   name       CDATA        #REQUIRED
+    value      CDATA        #REQUIRED
+>
+
+<!ELEMENT PROBE (PROP)*>
 <!ATTLIST PROBE
     ID         ID            #IMPLIED
     probe      %probes;      "Temperature"
@@ -106,6 +112,10 @@
 >
 
 <!ELEMENT GRAPH (XAXIS | YAXIS | LINE)*>
+<!ATTLIST GRAPH
+    current-line   CDATA    #IMPLIED
+    title          CDATA    #IMPLIED
+>
 
 <!ELEMENT DATACOLLECTOR ((PROBE | INTPROBETRANS | EXPOBJECT | OBJ-REF)*,GRAPH)>
 <!ATTLIST DATACOLLECTOR
