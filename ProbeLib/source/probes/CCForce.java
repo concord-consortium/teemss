@@ -111,6 +111,7 @@ public class CCForce extends Probe
 		return true;
 	}
 
+
 	public int getPrecision()
 	{
 		int rangeIndex = rangeProp.getIndex();
