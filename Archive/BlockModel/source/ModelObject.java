@@ -195,6 +195,7 @@ class ModelObject extends CanvasObject
     public void move(int x, int y)
     {
 	if(tp != null){
+	    tp.getAllTemps(this);
 	    tp.removePatch(this, this.x, this.y);
 	}
 	super.move(x, y);
@@ -228,11 +229,12 @@ class ModelObject extends CanvasObject
     public void move(int rot, int x, int y)
     {
 	if(tp != null){
-	    tp.removePatch(this, x, y);
+	    if(rot == 0) tp.getAllTemps(this);
+	    else temps = null;
+	    tp.removePatch(this, this.x, this.y);
 	
 	    // for now clear our temps
-	    temps = null;
-	}
+	}	
 	super.rotate(rot);
 	super.move(x, y);
 	if(tp != null){

@@ -5,7 +5,7 @@ PROBESYS_DIR= ../../ProbeSystem/classes
 TARGET_DIR= ../classes
 
 
-CLASSPATH:= ${CLASSPATH}:${WABA_DIR}:${WEXTRAS_DIR}:${WGRAPH_DIR}:${TARGET_DIR}
+export CLASSPATH:= ${WABA_DIR}:${WEXTRAS_DIR}:${WGRAPH_DIR}:${TARGET_DIR}
 
 
 CLASSES= BlockModel.java CanvasObject.java BlockObject.java Canvas.java \

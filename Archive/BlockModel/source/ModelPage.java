@@ -40,7 +40,7 @@ public class ModelPage extends Container
 	modelCanvas.addObject(new GarbageObject(), modelLayer, 10, 90);
 
 	// create the thermal plane
-	tp = new ThermalPlane(modelCanvas, 3, 7, 236, 146);
+	tp = new ThermalPlane(modelCanvas, 4, 7, 236, 146);
 	modelCanvas.tp = tp;
 	add(modelCanvas);
 

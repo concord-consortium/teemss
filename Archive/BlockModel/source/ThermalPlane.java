@@ -10,6 +10,7 @@ class ThermalPlane extends Container
     int step;
     int pWidth, pHeight;
     ThermalArea [] nextPlane;
+    float [] futTemp;
     Canvas canvas;
     GraphView graph = null;
     Vector objects = new Vector();
@@ -47,6 +48,7 @@ class ThermalPlane extends Container
 	pHeight = height+2;
 	plane = new ThermalArea [pWidth  * pHeight];
 	nextPlane = new ThermalArea [pWidth * pHeight];
+	futTemp = new float [pWidth * pHeight];
 	canvas = c;
 
     }
@@ -316,6 +318,8 @@ class ThermalPlane extends Container
 	i = 1;
 	j = 1;
 	float sumT, sumWeights, weightedAvg;
+	float sumQ, avgC;
+	float newTemp, maxTemp, minTemp;
 
 	nbrs[0] = -1;
 	nbrs[1] = 1;
@@ -324,37 +328,34 @@ class ThermalPlane extends Container
 
 	endIndex = pWidth-1 + pWidth*(pHeight-2); 
 	for(index=pWidth+1;index<endIndex; index++){
-		me  = plane[index];
-		if(me != null){
-		    myS = me.mo.specHeat;
-		    if(myS < (float)0.001){
-			continue;
+	    me  = plane[index];
+	    if(me != null){
+		myS = me.mo.specHeat;
+		if(myS < (float)0.001){
+		    continue;
+		}
+		myC = me.mo.conduct;
+		myT = me.temp;		    
+		next = nextPlane[index];
+		sumQ = (float)0.0;
+		maxTemp = myT;
+		minTemp = myT;
+		for(m=0; m<4; m++){
+		    neibr = plane[index + nbrs[m]];
+		    if(neibr != null){
+			if(neibr.temp > maxTemp) maxTemp = neibr.temp;
+			if(neibr.temp < minTemp) minTemp = neibr.temp;
+			avgC = (neibr.mo.conduct + myC)/(float)2.0;
+			sumQ += avgC * (neibr.temp - myT);
 		    }
-		    myC = me.mo.conduct;
-		    myT = me.temp;		    
-		    nextT = me.temp;
-		    next = nextPlane[index];
-		    sumT = (float)0.0;
-		    sumWeights = (float)0.0;
-		    for(m=0; m<4; m++){
-			neibr = plane[index + nbrs[m]];
-			if(neibr != null){
-			    neiC = neibr.mo.conduct;
-			    neiT = neibr.temp;
-
-			    sumWeights += neiC;
-			    sumT += neiT*neiC;
-			}
-		    }
-		    if(sumWeights > (float)0.0001){
-			weightedAvg = sumT / sumWeights;
-			next.temp = weightedAvg + 
-			    (myT - weightedAvg)/((float)1.0 + myS);
-		    } else {
-			// nothing is touching this block
-			next.temp = myT;
-		    }
-		} 
+		}
+		newTemp = sumQ * myS + myT; 
+		if(newTemp > maxTemp)
+		    newTemp = maxTemp;
+		else if(newTemp < minTemp)
+		    newTemp = minTemp;
+		next.temp = newTemp; 
+	    } 
 	    
 	}
 	tmp = plane;
