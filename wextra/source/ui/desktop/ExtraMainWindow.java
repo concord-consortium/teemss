@@ -364,12 +364,12 @@ public abstract class  ExtraMainWindow extends MainWindow implements java.awt.ev
 
 public boolean isControlHDialogOwned(Control c){
 	boolean retValue = false;
-	if(c instanceof Dialog) return true;
+/*	if(c instanceof Dialog) return true;
 	Control cc = c.getParent();
 	while(cc != null){
 		if(cc instanceof Dialog) return true;
 		cc = cc.getParent();
-	}
+	}*/
 	return retValue;
 }
 

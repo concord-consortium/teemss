@@ -133,6 +133,9 @@ public class Dialog extends waba.ui.Container{
 	d.show();
   }
   public static void showInputDialog(org.concord.waba.extra.event.DialogListener l,String title,String message,String []buttonTitles,int messageType){
+  	showInputDialog(l,title,message,buttonTitles,messageType,null);
+  }
+  public static void showInputDialog(org.concord.waba.extra.event.DialogListener l,String title,String message,String []buttonTitles,int messageType,String []choices){
    	if(buttonTitles == null) return;
  	Dialog d = new Dialog(title);
   	waba.fx.FontMetrics fm = d.getFontMetrics(d.getFont());
@@ -168,8 +171,7 @@ public class Dialog extends waba.ui.Container{
 		d.inpControl.setRect(20,25 + mHeight ,d.width - 24,mHeight+5);
 		d.add(d.inpControl);
 	}else if(messageType == CHOICE_INP_DIALOG){
-		String []items = {"item1","item2","item3","item4","item5","item6"};
-		d.inpControl = new Choice(items);
+		d.inpControl = new Choice(choices);
 		d.inpControl.setRect(20,25 + mHeight ,d.width - 24,mHeight+5);
 		d.add(d.inpControl);
 	}
