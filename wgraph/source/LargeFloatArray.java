@@ -115,7 +115,8 @@ public class LargeFloatArray
 		    isFull = true;		
 		    return false;
 		}
-		chunks.add(new float [ChunkSize]);
+		data = new float [ChunkSize];
+		chunks.add(data);
 	    }
 	}
 

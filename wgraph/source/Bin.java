@@ -98,21 +98,26 @@ public class Bin
 	int newX, newY;
 	int curPtPos = 0;
 	int avgY;
+	float xMult = dT*xscale;
+	int remainder = (int)(xMult*numValues);
+	int remainderSum = 0;
 
 	numPoints = 0;
 	numXs = 0;
 	
-	if(lfArray.getCount() < 2){
+	if(numValues < 2){
 	    return;
 	}
 
 	i=0;
 	curX = 0;
+	
 	minPtY = maxPtY = sumY = (int)(lfArray.getFloat(0)* yscale);
 	i++;
 	numXs = 1;
 
-	newX = (int)(dT * i * xscale);
+	remainderSum += remainder;
+	newX = curX + remainderSum/numValues;
 	newY = (int)(lfArray.getFloat(i) * yscale);
 	i++;		
 
@@ -123,7 +128,8 @@ public class Bin
 		if(newY > maxPtY) maxPtY = newY;
 		else if(newY < minPtY) minPtY = newY;
 
-		newX = (int)(dT * (float)i * xscale);
+		remainderSum += remainder;
+		newX = curX + remainderSum/numValues;
 		newY = (int)(lfArray.getFloat(i) * yscale);
 		i++;		
 
@@ -134,6 +140,7 @@ public class Bin
 	    points[curPtPos++] = (maxPtY - avgY) << 16 | (avgY - minPtY);
 	    if(i >= numValues) break;
 	    curX = newX;
+	    remainderSum = remainderSum % numValues;
 	    numXs = 0;
 	    sumY = 0;
 	    maxPtY = minPtY = newY;
@@ -154,7 +161,7 @@ public class Bin
 	int avgY;
 	float xMult = dT*xscale;
 
-	if(numPoints < 2){
+	if(numPoints < 1){
 	    recalc(xscale, yscale);
 	    return true;
 	}

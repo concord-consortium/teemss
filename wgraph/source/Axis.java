@@ -204,7 +204,7 @@ public class Axis
      */
     int labelExp = 0;
     int labelExpMin = -1;
-    int labelExpMax = 3;
+    int labelExpMax = 2;
     float labelTicStep = 1;
 
     void setStepSize()
