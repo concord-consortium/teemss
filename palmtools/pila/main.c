@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 
     sprintf( pilafilename, "%s", argv[0] );
 
-    puts("Pila 1.0 Beta 3 Fluff 7\n");
+    puts("Pila 1.0 Beta 3 Fluff 7 CC\n");
 
     i = SetArgFlags(argv, argc);
     if (!i) {

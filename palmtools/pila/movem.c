@@ -205,7 +205,7 @@ char *evalList(char *p, unsigned short *listPtr, int *errorPtr)
     unsigned short regList;
     char symName[SIGCHARS+1];
     int i;
-    symbolDef *symbol, *lookup();
+    symbolDef *symbol, *lookup(char *sym, int create, int *errorPtr);
     int status;
     char szT[256];
     char *pOrig;

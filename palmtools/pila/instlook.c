@@ -39,9 +39,10 @@
 #include "pila.h"
 #include "asm.h"
 
+#include "insttabl.c"
 
-extern instruction instTable[];
-extern int tableSize;
+//extern instruction instTable[];
+//extern int tableSize;
 
 
 char *instLookup(char *p, instruction **instPtrPtr, char *sizePtr, int *errorPtr)

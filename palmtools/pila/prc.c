@@ -22,6 +22,8 @@
 // Date: 14 Feb 2002
 //
 
+#define unix
+
 #include "pila.h"
 #include "prc.h"
 #ifndef unix
@@ -75,7 +77,7 @@ extern int gfResourcesOnly;
 extern long gcbResTotal;
 long gcbDataCompressed;
 
-#define kcbPrcMax   (1024 * 1024)    // 1024k should be plenty :-)
+#define kcbPrcMax   (2048 * 1024)    // 1024k should be plenty :-)
 #define kcrmeMax    1000            // 1000 resources should be enough
 
 #define offsetof(s,m)  (ulong)&(((s *)0)->m)
@@ -117,7 +119,7 @@ bool AddResource(FourCC fcType, ushort usId, byte *pbData, ulong cbData,
     gcrme++;
 
     if (gfResourcesOnly) {
-        prme->pbData = malloc(cbData);
+        prme->pbData = (unsigned char*)malloc(cbData);
         memcpy(prme->pbData, pbData, cbData);
     } else {
         if (!ConvertResource(fcType, pbData, prme)) {
@@ -646,7 +648,7 @@ bool ConvertResource(ulong ulTypeOriginal, byte *pbResData,
     default:
         // No conversion, just copy
 
-        prme->pbData = malloc(prme->cbData);
+        prme->pbData = (unsigned char*)malloc(prme->cbData);
         memcpy(prme->pbData, pbResData, prme->cbData);
         break;
     }

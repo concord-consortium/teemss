@@ -92,7 +92,7 @@ int printError(FILE *outFile, int errorCode, int lineNum)
         }
     }
 
-    pszType = errorCode > ERROR_RANGE ? "error" : "warning";
+    pszType = errorCode > ERROR_RANGE ? (char*)"error" : (char*)"warning";
 
     doprintError(outFile, pszError, pszType, lineNum);
     if (gfListing) {

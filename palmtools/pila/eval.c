@@ -207,7 +207,7 @@ char *evalNumber(char *p, long *numberPtr, char *refPtr, int *errorPtr)
     long    base;
     long    x;
     char    name[SIGCHARS+1];
-    symbolDef *symbol, *lookup();
+    symbolDef *symbol, *lookup(char *sym, int create, int *errorPtr);
     int     i;
     char    endFlag;
     int     ch;
@@ -398,7 +398,7 @@ char *evalNumber(char *p, long *numberPtr, char *refPtr, int *errorPtr)
             *numberPtr = 0;
         }
 
-        symbol = lookup(name, FALSE, &status);
+        symbol = lookup((char*)name, FALSE, &status);
         /* printf("EvalNumber: Status from lookup = %04X\n", status); */
 
         if (status == OK) {

@@ -567,7 +567,7 @@ int ResDirective(int size, char *label, char *op, int *errorPtr)
 
     // Parse the res directive's arguments
     op = skipSpace(op);
-    op = eval(op, &gfcResType, &backRef, errorPtr);
+    op = eval(op, (long*)&gfcResType, &backRef, errorPtr);
     if (*errorPtr > SEVERE) {
         return NORMAL;
     }
@@ -938,7 +938,7 @@ int ApplDirective(int size, char *label, char *op, int *errorPtr)
         return NORMAL;
     }
     op = skipSpace(++op);
-    op = eval(op, &gfcAppId, &backRef, errorPtr);
+    op = eval(op, (long*)&gfcAppId, &backRef, errorPtr);
 
     return NORMAL;
 }

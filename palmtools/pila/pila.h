@@ -1,6 +1,8 @@
 #ifndef __PILA_H__
 #define __PILA_H__
 
+#define unix
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>

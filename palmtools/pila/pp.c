@@ -18,6 +18,7 @@
 #include "util.h"
 #include "lex.h"
 #include "pp.h"
+#include "pila.h"
 
 #ifdef unix
     #define stricmp strcasecmp
@@ -207,7 +208,7 @@ BOOL FGetTok(TOK *ptok)
 VOID EmitSz(char *sz)
 {
     if (!pelCur) {
-        pelCur = calloc(1, sizeof(EL));
+        pelCur = (EL*)calloc(1, sizeof(EL));
     }
     strcat(pelCur->sz, sz);
     if (strchr(pelCur->sz, '\n')) {
@@ -312,7 +313,7 @@ SYM *PsymAdd(SYM **ppsymFirst, char *sz, int cb)
 {
     SYM *psym;
 
-    psym = calloc(1, sizeof(SYM));
+    psym = (SYM*)calloc(1, sizeof(SYM));
     psym->sz = strdup(sz);
     psym->u.cb = cb;
     psym->psymNext = *ppsymFirst;
@@ -407,7 +408,7 @@ MEM *PmemAdd(SYM *psymStruct, char *sz, char *szType)
         return NULL;
     }
 
-    pmem = calloc(1, sizeof(MEM));
+    pmem = (MEM*)calloc(1, sizeof(MEM));
     pmem->sz = strdup(sz);
     psymType = PsymLookup(psymTypeFirst, szType);
     if (psymType == NULL) {

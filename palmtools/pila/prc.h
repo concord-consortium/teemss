@@ -52,4 +52,4 @@ bool AddResource(FourCC fcType, ushort usId, byte *pbData, ulong cbData,
 long WritePrc(char *pszFileName, char *pszAppName, byte *pbCode, long cbCode,
               byte *pbData, long cbData);
 
-#endif // ndef __PRC_H__
+#endif
