@@ -30,14 +30,6 @@ public class LObjDataSet extends LObjSubDict
 		super(DataObjFactory.DATA_SET);
     }
 
-    public LObjDataSet(Bin b, int xIndex)
-    {
-		this();
-		myBin = b;
-		label = b.getLabel();
-		chunkIndex = xIndex;
-    }
-
 	public void init()
 	{
 		super.init();
@@ -49,7 +41,7 @@ public class LObjDataSet extends LObjSubDict
 		LObjDataSet sub = (LObjDataSet)factory.makeNewObj(DataObjFactory.DATA_SET, false);
 		if(sub == null) return null;
 		sub.myBin = b;
-		sub.label = b.getLabel();
+		sub.label = label;
 		sub.chunkIndex = xIndex;
 		return sub;
 	}
@@ -160,6 +152,11 @@ public class LObjDataSet extends LObjSubDict
 
 	public String getLabel(){return label;}
 
+	public void setLabel(String l)
+	{
+		label = l;
+	}
+
     int [] binInfo = null;
     int numBins = 0;
 
@@ -183,6 +180,7 @@ public class LObjDataSet extends LObjSubDict
 			int uCode = ds.readInt();
 			if(uCode == -1) unit = null;
 			else unit = CCUnit.getUnit(uCode);
+			label = ds.readString();
 
 		} else if(majorType == 1 || majorType == 2){
 			DataDesc dataDesc;
@@ -240,7 +238,8 @@ public class LObjDataSet extends LObjSubDict
 			ds.writeInt(numChunks);
 			if(unit == null) ds.writeInt(-1);
 			else ds.writeInt(unit.code);
-			
+			ds.writeString(label);
+
 			// probably want to write unit index here
 
 		} else if(myBin != null){

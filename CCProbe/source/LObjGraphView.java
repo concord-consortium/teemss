@@ -362,8 +362,9 @@ public class LObjGraphView extends LabObjectView
 				dsGraph.name = "Graph";
 				dSet.setDataViewer(dsGraph);
 				dSet.setUnit(graph.yUnit);
+				dSet.setLabel(graph.yLabel);
 				for(int i=0; i<bins.getCount(); i++){
-					dSet.addBin((Bin)bins.get(i));
+					dSet.addBin((Bin)bins.get(i));				   
 				}
 
 				if(dataDict != null){
@@ -573,6 +574,7 @@ public class LObjGraphView extends LabObjectView
 			dd.removeBin(curBin);
 			curBin = av.pause();
 			curBin.setUnit(graph.yUnit);
+			curBin.label = "";
 			postEvent(new ControlEvent(1000, this));	
 		}
 	}

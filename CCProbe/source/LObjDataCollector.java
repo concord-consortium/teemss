@@ -46,9 +46,12 @@ public class LObjDataCollector extends LObjSubDict
 
 		// What's up with this.
 		Vector dataSources = getDataSources();
-		if(dataSources == null || dataSources.getCount() < 1 ||
-		   !(dataSources.get(0) instanceof LObjProbeDataSource)){
-			return "DS not a valid";
+		if(dataSources == null || dataSources.getCount() < 1){
+			return "DS not valid";
+		}
+
+		if(!(dataSources.get(0) instanceof LObjProbeDataSource)){
+			return ((DataSource)(dataSources.get(0))).getLabel();
 		}
 
 		LObjProbeDataSource pds = (LObjProbeDataSource)dataSources.get(0);
