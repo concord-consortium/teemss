@@ -1,0 +1,11 @@
+#! /bin/sh
+
+cd ~/cvsroot/CCProbe
+make build-clean
+make build-local
+cd ../XML2LabBook
+make clean
+make
+cd ../TeemssXML/LabBookXSL/
+./make-xml
+./make-labbook
