@@ -264,7 +264,7 @@ CCScrollBar				scrollBar;
 
 		if(tArea != null){
 			waba.fx.Rect rEdit = edit.getRect();
-			int wsb = (waba.sys.Vm.getPlatform().equals("WinCE"))?7:11;
+			int wsb = (waba.sys.Vm.getPlatform().equals("WinCE"))?11:7;
 			int delta = (scrollBar != null)?wsb:0;
 			tArea.setRect(1,1,rEdit.width - 2 - delta, rEdit.height - 2);
 			if(scrollBar != null){

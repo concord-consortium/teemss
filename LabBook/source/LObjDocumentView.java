@@ -152,7 +152,7 @@ CCScrollBar				scrollBar;
 
 	public void setRect(int x, int y, int width, int height){
 		super.setRect(x,y,width,height);
-		int wsb = (waba.sys.Vm.getPlatform().equals("WinCE"))?7:11;
+		int wsb = (waba.sys.Vm.getPlatform().equals("WinCE"))?11:7;
 				
 		if(!didLayout) layout(showDone);
 

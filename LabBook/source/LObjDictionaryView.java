@@ -106,7 +106,7 @@ public class LObjDictionaryView extends LabObjectView
     {
 		super.setRect(x,y,width,height);
 		if(!didLayout) layout(false);
-		int wsb = (waba.sys.Vm.getPlatform().equals("WinCE"))?7:11;
+		int wsb = (waba.sys.Vm.getPlatform().equals("WinCE"))?11:7;
 	
 		me.setRect(0,0, width, height);
 		Debug.println("Setting grid size: " + width + " " + height);
