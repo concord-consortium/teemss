@@ -159,7 +159,8 @@ public class LObjDataCollectorView extends LabObjectView
 		
 		showDone = sDone;
 
-		collectButton = new ToggleButton("Start/|Stop  ", false);
+		//		collectButton = new ToggleButton("Start/|Stop  ", false);
+		collectButton = new ToggleButton("Collect", false);
 		add(collectButton);
 
 		graph.addLabObjListener(this);
