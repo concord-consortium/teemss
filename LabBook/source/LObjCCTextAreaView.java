@@ -365,6 +365,12 @@ CCScrollBar				scrollBar;
 					container.done(this);
 				}	    
 			} 
+		} else if( e instanceof KeyEvent){
+		  KeyEvent ke = (KeyEvent)e;
+		  if (ke.key == IKeys.UP || ke.key == IKeys.PAGE_UP ||
+			  ke.key == IKeys.DOWN || ke.key == IKeys.PAGE_DOWN){
+			if(scrollBar != null) scrollBar.move(ke.key);
+		  }
 		}
 	}
     public void openFileDialog(){

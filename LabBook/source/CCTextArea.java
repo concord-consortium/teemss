@@ -1340,10 +1340,6 @@ public class CCTextArea  extends Container
 			}
 		}else if (ev.key == IKeys.LEFT){
 		}else if (ev.key == IKeys.RIGHT){
-		}else if (ev.key == IKeys.UP || ev.key == IKeys.PAGE_UP){
-			moveUp();
-		}else if (ev.key == IKeys.DOWN || ev.key == IKeys.PAGE_DOWN){
-			moveDown();
 		}else if (ev.key >= 32 && ev.key <= 255){
 			if((ev.modifiers & IKeys.CONTROL) > 0){
 				if(ev.key == 'v' || ev.key == 'V'){

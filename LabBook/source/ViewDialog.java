@@ -6,7 +6,7 @@ import org.concord.waba.extra.ui.*;
 import waba.ui.*;
 
 public class ViewDialog extends Dialog
-	implements ViewContainer, MainView
+	implements ViewContainer
 {
 	ExtraMainWindow owner = null;
 	LabObjectView view = null;
@@ -36,7 +36,7 @@ public class ViewDialog extends Dialog
 
 	public MainView getMainView()
 	{
-		return this;
+		return null;
 	}
 
     public void done(LabObjectView source)

@@ -93,8 +93,8 @@ public class LObjDictPagingView extends LabObjectView
 		add(objectChoice);
 
 		listSession.release();
-	
-		showObject();
+		
+		showObjectTimer = addTimer(50);
     }
 
     public void setRect(int x, int y, int width, int height)
@@ -233,7 +233,7 @@ public class LObjDictPagingView extends LabObjectView
 			lObjSession = null;
 			listSession.release();
 
-			showObjectTimer = addTimer(10);
+			showObjectTimer = addTimer(60);
 			return;
 		}
 
@@ -278,6 +278,8 @@ public class LObjDictPagingView extends LabObjectView
 		}
 		lObjView.setShowMenus(showMenus);
 		add(lObjView);
+
+		MainWindow.getMainWindow().setFocus(lObjView);
     }
 
     public void close()
