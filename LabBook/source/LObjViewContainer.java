@@ -1,3 +1,5 @@
+package org.concord.LabBook;
+
 import org.concord.waba.extra.ui.*;
 
 public interface LObjViewContainer

@@ -1,3 +1,5 @@
+package org.concord.LabBook;
+
 import graph.*;
 import waba.ui.*;
 import org.concord.waba.extra.ui.*;

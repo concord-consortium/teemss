@@ -1,6 +1,7 @@
 import waba.ui.*;
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
+import org.concord.LabBook.*;
 
 public class Tester extends ExtraMainWindow
     implements LObjViewContainer

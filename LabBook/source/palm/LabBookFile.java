@@ -1,3 +1,5 @@
+package org.concord.LabBook;
+
 import waba.io.*;
 import waba.util.*;
 import waba.sys.*;
@@ -153,8 +155,10 @@ public class LabBookFile
 	    cat.addRecord(indexSize);
 	} else {	
 	    if(!cat.setRecordPos(0)) return closeErr("1" + ":" + indexSize);
-	    if(!cat.resizeRecord(indexSize)) return  closeErr("2" + ":" + indexSize + ":" + cat.getError());
-	    if(!cat.setRecordPos(0)) return  closeErr("3" + ":" + indexSize);
+	    if(cat.getRecordSize() != indexSize){
+		if(!cat.resizeRecord(indexSize)) return  closeErr("2" + ":" + indexSize + ":" + cat.getError());
+		if(!cat.setRecordPos(0)) return  closeErr("3" + ":" + indexSize);
+	    }
 	}
 
 
@@ -180,8 +184,10 @@ public class LabBookFile
 		cat.addRecord(objSize);
 	    } else {		
 		if(!cat.setRecordPos(i+1)) return closeErr("4:" + i + ":" + numObj + ":" + objSize);
-		if(!cat.resizeRecord(objSize)) return closeErr("5:" + i + ":" + numObj + ":" + objSize + ":" + cat.getError());
-		if(!cat.setRecordPos(i+1)) return closeErr("6:" + i + ":" + numObj + ":" + objSize);
+		if(cat.getRecordSize () != objSize){
+		    if(!cat.resizeRecord(objSize)) return closeErr("5:" + i + ":" + numObj + ":" + objSize + ":" + cat.getError());
+		    if(!cat.setRecordPos(i+1)) return closeErr("6:" + i + ":" + numObj + ":" + objSize);
+		}
 	    }
 	    
 	    ds.writeInt(fObj.buffer.length);

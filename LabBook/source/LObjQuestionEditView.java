@@ -1,3 +1,5 @@
+package org.concord.LabBook;
+
 import waba.ui.*;
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
@@ -71,7 +73,7 @@ public class LObjQuestionEditView extends LabObjectView
 
 	if(showName){
 	    nameEdit = new Edit();
-	    nameEdit.setText(quest.name==null?"question":quest.name);
+	    nameEdit.setText(quest.dict.name==null?"question":quest.dict.name);
 	    Label nameLabel = new Label("Name");
 	    nameLabel.setRect(1, 1, 30, 15);
 	    add(nameLabel);

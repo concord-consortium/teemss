@@ -1,6 +1,8 @@
+package org.concord.LabBook;
+
 import extra.io.*;
 
-class LabObjectPtr 
+public class LabObjectPtr 
 {
     int devId;
     int objId;

@@ -1,3 +1,5 @@
+package org.concord.LabBook;
+
 import extra.io.*;
 
 public abstract class LObjSubDict extends LabObject

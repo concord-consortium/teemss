@@ -1,3 +1,5 @@
+package org.concord.LabBook;
+
 import waba.ui.*;
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;

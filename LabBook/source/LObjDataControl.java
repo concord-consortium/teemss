@@ -1,3 +1,5 @@
+package org.concord.LabBook;
+
 import extra.io.*;
 import org.concord.waba.extra.probware.probs.*;
 

@@ -1,3 +1,5 @@
+package org.concord.LabBook;
+
 public interface LabBookDB 
 {
     public boolean save();

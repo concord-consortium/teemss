@@ -1,3 +1,5 @@
+package org.concord.LabBook;
+
 import extra.io.*;
 
 public class LObjGraph extends LabObject
