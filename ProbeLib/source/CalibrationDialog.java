@@ -52,6 +52,7 @@ DeviationControl	devControl;
 		pb.registerProb(probe);
 		pb.addDataListenerToProb(probe.getName(),this);
 		devControl = new DeviationControl(20.0f);
+		
 		nChannels = probe.getActiveChannels();
 		
 	}

@@ -70,12 +70,13 @@ CCProb probe = null;
 		calButton.setRect(width/2 -40, height/2 -40, 80, 20);
 		add(calButton);
 		
-		pb = ProbManager.getProbManager();
+		pb = ProbManager.getProbManager(CCInterfaceManager.INTERFACE_2);
 		pb.addProbManagerListener(this);
 //		probe = ProbFactory.createProb(ProbFactory.Prob_ThermalCouple);
 //		probe.setPropertyValue(1,CCThermalCouple.tempModes[CCThermalCouple.FAHRENHEIT_TEMP_OUT]);
-		probe = ProbFactory.createProb(ProbFactory.Prob_SmartWheel);
-		probe.setPropertyValue(1,CCSmartWheel.wheelModes[CCSmartWheel.ANG_MODE_OUT]);
+//		probe = ProbFactory.createProb(ProbFactory.Prob_SmartWheel,CCProb.INTERFACE_PORT_A);
+//		probe.setPropertyValue(1,CCSmartWheel.wheelModes[CCSmartWheel.ANG_MODE_OUT]);
+		probe = ProbFactory.createProb(ProbFactory.Prob_Force,CCProb.INTERFACE_PORT_A);
 		pb.registerProb(probe);
 		pb.addDataListenerToProb(probe.getName(),this);
 		
@@ -103,7 +104,7 @@ CCProb probe = null;
 			}else if (event.target == stopButton){
 				if(pb != null) pb.stop();
 			}else if(event.target == calButton){
-				probe.calibrateMe(this,this);
+				probe.calibrateMe(this,this,CCInterfaceManager.INTERFACE_2);
 			}
 		}
 	}
@@ -114,7 +115,7 @@ CCProb probe = null;
 		float dt = dataEvent.getDataDesc().getDt();
 		int    chPerSample = dataEvent.getDataDesc().getChPerSample();
 
-		int ndata = dataEvent.getNumbData();
+		int ndata = dataEvent.getNumbSamples()*chPerSample;
 		int nOffset = dataEvent.getDataOffset();
 		float  dtChannel = dt / (float)chPerSample;
 		boolean doFFT = false;
