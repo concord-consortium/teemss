@@ -21,4 +21,4 @@ include ../ReleaseSystem/waba.inc
 JAR_BUILD := other
 CLASSPATH := ${WGRAPH_DIR}
 
-all: dependencies main warp jar exgen
+all: dependencies main warp jar exegen

@@ -59,7 +59,8 @@ public class GraphTool extends Container
 
     boolean slowUpdate = false;
 
-    int [] [] pTimes = new int [1000][];
+    //    int [] [] pTimes = new int [1000][];
+    int [] [] pTimes = null;
 
     LObjDataControl dc = null;
 
@@ -177,28 +178,36 @@ public class GraphTool extends Container
 		time = dataEvent.time;		
 	    } else {
 		int startPTime = Vm.getTimeStamp();
-		pTimes [curPtime] = new int [6];
-		pTimes[curPtime][0] = 1;
-		pTimes[curPtime][1] = startPTime;
-		pTimes[curPtime][2] = numVals;
+		if(pTimes != null){
+		    pTimes [curPtime] = new int [6];
+		    pTimes[curPtime][0] = 1;
+		    pTimes[curPtime][1] = startPTime;
+		    pTimes[curPtime][2] = numVals;
+		}
 
 		//		if(lg.active){
 		lg.update();
 
 		int newTime = Vm.getTimeStamp();
-		pTimes[curPtime][3] = (newTime - startPTime);		
+		if(pTimes != null){
+		    pTimes[curPtime][3] = (newTime - startPTime);		
+		}
 
 		String output1, output2;
 		output1 = Convert.toString(val);
 		output2 = Convert.toString(time);
 
 		startPTime = Vm.getTimeStamp();
-		pTimes[curPtime][4] = (startPTime - newTime);
+		if(pTimes != null){
+		    pTimes[curPtime][4] = (startPTime - newTime);
+		}
 
 		curVal.setText(output1);
 		curTime.setText(output2);
 
-		pTimes[curPtime][5] = (Vm.getTimeStamp() - startPTime);
+		if(pTimes != null){
+		    pTimes[curPtime][5] = (Vm.getTimeStamp() - startPTime);
+		}
 		
 		numVals = 0;
 		curPtime++;
@@ -223,12 +232,14 @@ public class GraphTool extends Container
 
     public void savePTimes(DataEvent dEvent)
     {
-	pTimes [curPtime] = new int [dEvent.numPTimes + 1];
-	pTimes [curPtime][0] = 0;
-	for(int i=0; i< dEvent.numPTimes; i++){
-	    pTimes [curPtime][i+1] = dEvent.pTimes[i];
+	if(pTimes != null){
+	    pTimes [curPtime] = new int [dEvent.numPTimes + 1];
+	    pTimes [curPtime][0] = 0;
+	    for(int i=0; i< dEvent.numPTimes; i++){
+		pTimes [curPtime][i+1] = dEvent.pTimes[i];
+	    }
+	    curPtime++;
 	}
-	curPtime++;
     }
 
     public void setPos(int x, int y)

@@ -25,8 +25,8 @@ public class CCProbe extends ExtraMainWindow
 	Dialog.showImages = false;
 	ImagePane.showImages = false;
 
-	graph.Bin.START_DATA_SIZE = 4000;
-	graph.LargeFloatArray.MaxNumChunks = 4;
+	graph.Bin.START_DATA_SIZE = 25000;
+	graph.LargeFloatArray.MaxNumChunks = 25;
 
 	if(waba.sys.Vm.getPlatform().equals("PalmOS")){
 	    graph.Bin.START_DATA_SIZE = 4000;
