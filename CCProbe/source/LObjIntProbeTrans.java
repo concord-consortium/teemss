@@ -148,7 +148,7 @@ public class LObjIntProbeTrans extends LObjSubDict
 	public int getPrecision()
 	{
 		if(dataSource == null) return DecoratedValue.UNKNOWN_PRECISION;
-		return dataSource.getPrecision();
+		return dataSource.getQuantityPrecision(type);
 	}		
 
 	public boolean 	setUnit(CCUnit unit){return false;}

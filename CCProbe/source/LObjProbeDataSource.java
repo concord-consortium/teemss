@@ -136,7 +136,9 @@ public class LObjProbeDataSource extends LObjSubDict
 
 	public int getPrecision()
 	{
-		if (probe == null) return DecoratedValue.UNKNOWN_PRECISION;
+		if (probe == null) {
+			return DecoratedValue.UNKNOWN_PRECISION;
+		}
 		return probe.getPrecision();
 	}
 
@@ -353,6 +355,14 @@ public class LObjProbeDataSource extends LObjSubDict
 		}
 		return null;
 	}
+
+	public int getQuantityPrecision(int id)
+	{
+		if(probe != null){
+			return probe.getQuantityPrecision(id);
+		}
+		return DecoratedValue.UNKNOWN_PRECISION;
+	} 
 
 	public void getRootSources(Vector sources, LabBookSession session)
 	{

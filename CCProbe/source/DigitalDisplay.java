@@ -148,7 +148,9 @@ public class DigitalDisplay extends Container
 			} else {
 				fc.setPrecision(fc.getExponent() - 3);
 			}
-			
+
+			// Should change this to add some historisis.  
+			// Hmm..
 			if(fc.getExponent() >= 0){
 				((LabelBuf)disps.get(i)).setText(fc.getString(fc.getExponent()/3*3));
 			} else {

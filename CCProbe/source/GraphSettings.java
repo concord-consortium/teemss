@@ -247,6 +247,7 @@ public class GraphSettings
 			// this should be taken care of by DataSources
 			curBin.description = "";
 			curBin.setVisible(visible);
+			curBin.setPrecision(ds.getPrecision());
 
 			gv.startGraph(curBin);
 
