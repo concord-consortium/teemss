@@ -144,9 +144,9 @@ public class FloatLabel extends Control
 			int expWidth = fm.getTextWidth(expString);
 			int expOffset = width - expWidth;
 			bufG.setColor(255,255,255);
-			bufG.fillRect(expOffset,0,expWidth,height);
+			bufG.fillRect(expOffset-1,0,expWidth,height);
 			bufG.setColor(0,0,0);
-			bufG.drawText(expString, width - expWidth, y);
+			bufG.drawText(expString, expOffset, y);
 		} else {
 			bufG.drawText(text, 0, y);
 		}
