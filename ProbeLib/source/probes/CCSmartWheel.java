@@ -28,7 +28,7 @@ float				koeff = 2f*Maths.PI;
 		super(init, name, interfaceT);
 		probeType = ProbFactory.Prob_SmartWheel;
 		quantityNames = wheelModes;
-		defQuantityName = wheelModes[0];
+		defQuantityName = wheelModes[2];
 
 		activeChannels = 1;
 		interfaceMode = CCInterfaceManager.DIG_COUNT_MODE;
@@ -56,13 +56,13 @@ float				koeff = 2f*Maths.PI;
 		DataListener old = null;
 
 		switch(mode){
+		case 0:
+			old = posListener;
+			posListener = l;
+			break;
 		case 1:
 			old = veloListener;
 			veloListener = l;
-			break;
-		case 2:
-			old = posListener;
-			posListener = l;
 			break;
 		}
 		return old;
@@ -71,34 +71,17 @@ float				koeff = 2f*Maths.PI;
 	public int getQuantityUnit(int mode)
 	{
 		switch(mode){
+		case 0:
+			return CCUnit.UNIT_CODE_METER;
 		case 1:
 			return CCUnit.UNIT_CODE_LINEAR_VEL;
-		case 2:
-			return CCUnit.UNIT_CODE_METER;
 		}
 		return -1;
 	}
 
+	// Get the default unit
 	public int getUnit()
 	{
-		/*
-		int oMode = modeProp.getIndex();
-		switch(oMode){
-		case LINEAR_MODE_OUT:
-			unit = CCUnit.UNIT_CODE_LINEAR_VEL;
-			break;
-		case LIN_POS_MODE_OUT:
-			unit = CCUnit.UNIT_CODE_METER;
-			break;
-		default:
-		case ANG_MODE_OUT:
-			unit = CCUnit.UNIT_CODE_ANG_VEL;
-			break;
-		}
-
-		return unit;
-		*/
-
 		return CCUnit.UNIT_CODE_ANG_VEL;
 	}
 
