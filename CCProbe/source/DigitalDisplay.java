@@ -23,9 +23,8 @@ import waba.io.*;
 import waba.sys.*;
 import waba.util.*;
 import graph.*;
-import extra.ui.*;
-import extra.util.*;
 
+import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
 import org.concord.waba.extra.util.*;
 import org.concord.ProbeLib.*;

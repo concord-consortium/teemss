@@ -1,8 +1,7 @@
 package org.concord.CCProbe;
 
 import waba.util.*;
-import extra.io.*;
-import extra.util.*;
+import org.concord.waba.extra.io.*;
 import org.concord.waba.extra.util.*;
 import org.concord.LabBook.*;
 

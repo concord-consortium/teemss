@@ -2,9 +2,11 @@ package org.concord.CCProbe;
 
 import waba.util.*;
 import waba.ui.*;
-import extra.io.*;
+
+import org.concord.waba.extra.io.*;
 import org.concord.waba.extra.ui.*;
-import extra.ui.*;
+import org.concord.waba.extra.util.*;
+
 import org.concord.LabBook.*;
 import org.concord.ProbeLib.*;
 
@@ -294,12 +296,12 @@ class LObjUConvertorView extends LabObjectView
     	if(owner != null){
 			owner.lastLeftNumber = -1f;
 			if(numberLeft != null){
-				owner.lastLeftNumber = extra.util.ConvertExtra.toFloat(numberLeft.getText());
+				owner.lastLeftNumber = ConvertExtra.toFloat(numberLeft.getText());
 				if(owner.lastLeftNumber < 0f) owner.lastLeftNumber = 0f;
 			}
 			owner.lastRightNumber = -1f;
 			if(numberRight != null){
-				owner.lastRightNumber = extra.util.ConvertExtra.toFloat(numberRight.getText());
+				owner.lastRightNumber = ConvertExtra.toFloat(numberRight.getText());
 				if(owner.lastRightNumber < 0f) owner.lastRightNumber = 0f;
 			}
 			owner.lastCatIndex = -1;
@@ -408,7 +410,7 @@ class LObjUConvertorView extends LabObjectView
 		
 		
 		String	valFromStr = eFrom.getText();
-		float valFrom = (valFromStr == null || valFromStr.length() < 1)?0f:extra.util.ConvertExtra.toFloat(valFromStr);
+		float valFrom = (valFromStr == null || valFromStr.length() < 1)?0f:ConvertExtra.toFloat(valFromStr);
 		float valTo = CCUnit.unitConvert(uFrom, valFrom,uTo);
 		if(CCUnit.errorConvertStatus != 0){
 			eTo.setText("ERROR");
@@ -417,13 +419,13 @@ class LObjUConvertorView extends LabObjectView
 		}
 		owner.lastLeftNumber = -1f;
 		if(numberLeft != null){
-			owner.lastLeftNumber = extra.util.ConvertExtra.toFloat(numberLeft.getText());
+			owner.lastLeftNumber = ConvertExtra.toFloat(numberLeft.getText());
 			if(owner.lastLeftNumber < 0f) owner.lastLeftNumber = 0f;
 		}
 		lastLeftNumber 	= owner.lastLeftNumber;
 		owner.lastRightNumber = -1f;
 		if(numberRight != null){
-			owner.lastRightNumber = extra.util.ConvertExtra.toFloat(numberRight.getText());
+			owner.lastRightNumber = ConvertExtra.toFloat(numberRight.getText());
 			if(owner.lastRightNumber < 0f) owner.lastRightNumber = 0f;
 		}
 		lastRightNumber = owner.lastRightNumber;

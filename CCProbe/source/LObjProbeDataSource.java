@@ -2,11 +2,12 @@ package org.concord.CCProbe;
 
 import waba.util.*;
 import waba.ui.*;
-import extra.io.*;
-import org.concord.waba.extra.ui.*;
-import extra.ui.*;
-import extra.util.*;
+
+import org.concord.waba.extra.util.*;
 import org.concord.waba.extra.event.*;
+import org.concord.waba.extra.io.*;
+import org.concord.waba.extra.ui.*;
+
 import org.concord.ProbeLib.*;
 import org.concord.ProbeLib.probes.*;
 import org.concord.LabBook.*;
@@ -15,8 +16,8 @@ import org.concord.LabBook.*;
 public class LObjProbeDataSource extends LObjSubDict
 	implements DataSource, ProbListener
 {
-Probe 			probe = null;
-CCUnit		currentUnit = null;
+	Probe 			probe = null;
+	CCUnit		currentUnit = null;
 	public waba.util.Vector probListeners = null;
 
     // old CCA2D2 interface
@@ -61,7 +62,8 @@ CCUnit		currentUnit = null;
 		}
     }
 
-	public void addDataListener(DataListener l){
+	public void addDataListener(DataListener l)
+	{
 		if(probe != null){
 			probe.addDataListener(l);
 		}
@@ -246,12 +248,12 @@ CCUnit		currentUnit = null;
     	notifyProbListeners(e);
     }
 
-    public void writeExternal(extra.io.DataStream out)
+    public void writeExternal(DataStream out)
     {
     	ProbFactory.storeProbeToStream(probe,out);
     }
 
-    public void readExternal(extra.io.DataStream in)
+    public void readExternal(DataStream in)
     {
     	Probe probe = ProbFactory.createProbeFromStream(in);
 		setProbe(probe);
