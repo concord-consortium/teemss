@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE project PUBLIC "-//CONCORD.ORG//DTD Param Description//EN"
-"file:/mnt/terra_shared/Projects/teemss/cvs/TeemssXML/project.dtd">
+"project.dtd">
 <project name="teemss">
   <title>TEEMSS</title>
 
