@@ -40,8 +40,9 @@ int				firstIndex,secondIndex;
 		
 		setPropertyValue(0,samplingModes[CCProb.SAMPLING_10BIT_MODE]);
 
-		
+		unit = CCUnit.UNIT_CODE_VOLT;
 	}
+
 	public void setDataDescParam(int chPerSample,float dt){
 		dDesc.setDt(dt);
 		dDesc.setChPerSample(chPerSample);
@@ -56,7 +57,8 @@ int				firstIndex,secondIndex;
     public boolean startSampling(org.concord.waba.extra.event.DataEvent e){
 		dEvent.type = e.type;
 		dDesc.setDt(e.getDataDesc().getDt());
-		dDesc.setTuneValue(e.getDataDesc().getTuneValue());
+		// Change to Volts
+		dDesc.setTuneValue(e.getDataDesc().getTuneValue()/100f);
 		if(activeChannels == 2){
 			dDesc.setChPerSample(2);
 			dDesc.setIntChPerSample(2);
