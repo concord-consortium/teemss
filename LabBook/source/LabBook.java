@@ -6,7 +6,8 @@ import extra.io.*;
 
 public class LabBook 
 {
-	public static Vector objFactories;
+//	public static Vector objFactories;
+	public static LabObjectFactory []objFactories;
     int curDeviceId = 0;
 
     /*
@@ -46,10 +47,7 @@ public class LabBook
 
 	public static void init()
 	{
-		if(objFactories == null){
-			objFactories = new Vector();
-			addFactory(new DefaultFactory());
-		}
+		registerFactory(new DefaultFactory());
 	}
 
     // Should get a list of the pointer to objects from the 
@@ -69,17 +67,38 @@ public class LabBook
 		return rootPtr;
     }
 
-	public static void addFactory(LabObjectFactory objFact)
+	
+	public static LabObjectFactory findFactoryByType(int factoryType){
+		if(objFactories == null || objFactories.length < 1) return null;
+		for(int i = 0; i < objFactories.length; i++){
+			if(factoryType == objFactories[i].getFactoryType()){
+				return objFactories[i];
+			}
+		}
+		return null;
+	}
+	
+	public static void registerFactory(LabObjectFactory objFact)
 	{
-		objFactories.add(objFact);
+		if(objFact == null) return;
+		if(findFactoryByType(objFact.getFactoryType()) != null) return;
+		
+		int nFactories = (objFactories == null)?0:objFactories.length;
+		LabObjectFactory []newFactories = new LabObjectFactory[nFactories + 1];
+		if(objFactories != null){
+			waba.sys.Vm.copyArray(objFactories,0,newFactories,0,nFactories);
+		}
+				
+		objFactories = newFactories;
+
 	}
 
 	public static LabObject makeNewObj(int type)
 	{
 		LabObject newObj = null;
 
-		for(int i=0;i<objFactories.getCount(); i++){
-			LabObjectFactory objFact = (LabObjectFactory)objFactories.get(i);
+		for(int i=0;i<objFactories.length; i++){
+			LabObjectFactory objFact = objFactories[i];
 			newObj = objFact.makeNewObj(type);
 			if(newObj != null) break;
 		}
