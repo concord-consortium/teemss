@@ -7,6 +7,7 @@ import org.concord.waba.extra.probware.*;
 public class LObjDataControl extends LObjSubDict
 {
     int probeId = ProbFactory.Prob_ThermalCouple;
+    CCProb curProbe = null;
     int interfaceId = CCInterfaceManager.INTERFACE_2;
     int portId = CCProb.INTERFACE_PORT_A;
     //    LObjGraph graph;
@@ -20,6 +21,14 @@ public class LObjDataControl extends LObjSubDict
 	graph.name = "Graph";
 	me.setGraph(graph);
 	return me;
+    }
+
+    public CCProb getProbe()
+    {
+	if(curProbe == null){
+	    curProbe = ProbFactory.createProb(probeId, portId);
+	}
+	return curProbe;
     }
 
     public void setGraph(LObjGraph g)
@@ -51,6 +60,9 @@ public class LObjDataControl extends LObjSubDict
     {
 	super.readExternal(ds);
 	probeId = ds.readInt();
+	portId = ds.readInt();
+	curProbe = ProbFactory.createProb(probeId, portId);
+	curProbe.readExternal(ds);
 	//	graph = (LObjGraph)getObj(0);
     }
 
@@ -58,6 +70,8 @@ public class LObjDataControl extends LObjSubDict
     {
 	super.writeExternal(ds);
 	ds.writeInt(probeId);
+	ds.writeInt(portId);
+	getProbe().writeExternal(ds);
     }
 
     /*

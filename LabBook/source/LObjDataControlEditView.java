@@ -12,6 +12,8 @@ public class LObjDataControlEditView extends LabObjectView
     LObjDataControl dc;
     Button doneButton;
     Choice probeChoice = null;
+    Edit nameEdit = null;
+    Label nameLabel = null;
 
     public LObjDataControlEditView(LObjViewContainer vc, LObjDataControl d)
     {
@@ -20,13 +22,19 @@ public class LObjDataControlEditView extends LabObjectView
 	dc = d;
 	lObj = dc;
     }
-
+    
     public void layout(boolean sDone)
     {
 	if(didLayout) return;
 	didLayout = true;
 
 	showDone = sDone;
+
+	nameLabel = new Label("Name");
+	nameEdit = new Edit();
+	nameEdit.setText("" + dc.dict.name);
+	add(nameLabel);
+	add(nameEdit);
 
 	probeChoice = new Choice(ProbFactory.getProbNames());	
 	String oldName = ProbFactory.getName(dc.probeId);
@@ -46,7 +54,10 @@ public class LObjDataControlEditView extends LabObjectView
 	super.setRect(x,y,width,height);
 	if(!didLayout) layout(false);
 
-	probeChoice.setRect(1,5, width-2, 15);
+	nameLabel.setRect(1, 2, 30, 15);
+	nameEdit.setRect(35, 2, width-40, 15);
+
+	probeChoice.setRect(3,30, width-7, 15);
 
 	if(showDone){
 	    doneButton.setRect(width-30,height-15,30,15);
@@ -57,6 +68,10 @@ public class LObjDataControlEditView extends LabObjectView
     {
 	Debug.println("Got close in document");
 	dc.probeId = ProbFactory.getIndex(probeChoice.getSelected());
+	dc.curProbe = null;
+	if(nameEdit.getText() != "" && nameEdit.getText() != null){
+	    dc.dict.name = nameEdit.getText();
+	}
 	dc.lBook.store(dc);
     }
 

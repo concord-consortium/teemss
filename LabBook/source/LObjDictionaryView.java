@@ -42,6 +42,7 @@ public class LObjDictionaryView extends LabObjectView
 	lObj =dict;
 	add(me);
 	editMenu.add("Rename...");
+	editMenu.add("Properties...");
 	editMenu.add("Toggle hidden");
 	viewMenu.add("Paging View");
 	editMenu.addActionListener(this);
@@ -68,15 +69,14 @@ public class LObjDictionaryView extends LabObjectView
 	me.add(treeControl);
 
 	if(showDone){
-	    buttons = new GridContainer(5,1);
-	    buttons.add(doneButton, 4, 0);
-	} else {
 	    buttons = new GridContainer(4,1);
+	    buttons.add(doneButton, 3, 0);
+	} else {
+	    buttons = new GridContainer(3,1);
 	}
 	buttons.add(newButton, 0, 0);
 	buttons.add(openButton, 1, 0);
-	buttons.add(editButton, 2, 0);
-	buttons.add(delButton, 3, 0);
+	buttons.add(delButton, 2, 0);
 	me.add(buttons);
     }
 
@@ -114,10 +114,6 @@ public class LObjDictionaryView extends LabObjectView
 		curNode = treeControl.getSelected();
 		if(curNode == null || curNode.toString().equals("..empty..")) return;
 		showPage(curNode, false);
-	    } else if(e.target == editButton){
-		curNode = treeControl.getSelected();
-		if(curNode == null || curNode.toString().equals("..empty..")) return;
-		showPage(curNode, true);
 	    } else if(e.target == doneButton){
 		if(container != null){
 		    container.done(this);
@@ -135,13 +131,15 @@ public class LObjDictionaryView extends LabObjectView
 	    if(command.equals("Create")){
 		String objType = (String)e.getInfo();
 		LabObject newObj = null;
+		boolean autoEdit = false;
 		if(objType.equals("Folder")){
 		    newObj = new LObjDictionary();
 		} else if(objType.equals("Notes")){
 		    newObj = new LObjDocument();
+		    autoEdit = true;
 		} else if(objType.equals("Questions")){
 		    newObj = LObjQuestion.makeNewQuestionSet();
-
+		    autoEdit = true;
 		} else if(objType.equals("Data Collector")){	       
 		    LObjDataControl dc = LObjDataControl.makeNew();
 		    newObj = dc.dict;
@@ -151,22 +149,32 @@ public class LObjDictionaryView extends LabObjectView
 		    } else {
 			dc.setDataDict((LObjDictionary)treeControl.getSelectedParent());
 		    }
+		    autoEdit = true;
 		} else if(objType.equals("Drawing")){
 		    newObj = new LObjDrawing();
+		    autoEdit = true;
 		}
 		if(newObj != null){
 		    TreeNode curNode = treeControl.getSelected();
 		    TreeNode parent = treeControl.getSelectedParent();
-		    newObj.name = "New" + newIndex;		    
+		    if(newIndex == 0){
+			newObj.name = "New_" + objType;		    
+		    } else {
+			newObj.name = "New_" + objType + " " + newIndex;		    
+		    }
 		    newIndex++;
 		    TreeNode newNode = dict.getNode(newObj);
 		    if(curNode == null){
 			treeModel.insertNodeInto(newNode, treeModel.getRoot(), treeModel.getRoot().getChildCount());
 		    } else {
 			treeModel.insertNodeInto(newNode, parent, parent.getIndex(curNode)+1);
-		    }
+		    }		    
+		    if(autoEdit){
+			showPage(newNode, true);
 
+		    }
 		}
+
 	    }
 	} else if(e.getSource() == rnDialog){
 	    if(command.equals("Ok")){
@@ -226,12 +234,16 @@ public class LObjDictionaryView extends LabObjectView
 		    rnDialog = Dialog.showInputDialog(this, "Rename Parent", "Old Name was " + dict.name,
 						      buttons,Dialog.EDIT_INP_DIALOG);
 		}		    
+	    } else if(e.getActionCommand().equals("Properties...")){
+		TreeNode curNode = treeControl.getSelected();
+		if(curNode == null || curNode.toString().equals("..empty..")) return;
+		showPage(curNode, true);
 	    } else if(e.getActionCommand().equals("Toggle hidden")){
 		LObjDictionary.globalHide = !LObjDictionary.globalHide;
 		if(container != null) container.reload(this);
 
 	    }
-	}
+	} 
     }
 
     public void showPage(TreeNode curNode, boolean edit)

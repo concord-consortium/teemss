@@ -59,12 +59,11 @@ public class GraphTool extends Container
 
     boolean slowUpdate = false;
 
-    public GraphTool(AnnotView av, int probeId, int interfaceId, 
-		     int portId, String units, int w, int h) 
+    public GraphTool(AnnotView av, LObjDataControl dc, String units, int w, int h) 
     {
 	convertor.maxDigits = 2;
 
-	pm = ProbManager.getProbManager(interfaceId);
+	pm = ProbManager.getProbManager(dc.interfaceId);
 
 	int xPos = 0;
 	int buttonWidth;
@@ -123,7 +122,7 @@ public class GraphTool extends Container
 
 	curBin = lg.getBin();
 
-	curProbe = ProbFactory.createProb(probeId, portId);
+	curProbe = dc.getProbe();
 
 	pm.registerProb(curProbe);
 	pm.addDataListenerToProb(curProbe.getName(),this);
@@ -171,6 +170,7 @@ public class GraphTool extends Container
 		}
 	    }
 	} else {
+	    //	    System.out.println("Data: " + dataEvent.data[0]);
 	    if(lg.active){
 		if(!curBin.dataReceived(dataEvent)){
 		    stop();

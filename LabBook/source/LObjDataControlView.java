@@ -40,7 +40,7 @@ public class LObjDataControlView extends LabObjectView
     public void dialogClosed(DialogEvent e)
     {
 	Debug.println("Got closed");
-	dc.portId = gt.curProbe.getInterfacePort();
+	dc.portId = dc.getProbe().getInterfacePort();
     }
 
     public void layout(boolean sDone)
@@ -80,9 +80,7 @@ public class LObjDataControlView extends LabObjectView
          
 	gv.setRect(0, curY+gt_height, width, gHeight-gt_height);
 	
-	gt = new GraphTool(gv.av, 
-			   dc.probeId, dc.interfaceId, dc.portId,
-			   "C", width, gt_height);
+	gt = new GraphTool(gv.av, dc, "C", width, gt_height);
 	
 	gt.setPos(0, curY);
 	add(gt);
@@ -97,7 +95,7 @@ public class LObjDataControlView extends LabObjectView
 	if(e.getSource() == menu){
 	    if(e.getActionCommand().equals("Settings...")){
 		gt.stop();
-		gt.curProbe.calibrateMe((ExtraMainWindow)(MainWindow.getMainWindow()), this, dc.interfaceId);
+		dc.getProbe().calibrateMe((ExtraMainWindow)(MainWindow.getMainWindow()), this, dc.interfaceId);
 
 		Debug.println("Callllll");
 	    } else if(e.getActionCommand().equals("Save Data...")){
