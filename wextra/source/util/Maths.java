@@ -208,7 +208,7 @@ public class Maths
 
 
 
-  //public static float NaN = Float.intBitsToFloat(0xff8fffff);
+  public static float NaN = waba.sys.Convert.toFloatBitwise(0xff8fffff);
 
 
 

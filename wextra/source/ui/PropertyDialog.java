@@ -20,8 +20,13 @@ Container   currentPane =null;
 int 	bHeight = 20;
 ExtraMainWindow owner = null;
 
+	public PropertyDialog(ExtraMainWindow owner,DialogListener l,String title, 
+						  PropContainer propContainer){
+		this(owner,l,title,propContainer, 0);
+	}
 
-	public PropertyDialog(ExtraMainWindow owner,DialogListener l,String title, PropContainer propContainer){
+	public PropertyDialog(ExtraMainWindow owner,DialogListener l,String title, 
+						  PropContainer propContainer, int curTab){
 		super(title);
 		this.propContainer = propContainer;
 		this.owner = owner;
@@ -29,7 +34,7 @@ ExtraMainWindow owner = null;
 		currContainer = 0;
 		addDialogListener(l);
 		owner.setDialog(this);
-
+		currContainer = curTab;
 	}
 
 	public void setButtons(){
@@ -53,16 +58,20 @@ ExtraMainWindow owner = null;
 	}
 
 	public void setTabBar(){
+		MyTab curTab = null;
+
 		if(tabBar == null){
 			tabBar = new TabBar();
 			for(int i = 0; i < nContainers; i++){
 				MyTab tab = new MyTab(propContainer.getPropertiesContainerName(i));
+				if(i == currContainer) curTab = tab;
 				tabBar.add(tab);
 			}
 		}else{
 			getContentPane().remove(tabBar);
 		}
 		tabBar.setRect(widthBorder+2, 0, width - 2*widthBorder - 4, 20);
+		if(curTab != null) tabBar.setActiveTab(curTab);
 		getContentPane().add(tabBar);
 	}
 
