@@ -300,6 +300,7 @@ protected void paintLine(Graphics gr,int index)
 	gr2.translate(-curState.xShift,0);
 	gr2.drawText(line,x,0);//+1);
 	if (curState.isInSelection(index) && curState.selectionEnabled) {
+/*
 		int sp = 0, ep = line.length();
 		if (curState.selStartLine == index) sp = curState.selStartPos;
 		if (curState.selEndLine == index) ep = curState.selEndPos;
@@ -316,6 +317,24 @@ protected void paintLine(Graphics gr,int index)
 		gr2.setDrawOp(gr2.DRAW_XOR);
 		gr2.translate(curState.xShift,0);
 		gr2.drawImage(blockBuffer.image,0,0);
+*/
+
+		int sp = 0, ep = line.length();
+		if (curState.selStartLine == index) sp = curState.selStartPos;
+		if (curState.selEndLine == index) ep = curState.selEndPos;
+		FontMetrics fm = getFontMetrics();
+		int leftWidth = fm.getTextWidth(line.substring(0,sp));
+		String tempS = line.substring(sp,ep);
+		int myWidth = fm.getTextWidth(tempS);
+		Graphics bg = blockBuffer.get(myWidth,h);
+		bg.setColor(0,0,0);
+		bg.fillRect(0,0,myWidth,h);
+		bg.setColor(255,255,255);
+		bg.drawText(tempS,0,0);
+		gr2.translate(curState.xShift,0);
+		gr2.drawImage(blockBuffer.image,leftWidth,0);
+		bg.free();
+
 	}else 
 		gr2.translate(curState.xShift,0);
 	gr2.free();
