@@ -39,7 +39,7 @@ build-tag:
 	$(MAKE) 
 	mv new_build build
 	echo $(subst .,_,$(VERSION_EXP))_$(BUILD_EXP) > tag
-	#cvs commit -m "build checkin" $(basename $(VERSION_TEMPLATE)) build version tag
+	cvs commit -m "build checkin" $(basename $(VERSION_TEMPLATE)) build version tag
 	$(call MAKE_DEP, cvs-tag)
 	$(MAKE) cvs-tag
 	
@@ -48,11 +48,11 @@ tag:
 	@exit 1
 
 cvs-diff:
-	#cvs -Q diff > /dev/null || (echo The  directory **$(notdir $(CURDIR))** is different than the repository; test)
+	cvs -Q diff > /dev/null || (echo The  directory **$(notdir $(CURDIR))** is different than the repository; test)
 	
 #Tag the dependencies with our tag so we can get them back
 cvs-tag: $(TAG_FILE)
-	#cvs tag $(TAG)
+	cvs tag $(TAG)
 
 VERSION_EXP = $(subst _,.,$(shell cat version))
 BUILD_EXP = $(shell cat build)
