@@ -66,11 +66,11 @@
 <p>
 <xsl:choose>
 	<xsl:when test="@type='gif'">
-<img src="../images/{ancestor::unit/@name}/{ancestor::investigation/@name}/{@name}/WEB_{@name}.{@type}"
+<img src="../../images/{ancestor::unit/@name}/{ancestor::investigation/@name}/{@name}/WEB_{@name}.{@type}"
 width="158" height="140" border="1"/>
 	</xsl:when>
 	<xsl:when test="@type='jpg'">
-<img src="../images/{ancestor::unit/@name}/{ancestor::investigation/@name}/{@name}/WEB_{@name}.{@type}"/>
+<img src="../../images/{ancestor::unit/@name}/{ancestor::investigation/@name}/{@name}/WEB_{@name}.{@type}"/>
 	</xsl:when>	
 </xsl:choose>
 </p>
