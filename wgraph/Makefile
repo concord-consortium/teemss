@@ -5,5 +5,8 @@ export CLASSPATH:= ${CLASSPATH}:${WABA_DIR}:${WEXTRAS_DIR}
 
 SRC= *.java
 
-comp:
+comp: classes
 	javac -O -d classes $(SRC:%=source/%)
+
+classes:
+	-mkdir $@
