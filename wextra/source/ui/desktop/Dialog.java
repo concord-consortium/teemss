@@ -185,7 +185,7 @@ private waba.ui.Container		contentPane;
 			imagePath += "QuestionSmall.bmp";
 			break;
 	}
-	ImagePane ip = (ImagePane)new Icon(imagePath);
+	ImagePane ip = (ImagePane)new ImagePane(imagePath);
 	ip.setRect(d.widthBorder + 2,2,16,16);
 	cp.add(ip);
 	d.addDialogListener(l);
@@ -231,7 +231,7 @@ private waba.ui.Container		contentPane;
 			imagePath += "QuestionSmall.bmp";
 			break;
 	}
-	ImagePane ip = (ImagePane)new Icon(imagePath);
+	ImagePane ip = (ImagePane)new ImagePane(imagePath);
 	ip.setRect(d.widthBorder + 2,2,16,16);
 	cp.add(ip);
 	d.addDialogListener(l);
@@ -287,7 +287,7 @@ private waba.ui.Container		contentPane;
 		cp.add(d.inpControl);
 	}
 	if(showImages){
-	    ImagePane ip = (ImagePane)new Icon("QuestionSmall.bmp");
+	    ImagePane ip = (ImagePane)new ImagePane("QuestionSmall.bmp");
 	    ip.setRect(d.widthBorder + 2,2,16,16);
 	    cp.add(ip);
 	}
