@@ -15,6 +15,9 @@ public class CCProbe extends ExtraMainWindow
     Menu edit;
     TreeControl treeControl;
     TreeModel treeModel;
+    Title 		title;
+    
+    
     Container me = new Container();
     LabObjectView lObjView = null;
     int myHeight;
@@ -78,7 +81,7 @@ public class CCProbe extends ExtraMainWindow
 		if(myHeight < 180){
 			yOffset = 13;
 			dictHeight -= 13;
-			Title title = new Title("CCProbe");
+			if(title == null) title = new Title("CCProbe");
 			title.setRect(0,0,width, 13);
 			me.add(title);
 		}
@@ -272,9 +275,23 @@ public class CCProbe extends ExtraMainWindow
 		LabObject obj = source.getLabObject();
 		source.close();
 		me.remove(source);
+		if(title != null){
+			me.remove(title);
+		}
 		LabObjectView replacement = obj.getView(this, true);
 		// This automatically does the layout call for us
-		replacement.setRect(x,yOffset,width,myHeight);
+
+		waba.fx.Rect myRect = content.getRect();
+		myHeight = myRect.height;
+		int dictHeight = myHeight;
+		if(myHeight < 180){
+			yOffset = 13;
+			dictHeight -= 13;
+			if(title == null) title = new Title("CCProbe");
+			title.setRect(0,0,width, 13);
+			me.add(title);
+		}
+		replacement.setRect(x,yOffset,width,dictHeight);
 		replacement.setShowMenus(true);
 		me.add(replacement);
 		lObjView = replacement;
