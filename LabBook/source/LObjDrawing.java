@@ -5,6 +5,7 @@ import waba.ui.*;
 import extra.io.*;
 import org.concord.waba.extra.ui.*;
 import extra.ui.*;
+import org.concord.waba.extra.event.*;
 //LabObject implements Storable
 public class LObjDrawing extends LabObject
 {
@@ -44,15 +45,17 @@ public LObjDrawingView view = null;
 	
     }
 }
-class LObjDrawingView extends LabObjectView
+class LObjDrawingView extends LabObjectView implements ScrollListener
 {
 	Edit 					nameEdit;
 	Label					nameLabel;
 	boolean					nameEditWasAdded = false;
-    CCScrible scribble;
+    CCScrible 				scribble;
 
     Button doneButton = null;
 	boolean	scribbleWasAdded = false;
+	
+	CCScrollBar				scrollBar;
 	
     public LObjDrawingView(ViewContainer vc, LObjDrawing d)
     {
@@ -133,6 +136,16 @@ class LObjDrawingView extends LabObjectView
 	    	doneButton = new Button("Done");
 	    	add(doneButton);
 		} 
+		if(scrollBar == null) scrollBar = new CCScrollBar(this);
+		if(scrollBar != null){
+			scrollBar.setMinMaxValues(20,100);
+			scrollBar.setAreaValues(200,100);
+			scrollBar.setIncValue(5);
+			scrollBar.setPageIncValue(40);
+			scrollBar.setValue(20);
+		}
+		
+		add(scrollBar);
     }
 
 
@@ -161,7 +174,11 @@ class LObjDrawingView extends LabObjectView
 		}
 		
 		if(scribble != null){ 
-			scribble.setRect(2,curY,width-4, dHeight);
+//			scribble.setRect(2,curY,width-4, dHeight);
+			scribble.setRect(2,curY,width-11, dHeight);
+		}
+		if(scrollBar != null){
+			scrollBar.setRect(width-7,curY + 19,7, dHeight - 20);
 		}
     }
 
@@ -169,6 +186,9 @@ class LObjDrawingView extends LabObjectView
     {
     	scribble.close();
 		super.close();
+		
+		if(scrollBar != null) scrollBar.close();
+		
     	if(nameEdit != null){
     		getLabObject().name = nameEdit.getText();
     	}
@@ -206,6 +226,9 @@ class LObjDrawingView extends LabObjectView
 		}
 		return preferrDimension;
 	}
-
-
+	
+	public void scrollValueChanged(ScrollEvent se){
+		if(se.target != scrollBar) return;
+	}
 }
+
