@@ -308,6 +308,11 @@ public abstract class Probe extends PropContainer
 
 	public int getQuantityUnit(int id){return -1;}
 
+	public int getQuantityPrecision(int id)
+	{
+		return DecoratedValue.UNKNOWN_PRECISION; 
+	}
+
 	public String getQuantityName(int id)
 	{
 		if(id == 0 && quantityNames == null){
