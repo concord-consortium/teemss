@@ -16,6 +16,8 @@ int	paletteVersion = CC_VERSION_PALETTE;
 		if(colors == null || colors.length != 216){
 			colors = new waba.fx.Color[216];
 		}
+		colors[0] = new waba.fx.Color(255,255,255);
+		count = 1;
 		for(r = 0; r <=255; r += 51){
 			for(g = 0; g <=255; g += 51){
 				for(b = 0; b <=255; b += 51){
