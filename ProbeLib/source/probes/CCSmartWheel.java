@@ -21,7 +21,7 @@ int					outputMode = DEFAULT_MODE_OUT;
 	CCSmartWheel(){
 		this("unknown");
 	}
-	CCSmartWheel(String name){
+	CCSmartWheel(String name){	   
 		setName(name);
 		dDesc.setChPerSample(1);
 		dDesc.setDt(0.01f);

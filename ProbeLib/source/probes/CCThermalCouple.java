@@ -26,6 +26,7 @@ float FC = 0.0f;
 		this("unknown");
 	}
 	CCThermalCouple(String name){
+		activeChannels = 2;
 		setName(name);
 		dDesc.setChPerSample(2);
 		dDesc.setDt(0.0f);

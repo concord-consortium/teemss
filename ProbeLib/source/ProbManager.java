@@ -3,7 +3,7 @@ import org.concord.waba.extra.event.*;
 import org.concord.waba.extra.probware.probs.CCProb;
 import extra.util.*;
 
-public class ProbManager implements Transform, ProbListener{
+public class ProbManager implements ProbListener{
 public static ProbManager pb = null;
 CCInterfaceManager im;
 protected 	waba.util.Vector 	probs 	= null;
@@ -132,7 +132,7 @@ protected 	static ProbManagerEvent   pmEvent = new ProbManagerEvent();
     		if(probs == null) return false;
     		for(int i = 0; i < probs.getCount(); i++){
     			CCProb p = (CCProb)probs.get(i);
-    			p.transform(e); //need offset important, but not relevant right now
+			p.transform(e); //need offset important, but not relevant right now
     		}
     		return true;
     	}

@@ -12,6 +12,7 @@ float  			dtChannel = 0.0f;
 		this("unknown");
 	}
 	CCLightIntens(String name){
+	    activeChannels = 2;
 		setName(name);
 		dDesc.setChPerSample(2);
 		dDesc.setDt(0.0f);

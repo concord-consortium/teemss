@@ -9,7 +9,7 @@ public final static int Prob_RawData        = 4;
 
     public static String [] probeNames = {"Temperature", "Light", "SmartWheel", "RawData"};
 
-	public static CCProb createProb(int probIndex,int interfacePort,int activeChannels){
+	public static CCProb createProb(int probIndex,int interfacePort){
 		CCProb newProb = null;
 		switch(probIndex){
 			case Prob_ThermalCouple:
@@ -27,14 +27,13 @@ public final static int Prob_RawData        = 4;
 		}
 		if(newProb != null){
 			newProb.setInterfacePort(interfacePort);
-			newProb.setActiveChannels(activeChannels);
 		}
 		return newProb;
 	}
 
-    public static CCProb createProb(String name,int interfacePort,int activeChannels)
+    public static CCProb createProb(String name,int interfacePort)
     {
-		return createProb(getIndex(name),interfacePort,activeChannels);
+		return createProb(getIndex(name),interfacePort);
     }
 
     public static String getName(int probIndex)

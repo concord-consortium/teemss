@@ -47,10 +47,12 @@ protected ProbManager	pb = null;
 		dDesc.setChPerSample(2);
 		dEvent.setDataOffset(0);
 		dEvent.setDataDesc(dDesc);
+		char startC = getStartChar();
 		dEvent.setType(DataEvent.DATA_READY_TO_START);
 		notifyProbManager(dEvent);
 		dEvent.setType(DataEvent.DATA_RECEIVED);
-	    if(!startA2D(getStartChar())) return;
+
+		if(!startA2D(startC)) return;
 		startTimer = Vm.getTimeStamp();
 		timer = addTimer(getRightMilliseconds());
 		//System.out.println("start");
@@ -175,7 +177,8 @@ protected ProbManager	pb = null;
     }
 	
 	protected void notifyProbManager(DataEvent e){
-			if(pb != null) pb.transform(e);
+	    
+	    if(pb != null) pb.transform(e);
 /*
 		if(dataListeners != null){
 			for(int cl = 0; cl < dataListeners.getCount(); cl++){
