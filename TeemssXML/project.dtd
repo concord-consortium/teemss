@@ -46,7 +46,7 @@
 <!ELEMENT tech-hint (title, heading, tech-hint-body)>
 <!ATTLIST tech-hint name CDATA #REQUIRED>
 <!ELEMENT heading (#PCDATA)>
-<!ELEMENT tech-hint-body (%TEXT; | shared-image-sequence)*>
+<!ELEMENT tech-hint-body (%TEXT; | shared-image-sequence | steps)*>
 <!ELEMENT tech-hint-ref EMPTY>
 <!ATTLIST tech-hint-ref ref CDATA #REQUIRED>
 

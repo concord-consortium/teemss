@@ -25,7 +25,8 @@ Found project
 </xsl:template>
 
 <xsl:template match="teacher-notes">
-<h3><xsl:value-of select="../title"/> Teacher Notes</h3>
+<h3><a href="{ancestor::unit/@name}/{ancestor::investigation/@name}_teacher_summary.html">
+<xsl:value-of select="../title"/> Teacher Notes</a></h3>
 <ul>
 <li><a href="{../../@name}/{../@name}_teacher_intro.html">Introduction</a></li>
 <li><a href="{ancestor::unit/@name}/{ancestor::investigation/@name}_teacher_discuss.html">
