@@ -822,8 +822,10 @@ sysTrapDmInsertionSort                 equ 41652
 sysTrapLstSetTopItem                   equ 41653
 sysTrapLastTrapNumber                  equ 41654
 ; Added by scott@concord.org
-; Got from PalmOS4.0 CoreTraps.h 0xA390 is 41872
+; Got from PalmOS4.0 CoreTraps.h
+sysTrapWinDrawBitmap                   equ 41510
 sysTrapWinSetForeColor                 equ 41880
+sysTrapWinPalette                      equ 41885
 sysTrapWinRGBToIndex                   equ 41886
 
 sysLibTrapBase   equ $0000a800
