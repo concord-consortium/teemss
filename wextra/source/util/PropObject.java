@@ -1,5 +1,7 @@
 package extra.util;
 
+import waba.ui.Control;
+
 
 
 public class PropObject
@@ -14,7 +16,7 @@ String 	value;
 
 float		fval = 0.0f;
 
-
+Control	valueKeeper = null;
 
 	public 	PropObject(String name,String []possibleValues,int defaultIndex){
 
@@ -36,11 +38,27 @@ float		fval = 0.0f;
 
 	}
 
+	public 	PropObject(String name,String value){
+
+		this(name,null,0);
+
+		setValue(value);
+
+	}
+
 	public 	PropObject(String name){
 
 		this(name,null,0);
 
 	}
+
+	public void setValueKeeper(Control c){
+
+		valueKeeper = c;
+
+	}
+
+	public Control getValueKeeper(){return valueKeeper;}
 
 	
 

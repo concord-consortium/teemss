@@ -212,56 +212,6 @@ private int heightBorder = 3;
 	d.addDialogListener(l);
 	d.show();
   }
-  
- 
-/*
-	public void show(){
-		if(popup != null) return;
-		popup = new extra.ui.Popup(this);
-		popup.popup();
-		waba.ui.MainWindow mw = waba.ui.MainWindow.getMainWindow();
-		if(mw instanceof org.concord.waba.extra.ui.ExtraMainWindow){
-			((org.concord.waba.extra.ui.ExtraMainWindow)mw).setDialog(this);
-		}
-	}
-	public void hide(){
-		if(popup == null) return;
-		popup.unpop();
-		popup = null;
-		waba.ui.MainWindow mw = waba.ui.MainWindow.getMainWindow();
-		if(mw instanceof org.concord.waba.extra.ui.ExtraMainWindow){
-			((org.concord.waba.extra.ui.ExtraMainWindow)mw).setDialog(null);
-		}
-	}
-  public void onEvent(waba.ui.Event event){
-	if (event.type == waba.ui.ControlEvent.PRESSED){
-		if(listener != null){
-			String message = "";
-			Object info = null;
-			int infoType = org.concord.waba.extra.event.DialogEvent.UNKNOWN;
-
-			if(event.target instanceof java.awt.Button){
-				message = ((java.awt.Button)event.target).getText();
-			}else if(event.target instanceof extra.ui.List){
-				return;
-			}
-			if(inpControl != null){
-				if(inpControl instanceof waba.ui.Edit){
-					info = ((waba.ui.Edit)inpControl).getText();
-					infoType = org.concord.waba.extra.event.DialogEvent.EDIT;
-				}else if(inpControl instanceof Choice){
-					info = ((extra.ui.List)inpControl).getSelected();
-					infoType = org.concord.waba.extra.event.DialogEvent.CHOICE;
-				}
-			}
-			listener.dialogClosed(new org.concord.waba.extra.event.DialogEvent(this,(waba.ui.Control)event.target,message,info,infoType));
-		}
-		hide();
-	}else if(event.type == waba.ui.PenEvent.PEN_UP){
-	  	wasDown = false;
-	}
-  }
-  */
   public void actionPerformed(java.awt.event.ActionEvent event){
 		if(listener != null){
 			String message = "";

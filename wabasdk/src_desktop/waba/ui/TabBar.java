@@ -365,7 +365,6 @@ public void setActiveTab(Tab tab)
 		activeTab = tab;
 
 		repaint();
-
 		postEvent(new ControlEvent(ControlEvent.PRESSED, tab));
 
 		}

@@ -42,7 +42,7 @@ Vector properties 			= null;
 
 	
 
-	public void addProperty(PropObject obj){
+	private void addProperty(PropObject obj){
 
 		if(properties == null){
 
@@ -94,15 +94,63 @@ Vector properties 			= null;
 
 	}
 
+	public Vector getProperties(int index){
+
+		PropContainer pc = getPropertiesContainer(index);
+
+		if(pc != null){
+
+			return pc.getProperties();
+
+		}
+
+		return null;
+
+	}
+
 	public Vector getPropertiesContainers(){
 
 		return propContainers;
 
 	}
 
+	public PropContainer getPropertiesContainer(int index){
+
+		if(index < 0 || index >= getNumbPropContainers()) return null;
+
+		return (PropContainer)getPropertiesContainers().get(index);
+
+	}
+
+	public String getPropertiesContainerName(int index){
+
+		if(index < 0 || index >= getNumbPropContainers()) return null;
+
+		return (String)getPropertiesContainersNames().get(index);
+
+	}
+
+	public int getNumbPropContainers(){
+
+		if(propContainers == null) return 0;
+
+		return propContainers.getCount();
+
+	}
+
+	
+
 	public Vector getPropertiesContainersNames(){
 
 		return propContainersNames;
+
+	}
+
+	public String getContainerName(int index){
+
+		if(index < 0 || index >= getNumbPropContainers()) return "";
+
+		return (String)getPropertiesContainersNames().get(index);
 
 	}
 
@@ -156,7 +204,7 @@ Vector properties 			= null;
 
 			String nm = (String)propContainersNames.get(i);
 
-			if(name.equals(name)){
+			if(name.equals(nm)){
 
 				retValue = (PropContainer)propContainers.get(i);
 

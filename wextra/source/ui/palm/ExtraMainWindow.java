@@ -402,7 +402,10 @@ public boolean isControlHDialogOwned(Control c){
 	if(popupDialog != null){
 		if (type == PenEvent.PEN_DOWN){
 			Control c = findChild(x, y);
-			if(!(c instanceof Choice)){
+			if(c instanceof Dialog){
+				Sound.beep();
+				return;
+			}else if(!(c instanceof Choice)){
 				if(!isControlHDialogOwned(c)){
 					Sound.beep();
 					return;
