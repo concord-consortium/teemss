@@ -5,9 +5,9 @@ public class ProbFactory{
 public final static int Prob_ThermalCouple 	= 0;
 public final static int Prob_Light 			= 1;
 public final static int Prob_SmartWheel		= 2;
-public final static int Prob_RawData        		= 3;
-public final static int Prob_Force        		= 4;
-public final static int Prob_VoltCurrent    		= 5;
+public final static int Prob_RawData        = 3;
+public final static int Prob_Force        	= 4;
+public final static int Prob_VoltCurrent    = 5;
 
     public static String [] probeNames = {"Temperature", "Light", "SmartWheel", "RawData","Force","Voltage/Current"};
 
@@ -15,16 +15,16 @@ public final static int Prob_VoltCurrent    		= 5;
 		CCProb newProb = null;
 		switch(probIndex){
 			case Prob_ThermalCouple:
-				newProb = new CCThermalCouple("thermocouple");
+				newProb = new CCThermalCouple(probeNames[Prob_ThermalCouple]);
 				break;
 			case Prob_Light:
-				newProb = new CCLightIntens("light");
+				newProb = new CCLightIntens(probeNames[Prob_Light]);
 				break;
 			case Prob_SmartWheel:
-				newProb = new CCSmartWheel("smartwheel");
+				newProb = new CCSmartWheel(probeNames[Prob_SmartWheel]);
 				break;
 			case Prob_RawData:
-			   newProb = new CCRawData("raw data");
+			   newProb = new CCRawData(probeNames[Prob_RawData]);
 				break;
 			case Prob_Force:
 			   	newProb = new CCForce(probeNames[Prob_Force]);

@@ -16,7 +16,7 @@ int tRed = 0,tGreen = 0,tBlue = 0;
 		this(text, Label.LEFT);
 	}
 	public CCLabel(String text, int align){
-		this.text = text;
+		this.text = (text == null)?"":text;
 		this.align = align;
 		this.font = MainWindow.defaultFont;
 	}
@@ -37,7 +37,7 @@ int tRed = 0,tGreen = 0,tBlue = 0;
 		tBlue = b;
 	}
 	public void setText(String text){
-		this.text = text;
+		this.text = (text == null)?"":text;
 		repaint();
 	}
 	public String getText(){ return text;}
