@@ -30,7 +30,7 @@ public class AboutMessages
 	// because wabajump doesn't do static initializers quite right
 	// so this message string was getting set before the Version class
 	// was initialized.
-	public static String [] messages = {"CCProbe Copyright (c) 2001",
+	public static String [] messages = {"CCProbe Copyright (c) 2001-2003",
 										"by Concord Consortium",
 										"All Rights Reserved",
 										"http://concord.org/ccprobeware",
