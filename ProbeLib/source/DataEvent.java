@@ -14,6 +14,7 @@ public int		dataOffset = 0;
 public float	deltaT;
 public int		intTime;
 public int	 	[]intData = null;
+	public float    refVal = 0;
 
     public int [] pTimes = new int [10];
     public int numPTimes = 0;
