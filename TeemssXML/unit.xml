@@ -10,7 +10,7 @@
         little friction</summary>
       <question> What happens to a vehicle when there&apos;s very little friction?</question>
       <intro>
-        <ext_image dir="images/AirCart" name="smallCart"/> In this
+        <ext-image dir="images/AirCart" name="smallCart"/> In this
         activity you will build and test an air cart that operates with
         very little friction.</intro>
       <think>
@@ -35,7 +35,7 @@
           how to use the software. </p>
       </think>
       <materials>
-        <ext_image dir="images/AirCart" name="00_cartParts" type="gif"/>
+        <ext-image dir="images/AirCart" name="00_cartParts" type="gif"/>
         <item>CC SmartWheel</item>
         <item>cardboard for cart body (12cm x 40cm)</item>
         <item>cardboard for ramp (30cm x 100cm)</item>
@@ -82,11 +82,11 @@
                 slot is parallel to the cart length. The slot is 2cm
                 wide and 14cm long, starting 4cm from one end of the cart.</step>
               <step> Cut out the slot with a utility knife. Please be
-                very careful! <ext_image_sequence>
-                  <ext_image dir="images/AirCart" name="01a_cardboard"/>
-                  <ext_image dir="images/AirCart" name="01b_slotCutMark"/>
-                  <ext_image dir="images/AirCart" name="01c_slotCutOut"/>
-                </ext_image_sequence>
+                very careful! <ext-image-sequence>
+                  <ext-image dir="images/AirCart" name="01a_cardboard"/>
+                  <ext-image dir="images/AirCart" name="01b_slotCutMark"/>
+                  <ext-image dir="images/AirCart" name="01c_slotCutOut"/>
+                </ext-image-sequence>
               </step>
             </steps>
           </instruction>
@@ -98,12 +98,12 @@
               <step>Glue the straw to the axle line with hot-melt glue.
                 Let it stick out on either side.  </step>
               <step>Cut off each end of the straw a bit longer than the cardboard.</step>
-              <step>The finished straw is now ready for the axle.<ext_image_sequence>
-                  <ext_image dir="images/AirCart" name="02a_strawMark"/>
-                  <ext_image dir="images/AirCart" name="02b_strawGlued"/>
-                  <ext_image dir="images/AirCart" name="02c_strawCut"/>
-                  <ext_image dir="images/AirCart" name="02d_strawInstall"/>
-                </ext_image_sequence>
+              <step>The finished straw is now ready for the axle.<ext-image-sequence>
+                  <ext-image dir="images/AirCart" name="02a_strawMark"/>
+                  <ext-image dir="images/AirCart" name="02b_strawGlued"/>
+                  <ext-image dir="images/AirCart" name="02c_strawCut"/>
+                  <ext-image dir="images/AirCart" name="02d_strawInstall"/>
+                </ext-image-sequence>
               </step>
             </steps>
           </instruction>
@@ -124,12 +124,12 @@
                 Tighten them until the heads squeeze the cardboard a
                 little bit. A paper clip will work as a screwdriver. </step>
               <step>Now the SmartWheel is in place. It can be taken on
-                and off. You will need to do this for the Tracker Investigation.<ext_image_sequence>
-                  <ext_image dir="images/AirCart" name="03a_swMarkHoles" type="gif"/>
-                  <ext_image dir="images/AirCart" name="03b_makeHoles" type="gif"/>
-                  <ext_image dir="images/AirCart" name="03c_swScrews" type="gif"/>
-                  <ext_image dir="images/AirCart" name="03d_swInstalled" type="gif"/>
-                </ext_image_sequence>
+                and off. You will need to do this for the Tracker Investigation.<ext-image-sequence>
+                  <ext-image dir="images/AirCart" name="03a_swMarkHoles" type="gif"/>
+                  <ext-image dir="images/AirCart" name="03b_makeHoles" type="gif"/>
+                  <ext-image dir="images/AirCart" name="03c_swScrews" type="gif"/>
+                  <ext-image dir="images/AirCart" name="03d_swInstalled" type="gif"/>
+                </ext-image-sequence>
               </step>
             </steps>
           </instruction>
@@ -144,18 +144,18 @@
                 face toward the cart.   </step>
               <step>Slide the axle through the straw and then slide on
                 the other CD ROM wheel. The picture shows the cart
-                upside down.  <ext_image_sequence>
-                  <ext_image dir="images/AirCart" name="04a_pressInHub" type="gif"/>
-                  <ext_image dir="images/AirCart"
-                    name="04b_oneWheelAxle" type="gif"/>
-                  <ext_image dir="images/AirCart" name="04c_wheelPair" type="gif"/>
-                </ext_image_sequence>
+                upside down.  <ext-image-sequence>
+                  <ext-image dir="images/AirCart" name="04a_pressInHub" type="gif"/>
+                  <ext-image dir="images/AirCart"
+		  name="04b_oneWheelAxle" type="gif"/>
+                  <ext-image dir="images/AirCart" name="04c_wheelPair" type="gif"/>
+                </ext-image-sequence>
               </step>
             </steps>
           </instruction>
           <instruction title="Glueing on the bumper">
             <p>Glue the bumper in             the center on the front
-              end that contains the SmartWheel end.<ext_image name="05_bumper"/>
+              end that contains the SmartWheel end.<ext-image name="05_bumper"/>
             </p>
           </instruction>
           <instruction title="Attaching the motor">
@@ -167,17 +167,17 @@
                 the batteries are loaded in opposite directions in the
                 holder. Glue it down in the center next to the motor.
                 Leave a little bit of space between the battery holder
-                and the motor.  <ext_image_sequence>
-                  <ext_image dir="images/aircart" name="06a_motor"/>
-                  <ext_image dir="images/AirCart" name="06b_batteries"/>
-                </ext_image_sequence>
+                and the motor.  <ext-image-sequence>
+                  <ext-image dir="images/aircart" name="06a_motor"/>
+                  <ext-image dir="images/AirCart" name="06b_batteries"/>
+                </ext-image-sequence>
               </step>
             </steps>
           </instruction>
           <instruction title="Glueing on the clay holder">
             <p>Glue down the             paper cup in the center right
               behind the SmartWheel slot.             Make a lump of
-              clay so that you can add weight to the cart.  <ext_image name="07_clayHolder"/>
+              clay so that you can add weight to the cart.  <ext-image name="07_clayHolder"/>
             </p>
           </instruction>
           <instruction title="Attaching the acrobat and holder ">
@@ -193,18 +193,18 @@
                 and stay firm during collisions. The acrobat needs to be
                 removed when you mount the Force probe on the cart.  </step>
               <step>Put bits of clay into the acrobat&apos;s hands so
-                that it has a good grip. Hang the acrobat on the wire.  <ext_image_sequence>
-                  <ext_image dir="images/AirCart" name="08a_wireU"/>
-                  <ext_image dir="images/AirCart" name="08b_wireCrimped"/>
-                  <ext_image dir="images/AirCart" name="08c_wireAttach"/>
-                  <ext_image dir="images/AirCart" name="08d_wireAcrobat"/>
-                </ext_image_sequence>
+                that it has a good grip. Hang the acrobat on the wire.  <ext-image-sequence>
+                  <ext-image dir="images/AirCart" name="08a_wireU"/>
+                  <ext-image dir="images/AirCart" name="08b_wireCrimped"/>
+                  <ext-image dir="images/AirCart" name="08c_wireAttach"/>
+                  <ext-image dir="images/AirCart" name="08d_wireAcrobat"/>
+                </ext-image-sequence>
               </step>
             </steps>
           </instruction>
           <instruction title="Decorating your cart ">
             <p>Decorate your cart             to your liking...
-                <ext_image name="09_cartDone" type="gif"/>
+                <ext-image name="09_cartDone" type="gif"/>
             </p>
           </instruction>
         </instructions>
@@ -219,12 +219,12 @@
               <step>Along the two lines, fold the cardboard into a
                 &quot;U&quot; to make the edges stiff and keep the cart
                 from running off the edge. </step>
-              <step>Then the cardboard ramp rests easily on a flat surface.<ext_image_sequence>
-                  <ext_image dir="images/AirCart" name="10a_rampSize"/>
-                  <ext_image dir="images/AirCart" name="10b_rampMark"/>
-                  <ext_image dir="images/AirCart" name="10c_rampFold"/>
-                  <ext_image dir="images/AirCarts" name="10d_rampEnd"/>
-                </ext_image_sequence>
+              <step>Then the cardboard ramp rests easily on a flat surface.<ext-image-sequence>
+                  <ext-image dir="images/AirCart" name="10a_rampSize"/>
+                  <ext-image dir="images/AirCart" name="10b_rampMark"/>
+                  <ext-image dir="images/AirCart" name="10c_rampFold"/>
+                  <ext-image dir="images/AirCarts" name="10d_rampEnd"/>
+                </ext-image-sequence>
               </step>
             </steps>
           </step>
@@ -237,7 +237,7 @@
               should you measure how far &quot;up&quot; the cart is when
               you release it? The distance along the ramp from its
               bottom edge to the rear wheels of the cart is a good
-              measure.  <ext_image name="11a_rampSideView"/>
+              measure.  <ext-image name="11a_rampSideView"/>
             </p>
           </step>
           <step>Experiment with different slopes and distances up the
@@ -266,7 +266,7 @@
           <step>What is your measure of friction? Which one has the
             least friction? Explain your thoughts and observations in
             Notes on your handheld computer. Refer to Technical Hints to
-            see how to use the software.  <ext_image
+            see how to use the software.  <ext-image
               dir="images/AirCart" name="12_rampRace"/>
           </step>
         </steps>
@@ -279,22 +279,22 @@
         </hint>
       </hints>
       <analysis>
-<steps>
-        <step> Rank your cart and at least two others in order of how
+	<steps>
+	  <step> Rank your cart and at least two others in order of how
           they did on the friction test. What differences in the carts
           might account for this?</step>
-        <step> When your cart is moving, it has energy of motion. What
+	  <step> When your cart is moving, it has energy of motion. What
           factors do you think affect its energy? When your cart slows
           down and stops, where does the energy go? What about when it
           hits something?</step>
-        <step>What happened to the motion of the acrobat when the cart
+	  <step>What happened to the motion of the acrobat when the cart
           slowed down? What about when the cart hit something?   </step>
-        <step>In summary, how does a vehicle behave when there&apos;s
+	  <step>In summary, how does a vehicle behave when there&apos;s
           very little friction? Does it take a lot of force to get it
           going? To keep it going? </step>
-        <step>What are the sources of friction for these carts? Do you
+	  <step>What are the sources of friction for these carts? Do you
           think air resistance plays a role? How could you find out?   </step>
-</steps>
+	</steps>
       </analysis>
       <further>
         <item>What slows the cart down? Investigate ways to reduce the
@@ -317,7 +317,7 @@
       <question>What does a graph of the motion of a low-friction cart
         look like?</question>
       <intro>
-        <ext_image name="smallSmartCart"/>In this activity you will
+        <ext-image name="smallSmartCart"/>In this activity you will
         explore the relationship between the movement of a cart and the
         shapes of the resulting position and velocity graphs.</intro>
       <think> Can you tell exactly how far or fast your cart is moving
@@ -333,7 +333,7 @@
           cart appear to change velocity at anytime? Draw the graph in
           Notes on your handheld computer and label parts of the graph
           that you understand or have questions about.   </p>
-        <ext_image name="graconstant" type="jpg"/>
+        <ext-image name="graconstant" type="jpg"/>
       </think>
       <materials>
         <item>CC SmartWheel probe removed from air cart</item>
@@ -354,13 +354,13 @@
           <step>Remove the SmartWheel from your cart. Carefully save the
             two screws. Tape or screw the SmartWheel to the end of a
             meter stick so that you can walk along and roll it on the
-              floor.<ext_image name="01a_swTaped2"/>
+              floor.<ext-image name="01a_swTaped2"/>
           </step>
           <step>Connect the SmartWheel to your handheld computer. Refer
             to Technical Hints to see how to connect the cables.</step>
           <step>Start the software and observe the position versus time
             graph as you roll the SmartWheel along the floor. Refer to
-            Technical Hints to see how to use the software.  <ext_image name="02_swOnWand"/>
+            Technical Hints to see how to use the software.  <ext-image name="02_swOnWand"/>
           </step>
           <step>With your team member, take turns making the following
             motions on the same graph. <steps>
@@ -381,14 +381,14 @@
           <step>Connect the SmartWheel to your handheld computer. Refer
             to Technical Hints to see how to connect the cables.  </step>
           <step>Attach a string to the front of your cart. It can be
-            looped around the bumper.<ext_image name="03A_tr"/>
+            looped around the bumper.<ext-image name="03A_tr"/>
           </step>
           <step>Practice pulling the cart while draping the connecting
             cable above the cart so that it doesn&apos;t pull the cart
             one way or the other. One person will need to walk alongside
             the cart while carrying the handheld computer and keeping
             the wire from obstructing the movement of the
-              cart.<ext_image name="03b_tr"/>
+              cart.<ext-image name="03b_tr"/>
           </step>
           <step>Predict the resulting graphs for each of the following
             motions in Notes on your handheld computer. Observe how the
@@ -429,7 +429,7 @@
             software. Be sure to drape the wire to the SmartWheel so
             that the cart rolls freely. Observe how the acrobat
             responded during the motion.</step>
-          <step>Save your data to the handheld.<ext_image name="04_tr2"/>
+          <step>Save your data to the handheld.<ext-image name="04_tr2"/>
           </step>
           <step>By looking at your position versus time graph, how do
             you know that your cart slowed down? Did it slow down at the
@@ -453,33 +453,33 @@
         </hint>
       </hints>
       <analysis>
-<steps>
-        <step>What does the steepness of the position versus time graph
+	<steps>
+	  <step>What does the steepness of the position versus time graph
           tell you about the velocity of the cart? How can you tell from
           the graph whether the cart is going forward or backward?  </step>
-        <step>What is the shape of the distance versus time graphs of a
+	  <step>What is the shape of the distance versus time graphs of a
           cart as it moves at:  <steps>
-            <step>constant velocity?  </step>
-            <step>decreasing velocity?</step>
-            <step>increasing velocity?  </step>
-          </steps>
+	      <step>constant velocity?  </step>
+	      <step>decreasing velocity?</step>
+	      <step>increasing velocity?  </step>
+	    </steps>
         </step>
-        <step>Explain the differences of movement of the acrobat during
+	  <step>Explain the differences of movement of the acrobat during
           Trial II and Trial III. What happened to either make it move
           or keep it still during each motion?  </step>
-        <step>Display each graph as a velocity versus time graph. See
+	  <step>Display each graph as a velocity versus time graph. See
           Technical Hints on how to switch between position and velocity
           graphs. How are the position and velocity graphs related for
           each trial? What is the shape of the velocity versus time
           graph of a cart as it moves at:<steps>
-            <step>constant velocity?</step>
-            <step>decreasing velocity?  </step>
-            <step>increasing velocity?</step>
-          </steps>
+	      <step>constant velocity?</step>
+	      <step>decreasing velocity?  </step>
+	      <step>increasing velocity?</step>
+	    </steps>
         </step>
-        <step>Do you think that if you knew the position of the cart at
+	  <step>Do you think that if you knew the position of the cart at
           every moment, you could know its velocity as well?</step>
-</steps>
+	</steps>
       </analysis>
       <further>
         <item>Draw a position graph of a motion that you would like your
@@ -504,7 +504,7 @@
       <question>What are the effects of friction on the motion of the
         propeller-driven cart?</question>
       <intro>
-        <ext_image name="propellerCartRev"/>In this activity you will
+        <ext-image name="propellerCartRev"/>In this activity you will
         investigate how friction and the driving force of a propeller
         mounted on an air cart oppose one another.  </intro>
       <think>If you sneeze in a weightless environment, as some of the
@@ -543,10 +543,10 @@
         <steps>
           <step>Use scissors to trim the ends of the plastic propeller
             (approximately 1cm) so that the ends of the propeller
-            won&apos;t hit the ground. <ext_image name="02_pr"/>
+            won&apos;t hit the ground. <ext-image name="02_pr"/>
           </step>
           <step>Press the propeller onto the shaft of the motor. The
-            white dab of paint should face toward the motor.  <ext_image name="01a_pr"/>
+            white dab of paint should face toward the motor.  <ext-image name="01a_pr"/>
           </step>
           <step>Turn the propeller with your finger. Looking at its
             shape, can you tell which way the air will blow? How do you
@@ -556,10 +556,10 @@
             propeller should turn to make the air blow away from the
             cart. While holding onto your cart, connect the battery
             wires to the motor. You can use the springiness of the wires
-            to hold them lightly in place.  <ext_image name="03a_motorWire"/>
+            to hold them lightly in place.  <ext-image name="03a_motorWire"/>
             <p>If the propeller doesn&apos;t blow away from the cart,
               reverse the wires.  </p>
-            <ext_image name="03b_motorWire"/>
+            <ext-image name="03b_motorWire"/>
           </step>
           <step>Was your prediction correct? </step>
           <step>While still holding onto your cart, carefully hold your
@@ -579,7 +579,7 @@
             Drape the connecting wire loosely from above the cart so
             that it doesn&apos;t pull the cart one way or the other. If
             you run the cart a long way, one person will need to walk
-            along with it, keeping the wire floppy.  <ext_image name="07_pr"/>
+            along with it, keeping the wire floppy.  <ext-image name="07_pr"/>
           </step>
           <step>Start the software and observe the position versus time
             graph. Refer to Technical Hints to see how to use the
@@ -609,14 +609,14 @@
           <step>Reverse the direction of the propeller and the motor so
             that it blows toward the cart. To do this, place the white
             dab of paint facing away from the motor, and reverse the red
-            and black leads.   <ext_image name="01b_pr"/>
+            and black leads.   <ext-image name="01b_pr"/>
           </step>
           <step>Build a sled to drag behind the cart. Fold up one end of
             a file card. Make a loop of thread about 20cm long and tape
-            one end of it to the file card.  <ext_image name="08_pr"/>
+            one end of it to the file card.  <ext-image name="08_pr"/>
           </step>
           <step>Hook the loop over the bumper. Use clay to add weight to
-            the sled.<ext_image name="09_pr"/>
+            the sled.<ext-image name="09_pr"/>
           </step>
           <step>Connect the SmartWheel to your handheld computer. Refer
             to Technical Hints to see how to connect the SmartWheel.  </step>
@@ -664,33 +664,33 @@
         </hint>
       </hints>
       <analysis>
-<steps>
-        <step>How does a propeller create a force that pushes on a cart?</step>
-        <step>Would a propeller work in outer space, where there&apos;s
+	<steps>
+	  <step>How does a propeller create a force that pushes on a cart?</step>
+	  <step>Would a propeller work in outer space, where there&apos;s
           no air? If not, how could you make something move in outer
           space? </step>
-        <step>Look at your position versus time and velocity versus time
+	  <step>Look at your position versus time and velocity versus time
           graphs in Trial II. Explain the differences between the
           position graph and the velocity graph. How are they different
           from graphs where the cart is moving at a constant velocity?  </step>
-        <step>Look at your velocity versus time graph in Trial III. For
+	  <step>Look at your velocity versus time graph in Trial III. For
           each case, describe the graph and what you think is causing it
           to have that shape.   <steps>
-            <step>no friction, push cart  </step>
-            <step>no friction, propeller  </step>
-            <step>some friction, push cart</step>
-            <step>some friction, propeller</step>
-            <step>more friction, push cart</step>
-            <step>more friction, propeller</step>
-          </steps>
+	      <step>no friction, push cart  </step>
+	      <step>no friction, propeller  </step>
+	      <step>some friction, push cart</step>
+	      <step>some friction, propeller</step>
+	      <step>more friction, push cart</step>
+	      <step>more friction, propeller</step>
+	    </steps>
         </step>
-        <step>Do you think the graphs are evidence that friction exerts
+	  <step>Do you think the graphs are evidence that friction exerts
           a force like the propeller, but in the opposite direction?  </step>
-        <step>The rate of change of velocity is the slope of the
+	  <step>The rate of change of velocity is the slope of the
           velocity versus time graph. Do your graphs give evidence that
           this slope is proportional to the net force on the cart? Does
           this confirm Newton&apos;s Second Law?  </step>
-</steps>
+	</steps>
       </analysis>
       <further>
         <item>Can you add enough clay to the sled so that the propeller
@@ -710,7 +710,7 @@
         with a wall </summary>
       <question>What happens when two objects collide? </question>
       <intro>
-        <ext_image name="wallCollision"/>In this activity you will
+        <ext-image name="wallCollision"/>In this activity you will
         investigate what happens during a collision of a cart with a wall.</intro>
       <think>Collisions happen so fast that it&apos;s hard to see what
         was going on during the event. You just see the results of a
@@ -755,7 +755,7 @@
           <step>Hold the Force probe so that you can hang things from
             the smaller eye bolt at the end of the arm. Calibrate the
             force probe to zero in this position. Refer to Technical
-            Hints to see how to calibrate the Force probe.  <ext_image name="01a_c1"/>
+            Hints to see how to calibrate the Force probe.  <ext-image name="01a_c1"/>
           </step>
           <step>Try weighing something light, such as a paper clip
             hooked to a pen. Expand the force scale so that you can see
@@ -767,7 +767,7 @@
             Explain your reasoning in Notes on your handheld computer.  </step>
           <step>Use a paper clip to make a hook so that you can hang the
             cart from the Force probe. It can be hooked to the bumper,
-            around the propeller, or through the cardboard. <ext_image name="01b_c1"/>
+            around the propeller, or through the cardboard. <ext-image name="01b_c1"/>
           </step>
           <step>Start recording with the software for force. Hang the
             cart from the Force probe for 10 seconds. Remove it and
@@ -779,7 +779,7 @@
             will it be the same? Try it.</step>
           <step>What variations do you get? Can you get a steady
             reading? Explain your reasoning in Notes on your handheld
-            computer.  <ext_image name="01c_c1"/>
+            computer.  <ext-image name="01c_c1"/>
           </step>
           <step>Calculate the mass, in kilograms, of your cart.<p>The
               conversion is mass (kg) = weight (newtons) / 9.8  </p>
@@ -794,11 +794,11 @@
             cart. It could also be clamped to a ring stand. Have someone
             hold the Force probe down firmly during the experiment.
             Unscrew and set aside the larger eye bolt if it&apos;s in
-            the way.  <ext_image name="05a_cartPush"/>
+            the way.  <ext-image name="05a_cartPush"/>
           </step>
           <step>Make sure the motor and propeller are set for pushing
             the cart. The white dot on the propeller should be toward
-            the motor.  <ext_image name="01a_pr"/>
+            the motor.  <ext-image name="01a_pr"/>
           </step>
           <step>Connect the Force probe to your handheld computer. Refer
             to Technical Hints to see how to connect the cables. </step>
@@ -810,7 +810,7 @@
             probe.  </step>
           <step>Line up the cart bumper with the Force probe, then roll
             the cart back about 50cm. Mark the distance so that you can
-            start the cart in the same place every time.   <ext_image name="02_c1"/>
+            start the cart in the same place every time.   <ext-image name="02_c1"/>
           </step>
           <step>Start the propeller motor.</step>
           <step>Start recording the force, then let the cart go. Refer
@@ -844,7 +844,7 @@
             cart. It could also be clamped to a ring stand. Have someone
             hold the Force probe down firmly during the experiment.
             Unscrew and set aside the larger eye bolt if it&apos;s in
-            the way.  <ext_image name="05a_cartPush"/>
+            the way.  <ext-image name="05a_cartPush"/>
           </step>
           <step>Set up the Force probe in fast mode (at least 400 times
             per second). Refer to Technical Hints to see how to adjust
@@ -852,11 +852,11 @@
           <step>Cut a long rubber band to make a bungee cord. Attach one
             end to the Force probe and the other end to the cart. Use
             several rubber bands if needed so that the cord is about
-            1/2m long.  <ext_image name="03_c1"/>
+            1/2m long.  <ext-image name="03_c1"/>
           </step>
           <step>Line up the cart with the Force probe, with the rubber
             band lying loosely between them. Hook things together with
-            paper clips.  <ext_image name="04_c1"/>
+            paper clips.  <ext-image name="04_c1"/>
           </step>
           <step>Start recording the force. Refer to Technical Hints to
             see how to use the software. Give the cart a push so that it
@@ -893,19 +893,19 @@
         </hint>
       </hints>
       <analysis>
-<steps>
-        <step>What comparisons can you make between the bumper event and
+	<steps>
+	  <step>What comparisons can you make between the bumper event and
           the rubber band event? How long did each collision take? What
           was the shape of the graph? What was the maximum force?</step>
-        <step>What is the relationship between the behavior of the
+	  <step>What is the relationship between the behavior of the
           acrobat and the shape and size of the force graph?  </step>
-        <step>Why do you think the forces were different in the two cases?</step>
-        <step>If you were riding on the cart, which collision would you
+	  <step>Why do you think the forces were different in the two cases?</step>
+	  <step>If you were riding on the cart, which collision would you
           prefer, a collision with a wall or a collision using a bungee
           cord? Why?  </step>
-        <step>How could you decrease the maximum force when the cart
+	  <step>How could you decrease the maximum force when the cart
           hits the Force probe? Explain why your idea would work. </step>
-</steps>
+	</steps>
       </analysis>
       <further>
         <item>Use the SmartWheel to investigate the change in velocity
@@ -930,7 +930,7 @@
       <question>When two objects hit, is the force on one the same as
         the force on the other? </question>
       <intro>
-        <ext_image name="2cartCollision"/>In this activity you will
+        <ext-image name="2cartCollision"/>In this activity you will
         investigate what happens during a collision between two carts.  </intro>
       <think>Suppose a heavy ball and a light ball bounce off of each
         other. Does each one experience the same force? Do they each
@@ -967,7 +967,7 @@
             bungee cord about 30 cm long.  </step>
           <step>Attach one end of the bungee to one Force probe, and the
             other end to the other Force probe. Use the small eye bolt
-            to attach the rubber bands.   <ext_image name="01a_c2"/>
+            to attach the rubber bands.   <ext-image name="01a_c2"/>
           </step>
           <step>Connect the Force probe to your handheld computer. Refer
             to Technical Hints to see how to connect the cables.   </step>
@@ -994,23 +994,23 @@
             acrobat to do this. </step>
           <step>Set the Force probe on the cart, resting on the flat
             plate that has two threaded holes in it. Mark the two holes
-            on the cardboard with a pen or pencil.   <ext_image name="02a_c2"/>
+            on the cardboard with a pen or pencil.   <ext-image name="02a_c2"/>
           </step>
           <step>Punch two holes in the cardboard with your pen or
             pencil. Enlarge them from both sides so that a screw will
-            just fit through.  <ext_image name="02b_c2"/>
+            just fit through.  <ext-image name="02b_c2"/>
           </step>
           <step>Put the two screws through the cardboard from the
             underside, and screw them into the Force probe plate.
             Tighten them until the heads squeeze the cardboard a little
-            bit. A paper clip will work as a screwdriver.  <ext_image name="02c_c2"/>
+            bit. A paper clip will work as a screwdriver.  <ext-image name="02c_c2"/>
           </step>
           <step>Screw the larger eye bolt and set it aside. Glue the
-            bumper on the smaller eye bolt.  <ext_image name="02d_c2"/>
+            bumper on the smaller eye bolt.  <ext-image name="02d_c2"/>
           </step>
           <step>Weigh both carts by hanging them from the small eye
             bolt. Calibrate the force probe to zero. Refer to Technical
-            Hints to see how to calibrate the Force probe.  <ext_image name="03a_c2"/>
+            Hints to see how to calibrate the Force probe.  <ext-image name="03a_c2"/>
           </step>
           <step>Make the carts equal in mass by adding some clay to one
             of them if needed. </step>
@@ -1024,7 +1024,7 @@
             Refer to Technical Hints to see how to use the software. </step>
           <step>With the carts horizontal, calibrate the Force probe to
             zero. Refer to Technical Hints to see how to calibrate the
-            Force probe.  <ext_image name="04a_c2"/>
+            Force probe.  <ext-image name="04a_c2"/>
           </step>
           <step>Start recording. Push the carts toward each other at
             about the same velocity, and let them bounce back.  </step>
@@ -1051,7 +1051,7 @@
             graph. Refer to Technical Hints to see how to use the
             software.  </step>
           <step>Start recording. Push one cart toward the other and let
-            them bounce. Be sure the bumpers are lined up.<ext_image name="04b_c2"/>
+            them bounce. Be sure the bumpers are lined up.<ext-image name="04b_c2"/>
           </step>
           <step>Try this again several times. When you get a good run,
             save your data to the handheld.   </step>
@@ -1084,23 +1084,23 @@
         </hint>
       </hints>
       <analysis>
-<steps>
-        <step>Trials I and II are examples of Newton &apos;s famous
+	<steps>
+	  <step>Trials I and II are examples of Newton &apos;s famous
           assertion that &quot;for every action, there is an equal and
           opposite reaction.&quot; Does it seem to be true in both
           cases? Is the result surprising? </step>
-        <step>If you were pushing on each other with Force probes
+	  <step>If you were pushing on each other with Force probes
           instead of pulling, would they still read the same?&quot;  </step>
-        <step>If one of the Force probes were attached to a wall and you
+	  <step>If one of the Force probes were attached to a wall and you
           were pulling on the other one, would they read the same force?   </step>
-        <step>If a light cart hit a heavy cart at rest, what would you
+	  <step>If a light cart hit a heavy cart at rest, what would you
           say now about the force on each one and their speeds after the
           collision?  </step>
-        <step>Newton&apos;s Second Law asserts that a force is needed to
+	  <step>Newton&apos;s Second Law asserts that a force is needed to
           change the velocity of an object. The greater the force, the
           more quickly the velocity changes. Do your trials support this
           theory?  </step>
-</steps>
+	</steps>
       </analysis>
       <further>
         <item>Try other collisions: one cart moving and the other
@@ -1125,7 +1125,7 @@
       <question>What happens when two objects at different temperatures
         are left in contact with each other?  </question>
       <intro>
-        <ext_image name="bathtub"/>In this activity you will investigate
+        <ext-image name="bathtub"/>In this activity you will investigate
         how to alter heat flow.</intro>
       <think>We are constantly dealing with things at different
         temperatures. Sometimes we want the heat to flow faster
@@ -1162,7 +1162,7 @@
             Temperature probe with your handheld. Refer to Technical
             Hints to see how to set up the Temperature probe. The
             sensitive part is just the very tip, where two wires are
-            welded together.   <ext_image name="01_hf"/>
+            welded together.   <ext-image name="01_hf"/>
           </step>
           <step>What will happen when you touch the end of the probe?
             What happens when you put the probe in water? Record your
@@ -1197,7 +1197,7 @@
             cup. Watch the graph.  </step>
           <step>Stop when you think the temperature has come to a
             relatively stable temperature (equilibrium). Save your data
-            to the handheld.  <ext_image name="02_hf"/>
+            to the handheld.  <ext-image name="02_hf"/>
           </step>
           <step>How many seconds did it take? How good was your
             prediction? Would this be a good temperature for your bath
@@ -1209,7 +1209,7 @@
       <trial title="Reaching equilibrium in temperature">
         <steps>
           <step>Make a small ball of clay, about the size of a large
-            (shooter) marble.<ext_image name="03_hf"/>
+            (shooter) marble.<ext-image name="03_hf"/>
           </step>
           <step>Set up the Temperature probe with your handheld. Refer
             to Technical Hints to see how set up the Temperature probe.
@@ -1225,17 +1225,17 @@
             temperature. Place two film canisters of the water into the
             styrofoam cup so that the clay will be fully immersed.
             Measure the water temperature with the Temperature probe.
-              <ext_image name="04_hf2"/>
+              <ext-image name="04_hf2"/>
           </step>
           <step>Stick the probe into the center of the clay ball while
             the probe is still running.  </step>
           <step>Is it about room temperature? If not, why not? Record
             your thoughts in Notes on your handheld computer.
-              <ext_image name="05a_hf"/>
+              <ext-image name="05a_hf"/>
           </step>
           <step>With the probe in the clay ball, immerse it in the
             water. Watch the graph. Run it until you think it has come
-            to relatively stable temperature (equilibrium).  <ext_image name="05b_hf"/>
+            to relatively stable temperature (equilibrium).  <ext-image name="05b_hf"/>
           </step>
           <step>While you&apos;re waiting, predict in Notes on your
             handheld computer what you think the final temperature will
@@ -1266,7 +1266,7 @@
             Stryfoam cup that contains water. Any amount of water will
             do that&apos;s NOT at room temperature. Let it come to a
             relatively stable temperature (equilibrium). It can be
-            either colder or warmer than room temperature.  <ext_image name="05c_hf"/>
+            either colder or warmer than room temperature.  <ext-image name="05c_hf"/>
           </step>
           <step>Design an insulation to keep the clay at this
             temperature. You can use any available materials. Record why
@@ -1275,7 +1275,7 @@
           <step>Leaving the temperature probe in the clay, pull the clay
             out of the water and quickly dry it off. Quickly wrap the
             clay and temperature probe in your insulation system.
-              <ext_image name="06_hf"/>
+              <ext-image name="06_hf"/>
           </step>
           <step>Monitor the temperature of the clay. How long does it
             take to reach equilibrium? Is that better or worse than you
@@ -1292,22 +1292,22 @@
         </hint>
       </hints>
       <analysis>
-<steps>
-        <step>While mixing water at two temperatures, did the result
+	<steps>
+	  <step>While mixing water at two temperatures, did the result
           match your prediction? If they differed, why? Derive a formula
           for the final temperature of the mixed water when you use
           equal amounts of different temperatures of water.  </step>
-        <step>Which exchanged heat faster, the water mixed together or
+	  <step>Which exchanged heat faster, the water mixed together or
           the clay in the water? Why?  </step>
-        <step>Describe the shape of the graph of the clay temperature as
+	  <step>Describe the shape of the graph of the clay temperature as
           it approaches the temperature of the water. Why do you think
           it has that shape?  </step>
-        <step>Do you think the shape of the clay makes a difference?
+	  <step>Do you think the shape of the clay makes a difference?
           Give examples of shapes besides a ball and how they would
           behave differently.  </step>
-        <step>How did your method of insulation compare to other methods
+	  <step>How did your method of insulation compare to other methods
           used in your group? Explain why the differences occurred.  </step>
-</steps>
+	</steps>
       </analysis>
       <further>
         <item>Mix two parts of one temperature with one part at another
@@ -1331,7 +1331,7 @@
         velocity. If the total amount of energy is always the same, how
         does it change form?   </question>
       <intro>
-        <ext_image name="cartOnRamp"/>In this activity you will relate
+        <ext-image name="cartOnRamp"/>In this activity you will relate
         the movement and energy of a cart as it rolls up and down a
         ramp.  </intro>
       <think>A basketball player going for a lay up is a good example of
@@ -1366,7 +1366,7 @@
           <step>Set the ramp with a height of 10cm at the higher end.
             Place the cart on the ramp with the back wheels near the
             top. Mark where the back wheels are so you can repeat the
-            experiment several times. <ext_image name="01_pk"/>
+            experiment several times. <ext-image name="01_pk"/>
           </step>
           <step>Connect the SmartWheel to your handheld computer. Refer
             to Technical Hints to see how to connect the SmartWheel.  </step>
@@ -1374,7 +1374,7 @@
             Refer to Technical Hints to see how to use the software.  </step>
           <step>Let the cart roll down the ramp and continue along the
             floor or desk. If you have room, let it coast to a stop.
-              <ext_image name="02_pk"/>
+              <ext-image name="02_pk"/>
           </step>
           <step>Stop the software immediately after a good roll and save
             your data to the handheld computer.   </step>
@@ -1393,7 +1393,7 @@
           <step>Set the ramp with a height of 10cm at the higher end.
             Place the cart on the ramp with the back wheels halfway up
             the ramp. Mark where the back wheels are so you can repeat
-            the experiment several times.<ext_image name="03_pk"/>
+            the experiment several times.<ext-image name="03_pk"/>
           </step>
           <step>Start the software to read a velocity versus time graph.
             Refer to Technical Hints to see how to use the software.  </step>
@@ -1419,7 +1419,7 @@
             stand so that the cart is held halfway up the ramp and is
             free to move up and down. It&apos;s something like a bungee
             cord but at an angle. You may need some string as well as
-            the rubber bands.  <ext_image name="04_pk"/>
+            the rubber bands.  <ext-image name="04_pk"/>
           </step>
           <step>Start the software to read a velocity versus time graph.
             Refer to Technical Hints to see how to use the software.</step>
@@ -1445,34 +1445,34 @@
         </hint>
       </hints>
       <analysis>
-<steps>
-        <step>In Trials I and II, the cart has two forms of energy. The
+	<steps>
+	  <step>In Trials I and II, the cart has two forms of energy. The
           first, gravitational potential energy, is proportional to an
           object&apos;s height above the Earth. The higher an object,
           the more gravitational potential energy it has. When in each
           trial did the cart have the greatest potential energy? Why?   </step>
-        <step>The second form is kinetic energy, also called energy of
+	  <step>The second form is kinetic energy, also called energy of
           motion. It depends on an object&apos;s velocity. When in each
           trial did the cart have the greatest kinetic energy? Why?  </step>
-        <step>Do you think the cart has as much kinetic energy at the
+	  <step>Do you think the cart has as much kinetic energy at the
           bottom of the ramp as it had potential energy at the top of
           the ramp? Why? </step>
-        <step>Energy can also be stored in a stretched rubber band.
+	  <step>Energy can also be stored in a stretched rubber band.
           It&apos;s another form of potential energy. If you
           &quot;hang&quot; a cart down a ramp with a rubber band, then
           let it bounce up and down, energy is going from (gravitational
           potential) to (kinetic) to (rubber band potential). Look at
           your data from Trial III. Where on the graph is each kind of
           energy the greatest?   </step>
-        <step>After the cart leaves the ramp, it slows down, losing its
+	  <step>After the cart leaves the ramp, it slows down, losing its
           kinetic energy. Where does the energy go?  </step>
-        <step>We often want to store energy for later use. How many
+	  <step>We often want to store energy for later use. How many
           examples of this can you list? In each case, what is the form
           of stored energy, and what is the form of useful energy that
           comes from it? Hint: The useful energy might not always be
           kinetic energy; it might be light from a bulb, or heat in a
           room.     </step>
-</steps>
+	</steps>
       </analysis>
       <further>
         <item>Add weight to the cart. Does that affect its final
@@ -1512,7 +1512,7 @@
       <summary>Investigate heating with electrical devices </summary>
       <question>Can electricity be used to heat things? </question>
       <intro>
-        <ext_image name="lightningBolt"/>In this activity you will
+        <ext-image name="lightningBolt"/>In this activity you will
         investigate heating with electrical devices.</intro>
       <think>Electricity is a form of energy that&apos;s proven to be
         extraordinarily useful. It can be generated in many ways. It can
@@ -1523,7 +1523,7 @@
         useful, such as light, heat, sound, or mechanical motion. What
         other forms of energy can you think of that can be obtained from
         electricity? Make a list in Notes on your handheld computer.
-          <ext_image name="01_he"/>
+          <ext-image name="01_he"/>
         <p>The Genecon is a little generator with the same basic design
           as the huge generators run by hydroelectric dams, coal-fired
           boilers, or nuclear power plants. In every case, some other
@@ -1564,13 +1564,13 @@
             When you put electrical current through the resistor, it
             converts the electrical energy into heat and heats up the
             block of aluminum. The heat cell is placed in insulation to
-            prevent heat loss to the environment.  <ext_image name="02_he"/>
+            prevent heat loss to the environment.  <ext-image name="02_he"/>
           </step>
           <step>Remove the heat cell from its insulation. Attach the two
             leads of the Genecon to wires extending from the heat cell.
             Also connect the voltage leads and the current leads of
             Voltage/Current probe to the heat cell. Don &apos;t put the
-            heat cell in the insulation yet.  <ext_image name="03_he"/>
+            heat cell in the insulation yet.  <ext-image name="03_he"/>
           </step>
           <step>Start the software to record power. This measures the
             electrical power, in watts, that you are supplying to the
@@ -1590,13 +1590,13 @@
             The sensitive part is just the very tip, where two wires are
             welded together.  </step>
           <step>Put the tip of the Temperature probe into the small hole
-            in one end of the heat cell.  <ext_image name="04a_he"/>
+            in one end of the heat cell.  <ext-image name="04a_he"/>
           </step>
           <step>Set the heat cell in the insulation and close up the box
-            with a rubber band.<ext_image name="04b_he"/>
+            with a rubber band.<ext-image name="04b_he"/>
           </step>
           <step>Attach the two Genecon leads to the wires extending from
-            the heat cell.  <ext_image name="04c_he"/>
+            the heat cell.  <ext-image name="04c_he"/>
           </step>
           <step>Start the software for the Temperature probe. Refer to
             Technical Hints to see how to use the software. Start
@@ -1639,22 +1639,22 @@
             When you put electrical current through the resistor, it
             converts the electrical energy into heat and heats up the
             block of aluminum. The heat cell is placed in insulation to
-            prevent heat loss to the environment.  <ext_image name="02_he"/>
+            prevent heat loss to the environment.  <ext-image name="02_he"/>
           </step>
           <step>Insert the tip of the Temperature probe into the small
             hole in one end of the heat cell. Put on the insulation
-            cover and close the box with a rubber band.  <ext_image name="04a_he"/>
+            cover and close the box with a rubber band.  <ext-image name="04a_he"/>
           </step>
           <step>Use a 2-AA battery pack, which will supply somewhat less
             than 3 volts, to warm the heat cell. You can use the battery
             pack on the air cart for this. Attach one of the battery
-            leads, but not the other, to the heat cell.   <ext_image name="05b_he2"/>
+            leads, but not the other, to the heat cell.   <ext-image name="05b_he2"/>
           </step>
           <step>Start the software for the Temperature probe. Refer to
             Technical Hints to see how to use the software. </step>
           <step>When the temperature graph reaches exactly 10 seconds,
             connect the second lead of the battery pack to the other end
-            of the heat cell.  <ext_image name="05c_he"/>
+            of the heat cell.  <ext-image name="05c_he"/>
           </step>
           <step>Heat the cell for 60 seconds, then disconnect one
             battery lead. Let the graph run another 60 seconds so that
@@ -1688,11 +1688,11 @@
           <step>Divide the student research teams into two groups. Half
             the teams will surround the mini light with clear tape, and
             the other half will surround it with aluminum foil.
-              <ext_image name="06a_he"/>
+              <ext-image name="06a_he"/>
             <steps>
               <step>Tape teams: Hold the tip of the Temperature probe
                 against the mini light with a short piece of clear tape
-                that goes right around the bulb.<ext_image name="06b_he"/>
+                that goes right around the bulb.<ext-image name="06b_he"/>
               </step>
               <step>Foil teams: Wrap the mini light with a small piece
                 of aluminum foil that goes all the way around it. Hold
@@ -1702,12 +1702,12 @@
             </steps>
           </step>
           <step>Attach one lead of the battery to the mini light, but
-            not the other.<ext_image name="06c_he"/>
+            not the other.<ext-image name="06c_he"/>
           </step>
           <step>Start the software to record temperature. Refer to
             Technical Hints to see how to use the software.</step>
           <step>Attach the second battery lead and light up the mini
-            light. <ext_image name="06d_he"/>
+            light. <ext-image name="06d_he"/>
           </step>
           <step>Monitor the temperature plot. Let it run for 30 seconds,
             then disconnect the second lead and let it run for another
@@ -1743,29 +1743,29 @@
         </hint>
       </hints>
       <analysis>
-<steps>
-        <step>Discuss the shape of the temperature graph when you
+	<steps>
+	  <step>Discuss the shape of the temperature graph when you
           supplied electrical energy to the heat cell with the Genecon.
           Does it start to heat right away? What does the slope of the
           line tell you? Is it the same for fast and slow cranking?  </step>
-        <step>Compare the rate of heating by the Genecon and the
+	  <step>Compare the rate of heating by the Genecon and the
           batteries. Which heats faster? How can you tell? Are you
           surprised by the amount of cranking it takes to equal what a
           small battery can do?  </step>
-        <step>Is the amount of cooling significant over the period of 60 seconds?</step>
-        <step>Is the shape of the graph for cooling the same as the
+	  <step>Is the amount of cooling significant over the period of 60 seconds?</step>
+	  <step>Is the shape of the graph for cooling the same as the
           shape for heating? How long do you think it would take for the
           heat cell to cool down to the starting temperature?  </step>
-        <step>Do you think the energy in the battery could properly be
+	  <step>Do you think the energy in the battery could properly be
           called &quot;potential&quot; energy? What form do you think it
           is in?  </step>
-        <step>Why did the light bulb heat up so much more rapidly than
+	  <step>Why did the light bulb heat up so much more rapidly than
           the heat cell?  </step>
-        <step>Compare the tape teams&apos; data with the foil
+	  <step>Compare the tape teams&apos; data with the foil
           teams&apos; data. Did the bulb heat up faster with the clear
           tape or the aluminum foil? Explain how you think the light
           bulb becomes hot and what difference the covering makes.   </step>
-</steps>
+	</steps>
       </analysis>
       <further>
         <item>Heat the cell, out of its box, until it reaches about 45
@@ -1798,7 +1798,7 @@
       <question>Can all forms of energy be transformed from one form to
         another? </question>
       <intro>
-        <ext_image name="singleNRG"/>In this activity you will
+        <ext-image name="singleNRG"/>In this activity you will
         investigate the benefits of changing one form of energy into
         another form of energy.  </intro>
       <think>Energy comes in many forms - electrical, mechanical,
@@ -1841,7 +1841,7 @@
             a battery. There is an even more direct way with a
             capacitor. A capacitor stores electrical charges and can
             release them again as electrical current. Attach the Genecon
-            and Voltage/Current probe to the capacitor.  <ext_image name="01b_st"/>
+            and Voltage/Current probe to the capacitor.  <ext-image name="01b_st"/>
           </step>
           <step>Connect the Voltage/Current probe to your handheld
             computer. Refer to Technical Hints to connect the
@@ -1854,7 +1854,7 @@
             up&quot;?  </step>
           <step>Quickly disconnect one lead of the Genecon as shown,
             leaving the Voltage/Current probe attached. Wait for about
-            20 seconds.  <ext_image name="01c_st"/>
+            20 seconds.  <ext-image name="01c_st"/>
           </step>
           <step>Re-attach the capacitor to the Genecon without cranking
             it. What happens? What simple energy transformation has
@@ -1868,20 +1868,20 @@
       <trial title="Using stored electrical energy">
         <steps>
           <step>Charge up the capacitor with the Genecon and quickly
-            disconnect it. <ext_image name="02a_st2"/>
+            disconnect it. <ext-image name="02a_st2"/>
           </step>
           <step>Connect the charged-up capacitor to power your air cart.
             Coil up the extra wire so that it doesn&apos;t rub against
-            the wheels. How far can you make it go?  <ext_image name="03_st"/>
+            the wheels. How far can you make it go?  <ext-image name="03_st"/>
           </step>
           <step>Another possible way to use the energy from the
             capacitor is to warm up the heat cell. Place the tip of the
             Temperature probe in the small hole in one end of the heat
-            cell.  <ext_image name="04a_he"/>
+            cell.  <ext-image name="04a_he"/>
           </step>
           <step>Close the heat cell in its insulating box by wrapping it
             with a rubber band and connecting the two clip leads to the
-            metal wires that are sticking out.  <ext_image name="04b_st"/>
+            metal wires that are sticking out.  <ext-image name="04b_st"/>
           </step>
           <step>Connect the Temperature probe to your handheld computer.
             Refer to Technical Hints to connect the Temperature probe.  </step>
@@ -1891,7 +1891,7 @@
             quickly disconnect it.</step>
           <step>Connect the capacitor to the heat cell with two clip
             leads and observe the temperature versus time graph.
-              <ext_image name="04c_st"/>
+              <ext-image name="04c_st"/>
           </step>
           <step>Expand the graph until you can read the temperature
             change. Refer to Technical Hints to see how to use the
@@ -1913,7 +1913,7 @@
           <step>Set up the heat cell with the Temperature probe
             attached, but not in its insulating cover. Mark one face of
             the cell black with a marker or carbon from a burnt candle
-            wick to increase the absorption of energy.  <ext_image name="05a_st"/>
+            wick to increase the absorption of energy.  <ext-image name="05a_st"/>
           </step>
           <step>Connect the Temperature probe to your handheld computer.
             Refer to Technical Hints to connect the Temperature probe.  </step>
@@ -1921,7 +1921,7 @@
             Technical Hints to see how to use the software.  </step>
           <step>Try focusing sunlight on the heat cell with the Fresnel
             lens. If there&apos;s no sunlight, try focusing light from
-            an incandescent light bulb.<ext_image name="05b_st"/>
+            an incandescent light bulb.<ext-image name="05b_st"/>
           </step>
           <step>Monitor the temperature with the Temperature probe. Do
             not heat the cell above 50 degrees Celsius. The aluminum
@@ -1949,13 +1949,13 @@
         </hint>
       </hints>
       <analysis>
-<steps>
-        <step>When you charged the capacitor with the Genecon, then ran
+	<steps>
+	  <step>When you charged the capacitor with the Genecon, then ran
           the Genecon with the capacitor, do you think you obtained as
           much mechanical energy out of the capacitor as you put in it?
           How could you find out? If you didn&apos;t, where did the
           energy go?</step>
-        <step>Capacitors, with their ability to store electrical energy
+	  <step>Capacitors, with their ability to store electrical energy
           and release it very fast, have many uses. A familiar one is
           the flash on a camera. A very small amount of energy is
           released so fast that it makes a bright, but brief, light.
@@ -1964,19 +1964,19 @@
           capacitor is not the best source of energy. A battery is much
           better. Think of other situations that use batteries and
           capacitors for electrical energy storage.  </step>
-        <step>The Fresnel lens concentrates light from a larger area to
+	  <step>The Fresnel lens concentrates light from a larger area to
           a smaller area, by bending the light that comes through it.
           This is called refraction. How much do you think the Fresnel
           lens magnified the amount of sunlight reaching the heat cell
           compared to just letting it sit out in the Sun without the
           lens? Compare the area of the Fresnel lens to the area of the
           focused light on the heat cell.  </step>
-        <step>How many devices can you think of that use lenses to focus light?</step>
-        <step>How do you think sunlight is converted into heat? Do you
+	  <step>How many devices can you think of that use lenses to focus light?</step>
+	  <step>How do you think sunlight is converted into heat? Do you
           think it matters if the heat cell is black instead of plain
           aluminum? Can heat be converted back into light? If so, list
           some examples of this type of conversion.  </step>
-</steps>
+	</steps>
       </analysis>
       <further>
         <item>Hook several capacitors in parallel and series, using clip
@@ -1995,7 +1995,7 @@
       <question>What energy transformations are used in everyday
         devices? </question>
       <intro>
-        <ext_image name="multipleNRG"/>In this activity you investigate
+        <ext-image name="multipleNRG"/>In this activity you investigate
         energy being transformed through several steps to obtain a
         useful form.  </intro>
       <think>We use many devices that transform energy from one form to
@@ -2050,17 +2050,17 @@
           <step>Hook the solar cell to the voltage probe. Try it under
             different light conditions, such as a light bulb, direct
             sunlight, indirect light from the sky. Stop the software and
-            save your data.  <ext_image name="01_mt"/>
+            save your data.  <ext-image name="01_mt"/>
           </step>
           <step>The maximum voltage is about 2V of the solar cell. Can
             you get it to read this high? Record your observations in
             Notes on your handheld.  </step>
           <step>Team up with another group and connect two solar cells
-            in parallel, using the clip leads.  <ext_image name="02a_mt"/>
+            in parallel, using the clip leads.  <ext-image name="02a_mt"/>
           </step>
           <step>Mount them on a cart at an angle so that they face
             toward bright sunlight. Clip the leads to the motor.
-              <ext_image name="02_mt"/>
+              <ext-image name="02_mt"/>
           </step>
           <step>Is there enough power to drive the air cart? What are
             the energy transformations happening when the sunlight hits
@@ -2073,7 +2073,7 @@
         <steps>
           <step>Attach the Genecon to a mini light. Crank it, but not
             too fast. If excessive cranking takes place, the light will
-            burn out!  <ext_image name="05_mt"/>
+            burn out!  <ext-image name="05_mt"/>
           </step>
           <step>Does the amount of light vary according to how hard you
             crank? Record your observations in Notes on your handheld.  </step>
@@ -2087,10 +2087,10 @@
           <step>Place the light bulb in a black film canister along with
             the Light probe. Make sure the Light probe faces the light
             bulb. Hold the Light probe and the mini light in place with
-            pieces of clay.   <ext_image name="06a_mt"/>
+            pieces of clay.   <ext-image name="06a_mt"/>
           </step>
           <step>Cover the opening with aluminum foil to block as much
-            outside light as you can.  <ext_image name="06b_mt"/>
+            outside light as you can.  <ext-image name="06b_mt"/>
           </step>
           <step>Restart the software to read light. Gradually increase
             the rate of cranking the Genecon. Do not crank too fast, or
@@ -2113,34 +2113,34 @@
             computer. Refer to Technical Hints to connect the
             Voltage/Current probe. </step>
           <step>Connect the Voltage/Current probe leads to the Genecon
-            leads as shown in the diagram.  <ext_image name="07_mt"/>
+            leads as shown in the diagram.  <ext-image name="07_mt"/>
           </step>
           <step>Start the software to read energy. Refer to Technical
             Hints to see how to use the software.  </step>
           <step>Use one Genecon to drive the other, or each try to
             oppose the other. Watch the energy graph. Does it correspond
             to what you are doing with the Genecons? What are the energy
-            transformations happening here? Stop recording.  <ext_image name="08a_mt"/>
+            transformations happening here? Stop recording.  <ext-image name="08a_mt"/>
           </step>
           <step>Now attach a pulley to one of the Genecons. Leave the
             wires hooked up. Remove one handle. The pulley comes with a
             piece of plastic tubing (bushing). Fit the tubing on the
             Genecon shaft and slide the pulley tightly over the shaft.
-              <ext_image name="08c_mt"/>
+              <ext-image name="08c_mt"/>
           </step>
           <step>Cut about 2m of thread or string. Tie one end through
-            the hole in the side of the pulley.<ext_image name="08d_mt"/>
+            the hole in the side of the pulley.<ext-image name="08d_mt"/>
           </step>
           <step>Wind up the string onto the pulley. Attach a hanging
             weight. You can use a 50g mass from your kit or a heavier
             one of your own. A paper clip works as a hook. It has a mass
-            of about 0.3g.  <ext_image name="09a_mt"/>
+            of about 0.3g.  <ext-image name="09a_mt"/>
           </step>
           <step>Hold the Genecon with its shaft horizontal and the
             string hanging down from the pulley. Its leads should still
             be hooked to the other Genecon, with the Voltage/Current
             leads in place.  </step>
-          <step>Restart the software to read energy.<ext_image name="09b_mt"/>
+          <step>Restart the software to read energy.<ext-image name="09b_mt"/>
           </step>
           <step>Crank the other Genecon to lift the weight. Can you also
             lower the weight? If the weight is heavy enough, will it
@@ -2173,27 +2173,27 @@
         </hint>
       </hints>
       <analysis>
-<steps>
-        <step>You built a solar car in Trial I! What other features
+	<steps>
+	  <step>You built a solar car in Trial I! What other features
           would it need to be a practical vehicle?  </step>
-        <step>Open the data from Trials II. Compare all of the different
+	  <step>Open the data from Trials II. Compare all of the different
           light levels you measured. What was the maximum level? What
           was the minimum level?   </step>
-        <step>You were asked to rate the efficiency of each energy
+	  <step>You were asked to rate the efficiency of each energy
           transformation. Low efficiency means that useful energy is
           lost. Where does the lost energy go, in the case of the
           Genecon, the solar cell, and the light bulb?   </step>
-        <step>Open the data from Trial III. Compare the energy graph
+	  <step>Open the data from Trial III. Compare the energy graph
           with your list of what you were doing with the two Genecons
           and the attached mass. What does the graph tell you about
           energy transfer from one Genecon to the other?  </step>
-        <step>Design an energy &quot;Rube Goldberg&quot; machine. This
+	  <step>Design an energy &quot;Rube Goldberg&quot; machine. This
           type of machine is a wacky series of devices that change
           energy through various forms and ends up serving a purpose.
           Make a drawing of your Rube Goldberg on your handheld
           computer. Refer to Technical Hints to see draw in the
           software. Please no live animals!  </step>
-</steps>
+	</steps>
       </analysis>
       <further>
         <item>Measure the efficiency of the Genecon. Here are three ways:</item>

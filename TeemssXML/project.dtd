@@ -1,5 +1,5 @@
 <?xml encoding="UTF-8"?>
-<!ENTITY % TEXT1 "#PCDATA|image|ext_image_sequence|ext_image|p"> 
+<!ENTITY % TEXT1 "(#PCDATA) | image | (ext-image-sequence) | ext-image | p"> 
 <!ENTITY % TEXT "(%TEXT1;)*">
 
 <!ELEMENT junk (#PCDATA)>
@@ -12,10 +12,10 @@
 <!ATTLIST investigation name CDATA #REQUIRED >
 <!ELEMENT summary (#PCDATA)>
 <!ELEMENT question (#PCDATA)>
-<!ELEMENT intro %TEXT;>
+<!ELEMENT intro (%TEXT;)>
 <!ELEMENT think %TEXT;>
-<!ELEMENT materials (ext_image?,item+)>
 <!ELEMENT safety (item+)>
+<!ELEMENT materials (ext-image?,item+)>
 <!ELEMENT trial (%TEXT1; | instructions | steps)*>
 <!ATTLIST trial title   CDATA #REQUIRED>
 <!ELEMENT instructions (instruction+)>
@@ -32,10 +32,10 @@
 <!ATTLIST data trial CDATA #REQUIRED>
 <!ELEMENT further (item+)>
 <!ELEMENT item %TEXT;>
-<!ELEMENT ext_image EMPTY>
-<!ATTLIST ext_image type (gif|jpg) "gif">
-<!ATTLIST ext_image  name CDATA  #REQUIRED>
-<!ELEMENT ext_image_sequence (ext_image+)>
+<!ELEMENT ext-image EMPTY>
+<!ATTLIST ext-image type (gif|jpg) "gif">
+<!ATTLIST ext-image  name CDATA  #REQUIRED>
+<!ELEMENT ext-image-sequence (ext-image+)>
 <!ELEMENT image EMPTY>
 <!ATTLIST image name CDATA #REQUIRED>
 <!ATTLIST image  dir CDATA #REQUIRED>
