@@ -52,6 +52,11 @@ public class Axis
     float min;
     int length;
 
+	// These are the values that were set originally when the graph was
+	// setup.  They are mainly for external use.  
+	float defaultMin = Maths.NaN;
+	float defaultMax = Maths.NaN;
+
     // This is for external use it does not affect the drawing
     float max;
 
@@ -223,6 +228,9 @@ public class Axis
 
     public void setRange(float min, float range)
     {
+		if(defaultMin == Maths.NaN) defaultMin = min;
+		if(defaultMax == Maths.NaN) defaultMax = min+range;
+
 		setDispMin(min);
 		setRange(range);
     }
@@ -975,8 +983,23 @@ public class Axis
 		}
 	}
 
+	public void getDefaults()
+	{
+		if(defaultMin != Maths.NaN && defaultMax != Maths.NaN){
+			setRange(defaultMin, defaultMax-defaultMin);
+		}
+	}
+
+	public void setDefaults()
+	{
+		defaultMin = dispMin;
+		defaultMax = getDispMax();
+	}
+
 	public void readExternal(DataStream ds)
 	{
+		defaultMin = ds.readFloat();
+		defaultMax = ds.readFloat();
 		dispMin = ds.readFloat();
 		float readDispMax = ds.readFloat();
 		setRange(readDispMax - dispMin);
@@ -995,6 +1018,9 @@ public class Axis
 
     public void writeExternal(DataStream ds)
     {
+		ds.writeFloat(defaultMin);
+		ds.writeFloat(defaultMax);
+
 		ds.writeFloat(dispMin);
 		ds.writeFloat(getDispMax());
 

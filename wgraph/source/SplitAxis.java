@@ -464,10 +464,38 @@ public class SplitAxis extends Axis
 		startPos = 0;
 	}
 
+	public void setDefaults()
+	{
+		defaultMin = 0f;
+		defaultMax = 30f;
+		if(drawnX == -1 && !readExternalFlag){
+			// This is an odd way of doing it but hopefully it works.
+			defaultMin = 0f;
+			defaultMax = getDispMax();
+		} else if(drawnX == -1 && readExternalFlag){
+			if(firstVisible >= 0){
+				defaultMin = firstDispMin;
+				if(lastVisible >= 0){
+					defaultMax = lastDispMax;
+				}
+			}
+		} else {
+			if(firstVisible >= 0){
+				defaultMin = axisArray[firstVisible].dispMin;
+				if(lastVisible >= 0){
+					defaultMax = axisArray[lastVisible].getDispMax();
+				}
+			}
+		}
+	}
+
 	boolean readExternalFlag = false;
 	public void readExternal(DataStream ds)
 	{
 		readExternalFlag = true;
+
+		defaultMin = ds.readFloat();
+		defaultMax = ds.readFloat();
 
 		readNumAxis = ds.readInt();
 		firstVisible = ds.readInt();
@@ -496,6 +524,9 @@ public class SplitAxis extends Axis
 	// this might be a problem
     public void writeExternal(DataStream ds)
     {
+		ds.writeFloat(defaultMin);
+		ds.writeFloat(defaultMax);
+
 		if(drawnX == -1 && !readExternalFlag){
 			// This is an odd way of doing it but hopefully it works.
 			ds.writeInt(1);
