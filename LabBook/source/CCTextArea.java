@@ -254,6 +254,7 @@ public final static int	yTextBegin = 2;
 						objView = (currObjectViewDesc.link)?lobj.getMinimizedView():lobj.getView(this,false);
 						objView.setEmbeddedState(true);
 						currObjectViewDesc.setObject(objView);
+						objView.layout(false);
 						add(objView);
 					}
 				}
