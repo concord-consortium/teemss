@@ -27,7 +27,7 @@ import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 
 public class WinCanvas extends java.awt.Canvas 
-	implements KeyListener, MouseListener, MouseMotionListener
+	implements KeyListener, MouseListener, MouseMotionListener, Runnable
 {
 	Window win;
 
@@ -38,6 +38,11 @@ public class WinCanvas extends java.awt.Canvas
 		addKeyListener(this);
 		addMouseListener(this);
 		addMouseMotionListener(this);
+
+		// We want to keep the painting thread from locking for too long.
+		// see the comment on run
+		new Thread(this).start();
+
 	}
 
 	public boolean isFocusTraversable(){return true;}
@@ -148,16 +153,61 @@ public class WinCanvas extends java.awt.Canvas
 		paint(g);
 	}
 
+	java.awt.Rectangle paintClipRect = null;
 	public void paint(java.awt.Graphics g)
 	{
-		java.awt.Rectangle r = null;
 		// getClipRect() is missing in the Kaffe distribution for Linux
+		java.awt.Rectangle r = null;		 
 		try { r = g.getClipBounds(); }
 		catch (NoSuchMethodError e) { r = g.getClipRect(); }
-		synchronized(Applet.uiLock)
-			{
-				win._doPaint(r.x, r.y, r.width, r.height);
+
+		if(r != null){
+			synchronized(this){
+				if(paintClipRect != null){
+					paintClipRect = paintClipRect.union(r);
+				} else {
+					paintClipRect = r;
+				}
+				notifyAll();
 			}
+		}
+	}
+
+	/**
+	 * 	We have a seperate painting thread that just waits to be notified
+	 *  when the a new paint has been called.
+	 *  Notice in the paint that if there is a paint waiting then it 
+	 *  takes the union of the clipping rects
+	 *
+	 *  This is necessary because some times a timer event takes a long time
+	 *  to return.  Then the synchronized(Applet.uiLock) would block until
+	 *  the timer event was finished.  In some Vms the painting thread has the
+	 *  highest priority so it would never give up the lock to the timer 
+	 *  thread.  
+	 */
+	public void run()
+	{
+		java.awt.Rectangle r = null;
+		
+		while(true){
+			synchronized(this){
+				try{
+					wait();
+				} catch (InterruptedException e){
+					e.printStackTrace();
+				}
+			}
+
+			synchronized(Applet.uiLock){			
+				synchronized(this){
+					r = paintClipRect;
+					paintClipRect = null;
+				}
+				if(r != null){
+					win._doPaint(r.x, r.y, r.width, r.height);
+				}
+			}
+		}
 	}
 }
 

@@ -59,6 +59,7 @@ public class Applet extends java.applet.Applet
 	public int height;
 
 	public static Object uiLock = new Object();
+	
 	public static Applet currentApplet;
 
 
