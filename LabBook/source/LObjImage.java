@@ -24,10 +24,8 @@ public LObjImageView view = null;
    			view = new LObjImageView(vc, this, edit);
     	}else if(view.container == null){
     		view.container = vc;
-    		if(view.menu == null/* && edit*/){
-    			view.addMenus(vc);
-    		}
     	}
+    	if(view != null) view.addMenus(vc);
 		return view;
     }
 
@@ -79,11 +77,12 @@ class LObjImageView extends LabObjectView implements ActionListener
 
 	public void addMenus(ViewContainer vc){
 		
-		if(menu != null || vc == null) return;
-		menu = new Menu("Image");
-		menu.add("Load Image ...");
-		menu.addActionListener(this);
-		vc.getMainView().addMenu(this, menu);
+		if(menu == null){
+			menu = new Menu("Image");
+			menu.add("Load Image ...");
+			menu.addActionListener(this);
+		}
+		if(vc != null) vc.getMainView().addMenu(this, menu);
 	}
 
     public void onPaint(waba.fx.Graphics g){
