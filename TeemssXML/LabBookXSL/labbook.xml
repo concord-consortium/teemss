@@ -4,9 +4,11 @@
 <FOLDER ID="folder-ccprobe" name="CCProbe">
 <FOLDER ID="folder-ccprobe-info" name="CCProbe Info" view="paging">
 <SUPERNOTES ID="about-ccprobe" name="About CCProbe">
+<EMBOBJ object="ccprobe_titlebar_154.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">
           About CCProbe
        </SNPARAGRAPH>
+<SNPARAGRAPH/>
 <SNPARAGRAPH>
 CCProbe is an open-source application that is scriptable,
 configurable, and supports probe-based visualization, analysis, and
@@ -40,35 +42,37 @@ many types of computers from handheld systems to desktops. The current
 projects contributing to the development of CCProbeware are:
        </SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>
-*Data and Models 
+<SNPARAGRAPH indent="2">
+         - Data and Models 
        </SNPARAGRAPH>
-<SNPARAGRAPH>
-*Electronic Guidebook (Exploratorium) 
+<SNPARAGRAPH indent="2">
+         - Electronic Guidebook (Exploratorium) 
        </SNPARAGRAPH>
-<SNPARAGRAPH>
-*TEEMS (Technology Enhanced Elementary and Middle School Science) 
+<SNPARAGRAPH indent="2">
+         - TEEMS (Technology Enhanced Elementary and Middle School Science) 
        </SNPARAGRAPH>
-<SNPARAGRAPH>
-*Modeling across the Curriculum 
-       </SNPARAGRAPH>
-<SNPARAGRAPH>
-Find out more about the Concord Consortium here:
+<SNPARAGRAPH indent="2">
+         - Modeling across the Curriculum 
        </SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>
-http://concord.org
+         Find out more about the Concord Consortium here:
+       </SNPARAGRAPH>
+<SNPARAGRAPH/>
+<SNPARAGRAPH indent="2" linkcolor="0000FF">
+         http://concord.org
        </SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>
-Find out more about the CCProbe here:
+         Find out more about CCProbe here:
        </SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>
-http://concord.org/ccprobeware
+<SNPARAGRAPH indent="2" linkcolor="0000FF">
+         http://concord.org/ccprobeware
        </SNPARAGRAPH>
 </SUPERNOTES>
 <SUPERNOTES ID="ccprobe-credits" name="CCProbe Credits">
+<EMBOBJ object="ccprobe_titlebar_154.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">
           CCProbe Credits
        </SNPARAGRAPH>
@@ -78,6 +82,7 @@ http://concord.org/ccprobeware
        </SNPARAGRAPH>
 </SUPERNOTES>
 <SUPERNOTES ID="ccprobe-license" name="CCProbe License">
+<EMBOBJ object="ccprobe_titlebar_154.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">
           CCProbe License
        </SNPARAGRAPH>
@@ -87,6 +92,7 @@ http://concord.org/ccprobeware
        </SNPARAGRAPH>
 </SUPERNOTES>
 <SUPERNOTES ID="ccprobe-interface" name="CCProbe Interface">
+<EMBOBJ object="ccprobe_titlebar_154.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">
           CCProbe Interface
        </SNPARAGRAPH>
@@ -96,6 +102,7 @@ http://concord.org/ccprobeware
        </SNPARAGRAPH>
 </SUPERNOTES>
 <SUPERNOTES ID="ccprobe-probes" name="CCProbe Probes">
+<EMBOBJ object="ccprobe_titlebar_154.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">
           CCProbe Probes
        </SNPARAGRAPH>
@@ -337,11 +344,16 @@ http://concord.org/ccprobeware
 </GRAPH>
 </DATACOLLECTOR>
 </FOLDER>
+<FOLDER ID="folder-images" name="Images" view="paging">
+<IMAGE ID="ccprobe_titlebar_154.bmp" name="ccprobe_titlebar_154.bmp" url="../misc-images/ccprobe_titlebar_154.bmp"/>
+<IMAGE ID="teemss_titlebar.bmp" name="teemss_titlebar.bmp" url="../misc-images/teemss_titlebar.bmp"/>
+</FOLDER>
 </FOLDER>
 <FOLDER name="TEEMSS" ID="TEEMSS">
-<FOLDER name="Motions and Forces Instructional Unit" ID="Motions_and_Forces">
+<FOLDER name="Motions and Forces" ID="Motions_and_Forces">
 <FOLDER view="paging" name="Air Cart" ID="Air_Cart">
 <SUPERNOTES name="Introduction" ID="Air_Cart-intro">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Air Cart Introduction
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -357,6 +369,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Thinking About the Question" ID="Air_Cart-think">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">
       Thinking About the Question
     </SNPARAGRAPH>
@@ -367,6 +380,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Materials" ID="Air_Cart-materials">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Air Cart Materials
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -418,6 +432,7 @@ http://concord.org/ccprobeware
         - scissors</SNPARAGRAPH>
 </SUPERNOTES>
 <SUPERNOTES name="Safety" ID="Air_Cart-safety">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Air Cart Safety
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -432,6 +447,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Air_Cart_trial_I" name="Trial I">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Building an air cart</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>To build your air cart follow these easy steps!</SNPARAGRAPH>
@@ -459,7 +475,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. Mark the axle line. It is 8cm from the other end of the cart and perpendicular to the long side. You can use the corner of a piece of paper to make a perpendicular line.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>2. Glue the straw to the axle line with hot-melt glue. Let it stick out on either side.</SNPARAGRAPH>
+<SNPARAGRAPH>2. Glue the straw to the axle line with hot-melt glue.Let it stick out on either side.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>3. Cut off each end of the straw a bit longer than the cardboard.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -523,8 +539,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 <EMBOBJ>
 <IMAGE ID="Image_16" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Air_Cart/04c_wheelPair/PALM_TINY_04c_wheelPair.bmp"/>
-</EMBOBJ>
-<SNPARAGRAPH linkcolor="0000FF">Glueing on the bumper</SNPARAGRAPH>
+</EMBOBJ></SUPERNOTES><SUPERNOTES ID="Air_Cart_trial_I_part2" name="Trial I, Part 2"><SNPARAGRAPH linkcolor="0000FF">Building an air cart, Part 2</SNPARAGRAPH><SNPARAGRAPH/><SNPARAGRAPH linkcolor="0000FF">Glueing on the bumper</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>Glue the bumper in the center on the front end that contains the SmartWheel end.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -589,6 +604,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Air_Cart_trial_II" name="Trial II">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Building a test ramp</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. You will need to build a ramp to provide your cart an equal start, again and again.</SNPARAGRAPH>
@@ -628,6 +644,7 @@ http://concord.org/ccprobeware
               handheld computer. <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Air_Cart_trial_III" name="Trial III">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Performing a coasting test</SNPARAGRAPH>
 <SNPARAGRAPH/>Propose a way to test the relative
               friction of the carts, without using the motor and fan.
@@ -648,11 +665,13 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Technical Hints" ID="Air_Cart-hints">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Air Cart Technical Hints
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Analysis" ID="Air_Cart-analysis">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Air Cart Analysis
     </SNPARAGRAPH>
 <SNPARAGRAPH/>Rank your cart and at least two others in
@@ -675,6 +694,7 @@ http://concord.org/ccprobeware
 </FOLDER>
 <FOLDER view="paging" name="Tracker" ID="Tracker">
 <SUPERNOTES name="Introduction" ID="Tracker-intro">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Tracker Introduction
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -690,6 +710,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Thinking About the Question" ID="Tracker-think">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">
       Thinking About the Question
     </SNPARAGRAPH>
@@ -698,6 +719,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Materials" ID="Tracker-materials">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Tracker Materials
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -721,6 +743,7 @@ http://concord.org/ccprobeware
         - string (for pulling cart)</SNPARAGRAPH>
 </SUPERNOTES>
 <SUPERNOTES name="Safety" ID="Tracker-safety">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Tracker Safety
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -729,6 +752,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Tracker_trial_I" name="Trial I">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Walking off distances</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. Remove the SmartWheel from your cart. Carefully save the two screws. Tape or screw the SmartWheel to the end of a meter stick so that you can walk along and roll it on the floor.</SNPARAGRAPH>
@@ -763,6 +787,7 @@ http://concord.org/ccprobeware
                 gradually slowing down<SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Tracker_trial_II" name="Trial II">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Rolling cart</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. Reattach the SmartWheel to your cart. Refer to Technical Hints to see how to attach the SmartWheel to the air cart.</SNPARAGRAPH>
@@ -807,6 +832,7 @@ http://concord.org/ccprobeware
               handheld computer. <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Tracker_trial_III" name="Trial III">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Rolling to a stop</SNPARAGRAPH>
 <SNPARAGRAPH/>Using the ramp to initiate motion of the
               cart, design a method to slow down the cart and bring it
@@ -833,11 +859,13 @@ http://concord.org/ccprobeware
               handheld computer. <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Technical Hints" ID="Tracker-hints">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Tracker Technical Hints
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Analysis" ID="Tracker-analysis">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Tracker Analysis
     </SNPARAGRAPH>
 <SNPARAGRAPH/>What
@@ -856,6 +884,7 @@ http://concord.org/ccprobeware
 </FOLDER>
 <FOLDER view="paging" name="Propeller" ID="Propeller">
 <SUPERNOTES name="Introduction" ID="Propeller-intro">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Propeller Introduction
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -871,6 +900,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Thinking About the Question" ID="Propeller-think">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">
       Thinking About the Question
     </SNPARAGRAPH>
@@ -879,6 +909,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Materials" ID="Propeller-materials">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Propeller Materials
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -906,6 +937,7 @@ http://concord.org/ccprobeware
         - clay</SNPARAGRAPH>
 </SUPERNOTES>
 <SUPERNOTES name="Safety" ID="Propeller-safety">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Propeller Safety
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -914,6 +946,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Propeller_trial_I" name="Trial I">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Adding a propeller to a cart</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. Use scissors to trim the ends of the plastic propeller (approximately 1cm) so that the ends of the propeller won't hit the ground.</SNPARAGRAPH>
@@ -952,6 +985,7 @@ http://concord.org/ccprobeware
               handheld computer. <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Propeller_trial_II" name="Trial II">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Measuring the motion of a propeller-driven cart</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. Connect the SmartWheel to your handheld computer. Refer to Technical Hints to see how to connect the SmartWheel.</SNPARAGRAPH>
@@ -974,6 +1008,7 @@ http://concord.org/ccprobeware
               handheld computer. <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Propeller_trial_III" name="Trial III">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Adding a friction sled to a propeller-driven cart</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. Reverse the direction of the propeller and the motor so that it blows toward the cart. To do this, place the white dab of paint facing away from the motor, and reverse the red and black leads.</SNPARAGRAPH>
@@ -1011,11 +1046,13 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Technical Hints" ID="Propeller-hints">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Propeller Technical Hints
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Analysis" ID="Propeller-analysis">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Propeller Analysis
     </SNPARAGRAPH>
 <SNPARAGRAPH/>How
@@ -1044,6 +1081,7 @@ http://concord.org/ccprobeware
 </FOLDER>
 <FOLDER view="paging" name="Collision I" ID="Collision_I">
 <SUPERNOTES name="Introduction" ID="Collision_I-intro">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Collision I Introduction
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1059,6 +1097,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Thinking About the Question" ID="Collision_I-think">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">
       Thinking About the Question
     </SNPARAGRAPH>
@@ -1067,6 +1106,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Materials" ID="Collision_I-materials">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Collision I Materials
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1086,6 +1126,7 @@ http://concord.org/ccprobeware
         - books or (optional) a ring stand</SNPARAGRAPH>
 </SUPERNOTES>
 <SUPERNOTES name="Safety" ID="Collision_I-safety">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Collision I Safety
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1097,6 +1138,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Collision_I_trial_I" name="Trial I">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Weighing the cart with the Force probe</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. The Force probe can be used to measure the force of the Earth's gravity on masses. In other words, the Force probe can be used to measure the weight of masses. Connect the Force probe to your handheld computer. Refer to Technical Hints to see how to connect the cables.</SNPARAGRAPH>
@@ -1105,6 +1147,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 <SNPARAGRAPH>3. Hold the Force probe so that you can hang things from the smaller eye bolt at the end of the arm. Set the force probe to zero in this position. Refer to Technical Hints to see how to set the Force probe to zero.</SNPARAGRAPH>
 <SNPARAGRAPH/>
+<EMBOBJ object="dc-force1" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH/>
 <EMBOBJ>
 <IMAGE ID="Image_53" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/01a_c1/PALM_TINY_01a_c1.bmp"/>
@@ -1134,6 +1177,7 @@ http://concord.org/ccprobeware
                 does this mass compare to the masses of the other carts.<SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Collision_I_trial_II" name="Trial II">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Colliding a cart with a wall</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. Place the Force probe on its side wedged in a pile of books so that it is at the same height as the bumper of your cart. It could also be clamped to a ring stand. Have someone hold the Force probe down firmly during the experiment. Unscrew and set aside the larger eyebolt if it's in the way.</SNPARAGRAPH>
@@ -1152,6 +1196,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 <SNPARAGRAPH>4. Start the software.</SNPARAGRAPH>
 <SNPARAGRAPH/>
+<EMBOBJ object="dc-force2" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH>5. Set the force probe to zero in this position. Refer to Technical Hints to see how to set the Force probe to zero.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>6. Line up the cart bumper with the Force probe, then roll the cart back about 50cm. Mark the distance so that you can start the cart in the same place every time.</SNPARAGRAPH>
@@ -1175,6 +1220,7 @@ http://concord.org/ccprobeware
                 did the acrobat do during the collision?<SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Collision_I_trial_III" name="Trial III">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Adding a bungee cord</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. This time you will try a "reverse" collision. You will measure the force on a bungee cord attached to the air cart when it stretches and bounces back. Connect the Force probe to your handheld computer. Refer to Technical Hints to see how to connect the cables.</SNPARAGRAPH>
@@ -1199,6 +1245,7 @@ http://concord.org/ccprobeware
 </EMBOBJ>
 <SNPARAGRAPH>5. Start the software. Start recording the force. Give the cart a push so that it stretches the bungee cord and then bounces back. Catch it before it hits the Force probe. Stop recording. Observe the behavior of the acrobat.</SNPARAGRAPH>
 <SNPARAGRAPH/>
+<EMBOBJ object="dc-force3" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH>6. Try this several times, and after a good bounce save your data to the handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>7. Examine the graph. Zoom in on your collision until it fills most of your screen.</SNPARAGRAPH>
@@ -1210,11 +1257,13 @@ http://concord.org/ccprobeware
                 did the acrobat do during the collision?<SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Technical Hints" ID="Collision_I-hints">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Collision I Technical Hints
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Analysis" ID="Collision_I-analysis">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Collision I Analysis
     </SNPARAGRAPH>
 <SNPARAGRAPH/>Compare the bumper event and the rubber
@@ -1233,6 +1282,7 @@ http://concord.org/ccprobeware
 </FOLDER>
 <FOLDER view="paging" name="Collision II" ID="Collision_II">
 <SUPERNOTES name="Introduction" ID="Collision_II-intro">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Collision II Introduction
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1248,6 +1298,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Thinking About the Question" ID="Collision_II-think">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">
       Thinking About the Question
     </SNPARAGRAPH>
@@ -1256,6 +1307,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Materials" ID="Collision_II-materials">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Collision II Materials
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1279,6 +1331,7 @@ http://concord.org/ccprobeware
         - pencil or pen</SNPARAGRAPH>
 </SUPERNOTES>
 <SUPERNOTES name="Safety" ID="Collision_II-safety">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Collision II Safety
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1287,6 +1340,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Collision_II_trial_I" name="Trial I">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Action and reaction</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. Cut two rubber bands and tie them together to make a bungee cord about 30 cm long.</SNPARAGRAPH>
@@ -1304,6 +1358,7 @@ http://concord.org/ccprobeware
                 do you think the two force graphs will be different? Record your prediction in Notes on the
               handheld computer. <SNPARAGRAPH>5. Start the software for each Force probe.</SNPARAGRAPH>
 <SNPARAGRAPH/>
+<EMBOBJ object="dc-force1" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH>6. Set the force probe to zero. Refer to Technical Hints to see how to set the Force probe to zero.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>7. Start recording. Vary the amount of pulling, who pulls first, and who doesn't move.</SNPARAGRAPH>
@@ -1316,6 +1371,7 @@ http://concord.org/ccprobeware
               handheld computer.<SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Collision_II_trial_II" name="Trial II">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Forces on colliding carts</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. Screw one Force probe to each cart, so that the eye bolt points forward. You will need to remove the bumper and the acrobat to do this.</SNPARAGRAPH>
@@ -1356,6 +1412,7 @@ http://concord.org/ccprobeware
                 moving? Record (or draw) your predictions in
               Notes on the handheld computer.<SNPARAGRAPH>8. Start the software. Set the force probe to zero. Refer to Technical Hints to see how to set the Force probe to zero. Weigh each cart by hanging it from the small eyebolt.</SNPARAGRAPH>
 <SNPARAGRAPH/>
+<EMBOBJ object="dc-force4" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH>9. Make the carts equal in mass by adding some clay to one of them if needed.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>10. With the carts horizontal, set each Force probe to zero. Refer to Technical Hints to see how to set the Force probe to zero.</SNPARAGRAPH>
@@ -1374,6 +1431,7 @@ http://concord.org/ccprobeware
               handheld computer. <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Collision_II_trial_III" name="Trial III">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Velocities of colliding carts</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. Each team should connect the SmartWheel to their handheld computer. Refer to Technical Hints to see how to connect the SmartWheel.</SNPARAGRAPH>
@@ -1385,6 +1443,7 @@ http://concord.org/ccprobeware
                 will the velocity graph do just at the moment of collision?Draw your predictions in Notes on the
               handheld computer. <SNPARAGRAPH>3. Start the software to record a velocity versus time graph.</SNPARAGRAPH>
 <SNPARAGRAPH/>
+<EMBOBJ object="dc-smartwheel-vel2" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH>4. Start recording. Push one cart toward the other and let them bounce. Be sure the bumpers are lined up.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
@@ -1402,11 +1461,13 @@ http://concord.org/ccprobeware
               Notes on your handheld computer. <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Technical Hints" ID="Collision_II-hints">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Collision II Technical Hints
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Analysis" ID="Collision_II-analysis">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Collision II Analysis
     </SNPARAGRAPH>
 <SNPARAGRAPH/>Trials I and II are examples of Newton
@@ -1426,62 +1487,48 @@ http://concord.org/ccprobeware
               greater the force, the more quickly the velocity changes. Describe an experiment to test this
                 theory. </SUPERNOTES>
 </FOLDER>
-<FOLDER name="Responses" ID="Motions_and_Forces-response">
+<FOLDER name="Responses" ID="Motions_and_Forces_response">
 <FOLDER view="paging" name="Air Cart Responses" ID="Air_Cart-response">
-<FOLDER ID="Air_Cart_trial_I_response&#10;    " name="Trial I Responses      &#10;    "/>
-<FOLDER ID="Air_Cart_trial_II_response&#10;    " name="Trial II Responses      &#10;    "/>
-<FOLDER ID="Air_Cart_trial_III_response&#10;    " name="Trial III Responses      &#10;    "/>
-<SUPERNOTES name="Analysis" ID="Air_Cart-analysis-response">
-<SNPARAGRAPH linkcolor="0000FF">Air Cart Analysis
-    </SNPARAGRAPH>
-<SNPARAGRAPH/>
-</SUPERNOTES>
+<FOLDER ID="Air_Cart_think_response" name="Think About Responses "/>
+<FOLDER ID="Air_Cart_trial_I_response" name="Trial I Responses      &#10;    "/>
+<FOLDER ID="Air_Cart_trial_II_response" name="Trial II Responses      &#10;    "/>
+<FOLDER ID="Air_Cart_trial_III_response" name="Trial III Responses      &#10;    "/>
+<FOLDER ID="Air_Cart_analysis_response&#10;    " name="Analysis Responses "/>
 </FOLDER>
 <FOLDER view="paging" name="Tracker Responses" ID="Tracker-response">
-<FOLDER ID="Tracker_trial_I_response&#10;    " name="Trial I Responses      &#10;    "/>
-<FOLDER ID="Tracker_trial_II_response&#10;    " name="Trial II Responses      &#10;    "/>
-<FOLDER ID="Tracker_trial_III_response&#10;    " name="Trial III Responses      &#10;    "/>
-<SUPERNOTES name="Analysis" ID="Tracker-analysis-response">
-<SNPARAGRAPH linkcolor="0000FF">Tracker Analysis
-    </SNPARAGRAPH>
-<SNPARAGRAPH/>
-</SUPERNOTES>
+<FOLDER ID="Tracker_think_response" name="Think About Responses "/>
+<FOLDER ID="Tracker_trial_I_response" name="Trial I Responses      &#10;    "/>
+<FOLDER ID="Tracker_trial_II_response" name="Trial II Responses      &#10;    "/>
+<FOLDER ID="Tracker_trial_III_response" name="Trial III Responses      &#10;    "/>
+<FOLDER ID="Tracker_analysis_response&#10;    " name="Analysis Responses "/>
 </FOLDER>
 <FOLDER view="paging" name="Propeller Responses" ID="Propeller-response">
-<FOLDER ID="Propeller_trial_I_response&#10;    " name="Trial I Responses      &#10;    "/>
-<FOLDER ID="Propeller_trial_II_response&#10;    " name="Trial II Responses      &#10;    "/>
-<FOLDER ID="Propeller_trial_III_response&#10;    " name="Trial III Responses      &#10;    "/>
-<SUPERNOTES name="Analysis" ID="Propeller-analysis-response">
-<SNPARAGRAPH linkcolor="0000FF">Propeller Analysis
-    </SNPARAGRAPH>
-<SNPARAGRAPH/>
-</SUPERNOTES>
+<FOLDER ID="Propeller_think_response" name="Think About Responses "/>
+<FOLDER ID="Propeller_trial_I_response" name="Trial I Responses      &#10;    "/>
+<FOLDER ID="Propeller_trial_II_response" name="Trial II Responses      &#10;    "/>
+<FOLDER ID="Propeller_trial_III_response" name="Trial III Responses      &#10;    "/>
+<FOLDER ID="Propeller_analysis_response&#10;    " name="Analysis Responses "/>
 </FOLDER>
 <FOLDER view="paging" name="Collision I Responses" ID="Collision_I-response">
-<FOLDER ID="Collision_I_trial_I_response&#10;    " name="Trial I Responses      &#10;    "/>
-<FOLDER ID="Collision_I_trial_II_response&#10;    " name="Trial II Responses      &#10;    "/>
-<FOLDER ID="Collision_I_trial_III_response&#10;    " name="Trial III Responses      &#10;    "/>
-<SUPERNOTES name="Analysis" ID="Collision_I-analysis-response">
-<SNPARAGRAPH linkcolor="0000FF">Collision I Analysis
-    </SNPARAGRAPH>
-<SNPARAGRAPH/>
-</SUPERNOTES>
+<FOLDER ID="Collision_I_think_response" name="Think About Responses "/>
+<FOLDER ID="Collision_I_trial_I_response" name="Trial I Responses      &#10;    "/>
+<FOLDER ID="Collision_I_trial_II_response" name="Trial II Responses      &#10;    "/>
+<FOLDER ID="Collision_I_trial_III_response" name="Trial III Responses      &#10;    "/>
+<FOLDER ID="Collision_I_analysis_response&#10;    " name="Analysis Responses "/>
 </FOLDER>
 <FOLDER view="paging" name="Collision II Responses" ID="Collision_II-response">
-<FOLDER ID="Collision_II_trial_I_response&#10;    " name="Trial I Responses      &#10;    "/>
-<FOLDER ID="Collision_II_trial_II_response&#10;    " name="Trial II Responses      &#10;    "/>
-<FOLDER ID="Collision_II_trial_III_response&#10;    " name="Trial III Responses      &#10;    "/>
-<SUPERNOTES name="Analysis" ID="Collision_II-analysis-response">
-<SNPARAGRAPH linkcolor="0000FF">Collision II Analysis
-    </SNPARAGRAPH>
-<SNPARAGRAPH/>
-</SUPERNOTES>
+<FOLDER ID="Collision_II_think_response" name="Think About Responses "/>
+<FOLDER ID="Collision_II_trial_I_response" name="Trial I Responses      &#10;    "/>
+<FOLDER ID="Collision_II_trial_II_response" name="Trial II Responses      &#10;    "/>
+<FOLDER ID="Collision_II_trial_III_response" name="Trial III Responses      &#10;    "/>
+<FOLDER ID="Collision_II_analysis_response&#10;    " name="Analysis Responses "/>
 </FOLDER>
 </FOLDER>
 </FOLDER>
 <FOLDER name="Transfer of Energy" ID="Energy">
 <FOLDER view="paging" name="Heat Flow" ID="Heat_Flow">
 <SUPERNOTES name="Introduction" ID="Heat_Flow-intro">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Heat Flow Introduction
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1497,6 +1544,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Thinking About the Question" ID="Heat_Flow-think">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">
       Thinking About the Question
     </SNPARAGRAPH>
@@ -1505,6 +1553,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Materials" ID="Heat_Flow-materials">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Heat Flow Materials
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1526,6 +1575,7 @@ http://concord.org/ccprobeware
         - water at two temperatures (warm tap water and ice water)</SNPARAGRAPH>
 </SUPERNOTES>
 <SUPERNOTES name="Safety" ID="Heat_Flow-safety">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Heat Flow Safety
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1534,6 +1584,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Heat_Flow_trial_I" name="Trial I">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Mixing the bath water just right</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. When you mix water at two temperatures (one is too hot and the other too cold) to make a bath that's just right for bathing, how much of each is needed? Connect the Temperature probe with your handheld. Refer to Technical Hints to see how to connect the Temperature probe. The sensitive part is just the very tip, where two wires are welded together.</SNPARAGRAPH>
@@ -1576,6 +1627,7 @@ http://concord.org/ccprobeware
               handheld computer.     <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Heat_Flow_trial_II" name="Trial II">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Reaching equilibrium in temperature</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. Make a small ball of clay, about the size of a large (shooter) marble.</SNPARAGRAPH>
@@ -1620,6 +1672,7 @@ http://concord.org/ccprobeware
               handheld computer. <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Heat_Flow_trial_III" name="Trial III">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Using insulation to prevent heat flow</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. Connect the Temperature probe with your handheld. Refer to Technical Hints to see how to connect the Temperature probe. The sensitive part is just the very tip, where two wires are welded together.</SNPARAGRAPH>
@@ -1650,6 +1703,7 @@ http://concord.org/ccprobeware
               handheld computer. <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Technical Hints" ID="Heat_Flow-hints">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Heat Flow Technical Hints
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1659,6 +1713,7 @@ http://concord.org/ccprobeware
         - Using the CC Lab Book software</SNPARAGRAPH>
 </SUPERNOTES>
 <SUPERNOTES name="Analysis" ID="Heat_Flow-analysis">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Heat Flow Analysis
     </SNPARAGRAPH>
 <SNPARAGRAPH/>While
@@ -1681,6 +1736,7 @@ http://concord.org/ccprobeware
 </FOLDER>
 <FOLDER view="paging" name="Potential and Kinetic Energy " ID="Potential_Kinetic_Energy">
 <SUPERNOTES name="Introduction" ID="Potential_Kinetic_Energy-intro">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Potential and Kinetic Energy  Introduction
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1696,6 +1752,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Thinking About the Question" ID="Potential_Kinetic_Energy-think">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">
       Thinking About the Question
     </SNPARAGRAPH>
@@ -1706,6 +1763,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Materials" ID="Potential_Kinetic_Energy-materials">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Potential and Kinetic Energy  Materials
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1727,6 +1785,7 @@ http://concord.org/ccprobeware
         - rubber bands</SNPARAGRAPH>
 </SUPERNOTES>
 <SUPERNOTES name="Safety" ID="Potential_Kinetic_Energy-safety">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Potential and Kinetic Energy  Safety
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1735,6 +1794,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Potential_Kinetic_Energy_trial_I" name="Trial I">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Rolling a cart down a hill</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. Set the ramp with a height of 10cm at the higher end. Place the cart on the ramp with the back wheels near the top. Mark where the back wheels are so you can repeat the experiment several times.</SNPARAGRAPH>
@@ -1760,6 +1820,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Potential_Kinetic_Energy_trial_II" name="Trial II">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Changing the starting height of the cart</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. Connect the SmartWheel to your handheld computer. Refer to Technical Hints to see how to connect the cables.</SNPARAGRAPH>
@@ -1781,6 +1842,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Potential_Kinetic_Energy_trial_III" name="Trial III">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Bouncing a cart down and up a hill Bouncing a cart down and up a hill Bouncing a cart down and up a hill</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. Connect the SmartWheel to your handheld computer. Refer to Technical Hints to see how to connect the cables.</SNPARAGRAPH>
@@ -1802,6 +1864,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Technical Hints" ID="Potential_Kinetic_Energy-hints">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Potential and Kinetic Energy  Technical Hints
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1813,6 +1876,7 @@ http://concord.org/ccprobeware
         - Opening saved data in the CC Lab Book software</SNPARAGRAPH>
 </SUPERNOTES>
 <SUPERNOTES name="Analysis" ID="Potential_Kinetic_Energy-analysis">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Potential and Kinetic Energy  Analysis
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1832,6 +1896,7 @@ http://concord.org/ccprobeware
 </FOLDER>
 <FOLDER view="paging" name="Heating with Electricity " ID="Heating_With_Electricity">
 <SUPERNOTES name="Introduction" ID="Heating_With_Electricity-intro">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Heating with Electricity  Introduction
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1847,6 +1912,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Thinking About the Question" ID="Heating_With_Electricity-think">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">
       Thinking About the Question
     </SNPARAGRAPH>
@@ -1857,6 +1923,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Materials" ID="Heating_With_Electricity-materials">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Heating with Electricity  Materials
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1882,6 +1949,7 @@ http://concord.org/ccprobeware
         - clip leads</SNPARAGRAPH>
 </SUPERNOTES>
 <SUPERNOTES name="Safety" ID="Heating_With_Electricity-safety">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Heating with Electricity  Safety
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1893,6 +1961,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Heating_With_Electricity_trial_I" name="Trial I">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Cranking with a Genecon</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. Set up the Voltage/Current probe to your handheld computer. Refer to Technical Hints to see how to set up the Voltage/Current probe.</SNPARAGRAPH>
@@ -1949,11 +2018,12 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 <SNPARAGRAPH>17. Take the heat cell out of its insulating box, cool it with tapwater, and dry it off.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>18. The heat cell is made so that it takes exactly 10 joules of energy to heat it one degree Celsius. How many joules did your 30 seconds of fast cranking produce? What about the 30 seconds of slow cranking? How many joules did the cell lose in 60 seconds as it cooled? Record your answers in Notes on your handheld computer.</SNPARAGRAPH>
+<SNPARAGRAPH>18. The heat cell is made so that it takes exactly 10 joules of energy to heat it one degree Celsius. How many joules did your 30 seconds of fast cranking produce? What about the 30 seconds of slow cranking? How many joules did the cell lose in 60 seconds as it cooled? Record your answers in Noteson your handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Heating_With_Electricity_trial_II" name="Trial II">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Heating with a battery</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. You may have found that it's a lot of work to generate even a little bit of heat! Now you will compare the heating you did with the Genecon to the heating a little battery can do. Connect the Temperature probe to your handheld computer. Refer to Technical Hints to connect the Temperature probe.</SNPARAGRAPH>
@@ -2001,6 +2071,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Heating_With_Electricity_trial_III" name="Trial III">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Heating with a light bulb</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. Let's find out how a mini light bulb compares to a heat cell as an electrical heating device. Connect the Temperature probe to your handheld computer. Refer to Technical Hints to connect the Temperature probe.</SNPARAGRAPH>
@@ -2045,6 +2116,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Technical Hints" ID="Heating_With_Electricity-hints">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Heating with Electricity  Technical Hints
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -2061,6 +2133,7 @@ http://concord.org/ccprobeware
         - Opening saved data in the CC Lab Book software</SNPARAGRAPH>
 </SUPERNOTES>
 <SUPERNOTES name="Analysis" ID="Heating_With_Electricity-analysis">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Heating with Electricity  Analysis
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -2082,6 +2155,7 @@ http://concord.org/ccprobeware
 </FOLDER>
 <FOLDER view="paging" name="Forms of Energy: Single Transformations " ID="Single_Transformations">
 <SUPERNOTES name="Introduction" ID="Single_Transformations-intro">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Forms of Energy: Single Transformations  Introduction
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -2097,6 +2171,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Thinking About the Question" ID="Single_Transformations-think">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">
       Thinking About the Question
     </SNPARAGRAPH>
@@ -2107,6 +2182,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Materials" ID="Single_Transformations-materials">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Forms of Energy: Single Transformations  Materials
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -2138,6 +2214,7 @@ http://concord.org/ccprobeware
         - sunlight or incandescent light bulb in a lamp with no shade</SNPARAGRAPH>
 </SUPERNOTES>
 <SUPERNOTES name="Safety" ID="Single_Transformations-safety">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Forms of Energy: Single Transformations  Safety
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -2149,6 +2226,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Single_Transformations_trial_I" name="Trial I">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Storing electrical energy</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. You already know that electrical energy can be stored in a battery. There is an even more direct way with a capacitor. A capacitor stores electrical charges and can release them again as electrical current. Attach the Genecon and Voltage/Current probe to the capacitor.</SNPARAGRAPH>
@@ -2178,6 +2256,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Single_Transformations_trial_II" name="Trial II">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Using stored electrical energy</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. Charge up the capacitor with the Genecon and quickly disconnect it.</SNPARAGRAPH>
@@ -2227,6 +2306,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Single_Transformations_trial_III" name="Trial III">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Heating with sunlight</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. Set up the heat cell with the Temperature probe attached, but not in its insulating cover. Mark one face of the cell black with a marker or carbon from a burnt candle wick to increase the absorption of energy.</SNPARAGRAPH>
@@ -2254,6 +2334,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Technical Hints" ID="Single_Transformations-hints">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Forms of Energy: Single Transformations  Technical Hints
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -2268,6 +2349,7 @@ http://concord.org/ccprobeware
             probe  </SNPARAGRAPH>
 </SUPERNOTES>
 <SUPERNOTES name="Analysis" ID="Single_Transformations-analysis">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Forms of Energy: Single Transformations  Analysis
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -2285,6 +2367,7 @@ http://concord.org/ccprobeware
 </FOLDER>
 <FOLDER view="paging" name="Forms of Energy: Multiple Transformations " ID="Multiple_Transformations">
 <SUPERNOTES name="Introduction" ID="Multiple_Transformations-intro">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Forms of Energy: Multiple Transformations  Introduction
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -2300,6 +2383,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Thinking About the Question" ID="Multiple_Transformations-think">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">
       Thinking About the Question
     </SNPARAGRAPH>
@@ -2310,6 +2394,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Materials" ID="Multiple_Transformations-materials">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Forms of Energy: Multiple Transformations  Materials
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -2349,6 +2434,7 @@ http://concord.org/ccprobeware
         - clay</SNPARAGRAPH>
 </SUPERNOTES>
 <SUPERNOTES name="Safety" ID="Multiple_Transformations-safety">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Forms of Energy: Multiple Transformations  Safety
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -2363,6 +2449,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Multiple_Transformations_trial_I" name="Trial I">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Electricity from the sun</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. The solar cell changes sunlight directly into electrical energy, which can in turn be used for something else. It is not very efficient, but the source of energy is free! Connect the Voltage/Current probe to your handheld computer. Refer to Technical Hints to connect the Voltage/Current probe.</SNPARAGRAPH>
@@ -2394,6 +2481,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Multiple_Transformations_trial_II" name="Trial II">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Cranking up the lights</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. Attach the Genecon to a mini light. Crank it, but not too fast. If excessive cranking takes place, the light will burn out!</SNPARAGRAPH>
@@ -2431,6 +2519,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Multiple_Transformations_trial_III" name="Trial III">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Remote lifting</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. Team up with another group so that you can monitor two Genecons on one handheld computer.</SNPARAGRAPH>
@@ -2469,7 +2558,7 @@ http://concord.org/ccprobeware
 <EMBOBJ>
 <IMAGE ID="Image_135" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/09a_mt/PALM_TINY_09a_mt.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>9. Hold the Genecon with its shaft horizontal and the string hanging down from the pulley. Its leads should still be hooked to the other Genecon, with the Voltage/Currentleads in place.</SNPARAGRAPH>
+<SNPARAGRAPH>9. Hold the Genecon with its shaft horizontal and the string hanging down from the pulley. Its leads should still be hooked to the otherGenecon, with the Voltage/Current leads in place.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>10. Restart the software to read energy.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -2486,6 +2575,7 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Technical Hints" ID="Multiple_Transformations-hints">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Forms of Energy: Multiple Transformations  Technical Hints
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -2502,6 +2592,7 @@ http://concord.org/ccprobeware
         - Drawing in the CC Lab Book software</SNPARAGRAPH>
 </SUPERNOTES>
 <SUPERNOTES name="Analysis" ID="Multiple_Transformations-analysis">
+<EMBOBJ object="teemss_titlebar.bmp"/>
 <SNPARAGRAPH linkcolor="0000FF">Forms of Energy: Multiple Transformations  Analysis
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -2517,56 +2608,41 @@ http://concord.org/ccprobeware
 <SNPARAGRAPH/>
 </SUPERNOTES>
 </FOLDER>
-<FOLDER name="Responses" ID="Energy-response">
+<FOLDER name="Responses" ID="Energy_response">
 <FOLDER view="paging" name="Heat Flow Responses" ID="Heat_Flow-response">
-<FOLDER ID="Heat_Flow_trial_I_response&#10;    " name="Trial I Responses      &#10;    "/>
-<FOLDER ID="Heat_Flow_trial_II_response&#10;    " name="Trial II Responses      &#10;    "/>
-<FOLDER ID="Heat_Flow_trial_III_response&#10;    " name="Trial III Responses      &#10;    "/>
-<SUPERNOTES name="Analysis" ID="Heat_Flow-analysis-response">
-<SNPARAGRAPH linkcolor="0000FF">Heat Flow Analysis
-    </SNPARAGRAPH>
-<SNPARAGRAPH/>
-</SUPERNOTES>
+<FOLDER ID="Heat_Flow_think_response" name="Think About Responses "/>
+<FOLDER ID="Heat_Flow_trial_I_response" name="Trial I Responses      &#10;    "/>
+<FOLDER ID="Heat_Flow_trial_II_response" name="Trial II Responses      &#10;    "/>
+<FOLDER ID="Heat_Flow_trial_III_response" name="Trial III Responses      &#10;    "/>
+<FOLDER ID="Heat_Flow_analysis_response&#10;    " name="Analysis Responses "/>
 </FOLDER>
 <FOLDER view="paging" name="Potential and Kinetic Energy  Responses" ID="Potential_Kinetic_Energy-response">
-<FOLDER ID="Potential_Kinetic_Energy_trial_I_response&#10;    " name="Trial I Responses      &#10;    "/>
-<FOLDER ID="Potential_Kinetic_Energy_trial_II_response&#10;    " name="Trial II Responses      &#10;    "/>
-<FOLDER ID="Potential_Kinetic_Energy_trial_III_response&#10;    " name="Trial III Responses      &#10;    "/>
-<SUPERNOTES name="Analysis" ID="Potential_Kinetic_Energy-analysis-response">
-<SNPARAGRAPH linkcolor="0000FF">Potential and Kinetic Energy  Analysis
-    </SNPARAGRAPH>
-<SNPARAGRAPH/>
-</SUPERNOTES>
+<FOLDER ID="Potential_Kinetic_Energy_think_response" name="Think About Responses "/>
+<FOLDER ID="Potential_Kinetic_Energy_trial_I_response" name="Trial I Responses      &#10;    "/>
+<FOLDER ID="Potential_Kinetic_Energy_trial_II_response" name="Trial II Responses      &#10;    "/>
+<FOLDER ID="Potential_Kinetic_Energy_trial_III_response" name="Trial III Responses      &#10;    "/>
+<FOLDER ID="Potential_Kinetic_Energy_analysis_response&#10;    " name="Analysis Responses "/>
 </FOLDER>
 <FOLDER view="paging" name="Heating with Electricity  Responses" ID="Heating_With_Electricity-response">
-<FOLDER ID="Heating_With_Electricity_trial_I_response&#10;    " name="Trial I Responses      &#10;    "/>
-<FOLDER ID="Heating_With_Electricity_trial_II_response&#10;    " name="Trial II Responses      &#10;    "/>
-<FOLDER ID="Heating_With_Electricity_trial_III_response&#10;    " name="Trial III Responses      &#10;    "/>
-<SUPERNOTES name="Analysis" ID="Heating_With_Electricity-analysis-response">
-<SNPARAGRAPH linkcolor="0000FF">Heating with Electricity  Analysis
-    </SNPARAGRAPH>
-<SNPARAGRAPH/>
-</SUPERNOTES>
+<FOLDER ID="Heating_With_Electricity_think_response" name="Think About Responses "/>
+<FOLDER ID="Heating_With_Electricity_trial_I_response" name="Trial I Responses      &#10;    "/>
+<FOLDER ID="Heating_With_Electricity_trial_II_response" name="Trial II Responses      &#10;    "/>
+<FOLDER ID="Heating_With_Electricity_trial_III_response" name="Trial III Responses      &#10;    "/>
+<FOLDER ID="Heating_With_Electricity_analysis_response&#10;    " name="Analysis Responses "/>
 </FOLDER>
 <FOLDER view="paging" name="Forms of Energy: Single Transformations  Responses" ID="Single_Transformations-response">
-<FOLDER ID="Single_Transformations_trial_I_response&#10;    " name="Trial I Responses      &#10;    "/>
-<FOLDER ID="Single_Transformations_trial_II_response&#10;    " name="Trial II Responses      &#10;    "/>
-<FOLDER ID="Single_Transformations_trial_III_response&#10;    " name="Trial III Responses      &#10;    "/>
-<SUPERNOTES name="Analysis" ID="Single_Transformations-analysis-response">
-<SNPARAGRAPH linkcolor="0000FF">Forms of Energy: Single Transformations  Analysis
-    </SNPARAGRAPH>
-<SNPARAGRAPH/>
-</SUPERNOTES>
+<FOLDER ID="Single_Transformations_think_response" name="Think About Responses "/>
+<FOLDER ID="Single_Transformations_trial_I_response" name="Trial I Responses      &#10;    "/>
+<FOLDER ID="Single_Transformations_trial_II_response" name="Trial II Responses      &#10;    "/>
+<FOLDER ID="Single_Transformations_trial_III_response" name="Trial III Responses      &#10;    "/>
+<FOLDER ID="Single_Transformations_analysis_response&#10;    " name="Analysis Responses "/>
 </FOLDER>
 <FOLDER view="paging" name="Forms of Energy: Multiple Transformations  Responses" ID="Multiple_Transformations-response">
-<FOLDER ID="Multiple_Transformations_trial_I_response&#10;    " name="Trial I Responses      &#10;    "/>
-<FOLDER ID="Multiple_Transformations_trial_II_response&#10;    " name="Trial II Responses      &#10;    "/>
-<FOLDER ID="Multiple_Transformations_trial_III_response&#10;    " name="Trial III Responses      &#10;    "/>
-<SUPERNOTES name="Analysis" ID="Multiple_Transformations-analysis-response">
-<SNPARAGRAPH linkcolor="0000FF">Forms of Energy: Multiple Transformations  Analysis
-    </SNPARAGRAPH>
-<SNPARAGRAPH/>
-</SUPERNOTES>
+<FOLDER ID="Multiple_Transformations_think_response" name="Think About Responses "/>
+<FOLDER ID="Multiple_Transformations_trial_I_response" name="Trial I Responses      &#10;    "/>
+<FOLDER ID="Multiple_Transformations_trial_II_response" name="Trial II Responses      &#10;    "/>
+<FOLDER ID="Multiple_Transformations_trial_III_response" name="Trial III Responses      &#10;    "/>
+<FOLDER ID="Multiple_Transformations_analysis_response&#10;    " name="Analysis Responses "/>
 </FOLDER>
 </FOLDER>
 </FOLDER>
@@ -2618,8 +2694,8 @@ http://concord.org/ccprobeware
 <LINE xaxis="0" yaxis="0" datasource="dc-light3"/>
 </GRAPH>
 </DATACOLLECTOR>
-<DATACOLLECTOR ID="dc-force-20" name="Force - 20 N">
-<PROBE ID="dc-probe5" probe="Force">
+<DATACOLLECTOR ID="dc-force1" name="Force Probe">
+<PROBE ID="dc-f1" probe="Force">
 <PROP name="Mode" value="End of Arm"/>
 <PROP name="Range" value="+/- 20N"/>
 <PROP name="Speed" value="3 per second"/>
@@ -2627,7 +2703,43 @@ http://concord.org/ccprobeware
 <GRAPH current-line="0" title="graph subtitle goes here">
 <XAXIS min="0" max="20"/>
 <YAXIS min="-0.1" max="0.6"/>
-<LINE xaxis="0" yaxis="0" datasource="dc-probe5"/>
+<LINE xaxis="0" yaxis="0" datasource="dc-f1"/>
+</GRAPH>
+</DATACOLLECTOR>
+<DATACOLLECTOR ID="dc-force2" name="Force Probe">
+<PROBE ID="dc-f2" probe="Force">
+<PROP name="Mode" value="End of Arm"/>
+<PROP name="Range" value="+/- 20N"/>
+<PROP name="Speed" value="400 per second"/>
+</PROBE>
+<GRAPH current-line="0" title="graph subtitle goes here">
+<XAXIS min="0" max="10"/>
+<YAXIS min="-20" max="0"/>
+<LINE xaxis="0" yaxis="0" datasource="dc-f2"/>
+</GRAPH>
+</DATACOLLECTOR>
+<DATACOLLECTOR ID="dc-force3" name="Force Probe">
+<PROBE ID="dc-f3" probe="Force">
+<PROP name="Mode" value="End of Arm"/>
+<PROP name="Range" value="+/- 20N"/>
+<PROP name="Speed" value="400 per second"/>
+</PROBE>
+<GRAPH current-line="0" title="graph subtitle goes here">
+<XAXIS min="0" max="10"/>
+<YAXIS min="0" max="4"/>
+<LINE xaxis="0" yaxis="0" datasource="dc-f3"/>
+</GRAPH>
+</DATACOLLECTOR>
+<DATACOLLECTOR ID="dc-force4" name="Force Probe">
+<PROBE ID="dc-f4" probe="Force">
+<PROP name="Mode" value="End of Arm"/>
+<PROP name="Range" value="+/- 20N"/>
+<PROP name="Speed" value="400 per second"/>
+</PROBE>
+<GRAPH current-line="0" title="graph subtitle goes here">
+<XAXIS min="0" max="10"/>
+<YAXIS min="-20" max="1"/>
+<LINE xaxis="0" yaxis="0" datasource="dc-f4"/>
 </GRAPH>
 </DATACOLLECTOR>
 <DATACOLLECTOR ID="dc-smartwheel-pos1" name="SmartWheel Data Collector - Pos">
@@ -2654,7 +2766,7 @@ http://concord.org/ccprobeware
 </LINE>
 </GRAPH>
 </DATACOLLECTOR>
-<DATACOLLECTOR ID="dc-smartwheel-vel1" name="SmartWheel Data Collector - Vel">
+<DATACOLLECTOR ID="dc-smartwheel-vel1" name="SmartWheel Velocity">
 <PROBE ID="dc-sw-vel1" probe="SmartWheel">
 <PROP name="Port" value="A"/>
 </PROBE>
@@ -2663,6 +2775,18 @@ http://concord.org/ccprobeware
 <YAXIS min="-1" max="1"/>
 <LINE xaxis="0" yaxis="0">
 <INTPROBETRANS quantity="Velocity" probe="dc-sw-vel1"/>
+</LINE>
+</GRAPH>
+</DATACOLLECTOR>
+<DATACOLLECTOR ID="dc-smartwheel-vel2" name="SmartWheel Velocity">
+<PROBE ID="dc-sw-vel2" probe="SmartWheel">
+<PROP name="Port" value="A"/>
+</PROBE>
+<GRAPH current-line="0" title="graph subtitle goes here">
+<XAXIS min="0" max="10"/>
+<YAXIS min="-1" max="1"/>
+<LINE xaxis="0" yaxis="0">
+<INTPROBETRANS quantity="Velocity" probe="dc-sw-vel2"/>
 </LINE>
 </GRAPH>
 </DATACOLLECTOR>

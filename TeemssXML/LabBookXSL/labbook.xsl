@@ -28,17 +28,16 @@
 <xsl:template match="unit">
   <FOLDER ID="{@name}" name="{title}">
     <xsl:apply-templates select="investigation" mode="investigate"/>
-    <FOLDER ID="{@name}-response" name="Responses">
+    <FOLDER ID="{@name}_response" name="Responses">
       <xsl:apply-templates select="investigation" mode="response"/>
     </FOLDER>
-
   </FOLDER>
 </xsl:template>
 
 <xsl:template match="investigation" mode="investigate">
   <FOLDER ID="{@name}" name="{title}" view="paging">
     <xsl:apply-templates select="intro"/>
-    <xsl:apply-templates select="think"/>
+    <xsl:apply-templates select="think" mode="investigate"/>
     <xsl:apply-templates select="materials"/>
     <xsl:apply-templates select="safety"/>
     <xsl:apply-templates select="trial" mode="investigate"/>
@@ -49,6 +48,7 @@
 
 <xsl:template match="investigation" mode="response">
   <FOLDER ID="{@name}-response" name="{title} Responses" view="paging">
+    <xsl:apply-templates select="think" mode="response"/>
     <xsl:apply-templates select="trial" mode="response"/>
     <xsl:apply-templates select="analysis" mode="response"/>
   </FOLDER>
@@ -56,6 +56,7 @@
 
 <xsl:template match="intro">
   <SUPERNOTES ID="{../@name}-intro" name="Introduction">
+    <EMBOBJ object="teemss_titlebar.bmp"/>
     <SNPARAGRAPH linkcolor="0000FF">
       <xsl:value-of select="../title"/> Introduction
     </SNPARAGRAPH>
@@ -71,8 +72,9 @@
   </SUPERNOTES>
 </xsl:template>
 
-<xsl:template match="think">
+<xsl:template match="think" mode="investigate">
   <SUPERNOTES ID="{../@name}-think" name="Thinking About the Question">
+    <EMBOBJ object="teemss_titlebar.bmp"/>
     <SNPARAGRAPH linkcolor="0000FF">
       Thinking About the Question
     </SNPARAGRAPH>
@@ -90,8 +92,19 @@
   </SUPERNOTES>
 </xsl:template>
 
+<xsl:template match="think" mode="response">
+  <xsl:element name="FOLDER">
+    <xsl:attribute name="ID">
+      <xsl:value-of select="../@name"/>_think_response</xsl:attribute>
+    <xsl:attribute name="name">Think About Responses </xsl:attribute>
+<!--    <xsl:apply-templates select="query-response" mode="response"/>
+-->
+  </xsl:element>
+</xsl:template>
+
 <xsl:template match="materials">
   <SUPERNOTES ID="{../@name}-materials" name="Materials">
+    <EMBOBJ object="teemss_titlebar.bmp"/>
     <SNPARAGRAPH linkcolor="0000FF">
       <xsl:value-of select="../title"/> Materials
     </SNPARAGRAPH>
@@ -106,6 +119,7 @@
 
 <xsl:template match="safety">
   <SUPERNOTES ID="{../@name}-safety" name="Safety">
+    <EMBOBJ object="teemss_titlebar.bmp"/>
     <SNPARAGRAPH linkcolor="0000FF">
       <xsl:value-of select="../title"/> Safety
     </SNPARAGRAPH>
@@ -123,6 +137,7 @@
 
 <xsl:template match="hints">
   <SUPERNOTES ID="{../@name}-hints" name="Technical Hints">
+    <EMBOBJ object="teemss_titlebar.bmp"/>
     <SNPARAGRAPH linkcolor="0000FF">
       <xsl:value-of select="../title"/> Technical Hints
     </SNPARAGRAPH>
@@ -137,6 +152,7 @@
 
 <xsl:template match="analysis" mode="investigate">
   <SUPERNOTES ID="{../@name}-analysis" name="Analysis">
+    <EMBOBJ object="teemss_titlebar.bmp"/>
     <SNPARAGRAPH linkcolor="0000FF">
       <xsl:value-of select="../title"/> Analysis
     </SNPARAGRAPH>
@@ -146,12 +162,14 @@
 </xsl:template>
 
 <xsl:template match="analysis" mode="response">
-  <SUPERNOTES ID="{../@name}-analysis-response" name="Analysis">
-    <SNPARAGRAPH linkcolor="0000FF">
-      <xsl:value-of select="../title"/> Analysis
-    </SNPARAGRAPH>
-    <SNPARAGRAPH/>
-  </SUPERNOTES>
+  <xsl:element name="FOLDER">
+    <xsl:attribute name="ID">
+      <xsl:value-of select="../@name"/>_analysis_response
+    </xsl:attribute>
+    <xsl:attribute name="name">Analysis Responses </xsl:attribute>
+<!--    <xsl:apply-templates select="query-response" mode="response"/>
+-->
+  </xsl:element>
 </xsl:template>
 
 
@@ -162,6 +180,7 @@
     </xsl:attribute>
     <xsl:attribute name="name">Trial <xsl:number value="position()" format="I"/>      
     </xsl:attribute>
+    <EMBOBJ object="teemss_titlebar.bmp"/>
     <SNPARAGRAPH linkcolor="0000FF">
       <xsl:value-of select="normalize-space(@title)"/>
     </SNPARAGRAPH>
@@ -174,8 +193,7 @@
 <xsl:template match="trial" mode="response">
   <xsl:element name="FOLDER">
     <xsl:attribute name="ID">
-      <xsl:value-of select="../@name"/>_trial_<xsl:number value="position()" format="I"/>_response
-    </xsl:attribute>
+      <xsl:value-of select="../@name"/>_trial_<xsl:number value="position()" format="I"/>_response</xsl:attribute>
     <xsl:attribute name="name">Trial <xsl:number value="position()" format="I"/> Responses      
     </xsl:attribute>
     <xsl:apply-templates select="query-response" mode="response"/>
@@ -187,6 +205,7 @@
 </xsl:template>
 
 <xsl:template match="instruction">
+  <xsl:if test="position()=5">---aircart-insert---</xsl:if>
   <SNPARAGRAPH linkcolor="0000FF"><xsl:value-of select="@title"/></SNPARAGRAPH>
   <SNPARAGRAPH/>
   <xsl:apply-templates/>
@@ -292,6 +311,7 @@
 
     <xsl:attribute name="name">Trial <xsl:number value="position()" format="I"/> Responses      
     </xsl:attribute>
+    <EMBOBJ object="teemss_titlebar.bmp"/>
     <SNPARAGRAPH linkcolor="0000FF">
       <xsl:apply-templates select="query-description"/>
     </SNPARAGRAPH>

@@ -1,4 +1,5 @@
 #! /bin/bash
 java org.apache.xalan.xslt.Process -in ../unit.xml -xsl labbook.xsl -out labbook.xml
+sed -f aircart-insert labbook.xml > temp ; mv temp labbook.xml
 
 
