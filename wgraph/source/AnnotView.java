@@ -183,7 +183,8 @@ public class AnnotView extends Container
 			if(a == null) return;
 
 			// Add bar to bargraph
-			bGraph.addBar(bGraph.numBars - 1, a);
+			// FIXME: this won't work right if the graph is running
+			bGraph.addBar(bGraph.numBars, a);
 		} else if(e.type == 1003 && e.target == lgView) {
 			// Annotation moved event
 			// This should now be taken care of automagically :)

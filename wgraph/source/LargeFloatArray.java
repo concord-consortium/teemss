@@ -37,6 +37,7 @@ public class LargeFloatArray
 		chunks.add(new float [ChunkSize]);
 		curChunk = 0;
 		curIndex = 0;
+		isFull = false;
 
 		min = 1;
 		max = -1;
