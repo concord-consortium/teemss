@@ -28,7 +28,7 @@ endef
 include ../ReleaseSystem/waba.inc
 
 JAR_BUILD := other
-CLASSPATH := $(CLASSPATH):${WGRAPH_DIR}:${LABBOOK_DIR}:${PROBELIB_DIR}:$(CURDIR)/../WFTPClient/classes/_CUR_PLATFORM_
+CLASSPATH := $(CLASSPATH):${WGRAPH_DIR}:${LABBOOK_DIR}:${PROBELIB_DIR}#:$(CURDIR)/../WFTPClient/classes/_CUR_PLATFORM_
 
 all: dependencies main warp jar exegen jump
 test: dependencies main
