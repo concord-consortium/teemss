@@ -26,7 +26,7 @@ import waba.sys.Vm;
  * @version    1.0.0 25 April 1999
  */
 public abstract class ExtraMainWindow extends MainWindow  
-	implements  org.concord.waba.extra.event.ActionListener
+	implements  org.concord.waba.extra.event.ActionListener, CCApplHandlerListener
 {
 	// platform constants
 
@@ -431,5 +431,10 @@ public abstract class ExtraMainWindow extends MainWindow
 	public void setDialog(Dialog d){
 		popupDialog = d;
 	}
+
+	public void handleAbout(){}
+	public void handleQuit(){}
+	public void handlePrefs(){}
+
 }
 

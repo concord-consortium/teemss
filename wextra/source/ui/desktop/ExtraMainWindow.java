@@ -26,7 +26,7 @@ import waba.sys.Vm;
  * @version    1.0.0 25 April 1999
  */
 
-public abstract class  ExtraMainWindow extends MainWindow implements ActionListener
+public abstract class  ExtraMainWindow extends MainWindow implements ActionListener, CCApplHandlerListener
 {
     // platform constants
 
@@ -393,6 +393,21 @@ public abstract class  ExtraMainWindow extends MainWindow implements ActionListe
     public void setDialog(Dialog d){
   	popupDialog = d;
     }
+	public void handleAbout(){}
+	public void handleQuit(){}
+	public void handlePrefs(){}
+
+
+	private void registerHandlers(){
+    	CCApplHandler applHandler = CCApplHandlerFactory.getCCApplHandler();
+    	if(applHandler != null) applHandler.registerHandlers(this);
+	}
+
+	public void wasAWTAddNotify(){
+		super.wasAWTAddNotify();
+		registerHandlers();
+	}
+
 }
 
 

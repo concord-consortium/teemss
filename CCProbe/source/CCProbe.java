@@ -7,7 +7,7 @@ import org.concord.waba.extra.event.*;
 import org.concord.LabBook.*;
 import org.concord.CCProbe.*;
 
-public class CCProbe extends MainView implements CCApplHandlerListener
+public class CCProbe extends MainView
 {
 	LabBookSession mainSession;
     Menu edit;
@@ -21,12 +21,10 @@ public class CCProbe extends MainView implements CCApplHandlerListener
 
 	int		[]creationID = {0x00010100};
 	
-	private boolean	handlersWasRegistered = false;
 
     public void onStart()
     {
 		super.onStart();
-		registerHandlers();
     	
 		LObjDictionary loDict = null;
 
@@ -152,14 +150,6 @@ public class CCProbe extends MainView implements CCApplHandlerListener
 			}
 		}	
 		return createNames;
-	}
-
-	public void registerHandlers(){
-		if(!handlersWasRegistered){
-    		handlersWasRegistered = true;
-    		CCApplHandler applHandler = CCApplHandlerFactory.getCCApplHandler();
-    		if(applHandler != null) applHandler.registerHandlers(this);
-    	}
 	}
 
 	public void createObj(String objType, LObjDictionaryView dView)
@@ -298,8 +288,7 @@ public class CCProbe extends MainView implements CCApplHandlerListener
 			exit(0);
 		}
 	}
-	public void handlePrefs(){
-	}
+
 	public void handleAbout(){
 		Dialog.showAboutDialog(aboutTitle,AboutMessages.getMessage());
 	}

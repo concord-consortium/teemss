@@ -23,6 +23,11 @@ import waba.applet.Applet;
 
 public class Frame extends java.awt.Frame
 {
+waba.ui.Window wabaWindow = null;
+	void setWabaWindow(waba.ui.Window wabaWindow){
+		this.wabaWindow = wabaWindow;
+	}
+
 	public void addNotify(){
 		super.addNotify();
 	    java.awt.Insets insets 	= getInsets();
@@ -32,6 +37,8 @@ public class Frame extends java.awt.Frame
 		df = getSize();
 		
 		setLocation(d.width/2 - df.width/2,d.height/2 - df.height/2);
+		
+		if(wabaWindow != null) wabaWindow.wasAWTAddNotify();
 
 	}
     

@@ -80,6 +80,8 @@ public class Applet extends java.applet.Applet
 				mainWindow = (MainWindow)c.newInstance();
 			}
 		catch (Exception e) { e.printStackTrace(); }
+		
+		
 		synchronized(Applet.uiLock)
 			{
 				mainWindow.onStart();
@@ -182,6 +184,7 @@ public class Applet extends java.applet.Applet
 		
 		applet.init();
 		if (frame != null){
+			frame.setWabaWindow(applet.mainWindow);
 			frame.show();
 		}
 	
