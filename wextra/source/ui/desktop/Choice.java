@@ -1,6 +1,8 @@
 package org.concord.waba.extra.ui;
 
 public class Choice extends extra.ui.List{
+	String name = null;
+
 	public Choice(String []options){
 		super(options);
 		initialYOffset = 15;
@@ -8,16 +10,22 @@ public class Choice extends extra.ui.List{
 	public Choice(){
 		super();
 	}
+
+	public void setName(String n)
+	{
+		name = n;
+	}
 	
-	  public void onEvent(waba.ui.Event event){
-    		if (event instanceof waba.ui.PenEvent){
-     			 	int px=((waba.ui.PenEvent)event).x;
-      				int py=((waba.ui.PenEvent)event).y;
-      				if(px < 0 || px > width) return;
-      				if(py < 0 || py > height) return;
+	public void onEvent(waba.ui.Event event){
+		if (event instanceof waba.ui.PenEvent){
+			int px=((waba.ui.PenEvent)event).x;
+			int py=((waba.ui.PenEvent)event).y;
+			if(px < 0 || px > width) return;
+			if(py < 0 || py > height) return;
 	  	}
 	  	super.onEvent(event);
-	  }
+	}
+	
 	public void onPaint(waba.fx.Graphics g)
 	{
 		if(fm == null) calcSizes();
@@ -82,9 +90,15 @@ public class Choice extends extra.ui.List{
 		      g.drawLine(2,height-1,width-3,height-1);
 		      g.drawLine(width-1,2,width-1,height-3);
 		      g.drawLine(1, initialYOffset, width - 2, initialYOffset);
+
 		}
 		g.setColor(0, 0, 0);
-		g.drawText(getSelected(),4,3);
+		if(name != null){
+			g.drawText(name,4,3);
+		} else {
+			g.drawText(getSelected(),4,3);
+		}
+
  	}
 
 	public void doPopup(){

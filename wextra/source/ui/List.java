@@ -163,6 +163,9 @@ public class List extends Control implements PreferredSize
 			if((t=fm.getTextWidth(str))>expandedWidth)
 				expandedWidth=t;
 		}
+
+		if(expandedWidth + 10 < width) expandedWidth = width - 10;
+
 		return true;
 	}
 
@@ -292,7 +295,7 @@ public class List extends Control implements PreferredSize
   
 	public void doPopup(){
 		popup=new Popup(this);
-		popup.popup(x,y,expandedWidth+10,textHeight*numDisplayed+3);
+		popup.popup(x,y,expandedWidth+10,textHeight*numDisplayed+3+initialYOffset);
 	}
 	public boolean isPopup(){return (popup != null);}
 	public int getNumbDisplayed(){return numDisplayed;}
