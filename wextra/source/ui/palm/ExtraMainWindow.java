@@ -30,9 +30,9 @@ import waba.fx.*;
 
 import waba.sys.Vm;
 
+import waba.sys.Vm;
+
 import extra.ui.*;
-
-
 
 /**
 
@@ -168,6 +168,8 @@ public abstract class ExtraMainWindow extends MainWindow  implements  org.concor
   protected boolean needsPaint=false;
 
   protected int paintX, paintY, paintWidth, paintHeight;
+
+
 
 
 
