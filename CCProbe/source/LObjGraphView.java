@@ -209,10 +209,11 @@ public class LObjGraphView extends LabObjectView
 		String [] toolsChoices = {TOOL_ZOOM_SELECT_NAME, TOOL_ANNOT_MARK_NAME, TOOL_DEL_MARK_NAME, 
 								  "Toggle Scrolling", TOOL_AUTO_ZOOM_NAME, };
 		toolsChoice = new Choice(toolsChoices);
-		for(int i=0; i<externalToolNames.getCount(); i++){
-			toolsChoice.add((String)externalToolNames.get(i));
+		if(externalToolNames != null){
+			for(int i=0; i<externalToolNames.getCount(); i++){
+				toolsChoice.add((String)externalToolNames.get(i));
+			}
 		}
-
 		toolsChoice.setName("Tools");
 		add(toolsChoice);
 		
