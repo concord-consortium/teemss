@@ -136,7 +136,7 @@ public class LObjDictionaryView extends LabObjectView
 
 		curNode = treeControl.getSelected();
 		if(curNode == null || curNode.toString().equals("..empty..")) return;
-		showPage(curNode, false,false);		
+		showPage(curNode, false);		
 	}
 
 	public void insertAtSelected(LabObject obj)
@@ -224,7 +224,7 @@ public class LObjDictionaryView extends LabObjectView
 		    } else if(e.getActionCommand().equals("Properties...")){
 				TreeNode curNode = treeControl.getSelected();
 				if(curNode == null || curNode.toString().equals("..empty..")) return;
-				showPage(curNode, true, true);
+				showProperties(dict.getObj(curNode));
 		    } else if(e.getActionCommand().equals("Toggle hidden")){
 				LObjDictionary.globalHide = !LObjDictionary.globalHide;
 				if(container != null) container.reload(this);
@@ -289,25 +289,32 @@ public class LObjDictionaryView extends LabObjectView
 		}
     }
 
-    public void showPage(TreeNode curNode, boolean edit,boolean property)
+    public void showPage(TreeNode curNode, boolean edit)
     {
 		LabObject obj = null;
 		
 		obj = dict.getObj(curNode);
 		if(obj == null) Debug.println("showPage: object not in database: " +
 					      ((LabObjectPtr)curNode).debug());
-		showPage(obj,edit,property);
+		showPage(obj,edit);
 	}
 
+	public void showProperties(LabObject obj)
+	{
+		if(obj == null) return;
+		LabObjectView propView = obj.getPropertyView(null, (LObjDictionary)treeControl.getSelectedParent());
+		if(propView == null) return;
+		MainWindow mw = MainWindow.getMainWindow();
+		if(!(mw instanceof ExtraMainWindow)) return;
+		ViewDialog vDialog = new ViewDialog((ExtraMainWindow)mw, null, "Properties", propView);
+		vDialog.setRect(0,0,150,150);
+		vDialog.show();
+	}
 
-	public void showPage(LabObject obj, boolean edit, boolean property)
+	public void showPage(LabObject obj, boolean edit)
 	{
 		editStatus = edit;
-		if(property){
-			lObjView = obj.getPropertyView(this, (LObjDictionary)treeControl.getSelectedParent());
-		}else{
-			lObjView = obj.getView(this, edit, (LObjDictionary)treeControl.getSelectedParent());
-		}
+		lObjView = obj.getPropertyView(this, (LObjDictionary)treeControl.getSelectedParent());
 
 		if(lObjView == null){
 		    return;

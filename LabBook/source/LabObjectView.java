@@ -21,6 +21,11 @@ public abstract class LabObjectView extends Container
 		container = vc;
     }
 
+	public void setContainer(ViewContainer vc)
+	{ 
+		container = vc;
+	}
+
     public abstract void layout(boolean sDone);
 
     public void close()
