@@ -16,4 +16,9 @@ public class LabObjEvent extends Event
 	{
 		return obj;
 	}
+
+	public int getType()
+	{
+		return type;
+	}
 }
