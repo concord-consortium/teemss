@@ -341,11 +341,7 @@ public class LObjDictionaryView extends LabObjectView
 		dict.store();
 
 		if(addedMenus) delMenus();
-		remove(me);
-	    lObjView.layout(true);
-		lObjView.setRect(x,y,width,height);
-		lObjView.setShowMenus(showMenus);
-		add(lObjView);
+		getMainView().showFullWindowView(lObjView);
     }
 
 	boolean addedMenus = false;
@@ -411,9 +407,8 @@ public class LObjDictionaryView extends LabObjectView
 				return;
 			}
 
-			remove(lObjView);
+			getMainView().showFullWindowView(null);
 			treeControl.reparse();
-			add(me);
 			if(showMenus) addMenus();
 			lObjView = null;
 		}
@@ -424,15 +419,11 @@ public class LObjDictionaryView extends LabObjectView
     {
 		if(source == lObjView){
 			LabObject obj = source.getLabObject();
-			lObjView.setShowMenus(showMenus);
 			lObjView.close();
-			remove(lObjView);
+			getMainView().showFullWindowView(null);
 	    
 			lObjView = obj.getView(this, editStatus, (LObjDictionary)treeControl.getSelectedParent());
-			lObjView.layout(true);
-			lObjView.setRect(x,y,width,height);
-			lObjView.setShowMenus(showMenus);
-			add(lObjView);
+			getMainView().showFullWindowView(lObjView);
 		}
     }
 

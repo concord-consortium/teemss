@@ -232,6 +232,7 @@ String				text;
 	public void createObj(String name, LObjDictionaryView dView){
 	}
 
+	public void showFullWindowView(LabObjectView view){}
 
     public void dialogClosed(DialogEvent e){
 		if(e.getInfoType() != DialogEvent.OBJECT || e.getInfo() == null) return;

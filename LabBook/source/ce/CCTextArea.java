@@ -233,6 +233,8 @@ String				text;
 	}
 
 
+	public void showFullWindowView(LabObjectView view){}
+
     public void dialogClosed(DialogEvent e){
 		if(e.getInfoType() != DialogEvent.OBJECT || e.getInfo() == null) return;
 		if(!(e.getInfo() instanceof LBCompDesc)) return;

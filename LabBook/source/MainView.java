@@ -17,4 +17,5 @@ public interface MainView
 
 	public void createObj(String name, LObjDictionaryView dView);
 
+	public void showFullWindowView(LabObjectView view);
 }

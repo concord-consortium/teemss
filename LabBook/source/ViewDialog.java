@@ -68,4 +68,5 @@ public class ViewDialog extends Dialog
 	public void removeFileMenuItems(String [] items, ActionListener source){}
 	public String [] getCreateNames(){return null;}
 	public void createObj(String name, LObjDictionaryView dView){}
+	public void showFullWindowView(LabObjectView view){}
 }

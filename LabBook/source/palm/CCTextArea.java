@@ -8,17 +8,17 @@ import waba.sys.*;
 import waba.util.Vector;
 import extra.io.*;
 
-
 class CCTextAreaChooser extends LabBookChooser{
-Choice	alignmentChoice;
-Check	wrapCheck,linkCheck;
-Edit	widthEdit,heightEdit;
-Label	alignmentLabel,wrapLabel,widthLabel,heightLabel;
+	Choice	alignmentChoice;
+	Check	wrapCheck,linkCheck;
+	Edit	widthEdit,heightEdit;
+	Label	alignmentLabel,wrapLabel,widthLabel,heightLabel;
 
-
-	public CCTextAreaChooser(LObjDictionary dict,ViewContainer viewContainer,DialogListener l){
+	public CCTextAreaChooser(LObjDictionary dict,ViewContainer viewContainer,
+							 DialogListener l){
 		super(dict,viewContainer,l);
 	}
+
 	public void setContent(){
   		waba.fx.FontMetrics fm = getFontMetrics(getFont()); 
 		boolean firstTime = (view == null);
@@ -26,6 +26,7 @@ Label	alignmentLabel,wrapLabel,widthLabel,heightLabel;
 		if(view == null && viewContainer != null && dict != null){
 			view = (LObjDictionaryView)dict.getView(viewContainer, true);
 		}
+
 		Rect r = getContentPane().getRect();
 		if(view != null){
 			if(firstTime){
@@ -35,8 +36,7 @@ Label	alignmentLabel,wrapLabel,widthLabel,heightLabel;
 			}
 			view.setRect(0,0,r.width,r.height - 30);
 		}
-		
-		
+				
 		int xStart = 2;
 		int cLength = (fm == null)?40:(2 + fm.getTextWidth("Align"));
 		if(alignmentLabel == null){
@@ -232,6 +232,7 @@ String				text;
 	public void createObj(String name, LObjDictionaryView dView){
 	}
 
+	public void showFullWindowView(LabObjectView view){}
 
     public void dialogClosed(DialogEvent e){
 		if(e.getInfoType() != DialogEvent.OBJECT || e.getInfo() == null) return;
