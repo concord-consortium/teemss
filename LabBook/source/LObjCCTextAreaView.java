@@ -11,6 +11,7 @@ public class LObjCCTextAreaView extends LabObjectView
 	ViewContainer
 {
 CCTextArea 				tArea;
+boolean					tAreaWasAdded = false;
 //RelativeContainer 		edit = new RelativeContainer();
 Container 				edit = new Container();
 
@@ -191,6 +192,19 @@ CCScrollBar				scrollBar;
     	}
     }
 
+	public void createTArea(waba.util.Vector lines){
+		if(tArea != null && tAreaWasAdded){
+			if(edit != null) edit.remove(tArea);
+			tAreaWasAdded = false;
+		}
+		tArea = new CCTextArea(this,null,doc.curDict,doc);
+		tArea.setup(lines);		
+		if(edit != null){
+			edit.add(tArea);
+			tAreaWasAdded = true;
+		}
+	}
+
     public void readExternal(DataStream in){
 		boolean wasText = in.readBoolean();
 		if(wasText){
@@ -230,6 +244,7 @@ CCScrollBar				scrollBar;
 			tArea = new CCTextArea(this,container.getMainView(),doc.curDict,doc);
 
 		}else{
+			if(tAreaWasAdded) edit.remove(tArea);
 			tArea.mainView 	= container.getMainView();
 			tArea.dict 		= doc.curDict;
 			tArea.subDictionary = doc;
@@ -258,6 +273,7 @@ CCScrollBar				scrollBar;
 		} 
 		add(edit);
 		edit.add(tArea);
+		tAreaWasAdded = true;
 		
 		if(scrollBar == null) scrollBar = new CCScrollBar(this);
 		edit.add(scrollBar);
