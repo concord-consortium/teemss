@@ -9,14 +9,14 @@ CCInterfaceManager im;
 protected 	waba.util.Vector 	probs 	= null;
 protected 	waba.util.Vector 	listeners 	= null;
 protected 	static ProbManagerEvent   pmEvent = new ProbManagerEvent();
-	protected ProbManager(){
-		im = CCInterfaceManager.getInterfaceManager();
+	protected ProbManager(int interfaceType){
+		im = CCInterfaceManager.getInterfaceManager(interfaceType);
 		im.setProbManager(this);
 		pmEvent.setProbManager(this);
 	}
-	public static ProbManager getProbManager(){
+	public static ProbManager getProbManager(int interfaceType){
 		if(pb == null){
-			pb = new ProbManager();
+			pb = new ProbManager(interfaceType);
 		}
 		return pb;
 	}

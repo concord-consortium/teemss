@@ -37,7 +37,7 @@ float       	deviation = 100.0f;
 float		totalSumm = 0.0f;
 float		totalSamples = 0f;
 DeviationControl	devControl;
-	public CalibrationDialog(ExtraMainWindow owner,DialogListener l,String title, CCProb probe){
+	public CalibrationDialog(ExtraMainWindow owner,DialogListener l,String title, CCProb probe,int interfaceManager){
 		super(title);
 		this.probe = probe;
 		this.owner = owner;
@@ -45,7 +45,7 @@ DeviationControl	devControl;
 		currContainer = 0;
 		addDialogListener(l);
 		owner.setDialog(this);
-		pb = ProbManager.getProbManager();
+		pb = ProbManager.getProbManager(interfaceManager);
 //		pb.setMode(CCInterfaceManager.A2D_24_MODE);
 //		pb.setMode(CCInterfaceManager.A2D_10_MODE);
 		pb.registerProb(probe);
@@ -422,7 +422,7 @@ DeviationControl	devControl;
 			}
 		}
 
-		int ndata = dataEvent.getNumbData();
+		int ndata = dataEvent.getNumbSamples()*dataEvent.getDataDesc().getChPerSample();
 		int nOffset = dataEvent.getDataOffset();
 		float  dtChannel = dt / (float)chPerSample;
 		boolean doFFT = false;

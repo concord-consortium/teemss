@@ -114,6 +114,9 @@ protected ProbManager	pb = null;
 			ret += bufOffset;	    
 			if(ret < 16){
 				bufOffset = ret;//too few?
+				dEvent.setType(DataEvent.DATA_COLLECTING);
+				notifyProbManager(dEvent);
+				dEvent.setType(DataEvent.DATA_RECEIVED);
 				break;
 			}
 			curPos = 0;

@@ -27,7 +27,7 @@ int					outputMode = DEFAULT_MODE_OUT;
 		dDesc.setDt(0.01f);
 		dEvent.setDataDesc(dDesc);
 		dEvent.setDataOffset(0);
-		dEvent.setNumbData(1);
+		dEvent.setNumbSamples(1);
 		dEvent.setData(wheelData);
 		
 		properties = new PropObject[2];
@@ -100,24 +100,27 @@ int					outputMode = DEFAULT_MODE_OUT;
 		dtChannel = dt / (float)chPerSample;
 	}
 	public boolean transform(DataEvent e){
+		if(e.getType() == DataEvent.DATA_COLLECTING){
+			notifyListeners(dEvent);
+			return true;
+		}
 	    //System.out.println("wheel transform "+e);
 		float t0 = e.getTime();
 		float[] data = e.getData();
-		int ndata = e.getNumbData();
 		int nOffset = e.getDataOffset();
 		dDesc.setDt(e.getDataDesc().getDt());
 		float dt = dDesc.getDt();
 		dDesc.setChPerSample(e.getDataDesc().getChPerSample());
+		int ndata = e.getNumbSamples()*dDesc.getChPerSample();
 		dtChannel = dDesc.getDt() / (float)dDesc.getChPerSample();
 		int  	chPerSample = dDesc.getChPerSample();
 		if(ndata < chPerSample) return false;
 		if(calibrationListener != null){
 			dDesc.setChPerSample(2);
-			dEvent.setNumbData(2);
 		}else{
 			dDesc.setChPerSample(1);
-			dEvent.setNumbData(1);
 		}
+		dEvent.setNumbSamples(1);
 				
 		for(int i = 0; i < ndata; i+=chPerSample){
 			dEvent.setTime(t0 + dtChannel*(float)i);

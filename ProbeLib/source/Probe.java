@@ -132,8 +132,8 @@ DataListener calibrationListener = null;
 	
 	public void  calibrationDone(float []row1,float []row2,float []calibrated){}
 	
-	public void calibrateMe(ExtraMainWindow owner,DialogListener l){
-		CalibrationDialog cDialog = new CalibrationDialog(owner,l,"Calibration: "+getName(),this);
+	public void calibrateMe(ExtraMainWindow owner,DialogListener l,int interfaceType){
+		CalibrationDialog cDialog = new CalibrationDialog(owner,l,"Calibration: "+getName(),this,interfaceType);
 		cDialog.setRect(100,100,160,160);
 		cDialog.show();
 	}
