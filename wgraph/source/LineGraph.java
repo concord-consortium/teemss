@@ -91,12 +91,21 @@ public class LineGraph extends Graph2D
 
     public boolean profile = false;
 
-    public LineGraph(int w, int h)
+    public LineGraph(int w, int h, int yAxisDigits)
     {
 		int i;
 		width = w;
 		height = h;
-		dwX = 38;
+
+		if(yAxisDigits <= 3){
+			dwX = 35;
+		} else {
+			if(waba.sys.Vm.getPlatform().equals("PalmOS")){
+				dwX = 10 + 5 + 5*yAxisDigits;
+			} else {
+				dwX = 10 + 5 + 7*yAxisDigits;
+			}
+		} 
 		dwY = 10;
 
 		dwWidth = w - dwX - 10;
@@ -106,9 +115,9 @@ public class LineGraph extends Graph2D
 			dwHeight = h - dwY - 30;
 
 		xaxis = new Axis(X_MIN, X_MAX, dwWidth, Axis.BOTTOM);
-		xOriginOff = 35;
+		xOriginOff = dwX;
 		xaxis.gridEndOff=-dwHeight+1;
-		xaxis.max = (float)1E30;  // some huge number 
+		xaxis.max = (float)1E30;  // some huge number 		
 
 		xaxisArray[0] = xaxis;
 		numXaxis = 1;
@@ -119,6 +128,7 @@ public class LineGraph extends Graph2D
 		yaxis = new ColorAxis(Y_MIN, Y_MAX, -dwHeight, Axis.LEFT);
 		yOriginOff = dwHeight + dwY;
 		yaxis.gridEndOff=dwWidth-1;
+ 		yaxis.setMaxDigits(yAxisDigits);
 
 		int newSize = DEFAULT_STOR_SIZE;
 		binStorSize = newSize;

@@ -95,6 +95,8 @@ public class Axis
     int minTicSize = 3;
     int majTicSize = 5;
 
+	int maxDigits = 3;
+
     int drawnX = -1;
     int drawnY = -1;
     int drawnOffset = 1;
@@ -138,6 +140,11 @@ public class Axis
 		this(min, len, (float)len / (max - min), type);
 
     }
+
+	public void setMaxDigits(int axisDigits)
+	{
+		maxDigits = axisDigits;
+	}
 
     public void free()
     {
@@ -207,6 +214,7 @@ public class Axis
 	float labelExpStepVal = 1000f;
     float labelTicStep = 1;
 	int labelTicStepExp = 0;
+	int labelTicStepRawExp = 0;
 
     void setStepSize()
     {
@@ -233,6 +241,8 @@ public class Axis
 			labelTicStep = (float)1;
 			exponent++;
 		}
+
+		labelTicStepRawExp = exponent;
 
 		majTicStep = exp10(labelTicStep, exponent);
 		if(exponent > 0) labelTicStepExp = exponent / labelExpStep * labelExpStep;
@@ -290,6 +300,14 @@ public class Axis
 		}
 		labelTicStep = exp10(majTicStep, -labelExp);
 		firstLabelTic = exp10(firstTic, -labelExp);
+		if(labelExp > labelTicStepRawExp){
+			int decDigits = labelExp - labelTicStepRawExp;
+			if(decDigits > (maxDigits - 1)) decDigits = maxDigits - 1;
+			label.minDigits = label.maxDigits = decDigits;
+		} else {
+			label.minDigits = 0;
+			label.maxDigits = 0;
+		}
 
     }
 	

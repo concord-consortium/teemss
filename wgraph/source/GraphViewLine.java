@@ -27,7 +27,6 @@ import org.concord.waba.extra.event.*;
 import extra.util.*;
 
 public class GraphViewLine extends GraphView
-    implements DialogListener
 {
     final static float Y_MAX = (float)50.0;
     final static float Y_MIN = (float)-5.0;
@@ -47,59 +46,25 @@ public class GraphViewLine extends GraphView
     public float minX = X_MIN;
     public float maxX = X_MAX;
 
-    public String units = null;
-
-    PropertyDialog pDialog = null;
-    PropContainer props = null;
-    PropObject propXmin = new PropObject("Min", minX + "");
-    PropObject propXmax = new PropObject("Max", maxX + "");
-    PropObject propYmin = new PropObject("Min", minY + "");
-    PropObject propYmax = new PropObject("Max", maxY + "");
-
     LineGraph lGraph;
     Annotation curAnnot = null;
 
     FloatConvert fConvert = new FloatConvert();
 
-    public GraphViewLine(int w, int h)
+    public GraphViewLine(int w, int h, int numYDigits)
     {
 		super(w,h);
 
 		fConvert.minDigits = 2;
 		fConvert.maxDigits = 4;
 
-		graph = lGraph = new LineGraph(w, h);
+		graph = lGraph = new LineGraph(w, h, numYDigits);
+
 		lGraph.setYRange(minY, maxY - minY);
 		lGraph.setXRange(0, minX, maxX - minX);
+    }
 
-		units = new String("C");
 	
-		props = new PropContainer();
-		props.createSubContainer("Y Axis");	
-		props.createSubContainer("X Axis");
-		props.addProperty(propXmax, "X Axis");
-		props.addProperty(propXmin, "X Axis");
-
-		props.addProperty(propYmax, "Y Axis");
-		props.addProperty(propYmin, "Y Axis");
-
-    }
-
-    public void dialogClosed(DialogEvent e)
-    {
-		if(!e.getActionCommand().equals("Cancel")){
-			minX = propXmin.createFValue();
-			maxX = propXmax.createFValue();
-			minY = propYmin.createFValue();
-			maxY = propYmax.createFValue();
-			lGraph.setYRange(minY, maxY - minY);
-			lGraph.setXRange(minX, maxX - minX);
-		}
-		if(e.getActionCommand().equals("Close")){
-			draw();
-		}
-    }
-
     public boolean autoScroll = true;
     float scrollFract = (float)0.25;
     float scrollStepSize = (float)0.15;
@@ -266,21 +231,9 @@ public class GraphViewLine extends GraphView
 			} 
 		}
     }
+
+
 	
-    public void showAxisProp()
-    {
-		MainWindow mw = MainWindow.getMainWindow();
-		if(mw instanceof ExtraMainWindow){
-			propXmin.setValue("" + lGraph.xaxis.dispMin);
-			propXmax.setValue("" + (lGraph.xaxis.dispMin+lGraph.dwWidth/lGraph.xaxis.scale));
-			propYmin.setValue("" + lGraph.yaxis.dispMin);
-			propYmax.setValue("" + (lGraph.yaxis.dispMin+lGraph.yaxis.dispLen/lGraph.yaxis.scale));
-	    
-			PropertyDialog pd = new PropertyDialog((ExtraMainWindow)mw, this, "Properties", props);
-			pd.setRect(0,0, 140,140);
-			pd.show();
-		}
-    }
 
 
 }

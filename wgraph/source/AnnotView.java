@@ -39,11 +39,11 @@ public class AnnotView extends Container
 
     public boolean active = false;
 
-    public AnnotView(int w, int h)
+    public AnnotView(int w, int h, int numYdigits)
     {
 		setRect(0,0,w,h);
 
-		curView = lgView = new GraphViewLine(w, h);
+		curView = lgView = new GraphViewLine(w, h, numYdigits);
 		bgView = new GraphViewBar(w, h);	
 		lgView.setPos(0,0);
 		bgView.setPos(0,0);
