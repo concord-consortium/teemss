@@ -28,7 +28,11 @@ public class PropertyPane extends Container
 		align = a;
 	}
 
-	public String getName(){return propContainer.getName();}
+	public String getName()
+	{
+		if(propContainer == null) return null;
+		return propContainer.getName();
+	}
 	public PropContainer getContainer()
 	{
 		return propContainer;

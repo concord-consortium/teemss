@@ -13,13 +13,13 @@ public class TreeModel
 
     public TreeModel(TreeNode node)
     {
-	root = node;
+		root = node;
 
     }
 
     public void addTreeModelListener(TreeModelListener l)
     {
-	listener = l;
+		listener = l;
     }
 
     //    public TreeNode getChild(TreeNode parent, int index){}
@@ -30,31 +30,31 @@ public class TreeModel
 
     public void insertNodeInto(TreeNode newChild, TreeNode parent, int index)
     {
-	parent.insert(newChild, index);
-	if(listener != null) listener.treeNodeInserted(newChild, parent);
+		parent.insert(newChild, index);
+		if(listener != null) listener.treeNodeInserted(newChild, parent);
     }
 
     public void addParent(TreeNode curNode, TreeNode newParent)
     {
-	curNode.addParent(newParent);
-	if(listener != null) listener.treeModelChanged();
+		curNode.addParent(newParent);
+		if(listener != null) listener.treeModelChanged();
     }
 
     public void removeNodeFromParent(TreeNode node, TreeNode parent)
     {
-	parent.remove(node);
-	if(listener != null) listener.treeModelChanged();
+		parent.remove(node);
+		if(listener != null) listener.treeModelChanged();
     }
 
     //    public void isLeaf(TreeNode node){}
 
     public void setRoot(TreeNode root)
     {
-	this.root = root;
+		this.root = root;
     }
 
     public void reload()
     {	
-	if(listener != null) listener.treeModelChanged();
+		if(listener != null) listener.treeModelChanged();
     }
 }

@@ -21,8 +21,8 @@ float	A = 0.01734f;
 float B = -25.31f;
 
 	PropObject modeProp = new PropObject("Mode", "Mode", PROP_MODE, modeNames);
-	PropObject rangeProp = new PropObject("Range", "Range", PROP_RANGE, range1Names);
-	PropObject speedProp = new PropObject("Speed", "Speed", PROP_SPEED, speed2Names);
+	PropObject rangeProp = new PropObject("Range", "Range", PROP_RANGE, range1Names, 1);
+	PropObject speedProp = new PropObject("Speed", "Speed", PROP_SPEED, speed1Names);
 
 	protected CCForce(boolean init, String name, int interfaceT){
 		super(init, name, interfaceT);

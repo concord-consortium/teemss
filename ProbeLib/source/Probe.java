@@ -214,6 +214,7 @@ DataListener calibrationListener = null;
 	public boolean setUnit(int unit){this.unit = unit;return true;}
 
 	public void writeExternal(extra.io.DataStream out){
+		out.writeInt(interfaceType);
 		out.writeInt(CALIBRATION_PROB_START);
 		out.writeBoolean(calibrationDesc != null);
 		if(calibrationDesc != null){
@@ -232,6 +233,7 @@ DataListener calibrationListener = null;
 	}
 	
 	public void readExternal(extra.io.DataStream in){
+		interfaceType = in.readInt();
 		int temp = in.readInt();
 		if(temp != CALIBRATION_PROB_START) return;
 		if(in.readBoolean()){

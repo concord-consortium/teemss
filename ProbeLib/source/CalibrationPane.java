@@ -33,16 +33,16 @@ public class CalibrationPane extends PropertyPane
 	int widthBorder = 1;
 	PropertyView pView = null;
 
-	public CalibrationPane(CCProb probe,int interfaceManager, ActionListener al,
-						   PropertyView pv){
+	public CalibrationPane(CCProb probe, ActionListener al, PropertyView pv){
 		super(pv);
 		this.probe = probe;
 
+		int interfaceId = probe.getInterfaceType();
 		// Watch out for this
 		// nContainers = (probe != null && probe.needCalibration())?2:1;
 
 		listener = al;
-		pb = ProbManager.getProbManager(interfaceManager);
+		pb = ProbManager.getProbManager(interfaceId);
 		//		pb.setMode(CCInterfaceManager.A2D_24_MODE);
 		//		pb.setMode(CCInterfaceManager.A2D_10_MODE);
 		pb.registerProb(probe);
