@@ -107,6 +107,7 @@ public class InputFile
         {
         os.write(buf,0,br);
       }
+	  is.close();
     }
     catch(Exception e)
     {
