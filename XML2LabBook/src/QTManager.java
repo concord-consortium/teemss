@@ -14,7 +14,8 @@ import org.concord.LabBook.*;
 
 public class QTManager{
 
-public boolean qtInstalled = false;
+	public boolean qtInstalled = false;
+
 	public QTManager(){
 	}
 	
@@ -23,11 +24,8 @@ public boolean qtInstalled = false;
 		try{
 			QTSession.open();
 			qtInstalled = true;
-		}catch(Throwable t){
-			System.out.println("Can't find QuickTime java library.  This isn't a fatal error.\n" +
-							   "It just means you can only load BMP images.\n" +
-							   "If you have QuickTime installed then you need to put QTJava.zip\n" +
-							   "on your classpath.");
+		} catch (quicktime.QTException e) {
+			System.out.println(e.toString());
 		}
 	}
 	

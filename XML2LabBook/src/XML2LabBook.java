@@ -76,10 +76,10 @@ public static QTManager qtManager = null;
 		}catch(Throwable t){
 			qtManager = null;
 			qtInstalled = false;
-			System.out.println("Can't find QTManager");
+			System.out.println("Can't find QuickTime java library.  This isn't a fatal error.\n" +
+							   "It just means you can only load BMP images. If you have QuickTime\n" +
+							   "installed then you need to put QTJava.zip on your classpath.");
 		}
-
-
 
 		String xmlFile = "labbook.xml";
 		boolean palmDB = true;
