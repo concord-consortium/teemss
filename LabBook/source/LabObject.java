@@ -18,9 +18,11 @@ public abstract class LabObject
     final public static int UCONVERTOR = 10;
     final public static int IMAGEOBJ = 11;
     final public static int DATASOURCEOBJ = 12;
+    final public static int PROBESREPOBJ = 13;
 
     public static String [] typeNames = {
-	"Zero", "Dict", "Form", "DataSet", "Graph", "DataControl", "Doc", "OutputSet", "Quest","Drawing","UnitConvertor","Image","DataSource"};
+	"Zero", "Dict", "Form", "DataSet", "Graph", "DataControl", "Doc", "OutputSet", "Quest","Drawing",
+	"UnitConvertor","Image","DataSource","Probes"};
 
     public static LabObject getNewObject(int objectType)
     {
@@ -49,6 +51,8 @@ public abstract class LabObject
 	    return new LObjImage();
 	case DATASOURCEOBJ:
 		return new LObjDataSource();
+	case PROBESREPOBJ:
+		return new LObjProbesRep();
 	}
 
 	return null;

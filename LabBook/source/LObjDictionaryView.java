@@ -30,7 +30,7 @@ public class LObjDictionaryView extends LabObjectView
 
     PropContainer creationProps = new PropContainer();
     PropContainer subCreateProps = creationProps.createSubContainer("Sub");
-    String [] creationTypes = {"Folder", "Notes", "Questions", "Data Collector", "Drawing","UnitConvertor","Image","DataSource"};
+    String [] creationTypes = {"Folder", "Notes", "Questions", "Data Collector", "Drawing","UnitConvertor","Image","DataSource","Probes"};
     PropObject newObjType = new PropObject("Type", creationTypes);
 
     boolean editStatus = false;
@@ -142,51 +142,54 @@ public class LObjDictionaryView extends LabObjectView
 
     public void dialogClosed(DialogEvent e)
     {
-		String command = e.getActionCommand();
+	String command = e.getActionCommand();
 		if(e.getSource() == newDialog){
 			if(command.equals("Create")){
 				String objType = (String)e.getInfo();
 				LabObject newObj = null;
 				boolean autoEdit = false;
 				if(objType.equals("Folder")){
-					newObj = new LObjDictionary();
+				    newObj = new LObjDictionary();
 				} else if(objType.equals("Notes")){
-					newObj = new LObjDocument();
-					autoEdit = true;
+				    newObj = new LObjDocument();
+				    autoEdit = true;
 				} else if(objType.equals("Questions")){
-					newObj = LObjQuestion.makeNewQuestionSet();
-					autoEdit = true;
+				    newObj = LObjQuestion.makeNewQuestionSet();
+				    autoEdit = true;
 				} else if(objType.equals("Data Collector")){	       
-					LObjDataControl dc = LObjDataControl.makeNew();
-					newObj = dc.dict;
-					dc.dict.hideChildren = true;
-					autoEdit = true;
+				    LObjDataControl dc = LObjDataControl.makeNew();
+				    newObj = dc.dict;
+				    dc.dict.hideChildren = true;
+				    autoEdit = true;
 				} else if(objType.equals("Drawing")){
-					newObj = new LObjDrawing();
-					autoEdit = true;
+				    newObj = new LObjDrawing();
+				    autoEdit = true;
 				} else if(objType.equals("UnitConvertor")){
-					newObj = new LObjUConvertor();
-					autoEdit = true;
+				    newObj = new LObjUConvertor();
+				    autoEdit = true;
 				} else if(objType.equals("Image")){
-					newObj = new LObjImage();
-					autoEdit = true;
+				    newObj = new LObjImage();
+				    autoEdit = true;
 				} else if(objType.equals("DataSource")){
-					newObj = new LObjDataSource();
-					autoEdit = true;
+				    newObj = new LObjDataSource();
+				    autoEdit = true;
+				} else if(objType.equals("Probes")){
+				    newObj = new LObjProbesRep();
+				    autoEdit = true;
 				}
 				if(newObj != null){
-					if(newIndex == 0){
-						newObj.name = objType;		    
-					} else {
-						newObj.name = objType + " " + newIndex;		    
-					}
-					newIndex++;
-					TreeNode newNode = dict.getNode(newObj);
-					insertAtSelected(newNode);
+				    if(newIndex == 0){
+					newObj.name = objType;		    
+				    } else {
+					newObj.name = objType + " " + newIndex;		    
+				    }
+				    newIndex++;
+				    TreeNode newNode = dict.getNode(newObj);
+				    insertAtSelected(newNode);
 
-					if(autoEdit){
+				    if(autoEdit){
 						showPage(newNode, true, false);
-					}
+				    }
 				}
 
 			}
