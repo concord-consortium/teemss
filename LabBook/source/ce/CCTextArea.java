@@ -128,6 +128,8 @@ Label	alignmentLabel,wrapLabel,widthLabel,heightLabel;
 				doNotify = true;
 			}
 
+		}else if(e.type == ControlEvent.PRESSED && e.target == cancelButton){
+			hide();
 		}else if(e.type == ControlEvent.PRESSED && e.target == choiceButton){
 			if(view != null){
 				TreeNode curNode = view.treeControl.getSelected();
@@ -772,7 +774,9 @@ String				text;
 			int row = 1 + firstLine + (ev.y / h);
 			if(row > getRowsNumber()) row = getRowsNumber();
 			int lineIndex = getLineIndex(row - 1);
-			if(lineIndex >= 0 && lineIndex < lines.getCount()){
+			if(lines == null){
+				row = 1;
+			}else if(lineIndex >= 0 && lineIndex < lines.getCount()){
 				CCStringWrapper sw = (CCStringWrapper)lines.get(lineIndex);
 				int rIndex = row - 1 - sw.beginRow;
 				if(rIndex >= 0 && rIndex < sw.delimiters.length / 2){

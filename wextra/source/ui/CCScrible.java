@@ -61,17 +61,35 @@ private boolean  wasAddComponent = true;
 	
 	public void setRect(int x, int y, int width, int height){
 		super.setRect(x,y,width,height);
-		if(!wasAddComponent){
+		if(wasAddComponent){
+			if(drawArea != null) 			remove(drawArea);
+			if(clearButton != null) 		remove(clearButton);
+			if(modeButton != null) 			remove(modeButton);
+			if(choosePenButton != null) 	remove(choosePenButton);
+		}
+		if(embeddedState){
+			drawArea.setRect(0, 20, this.width, this.height);
+		}else{
 			drawArea.setRect(0, 20, this.width, this.height - 20);
-			add(drawArea);
+		}
+		add(drawArea);
+		if(!embeddedState){
 			clearButton.setRect(0, 2, 35, 15);
 			add(clearButton);
 			modeButton.setRect(40, 2, 35, 15);
 			add(modeButton);
 			choosePenButton.setRect(80, 2, 35, 15);
 			add(choosePenButton);
-			wasAddComponent = true;
 		}
+		wasAddComponent = true;
+	}
+	
+	boolean embeddedState = false;
+	public void setEmbeddedState(boolean embeddedState){
+		this.embeddedState = embeddedState;
+		if(drawArea != null) drawArea.setEmbeddedState(embeddedState);
+		Rect r = getRect();
+		setRect(r.x,r.y,r.width,r.height);
 	}
 	
 	public void writeExternal(DataStream out){
@@ -103,7 +121,7 @@ private boolean  wasAddComponent = true;
 	public void close(){
 		if(drawArea != null) drawArea.close();
 		if(isChooserUp){
-			remove(scribbleChooser);
+			if(scribbleChooser != null) remove(scribbleChooser);
 		}
 		if(colorChooser != null){
 			if(scribbleChooser != null) scribbleChooser.remove(colorChooser);
@@ -190,13 +208,17 @@ CCDrawPath	pathList = null;
 CCDrawPath	currPath = null;
 static final 	int DATA_PEN		=	1;
 static final 	int DATA_PATH	=	2;
-
+boolean embeddedState = false;
 	public DrawArea(){
 		pen = new org.concord.waba.extra.ui.CCPen();
 		pen.setPenSize((byte)1,(byte)1);
 		pen.setPenColor(0,0,0);
 	}
 	
+	public void setEmbeddedState(boolean embeddedState){
+		this.embeddedState = embeddedState;
+		close();
+	}
 	public void writeExternal(extra.io.DataStream out){
 		out.writeInt(DATA_PATH);
 		if(pathList == null){
@@ -324,6 +346,8 @@ static final 	int DATA_PATH	=	2;
 	}
 
 	public void onEvent(Event event){
+		if(embeddedState) return;
+		
 		if (drawg == null){
 			createOffGraphics();
 			if(drawg != null) drawg.setColor(pen.red,pen.green,pen.blue);
