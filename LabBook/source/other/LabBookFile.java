@@ -22,6 +22,8 @@ public class LabBookFile extends LabBookDB
     Vector objects = new Vector();
 	Vector objIndexVec = null;
 
+	int version = 0;
+
     int curDevId;
     int nextObjId;
     int rootDevId;
@@ -56,16 +58,18 @@ public class LabBookFile extends LabBookDB
 			nextObjId = 0;
 			rootDevId = 0;
 			rootObjId = 0;
-			ds.writeInt(0);
-			ds.writeInt(0);
-			ds.writeInt(0);
-			ds.writeInt(0);
+			ds.writeInt(version);
+			ds.writeInt(curDevId);
+			ds.writeInt(nextObjId);
+			ds.writeInt(rootDevId);
+			ds.writeInt(rootObjId);
 
 			// length
 			ds.writeInt(0);
 			file.close();
 			return;
 		} else {
+			version = ds.readInt();
 			curDevId = ds.readInt();
 			nextObjId = ds.readInt();
 			rootDevId = ds.readInt();
