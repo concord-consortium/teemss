@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE project PUBLIC "-//CONCORD.ORG//DTD Param Description//EN" "file:///TEEMSS/xml/project.dtd">
+<!DOCTYPE project PUBLIC "-//CONCORD.ORG//DTD Param Description//EN" "project.dtd">
 <project name="teemss">
   <title>TEEMSS</title>
   <skill-list>
@@ -202,7 +202,7 @@
         little friction</summary>
       <question> What happens to a vehicle when there&apos;s very little friction?</question>
       <intro>
-        <ext-image dir="images/AirCart" name="smallCart"/> In this
+        <ext-image name="smallCart"/> In this
         activity you will build and test an air cart that operates with
         very little friction.</intro>
       <think>
@@ -227,7 +227,7 @@
           how to use the software. </p>
       </think>
       <materials>
-        <ext-image dir="images/AirCart" name="00_cartParts" type="gif"/>
+        <ext-image name="00_cartParts" type="gif"/>
         <item>CC SmartWheel</item>
         <item>cardboard for cart body (12cm x 40cm)</item>
         <item>cardboard for ramp (30cm x 100cm)</item>
@@ -275,9 +275,9 @@
                 wide and 14cm long, starting 4cm from one end of the cart.</step>
               <step> Cut out the slot with a utility knife. Please be
                 very careful! <ext-image-sequence>
-                  <ext-image dir="images/AirCart" name="01a_cardboard"/>
-                  <ext-image dir="images/AirCart" name="01b_slotCutMark"/>
-                  <ext-image dir="images/AirCart" name="01c_slotCutOut"/>
+                  <ext-image name="01a_cardboard"/>
+                  <ext-image name="01b_slotCutMark"/>
+                  <ext-image name="01c_slotCutOut"/>
                 </ext-image-sequence>
               </step>
             </steps>
@@ -291,10 +291,10 @@
                 Let it stick out on either side.  </step>
               <step>Cut off each end of the straw a bit longer than the cardboard.</step>
               <step>The finished straw is now ready for the axle.<ext-image-sequence>
-                  <ext-image dir="images/AirCart" name="02a_strawMark"/>
-                  <ext-image dir="images/AirCart" name="02b_strawGlued"/>
-                  <ext-image dir="images/AirCart" name="02c_strawCut"/>
-                  <ext-image dir="images/AirCart" name="02d_strawInstall"/>
+                  <ext-image name="02a_strawMark"/>
+                  <ext-image name="02b_strawGlued"/>
+                  <ext-image name="02c_strawCut"/>
+                  <ext-image name="02d_strawInstall"/>
                 </ext-image-sequence>
               </step>
             </steps>
@@ -317,10 +317,10 @@
                 little bit. A paper clip will work as a screwdriver. </step>
               <step>Now the SmartWheel is in place. It can be taken on
                 and off. You will need to do this for the Tracker Investigation.<ext-image-sequence>
-                  <ext-image dir="images/AirCart" name="03a_swMarkHoles" type="gif"/>
-                  <ext-image dir="images/AirCart" name="03b_makeHoles" type="gif"/>
-                  <ext-image dir="images/AirCart" name="03c_swScrews" type="gif"/>
-                  <ext-image dir="images/AirCart" name="03d_swInstalled" type="gif"/>
+                  <ext-image name="03a_swMarkHoles" type="gif"/>
+                  <ext-image name="03b_makeHoles" type="gif"/>
+                  <ext-image name="03c_swScrews" type="gif"/>
+                  <ext-image name="03d_swInstalled" type="gif"/>
                 </ext-image-sequence>
               </step>
             </steps>
@@ -337,10 +337,9 @@
               <step>Slide the axle through the straw and then slide on
                 the other CD ROM wheel. The picture shows the cart
                 upside down.  <ext-image-sequence>
-                  <ext-image dir="images/AirCart" name="04a_pressInHub" type="gif"/>
-                  <ext-image dir="images/AirCart"
-                    name="04b_oneWheelAxle" type="gif"/>
-                  <ext-image dir="images/AirCart" name="04c_wheelPair" type="gif"/>
+                  <ext-image name="04a_pressInHub" type="gif"/>
+                  <ext-image                     name="04b_oneWheelAxle" type="gif"/>
+                  <ext-image name="04c_wheelPair" type="gif"/>
                 </ext-image-sequence>
               </step>
             </steps>
@@ -360,8 +359,8 @@
                 holder. Glue it down in the center next to the motor.
                 Leave a little bit of space between the battery holder
                 and the motor.  <ext-image-sequence>
-                  <ext-image dir="images/aircart" name="06a_motor"/>
-                  <ext-image dir="images/AirCart" name="06b_batteries"/>
+                  <ext-image name="06a_motor"/>
+                  <ext-image name="06b_batteries"/>
                 </ext-image-sequence>
               </step>
             </steps>
@@ -386,10 +385,10 @@
                 removed when you mount the Force probe on the cart.  </step>
               <step>Put bits of clay into the acrobat&apos;s hands so
                 that it has a good grip. Hang the acrobat on the wire.  <ext-image-sequence>
-                  <ext-image dir="images/AirCart" name="08a_wireU"/>
-                  <ext-image dir="images/AirCart" name="08b_wireCrimped"/>
-                  <ext-image dir="images/AirCart" name="08c_wireAttach"/>
-                  <ext-image dir="images/AirCart" name="08d_wireAcrobat"/>
+                  <ext-image name="08a_wireU"/>
+                  <ext-image name="08b_wireCrimped"/>
+                  <ext-image name="08c_wireAttach"/>
+                  <ext-image name="08d_wireAcrobat"/>
                 </ext-image-sequence>
               </step>
             </steps>
@@ -412,10 +411,10 @@
                 &quot;U&quot; to make the edges stiff and keep the cart
                 from running off the edge. </step>
               <step>Then the cardboard ramp rests easily on a flat surface.<ext-image-sequence>
-                  <ext-image dir="images/AirCart" name="10a_rampSize"/>
-                  <ext-image dir="images/AirCart" name="10b_rampMark"/>
-                  <ext-image dir="images/AirCart" name="10c_rampFold"/>
-                  <ext-image dir="images/AirCarts" name="10d_rampEnd"/>
+                  <ext-image name="10a_rampSize"/>
+                  <ext-image name="10b_rampMark"/>
+                  <ext-image name="10c_rampFold"/>
+                  <ext-image name="10d_rampEnd"/>
                 </ext-image-sequence>
               </step>
             </steps>
@@ -458,8 +457,7 @@
           <step>What is your measure of friction? Which one has the
             least friction? Explain your thoughts and observations in
             Notes on your handheld computer. Refer to Technical Hints to
-            see how to use the software.  <ext-image
-              dir="images/AirCart" name="12_rampRace"/>
+            see how to use the software.  <ext-image name="12_rampRace"/>
           </step>
         </steps>
       </trial>
