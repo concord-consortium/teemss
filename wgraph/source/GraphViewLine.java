@@ -91,8 +91,8 @@ public class GraphViewLine extends GraphView
 	    maxX = propXmax.createFValue();
 	    minY = propYmin.createFValue();
 	    maxY = propYmax.createFValue();
-	    lGraph.setYRange(minY, minY + maxY);
-	    lGraph.setXRange(minX, minX + maxX);
+	    lGraph.setYRange(minY, maxY - minY);
+	    lGraph.setXRange(minX, maxX - minY);
 	}
     }
 
