@@ -156,7 +156,7 @@ public class CCTextArea  extends Container
 	Vector	listeners;
 
 	public final static int	yTextBegin = 2;
-
+	public static int INTER_LINE_SPACING = 2;
 
 	LObjDictionary		objDictionary = null;
 
@@ -525,7 +525,7 @@ public class CCTextArea  extends Container
 
 	protected int getItemHeight() {
 		FontMetrics fm = getFontMetrics(); 
-		return (fm == null)?0:fm.getHeight()+2;
+		return (fm == null)?0:fm.getHeight()+INTER_LINE_SPACING;
 	}
 
 	public int getVisRows(){
@@ -1128,8 +1128,6 @@ public class CCTextArea  extends Container
 			}
 		}
 		layoutComponents();
-		notifyListeners(0);
-
 	}
 
 
