@@ -9,7 +9,7 @@
       <year>2002</year>
       <holder>Concord Consortium</holder>
     </copyright>
-    <releaseinfo>incomplete, released: $date$</releaseinfo>
+    <releaseinfo>incomplete, released: $Date$, $Revision$</releaseinfo>
     <mediaobject>
       <imageobject>
 	<imagedata fileref="images/png/gs-7-1.png" format="PNG" scale="50"/>
