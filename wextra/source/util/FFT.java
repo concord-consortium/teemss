@@ -248,7 +248,7 @@ private static float []sin_fft =
 
 		}catch(Exception e){
 
-		    System.out.println("realft "+e);
+//		    System.out.println("realft "+e);
 
 		}
 

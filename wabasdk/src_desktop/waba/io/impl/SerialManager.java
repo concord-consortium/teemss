@@ -21,6 +21,8 @@ private     static java.awt.Frame  mainFrame = null;
 		availablePorts.removeAllElements();
 		(new PortScanner()).scanPorts(availablePorts);
 		SerialPortDesc sPort = getAssignedPort();
+		
+		
 		if(sPort == null) return;
 //check does sPort exist in port's list
 		boolean wasPort = false;

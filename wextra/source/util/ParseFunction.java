@@ -305,12 +305,12 @@ public class ParseFunction extends ScanString {
             root = new Node();
              if( parseString(root) != EOS) return false;
              if(debug) {
-                System.out.println("Before Reordering:");
+//                System.out.println("Before Reordering:");
                 root.print(5);
              }
              reOrderNodes(root);
              if(debug) {
-                System.out.println("After Reordering:");
+//                System.out.println("After Reordering:");
                 root.print(5);
              }
              return true;
@@ -529,14 +529,14 @@ public class ParseFunction extends ScanString {
 
         // Do some preliminary branching.
         if(token == ERROR) {
-             System.out.println("Error parsing \""+sval+"\"");
+//             System.out.println("Error parsing \""+sval+"\"");
              return ERROR;
         } else 
         if( token != EOS && debug ) {
-             System.out.println("Parse: "+sval+"\t Token: "+token);
+//             System.out.println("Parse: "+sval+"\t Token: "+token);
         } else 
         if( token == EOS && debug ) {
-             System.out.println("Parse: EOS");
+//             System.out.println("Parse: EOS");
         }
         
         // Main token switch
@@ -658,7 +658,7 @@ public class ParseFunction extends ScanString {
                     node.precedence = Node.P5;
                     token = parseString(node);
                 } else {
-                    System.out.println("Parse Failed: missing parentheses");
+//                    System.out.println("Parse Failed: missing parentheses");
                     token = ERROR;
                 }
                 break;
@@ -730,8 +730,8 @@ public class ParseFunction extends ScanString {
 
                 token = nextWord();
                 if(token != GROUP ) {
-                     System.out.println(
-                    "Parse Failed: intrinsic function is missing \"(\"");
+//                     System.out.println(
+//                    "Parse Failed: intrinsic function is missing \"(\"");
                     token = ERROR;
                 } else {
                    left = new Node();
@@ -739,8 +739,8 @@ public class ParseFunction extends ScanString {
                        node.left = left;
                        token = parseString(node);
                    } else {
-                       System.out.println(
-                       "Parse Failed: intrinsic function is missing \")\"");
+//                       System.out.println(
+//                       "Parse Failed: intrinsic function is missing \")\"");
                        token = ERROR;
                    }
                 }
@@ -1157,19 +1157,19 @@ class Node extends Object {
         public void print(int indentLevel) {
            char l[] = new char[1];
            indent(indentLevel);
-           System.out.println("NODE type=" + type);
+//           System.out.println("NODE type=" + type);
            indent(indentLevel);
-           System.out.println("     prec="+ precedence);
+//           System.out.println("     prec="+ precedence);
            indent(indentLevel);
            switch (type) {
               case Node.VALUE:
-                 System.out.println("     value=" + value);
+//                 System.out.println("     value=" + value);
                  break;
               case Node.INDEPENDENT:
-                 System.out.println("     variable=" + op);
+//                 System.out.println("     variable=" + op);
                  break;
               default:
-                 System.out.println("     op=" + op);
+//                 System.out.println("     op=" + op);
                  if(left  != null) left.print(indentLevel + 5);
                  if(right != null) right.print(indentLevel + 5);
                  break;

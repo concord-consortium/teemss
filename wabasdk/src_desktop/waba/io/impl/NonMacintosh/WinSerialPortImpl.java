@@ -17,6 +17,7 @@ public class WinSerialPortImpl implements ISerialPort
 	public void initPort(int number, int baudRate, int bits, boolean parity, int stopBits){
 	
 		String portName = null;
+		SerialManager.checkAvailableSerialPorts();
 		SerialPortDesc sPortDesc = SerialManager.getAssignedPort();
 		if(sPortDesc == null){
 		 	waba.io.impl.SerialManager.checkAvailableSerialPorts();
