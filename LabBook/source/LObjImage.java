@@ -215,6 +215,7 @@ class LObjImageView extends LabObjectView implements ActionListener
 		imagePane = new ImagePane(wabaImage);
 		add(imagePane);
 		imagePane.setRect(0,0);
+		lObj.name = fd.getFile();
     	
     }
 private static int inGetUInt32(byte bytes[], int off)

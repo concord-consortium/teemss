@@ -33,6 +33,8 @@ public class TreeControl extends Control implements TreeModelListener
 
     TreeLine selected = null;
 
+	int	firstLine = 0;
+
     public TreeControl(TreeModel tm)
     {
 		TreeNode curNode;
@@ -70,7 +72,7 @@ public class TreeControl extends Control implements TreeModelListener
 		if(numLines == 0) return;
 
 		g.translate(1,1);
-		for(int i = 0; i<numLines; i++){
+		for(int i = firstLine; i<numLines; i++){
 			line = (TreeLine)lines.get(i);
 			if(line.node == null) {
 				g.drawText("..null..", (line.depth+1)*indentSize, curY);
@@ -145,7 +147,7 @@ public class TreeControl extends Control implements TreeModelListener
     {
 		if(e instanceof PenEvent && e.type == PenEvent.PEN_DOWN){
 			PenEvent pe = (PenEvent)e;
-			int lineIndex = pe.y / textHeight;
+			int lineIndex = pe.y / textHeight + firstLine;
 			if(lineIndex >= lines.getCount()){
 				if(selected != null) selected.selected = false;
 				selected = null;
@@ -188,8 +190,30 @@ public class TreeControl extends Control implements TreeModelListener
 		} else if(e instanceof ControlEvent && e.type == ControlEvent.TIMER){
 			removeTimer(timer);
 			timer = null;
+		}else if (e instanceof KeyEvent){
+			onKeyEvent((KeyEvent)e);
+		}else if(e instanceof PenEvent && e.type == PenEvent.PEN_DRAG){
+			PenEvent pe = (PenEvent)e;
+			if(pe.y > height){
+				int nVisibleLines = height / textHeight;
+				if(firstLine + nVisibleLines < lines.getCount()){
+					firstLine++;
+					repaint();
+				}
+			}else if(pe.y < 0){
+				if(firstLine > 0){
+					firstLine--;
+					repaint();
+				}
+			}
 		}
+
+
     }
+
+
+	public void onKeyEvent(KeyEvent e){
+	}
 
     int [] coord1 = {1,8,5};
     int [] coord2 = {1,1,8};
