@@ -62,7 +62,7 @@
 <p><img src="string(images/{@name}.gif)" width="158" height="140"/></p>
 </xsl:template>
 
-<xsl:template match="ext_image">
+<xsl:template match="ext-image">
 <cc-ext:copy source="images/{cc-ext:getImageDir(concat(string(ancestor::unit/@name),'/',string(ancestor::investigation/@name)),string(@name))}/WEB_{@name}.{@type}" target="html/images/auto_{@name}.{@type}"/>
 <p>
 <xsl:choose>
@@ -76,7 +76,7 @@
 </p>
 </xsl:template>
 
-<xsl:template match="ext_image_sequence">
+<xsl:template match="ext-image-sequence">
 	<xsl:for-each select="ext_image">
 		<xsl:apply-templates select="."/>
 		<xsl:if test="position()!=last()"><img src="images/arrow.gif"/></xsl:if>
