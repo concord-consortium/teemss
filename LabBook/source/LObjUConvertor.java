@@ -159,6 +159,7 @@ class LObjUConvertorView extends LabObjectView
 	}
 
     public void close(){
+    	super.close();
     }
 
 	public void onEvent(Event e){

@@ -110,7 +110,7 @@ class LObjDrawingView extends LabObjectView
     public void close()
     {
     	scribble.close();
-	super.close();
+		super.close();
     }
 
     public void onEvent(Event e)
