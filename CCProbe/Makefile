@@ -1,7 +1,7 @@
 
 MODULE = CCProbe
 
-DEP_NAMES = wabajump wabasdk wextra ProbeLib wgraph LabBook
+DEP_NAMES = wabajump wabasdk wextra ProbeLib wgraph LabBook palmtools
 
 MW_CLASS= CCProbe
 PLATFORMS= palm other ce
