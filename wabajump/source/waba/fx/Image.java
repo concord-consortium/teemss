@@ -52,9 +52,7 @@ public class Image implements ISurface
 			jump.Runtime.gc();
 			winHandle=Palm.WinCreateOffscreenWindow(width,height,0,new ShortHolder((short)0));
 			if(winHandle == 0){
-				width = -1;
-				height = -1;
-				return;
+				throw new OutOfMemoryError("new Image");
 			}
 		}
 		int iOldWinHandle=Palm.WinSetDrawWindow(winHandle);

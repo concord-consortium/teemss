@@ -112,7 +112,10 @@ protected Timer addTimer(Control target, int millis)
 	t.lastTick = Vm.getTimeStamp();
 	t.next = timers;
 	timers = t;
-	_onTimerTick();
+
+	// This is nasty if people use timers to get out of deep stack
+	// loops then they'd not want this to happen here
+	// _onTimerTick();
 	return t;
 	}
 
@@ -137,7 +140,11 @@ public boolean removeTimer(Timer timer)
 		timers = t.next;
 	else
 		prev.next = t.next;
-	_onTimerTick();
+
+	
+	// This is nasty if people use timers to get out of deep stack
+	// loops then they'd not want this to happen here
+	//	_onTimerTick();
 	return true;
 	}
 
@@ -190,6 +197,7 @@ public void _onTimerTick()
 		timer = timer.next;
 		}
 	_setTimerInterval(minInterval);
+	_controlEvent.target = null;
 	if (needsPaint)
 		_doPaint(paintX, paintY, paintWidth, paintHeight);
 	}
