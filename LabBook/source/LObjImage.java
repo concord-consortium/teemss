@@ -200,7 +200,7 @@ public class LObjImage extends LabObject
 		imageScanlen = scanlen;
 		imageWidth = width;
 	
-		store();
+		storeNow();
 		return true;
 	}
 
@@ -208,7 +208,13 @@ public class LObjImage extends LabObject
 	{
 		if(imageWidth < 1 || imageHeight < 1) return null;
 
+		if(imagePixels == null){
+			lBook.reload(this);
+		}
 		int tmpCmap [] = imageCMAP;
+		if(tmpCmap == null){
+			tmpCmap = CCPalette.getSystemPalette();
+		}
 		if(isWinCE){
 			tmpCmap = new int [256];
 			waba.sys.Vm.copyArray(imageCMAP, 0, tmpCmap, 0, imageCMAP.length);
@@ -217,6 +223,8 @@ public class LObjImage extends LabObject
 		waba.fx.Image wi = null;
 		wi = new waba.fx.Image(imageWidth,imageHeight);
 		if(wi != null) wi.setPixels(imageBPP,tmpCmap,imageScanlen,imageHeight,0,imagePixels);
+		imageCMAP = null;
+		imagePixels = null;
 		return wi;
 	}
 	
@@ -228,7 +236,7 @@ public class LObjImage extends LabObject
 		this.imageCMAP = imageCMAP;
 		this.imageScanlen = imageScanlen;
 		this.imagePixels = imagePixels;
-		store();
+		storeNow();
 	}
 
 	private void pixelsToRGB(int bitsPerPixel, int width, byte pixels[], int pixelOffset,
@@ -313,7 +321,7 @@ public class LObjImage extends LabObject
 		int len = in.readInt();
 		if(len == -1){
 			// this is version -1 of the system palette
-			imageCMAP = CCPalette.getSystemPalette();
+			imageCMAP = null;
 		} else {
 			imageCMAP = new int[len];
 			for(int i = 0; i < len; i++){
