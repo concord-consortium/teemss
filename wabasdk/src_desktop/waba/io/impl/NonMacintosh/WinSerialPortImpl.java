@@ -59,7 +59,8 @@ public class WinSerialPortImpl implements ISerialPort
     {
 	sPort.enableReceiveTimeout(millis);
 	if(millis == 0){
-		sPort.enableReceiveThreshold(0);
+	    //		sPort.enableReceiveThreshold(0);
+	    sPort.enableReceiveTimeout(1);
 	}
       return true;
     }
