@@ -76,7 +76,6 @@ public class AnnotationProp extends LabObjectView
 		} else if(e.getActionCommand().equals("Close")){
 			// this is a cancel or close
 			if(container != null){
-				System.out.println("AnnoProp: calling cont.done");
 				container.done(this);
 			}	    
 		}

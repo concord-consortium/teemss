@@ -383,7 +383,6 @@ public class LObjGraphView extends LabObjectView
 				  e.type == ControlEvent.PRESSED){
 			av.addAnnot();
 		} else if(e.type == 1008){
-			System.out.println("LOGV: got 1008");
 			// annotation selection change event
 			Annotation selAnnot = av.getSelectedAnnot();
 			// might need to remove the current probe bin to save space
