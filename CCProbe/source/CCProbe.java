@@ -1,6 +1,7 @@
 import waba.ui.*;
 import waba.util.*;
 import waba.fx.*;
+import waba.io.*;
 
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
@@ -278,31 +279,42 @@ public class CCProbe extends MainView
     public void onExit()
     {
 		Debug.println("closing");
-		if(labBook != null){
-			if(curFullView != null){
-				curFullView.close();
-			} else {
-				lObjView.close();
-			}
-			labBook.commit();
-			labBook.close();
-		}
-    }
-
-	public void handleQuit(){
-		Debug.println("commiting");
 		if(curFullView != null){
 			curFullView.close();
 			curFullView = null;
-		} else if(lObjView != null) {
+		} else {
 			lObjView.close();
 		}
 
 		if(labBook != null){
 			labBook.commit();
+			String plat = waba.sys.Vm.getPlatform();
+			if(plat.equals("Java")){
+				Dialog.showMessageDialog(null, "Please Wait..",
+										 "Please Wait... saving the LabBook",
+										 "Cancel", Dialog.INFO_DIALOG);
+
+
+				LabBookCatalog lbCat = new LabBookCatalog("_tmp_LabBook_");
+				LabObjectPtr rootPtr = labBook.getRoot();
+				mainSession = rootPtr.getSession();
+
+				LObjDictionary loDict = (LObjDictionary)mainSession.getObj(rootPtr);
+				labBook.export(loDict, lbCat);
+				lbCat.save();
+				lbCat.close();
+			}
 			labBook.close();
-			labBook = null;
+			labBook = null;			
+			File newLabFile = new File("_tmp_LabBook_.PDB", File.DONT_OPEN);
+			File oldLabFile = new File("LabBook.PDB", File.DONT_OPEN);
+			oldLabFile.delete();
+			newLabFile.rename("LabBook.PDB");
 		}
+    }
+
+	public void handleQuit(){
+		onExit();
 		exit(0);
 	}
 
