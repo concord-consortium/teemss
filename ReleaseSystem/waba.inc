@@ -65,7 +65,7 @@ $(CLASSES_DIR): FORCE
 endif
 
 ifeq ($(PLATFORM),)
-$(PLATFORMS:%=$(CLASSES_DIR)/%): $(CLASSES_DIR)/% :
+$(PLATFORMS:%=$(CLASSES_DIR)/%): $(CLASSES_DIR)/% : FORCE
 	$(MAKE) PLATFORM=$* $@
 
 else 
@@ -156,5 +156,6 @@ debug:
 clean:
 	rm -rf $(CLASSES_DIR)/*
 	rm -rf $(BIN_DIR)/*
+	rm -f $(WJUMP_DIR)/*.bin $(WJUMP_DIR)/*.res
 
 include ../ReleaseSystem/Makefile.inc
