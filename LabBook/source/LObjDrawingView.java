@@ -5,6 +5,8 @@ import extra.ui.*;
 
 public class LObjDrawingView extends LabObjectView
 {
+
+
     LObjDrawing draw;
     CCScrible scribble;
 
