@@ -498,7 +498,7 @@ public class LabBook
 		// We didn't find it so we need to parse it from the file
 		int numBytes = -1;
 		if(!readAllBytes){
-			numBytes = 4; 
+			numBytes = 6; 
 		}
 		byte [] buffer = ptrDB.readObjectBytes(lObjPtr, numBytes);
 		if(buffer == null){
