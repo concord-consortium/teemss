@@ -101,14 +101,28 @@ public class GraphSettings
 		// update the yaxis labels just to be safe
 		updateAxis();
 
+		/*
 		if(graph != null && 
 		   graph.autoTitle){
 			graph.title = ds.getSummary();
 			graph.notifyObjListeners(new LabObjEvent(graph, 0));
 		}
+		*/
 
 		// might need to do a notify here
 
+	}
+
+	public String getSummary()
+	{
+		if(ds == null){
+			ds = graph.getDataSource(dsIndex);
+		}
+
+		if(ds != null){
+			return ds.getSummary();
+		} 
+		return null;
 	}
 
 	public DataSource getDataSource()
@@ -122,10 +136,12 @@ public class GraphSettings
 		   ds != null){
 			setYUnit(ds.getUnit());
 			updateAxis();
+			/*
 			if(graph != null && 
 			   graph.autoTitle){
 				graph.title = ds.getSummary();
 			}
+			*/
 			graph.notifyObjListeners(new LabObjEvent(graph, 0));
 		}
 	}		

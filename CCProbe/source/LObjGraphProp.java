@@ -20,10 +20,10 @@ public class LObjGraphProp extends LabObjectView
 	PropObject propDataSources;
 	PropObject propVisibleSources = null;
 	PropObject propTitle;
-	PropObject propAutoTitle = null;
 
 	LObjGraph graph;
 
+	Label graphSummary = new Label("");
 	Axis visYAxis = null;
 	Axis visXAxis = null;
 
@@ -48,7 +48,11 @@ public class LObjGraphProp extends LabObjectView
 		didLayout = true;
 
 		propView = new PropertyView(this);
-		propView.addContainer(propsGraph);
+		PropertyPane graphPane = new PropertyPane(propsGraph, propView);		
+		graphPane.addTopLabel(graphSummary);
+		graphPane.setAlignment(PropertyView.ALIGN_TOP);
+
+		propView.addPane(graphPane);
 		propView.addContainer(propsYAxis);
 		propView.addContainer(propsXAxis);
 		propView.setCurTab(index);
@@ -83,6 +87,17 @@ public class LObjGraphProp extends LabObjectView
 			propsXAxis = visXAxis.getPropContainer();
 			propsXAxis.setName("XAxis");
 
+			propTitle = new PropObject("Title", "Title", id++, graph.getTitleNoSummary());
+			propTitle.prefWidth = 120;
+
+			if(propDataSources != null) propsGraph.addProperty(propDataSources);
+			if(propVisibleSources != null) propsGraph.addProperty(propVisibleSources);
+			propsGraph.addProperty(propTitle);
+			
+			String summary = graph.getSummary();
+			if(summary == null) summary = "";
+			graphSummary.setText(summary);
+
 			dsStrings = new String [graph.numDataSources];
 			for(int i=0; i<graph.numDataSources; i++){
 				DataSource ds = graph.getDataSource(i);
@@ -106,19 +121,13 @@ public class LObjGraphProp extends LabObjectView
 				}
 			}
 			
-			propTitle = new PropObject("Title", "Title", id++, graph.title);
-			propTitle.prefWidth = 120;
-
-			propAutoTitle = new PropObject("Auto", "Auto", id++, graph.autoTitle);
-			
-			if(propDataSources != null) propsGraph.addProperty(propDataSources);
-			if(propVisibleSources != null) propsGraph.addProperty(propVisibleSources);
-			propsGraph.addProperty(propTitle);
-			propsGraph.addProperty(propAutoTitle);
-
 		} else {
-			propAutoTitle.setChecked(graph.autoTitle);
-			propTitle.setValue(graph.title);
+			propTitle.setValue(graph.getTitleNoSummary());
+
+			String summary = graph.getSummary();
+			if(summary == null) summary = "";
+			graphSummary.setText(summary);
+
 			if(propDataSources != null){
 				propDataSources.setValue(dsStrings[graph.getCurGraphSettings().dsIndex]);
 			}
@@ -172,16 +181,12 @@ public class LObjGraphProp extends LabObjectView
 			newGS.updateAxis();
 
 			// This should be cleaned up
-			boolean autoTitle = propAutoTitle.getChecked();
-			if(autoTitle){
-				graph.setName("..auto_title..");
-				graph.autoTitle = true;
-			} else {
-				graph.setName("Graph");
-				graph.autoTitle = false;
-				graph.title = propTitle.getValue();
+			String newTitle = propTitle.getValue();
+			if(newTitle != null && newTitle.length() <= 0){
+				newTitle = null;
 			}
-			
+			graph.setTitle(newTitle);
+
 			graph.notifyObjListeners(new LabObjEvent(graph, 0));
 		} else if(e.getActionCommand().equals("Setup")){
 			// This should be an index for safety

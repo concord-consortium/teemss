@@ -166,17 +166,6 @@ public class LObjGraphView extends LabObjectView
 		sTitle = doIt;
     }
 
-	public void setTitle(String title)
-	{
-		if(graph != null){
-			graph.title = title;
-		}
-
-		if(titleLabel != null){
-			titleLabel.setText(title);
-		}
-	}
-
     public void layout(boolean sDone)
     {
 		if(didLayout) return;

@@ -13,8 +13,7 @@ import extra.util.*;
 
 public class LObjGraph extends LObjSubDict
 {
-    String title = null;
-	boolean autoTitle = false;
+    private String title = null;
 
 	Vector graphSettings = null;
 	Vector xAxisVector = new Vector();
@@ -44,6 +43,32 @@ public class LObjGraph extends LObjSubDict
 			vDialog.show();
 		}
     }
+
+	public void setTitle(String title)
+	{
+		this.title = title;
+	}
+
+	public String getTitle()
+	{
+		if(title == null || title.length() <= 0){
+			title = null;
+			return getSummary();
+		}
+		return title;
+	}
+	public String getTitleNoSummary(){ return title; }
+
+	public String getSummary()
+	{
+		GraphSettings curGS = getCurGraphSettings();
+		if(curGS != null){
+			String summary = curGS.getSummary();
+			return summary;
+		}
+		return null;
+	}
+
 
 	public void clear()
 	{
@@ -166,8 +191,6 @@ public class LObjGraph extends LObjSubDict
 			yaxis.autoLabel = true;
 			gs.setYUnit(ds.getUnit());
 
-			title = ds.getSummary();
-
 			graphSettings.add(gs);
 			gs.close();
 		} else if(graphSettings.getCount() > numDataSources){
@@ -234,8 +257,6 @@ public class LObjGraph extends LObjSubDict
 
 	public void store()
 	{
-		if(autoTitle) setName("..auto_title..");
-
 		/*
 		if(dataSources != null){
 			for(int i=0; i<dataSources.getCount(); i++){
@@ -253,6 +274,7 @@ public class LObjGraph extends LObjSubDict
 		title = ds.readString();
 		numDataSources = ds.readInt();
 		if(numDataSources <= 0) return;
+		maxLines = ds.readInt();
 		curGSIndex = ds.readInt();
 		int numXAxis = ds.readInt();
 		int numYAxis = ds.readInt();
@@ -278,10 +300,6 @@ public class LObjGraph extends LObjSubDict
 			graphSettings.add(gs);
 		}
 		
-		
-		if(getName() != null && getName().equals("..auto_title..")){
-			autoTitle = true;
-		} 			
 		// little white hack
 		// curGS = (GraphSettings)graphSettings.get(0);
     }
@@ -298,6 +316,7 @@ public class LObjGraph extends LObjSubDict
 		} else {
 			ds.writeInt(numDataSources);
 		}
+		ds.writeInt(maxLines);
 		ds.writeInt(curGSIndex);
 		ds.writeInt(xAxisVector.getCount());
 		ds.writeInt(yAxisVector.getCount());
@@ -324,7 +343,7 @@ public class LObjGraph extends LObjSubDict
 		   gsIndex < numDataSources){
 			LObjGraph g = DataObjFactory.createGraph();
 			
-			g.title = title.toString();
+			if(title != null) g.title = title.toString();
 
 			/*
 			g.graphSettings = new Vector(graphSettings.getCount());
@@ -447,9 +466,20 @@ public class LObjGraph extends LObjSubDict
 		GraphSettings curGS = getCurGraphSettings();
 		if(curGS != null){
 			Bin curBin = curGS.getBin();
-			if(curBin != null){
+			if(title != null){
 				curBin.description = title;
-				DataExport.export(curBin);
+			} else {
+				curBin.description = null;
+			}
+			if(getSummary() != null){
+				if(curBin.description != null){
+					curBin.description += "\n" + getSummary();
+				} else {
+					curBin.description = getSummary();
+				} 
+			} 
+			if(curBin.description == null){
+				curBin.description = "";
 			}
 		}
 	}

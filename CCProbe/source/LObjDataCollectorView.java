@@ -173,9 +173,9 @@ public class LObjDataCollectorView extends LabObjectView
 		title1Label = new Label(title1);
 		add(title1Label);
 
-		String t2 = graph.title;
+		String t2 = graph.getTitle();
 		if(t2 == null) t2 = "";
-		title2Label = new Label(graph.title);
+		title2Label = new Label(t2);
 		add(title2Label);
 
 		doneB = new Button("Done");
@@ -190,7 +190,7 @@ public class LObjDataCollectorView extends LabObjectView
 	{
 		if(e.getObject() == graph &&
 		   graph != null){
-			setTitle2(graph.title);		
+			setTitle2(graph.getTitle());		
 			// this used to happen here but I don't think
 			// it is needed
 			// dc.store();  // maybe
@@ -306,7 +306,10 @@ public class LObjDataCollectorView extends LabObjectView
 					container.done(this);
 				}	    
 			}
-		}  
+		} else if(e.target == title2Label && 
+				  e.type == PenEvent.PEN_DOWN){
+			graph.showProp();
+		}
     }
 
 	public MainView getMainView()
