@@ -335,6 +335,7 @@ public static QTManager qtManager = null;
 				}else if(labObject instanceof LObjImage){
 					labObject = getImage(element,(LObjImage)labObject);
 				}else if(labObject instanceof LObjCCTextArea){
+					if(validAttr(ID)) docObjects.put(ID,labObject);			
 					labObject = getSuperNotes(element,(LObjCCTextArea)labObject);
 				} else if(labObject instanceof LObjGraph){
 					labObject = getGraph(element,(LObjGraph)labObject);
@@ -349,8 +350,10 @@ public static QTManager qtManager = null;
 		}
 
 		if(labObject != null){
-			// if it is a dictionary it has already been added to the hashtable
-			if(!(labObject instanceof LObjDictionary) &&  validAttr(ID)){
+			// if it is a dictionary or supernote 
+			// it has already been added to the hashtable
+			if(!(labObject instanceof LObjDictionary || 
+				 labObject instanceof LObjCCTextArea) &&  validAttr(ID)){
 				docObjects.put(ID,labObject);
 			}
 			labObject.store();
@@ -434,19 +437,17 @@ public static QTManager qtManager = null;
 		if(file == null || !file.exists() || file.isDirectory()) return null;
 		String fileName = file.getName();
 		String objName = labBookObjectNames[IMAGE_TAG];
-		LabObject imageObject = createObj(objName);
-		LObjImageView view = null;
-		if(imageObject != null) view = (LObjImageView)imageObject.getView(null,false,null);
-		if(view == null) return null;
+		LObjImage imageObject = (LObjImage) createObj(objName);
+		if(imageObject == null) return null;
 		imageObject.setName("");
 		if(fileName.endsWith(".bmp") || fileName.endsWith(".BMP")){
-			view.loadImage(file.getAbsolutePath());
+			imageObject.loadImage(file.getAbsolutePath());
 		}else if(fileName.endsWith(".gif") || fileName.endsWith(".GIF") ||
 				 (qtInstalled && (fileName.endsWith(".png") || fileName.endsWith(".PNG") ||
 				  fileName.endsWith(".tiff") || fileName.endsWith(".TIFF"))) ||
 				  fileName.endsWith(".jpg") || fileName.endsWith(".JPG") ||
 				  fileName.endsWith(".jpeg") || fileName.endsWith(".JPEG")){
-					exportImage(file.getAbsolutePath(),view);
+					exportImage(file.getAbsolutePath(),imageObject);
 		}
 		imageObject.store();
 		return (LObjImage)imageObject;
@@ -862,17 +863,14 @@ public static QTManager qtManager = null;
 
 		String imageURL = convertURLStringToPath(element.getAttribute("url"));
 		if(imageURL != null){
-			LObjImageView view = (LObjImageView)image.getView(null,false,null);
-			if(view != null){
-				if(imageURL.endsWith(".gif") || imageURL.endsWith(".GIF") ||
-				   (qtInstalled && (imageURL.endsWith(".png") || imageURL.endsWith(".PNG") ||
-				   imageURL.endsWith(".tiff") || imageURL.endsWith(".TIFF"))) ||
-				   imageURL.endsWith(".jpg") || imageURL.endsWith(".JPG") ||
-				   imageURL.endsWith(".jpeg") || imageURL.endsWith(".JPEG")){
-						exportImage(imageURL,view);
-				}else{
-					view.loadImage(imageURL);
-				}
+			if(imageURL.endsWith(".gif") || imageURL.endsWith(".GIF") ||
+			   (qtInstalled && (imageURL.endsWith(".png") || imageURL.endsWith(".PNG") ||
+								imageURL.endsWith(".tiff") || imageURL.endsWith(".TIFF"))) ||
+			   imageURL.endsWith(".jpg") || imageURL.endsWith(".JPG") ||
+			   imageURL.endsWith(".jpeg") || imageURL.endsWith(".JPEG")){
+				exportImage(imageURL,image);
+			}else{
+				image.loadImage(imageURL);
 			}
 		}
 		
@@ -970,18 +968,18 @@ public static QTManager qtManager = null;
 		if(c >= 'A' && c <= 'F') return (10 + (int)(c - 'A'));
 		return 0;
 	}
-	public static void exportImage(String str,LObjImageView view){
+	public static void exportImage(String str,LObjImage image){
 		if(!qtInstalled){
-			exportImageWithoutQT(str,view);
+			exportImageWithoutQT(str,image);
 			return;
 		}else if(qtManager != null){
-			qtManager.exportImage(str,view);
+			qtManager.exportImage(str,image);
 		}
 	}
 
 
 
-	public static void exportImageWithoutQT(String str,LObjImageView view){
+	public static void exportImageWithoutQT(String str,LObjImage image){
 		try{
 			FileInputStream fis = new FileInputStream(str);
 			byte []buffer = new byte[4096];
@@ -1032,8 +1030,8 @@ public static QTManager qtManager = null;
 					if(pIndex < 0) pIndex += 256;
 					imagePixels[p] = (byte)pIndex;
 				}
-				if(view != null){
-					view.loadImage(imageWidth,imageHeight,imageBPP,imageCMAP,imageScanlen,imagePixels);
+				if(image != null){
+					image.loadImage(imageWidth,imageHeight,imageBPP,imageCMAP,imageScanlen,imagePixels);
 				}
 				
 			}else{

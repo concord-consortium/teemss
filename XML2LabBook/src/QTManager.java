@@ -33,7 +33,7 @@ public boolean qtInstalled = false;
 	}
 	
 
-	public void exportImage(String str,LObjImageView view){
+	public void exportImage(String str,LObjImage image){
 		if(!qtInstalled) return;
 		try{
 			QTFile inputFile = new QTFile (str);
@@ -54,7 +54,7 @@ public boolean qtInstalled = false;
 			graphicsExporter.setOutputHandle(handle);
 			int size = graphicsExporter.doExport ();
             if(size > 0){
-				view.loadImage(handle.getBytes());
+				image.loadImage(handle.getBytes());
             }
 
 
