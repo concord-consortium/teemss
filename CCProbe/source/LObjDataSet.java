@@ -108,7 +108,6 @@ public class LObjDataSet extends LObjSubDict
 		DataEvent stopEvent = new DataEvent(DataEvent.DATA_STOPPED, 0);
 		
 		if(dataListener == null){
-			System.out.println("DS: un-initialized start");
 			return;
 		}
 
