@@ -62,7 +62,7 @@ import waba.applet.WinCanvas;
 
  */
 
-public class DimaDialog extends java.awt.Dialog{
+class DimaDialog extends java.awt.Dialog{
 waba.ui.Window wabaWindow = null;
 	public DimaDialog(waba.ui.Window wabaWindow,java.awt.Frame f){
 		super(f);
