@@ -17,7 +17,7 @@ public class LabBookFile extends LabBookDB
 {
 	String fileName = null;
 
-    int objIndexStart = 16;
+    int objIndexStart = 20;
 
     Vector objects = new Vector();
 	Vector objIndexVec = null;
@@ -184,7 +184,7 @@ public class LabBookFile extends LabBookDB
     {
 		int curFilePos = objIndexStart;
 		file.seek(objIndexStart);
-		int length = ds.readInt();		
+		int length = ds.readInt();
 		curFilePos += 4;
 
 		int subLen, subSize;
@@ -305,7 +305,7 @@ public class LabBookFile extends LabBookDB
 			ds.writeInt(fObj.objId);
 			objects.add(fObj);
 
-			file.seek(16);
+			file.seek(objIndexStart);
 			ds.writeInt(objects.getCount());
 		}
 		file.seek(fObj.indexPos+8);
