@@ -359,7 +359,7 @@ protected ProbManager	pb = null;
 	
 	
 	int bufOffset = 0;
-	final static int BUF_SIZE = 1000;
+	public final static int BUF_SIZE = 1000;
 	byte position[] = {(byte)0x00,(byte)0x80,(byte)0x80,(byte)0x80,};
 	byte [] buf = new byte[BUF_SIZE];
 	float []valueData = new float[1 + BUF_SIZE / 2]; //0 init time, 1 - deltat, 2 - numb data(total)
