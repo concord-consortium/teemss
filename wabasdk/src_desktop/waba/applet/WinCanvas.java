@@ -154,6 +154,7 @@ public class WinCanvas extends java.awt.Canvas
 	}
 
 	java.awt.Rectangle paintClipRect = null;
+
 	public void paint(java.awt.Graphics g)
 	{
 		// getClipRect() is missing in the Kaffe distribution for Linux
@@ -161,21 +162,26 @@ public class WinCanvas extends java.awt.Canvas
 		try { r = g.getClipBounds(); }
 		catch (NoSuchMethodError e) { r = g.getClipRect(); }
 
-		if(r != null){
-			synchronized(this){
+		synchronized(this){
+			if(r != null){
 				if(paintClipRect != null){
 					paintClipRect = paintClipRect.union(r);
 				} else {
 					paintClipRect = r;
 				}
-				notifyAll();
+			} else {
+				paintClipRect = getBounds();
 			}
+			notifyAll();
 		}
+	   
 	}
 
 	/**
 	 * 	We have a seperate painting thread that just waits to be notified
-	 *  when the a new paint has been called.
+	 *  when the a new paint has been called.  The wait has a timeout for 
+	 *  deadlock protection.  If it timeouts and the paintrect is null.  Then
+	 *  it just loops again.
 	 *  Notice in the paint that if there is a paint waiting then it 
 	 *  takes the union of the clipping rects
 	 *
@@ -193,7 +199,7 @@ public class WinCanvas extends java.awt.Canvas
 			synchronized(this){
 				if(paintClipRect == null){
 					try{
-						wait(1000);
+						wait();
 					} catch (InterruptedException e){
 						e.printStackTrace();
 					}
