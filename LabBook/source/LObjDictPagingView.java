@@ -39,7 +39,7 @@ public class LObjDictPagingView extends LabObjectView
 		dict = d;
 
 		listSession = d.lBook.getSession();
-		dictNode = new DictTreeNode(dict, listSession, dict.lBook);
+		dictNode = new DictTreeNode(dict.getVisiblePtr(), listSession, dict.lBook);
 
 		index = 0;
 		editStatus = edit;	

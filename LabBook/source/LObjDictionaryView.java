@@ -66,12 +66,11 @@ public class LObjDictionaryView extends LabObjectView
 
 		showDone = sDone;
 
-		rootNode = new DictTreeNode(dict, session, dict.lBook);
+		rootNode = new DictTreeNode(dict.getVisiblePtr(), session, dict.lBook);
 		treeModel = new TreeModel(rootNode);
 		treeControl = new TreeControl(treeModel);
 		treeControl.addTreeControlListener(this);
 		treeControl.showRoot(false);
-		me.add(treeControl);
 		folderChoice = new Choice();
 		if(pathTree == null){
 			folderChoice.add(ROOT_TREE_NODE_NAME);
@@ -104,6 +103,7 @@ public class LObjDictionaryView extends LabObjectView
 		}
  		if(scrollBar == null)	scrollBar = new CCScrollBar(this);
 		me.add(scrollBar);
+		me.add(treeControl);
     }
 
     public void setRect(int x, int y, int width, int height)
@@ -177,7 +177,7 @@ public class LObjDictionaryView extends LabObjectView
 						if(d.viewType == LObjDictionary.TREE_VIEW){
 							dict = d;
 							me.remove(treeControl);
-							treeModel = new TreeModel(new DictTreeNode(dict, session, dict.lBook));
+							treeModel = new TreeModel(new DictTreeNode(dict.getVisiblePtr(), session, dict.lBook));
 							treeControl = new TreeControl(treeModel);
 							treeControl.addTreeControlListener(this);
 							treeControl.showRoot(false);
@@ -283,7 +283,7 @@ public class LObjDictionaryView extends LabObjectView
 			treeControl.firstLine = 0;
 			scrollBar.setValue(0);
 		}
-		repaint();
+		scrollBar.repaint();
 	}
 
     Dialog rnDialog = null;
@@ -441,7 +441,7 @@ public class LObjDictionaryView extends LabObjectView
 
 			dict = d;
 			me.remove(treeControl);
-			treeModel = new TreeModel(new DictTreeNode(dict, session, dict.lBook));
+			treeModel = new TreeModel(new DictTreeNode(dict.getVisiblePtr(), session, dict.lBook));
 			treeControl = new TreeControl(treeModel);
 			treeControl.addTreeControlListener(this);
 			treeControl.showRoot(false);
@@ -552,7 +552,7 @@ public class LObjDictionaryView extends LabObjectView
 		if(se.target != scrollBar) return;
 		int value = se.getScrollValue();
 		treeControl.firstLine = value;
-		repaint();
+		treeControl.repaint();
 	}
 	public void treeControlChanged(TreeControlEvent ev){
 		redesignScrollBar();

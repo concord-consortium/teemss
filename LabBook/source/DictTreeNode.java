@@ -10,10 +10,10 @@ public class DictTreeNode
 	LabBookSession session;
 	LabBook lBook;
 
-	public DictTreeNode(LObjDictionary dict, LabBookSession session,
+	public DictTreeNode(LabObjectPtr dictPtr, LabBookSession session,
 						LabBook lBook)
 	{
-		ptr = dict.getVisiblePtr(); 
+		ptr = dictPtr;
 		this.session = session;
 		this.lBook = lBook;
 	}
@@ -57,13 +57,13 @@ public class DictTreeNode
     public TreeNode getNode(LabObject obj)
     {
 		if(obj instanceof LObjDictionary){
-			return new DictTreeNode((LObjDictionary)obj, session, lBook);
+			return new DictTreeNode(obj.getVisiblePtr(), session, lBook);
 		} else if(obj instanceof LObjSubDict){
 			LObjSubDict newObj = (LObjSubDict)obj;
 			
 			// we'll assume this object has been initiaizled
 			if(newObj.dict != null){
-				return new DictTreeNode((LObjDictionary)newObj.dict, session, lBook);
+				return new DictTreeNode(newObj.dict.getVisiblePtr(), session, lBook);
 			} 
 		} 
 
@@ -92,8 +92,7 @@ public class DictTreeNode
 			LabObjectPtr ptr = ptrs[i];
 
 			if(ptr.objType == DefaultFactory.DICTIONARY){
-				LObjDictionary newDict = (LObjDictionary)session.load(ptr);
-				nodes[i] = new DictTreeNode(newDict, session, lBook);
+				nodes[i] = new DictTreeNode(ptr, session, lBook);
 			} else if(dict.hasMainObject && i == 0){
 				//			((LObjSubDict)obj).setDict(this);
 				ptr.name = "..main_obj..: " + ptr.name;
@@ -115,8 +114,7 @@ public class DictTreeNode
 		LabObjectPtr ptr = dict.getChildAt(index);
 
 		if(ptr.objType == DefaultFactory.DICTIONARY){
-			LObjDictionary newDict = (LObjDictionary)session.load(ptr);
-			return new DictTreeNode(newDict, session, lBook);
+			return new DictTreeNode(ptr, session, lBook);
 		} else if(dict.hasMainObject && index == 0){
 			//			((LObjSubDict)obj).setDict(this);
 			ptr.name = "..main_obj..: " + ptr.name;
