@@ -182,6 +182,9 @@ public class PropertyView extends Container
 				} else if (type == po.MULTIPLE_SEL_LIST){
 					MultiList mList = new MultiList(possibleValues);
 					poHeight = mList.getPrefHeight();
+					for(int j = 0; j < possibleValues.length; j++){
+						mList.setCheck(j, po.getCheckedValue(j));
+					}					
 					c1 = mList;
 				}
 				po.setValueKeeper(c1);
@@ -223,6 +226,13 @@ public class PropertyView extends Container
 					po.setValue(((waba.ui.Edit)c).getText());
 				}else if(c instanceof Choice){
 					po.setValue(((Choice)c).getSelected());
+				} else if(c instanceof MultiList){
+					MultiList mList = (MultiList)c;
+					String [] possibleValues = po.getPossibleValues();
+
+					for(int k=0; k<possibleValues.length; k++){
+						po.setCheckedValue(k, mList.getCheck(k));
+					}
 				}
 				if(clearKeepers) po.setValueKeeper(null);
 			}

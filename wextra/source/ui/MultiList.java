@@ -48,4 +48,17 @@ public class MultiList extends Container
 		g.drawRect(0,0,width,height);
 	}
 
+	public void setCheck(int index, boolean on)
+	{
+		if(index >=0 && index < checks.length){
+			checks[index].setChecked(on);
+		}
+	}
+	public boolean getCheck(int index)
+	{
+		if(index >=0 && index < checks.length){
+			return checks[index].getChecked();
+		}
+		return false;
+	}
 }

@@ -10,6 +10,7 @@ public class PropObject
 
 	String 	name;
 	String 	[]possibleValues;
+	boolean []checkedValues;
 	String 	value;
 	float		fval = 0.0f;
 	Control	valueKeeper = null;
@@ -40,11 +41,32 @@ public class PropObject
 	public 	PropObject(String name){
 		this(name,null,0);
 	}
-	public void setType(int t){ type = t;}
+	public void setType(int t){ 
+		type = t;
+		if(type == MULTIPLE_SEL_LIST){
+			checkedValues = new boolean [possibleValues.length];
+		}
+	}
 	public int getType(){return type;}
 
 	public String getSettingsButtonName(){return settingsButtonName;}
 	public void setSettingsButtonName(String sbn){settingsButtonName = sbn;}
+
+	public void setCheckedValue(int index, boolean on)
+	{
+		if(checkedValues != null &&
+		   index >= 0 && index < checkedValues.length){
+			checkedValues[index] = on;
+		}
+	}
+	public boolean getCheckedValue(int index)
+	{
+		if(checkedValues != null &&
+		   index >= 0 && index < checkedValues.length){
+			return checkedValues[index];
+		}
+		return false;
+	}
 
 	public void setValueKeeper(Control c){
 		valueKeeper = c;
