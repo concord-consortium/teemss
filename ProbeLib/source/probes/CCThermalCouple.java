@@ -119,13 +119,10 @@ float FC = 0.0f;
 		float[] data = e.getData();
 		for(int i = 0; i < ndata; i+=chPerSample){
 			dEvent.setTime(t0 + dtChannel*(float)i);
-			float ch1 = data[nOffset+i];
+			float mV = data[nOffset+i];
 			float ch2 = data[nOffset+i+1];
 			float lastColdJunct = (ch2 / DC) + EC;
-			float mV = ch1;
-			float mV2 = mV * mV;
-			float mV3 = mV2 * mV;
-			tempData[0] = mV * AC + mV2 * BC + mV3 * CC + lastColdJunct;
+			tempData[0] = mV * (AC + mV * (BC + mV * CC)) + lastColdJunct;
 			tempData[0] += FC;
 			switch(outputMode){
 				case FAHRENHEIT_TEMP_OUT:
@@ -138,7 +135,7 @@ float FC = 0.0f;
 					break;
 			}
 			if(calibrationListener != null){
-				tempData[1]  = ch1;
+				tempData[1]  = mV;
 				tempData[2]  = ch2;
 			}
 			notifyDataListeners(dEvent);
