@@ -2,6 +2,7 @@ import waba.ui.*;
 import waba.fx.*;
 import waba.io.*;
 import waba.sys.*;
+import graph.*;
 
 public class PSConnection extends Control
 {
@@ -374,8 +375,7 @@ public class PSConnection extends Control
 			block.dragAction = block.EXT_DRAG_MOVE;
 			block.rotate(-1);
 			block.move(-1,-1);
-			newCanvas.addObject(block, newCanvas.layers[0]);		
-			block.setupProp(150,100);
+			newCanvas.addObject(block, newCanvas.layers[0]);
 		    }
 		    int length = pm.curData.length;
 		    if(length > block.temps.length){

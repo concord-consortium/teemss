@@ -1,6 +1,7 @@
 import waba.ui.*;
 import waba.fx.*;
 import waba.io.*;
+import graph.*;
 
 public class ModelPage extends Container
 {
@@ -60,9 +61,11 @@ public class ModelPage extends Container
 	modControl.setRect(1,60,34,30);
 	add(modControl);
 	
-	gv = new GraphView(195, 105);
+	gv = new GraphViewBar(195, 105);
 	gv.setPos(35,2);
 	modelCanvas.gv = gv;
+	modelCanvas.graph = gv.graph;
+	modelCanvas.axis = ((BarGraph)(gv.graph)).yaxis;
 	add(gv);
 	curControl = gv;
 
@@ -70,6 +73,8 @@ public class ModelPage extends Container
 	addCanvas = new Canvas(190, 105, 1);
 	addCanvas.setPos(42,2);
 	addCanvas.gv = gv;
+	addCanvas.graph = gv.graph;
+	addCanvas.axis = modelCanvas.axis;
 
 	layer = addCanvas.getLayer(0);
 	ModelObject mo = new ModelObject(null, 14, 42);
@@ -127,7 +132,8 @@ public class ModelPage extends Container
 	modelCanvas.removeAll();
 	modelCanvas = new Canvas();
 	modelCanvas.tp = tp;
-	modelCanvas.gv = gv;
+	modelCanvas.graph = gv.graph;
+	modelCanvas.axis = ((LineGraph)(gv.graph)).yaxis;
 	tp.canvas = modelCanvas;
 	modelCanvas.readExt(ds);
 	add(modelCanvas);
@@ -138,6 +144,7 @@ public class ModelPage extends Container
     public void onPaint(Graphics g)
     {
 	tp.updateObj();
+	System.out.println("Got onPaint");
     }
   
     public void onEvent(Event e)

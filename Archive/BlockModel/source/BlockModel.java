@@ -13,7 +13,6 @@ public class BlockModel extends MainWindow
     Canvas modelCanvas;
     Canvas addCanvas;
     Canvas dataCanvas;
-    GraphView gv;
     PSConnection connection;
     Layer modelLayer;
     Layer probeLayer;

@@ -3,6 +3,7 @@ import waba.fx.*;
 import waba.sys.*;
 import waba.util.*;
 import waba.io.*;
+import graph.*;
 
 class ThermalPlane extends Container
 {

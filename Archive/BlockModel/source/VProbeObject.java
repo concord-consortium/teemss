@@ -1,6 +1,7 @@
 import waba.fx.*;
 import waba.io.*;
 import waba.ui.*;
+import graph.*;
 
 class VProbeObject extends CanvasObject
 {
@@ -17,7 +18,7 @@ class VProbeObject extends CanvasObject
     int coreW, coreH;
     int dispBorder, dispNubX, dispNubY;
     Font font = MainWindow.defaultFont;
-    GraphView graph = null;
+    Graph2D graph = null;
     char curChar = 'A';
     VProbeObject parent = null;
     Object graphID = null;
@@ -141,7 +142,9 @@ class VProbeObject extends CanvasObject
     {
 	return o.overlapRect(cpyCore());
     }
-		
+
+    float lastTemp = (float)-1;
+	
     public float getTemp()
     {
 	if(underTip != null){
@@ -155,6 +158,8 @@ class VProbeObject extends CanvasObject
 	       
     public void updateDisp()
     {
+	float newTemp = 0;
+
 	if(showTemp){
 	    if(underTip != null){
 		dispStr = fToString(underTip.getTemp(x+tip.x, y+tip.y), 1);
@@ -163,6 +168,13 @@ class VProbeObject extends CanvasObject
 	    }
 	} else {
 	    dispStr = label;
+	    if(graphID != null){
+		newTemp = getTemp();
+		if(lastTemp != newTemp){
+		    graph.addPoint(graphID, 0, newTemp);
+		    lastTemp = newTemp;
+		}
+	    }
 	}
 
 	if(coreW == -1){
@@ -296,8 +308,8 @@ class VProbeObject extends CanvasObject
 	    parent.curChar++;
 	}	    
 	if(canvas.live && canvas.gv != null && !showTemp){
-	    graph = canvas.gv;
-	    graph.addProbe(this);
+	    graph = canvas.graph;
+	    graphID = graph.addBin(0, label);
 	}
 
 	moved();
@@ -307,7 +319,10 @@ class VProbeObject extends CanvasObject
     {
 	super.remove();
 	if(graph != null){
-	    graph.removeProbe(this);
+	    if(graphID != null){
+		graph.removeBin(graphID);
+		graphID = null;
+	    }
 	}
     }
 
@@ -350,6 +365,22 @@ class VProbeObject extends CanvasObject
 	    break;
 	}
     }
+
+    public void redraw()
+    {
+	float newTemp = 0;
+	// We need to watch the x point "0" 
+	// perhaps we can put a curTime in the canvas
+	// or use a tick() function or event
+	if(graphID != null){
+	    newTemp = getTemp();
+	    if(newTemp != lastTemp){
+		graph.addPoint(graphID, 0, newTemp);
+		lastTemp = newTemp;
+	    }
+	}
+	super.redraw();
+    }	    
 }
 
 

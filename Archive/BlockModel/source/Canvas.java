@@ -2,6 +2,7 @@ import waba.ui.*;
 import waba.util.*;
 import waba.fx.*;
 import waba.io.*;
+import graph.*;
 
 public class Canvas extends Control implements IKeys
 {
@@ -13,6 +14,9 @@ public class Canvas extends Control implements IKeys
     boolean live = false;
     PropWindow prop;
     Timer downTimer;
+
+    ColorAxis axis = null;
+    Graph2D graph = null;
     GraphView gv = null;
     ThermalPlane tp = null;
 
@@ -180,6 +184,14 @@ public class Canvas extends Control implements IKeys
 	for(i=0; i<objList.length; i++){
 	    ((CanvasObject)objList[i]).interact(o, action);
 	}
+
+	/*
+	 *  I don't think this should be here
+	 *  but lets see what happens when I take it out
+	 */
+	if(gv != null)
+	    gv.plot();
+	
     }
 
     public boolean addObject(CanvasObject o, Layer l)
@@ -312,7 +324,11 @@ public class Canvas extends Control implements IKeys
     {
 	if(checkSelected()){
 	    if(!selected.action()){
-		prop.showProp(selected);
+		selected.setupPropPage();
+		if(selected.pp != null){
+		    selected.pp.showProp();
+		}
+		// It's up the object to clear the prop page
 	    }
 	}
     }

@@ -2,6 +2,7 @@ import waba.ui.*;
 import waba.fx.*;
 import waba.io.*;
 import waba.util.*;
+import graph.*;
 
 public class DataPage extends Container
 {
@@ -58,9 +59,11 @@ public class DataPage extends Container
 	add(netControl);
 
 
-	gv = new GraphView(195, 105);
+	gv = new GraphViewBar(195, 105);
 	gv.setPos(35,2);
 	modelCanvas.gv = gv;
+	modelCanvas.graph = gv.graph;
+	modelCanvas.axis = ((BarGraph)(gv.graph)).yaxis;
 	add(gv);
 	curControl = gv;
 	
@@ -68,6 +71,8 @@ public class DataPage extends Container
 	dataCanvas = new Canvas(190, 105, 1);
 	dataCanvas.setPos(42,2);
 	dataCanvas.gv = gv;
+	dataCanvas.graph = gv.graph;
+	dataCanvas.axis = modelCanvas.axis;
 	layer = dataCanvas.getLayer(0);
 
 	VProbeObject vProbe = new VProbeObject(MainWindow.defaultFont, "A");
@@ -86,7 +91,7 @@ public class DataPage extends Container
 
 	// setup server connection
 	connection = new PSConnection(dataCanvas);
-	connection.graph = gv;
+	connection.graph =  gv;
 	connection.dp = this;
 
     }
@@ -165,7 +170,7 @@ public class DataPage extends Container
 	    }
 	}
 
-	gv.updateProbes();
+	// Watch out for update probes
 	gv.plot();
 	
     }
