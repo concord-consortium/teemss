@@ -20,6 +20,12 @@
     <FOLDER ID="folder-ccprobe1" name="CCProbe">
       <xsl:copy-of select="document('ccprobe.xml')"/>
       <xsl:copy-of select="document('datacollectors.xml')"/>
+      <SUPERNOTES ID="labbook-version" name="About This LabBook">
+        <EMBOBJ object="teemss_titlebar.bmp"/>
+	<SNPARAGRAPH linkcolor="0000FF">
+          This v1.0b1 of the TEEMSS project LabBook, date: Feb 2, 2002.
+       </SNPARAGRAPH>
+      </SUPERNOTES>
     </FOLDER>
     <FOLDER ID="{title}" name="{title}">
       <xsl:apply-templates select="unit"/>
@@ -439,6 +445,14 @@
   </xsl:element>
 </xsl:template>
 
+<xsl:template name="query-response-position">
+  <xsl:variable name="section_id">
+    <xsl:value-of select="generate-id(ancestor::*[../../investigation])"/>
+  </xsl:variable>
+  <xsl:number level="any" 
+  count="query-response[generate-id(ancestor::*[../../investigation]) = $section_id]"/>
+</xsl:template>
+
 <xsl:template match="datacollector-link">
   <xsl:element name="EMBOBJ">
     <xsl:attribute name="object"><xsl:value-of select="@type"/></xsl:attribute>
@@ -459,7 +473,7 @@
     <xsl:element name="IMAGE">
       <xsl:attribute name="ID">Image_<xsl:number level="any"/>       
       </xsl:attribute>
-      <xsl:attribute name="name"> </xsl:attribute>
+      <xsl:attribute name="name"><xsl:value-of select="@name"/></xsl:attribute>
       <xsl:attribute name="url">../images/<xsl:value-of select="ancestor::unit/@name"/>/<xsl:value-of select="ancestor::investigation/@name"/>/<xsl:value-of select="@name"/>/PALM_TINY_<xsl:value-of select="@name"/>.bmp</xsl:attribute>
     </xsl:element>
   </xsl:element>

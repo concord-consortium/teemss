@@ -8,7 +8,7 @@
          <PROP name="Port" value="A"/>
          <PROP name="Mode" value="C"/>
        </PROBE>
-       <GRAPH current-line="0" title="graph subtitle goes here">
+       <GRAPH current-line="0" title="">
          <DATAFOLDER object="saved-datasets"/>
          <XAXIS min="0" max="60"/>
          <YAXIS min="10" max="40"/>
@@ -21,7 +21,7 @@
          <PROP name="Port" value="A"/>
          <PROP name="Mode" value="C"/>
        </PROBE>
-       <GRAPH current-line="0" title="graph subtitle goes here">
+       <GRAPH current-line="0" title="">
          <XAXIS min="0" max="120"/>
          <YAXIS min="10" max="40"/>
          <LINE xaxis="0" yaxis="0" datasource="dc-temp2"/>
@@ -33,7 +33,7 @@
          <PROP name="Port" value="A"/>
          <PROP name="Mode" value="C"/>
        </PROBE>
-       <GRAPH current-line="0" title="graph subtitle goes here">
+       <GRAPH current-line="0" title="">
          <XAXIS min="0" max="150"/>
          <YAXIS min="20" max="30"/>
          <LINE xaxis="0" yaxis="0" datasource="dc-temp3"/>
@@ -45,7 +45,7 @@
          <PROP name="Port" value="A"/>
          <PROP name="Mode" value="C"/>
        </PROBE>
-       <GRAPH current-line="0" title="graph subtitle goes here">
+       <GRAPH current-line="0" title="">
          <XAXIS min="0" max="60"/>
          <YAXIS min="20" max="35"/>
          <LINE xaxis="0" yaxis="0" datasource="dc-temp4"/>
@@ -57,7 +57,7 @@
          <PROP name="Port" value="A"/>
          <PROP name="Mode" value="C"/>
        </PROBE>
-       <GRAPH current-line="0" title="graph subtitle goes here">
+       <GRAPH current-line="0" title="">
          <XAXIS min="0" max="50"/>
          <YAXIS min="20" max="25"/>
          <LINE xaxis="0" yaxis="0" datasource="dc-temp5"/>
@@ -69,7 +69,7 @@
          <PROP name="Port" value="A"/>
          <PROP name="Mode" value="C"/>
        </PROBE>
-       <GRAPH current-line="0" title="graph subtitle goes here">
+       <GRAPH current-line="0" title="">
          <XAXIS min="0" max="50"/>
          <YAXIS min="20" max="50"/>
          <LINE xaxis="0" yaxis="0" datasource="dc-temp6"/>
@@ -82,7 +82,7 @@
          <PROP name="Speed" value="3 per second"/>
          <PROP name="Version" value="2.0"/>
        </PROBE>
-       <GRAPH current-line="2" title="graph subtitle goes here">
+       <GRAPH current-line="2" title="">
          <XAXIS min="0" max="60"/>
          <YAXIS min="0" max="3"/>
          <YAXIS min="-1" max="1"/>
@@ -105,7 +105,7 @@
          <PROP name="Speed" value="3 per second"/>
          <PROP name="Version" value="2.0"/>
        </PROBE>
-       <GRAPH current-line="2" title="graph subtitle goes here">
+       <GRAPH current-line="2" title="">
          <XAXIS min="0" max="40"/>
          <YAXIS min="-10" max="10"/>
          <YAXIS min="-1" max="1"/>
@@ -128,7 +128,7 @@
          <PROP name="Speed" value="3 per second"/>
          <PROP name="Version" value="2.0"/>
        </PROBE>
-       <GRAPH current-line="3" title="graph subtitle goes here">
+       <GRAPH current-line="3" title="">
          <XAXIS min="0" max="40"/>
          <YAXIS min="-10" max="10"/>
          <YAXIS min="-1" max="1"/>
@@ -151,7 +151,7 @@
          <PROP name="Range" value="Dim Light"/>
          <PROP name="Speed" value="3 per second"/>
        </PROBE>
-       <GRAPH current-line="0" title="graph subtitle goes here">
+       <GRAPH current-line="0" title="">
          <XAXIS min="0" max="60"/>
          <YAXIS min="0" max="4000"/>
          <LINE xaxis="0" yaxis="0" datasource="dc-light"/>
@@ -164,7 +164,7 @@
          <PROP name="Range" value="Bright Light"/>
          <PROP name="Speed" value="3 per second"/>
        </PROBE>
-       <GRAPH current-line="0" title="graph subtitle goes here">
+       <GRAPH current-line="0" title="">
          <XAXIS min="0" max="60"/>
          <YAXIS min="0" max="125000"/>
          <LINE xaxis="0" yaxis="0" datasource="dc-light3"/>
@@ -177,7 +177,7 @@
          <PROP name="Range" value="+/- 20N"/>
          <PROP name="Speed" value="3 per second"/>
        </PROBE>
-       <GRAPH current-line="0" title="graph subtitle goes here">
+       <GRAPH current-line="0" title="">
          <XAXIS min="0" max="20"/>
          <YAXIS min="-0.1" max="0.6"/>
          <LINE xaxis="0" yaxis="0" datasource="dc-f1"/>
@@ -191,7 +191,7 @@
          <PROP name="Range" value="+/- 20N"/>
          <PROP name="Speed" value="400 per second"/>
        </PROBE>
-       <GRAPH current-line="0" title="graph subtitle goes here">
+       <GRAPH current-line="0" title="">
          <XAXIS min="0" max="10"/>
          <YAXIS min="-20" max="0"/>
          <LINE xaxis="0" yaxis="0" datasource="dc-f2"/>
@@ -205,7 +205,7 @@
          <PROP name="Range" value="+/- 20N"/>
          <PROP name="Speed" value="400 per second"/>
        </PROBE>
-       <GRAPH current-line="0" title="graph subtitle goes here">
+       <GRAPH current-line="0" title="">
          <XAXIS min="0" max="10"/>
          <YAXIS min="0" max="4"/>
          <LINE xaxis="0" yaxis="0" datasource="dc-f3"/>
@@ -219,7 +219,7 @@
          <PROP name="Range" value="+/- 20N"/>
          <PROP name="Speed" value="400 per second"/>
        </PROBE>
-       <GRAPH current-line="0" title="graph subtitle goes here">
+       <GRAPH current-line="0" title="">
          <XAXIS min="0" max="10"/>
          <YAXIS min="-20" max="1"/>
          <LINE xaxis="0" yaxis="0" datasource="dc-f4"/>
@@ -230,7 +230,7 @@
         <PROBE ID="dc-sw-pos1" probe="SmartWheel">
          <PROP name="Port" value="A"/>
        </PROBE>
-        <GRAPH current-line="0" title="graph subtitle goes here">
+        <GRAPH current-line="0" title="">
           <XAXIS min="0" max="40"/>
           <YAXIS min="-0.5" max="6"/>
           <LINE xaxis="0" yaxis="0">
@@ -242,7 +242,7 @@
         <PROBE ID="dc-sw-pos2" probe="SmartWheel">
          <PROP name="Port" value="A"/>
        </PROBE>
-        <GRAPH current-line="0" title="graph subtitle goes here">
+        <GRAPH current-line="0" title="">
           <XAXIS min="0" max="10"/>
           <YAXIS min="-0.5" max="6"/>
           <LINE xaxis="0" yaxis="0">
@@ -254,7 +254,7 @@
         <PROBE ID="dc-sw-vel1" probe="SmartWheel">
          <PROP name="Port" value="A"/>
        </PROBE>
-        <GRAPH current-line="0" title="graph subtitle goes here">
+        <GRAPH current-line="0" title="">
           <XAXIS min="0" max="20"/>
           <YAXIS min="-1" max="1"/>
           <LINE xaxis="0" yaxis="0">
@@ -266,7 +266,7 @@
         <PROBE ID="dc-sw-vel2" probe="SmartWheel">
          <PROP name="Port" value="A"/>
        </PROBE>
-        <GRAPH current-line="0" title="graph subtitle goes here">
+        <GRAPH current-line="0" title="">
           <XAXIS min="0" max="10"/>
           <YAXIS min="-1" max="1"/>
           <LINE xaxis="0" yaxis="0">
@@ -278,7 +278,7 @@
         <PROBE ID="dc-sw-vel3" probe="SmartWheel">
          <PROP name="Port" value="A"/>
        </PROBE>
-        <GRAPH current-line="0" title="graph subtitle goes here">
+        <GRAPH current-line="0" title="">
           <XAXIS min="0" max="10"/>
           <YAXIS min="-0.5" max="0.5"/>
           <LINE xaxis="0" yaxis="0">
