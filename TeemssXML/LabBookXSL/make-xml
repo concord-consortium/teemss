@@ -1,0 +1,4 @@
+#! /bin/bash
+java org.apache.xalan.xslt.Process -in ../unit.xml -xsl labbook.xsl -out labbook.xml
+
+
