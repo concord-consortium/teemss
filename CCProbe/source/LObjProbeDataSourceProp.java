@@ -7,9 +7,8 @@ import extra.ui.*;
 import extra.util.*;
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
-import org.concord.waba.extra.probware.probs.*;
-import org.concord.waba.extra.probware.ProbManager;
-import org.concord.waba.extra.probware.CCInterfaceManager;
+import org.concord.ProbeLib.*;
+import org.concord.ProbeLib.probes.*;
 import org.concord.LabBook.*;
 
 public class LObjProbeDataSourceProp extends LabObjectView

@@ -4,8 +4,6 @@ import waba.util.*;
 import extra.io.*;
 import extra.util.*;
 import org.concord.waba.extra.util.*;
-import org.concord.waba.extra.probware.probs.*;
-import org.concord.waba.extra.probware.*;
 import org.concord.LabBook.*;
 
 public class LObjDataCollector extends LObjSubDict

@@ -5,8 +5,9 @@ import waba.ui.*;
 import extra.io.*;
 import org.concord.waba.extra.ui.*;
 import extra.ui.*;
-import extra.util.CCUnit;
 import org.concord.LabBook.*;
+import org.concord.ProbeLib.*;
+
 //LabObject implements Storable
 public class LObjUConvertor extends LabObject
 {

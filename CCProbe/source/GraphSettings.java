@@ -10,8 +10,7 @@ import graph.*;
 import org.concord.waba.extra.event.*;
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.util.*;
-import org.concord.waba.extra.probware.*;
-import org.concord.waba.extra.probware.probs.*;
+import org.concord.ProbeLib.*;
 import org.concord.LabBook.*;
 
 public class GraphSettings

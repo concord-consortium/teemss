@@ -8,10 +8,9 @@ import waba.sys.*;
 import org.concord.waba.extra.event.*;
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.util.*;
-import org.concord.waba.extra.probware.*;
-import org.concord.waba.extra.probware.probs.*;
 import extra.util.*;
 import org.concord.LabBook.*;
+import org.concord.ProbeLib.*;
 
 class TimeBin implements DecoratedValue
 {

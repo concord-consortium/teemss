@@ -10,6 +10,7 @@ import org.concord.waba.extra.event.*;
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.util.*;
 import extra.util.*;
+import org.concord.ProbeLib.*;
 
 public class LObjGraph extends LObjSubDict
 {

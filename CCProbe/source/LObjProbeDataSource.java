@@ -7,16 +7,15 @@ import org.concord.waba.extra.ui.*;
 import extra.ui.*;
 import extra.util.*;
 import org.concord.waba.extra.event.*;
-import org.concord.waba.extra.probware.probs.*;
-import org.concord.waba.extra.probware.ProbManager;
-import org.concord.waba.extra.probware.CCInterfaceManager;
+import org.concord.ProbeLib.*;
+import org.concord.ProbeLib.probes.*;
 import org.concord.LabBook.*;
 
 
 public class LObjProbeDataSource extends LObjSubDict
 	implements DataSource, ProbListener
 {
-CCProb 			probe = null;
+Probe 			probe = null;
 CCUnit		currentUnit = null;
 	public waba.util.Vector probListeners = null;
 
@@ -33,7 +32,7 @@ CCUnit		currentUnit = null;
 		super(DataObjFactory.PROBE_DATA_SOURCE);
     }
 
-    public LObjProbeDataSource(CCProb probe)
+    public LObjProbeDataSource(Probe probe)
     {
 		this();
 		setProbe(probe);
@@ -97,7 +96,7 @@ CCUnit		currentUnit = null;
 	{
 		String summary;
 
-		CCProb p = getProbe();
+		Probe p = getProbe();
 
 		summary = p.getName() + "(";
 		PropObject [] props = p.getPropArray();
@@ -170,8 +169,8 @@ CCUnit		currentUnit = null;
 		}
 	}
 
-	public CCProb 	getProbe(){return probe;}
-	public void		setProbe(CCProb probe){
+	public Probe 	getProbe(){return probe;}
+	public void		setProbe(Probe probe){
 		unRegisterProbeWithPM();
 		if(this.probe != null){
 			this.probe.removeProbListener(this);
@@ -254,7 +253,7 @@ CCUnit		currentUnit = null;
 
     public void readExternal(extra.io.DataStream in)
     {
-    	CCProb probe = ProbFactory.createProbeFromStream(in);
+    	Probe probe = ProbFactory.createProbeFromStream(in);
 		setProbe(probe);
     }
 
@@ -274,7 +273,7 @@ CCUnit		currentUnit = null;
 	}
 
 	public static LObjProbeDataSource getProbeDataSource(int probeID,int interfaceType){
-		CCProb p = ProbFactory.createProb(probeID,CCProb.INTERFACE_PORT_A);
+		Probe p = ProbFactory.createProb(probeID,Probe.INTERFACE_PORT_A);
 		if(p == null) return null;
 		p.setInterfaceType(interfaceType);
 		LObjProbeDataSource me = DataObjFactory.createProbeDataSource();

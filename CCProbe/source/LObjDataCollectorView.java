@@ -8,8 +8,8 @@ import extra.util.*;
 import extra.ui.*;
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
-import org.concord.waba.extra.probware.probs.*;
-import org.concord.waba.extra.probware.*;
+import org.concord.ProbeLib.*;
+import org.concord.ProbeLib.probes.*;
 import org.concord.LabBook.*;
 	
 public class LObjDataCollectorView extends LabObjectView

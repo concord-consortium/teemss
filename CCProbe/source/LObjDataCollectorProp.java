@@ -4,8 +4,6 @@ import waba.ui.*;
 import waba.util.*;
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
-import org.concord.waba.extra.probware.probs.*;
-import org.concord.waba.extra.probware.*;
 import extra.ui.*;
 import extra.util.*;
 import org.concord.LabBook.*;

@@ -7,6 +7,7 @@ import waba.ui.*;
 import graph.*;
 import org.concord.waba.extra.event.*;
 import org.concord.LabBook.*;
+import org.concord.ProbeLib.*;
 
 class MyTimer extends Control
 {
