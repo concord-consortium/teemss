@@ -6,7 +6,7 @@ int dh;
 int	nPens = 8;
 	public void setRect(int x,int y,int w,int h){
 		super.setRect(x,y,16,h);
-		dh = (int)((float)height / nPens + 0.5);
+		dh = (int)((float)height / nPens + 0.5f);
 	}
 
 	public void destroy(){
