@@ -421,6 +421,9 @@ public class LObjGraph extends LObjSubDict
 
 	public void saveCurData(LObjDictionary dataDict, LabBookSession session)
 	{
+		GraphSettings curGS = getCurGraphSettings();
+		if(curGS == null || dataDict == null ) return;
+
 		LObjDataSet dSet = DataObjFactory.createDataSet();
 		session.storeNew(dSet);
 
@@ -430,36 +433,29 @@ public class LObjGraph extends LObjSubDict
 		session.storeNew(dsGraph);
 		dSet.setDataViewer(dsGraph);
 		dSet.clearAnnots(session);
-		GraphSettings curGS = getCurGraphSettings();
-		if(curGS != null){
-			curGS.saveData(dSet, session);
-			Vector annots = curGS.getAnnots();
-			dSet.addAnnots(annots, session);
-			
-			if(dataDict != null){
-				dataDict.add(dSet);				
-				Axis xaxis = dsGraph.addXAxis();
-				Axis yaxis = dsGraph.addYAxis();
-
-				Axis oldXA = curGS.getXAxis();
-				Axis oldYA = curGS.getYAxis();
-				xaxis.setRange(oldXA.getDispMin(), 
-							   oldXA.getDispMax()-oldXA.getDispMin());
-				yaxis.setRange(oldYA.getDispMin(), 
-							   oldYA.getDispMax()-oldYA.getDispMin());
-
-				dsGraph.addDataSource(dSet, true, 0, 0, session);
-				dsGraph.store();
-				dSet.store();
-				dataDict.store();
-			} else {
-				// for now it is an error
-				// latter it should ask the user for the name
-			}
-		}
-		session.release(dsGraph);
+		curGS.saveData(dSet, session);
+		Vector annots = curGS.getAnnots();
+		dSet.addAnnots(annots, session);
 		
-		int ref = session.release(dSet);
+		dataDict.add(dSet);				
+		Axis xaxis = dsGraph.addXAxis();
+		Axis yaxis = dsGraph.addYAxis();
+		
+		Axis oldXA = curGS.getXAxis();
+		Axis oldYA = curGS.getYAxis();
+		xaxis.setRange(oldXA.getDispMin(), 
+					   oldXA.getDispMax()-oldXA.getDispMin());
+		yaxis.setRange(oldYA.getDispMin(), 
+					   oldYA.getDispMax()-oldYA.getDispMin());
+		
+		dsGraph.addDataSource(dSet, true, 0, 0, session);
+		dsGraph.store();
+		dSet.store();
+		dataDict.store();
+
+		int ref = session.release(dsGraph);
+		
+		ref = session.release(dSet);
 	}
 
 	public void exportCurData(LabBookSession session)
