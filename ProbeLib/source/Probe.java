@@ -8,6 +8,7 @@ import extra.util.*;
 
 public abstract class CCProb implements Transform{
 public 		waba.util.Vector 	dataListeners = null;
+public 		waba.util.Vector 	probListeners = null;
 String		name = null;
 PropObject		[]properties = null;
 CalibrationDesc	calibrationDesc;
@@ -22,8 +23,9 @@ public final static int		SAMPLING_DIG_MODE = 2;
 
 public int unit = CCUnit.UNIT_CODE_UNKNOWN;
 
-public DataDesc	dDesc = new DataDesc();
+public DataDesc		dDesc = new DataDesc();
 public DataEvent	dEvent = new DataEvent();
+public ProbEvent	pEvent = new ProbEvent();
 
 DataListener calibrationListener = null;
 	protected CCProb(){
@@ -33,6 +35,7 @@ DataListener calibrationListener = null;
 	protected CCProb(String name){
 		setName(name);
 		calibrationDesc = null;
+		pEvent.setProb(this);
 	}
 
 	public boolean needCalibration(){return (calibrationDesc != null);}
@@ -49,6 +52,22 @@ DataListener calibrationListener = null;
 		setCalibrationListener(null);
 	}
 
+	public void addProbListener(ProbListener l){
+		if(probListeners == null) probListeners = new waba.util.Vector();
+		if(probListeners.find(l) < 0) probListeners.add(l);
+	}
+	public void removeProbListener(ProbListener l){
+		int index = probListeners.find(l);
+		if(index >= 0) probListeners.del(index);
+	}
+	public void notifyProbListeners(ProbEvent e){
+		if(probListeners == null) return;
+		for(int i = 0; i < probListeners.getCount(); i++){
+			ProbListener l = (ProbListener)probListeners.get(i);
+			l.probChanged(e);
+		}
+	}
+	
 	public void addDataListener(DataListener l){
 		if(dataListeners == null) dataListeners = new waba.util.Vector();
 		if(dataListeners.find(l) < 0) dataListeners.add(l);
@@ -57,7 +76,7 @@ DataListener calibrationListener = null;
 		int index = dataListeners.find(l);
 		if(index >= 0) dataListeners.del(index);
 	}
-	public void notifyListeners(DataEvent e){
+	public void notifyDataListeners(DataEvent e){
 		if(calibrationListener != null){
 			calibrationListener.dataReceived(e);
 		}else{
@@ -103,11 +122,15 @@ DataListener calibrationListener = null;
 		PropObject p = getProperty(nameProperty);
 		if(p == null) return;
 		p.setValue(value);
+		pEvent.setInfo(p);
+		notifyProbListeners(pEvent);
 	}
 	public void setPropertyValue(int index,String value){
 		PropObject p = getProperty(index);
 		if(p == null) return;
 		p.setValue(value);
+		pEvent.setInfo(p);
+		notifyProbListeners(pEvent);
 	}
 	
 	public String getPropertyValue(String nameProperty){

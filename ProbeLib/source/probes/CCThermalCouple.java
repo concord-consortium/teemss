@@ -114,7 +114,7 @@ float FC = 0.0f;
 	}
 	public boolean transform(DataEvent e){
 		if(e.getType() != DataEvent.DATA_RECEIVED){
-			notifyListeners(dEvent);
+			notifyDataListeners(dEvent);
 			return true;
 		}
 		float t0 = e.getTime();
@@ -157,7 +157,7 @@ float FC = 0.0f;
 				tempData[1]  = ch1;
 				tempData[2]  = ch2;
 			}
-			notifyListeners(dEvent);
+			notifyDataListeners(dEvent);
 		}
 		return true;
 	}

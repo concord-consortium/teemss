@@ -33,7 +33,7 @@ float  			dtChannel = 0.0f;
 	}
 	public boolean transform(DataEvent e){
 		if(e.getType() != DataEvent.DATA_RECEIVED){
-			notifyListeners(dEvent);
+			notifyDataListeners(dEvent);
 		}else{
 			float t0 = e.getTime();
 			float[] data = e.getData();
@@ -51,7 +51,7 @@ float  			dtChannel = 0.0f;
 				float ch2 = data[nOffset+i+1];
 				lightData[0] = ch1;
 	//			lightData[0] = ch2;
-				notifyListeners(dEvent);
+				notifyDataListeners(dEvent);
 			}
 		}
 		return true;

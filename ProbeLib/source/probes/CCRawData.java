@@ -35,7 +35,7 @@ float  			dtChannel = 0.0f;
     public boolean transform(DataEvent e)
     {
 	//	System.out.println("Time: " + e.time + ", Val: " + e.data[e.dataOffset] + ", Ct: " + e.numbSamples);
-	    notifyListeners(e);
+	    notifyDataListeners(e);
 	    return true;
     }
 }

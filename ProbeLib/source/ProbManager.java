@@ -3,7 +3,7 @@ import org.concord.waba.extra.event.*;
 import org.concord.waba.extra.probware.probs.CCProb;
 import extra.util.*;
 
-public class ProbManager implements Transform{
+public class ProbManager implements Transform, ProbListener{
 public static ProbManager pb = null;
 CCInterfaceManager im;
 protected 	waba.util.Vector 	probs 	= null;
@@ -19,6 +19,9 @@ protected 	static ProbManagerEvent   pmEvent = new ProbManagerEvent();
 			pb = new ProbManager(interfaceType);
 		}
 		return pb;
+	}
+	
+	public void probChanged(ProbEvent e){
 	}
 	
 	protected void notifyListeners(int type,Object info){
@@ -50,6 +53,7 @@ protected 	static ProbManagerEvent   pmEvent = new ProbManagerEvent();
 		if(probs == null) probs = new waba.util.Vector();
 		if(probs.find(prob) < 0){
 			probs.add(prob);
+			prob.addProbListener(this);
 			notifyListeners(ProbManagerEvent.PM_REGISTERED,prob);
 		}
 		syncModeWithProb();
@@ -57,6 +61,7 @@ protected 	static ProbManagerEvent   pmEvent = new ProbManagerEvent();
 	public void unRegisterProb(CCProb prob){
 		int index = probs.find(prob);
 		if(index >= 0){
+			prob.removeProbListener(this);
 			probs.del(index);
 			notifyListeners(ProbManagerEvent.PM_UNREGISTERED,prob);
 		}

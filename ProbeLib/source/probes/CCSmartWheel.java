@@ -101,7 +101,7 @@ int					outputMode = DEFAULT_MODE_OUT;
 	}
 	public boolean transform(DataEvent e){
 		if(e.getType() != DataEvent.DATA_RECEIVED){
-			notifyListeners(dEvent);
+			notifyDataListeners(dEvent);
 			return true;
 		}
 	    //System.out.println("wheel transform "+e);
@@ -139,7 +139,7 @@ int					outputMode = DEFAULT_MODE_OUT;
 						break;
 				}
 			}
-			notifyListeners(dEvent);
+			notifyDataListeners(dEvent);
 		}
 		return true;
 	}
