@@ -9,10 +9,10 @@ public class CCLightIntens extends CCProb{
 float  			[]lightData = new float[CCInterfaceManager.BUF_SIZE/2];
 int  			[]lightIntData = new int[CCInterfaceManager.BUF_SIZE/2];
 float  			dtChannel = 0.0f;
-float				AHigh = 1f;
-float				BHigh = 0f;
-float				ALow = 1f;
-float				BLow = 0f;
+float				AHigh = 45.7f;
+float				BHigh = -234.0f;
+float				ALow = 1.67f;
+float				BLow = -4.0f;
 
 public final static int		HIGH_LIGHT_MODE 			= 0;
 public final static int		LOW_LIGHT_MODE 			= 1;
@@ -20,8 +20,8 @@ int				lightMode = HIGH_LIGHT_MODE;
 public final static String [] propNames = {"Range", "Speed"};
 
 	public static String [] rangeNames = {"Bright Light", "Dim Light"};
-	public static String [] speed1Names = {3 + speedUnit, 200 + speedUnit};
-	public static String [] speed2Names = {3 + speedUnit, 200 + speedUnit, 400 + speedUnit};
+	public static String [] speed1Names = {3 + speedUnit, 200 + speedUnit, 400 + speedUnit};
+	public static String [] speed2Names = {3 + speedUnit, 200 + speedUnit};
 
 	CCLightIntens(boolean init, String name, int interfaceT){
 		super(init, name, interfaceT);

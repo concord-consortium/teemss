@@ -16,7 +16,7 @@ int  			[]forceIntData = new int[CCInterfaceManager.BUF_SIZE];
 	public final static String [] speed2Names = {3 + speedUnit, 200 + speedUnit};
 
 	public final static String [] propNames = {"Mode", "Range", "Speed"};
-public int curChannel = 0;
+	public int curChannel = 1;
 float	A = 0.01734f;
 float B = -25.31f;
 
@@ -41,6 +41,7 @@ float B = -25.31f;
 			calibrationDesc.addCalibrationParam(new CalibrationParam(0,A));
 			calibrationDesc.addCalibrationParam(new CalibrationParam(1,B));
 		}
+		unit = CCUnit.UNIT_CODE_NEWTON;		
 	}
 	public void setDataDescParam(int chPerSample,float dt){
 		dDesc.setDt(dt);
@@ -73,7 +74,7 @@ float B = -25.31f;
 		int rangeIndex = getProperty(propNames[1]).getIndex();
 		int speedIndex = getProperty(propNames[2]).getIndex();
 
-		curChannel = rangeIndex;
+		curChannel = 1-rangeIndex;
 
 		if(speedIndex == 0){
 			interfaceMode = CCInterfaceManager.A2D_24_MODE;
@@ -107,6 +108,7 @@ float B = -25.31f;
 		dDesc.setIntChPerSample(1);
 		channelOffset = curChannel;
 		if(curChannel > activeChannels - 1) channelOffset = activeChannels - 1;
+
 		return super.startSampling(dEvent);
     }
 

@@ -18,8 +18,8 @@ public class CCVoltCurrent extends CCProb{
 
 	float					zeroPointCurrent				= 1257f;//	
 	float					zeroPointVoltage				= 1257f;//	
-	float					currentResolution		= 700f; //       mV(reading)/A
-	float					voltageResolution		= 650f/20f; //     mV(reading)/(true)V
+	float					currentResolution		= 271f; //       mV(reading)/A
+	float					voltageResolution		= 38f; //     mV(reading)/(true)V
 
 	int					outputMode 			= VOLTAGE_OUT;
 	public static String [] modeNames = {"Current", "Voltage","Power","Energy"};
@@ -126,6 +126,7 @@ public class CCVoltCurrent extends CCProb{
 
 	public int getInterfaceMode()
 	{
+		outputMode = getProperty(propNames[0]).getIndex();
 		int vIndex = getProperty(propNames[3]).getIndex();
 		if(vIndex == 0){
 			version = 1;
@@ -151,7 +152,8 @@ public class CCVoltCurrent extends CCProb{
 		return interfaceMode;
 	}
 	
-	public boolean startSampling(org.concord.waba.extra.event.DataEvent e){
+	public boolean startSampling(org.concord.waba.extra.event.DataEvent e)
+	{
 		energy = 0.0f;
 		dEvent.type = e.type;
 		dDesc.setDt(e.getDataDesc().getDt());
@@ -194,7 +196,9 @@ public class CCVoltCurrent extends CCProb{
 			dEvent.intTime = e.intTime;
 			for(int i = 0; i < ndata; i+=chPerSample){
 				intData[i] = dataEvent[nOffset+i];
-				intData[i+1] = dataEvent[nOffset+i+1];
+				if(chPerSample == 2){
+					intData[i+1] = dataEvent[nOffset+i+1];
+				}
 				switch(outputMode){
 				case CURRENT_OUT:
 					data[dataIndex] = (intData[i+currentOff]*dDesc.tuneValue - zeroPointCurrent)/currentResolution;
@@ -224,8 +228,6 @@ public class CCVoltCurrent extends CCProb{
     }
     
 	protected void writeInternal(extra.io.DataStream out){}
-	
-	protected void readInternal(extra.io.DataStream in){}
 	
 	public void  calibrationDone(float []row1,float []row2,float []calibrated){
 		if(outputMode != CURRENT_OUT && outputMode != VOLTAGE_OUT) return;
