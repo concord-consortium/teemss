@@ -83,7 +83,14 @@ public class LObjDictPagingView extends LabObjectView
 
     public void layout(boolean sDone)
     {
-		if(didLayout) return;
+		if(didLayout){
+			if(showDone != sDone){
+				showDone = sDone;
+				if(showDone) add(doneButton);
+				else remove(doneButton);
+			}
+			return;
+		}
 		didLayout = true;
 
 		showDone = sDone;

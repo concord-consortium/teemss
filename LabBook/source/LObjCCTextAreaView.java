@@ -7,7 +7,9 @@ import extra.ui.*;
 import extra.io.*;
 
 public class LObjCCTextAreaView extends LabObjectView 
-								implements ActionListener,DialogListener, ScrollListener, TextAreaListener{
+	implements ActionListener,DialogListener, ScrollListener, TextAreaListener,
+	ViewContainer
+{
 CCTextArea 				tArea;
 //RelativeContainer 		edit = new RelativeContainer();
 Container 				edit = new Container();
@@ -39,6 +41,33 @@ CCScrollBar				scrollBar;
 		doc = d;
 		lObj = doc;
 	}
+
+	LabObjectView lObjView = null;
+    public void done(LabObjectView source)
+	{
+		// This would be called after a object was popped up and then
+		// it wants to be closed
+		
+		// check if this object is the one we popped up
+		if(source == lObjView){
+			lObjView.setContainer(tArea);
+			lObjView.setEmbeddedState(true);
+			lObjView.setShowMenus(false);
+			tArea.layoutComponents();
+			tArea.setText(tArea.getText());
+			tArea.restoreCursor(true);
+			// If we are embedded this will be a problem
+			getMainView().showFullWindowView(this);
+			if(showMenus) addMenus();
+			lObjView = null;
+		}
+	}
+
+    public void reload(LabObjectView source)
+	{
+		// don't know what to do here
+	}
+
 	public void delMenus(){
 		if(container != null){
 			if(menu != null) container.getMainView().delMenu(this, menu);
@@ -137,7 +166,20 @@ CCScrollBar				scrollBar;
 		}
     }
 
-	public void addChoosenLabObjView(LabObjectView view){
+	public MainView getMainView()
+	{
+		if(container != null) return container.getMainView();
+		return null;
+	}
+
+	public void addChoosenLabObjView(LabObjectView view)
+	{
+	    delMenus();
+		lObjView = view;
+		view.setContainer(this);
+		getMainView().showFullWindowView(view);
+
+		/*
 		if(tArea != null){
 			remove(edit);
 			remove(insertButton);
@@ -146,9 +188,9 @@ CCScrollBar				scrollBar;
 			if(showDone) remove(doneButton);
 			add(view);
 //			view.didLayout = false;
-			view.layout(false);
+			view.layout(true);
 			view.setEmbeddedState(false);
-			view.setRect(0,0,width,height - 15);
+			view.setRect(0,0,width,height);
 			if(doneOutButton == null){
 				doneOutButton = new Button("Done");
 			}
@@ -156,6 +198,7 @@ CCScrollBar				scrollBar;
 			doneOutButton.setRect(width-31,height-15,30,15);
 			addedLabObjectView = view;
 		}
+		*/
 	}
 
 	public void layout(boolean sDone){
