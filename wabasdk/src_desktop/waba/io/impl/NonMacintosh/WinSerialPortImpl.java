@@ -90,11 +90,14 @@ public class WinSerialPortImpl implements ISerialPort
 
   public int readBytes(byte buf[], int start, int count)
   {
+      int ret = -1;
     if (!isOpen)
       return -1;
     try
     {
-      return is.read(buf,start,count);
+	ret = is.read(buf, start, count);
+	if(ret == -1) ret = 0;
+	return ret;
     }
     catch(Exception e)
     {
