@@ -17,15 +17,18 @@ public class LObjGraphProp extends LabObjectView
     PropContainer propsGraph = null;
 	PropContainer propsXAxis = null;
 	PropContainer propsYAxis = null;
-	PropObject propTitle;
 	PropObject propDataSources;
 	PropObject propVisibleSources = null;
+	PropObject propTitle;
+	PropObject propAutoTitle = null;
     PropObject propXmin;
     PropObject propXmax;
 	PropObject propXlabel;
+	PropObject propAutoXlabel;
     PropObject propYmin;
     PropObject propYmax;
 	PropObject propYlabel;
+	PropObject propAutoYlabel;
 
 	LObjGraph graph;
 
@@ -77,10 +80,6 @@ public class LObjGraphProp extends LabObjectView
 			propsYAxis = new PropContainer("YAxis");
 			propsXAxis = new PropContainer("XAxis");
 
-			if(graph.autoTitle)  propTitle = new PropObject("Title", "*" + graph.title);
-			else propTitle = new PropObject("Title", graph.title);
-			propTitle.prefWidth = 120;
-
 			dsStrings = new String [graph.numDataSources];
 			for(int i=0; i<graph.numDataSources; i++){
 				DataSource ds = graph.getDataSource(i);
@@ -103,27 +102,42 @@ public class LObjGraphProp extends LabObjectView
 				}
 			}
 			
-			propsGraph.addProperty(propTitle);
+			if(graph.autoTitle)  propTitle = new PropObject("Title", "*" + graph.title);
+			else propTitle = new PropObject("Title", graph.title);
+			propTitle.prefWidth = 120;
+
+			propAutoTitle = new PropObject("Auto");
+			propAutoTitle.setType(PropObject.CHECK);
+			
 			propsGraph.addProperty(propDataSources);
 			if(propVisibleSources != null) propsGraph.addProperty(propVisibleSources);
-			
+			propsGraph.addProperty(propTitle);
+			propsGraph.addProperty(propAutoTitle);
+
 			propXmin = new PropObject("Min", curGS.getXMin() + "");
 			propXmax = new PropObject("Max", curGS.getXMax() + "");
 			propXlabel = new PropObject("Label", curGS.getXLabel());
 			propXlabel.prefWidth = 100;
+			propAutoXlabel = new PropObject("Auto");
+			propAutoXlabel.setType(PropObject.CHECK);
+
 			propsXAxis.addProperty(propXmax);
 			propsXAxis.addProperty(propXmin);
 			propsXAxis.addProperty(propXlabel);
+			propsXAxis.addProperty(propAutoXlabel);
 
 			propYmin = new PropObject("Min", curGS.getYMin() + "");
 			propYmax = new PropObject("Max", curGS.getYMax() + "");
 
 			propYlabel = new PropObject("Label", curGS.getYLabel());
+			propAutoYlabel = new PropObject("Auto");
+			propAutoYlabel.setType(PropObject.CHECK);
 
 			propYlabel.prefWidth = 100;
 			propsYAxis.addProperty(propYmax);
 			propsYAxis.addProperty(propYmin);
-			propsYAxis.addProperty(propYlabel);			
+			propsYAxis.addProperty(propYlabel);
+			propsYAxis.addProperty(propAutoYlabel);
 		} else {
 			if(graph.autoTitle)  propTitle.setValue("*" + graph.title);
 			else propTitle.setValue(graph.title);
