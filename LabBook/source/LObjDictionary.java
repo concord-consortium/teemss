@@ -1,7 +1,5 @@
-package org.concord.LabBook;
-
 import waba.util.*;
-import org.concord.waba.extra.io.*;
+import extra.io.*;
 import org.concord.waba.extra.ui.*;
 
 public class LObjDictionary extends LabObject
@@ -12,334 +10,175 @@ public class LObjDictionary extends LabObject
     public Vector objects = new Vector();
     public int viewType = TREE_VIEW;
 
-    boolean hasMainObject = false;
-    boolean hasObjTemplate = false;
-    int objTemplateIndex = 0;
-
-    public boolean hideChildren = false;
-    public static boolean globalHide = true;
+    public LObjSubDict mainObject = null;
+    
+    public LabObject newObjectTemplate = null;
 
     public LObjDictionary()
-    {       
-		super(DefaultFactory.DICTIONARY);
+    {
+	objectType = DICTIONARY;
     }
 
-	public LabObjectPtr getVisiblePtr()
-	{
-		LabObjectPtr ptr = super.getVisiblePtr();
-		ptr.flags = getFlags();
-		return ptr;
+    public LabObjectView getView(boolean edit)
+    {
+	if(mainObject != null){
+	    return mainObject.getView(edit);
 	}
 
-    public LabObjectView getPropertyView(ViewContainer vc, LObjDictionary curDict,
-										 LabBookSession session)
-    {
-		if(hasMainObject){
-	    	LObjSubDict mo = getMainObj(session);
-	   	 	if(mo != null){
-				return mo.getPropertyView(vc, curDict,session);
-	    	} else return null;
-		} else {
-			return new LObjDictionaryProp(vc, this);
-		}
+	if(viewType == TREE_VIEW)
+	    return new LObjDictionaryView(this);
+	if(viewType == PAGING_VIEW)
+	    return new LObjDictPagingView(this, edit);
+
+	return null;
     }
 
-    public LabObjectView getView(ViewContainer vc, boolean edit, LObjDictionary curDict,
-								 LabBookSession session)
-    {
-		if(hasMainObject){
-	    	LObjSubDict mo = getMainObj(session);
-	   	 	if(mo != null){
-				return mo.getView(vc, edit, curDict, session);
-	    	} else return null;
-		}
-
-		if(viewType == TREE_VIEW)
-			return new LObjDictionaryView(vc, this, session);
-		if(viewType == PAGING_VIEW)
-			return new LObjDictPagingView(vc, this, edit, session);
-
-		return null;
-    }
-
-    public LObjSubDict getMainObj(LabBookSession session)
-    {
-		if(hasMainObject & objects.getCount() > 0){
-			LabObject obj = session.load((LabObjectPtr)objects.get(0));
-			LObjSubDict mainObj = (LObjSubDict)obj;
-			mainObj.setDict(this);
-			return mainObj;
-		}
-
-		return null;
-    }
-    
-    public void setMainObj(LObjSubDict mainObj)
-    {
-		// Assertion to check for "invaild call to setMainObj"
-		LabObject assertion = mainObj.ptr.obj;
-
-		if(hasMainObject){	    
-			objects.set(0, mainObj.ptr);
-		} else {
-			objects.insert(0, mainObj.ptr);
-		} 
-
-		// this probably isn't necessary
-		mainObj.setDict(this);
-		hasMainObject = true;
-		objTemplateIndex = 1;
-	
-    }
-
-    public void setObjTemplate(LabObject template)
-    {
-		if(hasObjTemplate){
-			objects.set(objTemplateIndex, 
-						lBook.store(template));
-		} else if(!hasObjTemplate){
-			objects.insert(objTemplateIndex,
-						   lBook.store(template));
-		}
-		hasObjTemplate = true;
-    }
-
-    public LabObject getObjTemplate(LabBookSession session)
-    {
-		if(hasObjTemplate){
-			return session.getObj((LabObjectPtr)objects.get(0));
-		}
-
-		return null;
-    }
-    
-	// Should check if the new pointer has the same
-	// DB as us.  If not we should make a link (I think)
     public void add(LabObject lObj)
     {
-		LabObjectPtr lObjPtr;
-		if(lObj == null) lObjPtr = lBook.getNullObjPtr();
-		else lObjPtr = lObj.getVisiblePtr();
-		insert(lObjPtr, objects.getCount());
+	objects.add(lBook.store(lObj));
     }
 
-	// Should check if the new pointer has the same
-	// DB as us.  If not we should make a link (I think)
-    public void insert(LabObjectPtr lObjPtr, int index)
+    public void insert(LabObjectPtr lObj, int index)
     {
-		// assertion to check for invalid "null pointer insertion"
-		LabObject assertion = lObjPtr.obj;
-
-		objects.insert(index, lObjPtr);
-		lBook.store(this);
+	objects.insert(index, lObj);
     }
 
-	// Should check if the new pointer has the same
-	// DB as us.  If not we should make a link (I think)
-    public void insert(LabObject lObj, int index)
+    public void insert(TreeNode node, int index)
     {
-		LabObjectPtr lObjPtr;
-		if(lObj == null) lObjPtr = lBook.getNullObjPtr();
-		else lObjPtr = lObj.getVisiblePtr();
-		insert(lObjPtr, index);
+	if(!(node instanceof LabObject)) return;
+	
+	insert(lBook.store((LabObject)node), index);
     }
 
-	public void removeAll()
-	{
-		objects = new Vector();
-		store();
-	}
-
-    public void remove(LabObjectPtr ptr)
+    public void remove(TreeNode node)
     {
-		Debug.println("Removing ptr");
-		int index = getIndex(ptr);
-		if(index >= 0 && index < objects.getCount()){
-			objects.del(index);
-			store();
-			// Should tell the labbook we don't care about this obj any more
-		}
+	System.out.println("Removing node");
+	int index = getIndex(node);
+	objects.del(index);
     }
 
     public void remove(int index)
     {
-		if(index < 0 || index >= objects.getCount()) return;
+	if(index < 0 || index >= objects.getCount()) return;
 	
-		objects.del(index);
-		store();
+	objects.del(index);
     }
 
     public int getChildCount()
     {
-		return objects.getCount();
+	return objects.getCount();
     }
 
     public void readExternal(DataStream ds)
     {
-		objects = new Vector();
-		int i;
+	objects = new Vector();
+	int i;
+	name = ds.readString();
+	if(name.equals("_null_name_")) name = null;
+	viewType = ds.readInt();
+	mainObject = (LObjSubDict)lBook.load(LabObjectPtr.readExternal(ds));
 
-		short size = ds.readShort();
-		LabBookDB db = this.ptr.db;
-
-		for(i=0; i<size; i++){
-			LabObjectPtr ptr = db.readPtr(ds);
-			objects.add(ptr);
-			Debug.println(" Reading: " + ptr.debug());
-		}
-
+	int size = ds.readInt();
+	
+	System.out.println("Reading " + name + " dict: " + size);
+	for(i=0; i<size; i++){
+	    LabObjectPtr ptr = LabObjectPtr.readExternal(ds);
+	    objects.add(ptr);
+	    System.out.println("Reading: " + ptr.devId + ", " + ptr.objId);
+	}
+	      
     }
-
-	public void setFlags(short flags)
-	{
-		super.setFlags(flags);
-
-		viewType = (ptr.flags & 0x0F);
-
-		hideChildren = ((ptr.flags & 0x010) == 0x010?true:false);
-		hasMainObject = ((ptr.flags & 0x020) == 0x020?true:false);
-		hasObjTemplate = ((ptr.flags & 0x040) == 0x040?true:false);
-	}
-
-	public short getFlags()
-	{
-		short flags = super.getFlags();
-		flags = (short)(flags|(viewType & 0x0F));
-		flags = hideChildren?(short)(flags|0x010):flags;
-		flags = hasMainObject?(short)(flags|0x020):flags;
-		flags = hasObjTemplate?(short)(flags|0x040):flags;
-		return flags;
-	}
 
     public void writeExternal(DataStream ds)
     {
-		int i;
-		int size = objects.getCount();
+	int i;
+	int size = objects.getCount();
+	if(name == null){
+	    ds.writeString("_null_name_");
+	    System.out.println("Writing noname dict: " + size);
+	} else {
+	    System.out.println("Writing " + name + " dict: " + size);
+	    ds.writeString(name);
+	}
+	ds.writeInt(viewType);
+	lBook.store(mainObject).writeExternal(ds);
 
-		ds.writeShort(size);
-		LabBookDB db = this.ptr.db;
+	ds.writeInt(size);
+	for(i=0; i<size; i++){
+	    LabObjectPtr ptr = (LabObjectPtr)objects.get(i);
+	    ptr.writeExternal(ds);
+	    System.out.println("Writing: " + ptr.devId + ", " + ptr.objId);
+	}
 
-		for(i=0; i<size; i++){
-			LabObjectPtr ptr = (LabObjectPtr)objects.get(i);
-			db.writePtr(ptr, ds);
-			Debug.println(" Writing: " + ptr.debug());
-		}
+
     }
 
-	// If object is a linkptr we should de-ref it
-	// But we need to add a function that will get
-	// the link object itself instead of de-reffing it
-	public LabObjectPtr getChildAt(int index)
-	{
-		if(index < 0 || index >= objects.getCount()){
-			return null;
-		}
-		LabObjectPtr ptr = (LabObjectPtr)(objects.get(index));
-		if(!lBook.readHeader(ptr)){
-			return null;
-		}
-		if(ptr.objType == DefaultFactory.LINK_PTR){
-			lBook.getObj(ptr, ptr.db, false);
-			ptr = ((LObjLinkPtr)ptr.obj).getPointer();
-		}
-		return ptr;
-	}
-
-	// If object is a linkptr we should de-ref it
-	// But we need to add a function that will get
-	// the link object itself instead of de-reffing it
-    public LabObjectPtr [] childArray()
+    public TreeNode getChildAt(int index)
     {
-		LabObjectPtr [] children;
-		int numObjs = objects.getCount();
-		if(numObjs <= 0) return null;
+	if(index < 0 || index >= objects.getCount()) return null;
 
-		children = new LabObjectPtr[numObjs];
+	return (TreeNode)(lBook.load((LabObjectPtr)(objects.get(index))));
+    }
 
-		for(int i=0; i<numObjs; i++){
-		    children[i] = ((LabObjectPtr)objects.get(i));		
-			if(!lBook.readHeader(children[i])){
-				// This is a null object
-				ptr.name = "..null_object..";
-				children[i] = ptr;
-				continue;
-			} 
-			if(ptr.objType == DefaultFactory.LINK_PTR){
-				lBook.getObj(children[i], children[i].db, false);
-				children[i] = ((LObjLinkPtr)children[i].obj).getPointer();
-			}
-		}
-		return children;
-	}
+    public boolean showChildren = true;
 
-
-	/*
-	 * this does the sub dict translation
-	 */
-    public int getIndex(LabObject obj)
+    public boolean isLeaf()
     {
-		LabObjectPtr curPtr;
+	return !showChildren;
+    }
 
-		if(obj == null) return -1;
+    public TreeNode [] childArray()
+    {
+	TreeNode [] children;
+	int numObjs = objects.getCount();
 
-		if(obj instanceof LObjSubDict &&
-		   ((LObjSubDict)obj).dict != null){
-			curPtr = ((LObjSubDict)obj).dict.ptr;
-		} else {
-			curPtr = obj.ptr;
-		}
-
-		int numObjs = objects.getCount();
-		Debug.println("getIndex searching " + numObjs + " objects");
-		for(int i=0; i<numObjs; i++){
-			curPtr = (LabObjectPtr)objects.get(i);
-			Debug.println(" Checking node: " + curPtr.debug());
-			if(ptr.equals(curPtr)){
-				return i;
-			} 
-		}
+	if(numObjs == 0){
+	    children = new TreeNode [1];
+	    children[0] = new LObjDictionary();
+	    ((LabObject)(children[0])).name = "..empty..";
+	    ((LObjDictionary)(children[0])).showChildren = false;
+	    return children;
+	}
 	
-		return -1;
+	children = new TreeNode [numObjs];
+	for(int i=0; i<numObjs; i++){
+	    children[i] = (TreeNode)lBook.load((LabObjectPtr)objects.get(i));
+	}
+	return children;
     }
 
     /*
      * Very inefficient right now
      */
-    public int getIndex(LabObjectPtr ptr)
+    public int getIndex(TreeNode node)
     {
-		LabObjectPtr curPtr;
-
-		int numObjs = objects.getCount();
-		Debug.println("getIndex searching " + numObjs + " objects");
-		for(int i=0; i<numObjs; i++){
-			curPtr = (LabObjectPtr)objects.get(i);
-			Debug.println(" Checking node: " + curPtr.debug());
-			if(ptr.equals(curPtr)){
-				return i;
-			} 
-		}
+	if(!(node instanceof LabObject)) return -1;
 	
-		return -1;
+	int numObjs = objects.getCount();
+	
+	System.out.println("getIndex searching " + numObjs + " objects");
+	for(int i=0; i<numObjs; i++){
+	    System.out.println(" Checking node: " + lBook.load((LabObjectPtr)objects.get(i)));
+	    if(node  == (TreeNode)lBook.load((LabObjectPtr)objects.get(i))){
+		return i;
+	    } 
+	}
+	
+	return -1;
     }
 
     public LabObject copy()
     {
-		Debug.println("Copying a dictionary");
-		LObjDictionary me = DefaultFactory.createDictionary();
-		if(hasMainObject){
-			Debug.println("  adding mainObject");
-
-			/*
-			 *  This will be a bug but this stuff
-			 * isn't being used right now so I think we are OK
-			LObjSubDict oldMO = getMainObj();
-			LObjSubDict newMO = (LObjSubDict)oldMO.copy();
-			// the order of the mainObj and setDict seems to matter???
-			me.setMainObj(newMO);
-			*/
-		}
-		me.viewType = viewType;
-		return me;
+	System.out.println("Copying a dictionary");
+	LObjDictionary me = new LObjDictionary();
+	if(mainObject != null){
+	    System.out.println("  adding mainObject");
+	    LObjSubDict newMO = (LObjSubDict)mainObject.copy();
+	    newMO.setDict(me);
+	    me.mainObject = newMO;
+	    
+	}
+	me.viewType = viewType;
+	return (LabObject)me;
     }
-
 }

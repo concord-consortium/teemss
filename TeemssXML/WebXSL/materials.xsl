@@ -13,14 +13,14 @@
 </xsl:template>
 
 <xsl:template match="materials">
-<redirect:write file="html/{../../@name}/{../@name}_materials.html">
+<redirect:write file="html/{../../@name}_{../@name}_materials.html">
 <html>
 <head><title>TEEMSS: <xsl:value-of select="../title"/> 
 Materials</title>
 </head>
 <body>
 <h3><xsl:value-of select="../title"/> Materials</h3>
-<xsl:apply-templates select="ext-image"/>
+<xsl:apply-templates select="ext_image"/>
 <xsl:call-template name="items"/>
 <xsl:call-template name="navigation">
 <xsl:with-param name="back-link">_think</xsl:with-param>

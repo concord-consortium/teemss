@@ -1,0 +1,137 @@
+import waba.ui.*;
+import waba.fx.*;
+import waba.io.*;
+import waba.sys.*;
+import waba.util.*;
+
+public class UltraFastTP extends MainWindow
+{
+    LineGraph lg;
+    PushButtonGroup modControl, conControl;
+    float data [] = new float [1];
+    int i;
+    A2DProbeManager pm;
+    boolean local = true;
+    Label curVal;
+    Label localLabel;
+    Edit addrEdit;
+    Button discover, reset;
+    boolean updateGraph;
+
+    public void onStart()
+    {
+	setRect(0,0,160, 160);
+
+	lg = new LineGraph();
+	lg.setRect(0,40,150,120);
+	add(lg);
+
+	String [] names = new String [2];
+	names [0] = "Start";
+	names [1] = "Stop";
+	modControl = new PushButtonGroup(names, true, 1, 4, 4, 2, true, PushButtonGroup.NORMAL); 
+	modControl.setRect(1,1,28,30);
+	add(modControl);
+
+	reset = new Button("Reset");
+	reset.setRect(26, 1, 40, 15);
+	add(reset);
+
+	curVal = new Label("0.00");
+	curVal.setRect(26,20,50,20);
+	add(curVal);
+
+	names = new String  [2];
+	names [0] = "Open";
+	names [1] = "Close";
+	conControl = new PushButtonGroup(names, true, 1, 4, 4, 2, true, PushButtonGroup.NORMAL); 
+	conControl.setRect(77,1,31,30);
+	add(conControl);
+
+	pm = new A2DProbeManager("Ultra");
+    }
+
+    Timer timer = null;
+    float oldVal;
+
+    public void onExit()
+    {
+	if(timer != null){
+	    pm.stop(1);
+	    removeTimer(timer);
+	    timer = null;
+	}
+    }
+
+    public void onEvent(Event e)
+    {
+	float newVal;
+
+	if(e.type == ControlEvent.PRESSED){
+	    Control target = (Control)e.target;
+	    int index;
+	    if(target == modControl){
+		index = modControl.getSelected();
+		if(index == 0){
+		    // start
+		    updateGraph = true;
+		    if(i>= 100){
+			i = 0;
+			lg.reset();
+		    }
+		} else {
+		    // stop
+		    updateGraph = false;
+		}
+	    } else if(target == conControl){
+		index = conControl.getSelected();
+		if(index == 0){
+		    if(timer == null){
+			i = 0;
+			lg.reset();
+			pm.start(1);			    
+			timer = addTimer(100);
+		    }
+		} else {
+		    if(timer != null){
+			pm.stop(1);
+			removeTimer(timer);
+			timer = null;
+		    }		    
+		}
+	    } else if(target == reset){
+		i = 0;
+		lg.reset();
+	    } 
+	} else if(e.type == ControlEvent.TIMER){
+	    if(pm.getPackage()){
+		if(i < 2){
+		    oldVal = pm.curData[0];
+		} else {
+		    newVal = (pm.curData[0] + oldVal)/2;
+		    oldVal = newVal;
+		    curVal.setText("" + newVal);
+		    data[0] = newVal;
+		    if(updateGraph){
+			lg.addPoint(i, data);
+		    }
+		}
+		i++;
+	    } 	    
+	}     
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

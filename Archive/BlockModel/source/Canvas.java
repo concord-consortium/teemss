@@ -2,7 +2,6 @@ import waba.ui.*;
 import waba.util.*;
 import waba.fx.*;
 import waba.io.*;
-import graph.*;
 
 public class Canvas extends Control implements IKeys
 {
@@ -14,9 +13,6 @@ public class Canvas extends Control implements IKeys
     boolean live = false;
     PropWindow prop;
     Timer downTimer;
-
-    ColorAxis axis = null;
-    Graph2D graph = null;
     GraphView gv = null;
     ThermalPlane tp = null;
 
@@ -184,14 +180,6 @@ public class Canvas extends Control implements IKeys
 	for(i=0; i<objList.length; i++){
 	    ((CanvasObject)objList[i]).interact(o, action);
 	}
-
-	/*
-	 *  I don't think this should be here
-	 *  but lets see what happens when I take it out
-	 */
-	if(gv != null)
-	    gv.plot();
-	
     }
 
     public boolean addObject(CanvasObject o, Layer l)
@@ -317,19 +305,6 @@ public class Canvas extends Control implements IKeys
 	objList = curObjects.toObjectArray();
 	for(i=0; i<objList.length; i++){
 	    removeObject((CanvasObject)objList[i]);
-	}
-    }
-
-    public void propSelected()
-    {
-	if(checkSelected()){
-	    if(!selected.action()){
-		selected.setupPropPage();
-		if(selected.pp != null){
-		    selected.pp.showProp();
-		}
-		// It's up the object to clear the prop page
-	    }
 	}
     }
 
@@ -467,7 +442,11 @@ public class Canvas extends Control implements IKeys
 		removeTimer(downTimer);
 		downTimer = null;
 	    }
-	    propSelected();
+	    if(checkSelected()){
+		if(!selected.action()){
+		    prop.showProp(selected);
+		}
+	    }
 
 	} else if(e.type == PenEvent.PEN_DRAG && e.target == this){
 	    if(selected != null){

@@ -1,7 +1,6 @@
 import waba.ui.*;
 import waba.fx.*;
 import waba.io.*;
-import graph.*;
 
 public class ModelPage extends Container
 {
@@ -17,7 +16,6 @@ public class ModelPage extends Container
     ThermalPlane tp = null;
     PushButtonGroup selector, modControl;
     Control curControl;
-    BlockModel bm;
 
     // Common to all pages
     String curFileName = "untitled.dnm";
@@ -29,7 +27,7 @@ public class ModelPage extends Container
 	// add a canvas
 	modelCanvas = new Canvas(236, 129, 2);
 	modelCanvas.live = true;
-	modelCanvas.setPos(2,110);
+	modelCanvas.setPos(2,119);
 	
 	modelLayer = modelCanvas.getLayer(0);
 	modelLayer.gridSpace = 7;
@@ -42,7 +40,7 @@ public class ModelPage extends Container
 	modelCanvas.addObject(new GarbageObject(), modelLayer, 10, 90);
 
 	// create the thermal plane
-	tp = new ThermalPlane(modelCanvas, 7, 7, 236, 146);
+	tp = new ThermalPlane(modelCanvas, 3, 7, 236, 146);
 	modelCanvas.tp = tp;
 	add(modelCanvas);
 
@@ -61,38 +59,34 @@ public class ModelPage extends Container
 	modControl.setRect(1,60,34,30);
 	add(modControl);
 	
-	gv = new GraphViewBar(195, 105);
+	gv = new GraphView(195, 110);
 	gv.setPos(35,2);
 	modelCanvas.gv = gv;
-	modelCanvas.graph = gv.graph;
-	modelCanvas.axis = ((BarGraph)(gv.graph)).yaxis;
 	add(gv);
 	curControl = gv;
 
 	// add a canvas
-	addCanvas = new Canvas(190, 105, 1);
+	addCanvas = new Canvas(190, 110, 1);
 	addCanvas.setPos(42,2);
 	addCanvas.gv = gv;
-	addCanvas.graph = gv.graph;
-	addCanvas.axis = modelCanvas.axis;
 
 	layer = addCanvas.getLayer(0);
 	ModelObject mo = new ModelObject(null, 14, 42);
-	mo.specHeat = (float)1.0;
-	mo.conduct = (float)12.5;
+	mo.specHeat = 100000;
+	mo.conduct = 1;
 	mo.initTemp = 25;
 	mo.dragAction = mo.EXT_DRAG_COPY;
 	// the order is important here that should be fixed
 	addCanvas.addObject(mo, layer);
 
-	mo = new ModelObject(null, 14, 14);
+	mo = new ModelObject(null, 21, 21);
 	mo.specHeat = 0;
 	mo.conduct = 1;
 	mo.initTemp = 40;
 	mo.dragAction = mo.EXT_DRAG_COPY;
 	addCanvas.addObject(mo, layer);
 
-	mo = new ModelObject(null, 14, 14);
+	mo = new ModelObject(null, 21, 21);
 	mo.specHeat = 0;
 	mo.conduct = 1;
 	mo.initTemp = 10;
@@ -132,8 +126,7 @@ public class ModelPage extends Container
 	modelCanvas.removeAll();
 	modelCanvas = new Canvas();
 	modelCanvas.tp = tp;
-	modelCanvas.graph = gv.graph;
-	modelCanvas.axis = ((LineGraph)(gv.graph)).yaxis;
+	modelCanvas.gv = gv;
 	tp.canvas = modelCanvas;
 	modelCanvas.readExt(ds);
 	add(modelCanvas);
@@ -144,7 +137,6 @@ public class ModelPage extends Container
     public void onPaint(Graphics g)
     {
 	tp.updateObj();
-	System.out.println("Got onPaint");
     }
   
     public void onEvent(Event e)

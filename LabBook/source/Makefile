@@ -1,2 +1,2 @@
 all: 
-	cd .. && $(MAKE) test
+	cd .. && $(MAKE) main

@@ -1,7 +1,6 @@
 import waba.fx.*;
 import waba.ui.*;
 import waba.io.*;
-import graph.*;
 
 class ModelObject extends CanvasObject
   implements ThermalPatch
@@ -148,40 +147,54 @@ class ModelObject extends CanvasObject
 	}
     }
 
-    public void setupPropPage()
+    public Container setupProp(int w, int h)
     {
-	pp = new PropPage(this);
-	pp.addEdit("Initial Temp", 50);
-	pp.addEdit("Specific Heat", 50);
-	pp.addEdit("Conductivity", 50);
+	super.setupProp(w,h);
+
+	// Initial Temperature
+	tmpLabel = new Label("Initial Temp");
+	tmpLabel.setRect(2,2,65,17);
+	properties.add(tmpLabel);
+	tempEdit.setRect(70,2,50,17);
+	properties.add(tempEdit);
+
+	// Specific heat
+	tmpLabel = new Label("Specific Heat");
+	tmpLabel.setRect(2,20,65,17);
+	properties.add(tmpLabel);
+	specHeatEdit.setRect(70,20,50,17);
+	properties.add(specHeatEdit);
+
+	// "Conductivity"
+	tmpLabel = new Label("Conductivity");
+	tmpLabel.setRect(2,40,65,17);
+	properties.add(tmpLabel);
+	conducEdit.setRect(70,40,50,17);
+	properties.add(conducEdit);
+	
+	return properties;
     }
 
-    public void updateProp(PropPage pp, int action)
+    public void refreshProp()
     {
-	if(pp == this.pp){
-	    switch(action){
-	    case PropPage.REFRESH:
-		((Edit)pp.props.get(0)).setText(initTemp + "");
-		((Edit)pp.props.get(1)).setText(specHeat + "");
-		((Edit)pp.props.get(2)).setText(conduct + "");
-		break;
-	    case PropPage.UPDATE:
-		if(tp != null) tp.removePatch(this, x, y);
-		temps = null;
-		initTemp = floatValue(((Edit)pp.props.get(0)).getText());
-		specHeat = floatValue(((Edit)pp.props.get(1)).getText());
-		conduct = floatValue(((Edit)pp.props.get(2)).getText());
-		if(tp != null) tp.addPatch(this, x, y);
-		updateTemp();
-		
-	    }
-	}
+	tempEdit.setText(initTemp + "");
+	specHeatEdit.setText(specHeat + "");
+	conducEdit.setText(conduct + "");
+    }
+
+    public void updateProp()
+    {
+	if(tp != null) tp.removePatch(this, x, y);
+	initTemp = floatValue(tempEdit.getText());
+	specHeat = floatValue(specHeatEdit.getText());
+	conduct = floatValue(conducEdit.getText());
+	if(tp != null) tp.addPatch(this, x, y);
+	updateTemp();
     }
 
     public void move(int x, int y)
     {
 	if(tp != null){
-	    tp.getAllTemps(this);
 	    tp.removePatch(this, this.x, this.y);
 	}
 	super.move(x, y);
@@ -215,12 +228,11 @@ class ModelObject extends CanvasObject
     public void move(int rot, int x, int y)
     {
 	if(tp != null){
-	    if(rot == 0) tp.getAllTemps(this);
-	    else temps = null;
-	    tp.removePatch(this, this.x, this.y);
+	    tp.removePatch(this, x, y);
 	
 	    // for now clear our temps
-	}	
+	    temps = null;
+	}
 	super.rotate(rot);
 	super.move(x, y);
 	if(tp != null){
@@ -285,9 +297,9 @@ class ModelObject extends CanvasObject
 
        
 	int i,j;
-	if(canvas.axis != null){
-	    float minTemp = canvas.axis.dispMin;
-	    float tempRng = canvas.axis.dispLen / canvas.axis.scale;
+	if(canvas.gv != null){
+	    float minTemp = canvas.gv.minValue;
+	    float tempRng = canvas.gv.range;
 	    if(tp != null){ 
 		for(j=0; j < imHeight; j++){
 		    for(i=0; i < imWidth; i++){

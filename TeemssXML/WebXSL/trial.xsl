@@ -8,11 +8,7 @@
 
 <xsl:output method="html" indent="yes"/>
 
-<xsl:template match="/">
-<xsl:apply-templates select="project/unit/investigation"/>
-</xsl:template>
-
-<xsl:template match="/project/unit/investigation">
+<xsl:template match="investigation">
 <xsl:apply-templates select="trial"/>
 </xsl:template>
 
@@ -20,9 +16,7 @@
 
 <xsl:text>outputing: </xsl:text>
 <xsl:value-of select="@title"/>
-<xsl:text>
-</xsl:text>
-<redirect:write file="html/{../../@name}/{../@name}_trial_{position()}.html">
+<redirect:write file="html/{../../@name}_{../@name}_trial_{position()}.html">
 
 <html>
 <head><title>TEEMSS: <xsl:value-of select="../title"/> 
@@ -46,6 +40,27 @@ Trial <xsl:number value="position()" format="I"/></h2>
 </body>
 </html>
 </redirect:write>
+</xsl:template>
+
+<xsl:template match="instructions">
+<xsl:variable name="instructions_num">
+<xsl:number value="position()"/>
+</xsl:variable>
+<ul>
+<xsl:for-each select="instruction">
+<li><a href="#instruction_{$instructions_num}_{position()}">
+<xsl:value-of select="@title"/></a></li>
+</xsl:for-each>
+</ul>
+<hr/>
+<ol TYPE="1" START="1">
+<xsl:for-each select="instruction">
+<li><a name="instruction_{$instructions_num}_{position()}">
+<b><xsl:value-of select="@title"/></b></a>
+<xsl:apply-templates/>
+</li>
+</xsl:for-each>
+</ol>
 </xsl:template>
 
 </xsl:stylesheet>

@@ -3,7 +3,6 @@ import waba.fx.*;
 import waba.sys.*;
 import waba.util.*;
 import waba.io.*;
-import graph.*;
 
 class ThermalPlane extends Container
 {
@@ -17,7 +16,6 @@ class ThermalPlane extends Container
     int grid;
     int transNum;
     int transDenom;
-    float heatFac = (float)1/(float)100;
 
     public int trans(int val){
 	return val * transNum / transDenom;
@@ -236,7 +234,7 @@ class ThermalPlane extends Container
     public void start()
     {
 	if(timer == null){
-	    timer = addTimer(25);
+	    timer = addTimer(50);
 	    pos = 0;
 	} 
     }
@@ -259,16 +257,13 @@ class ThermalPlane extends Container
 	    switch(pos){
 	    case 0:
 	    case 1:
-		step();
-		step();
-		step();
-		step();
+	    case 2:
 		step();
 		step();
 		step();
 		step();
 		break;
-	    case 2:
+	    case 3:
 		updateObj();
 
 		if(graph != null){
@@ -278,7 +273,7 @@ class ThermalPlane extends Container
 		break;
 	    }
 	    pos++;
-	    pos %= 3;
+	    pos %= 4;
 	}
     }
 
@@ -311,6 +306,8 @@ class ThermalPlane extends Container
     public void step()
     {
 	int i,j,m;
+	float [] qs = new float [4];
+	int [] nbrs = new int[4];
 	float myS, myC, myT, nextT;
 	float neiS, neiC, neiT;
 	ThermalArea tmp [];
@@ -319,59 +316,45 @@ class ThermalPlane extends Container
 	i = 1;
 	j = 1;
 	float sumT, sumWeights, weightedAvg;
-	float sumQ, avgC, neibrTemp;
-	float newTemp, maxTemp, minTemp;
-	int totalT;
 
-	maxTemp = 1000;
-	minTemp = -1000;
+	nbrs[0] = -1;
+	nbrs[1] = 1;
+	nbrs[2] = -pWidth;
+	nbrs[3] = pWidth;
 
 	endIndex = pWidth-1 + pWidth*(pHeight-2); 
 	for(index=pWidth+1;index<endIndex; index++){
-	    me  = plane[index];
-	    if(me != null){
-		myS = me.mo.specHeat;
-		if(myS < (float)0.001){
-		    continue;
-		}
-		myC = me.mo.conduct;
-		myT = me.temp;		    
-		next = nextPlane[index];
-		sumT = (float)0.0;
-		totalT = 0;
+		me  = plane[index];
+		if(me != null){
+		    myS = me.mo.specHeat;
+		    if(myS < (float)0.001){
+			continue;
+		    }
+		    myC = me.mo.conduct;
+		    myT = me.temp;		    
+		    nextT = me.temp;
+		    next = nextPlane[index];
+		    sumT = (float)0.0;
+		    sumWeights = (float)0.0;
+		    for(m=0; m<4; m++){
+			neibr = plane[index + nbrs[m]];
+			if(neibr != null){
+			    neiC = neibr.mo.conduct;
+			    neiT = neibr.temp;
 
-		neibr = plane[index -1 ];
-		if(neibr != null){
-		    //		    avgC = (neibr.mo.conduct + myC)/(float)2.0;
-		    sumT += neibr.temp;
-		    totalT++;
-		}
-		neibr = plane[index + 1];
-		if(neibr != null){
-		    // avgC = (neibr.mo.conduct + myC)/(float)2.0;
-		    sumT += neibr.temp;
-		    totalT++;
-		}
-		neibr = plane[index - pWidth];
-		if(neibr != null){
-		    // avgC = (neibr.mo.conduct + myC)/(float)2.0;
-		    sumT += neibr.temp;
-		    totalT++;
-		}
-		neibr = plane[index + pWidth];
-		if(neibr != null){
-		    // avgC = (neibr.mo.conduct + myC)/(float)2.0;
-		    sumT += neibr.temp;
-		    totalT++;
-		}
-
-		newTemp = (myC / myS) * heatFac * (sumT - myT * (float)totalT) + myT;
-		if(newTemp > maxTemp)
-		    newTemp = maxTemp;
-		else if(newTemp < minTemp)
-		    newTemp = minTemp;
-		next.temp = newTemp; 
-	    } 
+			    sumWeights += neiC;
+			    sumT += neiT*neiC;
+			}
+		    }
+		    if(sumWeights > (float)0.0001){
+			weightedAvg = sumT / sumWeights;
+			next.temp = weightedAvg + 
+			    (myT - weightedAvg)/((float)1.0 + myS);
+		    } else {
+			// nothing is touching this block
+			next.temp = myT;
+		    }
+		} 
 	    
 	}
 	tmp = plane;

@@ -13,11 +13,10 @@
 </xsl:template>
 
 <xsl:template match="intro">
-<redirect:write file="html/{../../@name}/{../@name}_intro.html">
+<redirect:write file="html/{../../@name}_{../@name}_intro.html">
 <html>
 <head><title>TEEMSS: <xsl:value-of select="../title"/> 
 Introduction</title>
-<xsl:apply-templates select="document('html-header.html')"/>
 </head>
 <body>
 
@@ -32,10 +31,6 @@ Introduction</title>
 </xsl:call-template>
 </body></html>
 </redirect:write>
-</xsl:template>
-
-<xsl:template match="raw-html">
-<xsl:copy-of select="node()"/>
 </xsl:template>
 
 </xsl:stylesheet>

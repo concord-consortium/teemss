@@ -1,12 +1,10 @@
-package org.concord.LabBook;
-
-import org.concord.waba.extra.io.*;
+import extra.io.*;
 
 public class LObjForm extends LabObject
 {
     public LObjForm ()
     {
-		super(DefaultFactory.FORM);
+	objectType = FORM;
     }
 
     public void readExternal(DataStream ds)

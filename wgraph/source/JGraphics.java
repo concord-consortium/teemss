@@ -1,26 +1,8 @@
-/*
-Copyright (C) 2001 Concord Consortium
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
 package graph;
 
 import waba.fx.*;
+import extra.util.Maths;
 import waba.ui.*;
-
-import org.concord.waba.extra.util.Maths;
 
 public class JGraphics extends Graphics
 {
@@ -58,47 +40,22 @@ public class JGraphics extends Graphics
 	super((ISurface)MainWindow.getMainWindow());
 
 	MainWindow mw = MainWindow.getMainWindow();
-	isurf = mw;
+	isurf = (ISurface)mw;
 	control = c;
 	int x, y;
 	Rect r = c.getRect();
 	x = r.x;
 	y = r.y;
-	c = c.getParent();
+	c = (Control)(c.getParent());
 	while(c != null && 
-	      c != mw){
+	      c != (Control)mw){
 	    r = c.getRect();
 	    x += r.x;
 	    y += r.y;
-	    c = c.getParent();
+	    c = (Control)(c.getParent());
 	}
 	translate(x,y);
     }
-
-    public static JGraphics createGraphics(Control c)
-    {
-	MainWindow mw = MainWindow.getMainWindow();
-
-	int x, y;
-	Rect r = c.getRect();
-	x = r.x;
-	y = r.y;
-	c = c.getParent();
-	while(c != null && 
-	      c != mw){
-	    r = c.getRect();
-	    x += r.x;
-	    y += r.y;
-	    c = c.getParent();
-	}
-	
-	if(c != mw) return null;
-	
-	JGraphics jg = new JGraphics((ISurface)mw);
-	jg.translate(x,y);
-	return jg;
-    }
-
 
     public void setColor(Color c)
     {

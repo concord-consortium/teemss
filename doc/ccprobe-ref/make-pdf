@@ -1,2 +1,3 @@
 #!/bin/sh
-~/devtools/fop-0.20.3/fop.sh -fo $1.fo -pdf $1.pdf
+java org.apache.xalan.xslt.Process -in ccprobe-ref.xml -xsl ../docbook-xsl-1.48/fo/customization.xsl -out ccprobe-ref.fo
+../fop.sh -fo ccprobe-ref.fo -pdf ccprobe-ref.pdf

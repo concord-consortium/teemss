@@ -1,0 +1,208 @@
+import waba.ui.*;
+import waba.fx.*;
+import waba.io.*;
+import waba.sys.*;
+import waba.util.*;
+
+public class UltraFastTP extends MainWindow
+{
+    LineGraph lg;
+    PushButtonGroup modControl, conControl;
+    float data [] = new float [1];
+    int i;
+    A2DProbeManager pm;
+    PSConnection connection;
+    boolean local = false;
+    Label curVal;
+    Label localLabel;
+    Edit addrEdit;
+    Button discover, reset;
+    boolean updateGraph;
+
+    public void onStart()
+    {
+	setRect(0,0,240, 320);
+
+	lg = new LineGraph();
+	lg.setRect(1,40,236,200);
+	add(lg);
+
+	String [] names = new String [2];
+	names [0] = "Start";
+	names [1] = "Stop";
+	modControl = new PushButtonGroup(names, true, 1, 4, 4, 2, true, PushButtonGroup.NORMAL); 
+	modControl.setRect(1,1,28,30);
+	add(modControl);
+
+	reset = new Button("Reset");
+	reset.setRect(30, 10, 40, 17);
+	add(reset);
+
+	localLabel = new Label("remote");
+	localLabel.setRect(110, 1, 50, 17);
+	add(localLabel);
+	discover = new Button("Discover");
+	discover.setRect(100, 18, 50, 20);
+	add(discover);	
+	
+	addrEdit = new Edit();
+	addrEdit.setRect(170, 1, 30, 17);
+	addrEdit.setText("231");
+	add(addrEdit);
+
+	names = new String  [2];
+	names [0] = "Open";
+	names [1] = "Close";
+	conControl = new PushButtonGroup(names, true, 1, 4, 4, 2, true, PushButtonGroup.NORMAL); 
+	conControl.setRect(200,1,31,30);
+	add(conControl);
+
+	curVal = new Label("0.00");
+	curVal.setRect(1,240,50,20);
+	add(curVal);
+
+	pm = new A2DProbeManager("Ultra");
+	connection = new PSConnection(this);
+	connection.graph = lg;
+	connection.curVal = curVal;
+    }
+
+    Timer timer = null;
+    float oldVal;
+
+    public void onExit()
+    {
+	if(timer != null){
+	    pm.stop(1);
+	    removeTimer(timer);
+	    timer = null;
+	}
+    }
+
+    public void discover()
+    {
+	if(local){
+	    if(timer != null){
+		pm.stop(1);
+		removeTimer(timer);
+		timer = null;
+	    }
+	    local = false;
+	    localLabel.setText("remote");
+	}
+	
+	if(pm.start(1)){
+	    // we found a local probe on the serial port
+	    local = true;
+	    localLabel.setText("local");
+	}
+	pm.stop(1);
+	modControl.setSelected(1);	    		
+    }
+
+    public void onEvent(Event e)
+    {
+	float newVal;
+
+	if(e.type == ControlEvent.PRESSED){
+	    Control target = (Control)e.target;
+	    int index;
+	    if(target == modControl){
+		index = modControl.getSelected();
+		if(index == 0){
+		    // start
+		    updateGraph = true;
+		    if(i>= 100){
+			i = 0;
+			lg.reset();
+		    }
+		} else {
+		    // stop
+		    updateGraph = false;
+		}
+	    } else if(target == conControl){
+		index = conControl.getSelected();
+		if(index == 0){
+		    if(timer == null){
+			i = 0;
+			lg.reset();
+			if(local){
+			    pm.start(1);			    
+			} 
+			if(!addrEdit.getText().equals("")){
+			    if(addrEdit.getText().equals("0")){
+				connection.open("127.0.0.1", local);
+			    } else {
+				connection.open("4.19.234." + addrEdit.getText(), local);
+			    }
+			}
+
+			timer = addTimer(100);
+		    }
+		} else {
+		    if(timer != null){
+			if(local){
+			    pm.stop(1);
+			} 
+			if(connection.pm != null){
+			    connection.close();
+			}
+			removeTimer(timer);
+			timer = null;
+		    }		    
+		}
+	    } else if(target == reset){
+		i = 0;
+		lg.reset();
+	    } else if(target == discover){
+		discover();
+	    }
+	} else if(e.type == ControlEvent.TIMER){
+	    if(local){
+		if(pm.getPackage()){
+		    if(i < 2){
+			oldVal = pm.curData[0];
+		    } else {
+			newVal = (pm.curData[0] + oldVal)/2;
+			oldVal = newVal;
+			curVal.setText("" + newVal);
+			data[0] = newVal;
+			if(updateGraph){
+			    lg.addPoint(i, data);
+			}
+		    }
+		    connection.addPoint(data);
+		    i++;
+		}
+	    } else {
+		if(!connection.step()){
+		    conControl.setSelected(1);
+		    connection.close();
+		    if(timer != null){
+			removeTimer(timer);
+			timer = null;
+		    }
+		} else {
+		    i++;
+		}
+
+	    }
+	    
+
+	}     
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

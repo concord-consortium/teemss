@@ -1,26 +1,9 @@
-/*
-  Copyright (C) 2001 Concord Consortium
-
-  This program is free software; you can redistribute it and/or
-  modify it under the terms of the GNU General Public License
-  as published by the Free Software Foundation; either version 2
-  of the License, or (at your option) any later version.
-
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
 package graph;
 
 import waba.fx.*;
 import waba.ui.*;
+import extra.util.Maths;
 
-import org.concord.waba.extra.util.*;
 
 public class TextLine extends Object {
     // Constant
@@ -35,28 +18,28 @@ public class TextLine extends Object {
     public final static int TOP_EDGE = 2;
     public final static int BOTTOM_EDGE = 3;
 
-    public int minDigits = 0;
-    public int maxDigits = 2;
+    public int minDigits = 1;
+    public int maxDigits = 4;
 
-	/**
-	 * Font to use for text
-	 */
+  /**
+   * Font to use for text
+   */
     public Font font     = null;
     public FontMetrics fontMet = null;
-	/**
-	 * Text color
-	 */
-    public int [] col = {0,0,0,};
-
-	/**
-	 * Background Color
-	 */
-    public int [] bgCol = {255,255,255,};
-
+  /**
+   * Text color
+   */
+    public Color color   = null;
+  /**
+   * Background Color
+   */
+    public Color background   = null;
     
-	/**
-	 * The text to display
-	 */
+    
+
+  /**
+   * The text to display
+   */
     public  String text   = null;
 
     /**
@@ -64,384 +47,277 @@ public class TextLine extends Object {
      */
     public int direction = 0;
 
+    protected boolean cleared = false;
+    protected int x,y;
     protected int width = 0;
     protected int height = 0;
     protected int textWidth = 0;
     protected int textHeight = 0;
 
-	boolean palm = false;
-
-	public TextLine(float v, Font f){
-		if(waba.sys.Vm.getPlatform().equals("PalmOS")) palm = true;
-
-		font = f;
-		fontMet = MainWindow.getMainWindow().getFontMetrics(font);
-
-		setText(v, false);
-	}
-
-	public TextLine(float v){
-		this(v, MainWindow.defaultFont);
-		font = null;
-    }
-
-    public TextLine(String s, Font f) {
-		if(waba.sys.Vm.getPlatform().equals("PalmOS")) palm = true;
-
-		font = f;
-		fontMet = MainWindow.getMainWindow().getFontMetrics(font);
-
-		setText(s, false);
-    }
-
-    public TextLine(String s){
-		this(s, MainWindow.defaultFont);
-		font = null;
+    public TextLine(String s) {
+	this.text = s;
+	font = MainWindow.defaultFont;
+	fontMet = MainWindow.getMainWindow().getFontMetrics(font);	
     }
 
     public TextLine(String s, Font f, Color c) {
-		this(s, f);
-		col[0] = c.getRed();
-		col[1] = c.getGreen();
-		col[2] = c.getBlue();
-	
+	this(s);
+	font = f;
+	fontMet = MainWindow.getMainWindow().getFontMetrics(font);
+	color = c;
     }
 
     public TextLine(String s, int d){
-		this(s);
-		font = null;
-		direction = d;
+	this(s);
+	direction = d;
     }
 
-	public TextLine(){
-	}		
-
-	public TextLine(int d){
-		this();
-		direction = d;
-	}
-
-    public void free()
-    {
-		if(buffer != null) buffer.free();
-		if(bufG != null)bufG.free();
-    }
     
 
-	/**
-	 * Convert float with correct digits
-	 */
-	public String fToString(float val)
-	{
-		// We don't want any exponents printed so we need to do this ourselves.
+      /**
+   * Convert float with correct digits
+   */
+  public String fToString(float val)
+  {
+    // We don't want any exponents printed so we need to do this ourselves.
         int j;
-		char intChars[];
-		char fltChars[];
-		int len, nLen;
-		int start=0, end;
-		int exp=0;
-		int multExp;
-		int count;
-		String absLabel;
+	char intChars[];
+	char fltChars[];
+	int len, nLen;
+	int start=0, end;
+	int exp=0;
+	int multExp;
+	int count;
+	String absLabel;
 
-		for(j=0; j<maxDigits; j++) val *= (float)10;
-		if(val < 0) val -= (float)0.5;
-		else val += (float)0.5;
+	for(j=0; j<maxDigits; j++) val *= 10;
 
-		if(((int)val) == 0){
-			if(minDigits != 0)
-				return new String("0.0");
-			else
-				return new String("0");
-		}
+	if(((int)val) == 0){
+	    return new String("0.0");
+	}
 
-		float absVal = val;
-		if(val < 0f){ 
-			absVal = -val;
-		}
-		intChars = String.valueOf((int)absVal).toCharArray();
-		len = intChars.length;
+	intChars = String.valueOf((int)Maths.abs(val)).toCharArray();
+	len = intChars.length;
 
-		if(len <= maxDigits){
-			fltChars = new char[maxDigits + 2];
-			fltChars[0] = '0';
-			fltChars[1] = '.';
-			for(j=0; j < maxDigits - len; j++){
-				fltChars[2+j] = '0';
-			}
-			start = 2+j;
-			for(j=0; j < len; j++)
-				fltChars[start + j] = intChars[j];
-		} else {
-			if(minDigits == 0 && len >= maxDigits*2 + 1){
-				fltChars = new char[len - maxDigits];
-				for(j=0; j < len - maxDigits; j++){
-					fltChars[j] = intChars[j];
-				}
-			} else {
-				int zeros = 0;
-				for(int i=len-1; i >= len - maxDigits + minDigits; i--){
-					if(intChars[i] == '0') zeros++;
-					else break;											  
-				}
-				fltChars = new char [len + 1 - zeros];
-				for(j=0; j < len - maxDigits; j++){
-					fltChars[j] = intChars[j];
-				}
-				fltChars[j] = '.';
-				for(; j < len - zeros; j++){
-					fltChars[j + 1] = intChars[j];
-				}
-			}
-		}
+	if(len <= maxDigits){
+	    fltChars = new char[maxDigits + 2];
+	    fltChars[0] = '0';
+	    fltChars[1] = '.';
+	    for(j=0; j < maxDigits - len; j++){
+		fltChars[2+j] = '0';
+	    }
+	    start = 2+j;
+	    for(j=0; j < len; j++)
+		fltChars[start + j] = intChars[j];
+	} else {
+	    fltChars = new char [len + 1];
+	    for(j=0; j < len - maxDigits; j++){
+		fltChars[j] = intChars[j];
+	    }
+	    fltChars[j] = '.';
+	    for(; j < len; j++)
+		fltChars[j + 1] = intChars[j];
+	}
 
-		absLabel = new String(fltChars, 0, fltChars.length);
+	end = fltChars.length - 1;
+	for(j=0; j < maxDigits - minDigits; j++){
+	    if(fltChars[end - j] != '0') break;
+	}
+	
 
-		if(val < 0)
-			return new String("-" + absLabel);
-		else 
-			return absLabel;
+	absLabel = new String(fltChars, 0, fltChars.length - j);
 
-	}    
+	if(val < 0)
+	    return new String("-" + absLabel);
+	else 
+	    return absLabel;
+
+  }    
+
+
 
     public boolean  parseText()
     {
-		if(fontMet == null){
-			fontMet = MainWindow.getMainWindow().getFontMetrics(MainWindow.defaultFont);
-		}
+	textWidth = fontMet.getTextWidth(text);
+	textHeight = fontMet.getHeight();
+	if(direction < 2){
+	    width = textWidth;
+	    height = textHeight;
+	} else {
+	    height = textWidth;
+	    width = textHeight;
+	}
 
-		textWidth = fontMet.getTextWidth(text);
-		textHeight = fontMet.getHeight();
-		textHeight -= 1;
-		if(palm){
-			textWidth--;
-			textHeight--;
-		}
-
-		if(direction < 2){
-			width = textWidth;
-			height = textHeight;
-		} else {
-			height = textWidth;
-			width = textHeight;
-		}
-
-		return true;
+	return true;
     }
 
-	public void setText(float v)
-	{
-		setText(v, true);
-	}
 
-	float fVal = Maths.NaN;
-	int fMinDigits = -1;
-	int fMaxDigits = -1;
-	public void setText(float v, boolean update)
-	{
-		if(v == fVal && fMinDigits == minDigits && 
-		   fMaxDigits == maxDigits){
-			return;
-		} else {
-			fVal = v;
-			fMaxDigits = maxDigits;
-			fMinDigits = minDigits;
-			setText(fToString(v), update);
-		}
-	}
-
-	public void setText(String s)
-	{
-		setText(s, true);
-	}
-
-    public void setText(String s, boolean update)
+    public int getWidth()
     {
-		if(text != null && text.equals(s)) return;
-		text = s;
-		parseText();
-		if(buffer != null) buffer.free();
-		if(bufG != null) bufG.free();
-		buffer = null;
-		bufG = null;
+	if(!parseText())
+	    return 0;
 
-		if(update) updateBuffer();
+	return width;
+    }
+    
+    public int getHeight()
+    {
+	if(!parseText())
+	    return 0;
+
+	return height;
     }
 
-    /* Draw starting at the upper left hand corner
+    /* Draw starting at the upper right hand corner
      */
 
-    Image buffer = null;
-    Graphics bufG;
-
-    public void drawRight(Graphics g, int x, int y)
+    public void drawRight(JGraphics g, int x, int y)
     {
-		g.setColor(bgCol[0],bgCol[1],bgCol[2]);
-		g.fillRect(x, y, textWidth, textHeight);
+	JGraphics lg;
 
-		if(font != null) g.setFont(font);
-		g.setColor(col[0],col[1],col[2]);
-
-		if(palm) g.drawText(text, x, y-2);
-		else g.drawText(text, x, y-1);
-
-		return;
-    }
-
-	public void updateBuffer()
-	{
-		Image offsI = null;
-		Image rotImage = null;
-		Graphics offsG = null;
-		Graphics rotG = null;
-		Graphics g = null;
-
-		if(width <= 0 || height <= 0 || width > 160 || height > 160){
-			buffer = null;
-			return;
-		}
-
-		buffer = new Image(width, height);
-		if(buffer.getWidth() <= 0) {
-			// Don't have the memory to create this image 
-			buffer = null;
-			return;
-		}
-		g = bufG = new Graphics(buffer);
-
-		if(direction == RIGHT){
-			drawRight(g, 0, 0);
-			return;
-		}
-
-		offsI = new Image(textWidth, textHeight);
-		offsG = new Graphics((ISurface)offsI);
-
-		drawRight(offsG, 0, 0);
-
-		rotImage = new Image(width, height);
-		rotG =  new Graphics(rotImage);
-		rotateImage(offsI, rotG);
-		rotG.free();
-		offsG.free();
-		offsI.free();
-
-		g.drawImage(rotImage, 0, 0);
-		rotImage.free();
-
+	if(!parseText()){
+	    return;
 	}
 
-    public void draw(Graphics _g, int x, int y)
-    {
-		Image offsI = null;
-		Image rotImage = null;
-		Graphics offsG = null;
-		Graphics rotG = null;
-		Graphics g = null;
+	lg = g.create();
+	
+	if(background != null && !cleared) {
+	    lg.setColor(background);
+	    lg.fillRect(x, y, width, height);
+	    lg.setColor(g.getColor());
+	}
 
-		if(text == null || text.equals("")) return;
+	if(font != null) lg.setFont(font);
+	if(color != null) lg.setColor(color);
 
-		if(buffer != null){
-			_g.copyRect(buffer, 0, 0, width, height, x, y); 	    
-			return;
-		}
+	lg.drawString(text, x, y);
 
-		updateBuffer();
+	lg.dispose();
 
-		if(buffer != null) _g.copyRect(buffer, 0, 0, width, height, x, y);
-
-
+	lg = null;
+	this.x = x;
+	this.y = y;
+	cleared = false;
+	return;
     }
 
-    public void drawCenter(Graphics g, int x, int y, int edge)
+    public void draw(JGraphics g, int x, int y)
     {
-		int x0, y0;
+	Image offsI = null;
+	Image rotImage = null;
+	JGraphics offsG = null;
+	Graphics rotG = null;
 
-		switch(edge){
-		case RIGHT_EDGE:
-			x0 = x - width - 1;
-			y0 = y - height/2;
-			break;
-		case LEFT_EDGE:
-			x0 = x;
-			y0 = y - height/2;
-			break;
-		case TOP_EDGE:
-			x0 = x - width/2;
-			y0 = y;
-			break;
-		case BOTTOM_EDGE:
-		default :
-			x0 = x - width/2;
-			y0 = y - height - 1;
-			break;
-		}
+	if(!parseText()){
+	    return;
+	}
 
-		draw(g, x0, y0);
+	if(direction == RIGHT){
+	    drawRight(g, x, y);
+	    return;
+	}
+
+	offsI = new Image(textWidth, textHeight);
+	offsG = new JGraphics(offsI);
+
+	if(background == null) {
+	    // HACK we should copy the current background to this back
+	    // ground
+	    background = new Color(255,255,255);
+	}
+
+	offsG.setFont(g.getFont());
+	offsG.setColor(g.getColor());
+
+	drawRight(offsG, 0, 0);
+
+	rotImage = new Image(width, height);
+	rotG =  new Graphics(rotImage);
+	rotateImage(offsI, rotG);
+	rotG.free();
+	offsG.dispose();
+	offsI.free();
+
+	g.drawImage(rotImage, x, y);
+	rotImage.free();
+	this.x = x;
+	this.y = y;
     }
 
-    public int getXOffset(int edge)
+    public void clear(JGraphics g)
     {
-
-		switch(edge){
-		case RIGHT_EDGE:
-			return -width - 1;
-		case LEFT_EDGE:
-			return 0;
-		case TOP_EDGE:
-		case BOTTOM_EDGE:
-		default :
-			return  -(width/2);
-		}
+	if(cleared == false){
+	    g.setColor(background);
+	    g.fillRect(x,y,width,height);
+	    cleared = true;
+	}
     }
 
-    public int getYOffset(int edge)
+    public void drawCenter(JGraphics g, int x, int y, int edge)
     {
-		switch(edge){
-		case RIGHT_EDGE:
-		case LEFT_EDGE:
-			return  -(height/2);
-		case TOP_EDGE:
-			return 0;
-		case BOTTOM_EDGE:
-		default :
-			return -height - 1;
-		}
+	int x0, y0;
+
+	if(!parseText()){
+	    return;
+	}
+
+	switch(edge){
+	case RIGHT_EDGE:
+	    x0 = x - width - 1;
+	    y0 = y - height/2;
+	    break;
+	case LEFT_EDGE:
+	    x0 = x;
+	    y0 = y - height/2;
+	    break;
+	case TOP_EDGE:
+	    x0 = x - width/2;
+	    y0 = y;
+	    break;
+	case BOTTOM_EDGE:
+	default :
+	    x0 = x - width/2;
+	    y0 = y - height - 1;
+	    break;
+	}
+
+	draw(g, x0, y0);
     }
 
+    
     public void rotateImage(Image srcImg, Graphics destG) 
     {
-		int x, y;
-		int tmpOffset;
+	int x, y;
+	int tmpOffset;
 
-		switch(direction){
-		case UP:
-			tmpOffset = height - 1;
-			for(y = 0 ; y < textHeight; y++) {
-				for(x = 0; x < textWidth; x++) {
-					destG.copyRect(srcImg, x, y, 1, 1, y, tmpOffset - x);
-				}
-			}
-			break;
-		case DOWN:
-			tmpOffset = width - 1;
-			for(y =0; y < textHeight; y++) {
-				for(x = 0; x < textWidth; x++){
-					destG.copyRect(srcImg, x, y, 1, 1, tmpOffset - y, x);
-				}
-			}
-			break;
-		case LEFT:
-			for(y = 0; y < textHeight; y++) {
-				for( x=0; x< textWidth; x++){
-					destG.copyRect(srcImg, x, y, 1, 1, width - x - 1, height - y - 1); 
-				}
-			}
-			break;
-		default:
+	switch(direction){
+	case UP:
+	    tmpOffset = height - 1;
+	    for(y = 0 ; y < textHeight; y++) {
+		for(x = 0; x < textWidth; x++) {
+		    destG.copyRect(srcImg, x, y, 1, 1, y, tmpOffset - x);
 		}
+	    }
+	    break;
+	case DOWN:
+	    tmpOffset = width - 1;
+	    for(y =0; y < textHeight; y++) {
+		for(x = 0; x < textWidth; x++){
+		    destG.copyRect(srcImg, x, y, 1, 1, tmpOffset - y, x);
+		}
+	    }
+	    break;
+	case LEFT:
+	    for(y = 0; y < textHeight; y++) {
+		for( x=0; x< textWidth; x++){
+		    destG.copyRect(srcImg, x, y, 1, 1, width - x - 1, height - y - 1); 
+		}
+	    }
+	    break;
+	default:
+	}
 	
-		return;
+	return;
 
     }
 

@@ -2,7 +2,6 @@ import waba.ui.*;
 import waba.fx.*;
 import waba.io.*;
 import waba.sys.*;
-import graph.*;
 
 public class PSConnection extends Control
 {
@@ -98,7 +97,7 @@ public class PSConnection extends Control
 	*/
     }
 
-    public boolean open(String a)
+    public void open(String a)
     {
 	if(pm == null){
 	    addr = a;
@@ -109,24 +108,22 @@ public class PSConnection extends Control
 	    // should check status of create
 	    if(pm.response == pm.ERROR){
 		printStatus("Error opening");
-		return false;
+		dp.netControl.setSelected(1);
+		return;
 	    }
 
 	    int numProbes = discover();
 	    if(numProbes == -1){
 		// error in discover
-		return false;
+		dp.netControl.setSelected(1);
+		return;
 	    }
 
 	    printStatus(numProbes + " blocks");
 
 	    pos = 0;
 	    count = 0;
-	    
-	    return true;
-	}
-
-	return false;
+	}		
     }
 
     public void close()
@@ -161,7 +158,7 @@ public class PSConnection extends Control
 			    pm.close();
 			    pm = null;
 			}	
-			dp.forceClose();
+			dp.netControl.setSelected(1);
 		    }
 		    if(pm != null){
 			pm.requestAck();
@@ -201,7 +198,7 @@ public class PSConnection extends Control
 	    pm = (ProbeManager) new JavaProbeManager(addr, port, 0, "wPC");
 	    if(pm.response == pm.ERROR){
 		printStatus("Error Opening");
-		dp.forceClose();
+		dp.netControl.setSelected(1);
 		return -1;
 	    }
 	}
@@ -224,7 +221,7 @@ public class PSConnection extends Control
 	    if(pm.response == pm.ERROR){
 		printStatus("getProbes failed");
 		// disconnect
-		dp.forceClose();
+		dp.netControl.setSelected(1);
 		pm = null;
 		blocks = null;
 		return -1;
@@ -375,7 +372,8 @@ public class PSConnection extends Control
 			block.dragAction = block.EXT_DRAG_MOVE;
 			block.rotate(-1);
 			block.move(-1,-1);
-			newCanvas.addObject(block, newCanvas.layers[0]);
+			newCanvas.addObject(block, newCanvas.layers[0]);		
+			block.setupProp(150,100);
 		    }
 		    int length = pm.curData.length;
 		    if(length > block.temps.length){

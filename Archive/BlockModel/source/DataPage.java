@@ -2,7 +2,6 @@ import waba.ui.*;
 import waba.fx.*;
 import waba.io.*;
 import waba.util.*;
-import graph.*;
 
 public class DataPage extends Container
 {
@@ -15,7 +14,6 @@ public class DataPage extends Container
     PushButtonGroup selector, netControl;
     Edit addrEdit;
     Control curControl;
-    BlockModel bm;
 
     String curFileName = "untitled.dnm";
 
@@ -27,7 +25,7 @@ public class DataPage extends Container
 	// add a canvas
 	modelCanvas = new Canvas(236, 129, 2);
 	modelCanvas.live = true;
-	modelCanvas.setPos(2,110);
+	modelCanvas.setPos(2,119);
 	
 	modelCanvas.getLayer(0).gridSpace = 7;
 	modelCanvas.getLayer(0).gridDist = 3;
@@ -59,20 +57,16 @@ public class DataPage extends Container
 	add(netControl);
 
 
-	gv = new GraphViewBar(195, 105);
+	gv = new GraphView(195, 110);
 	gv.setPos(35,2);
 	modelCanvas.gv = gv;
-	modelCanvas.graph = gv.graph;
-	modelCanvas.axis = ((BarGraph)(gv.graph)).yaxis;
 	add(gv);
 	curControl = gv;
 	
 	// add a canvas
-	dataCanvas = new Canvas(190, 105, 1);
+	dataCanvas = new Canvas(190, 110, 1);
 	dataCanvas.setPos(42,2);
 	dataCanvas.gv = gv;
-	dataCanvas.graph = gv.graph;
-	dataCanvas.axis = modelCanvas.axis;
 	layer = dataCanvas.getLayer(0);
 
 	VProbeObject vProbe = new VProbeObject(MainWindow.defaultFont, "A");
@@ -91,7 +85,7 @@ public class DataPage extends Container
 
 	// setup server connection
 	connection = new PSConnection(dataCanvas);
-	connection.graph =  gv;
+	connection.graph = gv;
 	connection.dp = this;
 
     }
@@ -135,8 +129,6 @@ public class DataPage extends Container
 	modelCanvas.removeAll();
 	remove(modelCanvas);
 	modelCanvas = new Canvas();
-	modelCanvas.gv = gv;
-	modelCanvas.live = true;
 	dataObj2 = modelCanvas.readExt(ds);
 	add(modelCanvas);
 
@@ -169,10 +161,6 @@ public class DataPage extends Container
 		connection.blocks[curDataBlock++] = (BlockObject)tmpObjs2[i];
 	    }
 	}
-
-	// Watch out for update probes
-	gv.plot();
-	
     }
 
     public void onEvent(Event e)
@@ -199,38 +187,14 @@ public class DataPage extends Container
 	    } else if(target == netControl){
 		index = netControl.getSelected();
 		if(index == 0){
-		    bm.setStatus("Opening Connection");
-		    bm.status.repaint();
-		    if(!connection.open("4.19.234." + addrEdit.getText())){
-			bm.status.setText("Error Connecting");
-			netControl.setSelected(1);
-			return;
-		    }
-		    bm.status.setText("Connection open");
-		    if(curControl == gv){
-			selector.setSelected(1);
-			remove(curControl);
-			curControl.setEnabled(false);
-			add(dataCanvas);
-			curControl = dataCanvas;
-			curControl.setEnabled(true);
-		    }
+		    connection.open("4.19.234." + addrEdit.getText());
 		} else {
-		    bm.status.setText("Closing Connection");
 		    connection.close();
-		    bm.status.setText("Connection Closed");
 		}
 	    }
 	} 
 
     }    
-
-    public void forceClose()
-    {
-	bm.status.setText("Connection Closed");
-	netControl.setSelected(1);
-
-    }
 
 }
 

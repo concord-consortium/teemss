@@ -2,7 +2,6 @@ import waba.fx.*;
 import waba.ui.*;
 import waba.sys.*;
 import waba.io.*;
-import graph.*;
 
 public class CanvasObject extends Rect implements PropObject
 {
@@ -20,7 +19,7 @@ public class CanvasObject extends Rect implements PropObject
     boolean selected;
     int orient;
     Canvas canvas;
-    PropPage pp = null;
+    Container properties;
     boolean disposable = true;
     int dragAction = EXT_DRAG_NO;
     int targetLayerIndex = 0;
@@ -33,7 +32,7 @@ public class CanvasObject extends Rect implements PropObject
 	canvas = null;
 	orient = 0;
 	selected = false;
-	pp = null;
+	properties = null;
     }
 
     public void writeExt(DataStream ds)
@@ -88,9 +87,16 @@ public class CanvasObject extends Rect implements PropObject
 	return Convert.toString(f + "", dec);
     }
 
-    public void setupPropPage(){}
+    public Container setupProp(int w, int h)
+    {
+	properties = new Container();
+	properties.setRect(0,0,w,h);
+	return properties;
+    }
 
-    public void updateProp(PropPage pp, int action){}
+    public void refreshProp(){}
+
+    public void updateProp(){}
 
     public String toString()
     {

@@ -1,162 +1,122 @@
 <!-- -*- DocBook -*- -->
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.1.2//EN" "../docbkx412/docbookx.dtd">
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V3.1//EN" "../docbkx412/docbookx.dtd">
 <book>
   <bookinfo>
     <title>CCProbe Software Reference</title> 
     <author><firstname>Stephen</firstname><surname>Bannasch</surname></author> 
-    <date> 21 February 2002</date>
+
+    <mediaobject>
+      <imageobject>
+	<imagedata fileref="images/png/gs-7-1.png" format="PNG" scale="50"/>
+      </imageobject>
+    </mediaobject>
+
+    <date> 9 Jan 2002</date>
     <copyright>
       <year>2002</year>
       <holder>Concord Consortium</holder>
     </copyright>
-    <corpname>Concord Consortium</corpname>
-    <mediaobject>
-      <imageobject>
-	<imagedata fileref="images/jpg/gs-7-1.jpg" format="JPG"/>
-      </imageobject>
-    </mediaobject>
-    <pubdate>$Date$</pubdate>
-    <releaseinfo>$Revision$</releaseinfo>
-    <legalnotice>
-      <para>incomplete version, released: $Date$, 
-$Revision$
-      </para>
-      <para>
+<legalnotice>
+<para>
 This material is based upon work supported by the National Science Foundation 
 under the following Grant Numbers:
-      </para>
-      <para>TEEMSS: ESI-9986419</para>
-      <para>Data and Models: REC-9973179</para>
-      <para>Exploratorium: ESI-9901985</para>
-      <para>MAC: REC-0115699</para>
-      <para>
+</para>
+  <para>TEEMSS: ESI-9986419</para>
+  <para>Data and Models: REC-9973179</para>
+  <para>Exploratorium: ESI-9901985</para>
+  <para>MAC: REC-0115699</para>
+<para>
 Any opinions, findings, and conclusions or recommendations expressed in 
 this material are those of the author(s) and do not necessarily reflect 
 the views of the National Science Foundation.
-      </para>
-    </legalnotice>
-  </bookinfo>
+</para>
+</legalnotice>
+</bookinfo>
 
-  <chapter><title>Introduction</title> 
-    
-<para> CCProbe is an open-source application developed at the Concord
-Consortium that is scriptable, configurable, and supports probe-based
-visualization, analysis, and calibration components. CCProbe also
-includes components for folders, text, drawings, and images, which can
-be integrated with the probeware to create curricular activities and a
-lab book portfolio in which work can be saved and shared.  CCProbe has
-been specifically designed to run well on handheld computers such as
-those running PalmOS or Microsoft PocketPC. Written in Waba, an open
-source subset of Java specifically designed for Handheld computers
-CCProbe is licensed under the GPL and it runs on PalmOS, WinCE,
-PocketPC, Windows, MacOS, and Unix.</para>
-
-<para> CCProbe is the first program written using the CC LabBook
-architecture.  The CC LabBook system is the underlying software
-architecture that supports a multi-platform object-oriented portfolio.
-This portfolio can contain curricular activities, student work and
-assessments.</para>
-
-<para> CCProbe and the CCLabBook system are written in Waba, an open
-source Java-like language for handhelds which runs on a wide range of
-operating systems including PalmOS, WinCE, PocketPC, Windows, MacOS
-Classic, MacOS X, Linux and other Unix operating systems. This means
-that not only does our software runs on almost any computer made in
-the last five years. As new computers and operating systems are
-created, the software will quickly run on those, as well.  </para>
-
-<para>The current projects at the Concord Consortium contributing to
-the development of CCProbe are:</para>
-
-<informaltable frame='none'>
-<tgroup cols='1'>
-<colspec colwidth='6.0in'/>
-<tbody>
-<row><entry>Technology Enhanced Elementary and Middle School Science (TEEMSS)</entry></row>
-<row><entry>Data and Models </entry></row>
-<row><entry>Electronic Guidebook (Exploratorium) </entry></row>
-<row><entry>Modeling across the Curriculum (MAC)</entry></row>
-</tbody>
-</tgroup>
-</informaltable>
-
-<para> The Concord Consortium is a tax-exempt non-profit education
-research and development organization. The appearance of new, emerging
-technologies has the potential to ignite explosive strides in learning
-capacity and curriculum development. Harnessing these technological
-resources can result in a powerful extension of educational resources
-to all people, regardless of their circumstances. The Concord
-Consortium is committed to leading this drive forward by developing
-and using the best in educational technology.  </para>
-
+  <chapter><title>Introduction to CCProbe</title> 
+    <para>CC has developed an
+    open-source application called CCProbe that is scriptable,
+    configurable, and supports probe-based visualization, analysis,
+    and calibration components.  CCProbe also includes components for
+    folders, text, drawings, and images, which can be integrated with
+    the probeware to create curricular activities and a lab book
+    portfolio in which work can be saved and shared.
+    </para>
+    <para>
+    CCProbe and the CCLabBook system are written in Waba (an open
+    source variant of Java) and run on a wide range of operating
+    systems including PalmOS, WinCE, PocketPC, Windows, MacOS Classic,
+    MacOS X, Linux and other Unix operating systems. This means that
+    not only does our software runs on almost any computer made in the
+    last five years. As new computers and operating systems are
+    created, the software will quickly run on those, as well.
+</para>
 <figure>
-    <title>Screenshot of CCProbe</title>
     <mediaobject>
       <imageobject>
-	<imagedata fileref="images/png/ccprobe-screenshot1.png" format="PNG" depth="200"/>
+	<imagedata fileref="images/png/ccprobe-screenshot1.png" format="PNG" scale="50"/>
       </imageobject>
       <textobject>
 	<phrase>Screenshot of CCProbe</phrase>
       </textobject>
     </mediaobject>
 </figure>
-
-<para> For more information visit the <ulink
-url="http://concord.org/ccprobeware"> CCprobeware web site.  </ulink>
+    <para>
+For more information visit the 
+<ulink url="http://concord.org/ccprobeware">
+CCprobeware web site.
+</ulink>
+</para>
+<para> The CCProbe Software is Copyright (c) 2001, 2002 by
+Concord Consortium, All Rights Reserved, The software and the source
+code is free to use and copy under the 
+<ulink url="http://gnu.org/licenses.html">GNU General Public license</ulink>.
 </para>
 
-<para> The CCProbe Software is Copyright (c) 2001, 2002 by Concord
-Consortium, All Rights Reserved, The software and the source code is
-free to use and copy under the <ulink
-url="http://www.gnu.org/licenses/licenses.html">GNU General Public
-license</ulink>.  </para>
 
+    <section><title>CCProbe CCA2D2 v2 Interface</title>
+      <para>
 
-<section><title>CCProbe CCA2D2 v2 Interface</title>
-
-<para>CCProbe works with the either the new CCProbe Interface (CCA2D2 v2)
+CCProbe works with the either the new CCProbe Interface (CCA2D2 v2)
 and probes developed for the TEEMSS project or the older
 CCA2D2 v1 interface developed for the Data and Models project.
 </para>
 
-<para> The interface is the device that goes between the computer and
-probes. Our latest design, called the CCProbeInterface, is built using
-the latest low-power, low-cost, precision electronic components with a
-design that reduces the cost of probes that are used with it.  See
-<xref linkend="ccprobe-interface"/> below. The interface has batteries
-to allow use of power-hungry probes as well as portable unattended
-datalogging operation.  However if the batteries are dead or missing
-the CCProbe Interface can still communicate with the CCProbe software
-and inform the user.  </para>
+      <para> The interface is the device that goes between the
+computer and probes. Our latest design, called the CCProbeInterface,
+is built using the latest low-power, low-cost, precision electronic
+components with a design that reduces the cost of probes that are used
+with it.  The interface has batteries to allow use of power-hungry
+probes as well as portable unattended datalogging operation.  However
+if the batteries are dead or missing the CCProbe Interface can still
+communicate with the CCProbe software and inform the user.  </para>
 
-<figure id="ccprobe-interface"><title>A schematic block diagram of the CCProbe Interface.</title>
+      <para>
+<figure><title>A schematic block diagram of the CCProbe Interface.</title>
     <mediaobject>
       <imageobject>
 	<imagedata
-fileref="images/png/ccprobe-interface-blockdiag.png" format="PNG" depth="240"/>
+fileref="images/png/ccprobe-interface-blockdiag.png" format="PNG" scale="25"/>
       </imageobject>
+      <imageobject>
+	<imagedata
+fileref="images/eps/ccprobe-interface-blockdiag.eps" format="EPS" scale="25"/>
+      </imageobject>
+      <textobject>
+	<phrase>A schematic block diagram of the CCProbe Interface.</phrase>
+      </textobject>
     </mediaobject>
 </figure>
+</para>
 
-<para>The CCProbeInterface is an analog and digital interface with
-both real-time and datalogging capabilities. It has two ports for
-probes, a serial interface for connecting to handheld, laptop, and
-desktop computer systems and a IrDA port. The microcontroller and the
-low-power I/O functions are operated with a 3.3V bus which can be
-powered directly from either the handshake line on a connected serial
-port, from 2 internal AA batteries, or from a wall blob. The batteries
-through the power convertor can supply up to 300 mA at 5V to systems
-that need more power than can be stolen from the serial port such as
-high-power probes and the IrDA communications port.</para>
+      <para> The CCProbeInterface contains two kinds of voltage
+sensors. One is fast and moderately sensitive, while the other is
+extremely sensitive but slow. The fast one can sense up to four inputs
+to within five millivolts as fast as ten thousand times per
+second. This is good for detecting sound, the forces in a collision,
+or the flash from a bulb as it burns out.  </para>
 
-<para> The CCProbeInterface contains two kinds of voltage sensors. One
-is fast and moderately sensitive, while the other is extremely
-sensitive but slow. The fast one can sense up to four inputs to within
-five millivolts as fast as ten thousand times per second. This is good
-for detecting sound, the forces in a collision, or the flash from a
-bulb as it burns out.  </para>
-
-<para> The slow voltage sensor can detect four inputs to within
+      <para> The slow voltage sensor can detect four inputs to within
 a couple of microvolts about three times a second. This high
 sensitivity is valuable because we can dispense with the cost of
 electronics often used in input circuits. For instance, we can make a
@@ -166,172 +126,149 @@ generates a few tens of microvolts for every degree temperature
 change. This means that two wires can be made into a very sensitive
 thermometer, a sensor anyone can build.  </para>
 
-</section>
+      <para>
+We made the first version of our interface hardware, the CCA2D2 v1
+interface in the Spring of 2001 for the Data and Models project. The
+CCA2D2 v1 interface capabilities include a 2-channel, 3 Hz, 24 bit
+ADC, as well as a 2-channel, 200 Hz, 10-bit ADC and additional digital
+I/O.
+      </para>
+      <para>
+During the summer of 2001 we expanded the capabilities by developing
+the CCA2D2 v2 interface interface for the TEEMSS project to support
+two probe ports with automatically identified probes along with
+batteries to supply power to higher current probes and support
+operation while not connected to a computer. Currently the CCProbe
+software works with the CCA2D2 v2 interface, however the software
+architecture is being built to support collection of data from many
+different interfaces.
 
-<section><title>CCProbes</title>
+      </para>
+    </section>
+    <section><title>CCProbes</title>
+      <para>
+      As illustrated below we have developed some very exciting
+      new probes.  Each of these probes has a memory chip which holds
+      identifying and calibration information about the probe.
+</para>
 
-<para>As illustrated below we have developed some very exciting
-new probes for the Teemss Project.  Each of these probes has a memory
-chip which holds identifying and calibration information about the
-probe.  </para>
-
-     <section> <title>CCSmartWheel</title>
-<para>
+      <para>
 The CCSmartWheel. The ultrasonic motion detector developed by project
 staff 16 years ago is inherently expensive and a bit difficult for
 beginners to use. We have developed an alternative that uses an
 optical encoder on a CDROM wheel. This wheel can be easily attached to
-a cart, meter stick, or pulley, making it quite versatile.</para>
-
-<para>The CCSmartWheel is used for measuring velocity and with
-additional processing produces position and acceleration data. In
-addition it can be used to measure angular rotation such as that
-produced by a pendulum. It uses a cdrom with a simple bearing on the
-hub and an extended shaft to either hold or attach to a moving
-object. We measure the rotation using optical quadrature
-methods.</para>
-
-
+a cart, meter stick, or pulley, making it quite versatile.
+</para>
 <figure><title>CCSmartWheel</title>
     <mediaobject>
-
-<!--
+      <imageobject>
+	<imagedata fileref="images/png/smartwheel.png" format="PNG"/>
+      </imageobject>
       <imageobject>
 	<imagedata fileref="images/tiff/smartwheel.tiff" format="TIFF"/>
-      </imageobject>
--->
-
-      <imageobject>
-	<imagedata fileref="images/png/smartwheel.png" format="PNG" depth="240"/>
       </imageobject>
       <textobject>
 	<phrase>CCSmartWheel</phrase>
       </textobject>
     </mediaobject>
 </figure>
-    </section>
-     <section> <title>CCForceProbe</title>
 
-<para>The CCForceProbe. We dusted off the old idea of using a Hall
-effect sensor next to a magnet on a metal beam, all quite
-inexpensive. When the sensor is midway between the poles of the magnet
-and one-half pole separation away, it's response is linear in
-displacement parallel to the probes. Since the displacement of the arm
-holding the magnet is proportional to force, this makes a very
-sensitive probe.  </para> 
-
-<para>The CCForceProbe has two force ranges: +/- 20 and 200
-Newtons. The smaller screw eye measures forces in the range of -20 to
-+20 Newtons. Forces from -200 to +200 Newtons can be measured at the
-larger eyebolt.</para>
-
+      <para>
+The CCForceProbe. We dusted off the old idea of using a Hall effect
+sensor next to a magnet on a metal beam, all quite inexpensive. When the
+sensor is midway between the poles of the magnet and one-half pole
+separation away, it's response is linear in displacement parallel to the
+probes. Since the displacement of the arm holding the magnet is
+proportional to force, this makes a very sensitive probe.
+</para>
 <figure><title>CCForceProbe</title>
     <mediaobject>
       <imageobject>
-	<imagedata fileref="images/png/forceprobe.png" format="PNG" depth="240"/>
+	<imagedata fileref="images/png/forceprobe.png" format="PNG"/>
+      </imageobject>
+      <imageobject>
+	<imagedata fileref="images/tiff/forceprobe.tiff" format="TIFF"/>
       </imageobject>
       <textobject>
 	<phrase>CCForceProbe</phrase>
       </textobject>
     </mediaobject>
 </figure>
-</section>
 
-<section> <title>CCTemperatureProbe</title>
-
-<para>
+      <para>
 The CCTemperatureProbe, uses the tiny tip of a thermocouple to measure
 temperature. There are many fascinating thermal experiments possible
 which are impractical to consider using a normal temperature
 probe. This sensor responds so quickly to changes in air temperature
 that the vertical temperature profile in a room can be determined in
-one 30 second experiment.</para>
-
-<para>The TEEMSS Fast Response Temperature Probe is based on an
-earlier design done for the Data and Models project at CC. The active
-sensor is a Type E thermocouple made of wire 0.010" in diameter. The
-two ends of the thermocouple wire are soldered together to create a
-very low thermal mass temperature probe. The sensor will return to 90%
-of equilibrium after 30s in still air. The range is -50 to 110 degrees
-C with a resolution of 0.1 degrees. The cold junction of the
-thermocouple is compensated with an analog output IC temperature
-sensor.</para>
-
-
+one 30 second experiment.
+</para>
 <figure><title>CCTemperatureProbe</title>
     <mediaobject>
       <imageobject>
-	<imagedata fileref="images/png/tempprobe.png" format="PNG" depth="240"/>
+	<imagedata fileref="images/png/tempprobe.png" format="PNG"/>
+      </imageobject>
+      <imageobject>
+	<imagedata fileref="images/tiff/tempprobe.tiff" format="TIFF"/>
       </imageobject>
       <textobject>
 	<phrase>CCTemperatureProbe</phrase>
       </textobject>
     </mediaobject>
 </figure>
-</section>
 
-<section> <title>CCVoltageCurrentProbe</title>
-
-<para>The TEEMSS Voltage and Current Probe can measure voltage and
-current simultaneously. The product of these measurements is Power in
-Watts and the integration of Power over time is Energy in Joules. The
-probe measures +/- 20 volts and +/- 2 amps. The different values are
-reported by the probe simultaneously to both the fast 10-bit and slow
-24-bit input channels of the probe port.</para>
-
-
+      <para>
+The CCVoltageCurrentProbe, can be used to measure voltage or current.
+Further processing of these values in the CCProbe application allows
+the recording of electrical power and energy.
+</para>
 <figure><title>CCVoltageCurrentProbe</title>
     <mediaobject>
       <imageobject>
-	<imagedata fileref="images/png/voltagecurrentprobe.png"
-format="PNG" depth="240"/>
+	<imagedata fileref="images/png/voltagecurrentprobe.png" format="PNG"/>
+      </imageobject>
+      <imageobject>
+	<imagedata fileref="images/tiff/voltagecurrentprobe.tiff" format="TIFF"/>
       </imageobject>
       <textobject>
 	<phrase>CCVoltageCurrentProbe</phrase>
       </textobject>
     </mediaobject>
 </figure>
-</section>
 
-<section> <title>CCLightProbe</title>
-
-<para>The CCLightProbe is used to measure visible light in either an
-indoor or outdoor illumination range.  The two measurement ranges are:
-0-4000 and 0-125000 Lux. These ranges are reported by the probe
-simultaneously to both the fast 10-bit and slow 24-bit input channels
-of the probe port. The sensor is a silicon photodiode with an integral
-near-IR blocking filter. This sensor gives the light probe a response
-mainly in the visible and as such it can is designed for measuring
-illumination or the photosynthetically active radiation used by plants
-(PAR).</para>
-
+      <para>
+The CCLightProbe is used to measure visible light in either an indoor
+or outdoor illumination range.
+      </para>
 <figure><title>CCLightProbe</title>
     <mediaobject>
       <imageobject>
-	<imagedata fileref="images/png/lightprobe.png" format="PNG" depth="240"/>
+	<imagedata fileref="images/png/lightprobe.png" format="PNG"/>
+      </imageobject>
+      <imageobject>
+	<imagedata fileref="images/tiff/lightprobe.tiff" format="TIFF"/>
       </imageobject>
       <textobject>
 	<phrase>CCLightProbe</phrase>
       </textobject>
     </mediaobject>
 </figure>
-</section>
-</section>
+    </section>
+    <section><title>LabBook</title>
+      <para>
+Learning requires more than a good tool. Students need to be guided,
+challenged to predict, and encouraged to reflect. CCProbe uses the
+organizing principle of a lab notebook which contains both curricular
+activities and a portfolio of student work.  While CCProbe includes
+many traditional probeware tools such as real-time graphing, analysis,
+calibration, and saved datasets it also includes software objects for
+taking notes, drawing sketches, answering questions, and displaying
+images.  CCProbe also supports folders and compound objects similar
+to web pages in which the basic objects can be combined together into
+activities.
+</para>
 
-<section><title>LabBook</title>
-
-<para>Learning requires more than a good tool. Students need to be
-guided, challenged to predict, and encouraged to reflect. CCProbe uses
-the organizing principle of a lab notebook which contains both
-curricular activities and a portfolio of student work.  While CCProbe
-includes many traditional probeware tools such as real-time graphing,
-analysis, calibration, and saved datasets it also includes software
-objects for taking notes, drawing sketches, answering questions, and
-displaying images.  CCProbe also supports folders and compound objects
-similar to web pages in which the basic objects can be combined
-together into activities.  </para>
-
-<para> We call this functionality that CCProbe is built upon the
+      <para> We call this functionality that CCProbe is built upon the
 CCLabBook System.  All the activities and student work are saved in
 one place.  Right now we create activities using a structured
 XML-based editing system from which CCLabBook objects, html web pages,
@@ -343,82 +280,152 @@ students.  An individual CCLabBook can be easily moved between
 handheld and full-size computer systems allowing students to
 investigate, edit, and organize information anywhere.  </para>
 
-<para>After a class of students has completed an activity the work
-collected in individual CCLabBooks is combined on the teachers
-computer where it can be browsed, commented on, and archived.
-Additionally, the teacher can place new activities in the student
-CCLabBooks.  </para>
+      <para>
+After a class of students has completed an activity the work collected
+in individual CCLabBooks is combined on the teachers computer where it
+can be browsed, commented on, and archived.  Additionally, the teacher
+can place new activities in the student CCLabBooks.
+</para>
 
-<para>An essential design goal of the CCLabBook System is to support
+      <para>
+An essential design goal of the CCLabBook System is to support
 transparent communication of portfolio objects between all these
 systems. For example after using CCProbe on a Palm computer to collect
 temperature and light data in the field, the LabBook on the Palm can
 be saved onto a server where it is accessible from other locations
-such as computers in the computer lab.</para>
-</section>
+such as computers in the computer lab.
 
-
-<section><title>License</title>
-
-<para>CCProbe is free software that can be downloaded, copied, and
-used as you wish. While we retain copyright for all the source code we
-have written we specifically provide you with this software with the
-GNU General Public License which allows you access to and the right to
-modify the source code for CCProbe.  However the GPL license states
-that if you distribute the changes in the source code you must also
-apply the same license to your copyrighted code.  </para>
-
-<para>Our goal is to create a community of users, researchers and
-developers who can contribute towards making CCProbe a more useful
-tool.  </para>
-
-</section>
-
-<section><title>Source Code</title>
-
-<para> CCProbe is written in Waba an open source Java-like language
-for handhelds.  Waba is its own programming platform including a
-language, virtual machine, class file format and set of base classes.
+      </para>
+    </section>
+    <section><title>DataCollectors</title>
+      <para>
+      CCProbe initially comes with five different types of
+      DataCollectors: Temperature, Force, SmartWheel, VoltageCurrent,
+      and Light.  These are the objects in the LabBook which combine
+      collection and display of of real-time data from the probes.  In
+      addition to real-time graphing DataCollectors support annotation
+      of points on the graph, display of annotated points as a bar
+      graph, flexible axis scaling and translation, and note taking.
+      After collecting data the data can be saved as a DataSet for
+      later display or analysis.
+      </para>
+    </section>
+    <section><title>DataSets</title>
+      <para>
+      DataSets are LabBook objects that hold saved collections of data
+      from a DataCollector.  A DataSet will save the data from a
+      collection until the DataSet object is deleted.  All the graph
+      display and annotation tools available in a DataCollector are
+      also available in a DataSet.
+      </para>
+    </section>
+    <section><title>Drawings</title>
+      <para>
+      Freehand drawings and sketches can be created in a LabBook
+      Drawing object.
+      </para>
+    </section>
+    <section><title>Notes</title>
+      <para>
+      A LabBook Notes object holds writing.  At this point when you are
+writing into a note you must type the Return character at the end
+of every line.  The Note object will not automatically wrap entered
+text onto the next line.  
+      </para>
+    </section>
+    <section><title>Unit Convertors</title>
+      <para>
+      In order to more easily do calculations with different units we
+      have a Unit Comnvertor calculator.  This allows conversions from
+and to many different physical quantities.
+      </para>
+    </section>
+    <section><title>Images</title>
+      <para>
+      On desktop systems images can be loaded into LabBook Image
+      objects.  After loading into the LabBook the images can be
+      displayed on any system that CCProbe runs on.  On the Palm IIIc
+which only has 256 colors we use the Netscape 216 web color pallete
+for displayed images.  CCProbe can import ".bmp" images and if it is
+running on a Macintosh it can import a wide variety of images using
+QuickTime.
+      </para>
+    </section>
+    <section><title>Supernotes</title>
+      <para>
+      CCProbe supports a compund document object we call a Supernote.
+      A Supernote is similar to an html document and can hold text,
+      links to other objects and even the objects themselves embedded
+      directly in a Supernote.  Supernote creation and editing can be
+done on a dektop system.  Advanced Supernote creation can more easily
+be done by writing the object structure in XML and creating the
+LabBook with the XML2LabBook conversion tool.
+      </para>
+    </section>
+    <section><title>License</title>
+      <para>
+      CCProbe is free software that can be downloaded, copied, and
+      used as you wish. While we retain copyright for all the source
+      code we have written we specifically provide you with this
+software with the GNU General Public License
+      which allows you access to and the right to modify the
+      source code for CCProbe.  However the GPL license states that if
+      you distribute the changes in the source code you must also
+      apply the same license to your copyrighted code.
+      </para>
+      <para>
+      Our goal is to create a community of users, researchers and
+      developers who can contribute towards making CCProbe a more
+      useful tool.
+      </para>
+    </section>
+    <section><title>Source Code</title>
+      <para>
+CCProbe is written in Waba an open source Java-like language for handhelds.
+Waba is its own programming platform including a language, virtual
+machine, class file format and set of base classes.
 </para>
-
-<para> Because of the way Waba was designed, developers can use Java
+<para>
+Because of the way Waba was designed, developers can use Java
 development tools to write Waba programs and Waba programs can run as
-Java applets or applications with no native code.  </para>
-
-<para> Waba applications can run under Java but, for the most part,
-Java programs that use the Java Class Libraries can't run under Waba.
+Java applets or applications with no native code.
 </para>
-
-<para> You can get a copy of of the source code and license by
-following the appropriate links at the <ulink
-url="http://concord.org/ccprobeware">CCProbeware web site.</ulink>
+<para>
+Waba applications can run under Java but, for the most part, Java
+programs that use the Java Class Libraries can't run under Waba.
 </para>
-
+<para>>
+      You can get a copy of of the source code and license by
+      following the appropriate links at the 
+<ulink url="http://concord.org/ccprobeware">CCProbeware web site.</ulink>
+</para>
 </section>
-</chapter>
-
-<chapter><title>Installing CCProbe</title>
-
-<para> CCProbe is written in Waba, an open-source GPL licensed subset
-of Java specifically designed to work on handheld computers. Normally
-when it is run on a Palm or Windows CE system the CCProbe Waba
-application is executed by the Waba virtual machine similar to how
-Java programs are often run. This is the method used on the PocketPC
-version of CCProbe. However on the Palm we use Jump and WabaJump to
-compile the Waba application into PalmOS 68000 machine code in order
-to operate as fast as possible.  </para>
+  </chapter>
+  <chapter><title>Installing CCProbe</title>
+    <para>
+    CCProbe is written in Waba, an open-source GPL licensed subset of
+    Java specifically designed to work on handheld computers. Normally
+    when it is run on a Palm or Windows CE system the CCProbe Waba
+application
+    is executed by the Waba virtual machine similar to how Java
+    programs are often run. This is the method used on the PocketPC
+    version of CCProbe. However on the Palm we use Jump and
+WabaJump to
+    compile the Waba application into PalmOS 68000 machine code in
+    order to operate as fast as possible.
+    </para>
 
 <para> You can download Packages that contain CCProbe, a LabBook,
 documentation, and any OS specific programs needed to run CCProbe by
 browsing here: <ulink
 url="http://concord.org/ccprobeware/ccprobe/ccprobe-downloads.html">CCProbe
 Download Page</ulink>.</para>
-
-
-<para>On MacOS, Windows, and Unix/Linux systems the CCProbe runs as a
-Java application using the Waba for Java classes that implement the
-Waba API on top of Java. On Unix/Linux systems Waba applications can
-run using the Java VM from Sun.  </para>
+    <para>
+On MacOS, Windows, and Unix/Linux systems the CCProbe runs as a Java
+application using the Waba for Java classes that implement the Waba
+API on top of Java. On Unix/Linux systems Waba applications can run
+using the Java VM from Sun.
+    </para>
 
 <table frame='all'><title>Available Packages of CCProbe</title>
 <tgroup cols='3' align='left' colsep='1' rowsep='1'>
@@ -426,1234 +433,741 @@ run using the Java VM from Sun.  </para>
 <colspec colname='c2'/>
 <colspec colname='c3'/>
 <thead>
-<row>
-<entry>Operating System</entry>
-<entry>archive type</entry>
-<entry>link</entry>
-</row>
+  <row>
+    <entry>Operating System</entry>
+    <entry>archive type</entry>
+    <entry>link</entry>
+  </row>
 </thead>
 <tbody>
-<row>
-<entry>PalmOS</entry>
-<entry>exe for Windows</entry>
-<entry><ulink url="http://concord.org/ccprobeware/ccprobe/download/ccprobe-palmos/CCProbe.exe">CCProbe.exe</ulink></entry>
-</row>
-<row>
-<entry>PalmOS</entry>
-<entry>tarred and gzipped for Unix</entry>
-<entry><ulink url="http://concord.org/ccprobeware/ccprobe/download/ccprobe-palmos/CCProbe.tgz">CCProbe.tgz</ulink></entry>
-</row>
-<row>
-<entry>PalmOS</entry>
-<entry>binhex self-extracting archive for MacOS</entry>
-<entry><ulink url="http://concord.org/ccprobeware/ccprobe/download/ccprobe-palmos/CCProbe.sea.hqx">CCProbe.sea.hqx</ulink></entry>
-</row>
-<row>
-<entry>PocketPC (for MIPS and StrongArm)</entry>
-<entry>exe for Windows</entry>
-<entry><ulink url="http://concord.org/ccprobeware/ccprobe/download/ccprobe-pocketpc/CCProbe.exe">CCProbe.exe</ulink></entry>
-</row>
-<row>
-<entry>MacOS Classic</entry>
-<entry>binhex self-extracting archive for MacOS</entry>
-<entry><ulink url="http://concord.org/ccprobeware/ccprobe/download/ccprobe-macos-classic/CCProbe.sea.hqx">CCProbe.sea.hqx</ulink></entry>
-</row>
-<row>
-<entry>MacOS X</entry>
-<entry>binhex self-extracting archive for MacOS</entry>
-<entry><ulink url="http://concord.org/ccprobeware/ccprobe/download/ccprobe-macosx/CCProbe.sea.hqx">CCProbe.sea.hqx</ulink></entry>
-</row>
-<row>
-<entry>Windows</entry>
-<entry>exe for Windows</entry>
-<entry><ulink url="http://concord.org/ccprobeware/ccprobe/download/ccprobe-windows/CCProbe.exe">CCProbe.exe</ulink></entry>
-</row>
-<row>
-<entry>Linux/Unix</entry>
-<entry>tarred and gzipped for Unix</entry>
-<entry><ulink url="http://concord.org/ccprobeware/ccprobe/download/ccprobe-unix/CCProbe.tgz">CCProbe.tgz</ulink></entry>
-</row>
+  <row>
+    <entry>PalmOS</entry>
+    <entry>exe for Windows</entry>
+    <entry><ulink url="http://concord.org/ccprobeware/ccprobe/download/ccprobe-palmos/CCProbe.exe">CCProbe.exe</ulink></entry>
+  </row>
+  <row>
+    <entry>PalmOS</entry>
+    <entry>tarred and gzipped for Unix</entry>
+    <entry><ulink url="http://concord.org/ccprobeware/ccprobe/download/ccprobe-palmos/CCProbe.tgz">CCProbe.tgz</ulink></entry>
+  </row>
+  <row>
+    <entry>PalmOS</entry>
+    <entry>binhex self-extracting archive for MacOS</entry>
+    <entry><ulink url="http://concord.org/ccprobeware/ccprobe/download/ccprobe-palmos/CCProbe.sea.hqx">CCProbe.sea.hqx</ulink></entry>
+  </row>
+  <row>
+    <entry>PocketPC (for MIPS and StrongArm)</entry>
+    <entry>exe for Windows</entry>
+    <entry><ulink url="http://concord.org/ccprobeware/ccprobe/download/ccprobe-pocketpc/CCProbe.exe">CCProbe.exe</ulink></entry>
+  </row>
+  <row>
+    <entry>MacOS Classic</entry>
+    <entry>binhex self-extracting archive for MacOS</entry>
+    <entry><ulink url="http://concord.org/ccprobeware/ccprobe/download/ccprobe-macos-classic/CCProbe.sea.hqx">CCProbe.sea.hqx</ulink></entry>
+  </row>
+  <row>
+    <entry>MacOS X</entry>
+    <entry>binhex self-extracting archive for MacOS</entry>
+    <entry><ulink url="http://concord.org/ccprobeware/ccprobe/download/ccprobe-macosx/CCProbe.sea.hqx">CCProbe.sea.hqx</ulink></entry>
+  </row>
+  <row>
+    <entry>Windows</entry>
+    <entry>exe for Windows</entry>
+    <entry><ulink url="http://concord.org/ccprobeware/ccprobe/download/ccprobe-windows/CCProbe.exe">CCProbe.exe</ulink></entry>
+  </row>
+  <row>
+    <entry>Linux/Unix</entry>
+    <entry>tarred and gzipped for Unix</entry>
+    <entry><ulink url="http://concord.org/ccprobeware/ccprobe/download/ccprobe-unix/CCProbe.tgz">CCProbe.tgz</ulink></entry>
+  </row>
 </tbody>
 </tgroup>
 </table>
 
-<section><title>MacOS Classic</title>
+    <section><title>MacOS Classic</title>
+      <para>
+      Installing and running CCProbe on MacOS Classic
+      </para>
 
-<para> Installing and running CCProbe on MacOS Classic </para>
+      <para>
+CCProbe requires Apple's MacOS Runtime for Java (MRJ). MRJ implements
+Sun's Java 1.1 standard. The most recent version of MRJ is version
+2.2.5. Don't be confused by Apple's numbering of their Java virtual
+machine. It does not relate to Sun's numbering system for Java. You
+can get the latest version of MRJ here:
+    </para>
+      <para>
+      <ulink url="http://www.info.apple.com/support/downloads.html"> http://www.info.apple.com/support/downloads.html
+    </ulink>
+      </para>
+<para>
+Once you are there do a search for "mrj".
+</para>
+      <para>
+After installing MRJ you can start the application CCProbe by
+double-clicking it.
+    </para>
+      <para>
+Changing the CCProbe application window size
+    </para>
+      <para>
+Load the file CCProbe.properties into an program which can edit a text
+file such as Eudora, BBEdit, or Simpletext
+    </para>
+      <para>
+Look for the following line:
+    </para>
+      <para>
+com.apple.mrj.application.parameters=/color /w 600 /h 400 CCProbe
+    </para>
+      <para>
+The numbers after the /w and /h set the width and the height of the
+application window.
+    </para>
 
-<para> CCProbe requires Apple's MacOS Runtime for Java (MRJ). MRJ
-implements Sun's Java 1.1 standard. The most recent version of MRJ is
-version 2.2.5. Don't be confused by Apple's numbering of their Java
-virtual machine. It does not relate to Sun's numbering system for
-Java. You can get the latest version of MRJ here: </para>
-
-<para> <ulink url="http://www.info.apple.com/support/downloads.html">
-http://www.info.apple.com/support/downloads.html </ulink> </para>
-
-<para> Once you are there do a search for "mrj".  </para>
-
-<para> After installing MRJ you can start the application CCProbe by
-double-clicking it.  </para>
-
-<para> Changing the CCProbe application window size </para>
-
-<para> Load the file CCProbe.properties into an program which can edit
-a text file such as Eudora, BBEdit, or Simpletext </para>
-
-<para> Look for the following line: </para>
-
-<para> com.apple.mrj.application.parameters=/color /w 600 /h 400
-CCProbe </para>
-
-<para> The numbers after the /w and /h set the width and the height of
-the application window.  </para>
-
-<para> Edit these numbers and save the file. The next time the CCProbe
+      <para>
+Edit these numbers and save the file. The next time the CCProbe
 application is run it will use the new specification as the window
-size.  </para>
+size.
+    </para>
 
-<para> Using CCProbe with a Mac that has a USB port </para>
+      <para>
+Using CCProbe with a Mac that has a USB port
+    </para>
 
-<para> In order to use the CCProbe Interface you will need a
+      <para> In order to use the CCProbe Interface you will need a
 USB-to-Serial Adapter. We have used Keyspan's USA-19 and USA-19W, and
 USA-19QW.  In addition you will need a DB9 cable assembly for the
 CCProbe Interface.  This consists of a short length of 6-conductor
 modular telephone cable, an RJ-11 to DB9 adaptor, and a numll-modem
-cable.  </para>
-
-<para> You must install the latest drivers from Keyspan. You can
-download them here: </para>
-
-<para> <ulink url="http://www.keyspan.com/downloads/">
-http://www.keyspan.com/downloads/ </ulink> </para>
-
-<para> Setting the location of the Serial Communications Port </para>
-
-<para> The first time CCProbe attempts to connect to the CCProbe
-interface through the serial port it will ask which serial port to use
-to connect to the interface.  If you later need to change this use the
-"Serial Port Setup ..." item in the File menu.  </para>
-
-<para> If you use an older Macintosh with a serial port you will most
-likely select either the Printer/Modem port or if you have two serial
-ports select the Printer port.  If you have troubles connecting make
-sure that Appletalk is not already trying to use the serial port by
-opening the Appletalk control panel.  If AppleTalk is using a serial
-port then you can turn appletalk off with a small control at the
-bottom of the Chooser window.  </para>
-
-</section>
-
-<section><title>MacOS X</title>
-
-<para> MacOS X comes with Java 1.3 built in.  After downloading and
-expanding the MacOSX CCProbe Package archive double click the RXTX.pkg
-installer application.  This will install the RXTX Java serial port
-libraries which enable CCProbe to communicate to the serial port.
-Once RXTX is installed you can run the CCProbe application directly by
-double-clicking the icon.  </para>
-
-</section>
-
-<section><title>Windows</title>
-
-<para> Installing and running CCProbe on Windows </para>
-
-<para> After downloading the CCProbe Package archive for windows run
-the ccprobe.exe file to expand the archive.  This will make a folder
-named ccprobe-windows.  Before running CCProbe you will need to make
-sure that both Java and the Java Communications API are installed.
-After installing this software start CCProbe by running CCProbe.bat.
-This runs CCWabaLauncher.exe which checks for thepresence of Java and
-then runs CCProbe.jar which holds the actual application.  </para>
-
-<para>Installing Java</para>
-
-<para> CCProbe requires Sun's Java 1.1 or higher. You can get the
-latest version of the Java 2 Runtime Environment, Standard Edition for
-Windows here: </para>
-
-<para> <ulink
-url="http://java.sun.com/j2se/1.3/jre/download-windows.html">
-http://java.sun.com/j2se/1.3/jre/download-windows.html </ulink>
-</para>
-
-<para> Even though it is called Java 2, Sun's internal numbering calls
-this Java version 1.3.1.  </para>
-
-<para> In addition to Java the Java Communications API must be
-installed to support serial communications with the interface.
-</para>
-
-<para> 1. Install the Java Communications API </para>
-
-<para> In order to install the following components you must determine
-where the java home directory is on your system. On my Windows 2000
-system it is C:\Program Files\JavaSoft\1.3.1. In the procedure below
-replace occurances of javahome with the location of the java home
-directory on your system.  </para>
-
-<para> The home page for the Java Communications API is: </para>
-
-<para> <ulink url="http://java.sun.com/products/javacomm/">
-http://java.sun.com/products/javacomm/ </ulink> </para>
-
-<para> Download Version 2.0 for Microsoft Windows.  </para> 
-
-<para> The Java Communications API will be saved on your computer in a
-ZIP archive. You will need a utility to expand the archive. The free
-program FreeZip works well. You can get it here: </para>
-
-<para> <ulink
-url="http://crnet.tucows.com/system/preview/194266.html">
-http://crnet.tucows.com/system/preview/194266.html </ulink> </para>
-
-
-<para> Most of the items are not needed however copy the three items
-below: </para>
-
-<para> a. Copy win32com.dll to the javahome\bin
-directory </para> 
-
-
-
-<para> b. Copy comm.jar to the javahome\lib\ext </para>
-
-<para> c. Place javax.comm.properties in the javahome\lib </para>
-
-<para> Specifying the location of the Serial Communications Port
-</para>
-
-<para> The first time CCProbe attempts to connect to the
-CCProbe interface through the serial port it will ask which serial
-port to use to connect to the interface.  If you later need to change
-this use the "Serial Port Setup ..." item in the File menu.  </para>
-
-
-<para> Changing the CCProbe application window size </para>
-
-<para> Load the file CCProbe.bat into an program which can edit a text
-file such as WordPad </para>
-
-<para> Edit the first line in the file: </para>
-
-<para> java -cp CCProbe.jar waba.applet.Applet /w 600 /h 400 /color
-CCProbe </para>
-
-<para> The numbers after the /w and /h set the width and the height of
-the application window.  Edit these numbers and save the file. The
-next time the CCProbe application is run it will use the new
-specification as the window size.  </para> 
-
-</section>
-
-<section><title>Unix/Linux</title>
-
-<para> After downloading and expanding the Unix tar archive of the
-CCProbe Package run the RXTX.pkg installer application.  This will
-install the RXTX Java serial port libraries which enable CCProbe to
-communicate to the serial port.  Once RXTX is installed you can run
-the CCProbe application directly by double-clicking the icon.</para>
-
-</section>
-
-<section><title>PocketPC</title>
-
-<para> CCProbe requires that you have the Waba virtual machine
-installed.  The Waba vm consists of two files: waba.exe and waba.wrp.
-The waba.exe file is specific to the processor used in the PocketPC.
-</para>
-
-<para> On either system create a new folder called waba here: </para>
-
-<para>
-My Device:Program Files:waba
-</para>
-
-<para>
-Place the appropriate waba.exe and waba.wrp file in the waba folder.
-</para>
-
-<para>
-iPaq		waba-strongarm/waba.exe
-</para>
-
-<para>
-Casiopeia	waba-mips/waba.exe
-</para>
-
-<para>
-The waba.wrp is identical on both systems.
-</para>
-
-<para>
-Now copy the link and waba executable files to the same directory:
-</para>
-
-<para>
-CCProbe.lnk
-</para>
-
-<para>
-CCProbe.wrp
-</para>
-
-<para>
-There will now be two files named CCProbe in the waba folder on your
-PocketPC.  Start CCProbe by tapping on the CCProbe link file.  This
-file is under 1k in size, it is much smaller than the waba executable.
-</para>
-
-</section>
-
-<section><title>PalmOS</title>
-
-<para> After downloading and expanding the PalmOS archive approriate
-for your operating system install the Palm application CCProbe.prc and
-the Palm database LabBook.PDB using the standard tools on your system
-for installing Palm applications.  </para>
-
-<para>On Windows and MacOS systems the Palm Desktop software from Palm
-is normally used to install applications on a Palm.  First select the
-two files: CCProbe.prc and LabBook.PDB to be installed then connect
-your Palm to the computer through either it's cradle or through a
-hotsynch cable and start the synch process.  Synching is started on
-the Palm by either pressing theHotSynch button on the cradle or
-openeing the HotSynch applicationon the Palm and tapping on the
-HotSynch button on the screen.</para>
-
-<para>On Unix/Linux systems the program pilot-xfer is usually used to
-install applications and databases on a Palm.  The pilot-xfer program
-is part of a suite of tools called pilot-link.</para>
-
-<para>On MacOS X the pilot-link Unix tools can be used and a beta
-version of the Palm desktop is available.</para>
-
-</section>
-
-<section><title>Updating your version of CCProbe</title>
-
-<para>There are two parts to CCProbe: the application, and the
-LabBook.  You can always get the latest stable release as a package by
-going to the 
-
-<ulink
-url="http://concord.org/ccprobeware/ccprobe-download.html">CCProbe download page</ulink>
-
-
-</para>
-
-</section>
-</chapter>
-
-
-<chapter><title>CCProbe LabBook</title>
-
-<para>The LabBook functions as both a place for embedding curricula
-and a portfolio for holding and organizing student work.  The TEEMSS
-project at the Consord Consortium has developed an extensive
-curriculum for Middle School science studies with five investigations
-on Motions and Forces and another five on Energy Transformations.
-Currently we distribute this LabBook with CCProbe.</para>
-
-<para>LabBooks are portable, they can be communicated between all the
-different computer systems that CCProbe runs on.  Data collected on a
-Palm in the field can easily be transferred to and displayed on a
-desktop system at home.  And conversely material written on a LabBook
-on a larger computer with a keyborad can be transferred back to the
-LabBookon the handheld system.</para>
-
-<para>A LabBook can hold many different kinds of software objects
-including folders for organizing other objects, data collectors,
-drawings, notes for writing, images, a tool for unit conversion, and a
-compound html-like object we call a Supernote.</para>
-
- 
-<section id="labbook_views"><title>LabBook Views</title>
-
-<para>When the CCProbe is started it will open the default LabBook
-file.  On PalmOS this is the PalmOS database LabBook.PDB.  On a
-desktop OS this is the file LabBook.PDB in the same folder where the
-CCProbe application resides.  On a Windows CE or PocketPC system the
-file is named LabBook and is located in the top level of the
-filesystem under "My Devices"</para>
-
-<figure>
-    <title>TEEMSS CCProbe LabBook: initial display (PalmOS)</title>
-    <mediaobject>
-      <imageobject>
-	<imagedata fileref="images/png/ccprobe-palm-start-1.png" format="PNG"/>
-      </imageobject>
-    </mediaobject>
-</figure>
-
-<para>The two visible items in the LabBook are folders "CCProbe" and
-"TEEMSS".  These folders are enclosed by an implicit folder named
-Home. Each of these folders display in a tree view by default when
-opened. Just to the left of these folders are little triangles called
-twisties.  Tap on a twistie to display the contents of the folder in
-tree view.
-</para>
-
-<section><title>Tree View</title>
-
-<para>
-<xref linkend="teemss_ccprobe_labbook_teems_folder_opened_palmos"/> shows
-the result of tapping on the TEEMSS twistie and then tapping on the
-Motions and Forces  twistie.  Inside Motions and Forces  are displayed
-the individual investigations.  All of the object displayed below are
-folders. So far everything is being displayed in a tree view.</para>
-
-<figure id="teemss_ccprobe_labbook_teems_folder_opened_palmos">
-    <title>TEEMSS CCProbe LabBook: TEEMS folder opened (PalmOS)</title>
-    <mediaobject>
-      <imageobject>
-	<imagedata fileref="images/png/ccprobe-teems-open-palm.png" format="PNG"/>
-      </imageobject>
-    </mediaobject>
-</figure>
-
-<para>Instead of displaying the whole folder hierarchy in tree mode
-select the Motions and Forces folder and tap the Open button. Figure 
-<xref linkend="teemss_ccprobe_labbook_mf_folder_opened_palmos"/>
-displays the objects in the Motions and Forces folder.  Each item is a
-folder which is a TEEMSS investigation.</para>
-
-<figure id="teemss_ccprobe_labbook_mf_folder_opened_palmos">
-    <title>TEEMSS CCProbe LabBook: Motions and Forces folder opened (PalmOS)</title>
-    <mediaobject>
-      <imageobject>
-	<imagedata fileref="images/png/ccprobe-mf-open-palm.png" format="PNG"/>
-      </imageobject>
-    </mediaobject>
-</figure>
-
-
-<para>If you open the TEEMSS investigation folders they will display
-in page view instead of tree view.  Page view makes it easier to
-sequence through a group of LabBook objects.  However if you tap on a
-twistie next to one of the investigation folders you can see what is
-included in a tree view.
-</para>
-
-
-<figure id="teemss_ccprobe_labbook_tracker_folder_opened_palmos">
-    <title>TEEMSS CCProbe LabBook: Tracker folder opened in tree view (PalmOS)</title>
-    <mediaobject>
-      <imageobject>
-	<imagedata fileref="images/png/ccprobe-tracker-tree-palm.png" format="PNG"/>
-      </imageobject>
-    </mediaobject>
-</figure>
-
-<para>In order to move back up the tree hierarchy to the original
-location tap on the folder-path menu in the top left corner of the
-screen as shown in <xref
-linkend="teemss_ccprobe_labbook_tracker_tree_up_opened_palmos"/>.  Tap
-on Home to return to the top level.</para>
-
-<figure id="teemss_ccprobe_labbook_tracker_tree_up_opened_palmos">
-    <title>TEEMSS CCProbe LabBook: getting back to Home (PalmOS)</title>
-    <mediaobject>
-      <imageobject>
-	<imagedata fileref="images/png/ccprobe-tracker-tree-up-palm.png" format="PNG"/>
-      </imageobject>
-    </mediaobject>
-</figure>
-
-<para>All of the objects in the investigation are displayed and they
-can be opened directly by either selecting and tapping the Open button
-or double-tapping the object directtly.  However because TEEMSS
-investigations are designed to be used in a sequenced order it is
-better to open the Tracker investigation itself.</para>
-
-</section>
-
-<section><title>Paging View</title>
-
-<para>The TEEMSS investigations are all designed to be used in a
-paging view.  Open the Tracker investigation by either double-tapping
-Tracker or selecting Tracker and tapping the Open button.  </para>
-
-<figure id="teemss_ccprobe_labbook_tracker_intro_palmos">
-    <title>TEEMSS CCProbe LabBook: Tracker Introduction (PalmOS)</title>
-    <mediaobject>
-      <imageobject>
-	<imagedata fileref="images/png/ccprobe-tracker-intro-palm.png" format="PNG"/>
-      </imageobject>
-    </mediaobject>
-</figure>
-
-<para><xref linkend="teemss_ccprobe_labbook_tracker_intro_palmos"/>
-shows the first object in the Tracker folder, the SuperNote
-"Introduction".  At the top left of the screen are buttons labeled
-"Prev" and "Next".  To the right of these buttons is a pulldown menu
-which lists all the objects in the Tracker Investigation.</para>
-
-<para>Tap the "Next" button to move from the Introduction to the next
-element of the investigation called "Thinking About the Question".</para>
-
-</section>
-
-</section>
-<section><title>LabBook Objects</title>
-
-<para>All of the following objects can be combined to create
-curricular activities or as a portfolio of work.  LabBook objetcs can
-be created, named, copied and pasted, and deleted from within CCProbe.
-</para>
-
-<section><title>Folders</title>
-
-<para>Objects in a LabBook can be organized into folders which
-themselves are another type of LabBook object.  Folders have a display
-property of either Tree or Paging.  See <xref
-linkend="labbook_views"/> for more information on folder display properties.
-</para>
-
-</section>
-
-<section><title>DataCollectors</title>
-
-<para>CCProbe comes with five different types of DataCollectors:
-Temperature, Force, SmartWheel, VoltageCurrent, and Light.  These are
-the objects in the LabBook which combine collection and display of of
-real-time data from the probes.  In addition to real-time graphing
-DataCollectors support annotation of points on the graph, display of
-annotated points as a bar graph, flexible axis scaling and
-translation, and note taking.  After collecting data the data can be
-saved as a DataSet for later display or analysis.</para>
-
-</section> 
-
-<section><title>DataSets</title>
-
-<para>DataSets are LabBook objects that hold saved collections of data
-from a DataCollector.  A DataSet will save the data from a collection
-until the DataSet object is deleted.  All the graph display and
-annotation tools available in a DataCollector are also available in a
-DataSet.  </para> 
-
-</section> 
-<section><title>Drawings</title> 
-
-<para> Freehand drawings and sketches can be created in a LabBook
-Drawing object.  The pen color can be set and an eraser tool is
-available.</para>
-
-</section>
-
-<section><title>Notes</title>
-
-<para>A LabBook Notes object holds writing.  At this point when you
-are writing into a note you must type the Return character at the end
-of the line in order to continue writing on thenext line below.  The
-Note object will not automatically wrap entered text onto the next
-line.</para>
-
-</section>
-
-<section><title>Unit Convertors</title>
-
-<para>In order to more easily do calculations with different units we
-have a Unit Comnvertor calculator.  This allows conversions from and
-to many different physical quantities.</para> 
-
-</section>
-
-<section><title>Images</title>
-
-<para>On desktop systems images can be loaded into LabBook Image
-objects.  After loading into the LabBook the images can be displayed
-on any system that CCProbe runs on.  On the Palm IIIc which only has
-256 colors we use the Netscape 216 web color pallete for displayed
-images.  CCProbe can import ".bmp" images and if it is running on a
-Macintosh it can import a wide variety of images using
-QuickTime.</para>
-
-
-</section>
-<section><title>Supernotes</title>
-
-<para>CCProbe supports a compund document object we call a Supernote.
-A Supernote is similar to an html document and can hold text, links to
-other objects and even the objects themselves embedded directly in a
-Supernote.  Supernote creation and editing can be done on a dektop
-system.  Advanced Supernote creation can more easily be done by
-writing the object structure in XML and creating the LabBook with the
-XML2LabBook conversion tool.</para>
-
-</section>
-</section>
-
-<section><title>File Menu</title>
-
-<para>
-</para>
-
-<section><title>New..</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Open..</title>
-
-<para>
-</para>
-
-</section>
-<section><title>Renaming</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Exporting</title>
-
-<para>
-</para>
-
-</section>
-<section><title>Importing</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Deleting</title>
-
-<para>
-</para>
-
-</section>
-<section><title>About CCProbe</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Exit</title>
-
-<para>
-</para>
-
-</section>
-</section>
-
-<section><title> Edit Menu</title>
-
-<para>
-</para>
-
-<section><title>Cut</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Paste</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Properties</title>
-
-<para>
-</para>
-
-</section>
-<section><title>Toggle Hidden </title>
-
-<para>
-</para>
-
-</section>
-</section>
-
-</chapter>
-
-<chapter><title>Managing a LabBook</title>
-
-<section><title>Transferring LabBooks and LabBook objects</title>
-
-<section><title>Synching with PalmOS computers</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Exporting and Importing LabBook objects</title>
-
-<para>LabBook objects including folders can be exported and imported
-on desktop operating systems.
-
-On versions of CCProbe that run desktop operating systsem
-</para>
-
-</section>
-</section>
-
-</chapter>
-
-<chapter><title>DataCollectors</title>
-
-<para>
-</para>
-
-<section><title>Graphing data with CCProbe</title>
-
-<para>
-</para>
-
-</section>
-<section><title>Saving Data in a DataSet</title>
-
-<para>
-</para>
-
-</section>
-<section><title>Exporting Data</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Multiple Data Collections</title>
-
-<para>
-</para>
-
-</section>
-<section><title>Clearing the Data</title>
-
-<para>
-</para>
-
-</section>
-<section><title>Marking and Labeling the Graph</title>
-
-<para>
-</para>
-
-</section>
-<section><title>Saving Notes With the DataSet</title>
-
-<para>
-</para>
-
-</section>
-<section><title>Viewing as a Bar Graph</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Changing the Axes and Moving the graph</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Selecting an area and Zooming In</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>DataCollector Properties Dialog</title>
-
-<para>
-</para>
-
-<section><title>Y Axis Properties</title>
-
-<para>
-</para>
-
-</section>
-<section><title>X Axis Properties</title>
-
-<para>
-</para>
-
-</section>
-<section><title>Graph Properties</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Probe Properties</title>
-
-<para>
-</para>
-
-</section>
-<section><title>Calibration Dialog</title>
-
-<para>
-</para>
-
-</section>
-</section>
-
-<section><title>Types of DataCollectors</title>
-
-<para>
-</para>
-
-<section><title>Temperature</title>
-
-<para>
-</para>
-
-<section><title>Connecting the Temperature Probe</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Port Selection: A or B</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Output Mode: C, F, K</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Calibration</title>
-
-<para>
-</para>
-
-</section>
-</section>
-
-<section><title>Light</title>
-
-<para>
-</para>
-
-<section><title>Connecting the Light Probe</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Port Selection: A or B</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Output Mode</title>
-
-<para>
-</para>
-
-</section>
-<section><title>Calibration</title>
-
-<para>
-</para>
-
-</section>
-</section>
-
-<section><title>SmartWheel</title>
-
-<para>
-</para>
-
-<section><title>Connecting the SmartWheel Probe</title>
-
-<para>
-</para>
-</section>
-
-<section><title>Port Selection: A</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Output Mode</title>
-
-<para>
-</para>
-
-</section>
-<section><title>Calibration</title>
-
-<para>
-</para>
-
-</section>
-</section>
-
-<section><title>Force</title>
-
-<para>
-</para>
-
-<section><title>Connecting the Force Probe</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Port Selection: A or B</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Output Mode</title>
-
-<para>
-</para>
-
-</section>
-<section><title>Calibration</title>
-
-<para>
-</para>
-
-</section>
-</section>
-
-<section><title>Voltage/Current</title>
-
-<para>
-</para>
-
-<section><title>Connecting the Voltage/Current Probe</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Port Selection: A or B</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Output Mode</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Calibration</title>
-
-<para>
-</para>
-
-</section>
-</section>
-
-<section><title>RawData</title>
-
-<para>
-</para>
-
-<section><title>Using the RawData DataCollector</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Port Selection: A or B</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Output Mode</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Calibration</title>
-
-<para>
-</para>
-
-</section>
-</section>
-</section>
-
-<section><title>File Menu</title>
-
-<para>
-</para>
-
-<section><title>Beam</title>
-
-<para>
-</para>
-
-</section>
-<section><title>Save Data</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Export Data</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>About CCProbe</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Exit</title>
-
-<para>
-</para>
-
-</section>
-</section>
-
-<section><title>Edit</title>
-
-<para>
-</para>
-
-<section><title>Properties</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Save Profile</title>
-
-<para>
-</para>
-
-</section>
-</section>
-</chapter>
-
-<chapter><title>DataSets</title>
-
-<para>
-</para>
-
-</chapter>
-
-<chapter><title>Drawings</title>
-
-<para>
-</para>
-
-<section><title>Drawing</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Erasing</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Clearing the Whole Picture</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Setting the Pen Color</title>
-
-<para>
-</para>
-
-</section>
-</chapter>
-
-<chapter><title>Unit Convertors</title>
-
-<para>
-</para>
-
-<section><title>Length</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Mass</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Time</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Temperature</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Area</title>
-
-<para>
-</para>
-
-</section>
-<section><title>Volume</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Energy</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Force</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Power</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Pressure</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Electricity</title>
-
-<para>
-</para>
-
-</section>
-</chapter>
-
-<chapter><title>Images</title>
-
-<para>
-</para>
-
-</chapter>
-
-<chapter><title>Supernotes</title>
-
-<para>
-</para>
-
-</chapter>
-
-<chapter><title>LabBook Management</title>
-
-<para>
-</para>
-
-</chapter>
-
-<chapter><title>Advanced Features</title>
-
-<para>
-</para>
-
-<section><title>Folder Modes</title>
-
-<para>
-</para>
-
-</section>
-
-<section><title>Editing Supernotes</title>
-
-<para>
-</para>
-
-</section>
-</chapter>
-
-<chapter><title>Reporting Bugs and Feature Requests</title>
-
-<para>
-</para>
-
-</chapter>
-
-<chapter><title>CCProbe Development</title>
-
-<para>
-</para>
-
-</chapter>
-
+cable.
+    </para>
+
+      <para>
+You must install the latest drivers from Keyspan. You can download
+them here:
+    </para>
+
+      <para>
+      <ulink url="http://www.keyspan.com/downloads/">
+      http://www.keyspan.com/downloads/
+    </ulink>
+      </para>
+
+<para>
+Setting the location of the Serial Communications Port
+</para>
+<para>
+The first time CCProbe attempts to connect to the CCProbe interface
+through the serial port it will ask which serial port to use to
+connect to the interface.
+</para>
+<para>
+If you use an older Macintosh with a serial port you will most likely
+select either the Printer/Modem port or if you have two serial ports
+select the Printer port.  If you have troubles connecting make sure
+that Appletalk is not already trying to use the serial port by opening
+the Appletalk control panel.  If AppleTalk is using a serial port then
+you can turn appletalk off with a small control at the bottom of the
+Chooser window.
+</para>
+
+</section>
+
+
+    <section><title>MacOS X</title>
+      <para>
+      </para>
+    </section>
+    <section><title>Windows</title>
+      <para>
+      Installing and running CCProbe on Windows
+      </para>
+      
+      <para>
+CCProbe requires Sun's Java 1.1 or higher. You can get the latest
+version of the Java 2 Runtime Environment, Standard Edition for
+Windows here:
+    </para>
+
+      <para>
+      <ulink url="http://java.sun.com/j2se/1.3/jre/download-windows.html">
+      http://java.sun.com/j2se/1.3/jre/download-windows.html
+      </ulink>
+      </para>
+
+      <para>
+Even though it is called Java 2, Sun's internal numbering calls this
+Java version 1.3.1.
+    </para>
+
+      <para>
+In addition the Java Communications API must be installed to support
+serial communications with the interface.
+    </para>
+
+      <para>
+1. Install the Java Communications API
+    </para>
+
+      <para>
+In order to install the following components you must determine where
+the java home directory is on your system. On my Windows 2000 system
+it is C:\Program Files\JavaSoft\1.3.1. In the procedure below replace
+occurances of javahome with the location of the java home directory on
+your system.
+    </para>
+
+      <para>
+The home page for the Java Communications API is:
+    </para>
+
+      <para>
+      <ulink url="http://java.sun.com/products/javacomm/">
+      http://java.sun.com/products/javacomm/
+      </ulink>
+      </para>
+
+      <para>
+Download Version 2.0 for Microsoft Windows.
+    </para>
+
+      <para>
+The Java Communications API will be saved on your computer in a ZIP
+archive. You will need a utility to expand the archive. The free
+program FreeZip works well. You can get it here:
+    </para>
+
+      <para>
+      <ulink url="http://crnet.tucows.com/system/preview/194266.html">
+      http://crnet.tucows.com/system/preview/194266.html
+      </ulink>
+      </para>
+
+      <para>
+Most of the items are not needed however copy the three items below:
+    </para>
+
+      <para>
+a. Copy win32com.dll to the javahome\bin directory
+    </para>
+
+      <para>
+b. Copy comm.jar to the javahome\lib\ext
+    </para>
+
+      <para>
+c. Place javax.comm.properties in the javahome\lib
+    </para>
+
+      <para>
+2. Install CCProbe
+    </para>
+
+
+      <para>
+a. Create folder CCProbe anywhere you like
+    </para>
+
+      <para>
+b. Copy CCProbe.jar and CCProbe.bat to the CCProbe folder
+    </para>
+
+      <para>
+you are ready to go
+    </para>
+
+      <para>
+to start: double-click on CCProbe.bat
+    </para>
+
+      <para>
+Specifying the location of the Serial Communications Port
+    </para>
+
+      <para>
+Changing the CCProbe application window size
+    </para>
+
+      <para>
+Load the file CCProbe.bat into an program which can edit a text file
+such as WordPad
+    </para>
+
+      <para>
+Edit the first line in the file:
+    </para>
+
+      <para>
+java -cp CCProbe.jar waba.applet.Applet /w 600 /h 400 /color CCProbe
+    </para>
+
+      <para>
+The numbers after the /w and /h set the width and the height of the
+application window.  Edit these numbers and save the file. The next
+time the CCProbe application is run it will use the new specification
+as the window size.
+      </para>
+
+    </section>
+    <section><title>Unix/Linux</title>
+      <para>
+      </para>
+    </section>
+    <section><title>PocketPC</title>
+      <para>
+      </para>
+    </section>
+    <section><title>PalmOS</title>
+      <para>
+      </para>
+    </section>
+    <section><title>Specifying the location of the serial port</title>
+      <para>
+      </para>
+    </section>
+    <section><title>Updating your version of CCProbe</title>
+      <para>
+      </para>
+    </section>
+  </chapter>
+  <chapter><title>Using the CCProbe LabBook</title> <section><title>LabBook Views</title>
+      <para>
+      </para>
+      <section><title>Tree</title>
+        <para>
+        </para>
+      </section>
+      <section><title>Page</title>
+        <para>
+        </para>
+      </section>
+    </section>
+    <section><title>LabBook Objects</title>
+      <para>
+      </para>
+      <section><title>Folders</title>
+	<para>
+	</para>
+      </section>
+      <section><title>Notes</title>
+	<para>
+	</para>
+      </section>
+      <section><title>DataCollectors</title>
+	<para>
+	</para>
+      </section>
+      <section><title>DataSets</title>
+	<para>
+	</para>
+      </section>
+      <section><title>Drawings</title>
+	<para>
+	</para>
+      </section>
+      <section><title>UnitConvertors</title>
+	<para>
+	</para>
+      </section>
+      <section><title>Images</title>
+	<para>
+	</para>
+      </section>
+      <section><title>SuperNotes</title>
+	<para>
+	</para>
+      </section>
+    </section>
+    <section><title>File Menu</title>
+      <para>
+      </para>
+      <section><title>New..</title>
+        <para>
+        </para>
+      </section>
+      <section><title>Open..</title>
+        <para>
+        </para>
+      </section>
+      <section><title>Renaming</title>
+        <para>
+        </para>
+      </section>
+      <section><title>Exporting</title>
+        <para>
+        </para>
+      </section>
+      <section><title>Importing</title>
+        <para>
+        </para>
+      </section>
+      <section><title>Deleting</title>
+        <para>
+        </para>
+      </section>
+      <section><title>About CCProbe</title>
+        <para>
+        </para>
+      </section>
+      <section><title>Exit</title>
+        <para>
+        </para>
+      </section>
+    </section>
+    <section><title> Edit Menu</title>
+      <para>
+      </para>
+      <section><title>Cut</title>
+        <para>
+        </para>
+      </section>
+      <section><title>Paste</title>
+        <para>
+        </para>
+      </section>
+      <section><title>Properties</title>
+        <para>
+        </para>
+      </section>
+      <section><title>Toggle Hidden </title>
+        <para>
+        </para>
+      </section>
+    </section>
+  </chapter>
+
+  <chapter><title>Using CCProbe DataCollectors</title>
+    <para>
+    </para>
+    <section><title>Graphing data with CCProbe</title>
+      <para>
+      </para>
+    </section>
+    <section><title>Saving Data in a DataSet</title>
+      <para>
+      </para>
+    </section>
+    <section><title>Exporting Data</title>
+      <para>
+      </para>
+    </section>
+    <section><title>Multiple Data Collections</title>
+      <para>
+      </para>
+    </section>
+    <section><title>Clearing the Data</title>
+      <para>
+      </para>
+    </section>
+    <section><title>Marking and Labeling the Graph</title>
+      <para>
+      </para>
+    </section>
+    <section><title>Saving Notes With the DataSet</title>
+      <para>
+      </para>
+    </section>
+    <section><title>Viewing as a Bar Graph</title>
+      <para>
+      </para>
+    </section>
+    <section><title>Changing the Axes and Moving the graph</title>
+      <para>
+      </para>
+    </section>
+    <section><title>Selecting an area and Zooming In</title>
+      <para>
+      </para>
+    </section>
+    <section><title>DataCollector Properties Dialog</title>
+      <para>
+      </para>
+      <section><title>Y Axis Properties</title>
+        <para>
+	</para>
+      </section>
+      <section><title>X Axis Properties</title>
+        <para>
+	</para>
+      </section>
+      <section><title>Graph Properties</title>
+        <para>
+	</para>
+      </section>
+      <section><title>Probe Properties</title>
+        <para>
+	</para>
+      </section>
+      <section><title>Calibration Dialog</title>
+        <para>
+	</para>
+      </section>
+    </section>
+    <section><title>Types of DataCollectors</title>
+      <para>
+      </para>
+      <section><title>Temperature</title>
+        <para>
+	</para>
+        <section><title>Connecting the Temperature Probe</title>
+	  <para>
+	  </para>
+	</section>
+        <section><title>Port Selection: A or B</title>
+	  <para>
+	  </para>
+	</section>
+        <section><title>Output Mode: C, F, K</title>
+	  <para>
+	  </para>
+	</section>
+        <section><title>Calibration</title>
+	  <para>
+	  </para>
+	</section>
+      </section>
+      <section><title>Light</title>
+        <para>
+	</para>
+        <section><title>Connecting the Light Probe</title>
+	  <para>
+	  </para>
+	</section>
+        <section><title>Port Selection: A or B</title>
+	  <para>
+	  </para>
+	</section>
+        <section><title>Output Mode</title>
+	  <para>
+	  </para>
+	</section>
+        <section><title>Calibration</title>
+	  <para>
+	  </para>
+	</section>
+      </section>
+      <section><title>SmartWheel</title>
+        <para>
+	</para>
+        <section><title>Connecting the SmartWheel Probe</title>
+	  <para>
+	  </para>
+	</section>
+        <section><title>Port Selection: A</title>
+	  <para>
+	  </para>
+	</section>
+        <section><title>Output Mode</title>
+	  <para>
+	  </para>
+	</section>
+        <section><title>Calibration</title>
+	  <para>
+	  </para>
+	</section>
+      </section>
+      <section><title>Force</title>
+        <para>
+	</para>
+        <section><title>Connecting the Force Probe</title>
+	  <para>
+	  </para>
+	</section>
+        <section><title>Port Selection: A or B</title>
+	  <para>
+	  </para>
+	</section>
+        <section><title>Output Mode</title>
+	  <para>
+	  </para>
+	</section>
+        <section><title>Calibration</title>
+	  <para>
+	  </para>
+	</section>
+      </section>
+      <section><title>Voltage/Current</title>
+        <para>
+	</para>
+        <section><title>Connecting the Voltage/Current Probe</title>
+	  <para>
+	  </para>
+	</section>
+        <section><title>Port Selection: A or B</title>
+	  <para>
+	  </para>
+	</section>
+        <section><title>Output Mode</title>
+	  <para>
+	  </para>
+	</section>
+        <section><title>Calibration</title>
+	  <para>
+	  </para>
+	</section>
+      </section>
+      <section><title>RawData</title>
+        <para>
+	</para>
+        <section><title>Using the RawData DataCollector</title>
+	  <para>
+	  </para>
+	</section>
+        <section><title>Port Selection: A or B</title>
+	  <para>
+	  </para>
+	</section>
+        <section><title>Output Mode</title>
+	  <para>
+	  </para>
+	</section>
+        <section><title>Calibration</title>
+	  <para>
+	  </para>
+	</section>
+      </section>
+    </section>
+    <section><title>File Menu</title>
+      <para>
+      </para>
+      <section><title>Beam</title>
+        <para>
+	</para>
+      </section>
+      <section><title>Save Data</title>
+        <para>
+	</para>
+      </section>
+      <section><title>Export Data</title>
+        <para>
+	</para>
+      </section>
+      <section><title>About CCProbe</title>
+        <para>
+	</para>
+      </section>
+      <section><title>Exit</title>
+        <para>
+	</para>
+      </section>
+    </section>
+    <section><title>Edit</title>
+      <para>
+      </para>
+      <section><title>Properties</title>
+        <para>
+	</para>
+      </section>
+      <section><title>Save Profile</title>
+        <para>
+	</para>
+      </section>
+    </section>
+  </chapter>
+
+  <chapter><title>Using CCProbe DataSets</title>
+    <para>
+    </para>
+  </chapter>
+  <chapter><title>Using CCProbe Drawings</title>
+    <para>
+    </para>
+    <section><title>Drawing</title>
+      <para>
+      </para>
+    </section>
+    <section><title>Erasing</title>
+      <para>
+      </para>
+    </section>
+    <section><title>Clearing the Whole Picture</title>
+      <para>
+      </para>
+    </section>
+    <section><title>Setting the Pen Color</title>
+      <para>
+      </para>
+    </section>
+  </chapter>
+  <chapter><title>Using CCProbe Unit Convertors</title>
+    <para>
+    </para>
+    <section><title>Length</title>
+      <para>
+      </para>
+    </section>
+    <section><title>Mass</title>
+      <para>
+      </para>
+    </section>
+    <section><title>Time</title>
+      <para>
+      </para>
+    </section>
+    <section><title>Temperature</title>
+      <para>
+      </para>
+    </section>
+    <section><title>Area</title>
+      <para>
+      </para>
+    </section>
+    <section><title>Volume</title>
+      <para>
+      </para>
+    </section>
+    <section><title>Energy</title>
+      <para>
+      </para>
+    </section>
+    <section><title>Force</title>
+      <para>
+      </para>
+    </section>
+    <section><title>Power</title>
+      <para>
+      </para>
+    </section>
+    <section><title>Pressure</title>
+      <para>
+      </para>
+    </section>
+    <section><title>Electricity</title>
+      <para>
+      </para>
+    </section>
+  </chapter>
+  <chapter><title>Using CCProbe Images</title>
+    <para>
+    </para>
+  </chapter>
+  <chapter><title>Using CCProbe Supernotes</title>
+    <para>
+    </para>
+  </chapter>
+  <chapter><title>LabBook Management</title>
+    <para>
+    </para>
+  </chapter>
+  <chapter><title>Advanced Features</title>
+    <para>
+    </para>
+    <section><title>Folder Modes</title>
+      <para>
+      </para>
+    </section>
+    <section><title>Editing Supernotes</title>
+      <para>
+      </para>
+    </section>
+  </chapter>
+  <chapter><title>Reporting Bugs and Feature Requests</title>
+    <para>
+    </para>
+  </chapter>
+  <chapter><title>CCProbe Development</title>
+    <para>
+    </para>
+  </chapter>
 </book>

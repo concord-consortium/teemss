@@ -13,13 +13,13 @@ public class BlockModel extends MainWindow
     Canvas modelCanvas;
     Canvas addCanvas;
     Canvas dataCanvas;
+    GraphView gv;
     PSConnection connection;
     Layer modelLayer;
     Layer probeLayer;
     Button rotate;
     Button discover;
-    Button flip, load, save, set;
-    Label status;
+    Button flip, load, save;
     ThermalPlane tp = null;
     TabManager tabMan;
     OpenFileWindow opWin;
@@ -43,37 +43,27 @@ public class BlockModel extends MainWindow
 	tabMan.setPos(1,1);
 
 	mp = new ModelPage();
-	mp.bm = this;
 	tabMan.addPane("Model", mp);
 
 	dp = new DataPage();
-	dp.bm = this;
 	tabMan.addPane("Data", dp);
 
 	add(tabMan);
 
-	status = new Label("Status Bar Just Testing");
-	status.setRect(1, 260, 150, 14);
-	add(status);
-
 	rotate = new Button("Rotate");
-	rotate.setRect(1,278,37,14);
+	rotate.setRect(1,276,40,14);
 	add(rotate);
 
 	flip = new Button("Flip");
-	flip.setRect(39,278,35,14);
+	flip.setRect(50,276,35,14);
 	add(flip);
 	
-	set = new Button("Set");
-	set.setRect(77, 278, 30, 14);
-	add(set);
-
 	save = new Button("Save");
-	save.setRect(123, 278, 35, 14);
+	save.setRect(90, 276, 35, 14);
 	add(save);
 	
 	load = new Button("Load");
-	load.setRect(160, 278, 35, 14);
+	load.setRect(130, 276, 35, 14);
 	add(load);
 
 
@@ -142,16 +132,6 @@ public class BlockModel extends MainWindow
 
     }
 
-    public void setStatus(String text)
-    {
-	Graphics g = createGraphics();
-	g.setColor(255,255,255);
-	g.fillRect(1,260, 150, 14);
-	status.setText(text);
-	status.repaintNow();
-	g.free();
-    }
-
     public void onEvent(Event e)
     {
 	if(e.type == ControlEvent.PRESSED){
@@ -162,8 +142,6 @@ public class BlockModel extends MainWindow
 	    } else if(target == flip && Canvas.selected != null){
 		Canvas.selected.canvas.rotateSelected(2);
 		setFocus(Canvas.selected.canvas);		
-	    } else if(target == set && Canvas.selected != null){
-		Canvas.selected.canvas.propSelected();
 	    } else if(target == save){
 		opWin.save(this, curFileName);    
 	    } else if(target == load){

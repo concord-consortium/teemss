@@ -11,6 +11,9 @@ class BlockObject extends CanvasObject
     String label;
     int blockNum;
     int psId;
+    Edit tempEdits[];
+    Edit labelEdit = null;
+    Edit numEdit = null;
     boolean drawLabel;
     Font font;
     int tempLen;
@@ -59,6 +62,8 @@ class BlockObject extends CanvasObject
 	rB = 255;
 	gB = 255;
 	bB = 255;
+	labelEdit = new Edit();
+	numEdit = new Edit();
 	drawLabel = true;
 	disposable = false;
 	font = MainWindow.defaultFont;
@@ -83,6 +88,10 @@ class BlockObject extends CanvasObject
 	    width = tempLen * len;
 	}
 	temps = new float [len];
+	tempEdits = new Edit [len];
+	for(int i=0; i < len; i++){
+	    tempEdits[i] = new Edit();
+	}
     }
 
 
@@ -115,6 +124,43 @@ class BlockObject extends CanvasObject
 	return (float)0;
     }
 
+    public Container setupProp(int w, int h)
+    {
+	super.setupProp(w,h);
+	int yPos = 20;
+	
+	for(int i=0; i < tempEdits.length; i++){
+	    tempEdits[i].setRect(50,yPos,50,17);
+	    properties.add(tempEdits[i]);
+	    yPos += 20;
+	}
+
+	labelEdit.setRect(50,yPos,100,17);
+	properties.add(labelEdit);
+
+	yPos += 20;
+	numEdit.setRect(50,80,50,17);
+	properties.add(numEdit);
+
+	return properties;
+    }
+
+    public void refreshProp()
+    {
+	for(int i=0; i < tempEdits.length; i++){
+	    tempEdits[i].setText(temps[i] + "");
+	}
+	labelEdit.setText(label + "");
+	numEdit.setText(blockNum + "");
+    }
+
+    public void updateProp()
+    {
+	for(int i=0; i < tempEdits.length; i++){
+	    temps[i] = floatValue(tempEdits[i].getText());
+	}
+	label = labelEdit.getText();
+    }
 
     public void copyTo(CanvasObject co)
     {
@@ -175,8 +221,8 @@ class BlockObject extends CanvasObject
 		// Vertical block
 		int yPos = y;
 		for(i=tempStart; i != tempEnd; i += tempStep){
-		    if(canvas.axis != null){
-			canvas.axis.setTempColor(g,temps[i]);
+		    if(canvas.gv != null){
+			canvas.gv.setTempColor(g,temps[i]);
 		    } else {
 			g.setColor(255,255,255);
 		    }
@@ -234,8 +280,8 @@ class BlockObject extends CanvasObject
 		// Horizontal Block
 		int xPos = x;
 		for(i=tempStart; i != tempEnd; i += tempStep){
-		    if(canvas.axis != null){
-			canvas.axis.setTempColor(g,temps[i]);
+		    if(canvas.gv != null){
+			canvas.gv.setTempColor(g,temps[i]);
 		    } else {
 			g.setColor(255,255,255);
 		    }

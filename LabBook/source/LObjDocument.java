@@ -1,37 +1,36 @@
-package org.concord.LabBook;
-
 import waba.util.*;
 import waba.ui.*;
-import org.concord.waba.extra.io.*;
+import extra.io.*;
 import org.concord.waba.extra.ui.*;
+import extra.ui.*;
 
-public class LObjDocument extends LabObject{
-	String 					text = null;
-	public LObjDocumentView view = null;
+public class LObjDocument extends LabObject
+{
+    String text = null;
 
-    public LObjDocument(){
-		super(DefaultFactory.DOCUMENT);
+    public LObjDocument()
+    {
+	objectType = DOCUMENT;
+
     }
 
-    public void setText(String t){
-		text = t;
+    public void setText(String t)
+    {
+	text = t;
     }
 
-    public LabObjectView getView(ViewContainer vc, boolean edit, LObjDictionary curDict,
-								 LabBookSession session){
- 		if(view == null){ 
- 			view = new LObjDocumentView(vc, this, edit);
- 		}else{
-    		view.container = vc;
-    	}
-		return view;
+    public LabObjectView getView(boolean edit)
+    {
+	return new LObjDocumentView(this);
     }
 
-    public void writeExternal(DataStream out){
-		out.writeString(text);
+    public void writeExternal(DataStream out)
+    {
+	out.writeString(text);
     }
 
-    public void readExternal(DataStream in){
-		text = in.readString();
+    public void readExternal(DataStream in)
+    {
+	text = in.readString();
     }
 }

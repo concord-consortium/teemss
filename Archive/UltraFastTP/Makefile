@@ -1,23 +1,20 @@
 
 MODULE = UltraFastTP
-DEP_NAMES = wgraph ProbeLib
-
-WGRAPH_DIR:= $(CURDIR)/../wgraph/classes
-PROBELIB_DIR:= $(CURDIR)/../ProbeLib/classes
-JAR_EXTRAS= -C $(WGRAPH_DIR) graph -C $(PROBELIB_DIR) .
-PLATFORMS= palm other
-RUN_FORK= other
-RUN_PLATFORM = other
-WARP_PLATFORM = other
-JUMP_PLATFORM = palm
-
-MW_CLASS= UltraFastTP
-
-EXE_CLASS_HEAP_SIZE = 1000000
-EXE_OBJ_HEAP_SIZE = 5000000
+DEP_NAMES = wgraph ProbeSystem BlockModel
 
 include ../ReleaseSystem/waba.inc
 
-CLASSPATH := ${CLASSPATH}:${WGRAPH_DIR}:${PROBELIB_DIR}
+WGRAPH_DIR:= $(CURDIR)/../wgraph/classes
+PROBESYS_DIR:= $(CURDIR)/../ProbeSystem/classes
+BLOCKMODEL_DIR:= $(CURDIR)/../BlockModel/classes
+JAR_EXTRAS= -C $(WGRAPH_DIR) graph -C $(WEXTRAS_DIR) extra/util/Maths.class
 
-all: dependencies main warp jar exegen
+CLASSPATH += ${CLASSPATH}:${WGRAPH_DIR}:.
+
+PM_CLASSES= JavaProbeManager.class ProbeManager.class ProbeInfo.class
+BM_CLASSES= PropObject.class PropWindow.class TCPDataChannel.class
+
+EXT_CLASSES= $(PM_CLASSES:%=$(PROBESYS_DIR)/%) $(BM_CLASSES:%=$(BLOCKMODEL_DIR)/%)
+MW_CLASS= UltraFastTP
+
+all: dependencies main warp jar
