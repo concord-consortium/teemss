@@ -92,7 +92,8 @@ public class LabBookCatalog extends LabBookDB
     Dialog errDialog = null;
     public void showError(String msg)
     {
-		errDialog = Dialog.showInputDialog(this, "Error saving LbBk", msg, errButtons, Dialog.EDIT_INP_DIALOG);
+		errDialog = Dialog.showInputDialog(this, "Error saving LbBk", msg, 
+										   errButtons, Dialog.EDIT_INP_DIALOG);
     }
 
     public void dialogClosed(DialogEvent e)
