@@ -6,8 +6,11 @@ import org.concord.waba.extra.probware.*;
 import extra.util.*;
 
 public class CCRawData extends CCProb{
-float  			[]rawData = new float[1];
-float  			dtChannel = 0.0f;
+float  			[]rawData = new float[CCInterfaceManager.BUF_SIZE];
+int  			[]rawIntData = new int[CCInterfaceManager.BUF_SIZE];
+int				firstIndex,secondIndex;
+
+
     String [] portNames = {"A", "B"};
     String [] channelNames = {"0", "1"};
     String [] numbChannels = {"1", "2"};
@@ -21,11 +24,13 @@ float  			dtChannel = 0.0f;
 		activeChannels = 2;
 		setName(name);
 		dDesc.setChPerSample(2);
+		dDesc.setIntChPerSample(2);
 		dDesc.setDt(0.0f);
 		dEvent.setDataDesc(dDesc);
 		dEvent.setDataOffset(0);
 		dEvent.setNumbSamples(1);
 		dEvent.setData(rawData);
+		dEvent.setIntData(rawIntData);
 
 		properties = new PropObject[4];
 		properties[0] = new PropObject("Port", portNames);
@@ -40,27 +45,58 @@ float  			dtChannel = 0.0f;
 	public void setDataDescParam(int chPerSample,float dt){
 		dDesc.setDt(dt);
 		dDesc.setChPerSample(chPerSample);
-		dtChannel = dt / (float)chPerSample;
+		dDesc.setIntChPerSample(chPerSample);
 	}
 
     public boolean idle(org.concord.waba.extra.event.DataEvent e){
-	notifyDataListeners(e);
-	return true;
+		dEvent.type = e.type;
+		notifyDataListeners(dEvent);
+		return true;
     }
     public boolean startSampling(org.concord.waba.extra.event.DataEvent e){
-	notifyDataListeners(e);
- 	return true;
+		dEvent.type = e.type;
+		dDesc.setDt(e.getDataDesc().getDt());
+		dDesc.setTuneValue(e.getDataDesc().getTuneValue());
+		if(activeChannels == 2){
+			dDesc.setChPerSample(2);
+			dDesc.setIntChPerSample(2);
+			firstIndex = (curChannel == 1)?1:0;
+			secondIndex = (curChannel == 1)?0:1;
+		}else{
+			dDesc.setChPerSample(1);
+			dDesc.setIntChPerSample(1);
+			firstIndex = secondIndex = 0;
+		}
+		notifyDataListeners(dEvent);
+ 		return true;
    }
     public boolean dataArrived(DataEvent e)
     {
-	if(activeChannels == 2 && curChannel == 1){
-	    e.dataOffset = e.dataOffset + 1;
-	    notifyDataListeners(e);
-	    e.dataOffset = e.dataOffset - 1;
-	} else {
-	    notifyDataListeners(e);
-	}
-	return true;
+		int nOffset 		= e.getDataOffset();
+		int[] data = e.getIntData();
+		int  	chPerSample = e.dataDesc.chPerSample;
+		int		nSamples	= e.getNumbSamples();
+		int 	ndata 		= nSamples*chPerSample;
+		int 	v = 0,v1 = 0;
+		dEvent.intTime = e.intTime;
+		for(int i = 0; i < ndata; i+=chPerSample){
+			if(activeChannels == 1){
+				v = data[nOffset+i];
+				rawIntData[i] = v;
+				rawData[i] = (float)v*dDesc.tuneValue;
+			}else{
+				v = data[nOffset+i+firstIndex];
+				v1 = data[nOffset+i+secondIndex];
+				rawIntData[i] = v;
+				rawIntData[i+1] = v1;
+				rawData[i] = (float)v*dDesc.tuneValue;
+				rawData[i+1] = (float)v1*dDesc.tuneValue;
+
+			}
+		}
+		dEvent.setNumbSamples(nSamples);
+		notifyDataListeners(dEvent);
+		return true;
     }
 
 	protected boolean setPValue(PropObject p,String value){
