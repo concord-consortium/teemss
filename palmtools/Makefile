@@ -12,9 +12,10 @@ bin/pilrc: pilrc-2.8p6/pilrc bin
 FORCE:
 
 pila/pila: FORCE
-ifeq ($(shell uname),Darwin)
+ifeq ($(shell uname),Linux)
 	echo "Pila currently doesn't compile on Darwin"
 	echo "You can download a compiled version from: "
+	[ -f bin/pila ] 
 else
 	cd pila; make
 endif
