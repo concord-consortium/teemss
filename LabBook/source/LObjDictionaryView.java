@@ -324,7 +324,6 @@ public class LObjDictionaryView extends LabObjectView
     }
 
 	boolean addedMenus = false;
-
 	public void setShowMenus(boolean state)
 	{
 		if(!showMenus && state){
@@ -414,6 +413,10 @@ public class LObjDictionaryView extends LabObjectView
 
     public void close()
     {
+		if(lObjView != null){
+			lObjView.close();
+		}
+
 		super.close();
 		// Commit ???
 		// Store ??

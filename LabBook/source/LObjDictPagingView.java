@@ -1,6 +1,7 @@
 package org.concord.LabBook;
 
 import waba.ui.*;
+import waba.util.*;
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
 import extra.ui.*;
@@ -15,9 +16,10 @@ public class LObjDictPagingView extends LabObjectView
     LObjDictionary dict;
  
     Button doneButton = new Button("Done");
-    Button backButton = new Button("<-");
-    Button nextButton = new Button("->");
-    Label statusLabel = new Label("* of 0", Label.CENTER);
+    Button backButton = new Button("Back");
+    Choice objectChoice = null;
+    Button nextButton = new Button("Next");
+	
     Button delButton = new Button("Del");
 
     TreeNode [] childArray;
@@ -32,56 +34,102 @@ public class LObjDictPagingView extends LabObjectView
 
     public LObjDictPagingView(ViewContainer vc, LObjDictionary d, boolean edit)
     {
-	super(vc);
+		super(vc);
 
-	dict = d;
-	lObj = dict;
-	childArray = dict.childArray();
-	index = 0;
-	menu.add("Tree View");
-	menu.addActionListener(this);
-	editStatus = edit;
+		dict = d;
+		lObj = dict;
+		childArray = dict.childArray();
+		index = 0;
+		menu.add("Tree View");
+		menu.addActionListener(this);
+		editStatus = edit;
 
-	if(vc != null) vc.getMainView().addMenu(this, menu);
 	
     }
 
+	boolean addedMenus = false;
+	public void setShowMenus(boolean state)
+	{
+		if(!showMenus && state){
+			// our container wants us to show our menus
+			showMenus = true;
+			addMenus();
+			if(lObjView != null) lObjView.setShowMenus(state);
+		} else if(showMenus && !state){
+			// out container wants us to remove our menus
+			showMenus = false;
+			if(addedMenus) delMenus();
+			if(lObjView != null) lObjView.setShowMenus(state);
+		}
+	}
+
+	public void addMenus()
+	{
+		if(container == null) return;
+		
+		container.getMainView().addMenu(this, menu);
+		addedMenus = true;
+	}
+
+	public void delMenus()
+	{
+		if(container != null){
+			container.getMainView().delMenu(this, menu);
+			addedMenus = false;
+		}		
+	}
+
+	Vector objList = new Vector();
+
     public void layout(boolean sDone)
     {
-	if(didLayout) return;
-	didLayout = true;
+		if(didLayout) return;
+		didLayout = true;
 
-	showDone = sDone;
+		showDone = sDone;
 
-	if(showDone){
-	    add(doneButton);
-	} 
+		if(showDone){
+			add(doneButton);
+		} 
 
-	add(nextButton);
-	add(backButton);
-	add(statusLabel);
-	if(editStatus) add(delButton);
+		add(nextButton);
+		add(backButton);
+
+		if(childArray != null){
+			for(int i=0; i < childArray.length; i++){
+				objList.add(childArray[i].toString());
+			}
+		}
+
+		objectChoice = new Choice(objList);
+		add(objectChoice);
+
+		if(editStatus) add(delButton);
 	
-	showObject();
+		showObject();
     }
 
     public void setRect(int x, int y, int width, int height)
     {
-	super.setRect(x,y,width,height);
-	if(!didLayout) layout(false);
+		super.setRect(x,y,width,height);
+		if(!didLayout) layout(false);
 	
-	backButton.setRect(0, height-15, 15, 15);
-	statusLabel.setRect(15, height-15, 40, 15);
-	nextButton.setRect(55, height-15, 15, 15);
-	if(editStatus) delButton.setRect(100, height-15, 25, 15);
-	if(showDone){
-	    doneButton.setRect(130, height-15, 30, 15);
-	}
-	if(lObjView != null){
-	    lObjView.setRect(0,0,width, height-15);
-	    Debug.println("Adding lObjView at: " + x + ", " + y +
-			       ", " + width + ", " + height);
-	}
+		int curX = 0;
+		backButton.setRect(0, height-15, 25, 15);
+		curX += 25;
+		objectChoice.setRect(curX, height-15, 60, 15);
+		curX += 60;
+		nextButton.setRect(curX, height-15, 25, 15);
+		curX+=25;
+		if(editStatus) delButton.setRect(width-50, height-15, 25, 15);
+		if(showDone){
+			doneButton.setRect(width-25, height-15, 25, 15);
+		}
+		if(lObjView != null){
+			lObjView.setRect(0,0,width, height-15);
+			Debug.println("Adding lObjView at: " + x + ", " + y +
+						  ", " + width + ", " + height);
+		}
     }
 
     public void onEvent(Event e)
@@ -121,6 +169,17 @@ public class LObjDictPagingView extends LabObjectView
 				dict.remove(childArray[index]);
 				childArray = dict.childArray();
 				if(index >= childArray.length) index = childArray.length - 1;
+
+				int numObjs = objList.getCount();
+				for(int i=0; i < numObjs; i++){
+					objList.del(0);
+				}
+				
+				if(childArray != null){
+					for(int i=0; i < childArray.length; i++){
+						objList.add(childArray[i].toString());
+					}
+				}
 				showObject();
 			} else if(e.target == backButton){
 				index--;
@@ -130,20 +189,27 @@ public class LObjDictPagingView extends LabObjectView
 				if(container != null){
 					container.done(this);
 				}
-			}	    
+			} else if(e.target == objectChoice){
+				int newIndex = objectChoice.getSelectedIndex();
+				if(newIndex == index) return;
+				index = newIndex;
+				if(index < 0) index = 0;
+				if(index >= childArray.length) index = childArray.length;
+				showObject();
+			}
 		}
     }
 
     public void actionPerformed(ActionEvent e)
     {
-	if(e.getSource() == menu){
-	    if(e.getActionCommand().equals("Tree View") &&
-	       container != null){
-		dict.viewType = dict.TREE_VIEW;
-		container.reload(this);
-	    }
+		if(e.getSource() == menu){
+			if(e.getActionCommand().equals("Tree View") &&
+			   container != null){
+				dict.viewType = dict.TREE_VIEW;
+				container.reload(this);
+			}
 
-	}		
+		}		
     }
 
 	public MainView getMainView()
@@ -156,16 +222,16 @@ public class LObjDictPagingView extends LabObjectView
 
     public void reload(LabObjectView source)
     {
-	if(source == lObjView){
-	    LabObject obj = source.getLabObject();
-	    lObjView.close();
-	    remove(lObjView);
+		if(source == lObjView){
+			LabObject obj = source.getLabObject();
+			lObjView.close();
+			remove(lObjView);
 	    
-	    lObjView = obj.getView(this, editStatus);
-	    lObjView.layout(false);
-	    lObjView.setRect(x,y,width,height-15);
-	    add(lObjView);
-	}
+			lObjView = obj.getView(this, editStatus);
+			lObjView.layout(false);
+			lObjView.setRect(x,y,width,height-15);
+			add(lObjView);
+		}
     }
 
     public void showObject()
@@ -196,43 +262,42 @@ public class LObjDictPagingView extends LabObjectView
 	    
 		} 
 
-	if(obj == null) return;
+		if(obj == null) return;
        	if(obj == curObj) return;
 
-	if(lObjView != null){
-	    lObjView.close();
-	    remove(lObjView);
-	}
+		if(lObjView != null){
+			lObjView.close();
+			remove(lObjView);
+		}
 		
-	curObj = obj;
+		objectChoice.setSelectedIndex(index);
 
-	statusLabel.setText((index + 1) + " of " + childArray.length);
+		curObj = obj;
 
-	lObjView = obj.getView(this, editStatus);
+		lObjView = obj.getView(this, editStatus);
 
-	lObjView.layout(false);
-	if(width > 0 || height > 15){
-	    lObjView.setRect(0,0,width,height-15);
-	    Debug.println("Adding lObjView at: " + x + ", " + y +
-			       ", " + width + ", " + height);
-	}
-	add(lObjView);
+		lObjView.layout(false);
+		if(width > 0 || height > 15){
+			lObjView.setRect(0,0,width,height-15);
+			Debug.println("Adding lObjView at: " + x + ", " + y +
+						  ", " + width + ", " + height);
+		}
+		lObjView.setShowMenus(showMenus);
+		add(lObjView);
 
-	// do I need this
-	// repaint();
+		// do I need this
+		// repaint();
     }
 
     public void close()
     {
-	if(container != null)  container.getMainView().delMenu(this,menu);
+		if(lObjView != null){
+			lObjView.close();
+		}
 
-	if(lObjView != null){
-	    lObjView.close();
-	}
-
-	super.close();
-	// Commit ???
-	// Store ??
+		super.close();
+		// Commit ???
+		// Store ??
     }
 
 }
