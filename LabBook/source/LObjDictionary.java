@@ -180,11 +180,11 @@ public class LObjDictionary extends LabObject
     {
 
 	if(obj instanceof LObjDictionary){
-	    return (TreeNode)obj;
+	    return obj;
 	} else {
 	    LabObjectPtr ptr = lBook.store(obj);
 	    ptr.name = obj.name;
-	    return (TreeNode)ptr;
+	    return ptr;
 	}	
     }
 
@@ -213,7 +213,7 @@ public class LObjDictionary extends LabObject
 	    LabObjectPtr ptr = ((LabObjectPtr)objects.get(i));
 	    LabObject obj = lBook.load(ptr);
 	    if(obj instanceof LObjDictionary){
-		children[i] = (TreeNode)obj;
+		children[i] = obj;
 	    } else {
 		if(obj == null){
 		    Debug.println("childArray: Null Object");
@@ -221,7 +221,7 @@ public class LObjDictionary extends LabObject
 		} else {
 		    ptr.name = obj.name;
 		}
-		children[i] = (TreeNode)ptr;
+		children[i] = ptr;
 	    }
 	}
 	return children;
