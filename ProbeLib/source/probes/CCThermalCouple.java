@@ -109,12 +109,6 @@ float FC = 0.0f;
 		return true;
     }
 
-     public boolean idle(DataEvent e){
-		dEvent.type = e.type;
-		notifyDataListeners(dEvent);
-		return true;
-     }
-   	
 	public boolean dataArrived(DataEvent e){
 		dEvent.type = e.type;
 		int nOffset = e.getDataOffset();

@@ -118,9 +118,6 @@ public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
 		return  super.setPValue(p,value);
 	}
 
-	public boolean idle(org.concord.waba.extra.event.DataEvent e){
-		return true;
-	}
 	public boolean startSampling(org.concord.waba.extra.event.DataEvent e){
 		energy = 0.0f;
 		dEvent.type = e.type;
