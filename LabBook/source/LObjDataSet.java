@@ -138,9 +138,9 @@ public class LObjDataSet extends LObjSubDict
 	    for(int i=0; i<numData; i++){
 		data[i] = ds.readFloat();
 	    }
-
+		int intTime = (int)(time/dt + 0.5f);//dima
 	    dEvent = new DataEvent(DataEvent.DATA_RECEIVED, 
-				   time, data, dataDesc);
+				   intTime, data, dataDesc);
 	    dEvent.numbSamples = numData;
 	    dEvent.dataOffset = 0;
 	} else {
@@ -260,7 +260,7 @@ public class LObjDataSet extends LObjSubDict
 	    ds.writeFloat(dataEvent.getDataDesc().getDt());
 	    
 	    // Write start time
-	    ds.writeFloat(dataEvent.time);
+	    ds.writeFloat(dataEvent.getTime());//dima
 	    
 	    // Write numb data
 	    ds.writeInt(dataEvent.numbSamples);

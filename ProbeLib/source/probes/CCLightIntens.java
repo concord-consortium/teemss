@@ -7,6 +7,7 @@ import extra.util.*;
 
 public class CCLightIntens extends CCProb{
 float  			[]lightData = new float[CCInterfaceManager.BUF_SIZE/2];
+int  			[]lightIntData = new int[CCInterfaceManager.BUF_SIZE/2];
 float  			dtChannel = 0.0f;
 float				AHigh = 1f;
 float				BHigh = 0f;
@@ -27,11 +28,13 @@ public static String [] modelNames = {"High Range", "Low range"};
 	    activeChannels = 2;
 		setName(name);
 		dDesc.setChPerSample(2);
+		dDesc.setIntChPerSample(2);
 		dDesc.setDt(0.0f);
 		dEvent.setDataDesc(dDesc);
 		dEvent.setDataOffset(0);
 		dEvent.setNumbSamples(1);
 		dEvent.setData(lightData);
+		dEvent.setIntData(lightIntData);
 
 		properties = new PropObject[2];
 		properties[0] = new PropObject(samplingModeString,samplingModes); 
@@ -97,19 +100,20 @@ public static String [] modelNames = {"High Range", "Low range"};
 		}else{
 			dDesc.setChPerSample(1);
 		}
-	    	return true;
-    	}
+		dDesc.setTuneValue(e.getDataDesc().getTuneValue());
+	    return true;
+    }
 	public boolean dataArrived(DataEvent e){
 		dEvent.type = e.type;
-		float[] data = e.getData();
+		int[] data = e.getIntData();
 		int nOffset = e.getDataOffset();
 		if(calibrationListener != null){
 			if(lightMode == HIGH_LIGHT_MODE){
-				lightData[0] = AHigh*data[nOffset]+BHigh;
-				lightData[1] = data[nOffset];
+				lightData[0] = AHigh*dDesc.tuneValue*(float)data[nOffset]+BHigh;
+				lightData[1] = dDesc.tuneValue*(float)data[nOffset];
 			}else{
-				lightData[0] = ALow*data[nOffset+1]+BLow;
-				lightData[1] = data[nOffset+1];
+				lightData[0] = ALow*dDesc.tuneValue*(float)data[nOffset+1]+BLow;
+				lightData[1] = dDesc.tuneValue*(float)data[nOffset+1];
 			}
 			dEvent.setNumbSamples(1);
 		}else{
@@ -118,13 +122,18 @@ public static String [] modelNames = {"High Range", "Low range"};
 			dtChannel = e.dataDesc.getDt() / (float)chPerSample;
 			if(ndata < chPerSample) return false;
 			int dataIndex = 0;	
-			dEvent.time = e.time;
+			dEvent.intTime = e.intTime;
 			for(int i = 0; i < ndata; i+=chPerSample){
 				if(lightMode == HIGH_LIGHT_MODE){
-					lightData[dataIndex++] = AHigh*data[nOffset+i]+BHigh;
+					int v = data[nOffset+i];
+					lightIntData[dataIndex] = v;
+					lightData[dataIndex] = AHigh*dDesc.tuneValue*(float)v+BHigh;
 				}else{
-					lightData[dataIndex++] = ALow*data[nOffset+i+1]+BLow;
+					int v = data[nOffset+i+1];
+					lightIntData[dataIndex] = v;
+					lightData[dataIndex] = ALow*dDesc.tuneValue*(float)v+BLow;
 				}
+				dataIndex++;
 			}
 			dEvent.setNumbSamples(dataIndex);
 		}

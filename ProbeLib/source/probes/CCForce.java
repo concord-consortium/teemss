@@ -7,6 +7,7 @@ import extra.util.*;
 
 public class CCForce extends CCProb{
 float  			[]forceData = new float[CCInterfaceManager.BUF_SIZE/2];
+int  			[]forceIntData = new int[CCInterfaceManager.BUF_SIZE];
 public final static String [] portNames = {"A", "B"};
 public final static String [] numbChannels = {"1", "2"};
 public final static String [] channelNames = {"0", "1"};
@@ -27,6 +28,7 @@ float B = -25.31f;
 		dEvent.setDataDesc(dDesc);
 		dEvent.setDataOffset(0);
 		dEvent.setData(forceData);
+		dEvent.setIntData(forceIntData);
 
 		properties = new PropObject[4];
 		properties[0] = new PropObject(samplingModeString,samplingModes); 
@@ -97,6 +99,7 @@ float B = -25.31f;
 		dEvent.type = e.type;
 		dDesc.setDt(e.getDataDesc().getDt());
 		chPerSample = e.getDataDesc().getChPerSample();
+		dDesc.setTuneValue(e.getDataDesc().getTuneValue());
 		if(calibrationListener != null){
 			if(activeChannels == 2)
 				dDesc.setChPerSample(3);
@@ -105,38 +108,42 @@ float B = -25.31f;
 		}else{
 			dDesc.setChPerSample(1);
 		}
+		dDesc.setIntChPerSample(1);
 		channelOffset = curChannel;
 		if(curChannel > activeChannels - 1) channelOffset = activeChannels - 1;
 		if(calibrationListener == null){
 			notifyDataListeners(e);
 		}
 	    	return true;
-    	}
+    }
 
 	public boolean dataArrived(DataEvent e){
 		dEvent.type = e.type;
-		dEvent.time = e.time;
+		dEvent.intTime = e.intTime;
+		float v = dDesc.tuneValue;
 		if(calibrationListener != null){
 			dEvent.numbSamples = 1;
-			forceData[0] = A*e.data[e.dataOffset+channelOffset]+B;
+			forceData[0] = A*e.intData[e.dataOffset+channelOffset]*v+B;
 			if(activeChannels == 2){
-				forceData[1] = e.data[e.dataOffset];
-				forceData[2] = e.data[e.dataOffset+1];
+				forceData[1] = e.intData[e.dataOffset]*v;
+				forceData[2] = e.intData[e.dataOffset+1]*v;
 			}else{
-				forceData[1] = e.data[e.dataOffset+channelOffset];
+				forceData[1] = e.intData[e.dataOffset+channelOffset]*v;
 				forceData[2]  = 0f;
 			}
 		}else{
-			dEvent.time = e.time;
+			dEvent.intTime = e.intTime;
 			dEvent.numbSamples = e.numbSamples;
 			dEvent.pTimes = e.pTimes;
 			dEvent.numPTimes = e.numPTimes;
 			int ndata = dEvent.numbSamples*e.dataDesc.chPerSample;
 			int dOff = e.dataOffset;
-			float data [] = e.data;
+			int data [] = e.intData;
 			int currPos = 0;
 			for(int i = 0; i < ndata; i+= chPerSample){
-				forceData[currPos++] = A*data[dOff + i+channelOffset]+B;
+				forceIntData[currPos] = data[dOff + i+channelOffset];
+				forceData[currPos] = A*forceIntData[currPos]*v+B;
+				currPos++;
 			}
 		}
 		notifyDataListeners(dEvent);

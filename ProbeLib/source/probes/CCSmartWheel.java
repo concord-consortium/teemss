@@ -6,7 +6,8 @@ import org.concord.waba.extra.probware.*;
 
 
 public class CCSmartWheel extends CCProb{
-float  			[]wheelData = new float[CCInterfaceManager.BUF_SIZE*2];
+float  			[]wheelData 	= new float[CCInterfaceManager.BUF_SIZE*2];
+int  			[]wheelIntData 	= new int[CCInterfaceManager.BUF_SIZE*2];
 float  			dtChannel = 0.0f;
 int				nTicks = 660;
 float				radius = 0.06f;
@@ -30,6 +31,7 @@ int					outputMode = DEFAULT_MODE_OUT;
 		dEvent.setDataOffset(0);
 		dEvent.setNumbSamples(1);
 		dEvent.setData(wheelData);
+		dEvent.setIntData(wheelIntData);
 		
 		properties = new PropObject[2];
 		properties[0] = new PropObject(samplingModeString,samplingModes); 
@@ -90,10 +92,11 @@ int					outputMode = DEFAULT_MODE_OUT;
 
 
 
-    	public boolean startSampling(DataEvent e){
+    public boolean startSampling(DataEvent e){
 		dEvent.type = e.type;
 		dDesc.setDt(e.getDataDesc().getDt());
 		dDesc.setChPerSample(e.getDataDesc().getChPerSample());
+		dDesc.setTuneValue(e.getDataDesc().getTuneValue());
 		if(calibrationListener != null){
 			dDesc.setChPerSample(2);
 		}else{
@@ -104,6 +107,7 @@ int					outputMode = DEFAULT_MODE_OUT;
 		posOffset = 0f;
 		dt = dDesc.getDt();
 		dEvent.setData(wheelData);
+		dEvent.setIntData(wheelIntData);
 		notifyDataListeners(dEvent);
 		return true;
     	}
@@ -116,8 +120,8 @@ int					outputMode = DEFAULT_MODE_OUT;
 	public boolean dataArrived(DataEvent e){
 		dEvent.type = e.type;
 	    //System.out.println("wheel transform "+e);
-		float t0 = e.time;
-		float[] data = e.data;
+		float t0 = e.getTime();
+		int[] data = e.getIntData();
 		int nOffset = e.dataOffset;
 		float calibrated;
 		float calFactor = koeff/(float)nTicks/dt;
@@ -129,7 +133,7 @@ int					outputMode = DEFAULT_MODE_OUT;
 		if(ndata < chPerSample) return false;
 
 		if(calibrationListener != null){
-		    wheelData[0] = data[nOffset];//row
+		    wheelData[0] = (float)data[nOffset]*dDesc.tuneValue;//row
 		    calibrated = wheelData[0]*calFactor;
 		    wheelData[1] = wheelData[0] ;
 		    wheelData[0] = calibrated * radius*koeff;
@@ -138,22 +142,23 @@ int					outputMode = DEFAULT_MODE_OUT;
 		    return true;
 		}
 
-		dEvent.time = e.time;
+		dEvent.intTime = e.intTime;
 		dEvent.numbSamples = e.numbSamples;
 		dEvent.setData(wheelData);
 		// System.out.println("rad: " + radius + " koeff: " + koeff);
 		for(int i = 0; i < ndata; i+=chPerSample){
-		    calibrated = data[nOffset+i]*calFactor;
+		    wheelIntData[i] = data[nOffset+i];
+		    calibrated = (float)wheelIntData[i]*calFactor*dDesc.tuneValue;
 		    switch(outputMode){
-		    case LINEAR_MODE_OUT:
-			wheelData[i] = calibrated * radius;
-			break;
-		    case LIN_POS_MODE_OUT:
-			wheelData[i] = posOffset = posOffset + calibrated * radius*dt;
-			break;
-		    default:
-			wheelData[i] = calibrated;
-			break;
+		    	case LINEAR_MODE_OUT:
+					wheelData[i] = calibrated * radius;
+					break;
+		    	case LIN_POS_MODE_OUT:
+					wheelData[i] = posOffset = posOffset + calibrated * radius*dt;
+					break;
+		    	default:
+					wheelData[i] = calibrated;
+					break;
 		    }
 			    
 		}

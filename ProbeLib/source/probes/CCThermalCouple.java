@@ -6,7 +6,8 @@ import org.concord.waba.extra.probware.*;
 
 
 public class CCThermalCouple extends CCProb{
-float  			[]tempData = new float[3];
+float  			[]tempData 		= new float[3];
+int  			[]tempIntData 	= new int[3];
 float  			dtChannel = 0.0f;
 public final static int		CELSIUS_TEMP_OUT = 1;
 public final static int		FAHRENHEIT_TEMP_OUT = 2;
@@ -34,6 +35,7 @@ float FC = 0.0f;
 		dEvent.setDataOffset(0);
 		dEvent.setNumbSamples(1);
 		dEvent.setData(tempData);
+		dEvent.setIntData(tempIntData);
 		properties = new PropObject[2];
 //		samplingModes[1] = null;
 
@@ -88,25 +90,28 @@ float FC = 0.0f;
 		dDesc.setChPerSample(chPerSample);
 		dtChannel = dt / (float)chPerSample;
 	}
-    	public boolean startSampling(DataEvent e){
+    public boolean startSampling(DataEvent e){
 		dEvent.type = e.type;
 		dDesc.setDt(e.getDataDesc().getDt());
 		dDesc.setChPerSample(e.getDataDesc().getChPerSample());
 		dEvent.setNumbSamples(1);
+		dDesc.setTuneValue(e.getDataDesc().getTuneValue());
+				
 		if(calibrationListener != null){
 			dDesc.setChPerSample(3);
 		}else{
 			dDesc.setChPerSample(1);
 		}
+		dDesc.setIntChPerSample(2);
 		dtChannel = dDesc.getDt() / (float)dDesc.getChPerSample();
 		notifyDataListeners(dEvent);
 		return true;
-    	}
-     	public boolean idle(DataEvent e){
+    }
+     public boolean idle(DataEvent e){
 		dEvent.type = e.type;
 		notifyDataListeners(dEvent);
 		return true;
-     	}
+     }
    	
 	public boolean dataArrived(DataEvent e){
 		dEvent.type = e.type;
@@ -116,14 +121,16 @@ float FC = 0.0f;
 		if(ndata == 0) return false;
 		
 		float t0 = e.getTime();
-		float[] data = e.getData();
+		int[] data = e.getIntData();
 		for(int i = 0; i < ndata; i+=chPerSample){
 			dEvent.setTime(t0 + dtChannel*(float)i);
-			float mV = data[nOffset+i];
-			float ch2 = data[nOffset+i+1];
+			float mV = (float)data[nOffset+i]*dDesc.tuneValue;
+			float ch2 = (float)data[nOffset+i+1]*dDesc.tuneValue;
 			float lastColdJunct = (ch2 / DC) + EC;
 			tempData[0] = mV * (AC + mV * (BC + mV * CC)) + lastColdJunct;
 			tempData[0] += FC;
+			tempIntData[0] = data[nOffset+i];
+			tempIntData[1] = data[nOffset+i+1];
 			switch(outputMode){
 				case FAHRENHEIT_TEMP_OUT:
 					tempData[0] = tempData[0]*1.8f + 32f;
