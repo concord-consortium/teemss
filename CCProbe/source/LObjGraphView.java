@@ -62,7 +62,7 @@ public class LObjGraphView extends LabObjectView
 	public static String TOOL_ZOOM_SELECT_NAME =  "Zoom";
 	public static String TOOL_AUTO_ZOOM_NAME = "Auto Resize";
 	public static String TOOL_ANNOT_MARK_NAME = "Annotate Mark";
-	public static String TOOL_DEFAULT_AXIS = "Default Axis";
+	public static String TOOL_DEFAULT_AXIS = "Default Axes";
 
 	private Vector externalToolNames = null;
 	private Vector externalToolListeners = null;
