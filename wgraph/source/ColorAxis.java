@@ -29,6 +29,7 @@ public class ColorAxis extends Axis
 	public ColorAxis(float min, float max, int len, int type)
 	{
 		this(type);
+		init();
 		setLength(len);
 		setDispMin(min);
 		setScale((float)len/ (max - min));

@@ -58,6 +58,7 @@ public class BarGraph extends Graph2D
 	yOriginOff = h - 30;
 
 	yaxis = new ColorAxis(minValue, minValue + range, -dwHeight, Axis.LEFT);
+	
 	yaxis.gridEndOff=dwWidth-1;
 
 	barSet = new BarSet(yaxis, 1, BarSet.BOTTOM);	

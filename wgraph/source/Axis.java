@@ -23,6 +23,7 @@ import waba.util.*;
 import waba.sys.*;
 import extra.util.Maths;
 import extra.util.*;    
+import extra.io.*;
 import org.concord.waba.extra.event.*;
 
 public class Axis
@@ -37,7 +38,7 @@ public class Axis
 
     int orient = X_SCREEN_AXIS;
 
-    TextLine label = new TextLine("0");
+    TextLine label = null;
 
     /*  The absolute min and max
      *  The Axis is designed to show a portion of its full length
@@ -53,6 +54,11 @@ public class Axis
     // Range to display
     public float dispMin;
     public int dispLen;
+
+	// This is set when readExternal is called
+	// it can be used to make the axis maintain it's dispMax
+	// on different scales
+	public float readDispMax;
     
     // If the absolute min is at 0 in screen coordiates
     // this is the position of dispMin 
@@ -105,7 +111,7 @@ public class Axis
 	boolean estimateScale = false;
 	float oldScale = 1f;
 
-	TextLine axisLabel;
+	TextLine axisLabel = null;
 	String axisLabelStr;
 	CCUnit axisLabelUnit;
 
@@ -114,7 +120,6 @@ public class Axis
     public Axis(int type)
     {
 		this.min = dispMin = 0f;
-		label.maxDigits = 2;
 		dispOffset = 0;	
 		needCalcTics = true;
 
@@ -123,28 +128,45 @@ public class Axis
 			length = dispLen = 100;	
 			axisDir = 1;
 			ticDir = 1;
-			orient = Axis.X_SCREEN_AXIS;
+			orient = X_SCREEN_AXIS;
 			labelOff = 7;
 			labelEdge = TextLine.TOP_EDGE;
 			minMajTicSpacing = 40;
-			axisLabel = new TextLine("", TextLine.RIGHT);
 			break;
 		case LEFT:
 			length = dispLen = -100;	
 			axisDir = -1;
 			ticDir = -1;
-			orient = Axis.Y_SCREEN_AXIS;
+			orient = Y_SCREEN_AXIS;
 			labelOff = -6;
 			labelEdge = TextLine.RIGHT_EDGE;
 			axisDir = -1;
 			gridDir = 1;
 			nonNegative = false;
-			axisLabel = new TextLine("", TextLine.UP);
 			break;
 		}
 
 		scale = 1f*(float)axisDir;
     }
+
+	public void init()
+	{
+		if(label == null){
+			label = new TextLine("0");
+			label.maxDigits = 2;
+		}
+
+		if(axisLabel == null){
+			switch(orient){
+			case X_SCREEN_AXIS:
+				axisLabel = new TextLine("", TextLine.RIGHT);
+				break;
+			case Y_SCREEN_AXIS:
+				axisLabel = new TextLine("", TextLine.UP);
+				break;
+			}
+		}
+	}
 
 	public void setLength(int len)
 	{
@@ -188,6 +210,8 @@ public class Axis
 		notifyListeners(LABEL_CHANGE);
 	}
 
+	public String getLabel(){return axisLabelStr;}
+
     public void setRange(float min, float range)
     {
 		setDispMin(min);
@@ -225,14 +249,19 @@ public class Axis
 		int i;
 
 		if(label != null)label.free();
+		label = null;
+
 		if(majTicLabels != null){
 			for(i=0; i<majTicLabels.length; i++){
 				if(majTicLabels[i] != null){
 					majTicLabels[i].free();
-				}
+				}				
 			}
 		}
+		majTicLabels = null;
+
 		if(axisLabel != null)axisLabel.free();
+		axisLabel = null;
     }
 
 	public float getValue(int pos)
@@ -549,6 +578,9 @@ public class Axis
 	{
 		drawnX = x;
 		drawnY = y;
+		if(readExternalFlag){
+			setRange(readDispMax - dispMin);
+		}		
 	}
 
     boolean needCalcTics = false;
@@ -762,6 +794,49 @@ public class Axis
 			// find max
 			return labelOff + maxLabelOff;	    
 		}
+    }
+
+	public boolean readExternalFlag = false;
+
+	public void readExternal(DataStream ds)
+	{
+		readExternalFlag = true;
+		dispMin = ds.readFloat();
+		readDispMax = ds.readFloat();
+		String labelStr;
+		if(ds.readBoolean()){
+			labelStr = ds.readString();
+		} else {
+			labelStr = null;
+		}
+		int labelUnitCode = ds.readInt();
+		CCUnit labelUnit = null;
+		if(labelUnitCode >= 0){
+			labelUnit = CCUnit.getUnit(labelUnitCode);
+		}
+		if(labelStr != null){
+			setAxisLabel(labelStr, labelUnit);
+		}
+	}
+
+    public void writeExternal(DataStream ds)
+    {
+		ds.writeFloat(dispMin);
+		if(drawnX == -1 && !readExternalFlag){
+			ds.writeFloat(getDispMax());
+		} else if(drawnX == -1 && readExternalFlag){
+			ds.writeFloat(readDispMax);
+		} else {
+			ds.writeFloat(getDispMax());
+		}
+		if(axisLabelStr == null){
+			ds.writeBoolean(false);
+		} else {
+			ds.writeBoolean(true);
+			ds.writeString(axisLabelStr);
+		}
+		if(axisLabelUnit == null) ds.writeInt(-1);
+		else ds.writeInt(axisLabelUnit.code);
     }
 
 }

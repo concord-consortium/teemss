@@ -6,6 +6,7 @@ import waba.io.*;
 import waba.sys.*;
 import waba.util.*;
 import extra.util.*;    
+import extra.io.*;
 
 public class SplitAxis extends Axis
 {
@@ -27,6 +28,20 @@ public class SplitAxis extends Axis
 
 		axisArray[0] = lastAxis;
 		numAxis = 1;
+	}
+
+	public void init()
+	{
+		super.init();
+
+		if(axisArray != null){
+			for(int i=0; i<axisArray.length; i++){
+				if(axisArray[i] != null){
+					axisArray[i].init();
+				}
+			}
+		}
+		
 	}
 
     public void free()
@@ -82,6 +97,22 @@ public class SplitAxis extends Axis
 
 	}
 
+	// This is a hack it just looks at the change in 
+	// dispMin and changes startPos by the same amount
+	// this doesn't make changing the which axis the dispMin 
+	// is relavent to easy very feasible
+    public void setDispOffset(float startMin, int newDO)
+    {
+		float newDispMin = startMin + (float)newDO / scale;
+		// update dispMin for safety
+		getDispMin();
+		startPos = startPos + (int)((newDispMin - dispMin) * scale);
+		System.out.println("SAx: setDispOff: newDispMin: " + newDispMin + " oldDispMin: " + dispMin + " newStartPos: " + startPos);
+		dispMin = newDispMin;
+
+		notifyListeners(ORIGIN_CHANGE);
+    }
+
     int startPos = 0;
     /* 
      * This is a very tricky piece of code where we change
@@ -117,24 +148,51 @@ public class SplitAxis extends Axis
 			xa = axisArray[i];
 			if(newXaxisStartPos == -1 &&
 			   startPos < (oldScaleSP + (int)(xa.max * xa.scale))){
-				newXaxisStartPos = curStartPos + (int)(xa.dispMin * scale);
+				newXaxisStartPos = curStartPos + (int)(((startPos - oldScaleSP) / xa.scale) * scale);
 			}
-			oldScaleSP += 10 + xa.dispMin * scale + xa.dispLen;
+			oldScaleSP += 10 + (int)(xa.max * xa.scale);
 			xa.setScale(scale, eScale);
 			curStartPos += 10 + (int)(xa.max * xa.scale);
 		}
 
 		xa = axisArray[i];
-		xa.setScale(scale);
 		if(newXaxisStartPos == -1){
-			newXaxisStartPos = curStartPos + (int)(xa.dispMin * scale);
+			newXaxisStartPos = curStartPos + (int)(((startPos - oldScaleSP) / xa.scale) * scale);
 		}
+		xa.setScale(scale);
 
 		startPos = newXaxisStartPos;
 
 		labelExp = lastAxis.labelExp;
 		notifyListeners(SCALE_CHANGE);
     }
+
+	public float getDispMin()
+	{
+		int curStartPos = 0;
+		int xaScMax = 0;
+		int firstVisible = -1;
+
+		for(int i=0;i<numAxis;i++){
+			Axis xa = axisArray[i];
+			if(xa.max > (float)1E25)
+				// This is the active axis
+				xaScMax = (int)0x7FFFFFF - curStartPos - 10;
+			else
+				xaScMax = (int)(xa.max * xa.scale);
+			if(firstVisible == -1){
+				if(startPos < (curStartPos + xaScMax)){
+					firstVisible = i;
+					// Once we found a visible one we need to leave the
+					// curStartPos at the begining of this axis
+					break;
+				}
+				curStartPos += xaScMax + 10;
+			}
+		}
+
+		return dispMin = (startPos - curStartPos) / scale;
+	}
 
     public void scrollStartPos(int xDist)
 	{
@@ -183,10 +241,11 @@ public class SplitAxis extends Axis
 				axisArray = newAxis;
 			} 
 			axisArray[numAxis] = lastAxis = new Axis(type);
+			lastAxis.init();
 			lastAxis.max = (float)1E30;  // some huge number 
 			lastAxis.gridEndOff = gridEndOff;
 			lastAxis.setLength(dispLen);
-			lastAxis.setDispMin(dispMin);
+			lastAxis.setDispMin(MIN);
 			lastAxis.setScale(scale);
 			numAxis++;
 
@@ -196,9 +255,27 @@ public class SplitAxis extends Axis
 
 	public void init(int x, int y)
 	{
-		super.init(x,y);
+		drawnX = x;
+		drawnY = y;
+
+		// This is a hack
+		if(readExternalFlag){
+			setRange(lastDispMax - firstDispMin);
+			if(lastAxis != null){
+				lastAxis.setDispMin(firstDispMin);
+			}
+			startPos = (int)(firstDispMin * scale);
+		}		
 		draw(null, x, y);
 	}
+
+	// This is only valid once the axis has been drawn or
+	// readExternal has been called
+	public int firstVisible = -1;
+	public float firstDispMin = 0f;
+	public int lastVisible = -1;
+	public float lastDispMax = 0f;
+	public int readNumAxis = -1;
 
     public void draw(Graphics g, int xOriginOff, int yOriginOff)
 	{
@@ -215,7 +292,7 @@ public class SplitAxis extends Axis
 
 		// Find the first visible axis
 		// And set all the axis drawnX to -1;
-		int firstVisible = -1;
+		firstVisible = -1;
 		int xaScMax;
 
 		for(i=0;i<numAxis;i++){
@@ -243,11 +320,10 @@ public class SplitAxis extends Axis
 
 		int endPoint = startPos + dispLen;
 		int dispOffset = 0;
+		lastVisible = -1;
 		for(i=firstVisible;i<numAxis;i++){
 			xa = axisArray[i];
 			if(curStartPos >= endPoint){
-				//our drawing work is done
-				//we still need to set the remaining axis drawnX to -1
 				break;
 			}
 
@@ -255,7 +331,7 @@ public class SplitAxis extends Axis
 			if(curStartPos < startPos){
 				// This axis starts before the visible area so we need to offset it
 				dispOffset = startPos - curStartPos;
-				xa.setDispOffset(dispMin, dispOffset);
+				xa.setDispOffset(0f, dispOffset);
 				curStartPos = startPos;
 				if(xa.max > (float)1E25){
 					// this is the active axis
@@ -293,6 +369,7 @@ public class SplitAxis extends Axis
 			else xa.draw(g, xaxisOffset + (curStartPos - startPos), yOriginOff);
 			curStartPos += axisLen + 10;
 		}
+		lastVisible = i-1;
     }
 
 	public void reset()
@@ -300,8 +377,85 @@ public class SplitAxis extends Axis
 		axisArray[0] = lastAxis;		
 		lastAxis.dispLen = dispLen;
 		lastAxis.setDispMin(MIN);
+		lastAxis.max = (float)1E30;  // some huge number 		
+		dispMin = MIN;
+
 		numAxis = 1;
 		startPos = 0;
 	}
+
+	public void readExternal(DataStream ds)
+	{
+		readExternalFlag = true;
+
+		readNumAxis = ds.readInt();
+		firstVisible = ds.readInt();
+		if(firstVisible >= 0){
+			firstDispMin = ds.readFloat();
+			lastVisible = ds.readInt();
+			if(lastVisible >= 0){
+				lastDispMax = ds.readFloat();
+			}
+		}
+
+		String labelStr;
+		if(ds.readBoolean()){
+			labelStr = ds.readString();
+		} else {
+			labelStr = null;
+		}
+		int labelUnitCode = ds.readInt();
+		CCUnit labelUnit = null;
+		if(labelUnitCode >= 0){
+			labelUnit = CCUnit.getUnit(labelUnitCode);
+		}
+		if(labelStr != null){
+			setAxisLabel(labelStr, labelUnit);
+		}
+	}
+
+	// This will only be valid after the axis has been drawn
+	// this might be a problem
+    public void writeExternal(DataStream ds)
+    {
+		if(drawnX == -1 && !readExternalFlag){
+			// This is an odd way of doing it but hopefully it works.
+			ds.writeInt(1);
+			ds.writeInt(0);
+			ds.writeFloat(0f);
+			ds.writeInt(0);
+			ds.writeFloat(getDispMax());
+		} else if(drawnX == -1 && readExternalFlag){
+			ds.writeInt(readNumAxis);
+			ds.writeInt(firstVisible);
+			if(firstVisible >= 0){
+				ds.writeFloat(firstDispMin);
+				ds.writeInt(lastVisible);
+				if(lastVisible >= 0){
+					ds.writeFloat(lastDispMax);
+				}
+			}
+		} else {
+			ds.writeInt(numAxis);
+			ds.writeInt(firstVisible);
+			if(firstVisible >= 0){
+				ds.writeFloat(axisArray[firstVisible].dispMin);
+				ds.writeInt(lastVisible);
+				if(lastVisible >= 0){
+					ds.writeFloat(axisArray[lastVisible].getDispMax());
+				}
+			}
+		}
+
+		if(axisLabelStr == null){
+			ds.writeBoolean(false);
+		} else {
+			ds.writeBoolean(true);
+			ds.writeString(axisLabelStr);
+		}
+		if(axisLabelUnit == null) ds.writeInt(-1);
+		else ds.writeInt(axisLabelUnit.code);
+    }
+
 
 }

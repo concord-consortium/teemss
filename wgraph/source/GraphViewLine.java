@@ -73,11 +73,15 @@ public class GraphViewLine extends GraphView
 
 		graph = lGraph = new LineGraph(w, h, dwX, dwY, 
 									   xaxis, yaxis);
-		yaxis.setRange(minY, maxY - minY);
+
+		if(!yaxis.readExternalFlag){
+			yaxis.setRange(minY, maxY - minY);
+		}
 
 		// This is a hack see setRange in AnnotView
-		xaxis.setRange(minX, maxX - minX);
-
+		if(!xaxis.readExternalFlag){
+			xaxis.setRange(minX, maxX - minX);
+		}
     }
 
 	public void setAxis(SplitAxis xaxis, ColorAxis yaxis)
