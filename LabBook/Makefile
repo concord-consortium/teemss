@@ -13,7 +13,7 @@ WARP_PLATFORM = ce
 JUMP_PLATFORM =palm
 VERSION_TEMPLATE = source/Version.java.tpl
 
-EXE_CLASS_HEAP_SIZE = 10000000
+EXE_CLASS_HEAP_SIZE = 5000000
 EXE_OBJ_HEAP_SIZE = 2000000
 WGRAPH_DIR:= $(CURDIR)/../wgraph/classes/_CUR_PLATFORM_
 JAR_LIST:= -C $(CURDIR)/classes/other org/concord/LabBook \
