@@ -725,6 +725,26 @@ int						startClick = 0;
 		super.onEvent(ev);
 	}
 
+	public void moveUp(){
+		if(firstLine > 0){
+			removeCursor();
+			firstLine--;
+			layoutComponents();
+			setText(getText());//dima for test
+			repaint();
+		}
+	}
+	public void moveDown(){
+		int nRows = getRowsNumber();
+		if(lines != null && firstLine < nRows - 2){
+			removeCursor();
+			firstLine++;
+			layoutComponents();
+			setText(getText());//dima for test
+			repaint();
+		}
+	}
+
 	public void onKeyEvent(KeyEvent ev){
 		CCTextAreaState tas = curState;
 		if (ev.key == IKeys.BACKSPACE) {
@@ -740,21 +760,10 @@ int						startClick = 0;
 			}
 		}else if (ev.key == IKeys.LEFT){
 		}else if (ev.key == IKeys.RIGHT){
-		}else if (ev.key == IKeys.UP){
-			if(firstLine > 0){
-				removeCursor();
-				firstLine--;
-				layoutComponents();
-				repaint();
-			}
-		}else if (ev.key == IKeys.DOWN){
-			int nRows = getRowsNumber();
-			if(lines != null && firstLine < nRows - 2){
-				removeCursor();
-				firstLine++;
-				layoutComponents();
-				repaint();
-			}
+		}else if (ev.key == IKeys.UP || ev.key == IKeys.PAGE_UP){
+			moveUp();
+		}else if (ev.key == IKeys.DOWN || ev.key == IKeys.PAGE_DOWN){
+			moveDown();
 		}else if (ev.key >= 32 && ev.key <= 255){
 			if((ev.modifiers & IKeys.CONTROL) > 0){
 				if(ev.key == 'v' || ev.key == 'V'){
@@ -1024,7 +1033,7 @@ String	[]strings = null;
 	}
 	
 
-private static char []wordDelimChars = {' ','\t','\n','\r',':',';','.',',','/','\\','@'};	
+private static char []wordDelimChars = {' ','\t',';','.',','};	
 
 }
 

@@ -13,6 +13,8 @@ RelativeContainer 		edit = new RelativeContainer();
 LObjCCTextArea 			doc;
 Button 					doneButton,doneOutButton;
 Button 					insertButton;
+Button 					upButton;
+Button 					downButton;
 
 
 Menu 					menu = null;
@@ -88,6 +90,8 @@ LabObjectView			addedLabObjectView		= null;
 		if(tArea != null){
 			remove(edit);
 			remove(insertButton);
+			remove(upButton);
+			remove(downButton);
 			if(showDone) remove(doneButton);
 			add(view);
 //			view.didLayout = false;
@@ -121,6 +125,12 @@ LabObjectView			addedLabObjectView		= null;
 		insertButton = new Button("Insert");
 		add(edit);
 		add(insertButton);
+		upButton = new Button("Up");
+		downButton = new Button("Down");
+		add(upButton);
+		add(downButton);
+
+		
 //		if(doc.text != null)  tArea.setText(doc.text);
 		if(showDone){
 			doneButton = new Button("Done");
@@ -144,6 +154,8 @@ LabObjectView			addedLabObjectView		= null;
 			edit.setRect(0,0,width - 1,height);
 		}
 		insertButton.setRect(1,height-15,30,15);
+		upButton.setRect(35,height-15,20,15);
+		downButton.setRect(60,height-15,30,15);
 		tArea.setText(tArea.getText());
 		tArea.layoutComponents();
 	}
@@ -166,6 +178,8 @@ LabObjectView			addedLabObjectView		= null;
 				remove(doneOutButton);
 				add(edit);
 				add(insertButton);
+				add(upButton);
+				add(downButton);
 				if(showDone) add(doneButton);
 				tArea.layoutComponents();
 				tArea.setText(tArea.getText());
@@ -180,36 +194,22 @@ LabObjectView			addedLabObjectView		= null;
 				container.done(this);
 			}	    
 		}
+		
+		if(e.target == upButton && e.type == ControlEvent.PRESSED){
+			if(tArea != null){
+				tArea.moveUp();
+			}	    
+		}
+		
+		if(e.target == downButton && e.type == ControlEvent.PRESSED){
+			if(tArea != null){
+				tArea.moveDown();
+			}	    
+		}
+		
 		if(e.target == insertButton && e.type == ControlEvent.PRESSED){
 			if(tArea != null){
 				tArea.insertObject();
-/*
-				LabBook book = LabObject.lBook;
-				LabObjectPtr rootPtr = book.getRoot();
-				LObjDictionary loDict = (LObjDictionary)book.load(rootPtr);
-				if(loDict != null){
-					System.out.println("getChildCount "+loDict.getChildCount());
-					int childs = loDict.getChildCount();
-					for(int i = 0; i < childs; i++){
-						TreeNode node = loDict.getChildAt(i);
-						if(node == null) continue;
-						LabObject labObj = loDict.getObj(node);
-						System.out.println("labObj["+i+"] = "+labObj.name);
-					}
-				}
-				
-				if(doc.curDict != null){
-					System.out.println("doc.curDict getChildCount "+doc.curDict.getChildCount());
-					int childs = doc.curDict.getChildCount();
-					for(int i = 0; i < childs; i++){
-						TreeNode node = doc.curDict.getChildAt(i);
-						if(node == null) continue;
-						LabObject labObj = doc.curDict.getObj(node);
-						System.out.println("labObj["+i+"] = "+labObj.name);
-					}
-				}
-*/				
-				
 			}	    
 		}
 	}
