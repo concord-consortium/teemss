@@ -71,7 +71,10 @@ public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
 		String nameProperty = p.getName();
 		if(nameProperty == null) return false;
 		if(!fromConstructor && (nameProperty.equals(samplingModeString))){
-			return true;
+			if(value.equals(samplingModes[SAMPLING_DIG_MODE]))
+				return true;
+			else
+				return super.setPValue(p,value);
 		}
 		if(nameProperty.equals(propNames[0])){
 			if(value.equals("A")){
@@ -121,7 +124,7 @@ public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
 		dDesc.setDt(e.getDataDesc().getDt());
 		dEvent.setNumbSamples(1);
 		if(calibrationListener != null){
-			dDesc.setChPerSample(3);
+			dDesc.setChPerSample(2);
 		}else{
 			dDesc.setChPerSample(1);
 		}
@@ -146,6 +149,7 @@ public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
 				data[1] = dataEvent[nOffset+1];
 				break;
 		}
+		dEvent.setNumbSamples(1);
 	}else{
 		int  	chPerSample = e.dataDesc.getChPerSample();
 		int	dataIndex = 0;
