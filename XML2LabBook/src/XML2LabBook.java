@@ -550,7 +550,13 @@ public static QTManager qtManager = null;
 							String linkColor = child.getAttribute("linkcolor");
 							if(linkColor == null || linkColor.length() < 1) linkColor = "0000FF";
 					
-							LabObjectView embObjView = (link)?embObject.getMinimizedView():embObject.getView(null,false,null);
+							LabObjectView embObjView = null;
+							if(link){
+								embObjView = new LObjMinimizedView(embObject.getVisiblePtr());
+							} else {
+								embObjView = embObject.getView(null,false,null);
+							}
+
 							int	prefWidth = -1;
 							int	prefHeight = -1;
 							if(embObjView != null){
