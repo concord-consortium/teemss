@@ -99,6 +99,11 @@ public class LabBookFile implements LabBookDB
     {
 		return nextObjId++;
     }
+	public void setNextObjId(int nObjId)
+	{
+		if(nObjId > nextObjId) nextObjId = nObjId;
+		return;
+	}
 
     public int getRootDevId(){return rootDevId;}
     public int getRootObjId(){return rootObjId;}
@@ -244,6 +249,8 @@ public class LabBookFile implements LabBookDB
 
 		Debug.println(" Saving " + count + " bytes to fObj");
 	
+		if(nextObjId <= objId) nextObjId = objId + 1;
+
 		// Find the object
 		for(i=0; i<numObj; i++){
 			fObj = (FileObject)objects.get(i);
