@@ -6,7 +6,8 @@ import org.concord.waba.extra.event.*;
 import extra.ui.*;
 
 public class LObjDocumentView extends LabObjectView implements ActionListener{
-TextArea 				tArea;
+//TextArea 				tArea;
+CCTextArea 				tArea;
 Edit 					nameEdit;
 RelativeContainer 		edit = new RelativeContainer();
 
@@ -62,7 +63,8 @@ Menu 					menu = null;
 			edit.add(new Label("Name"), 1, 1, 30, 15);
 			edit.add(nameEdit, 30, 1, 50, 15);
 		} 
-		tArea = new TextArea();
+//		tArea = new TextArea();
+		tArea = new CCTextArea();
 		if(doc.text != null)  tArea.setText(doc.text);
 		edit.add(tArea, 1, RelativeContainer.BELOW, 
 		RelativeContainer.REST, RelativeContainer.REST);
@@ -74,7 +76,8 @@ Menu 					menu = null;
 	}
 
 	public int getHeight(){
-		return (tArea.getFontMetrics().getHeight() + 2) * tArea.getNumLines() + tArea.spacing*2 + 3;
+//		return (tArea.getFontMetrics().getHeight() + 2) * tArea.getNumLines() + tArea.spacing*2 + 3;
+		return 0;
 	}
 
 	public void setRect(int x, int y, int width, int height){

@@ -13,6 +13,9 @@ public LObjDocumentView view = null;
     public LObjDocument(){
 		super(DefaultFactory.DOCUMENT);
     }
+	public static LabObject makeNewObj(boolean direct){
+		return new LObjDocument();
+	}
 
     public void setText(String t){
 		text = t;

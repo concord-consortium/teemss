@@ -34,6 +34,16 @@ protected CCTextAreaState curState = new CCTextAreaState();
 		if(str == null) return;
 		setText(str);//temporary
 	}
+	
+	public String getText(){
+		String retValue = "";
+		if(lines == null) return retValue;
+		for(int i = 0; i < lines.length; i++){
+			retValue += (lines[i].getStr() + "\n");
+		}
+		return retValue;
+	}
+	
 	public void setText(String str){
 		lines = null;
 		int determinedSystem = -1; //unix - 0; //mac - 1 dos - 2
