@@ -502,15 +502,15 @@ public class List extends Control implements PreferredSize
 
             int position=py/textHeight;
 
-            if ((py<=5&&scrollOffset>0)||(py>=height-5&&scrollOffset<maxScrollOffset))
+           if ((py<=5&&scrollOffset>0)||(py + initialYOffset>=height-5&&scrollOffset<maxScrollOffset))
 
             {
 
-              if (scrollTimer==null)
+             if (scrollTimer==null)
 
               {
 
-                scrollUp=(py<=5);
+               scrollUp=(py<=5);
 
                 scrollTimer=addTimer(400);
 
