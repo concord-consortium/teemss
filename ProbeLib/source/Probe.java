@@ -1,45 +1,46 @@
-package org.concord.waba.extra.probware.probs;
+package org.concord.ProbeLib.probes;
+
+import org.concord.ProbeLib.*;
 
 import org.concord.waba.extra.event.*;
-import org.concord.waba.extra.probware.*;
 import org.concord.waba.extra.ui.ExtraMainWindow;
-import org.concord.waba.extra.ui.CalibrationDialog;
 import extra.util.*;
 
-public abstract class CCProb extends PropContainer
-	implements Transform{
-public 		waba.util.Vector 	dataListeners = null;
-public 		waba.util.Vector 	probListeners = null;
-String		name = null;
-CalibrationDesc	calibrationDesc;
-public static final String defaultModeName = "Default";
+public abstract class Probe extends PropContainer
+	implements Transform
+{
+	public 		waba.util.Vector 	dataListeners = null;
+	public 		waba.util.Vector 	probListeners = null;
+	String		name = null;
+	CalibrationDesc	calibrationDesc;
+	public static final String defaultModeName = "Default";
 
-public final static int		INTERFACE_PORT_A	= 0;
-public final static int		INTERFACE_PORT_B	= 1;
+	public final static int		INTERFACE_PORT_A	= 0;
+	public final static int		INTERFACE_PORT_B	= 1;
 
-public int unit = CCUnit.UNIT_CODE_UNKNOWN;
+	public int unit = CCUnit.UNIT_CODE_UNKNOWN;
 
-public final static int		CALIBRATION_PROB_START 	= 10000;
-public final static int		CALIBRATION_PROB_END 		= 10001;
-public final static int		PROPERTIES_PROB_START 	= 10002;
-public final static int		PROPERTIES_PROB_END 		= 10003;
+	public final static int		CALIBRATION_PROB_START 	= 10000;
+	public final static int		CALIBRATION_PROB_END 		= 10001;
+	public final static int		PROPERTIES_PROB_START 	= 10002;
+	public final static int		PROPERTIES_PROB_END 		= 10003;
 
-public DataDesc		dDesc = new DataDesc();
-public DataEvent	dEvent = new DataEvent();
-public ProbEvent	pEvent = new ProbEvent();
+	public DataDesc		dDesc = new DataDesc();
+	public DataEvent	dEvent = new DataEvent();
+	public ProbEvent	pEvent = new ProbEvent();
 
-public	int interfaceType = -1; 
+	public	int interfaceType = -1; 
 	protected int interfaceMode = -1;
 
-protected int 	activeChannels = 1;
+	protected int 	activeChannels = 1;
 
-protected	int	probeType = ProbFactory.Prob_Undefine;
+	protected	int	probeType = ProbFactory.Prob_Undefine;
 
 	/*
 	  interface modes
-	public final static int A2D_24_MODE = 1;
-	public final static int A2D_10_MODE = 2;
-	public final static int DIG_COUNT_MODE = 3;
+	  public final static int A2D_24_MODE = 1;
+	  public final static int A2D_10_MODE = 2;
+	  public final static int DIG_COUNT_MODE = 3;
 	*/
 
 	public final static int PROP_PORT = 0;
@@ -50,7 +51,7 @@ protected	int	probeType = ProbFactory.Prob_Undefine;
 	public final static int PROP_CHAN_NUM = 5;
 	public final static int PROP_VERSION = 6;
 
-DataListener calibrationListener = null;
+	DataListener calibrationListener = null;
 
 	String [] portNames = {"A", "B"};
 	PropObject port = null;
@@ -181,17 +182,17 @@ DataListener calibrationListener = null;
 		return true;
 	}
 
-     public boolean idle(DataEvent e){
+	public boolean idle(DataEvent e){
 		notifyDataListenersEvent(e);
 		return true;
-     }
+	}
    	
 
 	public abstract void setDataDescParam(int chPerSample,float dt);
     
     public DataDesc getDataDesc()
     {
-	return dDesc;
+		return dDesc;
     }
 
 	public void setName(String name){this.name = name;}
