@@ -25,6 +25,9 @@ to be abstracted but also customizable
 - DataSets don't save the precision of the their data.
 - The size of the the digital display is fixed.  It should change
 	depending on the size/precision of the data.
+- Change the "Collect" button so it is more clear, perhaps change name
+    while collecting.  (Start/Stop) ???
+- Move 10^-3 on the axis label.
 
 MAJOR
 
