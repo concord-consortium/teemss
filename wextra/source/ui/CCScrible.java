@@ -14,15 +14,7 @@ MainWindow 		owner;
 	public CCScrible(MainWindow owner,int x,int y,int w,int h){
 		this.owner = owner;
 		setRect(x, y, w, h);
-		scribbleChooser = new Container();
-		scribbleChooser.setRect(0, 20, this.width, this.height);
-		colorChooser = new CCColorChooser();
-		colorChooser.setRect(0, 0, this.width, this.height);
-		scribbleChooser.add(colorChooser);
-		Rect r = colorChooser.getRect();
-		penChooser = new CCPenChooser();
-		penChooser.setRect(128, 0, this.width, r.height);
-		scribbleChooser.add(penChooser);
+		createScribleChooser();
 
 		drawArea = new DrawArea();
 		drawArea.setRect(0, 20, this.width, this.height - 20);
@@ -41,10 +33,47 @@ MainWindow 		owner;
 		add(choosePenButton);
 	}
 	
+	
+	public void createScribleChooser(){
+		scribbleChooser = new Container();
+		scribbleChooser.setRect(0, 20, this.width, this.height);
+		colorChooser = new CCColorChooser();
+		colorChooser.setRect(0, 0, this.width, this.height);
+		scribbleChooser.add(colorChooser);
+		Rect r = colorChooser.getRect();
+		penChooser = new CCPenChooser();
+		penChooser.setRect(128, 0, this.width, r.height);
+		scribbleChooser.add(penChooser);
+	}
+	
+	public void close(){
+		if(drawArea != null) drawArea.close();
+		if(isChooserUp){
+			remove(scribbleChooser);
+			scribbleChooser = null;
+		}
+		if(colorChooser != null){
+			colorChooser.destroy();
+			colorChooser = null;
+		}
+		if(penChooser != null){
+			penChooser.destroy();
+			penChooser = null;
+		}
+	}
 	public void destroy(){
-		if(drawArea != null) drawArea.destroy();
-		if(colorChooser != null) colorChooser.destroy();
-		if(penChooser != null) penChooser.destroy();
+		if(drawArea != null){
+			drawArea.destroy();
+			drawArea = null;
+		}
+		if(colorChooser != null){
+			colorChooser.destroy();
+			colorChooser = null;
+		}
+		if(penChooser != null){
+			penChooser.destroy();
+			penChooser = null;
+		}
 	}
 	
 	public void onPaint(Graphics g){
@@ -65,6 +94,10 @@ MainWindow 		owner;
 					modeButton.setText("Eraser");
 				}
 			}else if (event.target == choosePenButton){
+				if(scribbleChooser == null){
+					createScribleChooser();
+					isChooserUp = false;
+				}
 				if(isChooserUp){
 					remove(scribbleChooser);
 					add(drawArea);
@@ -105,11 +138,20 @@ CCDrawPath	currPath = null;
 		pen.setPenColor(0,0,0);
 	}
 	
-	public void destroy(){
+	public void close(){
+		freeOffImage();
+	}
+	
+	public void freeOffImage(){
 		if(bufIm != null){
 			bufIm.free();
 			bufIm = null;
 		}
+	}
+	
+	public void destroy(){
+		freeOffImage();
+		currPath = null;
 	}
 	
 	public void setPenColor(int red,int green,int blue){
