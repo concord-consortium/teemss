@@ -9,7 +9,7 @@ RUN_FORK= other
 RUN_PLATFORM = other
 WARP_PLATFORM = ce
 JUMP_PLATFORM =palm
-VERSION_TEMPLATE = source/Version.java.tpl
+VERSION_TEMPLATES = source/Version.java.tpl jump-resources/CCProbe.rcp.tpl
 
 EXE_CLASS_HEAP_SIZE = 2000000
 EXE_OBJ_HEAP_SIZE = 8000000
