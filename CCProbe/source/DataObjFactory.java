@@ -19,22 +19,23 @@ public class DataObjFactory
 		return factory;
 	}
 	
-    public LabObject constructObj(int objectType,boolean doInit)
+    public LabObject constructObj(int objectType)
     {
+		LabObject obj = null;
 		switch(objectType){
 			case DATA_SET:
-				return LObjDataSet.makeNewObj(!doInit);
+				obj = LObjDataSet();
 			case GRAPH:
-				return LObjGraph.makeNewObj(!doInit);
+				obj = LObjGraph();
 			case DATA_COLLECTOR:
-				return LObjDataCollector.makeNewObj(!doInit);
+				obj = LObjDataCollector();
 			case UCONVERTOR:
-				return LObjUConvertor.makeNewObj(!doInit);
+				obj = LObjUConvertor();
 			case PROBE_DATA_SOURCE:
-				return LObjProbeDataSource.makeNewObj(!doInit);
+				obj = LObjProbeDataSource();
 		}
 
-		return null;
+		return obj;
     }
 	public int getFactoryType(){
 		return DATAOBJ_FACTORY;

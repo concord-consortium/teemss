@@ -9,7 +9,7 @@ public LabObjDescriptor []labBookObjDesc;
 		return makeNewObj(objectType,true);
 	}
 	public LabObject makeNewObj(int objectType,boolean doInit){
-		LabObject obj = constructObj(objectType,doInit);
+		LabObject obj = constructObj(objectType);
 		if(obj != null && doInit){
 			obj.init();
 		}
@@ -17,7 +17,7 @@ public LabObjDescriptor []labBookObjDesc;
 	}
 	
 	public abstract LabObjectFactory makeFactory();
-	public abstract LabObject constructObj(int objectType,boolean doInit);
+	public abstract LabObject constructObj(int objectType);
 	public abstract void createLabBookObjDescriptors();
 	public abstract int getFactoryType();
 }

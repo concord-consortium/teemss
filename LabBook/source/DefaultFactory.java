@@ -22,23 +22,23 @@ public class DefaultFactory
 		factory.createLabBookObjDescriptors();
 		return factory;
 	}
-	public LabObject constructObj(int objectType,boolean doInit){
+	public LabObject constructObj(int objectType){
 		LabObject obj = null;
 		switch(objectType){
 			case DICTIONARY:
 				obj= new LObjDictionary();
 			case FORM:
-				obj= LObjForm.makeNewObj();
+				obj= new LObjForm();
 			case DOCUMENT:
-				obj= LObjDocument.makeNewObj();
+				obj= new LObjDocument();
 			case OUTPUT_SET:
-				obj= LObjOutputSet.makeNewObj();
+				obj= new LObjOutputSet();
 			case QUESTION:
-				obj= LObjQuestion.makeNewObj();
+				obj= new LObjQuestion();
 			case DRAWING:
-				obj= LObjDrawing.makeNewObj();
+				obj= new LObjDrawing();
 			case IMAGE:
-				obj= LObjImage.makeNewObj();
+				obj= new LObjImage();
 		}
 		return obj;
 	}
