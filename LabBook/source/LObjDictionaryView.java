@@ -259,8 +259,9 @@ public class LObjDictionaryView extends LabObjectView
 				    rnDialog = Dialog.showInputDialog(this, "Rename Object", "Old Name was " + selObj.toString(),
 								      buttons,Dialog.EDIT_INP_DIALOG,null,selObj.toString());
 				} else {
-				    rnDialog = Dialog.showInputDialog(this, "Rename Parent", "Old Name was " + dict.name,
-								      buttons,Dialog.EDIT_INP_DIALOG,null,dict.name);
+					waba.fx.Sound.beep();
+//				    rnDialog = Dialog.showInputDialog(this, "Rename Parent", "Old Name was " + dict.name,
+//								      buttons,Dialog.EDIT_INP_DIALOG,null,dict.name);
 				}
 		    } else if(e.getActionCommand().equals("Import..")){
 				FileDialog fd = FileDialog.getFileDialog(FileDialog.FILE_LOAD, null);

@@ -322,10 +322,12 @@ private waba.ui.Container		contentPane;
 		if(mw instanceof org.concord.waba.extra.ui.ExtraMainWindow){
 			((org.concord.waba.extra.ui.ExtraMainWindow)mw).setDialog(this);
 		}
+/*
 		if(inpControl != null &&
 		   inpControl instanceof waba.ui.Edit){
 		    getWabaWindow().setFocus(inpControl);
 		}
+*/
 	}
 	public void hide(){
 		if(popup == null) return;
