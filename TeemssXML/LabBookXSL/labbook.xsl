@@ -24,6 +24,8 @@
     <FOLDER ID="{title}" name="{title}">
       <xsl:apply-templates select="unit"/>
     </FOLDER>
+    <FOLDER ID="saved-datasets" name="Saved Datasets">
+    </FOLDER>
   </LABBOOK>
 </xsl:template>
 

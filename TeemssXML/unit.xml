@@ -129,7 +129,8 @@
               <step>The LabBook lists all of the folders, data
                 collectors, notes, saved datasets, and other objects in
                 the LabBook. To open folders and subfolders, tap the
-                triangles or double-tap the folder name. <shared-image name="03_th_home" screenshot="true"/>
+                triangles or double-tap the folder name. <shared-image
+                  name="03_th_home" screenshot="true"/>
               </step>
               <step>Click Home (upper left) to go back to the top level
                 folder. </step>
@@ -337,7 +338,7 @@
     </tech-hint>
   </tech-hint-list>
   <unit name="Motions_and_Forces">
-    <title>Motions and Forces Instructional Unit</title>
+    <title>Motions and Forces</title>
     <investigation name="Air_Cart">
       <title>Air Cart</title>
       <teacher-notes>
@@ -2718,7 +2719,7 @@
     </investigation>
   </unit>
   <unit name="Energy">
-    <title>Transfer of Energy Instructional Unit</title>
+    <title>Transfer of Energy</title>
     <investigation name="Heat_Flow">
       <title>Heat Flow</title>
       <teacher-notes>
@@ -2919,7 +2920,7 @@
             difference between the two temperatures decrease. This
             smooth curve, that becomes less steep as it approaches the
             final temperature, is called a cooling curve.  </p>
-          <shared-image name="cooling curve?"/>
+          <shared-image name="27_th_coolingcurve" screenshot="true"/>
           <p>The Fast Response Temperature Probe uses a thermocouple to
             measure temperature. A thermocouple a made from two special
             wires, each of a different metal, with their ends twisted
@@ -3502,8 +3503,8 @@
           </step>
           <step>Connect the SmartWheel to your handheld computer. Refer
             to Technical Hints to see how to connect the SmartWheel.  </step>
-          <step>Start the software to read a velocity versus time graph. 
-            <datacollector-link type="dc-smartwheel-vel2"/>
+          <step>Start the software to read a velocity versus time graph.
+              <datacollector-link type="dc-smartwheel-vel2"/>
           </step>
           <step>Let the cart roll down the ramp and continue along the
             floor or desk. If you have room, let it coast to a stop.
@@ -3539,7 +3540,7 @@
             the experiment several times.<ext-image name="03_pk"/>
           </step>
           <step>Start the software to read a velocity versus time graph.
-            <datacollector-link type="dc-smartwheel-vel2"/>
+              <datacollector-link type="dc-smartwheel-vel2"/>
           </step>
           <step>Let the cart roll down the ramp and continue along the
             floor or desk. If you have room, let it coast to a stop.  </step>
@@ -3576,7 +3577,7 @@
             the rubber bands.  <ext-image name="04_pk"/>
           </step>
           <step>Start the software to read a velocity versus time graph.
-            <datacollector-link type="dc-smartwheel-vel3"/>
+              <datacollector-link type="dc-smartwheel-vel3"/>
           </step>
           <step>Raise the cart to the top of the ramp and let it go.</step>
           <step>Stop recording after it bounces up and down the ramp and
@@ -3942,7 +3943,7 @@
           <p>If the heat cell, without insulation, is connected to the
             Genecon that is cranked for 30s. The graph would look like
             this: </p>
-          <shared-image name="heatcell?" screenshot="true"/>
+          <shared-image name="heatcell" screenshot="true"/>
           <p>If the cranking rate is constant, the heating portion of
             the graph is a straight line with a positive slope. The
             power input (the slope of the line) is constant. </p>
@@ -4161,8 +4162,7 @@
           </step>
           <step>Start the software to record power. This measures the
             electrical power, in watts, that you are supplying to the
-            heat cell with the Genecon.
-            <datacollector-link type="dc-voltage-current-power"/>
+            heat cell with the Genecon.             <datacollector-link type="dc-voltage-current-power"/>
           </step>
           <step>Try cranking at a fairly fast speed and observe the
             power on your graph. Can you crank at a steady fast rate?
@@ -4269,8 +4269,8 @@
             leads, but not the other, to the heat cell.   <ext-image name="05b_he2"/>
           </step>
           <step>Start the software for the Temperature probe. Refer to
-            Technical Hints to see how to use the software. 
-            <datacollector-link type="dc-temperature3"/>
+            Technical Hints to see how to use the software.
+              <datacollector-link type="dc-temperature3"/>
           </step>
           <step>When the temperature graph reaches exactly 10 seconds,
             connect the second lead of the battery pack to the other end
@@ -4356,9 +4356,8 @@
           </step>
           <step>Start the software to record temperature.</step>
           <step>Attach the second battery lead and light up the mini
-            light. 
-             <datacollector-link type="dc-temperature4"/>
-             <ext-image name="06d_he"/>
+            light.               <datacollector-link type="dc-temperature4"/>
+            <ext-image name="06d_he"/>
           </step>
           <step>Monitor the temperature plot. Let it run for 30 seconds,
             then disconnect the second lead and let it run for another
@@ -4612,7 +4611,7 @@
               with a mesh of arrows and circles that looks like a
               concept map.  </p>
             <p>Here is an example:</p>
-            <ext-image name="resistorflow" type="jpg"/>
+            <shared-image name="29_th_resistorflow" screenshot="true"/>
             <p>Encourage debate among the students about these diagrams
               but avoid calling them right or wrong. Instead, ask
               students to save these for review at the end of the
@@ -4724,8 +4723,8 @@
           produced. For the current to flow, the two clips must be
           attached to something that completes the circuit, forming a
           loop for the current to flow through. This could be a light
-          bulb, a heater, a motor, or a capacitor.   <ext-image
-            name="04_th_gen" type="jpg"/>
+          bulb, a heater, a motor, or a capacitor.   <shared-image
+            name="28_th_generator" screenshot="true"/>
           <p>A motor is a generator working in reverse. When a current
             is run through the coils of the Genecon, a force is exerted
             on each wire. This makes the handle spin. In a generator,
@@ -4742,7 +4741,7 @@
             charge gets harder and harder. The energy graph of the input
             should be steep at first and then level off, indicating that
             no more energy can be added.   </p>
-          <ext-image name="03_th_cap" type="jpg"/>
+          <shared-image name="30_th_capacitor" screenshot="true"/>
           <p>When the leads of the charged capacitor are connected
             across something, such as a motor, the charges flow until
             the capacitor is neutral again, and the energy is given back
@@ -4801,7 +4800,7 @@
             the face of the ring, the more the light bends. So the light
             farthest from the center bends the most, and all the light
             rays come to the same focus.</p>
-          <ext-image name="01_fresnel"/>
+          <shared-image name="01_fresnel" screenshot="false"/>
           <p>Sunlight has a lot of energy, but it is spread out thinly.
             A lens concentrates it from a larger to a smaller area,
             magnifying its heating effect. Students could explore the
@@ -4826,14 +4825,14 @@
             are useful because they can work at very high temperatures.
             The CC Temperature probe can be put in a candle flame
             without damage.   </p>
-          <ext-image name="05_tempProbe"/>
+          <shared-image name="05_tempProbe" screenshot="false"/>
           <p>The only sensitive part is the tip where two special bare
             wires are twisted together. The wires produce a voltage
             depending on the temperature, and the CCProbe software
             converts this to degrees (C or F). The response is very
             fast, because the two wires are small and easily heated or
             cooled by whatever they touch.   </p>
-          <ext-image name="VIProbe" type="jpg"/>
+          <shared-image name="07_VIProbe" screenshot="false"/>
           <p>The Voltage/Current Probe measures either voltage or
             current. It can also measure both at the same time. The
             CCProbe software can use these readings to calculate and
@@ -4849,7 +4848,7 @@
             and the black clip lead goes to the smaller, or negative (-)
             location. To measure voltage across a heat cell , the clips
             are placed on the two ends of the heat cell as shown.  </p>
-          <ext-image name="01_vi" type="jpg"/>
+          <shared-image name="01_vi" screenshot="false"/>
           <p>Current is the amount of electricity flowing, a bit like
             the current in a stream. Current can be pictured as the
             total number of electrons flowing per second through a wire
@@ -4867,7 +4866,7 @@
             measure current going through a heat cell attached to a
             battery. Note: positioning of the probe is different while
             measuring current then it when measuring voltage.   </p>
-          <ext-image name="02_vi" type="jpg"/>
+          <shared-image name="02_vi" screenshot="false"/>
           <p>Electrical power, the rate of using energy, is the voltage
             difference times current. It can be pictured as the number
             of electrons flowing per second, multiplied by the energy
@@ -4876,7 +4875,7 @@
             you must measure both voltage and current. The CCProbeware
             will calculate and display the power from these
             measurements. </p>
-          <ext-image name="03_vi" type="jpg"/>
+          <shared-image name="03_vi" screenshot="false"/>
           <p>Electrical energy is the power accumulated over time. It
             can be pictured as the total number of electrons that flow,
             multiplied by the energy that each one gains (or loses).
@@ -4910,21 +4909,28 @@
         gasoline, radioactive         materials. To make use of energy,
         we often want to change it         from one form to another,
         then store it, then transform it again         and use it later
-        on.  <p>How many kinds of energy can you think           of that
-          you make use of in and around your house? Where does
-          each kind come from? How is it stored before you use it? Is it
-          changed from one form to another when you make use of it? What
-          do you do with the energy? On your handheld, answer these
-          questions for each kind of energy.  </p>
+        on.  <query-response title="energy" type="predict">
+          <query-description>Think of two kinds of energy that you make
+            use of in and around your house.   </query-description>
+          <querys>
+            <query drawing-response="false" note-response="true">Where
+              does each kind come from?</query>
+            <query drawing-response="false" note-response="true">How is
+              it stored before you use it?</query>
+            <query drawing-response="false" note-response="true">What do
+              you do with the energy?</query>
+          </querys>
+          <query-static-link>Answer these questions in Notes on your
+            handheld computer.</query-static-link>
+        </query-response>
       </think>
       <materials>
         <item>CC Voltage/Current probe  </item>
-        <item>CC Light probe</item>
         <item>CC Fast Response Temperature probe</item>
         <item>handheld computer  </item>
-        <item>CC Lab Book software  </item>
+        <item>CC LabBook software  </item>
         <item>handheld generator (Genecon)  </item>
-        <item>capacitor (1 Farad)  </item>
+        <item>capacitor (1 farad)  </item>
         <item>constructed air cart (see Investigation: Air Cart)  wire
           clip leads  </item>
         <item>wire clip leads</item>
@@ -4945,30 +4951,40 @@
             a battery. There is an even more direct way with a
             capacitor. A capacitor stores electrical charges and can
             release them again as electrical current. Attach the Genecon
-            and Voltage/Current probe to the capacitor.  <ext-image name="01b_st"/>
+            and Voltage/Current probe to the capacitor. Follow the
+            diagram carefully. <ext-image name="01b_st"/>
           </step>
           <step>Connect the Voltage/Current probe to your handheld
             computer. Refer to Technical Hints to connect the
-            Voltage/Current probe. </step>
-          <step>Start the software to record energy. Refer to Technical
-            Hints to see how to use the software.  
-            <datacollector-link type="dc-voltage-current-power"/>
+            Voltage/Current probe.  </step>
+          <step>Start the software to record energy.
+              <datacollector-link type="dc-voltage-current-power"/>
           </step>
-          <step>Crank until you have charged the capacitor. How can you
-            tell that it&apos;s fully charged? Hint: Does the amount of
-            cranking effort change as the capacitor &quot;fills
-            up&quot;?  </step>
+          <step>Crank until you have charged the capacitor.</step>
           <step>Quickly disconnect one lead of the Genecon as shown,
             leaving the Voltage/Current probe attached. Wait for about
             20 seconds.  <ext-image name="01c_st"/>
           </step>
           <step>Re-attach the capacitor to the Genecon without cranking
-            it. What happens? What simple energy transformation has
-            taken place?   </step>
-          <step>Stop recording data and save to the handheld computer. </step>
-          <step>Look at the graph. How did the energy change over the
-            course of this experiment? Record your thoughts in Notes on
-            your handheld computer.  </step>
+            it. Obseve what happens. </step>
+          <step>When the Genecon stops, stop recording data and save to
+            the handheld computer. </step>
+          <query-response title="effort" type="describe">
+            <query-description>Look at the graph.  </query-description>
+            <querys>
+              <query drawing-response="true"
+                note-response="false">Sketch the shape of the graph.</query>
+              <query drawing-response="false" note-response="true">Did
+                the amount of cranking effort change as the capacitor
+                &quot;filled up&quot;?</query>
+              <query drawing-response="false" note-response="true">Could
+                you tell when it was fully charged?</query>
+              <query drawing-response="false" note-response="true">What
+                did the graph do when the capacitor &quot;drained out&quot;?</query>
+            </querys>
+            <query-static-link>Record your thoughts in Notes on your
+              handheld computer.</query-static-link>
+          </query-response>
         </steps>
       </trial>
       <trial title="Using stored electrical energy">
@@ -4976,10 +4992,19 @@
           <step>Charge up the capacitor with the Genecon and quickly
             disconnect it. <ext-image name="02a_st2"/>
           </step>
-          <step>Connect the charged-up capacitor to power your air cart.
-            Coil up the extra wire so that it doesn&apos;t rub against
-            the wheels. How far can you make it go?  <ext-image name="03_st"/>
-          </step>
+          <query-response layout="paragraph" title="howfar" type="describe">
+            <query-description>Connect the charged-up capacitor to power
+              your air cart.             Coil up the extra wire so that
+              it doesn&apos;t rub against             the wheels. Try it
+              several times.</query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">How
+                far will it go?</query>
+            </querys>
+            <query-static-link>
+              <ext-image name="03_st"/>
+            </query-static-link>
+          </query-response>
           <step>Another possible way to use the energy from the
             capacitor is to warm up the heat cell. Place the tip of the
             Temperature probe in the small hole in one end of the heat
@@ -4991,9 +5016,8 @@
           </step>
           <step>Connect the Temperature probe to your handheld computer.
             Refer to Technical Hints to connect the Temperature probe.  </step>
-          <step>Start the software for the Temperature probe. Refer to
-            Technical Hints to see how to use the software.  
-            <datacollector-link type="dc-temperature5"/>
+          <step>Start the software for the Temperature probe.
+              <datacollector-link type="dc-temperature5"/>
           </step>
           <step>Charge up the capacitor again with the Genecon and
             quickly disconnect it.</step>
@@ -5001,33 +5025,45 @@
             leads and observe the temperature versus time graph.
               <ext-image name="04c_st"/>
           </step>
-          <step>Expand the graph until you can read the temperature
-            change. Refer to Technical Hints to see how to use the
-            software. Continue testing until you get a good temperature
-            graph.   </step>
+          <step>Zoom in on the graph until you can read the temperature
+            change. Continue testing until you get a good temperature graph.</step>
           <step>Save your data to the handheld computer. </step>
-          <step>What can you say about the shape of the temperature
-            graph? How long does it take for the energy from the
-            capacitor to get transferred into the heat cell? Record your
-            thoughts in Notes on your handheld computer.  </step>
-          <step>Calculate how much heat energy (in joules) you obtained
-            from the capacitor. The heat cell contains 10 joules for
-            each degree of temperature rise. Record your calculations in
-            Notes on your handheld computer.</step>
+          <query-response title="transfer" type="describe">
+            <query-description/>
+            <querys>
+              <query drawing-response="true"
+                note-response="false">Sketch the temperature graph.</query>
+              <query drawing-response="false" note-response="true">How
+                long does it take for the energy from the capacitor to
+                transfer into the heat cell?</query>
+            </querys>
+            <query-static-link>Record your thoughts in Notes on your
+              handheld computer.</query-static-link>
+          </query-response>
+          <query-response title="joules">
+            <query-description>Calculate how much heat energy was stored
+              in the capacitor. The heat cell contains 10 joules for
+              each degree of temperature rise.  </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">How
+                many joules of energy were obtained?</query>
+            </querys>
+            <query-static-link>Record your calculations in Notes on your
+              handheld computer.</query-static-link>
+          </query-response>
         </steps>
       </trial>
       <trial title="Heating with sunlight">
         <steps>
           <step>Set up the heat cell with the Temperature probe
             attached, but not in its insulating cover. Mark one face of
-            the cell black with a marker or carbon from a burnt candle
-            wick to increase the absorption of energy.  <ext-image name="05a_st"/>
+            the cell black with a marker or carbon from a burnt
+            candlewick to increase the absorption of energy.  <ext-image name="05a_st"/>
           </step>
           <step>Connect the Temperature probe to your handheld computer.
             Refer to Technical Hints to connect the Temperature probe.  </step>
-          <step>Start the software for the Temperature probe. Refer to
-            Technical Hints to see how to use the software.  
-            <datacollector-link type="dc-temperature6"/>
+          <step>Start the software for the Temperature probe.
+              <datacollector-link type="dc-temperature6"/>
           </step>
           <step>Try focusing sunlight on the heat cell with the Fresnel
             lens. If there&apos;s no sunlight, try focusing light from
@@ -5037,10 +5073,20 @@
             not heat the cell above 50 degrees Celsius. The aluminum
             could be too hot to touch safely.  </step>
           <step>Save your data to the handheld computer.  </step>
-          <step>How fast did the temperature rise? How many square
-            centimeters of sunlight does the Fresnel lens collect? How
-            does this compare to what a battery or a capacitor will do?
-            Record your thoughts in Notes on your handheld computer.</step>
+          <query-response title="rise" type="describe">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">How
+                fast did the temperature rise?</query>
+              <query drawing-response="false" note-response="true">How
+                does this compare to what a battery or a capacitor will do?</query>
+              <query drawing-response="false" note-response="true">How
+                many square centimeters of sunlight does the Fresnel
+                lens collect?</query>
+            </querys>
+            <query-static-link>Record your thoughts in Notes on your
+              handheld computer.</query-static-link>
+          </query-response>
         </steps>
       </trial>
       <hints>
@@ -5060,36 +5106,69 @@
       </hints>
       <analysis>
         <steps>
-          <step>When you charged the capacitor with the Genecon, then
-            ran           the Genecon with the capacitor, do you think
-            you obtained as           much mechanical energy out of the
-            capacitor as you put in it?           How could you find
-            out? If you didn&apos;t, where did the           energy go?</step>
-          <step>Capacitors, with their ability to store electrical
-            energy           and release it very fast, have many uses. A
-            familiar one is           the flash on a camera. A very
-            small amount of energy is           released so fast that it
-            makes a bright, but brief, light.           This is just
-            what a camera needs! But when you want a slow,
-            steady supply of energy, as with the air cart motor, a
-            capacitor is not the best source of energy. A battery is
-            much           better. Think of other situations that use
-            batteries and           capacitors for electrical energy
-            storage.  </step>
-          <step>The Fresnel lens concentrates light from a larger area
-            to           a smaller area, by bending the light that comes
-            through it.           This is called refraction. How much do
-            you think the Fresnel           lens magnified the amount of
-            sunlight reaching the heat cell           compared to just
-            letting it sit out in the Sun without the           lens?
-            Compare the area of the Fresnel lens to the area of the
-            focused light on the heat cell.  </step>
-          <step>How many devices can you think of that use lenses to
-            focus light?</step>
-          <step>How do you think sunlight is converted into heat? Do you
-            think it matters if the heat cell is black instead of plain
-            aluminum? Can heat be converted back into light? If so, list
-            some examples of this type of conversion.  </step>
+          <query-response title="mechanical_energy">
+            <query-description>In Trial I you charged the capacitor with
+              the Genecon, then ran the Genecon with the capacitor.  </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">Do
+                you think you obtained as much mechanical energy out of
+                the capacitor as you put in it?</query>
+              <query drawing-response="false" note-response="true">How
+                could you find out?</query>
+              <query drawing-response="false" note-response="true">If
+                you didn&apos;t, where did the energy go?</query>
+            </querys>
+          </query-response>
+          <query-response title="situation">
+            <query-description>Capacitors, with their ability to store
+              electrical energy and release it very fast, have many
+              uses. A familiar one is the flash on a camera. A very
+              small amount of energy is released so fast that it makes a
+              bright, but brief, light. This is just what a camera
+              needs! But when you want a slow, steady supply of energy,
+              as with the air cart motor, a capacitor is not the best
+              source of energy. A battery is much better.  </query-description>
+            <querys>
+              <query drawing-response="false"
+                note-response="true">What&apos;s another situation that
+                uses batteries?</query>
+              <query drawing-response="false"
+                note-response="true">What&apos;s another situation that
+                might use capacitors?</query>
+            </querys>
+          </query-response>
+          <query-response title="increase">
+            <query-description>The Fresnel lens concentrates light from
+              a larger area to a smaller area, by bending the light that
+              comes through it. This is called refraction. The Fresnel
+              lens increased the amount of sunlight reaching the heat
+              cell compared to being in the Sun without the lens.  </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">How
+                much was it increased? </query>
+              <query drawing-response="false" note-response="true">Could
+                you calculate it?</query>
+            </querys>
+          </query-response>
+          <query-response title="devices">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">List
+                some devices that use lenses to focus light?</query>
+            </querys>
+          </query-response>
+          <query-response title="heat">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">How
+                do you think sunlight is converted into heat?</query>
+              <query drawing-response="false" note-response="true">Do
+                you think it matters if the heat cell is black instead
+                of plain aluminum? conversion.</query>
+              <query drawing-response="false" note-response="true">What
+                is an example of heat being converted into light?</query>
+            </querys>
+          </query-response>
         </steps>
       </analysis>
       <further>
@@ -5315,13 +5394,13 @@
           <p>But Rube Goldberg didn&apos;t worry about efficiency, and
             we need to keep it constantly in mind in order to make the
             best possible use of our limited natural resources.   </p>
-          <ext-image name="02_lightProbeDet"/>
+          <shared-image name="02_lightProbeDet" screenshot="false"/>
           <p>The Light Probe has a photodiode that responds mainly to
             visible light, which is also the light needed for
             photosynthesis by plants. It produces a voltage depending on
             the light level. There are two ranges, one that can measure
             bright sunlight, and the other for indoor light.   </p>
-          <ext-image name="VIProbe" type="jpg"/>
+          <shared-image name="07_VIProbe" screenshot="false"/>
           <p>The Voltage/Current Probe measures either voltage or
             current. It can also measure both at the same time. The
             CCProbe software can use these readings to calculate and
@@ -5337,7 +5416,7 @@
             and the black clip lead goes to the smaller, or negative (-)
             location. To measure voltage across a heat cell , the clips
             are placed on the two ends of the heat cell as shown.  </p>
-          <ext-image name="01_vi" type="jpg"/>
+          <shared-image name="01_vi" screenshot="false"/>
           <p>Current is the amount of electricity flowing, a bit like
             the current in a stream. Current can be pictured as the
             total number of electrons flowing per second through a wire
@@ -5355,7 +5434,7 @@
             measure current going through a heat cell attached to a
             battery. Note: positioning of the probe is different while
             measuring current then it when measuring voltage.   </p>
-          <ext-image name="02_vi" type="jpg"/>
+          <shared-image name="02_vi"/>
           <p>Electrical power, the rate of using energy, is the voltage
             difference times current. It can be pictured as the number
             of electrons flowing per second, multiplied by the energy
@@ -5364,7 +5443,7 @@
             you must measure both voltage and current. The CCProbeware
             will calculate and display the power from these
             measurements.   </p>
-          <ext-image name="03_vi" type="jpg"/>
+          <shared-image name="03_vi" screenshot="false"/>
           <p>Electrical energy is the power accumulated over time. It
             can be pictured as the total number of electrons that flow,
             multiplied by the energy that each one gains (or loses).
@@ -5399,17 +5478,25 @@
         happening. Each step usually involves some loss of
         useful energy. An automobile engine, for instance, is only 30
         per cent efficient. That is, only 30 percent of the available
-        energy in gasoline is available to move the car.   <p>Think of
-          some examples where energy is transformed several times before
-          it is used. In your handheld Notes, list each of the forms of
-          energy in the chain, and what you think the efficiency is for
-          each step. Where do you think the wasted energy goes?  </p>
+        energy in gasoline is available to move the car.
+          <query-response title="transform" type="predict">
+          <query-description>Think of an example where energy is
+            transformed several times before it is used.  </query-description>
+          <querys>
+            <query drawing-response="false" note-response="true">List
+              each of the forms of energy in the chain.</query>
+            <query drawing-response="false" note-response="true">What do
+              you think the efficiency is for each step?</query>
+            <query drawing-response="false" note-response="true">Where
+              do you think the wasted energy goes?</query>
+          </querys>
+        </query-response>
       </think>
       <materials>
         <item>CC Voltage/Current probe  </item>
         <item>CC Light probe</item>
         <item>handheld computer  </item>
-        <item>CC Lab Book software</item>
+        <item>CC LabBook software</item>
         <item>solar cell</item>
         <item>sunlight  </item>
         <item>clip leads  </item>
@@ -5440,18 +5527,23 @@
             Connect the Voltage/Current probe to your handheld computer.
             Refer to Technical Hints to connect the Voltage/Current
             probe.   </step>
-          <step>Start the software to read voltage. Refer to Technical
-            Hints to see how to use the software.  
-            <datacollector-link type="dc-light-100000"/>
+          <step>Start the software to read voltage.
+              <datacollector-link type="dc-light-100000"/>
           </step>
           <step>Hook the solar cell to the voltage probe. Try it under
             different light conditions, such as a light bulb, direct
-            sunlight, indirect light from the sky. Stop the software and
-            save your data.  <ext-image name="01_mt"/>
+            sunlight, and indirect light from the sky. Stop the software
+            and             save your data.  <ext-image name="01_mt"/>
           </step>
-          <step>The maximum voltage is about 2V of the solar cell. Can
-            you get it to read this high? Record your observations in
-            Notes on your handheld.  </step>
+          <query-response layout="paragraph" title="light_source" type="describe">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">What
+                were the best and worst light sources?</query>
+            </querys>
+            <query-static-link>Record your observations in Notes on your
+              handheld computer.</query-static-link>
+          </query-response>
           <step>Team up with another group and connect two solar cells
             in parallel, using the clip leads.  <ext-image name="02a_mt"/>
           </step>
@@ -5459,11 +5551,19 @@
             toward bright sunlight. Clip the leads to the motor.
               <ext-image name="02_mt"/>
           </step>
-          <step>Is there enough power to drive the air cart? What are
-            the energy transformations happening when the sunlight hits
-            the solar cell connected to the motor on your cart? How
-            efficient do you think each step is? Record your thoughts in
-            Notes on your handheld computer.   </step>
+          <query-response title="power" type="describe">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">Is
+                there enough power to drive the air cart?  </query>
+              <query drawing-response="false" note-response="true">What
+                energy transformations are happening there?</query>
+              <query drawing-response="false" note-response="true">How
+                efficient do you think each step is?</query>
+            </querys>
+            <query-static-link>Record your thoughts in Notes on your
+              handheld computer.</query-static-link>
+          </query-response>
         </steps>
       </trial>
       <trial title="Cranking up the lights">
@@ -5472,17 +5572,19 @@
             too fast. If excessive cranking takes place, the light will
             burn out!  <ext-image name="05_mt"/>
           </step>
-          <step>Does the amount of light vary according to how hard you
-            crank? Record your observations in Notes on your handheld.  </step>
           <step>Connect the Light probe to your handheld computer. Refer
             to Technical Hints to connect the Light probe.   </step>
-          <step>Start the software to read light intensity (lux). Refer
-            to Technical Hints to see how to use the software.  
-            <datacollector-link type="dc-light-4000"/>
+          <step>Start the software to read light intensity (lux).
+              <datacollector-link type="dc-light-4000"/>
           </step>
-          <step>Measure the light level from light bulbs, direct
-            sunlight, and light from the sky. Stop recording, but
-            don&apos;t clear the data.</step>
+          <query-response layout="paragraph" title="light" type="describe">
+            <query-description>Measure the light level from light bulbs,
+              direct sunlight, and light from the sky. Stop recording.  </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">Write
+                down, in lux, how the three compare.</query>
+            </querys>
+          </query-response>
           <step>Place the light bulb in a black film canister along with
             the Light probe. Make sure the Light probe faces the light
             bulb. Hold the Light probe and the mini light in place with
@@ -5495,34 +5597,49 @@
             the rate of cranking the Genecon. Do not crank too fast, or
             the light will burn out! See if you can establish a
             relationship between how fast you crank and how much light
-            is produced. Can you crank so slowly that no light is
-            produced?  </step>
+            is produced. See if you can crank so slowly that no light is
+            produced.  </step>
           <step>Save the data to your handheld computer.  </step>
-          <step>What are the energy transformations happening here? What
-            is the efficiency of each one? Do you think the mini light
-            is producing only light energy? Record your answers in Notes
-            on your handheld computer.  </step>
+          <query-response title="efficiency" type="describe">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">What
+                are the energy transformations happening here?  </query>
+              <query drawing-response="false" note-response="true">What
+                is the efficiency of each one?</query>
+              <query drawing-response="false" note-response="true">Do
+                you think the mini light is producing only light energy?</query>
+            </querys>
+            <query-static-link>Record your answers in Notes on your
+              handheld computer.</query-static-link>
+          </query-response>
         </steps>
       </trial>
       <trial title="Remote lifting">
         <steps>
           <step>Team up with another group so that you can monitor two
             Genecons on one handheld computer.  </step>
-          <step>Connect the Voltage/Current probe to your handheld
+          <step>Connect the VoltageCurrent probe to your handheld
             computer. Refer to Technical Hints to connect the
-            Voltage/Current probe. </step>
-          <step>Connect the Voltage/Current probe leads to the Genecon
+            VoltageCurrent probe. </step>
+          <step>Connect the VoltageCurrent probe leads to the Genecon
             leads as shown in the diagram.  <ext-image name="07_mt"/>
           </step>
-          <step>Start the software to read energy. Refer to Technical
-            Hints to see how to use the software.  
-            <datacollector-link type="dc-voltage-current-energy"/>
+          <step>Start the software to read energy.<datacollector-link type="dc-voltage-current-energy"/>
           </step>
-          <step>Use one Genecon to drive the other, or each try to
-            oppose the other. Watch the energy graph. Does it correspond
-            to what you are doing with the Genecons? What are the energy
-            transformations happening here? Stop recording.  <ext-image name="08a_mt"/>
-          </step>
+          <query-response layout="paragraph" title="relate" type="describe">
+            <query-description/>
+            <querys>
+              <query drawing-response="true" note-response="true">Sketch
+                your graph. How did the graph relate to what you were
+                doing with the Genecons?  </query>
+              <query drawing-response="false" note-response="true">What
+                are the energy transformations happening here? </query>
+            </querys>
+            <query-static-link>
+              <ext-image name="08a_mt"/>
+            </query-static-link>
+          </query-response>
           <step>Now attach a pulley to one of the Genecons. Leave the
             wires hooked up. Remove one handle. The pulley comes with a
             piece of plastic tubing (bushing). Fit the tubing on the
@@ -5543,16 +5660,18 @@
             leads in place.  </step>
           <step>Restart the software to read energy.<ext-image name="09b_mt"/>
           </step>
-          <step>Crank the other Genecon to lift the weight. Can you also
-            lower the weight? If the weight is heavy enough, will it
+          <step>Crank the other Genecon to lift the weight. Also try to
+            lower the weight. If the weight is heavy enough, will it
             fall by itself? Try different things, like raising and
-            lowering slowly and quickly. Record the order in which you
-            did things so that you can relate them to your graph in
-            Notes on your handheld computer.  </step>
-          <step>Save your data to your handheld computer.  </step>
-          <step>What series of energy transformations is happening here?
-            What do you think the efficiency of this system is? Record
-            your thoughts in Notes on your handheld computer.  </step>
+            lowering slowly and quickly. </step>
+          <query-response title="order" type="describe">
+            <query-description>Save your data to your handheld computer.   </query-description>
+            <querys>
+              <query drawing-response="true" note-response="true">Sketch
+                the graph and record the order in which you did things.</query>
+            </querys>
+            <query-static-link>Use Notes on your handheld computer.</query-static-link>
+          </query-response>
         </steps>
       </trial>
       <hints>
@@ -5575,25 +5694,46 @@
       </hints>
       <analysis>
         <steps>
-          <step>You built a solar car in Trial I! What other features
-            would it need to be a practical vehicle?  </step>
-          <step>Open the data from Trials II. Compare all of the
-            different           light levels you measured. What was the
-            maximum level? What           was the minimum level?   </step>
-          <step>You were asked to rate the efficiency of each energy
-            transformation. Low efficiency means that useful energy is
-            lost. Where does the lost energy go, in the case of the
-            Genecon, the solar cell, and the light bulb?   </step>
-          <step>Open the data from Trial III. Compare the energy graph
-            with your list of what you were doing with the two Genecons
-            and the attached mass. What does the graph tell you about
-            energy transfer from one Genecon to the other?  </step>
-          <step>Design an energy &quot;Rube Goldberg&quot; machine. This
-            type of machine is a wacky series of devices that change
-            energy through various forms and ends up serving a purpose.
-            Make a drawing of your Rube Goldberg on your handheld
-            computer. Refer to Technical Hints to see draw in the
-            software. Please no live animals!  </step>
+          <query-response title="features">
+            <query-description>You built a solar car in Trial I!  </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">What
+                other features would it need to be a practical vehicle?</query>
+            </querys>
+          </query-response>
+          <query-response title="lost_energy">
+            <query-description>You were asked to rate the efficiency of
+              each energy transformation. Low efficiency means that
+              useful energy is lost.  </query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">Where
+                does the lost energy go, in the case of the solar cell,
+                the light bulb, and the Genecon?</query>
+              <query drawing-response="false" note-response="true">How
+                efficient do you think each transformation is?</query>
+            </querys>
+          </query-response>
+          <query-response title="system">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">What
+                series of energy transformations is happening when one
+                Genecon drives another?  </query>
+              <query drawing-response="false" note-response="true">What
+                do you think the efficiency of this system is?</query>
+            </querys>
+          </query-response>
+          <query-response title="Rube_Goldberg" type="describe">
+            <query-description>Design an energy &quot;Rube
+              Goldberg&quot; machine. This type of machine is a wacky
+              series of devices that change energy through various forms
+              and ends up serving a purpose. Please no live animals!  </query-description>
+            <querys>
+              <query drawing-response="true" note-response="false">Make
+                a drawing of your Rube Goldberg on your handheld
+                computer. </query>
+            </querys>
+          </query-response>
         </steps>
       </analysis>
       <further>
@@ -5604,4 +5744,3 @@
     </investigation>
   </unit>
 </project>
-

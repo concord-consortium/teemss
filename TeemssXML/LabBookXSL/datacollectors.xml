@@ -9,6 +9,7 @@
          <PROP name="Mode" value="C"/>
        </PROBE>
        <GRAPH current-line="0" title="graph subtitle goes here">
+         <DATAFOLDER object="saved-datasets"/>
          <XAXIS min="0" max="60"/>
          <YAXIS min="10" max="40"/>
          <LINE xaxis="0" yaxis="0" datasource="dc-temp1"/>
