@@ -53,6 +53,8 @@ public class LObjDictionaryView extends LabObjectView
 		editMenu.addActionListener(this);
     }
 
+	public static String ROOT_TREE_NODE_NAME = "Home";
+
     public void layout(boolean sDone)
     {
 		if(didLayout) return;
@@ -67,7 +69,7 @@ public class LObjDictionaryView extends LabObjectView
 		me.add(treeControl);
 		folderChoice = new Choice();
 		if(pathTree == null){
-			folderChoice.add("Root");
+			folderChoice.add(ROOT_TREE_NODE_NAME);
 		}else{
 			for(int n = 0; n < pathTree.getCount(); n++){
 				folderChoice.add(pathTree.get(n).toString());
@@ -89,9 +91,6 @@ public class LObjDictionaryView extends LabObjectView
 
 
 		if(!viewFromExternal){
-//			buttons.add(newButton, 0, 0);
-//			buttons.add(openButton, 1, 0);
-//			buttons.add(delButton, 2, 0);
 			buttons.add(newButton);
 			buttons.add(openButton);
 			buttons.add(delButton);
@@ -405,7 +404,8 @@ public class LObjDictionaryView extends LabObjectView
 		LabObject obj = null;
 		
 		obj = dict.getObj(curNode);
-		if(obj instanceof LObjDictionary){
+		if(obj instanceof LObjDictionary &&
+		   ((LObjDictionary)obj).viewType == LObjDictionary.TREE_VIEW){
 			if(pathTree == null){
 				pathTree = new waba.util.Vector();
 			}
@@ -425,20 +425,16 @@ public class LObjDictionaryView extends LabObjectView
 			redefineFolderChoiceMenu();
 //			folderChoice.repaint();
 			LObjDictionary d = (LObjDictionary)obj;
-			if(d.viewType == LObjDictionary.TREE_VIEW){
-				dict = d;
-				me.remove(treeControl);
-				treeModel = new TreeModel(dict);
-				treeControl = new TreeControl(treeModel);
-				treeControl.addTreeControlListener(this);
-				treeControl.showRoot(false);
-				me.add(treeControl);
-				waba.fx.Rect r = getRect();
-				setRect(r.x,r.y,r.width,r.height);
 
-			}else{
-				showPage(obj,edit);
-			}
+			dict = d;
+			me.remove(treeControl);
+			treeModel = new TreeModel(dict);
+			treeControl = new TreeControl(treeModel);
+			treeControl.addTreeControlListener(this);
+			treeControl.showRoot(false);
+			me.add(treeControl);
+			waba.fx.Rect r = getRect();
+			setRect(r.x,r.y,r.width,r.height);
 			return;
 		}
 		
@@ -452,7 +448,7 @@ public class LObjDictionaryView extends LabObjectView
 		if(folderChoice != null) me.remove(folderChoice);
 		folderChoice = new Choice();
 		if(pathTree == null){
-			folderChoice.add("Root");
+			folderChoice.add(ROOT_TREE_NODE_NAME);
 		}else{
 			for(int n = 0; n < pathTree.getCount(); n++){
 				folderChoice.add(pathTree.get(n).toString());
