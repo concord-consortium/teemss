@@ -204,10 +204,17 @@ private waba.ui.Container		contentPane;
 	d.show();
 	return d;
   }
-  public static Dialog showInputDialog(org.concord.waba.extra.event.DialogListener l,String title,String message,String []buttonTitles,int messageType){
-      return showInputDialog(l,title,message,buttonTitles,messageType,null);
+  public static Dialog showInputDialog(org.concord.waba.extra.event.DialogListener l,String title,
+									   String message,String []buttonTitles,int messageType){
+      return showInputDialog(l,title,message,buttonTitles,messageType,null,null);
   }
-  public static Dialog showInputDialog(org.concord.waba.extra.event.DialogListener l,String title,String message,String []buttonTitles,int messageType,String []choices){
+  public static Dialog showInputDialog(org.concord.waba.extra.event.DialogListener l,String title,
+									   String message,String []buttonTitles,int messageType,String []choices){
+	  return showInputDialog(l,title,message,buttonTitles,messageType,choices,null);
+  }
+
+  public static Dialog showInputDialog(org.concord.waba.extra.event.DialogListener l,String title,String message,
+									   String []buttonTitles,int messageType,String []choices, String defStr){
       if(buttonTitles == null) return null;
  	Dialog d = new Dialog(title);
   	waba.fx.FontMetrics fm = d.getFontMetrics(d.getFont());
@@ -247,10 +254,12 @@ private waba.ui.Container		contentPane;
 	if(messageType == EDIT_INP_DIALOG){
 		d.inpControl = new waba.ui.Edit();
 		d.inpControl.setRect(20,7 + mHeight ,d.width - 24,mHeight+5);
+		if(defStr != null) ((waba.ui.Edit)d.inpControl).setText(defStr);
 		cp.add(d.inpControl);
 	}else if(messageType == CHOICE_INP_DIALOG){
 		d.inpControl = new Choice(choices);
 		d.inpControl.setRect(20,7 + mHeight ,d.width - 24,mHeight+5);
+		if(defStr != null) ((Choice)d.inpControl).setSelectedIndex(defStr);
 		cp.add(d.inpControl);
 	}
 	if(showImages){
