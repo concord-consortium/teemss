@@ -277,9 +277,9 @@ public class LObjImageView extends LabObjectView implements ActionListener
 	    	}
 	    	wabaFile.close();
 		}
+		
 		if(bytes == null) return;
-		waba.fx.Image wabaImage = createImage(bytes,false);
-		if(wabaImage == null) return;
+		createImage(bytes,false);
     	if(imagePane != null){
     		remove(imagePane);
     		imagePane = null;
@@ -493,7 +493,6 @@ private static int inGetUInt16(byte bytes[], int off)
 	}while(pixelOffset >= 0);
 	
 	
-	waba.fx.Image wi = new waba.fx.Image(width,height);
 	
 
 	if(bpp == 8){
@@ -530,7 +529,11 @@ private static int inGetUInt16(byte bytes[], int off)
 	    waba.sys.Vm.copyArray(imageCMAP, 0, tmpCmap, 0, imageCMAP.length);
 	}
 	
-	if(doSetPixel && wi != null) wi.setPixels(imageBPP,tmpCmap,imageScanlen,imageHeight,0,imagePixels);
+	waba.fx.Image wi = null;
+	if(doSetPixel){
+		wi = new waba.fx.Image(width,height);
+		if(wi != null) wi.setPixels(imageBPP,tmpCmap,imageScanlen,imageHeight,0,imagePixels);
+	}
 	return wi;
 
 	}
