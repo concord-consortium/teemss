@@ -41,8 +41,7 @@ public class LObjDataCollectorView extends LabObjectView
 							   LObjDictionary curDict)
     {
 		super(vc);
-		menu.add("Graph Properties..");
-		menu.add("Probe Properties..");
+		menu.add("Properties..");
 		menu.add("Save Profile..");
 		menu.addActionListener(this);
 
@@ -196,7 +195,7 @@ public class LObjDataCollectorView extends LabObjectView
 				pds.showProp();
 
 				Debug.println("Callllll");
-			} else if(e.getActionCommand().equals("Graph Properties..")){
+			} else if(e.getActionCommand().equals("Properties..")){
 				graph.showAxisProp();
 			} else if(e.getActionCommand().equals("Save Profile...")){
 				/*
