@@ -327,7 +327,7 @@ public class LObjGraphView extends LabObjectView
 	public void update(Object cookie, float time){
 		av.update();			
 		timeBin.setValue(time);
-		dd.update();
+		//		dd.update();
 	}
 
 	public void stopGraph()
