@@ -102,7 +102,7 @@ replace_space = $(subst $(space),$(fill),$(strip $(1)))
 foreach_array = $(foreach element, $(subst ;,$(space),$(call replace_space, $(1))), \
 $(call $(2), $(subst $(fill),$(space),$(element))))
 
-test: 
+test-var: 
 	echo $$PILAINC
 
 $(BIN_DIR)/$(MW_CLASS).jar: $(BIN_DIR) $(CLASSES_DIR)/$(JAR_BUILD)

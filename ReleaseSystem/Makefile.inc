@@ -21,7 +21,8 @@ endif
 
 .PHONY: cvs-diff cvs-tag build-tag build-local set-version
 
-dependencies: $(DEP_NAMES:%=../%)
+dependencies: 
+	$(call MAKE_DEP, )
 	
 release: tag $(DEP_NAMES) ReleaseSystem
 	# supposably this means we have taged everything
