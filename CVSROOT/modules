@@ -27,4 +27,4 @@
 CVSROOT         CVSROOT
 modules         CVSROOT modules
 BlockModel-all	&BlockModel &wgraph &ProbeSystem &ReleaseSystem
-UltraFastTP-all &UltraFastTP &wgraph &BlockModel &ProbeSystem &ReleaseSystem
+UltraFastTP-all &UltraFastTP &wgraph &ProbeLib &ReleaseSystem
