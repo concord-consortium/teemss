@@ -158,19 +158,21 @@ public class CCForce extends Probe
 		
 		if(modeIndex == 0){
 			if(rangeIndex == 1){
-				curA = end_x1_A;
-				curB = end_x1_B;
 				calDescIndex = 0;
 			} else {
-				curA = end_x10_A;
-				curA = end_x10_B;
 				calDescIndex = 4;
 			}
 		} else {
-			curA = middle_x1_A;
-			curB = middle_x1_B;
 			calDescIndex = 2;
 		}
+
+		CalibrationParam p = calibrationDesc.getCalibrationParam(calDescIndex);
+		if(p == null || !p.isValid()) return false;
+		curA = p.getValue();
+
+		p = calibrationDesc.getCalibrationParam(calDescIndex + 1);
+		if(p == null || !p.isValid()) return false;
+		curB = p.getValue();
 
 		if(!zeroing) return super.startSampling(dEvent);
 		return true;
