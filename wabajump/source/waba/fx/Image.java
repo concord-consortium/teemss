@@ -20,6 +20,7 @@ YOUR EQUIPMENT OR SOFTWARE NOT SUPPLIED BY WABASOFT.
 package waba.fx;
 import palmos.Palm;
 import palmos.ShortHolder;
+import palmos.RGBColor;
 
 /**
  * Image is a rectangular image.
@@ -149,25 +150,135 @@ public void setPixels(int bitsPerPixel, int colorMap[], int bytesPerRow,
 
     int j;
     int curCol =0;
-    Graphics g = new Graphics(this, 256);
+    Graphics g;
     int lineOffset = 0;
-    int mask = 0xFF >> (8 - bitsPerPixel);
     int colorIndex;
     int pixPtr;
-    for(int i = 0; i < numRows && (i + y) < height; i++){
-	pixPtr = 0;
-	while(pixPtr < width && pixPtr*bitsPerPixel/8 < bytesPerRow){
-	    colorIndex = (pixels[lineOffset + pixPtr*bitsPerPixel/8] >>> 
-			  (8 - ((pixPtr*bitsPerPixel)%8 + bitsPerPixel))) & mask;
-	    curCol = colorMap[colorIndex];
-	    g.setColor((curCol >> 16) & 0xFF, (curCol >> 8) & 0xFF, curCol & 0xFF);
-	    g.drawLine(pixPtr, y+i, pixPtr, y+i);
-	    pixPtr++;
-	}
-	lineOffset += bytesPerRow;
+    int filledBytes = (width*bitsPerPixel)/8;
+    if(filledBytes > bytesPerRow){
+	filledBytes = bytesPerRow;
     }
-    
+    int lastByte = (width * bitsPerPixel - 1)/8 + 1;
+    if(lastByte > bytesPerRow){
+	lastByte = bytesPerRow;
+    }
 
+    int endRow = y + numRows;
+    if(endRow > height){
+	endRow = height;
+    }
+
+    switch(bitsPerPixel){
+    case 1:
+	g = new Graphics(this);
+
+	for(int i = y; i < endRow; i++){
+	    pixPtr = 0;
+	    while(pixPtr/8 < filledBytes){
+		colorIndex = (pixels[lineOffset + pixPtr/8] >>> 
+			      (7 - pixPtr%8)) & 0x01;
+		curCol = colorMap[colorIndex];
+		g.setColor((curCol >> 16) & 0xFF, (curCol >> 8) & 0xFF, curCol & 0xFF);
+		g.drawLine(pixPtr, i, pixPtr, i);
+		pixPtr++;
+	    }
+	    if(pixPtr/8 < lastByte){
+		while(pixPtr < width){
+		    colorIndex = (pixels[lineOffset + pixPtr/8] >>> 
+				  (7 - pixPtr%8)) & 0x01;
+		    curCol = colorMap[colorIndex];
+		    g.setColor((curCol >> 16) & 0xFF, (curCol >> 8) & 0xFF, curCol & 0xFF);
+		    g.drawLine(pixPtr, i, pixPtr, i);
+		    pixPtr++;
+		}		
+	    }
+	    lineOffset += bytesPerRow;
+	}
+	break;
+    case 2:
+	g = new Graphics(this);
+
+	for(int i=y; i < endRow; i++){
+	    pixPtr = 0;
+	    while(pixPtr/4 < filledBytes){
+		colorIndex = (pixels[lineOffset + pixPtr/4] >>> 
+			      (6 - (pixPtr*2)%8)) & 0x03;
+		curCol = colorMap[colorIndex];
+		g.setColor((curCol >> 16) & 0xFF, (curCol >> 8) & 0xFF, curCol & 0xFF);
+		g.drawLine(pixPtr, i, pixPtr, i);
+		pixPtr++;
+	    }
+	    if(pixPtr/4 < lastByte){
+		while(pixPtr < width){
+		    colorIndex = (pixels[lineOffset + pixPtr/4] >>> 
+				  (6 - (pixPtr*2)%8)) & 0x03;
+		    curCol = colorMap[colorIndex];
+		    g.setColor((curCol >> 16) & 0xFF, (curCol >> 8) & 0xFF, curCol & 0xFF);
+		    g.drawLine(pixPtr, i, pixPtr, i);
+		    pixPtr++;
+		}		
+	    }
+	    lineOffset += bytesPerRow;		
+	}
+	break;
+    case 4:
+	g = new Graphics(this);
+
+	for(int i=y; i < endRow; i++){
+	    pixPtr = 0;
+	    while(pixPtr/2 < filledBytes){
+		colorIndex = (pixels[lineOffset + pixPtr/2] >>> 
+			      (4 - (pixPtr*4)%8)) & 0x0F;
+		curCol = colorMap[colorIndex];
+		g.setColor((curCol >> 16) & 0xFF, (curCol >> 8) & 0xFF, curCol & 0xFF);
+		g.drawLine(pixPtr, i, pixPtr, i);
+		pixPtr++;
+	    }
+	    if(pixPtr/2 < lastByte){
+		while(pixPtr < width){
+		    colorIndex = (pixels[lineOffset + pixPtr/2] >>> 
+				  (4 - (pixPtr*4)%8)) & 0x0F;
+		    curCol = colorMap[colorIndex];
+		    g.setColor((curCol >> 16) & 0xFF, (curCol >> 8) & 0xFF, curCol & 0xFF);
+		    g.drawLine(pixPtr, i, pixPtr, i);
+		    pixPtr++;
+		}		
+	    }
+	    lineOffset += bytesPerRow;		
+	}
+	break;
+    case 8:
+	Graphics.drawWinGraphics = null;
+	Palm.WinSetDrawWindow(winHandle);
+	int i;
+	int newMapLength = colorMap.length;
+	if(newMapLength > 256) newMapLength = 256;
+
+	byte [] newColMap = new byte [newMapLength];
+	RGBColor palmColor = new RGBColor(0,0,0,0);
+
+
+	for(i=0; i < newMapLength ; i++){
+	    curCol = colorMap[i];
+	    palmColor.r = (byte)((curCol >> 16) & 0xFF);
+	    palmColor.g = (byte)((curCol >> 8) & 0xFF);
+	    palmColor.b = (byte)(curCol & 0xFF);
+	    
+	    newColMap[i] = Palm.WinRGBToIndex(palmColor);
+	}
+
+	for(i=y; i < endRow; i++){
+	    pixPtr = 0;
+	    while(pixPtr < filledBytes){
+		colorIndex = pixels[lineOffset + pixPtr] & 0xFF; 
+		Palm.WinSetForeColor(newColMap[colorIndex]);
+		Palm.WinDrawLine(pixPtr,i,pixPtr,i);
+		pixPtr++;
+	    }
+	    lineOffset += bytesPerRow;		
+	}
+	break;
+    }
 }
 
 

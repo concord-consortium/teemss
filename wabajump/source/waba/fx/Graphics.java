@@ -298,7 +298,7 @@ public class Graphics
     private Rectangle oOldClip = new Rectangle();
     private static int iMWinHandle;
     private static Rectangle mwOldClip = new Rectangle();
-    private static Graphics drawWinGraphics = null;
+    static Graphics drawWinGraphics = null;
     private int myWinHandle;
 
     public static void saveState()
