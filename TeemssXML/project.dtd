@@ -28,7 +28,7 @@
 <!ATTLIST query
   drawing-response  (true | false)        #REQUIRED
   note-response     (true | false)        #REQUIRED>
-<!ELEMENT query-static-link (#PCDATA)>
+<!ELEMENT query-static-link (%INVESTIGATION_TEXT;)*>
 
 <!ELEMENT datacollector-link EMPTY>
 <!ATTLIST datacollector-link
@@ -62,7 +62,7 @@
 <!ELEMENT tech-hint (title, heading, tech-hint-body)>
 <!ATTLIST tech-hint name CDATA #REQUIRED>
 <!ELEMENT heading (#PCDATA)>
-<!ELEMENT tech-hint-body (%TEXT; | shared-image-sequence | steps)*>
+<!ELEMENT tech-hint-body (%TEXT; | shared-image-sequence | steps | instructions)*>
 <!ELEMENT tech-hint-ref EMPTY>
 <!ATTLIST tech-hint-ref ref CDATA #REQUIRED>
 
@@ -122,7 +122,7 @@
 <!ELEMENT image EMPTY>
   <!ATTLIST image name CDATA #REQUIRED>
   <!ATTLIST image  dir CDATA #REQUIRED>
-<!ELEMENT p (%INVESTIGATION_TEXT;)*>
+<!ELEMENT p (%TEXT;)*>
 
 <!ELEMENT equation (#PCDATA)>
 <!ELEMENT table (th?, tr*)>
