@@ -317,6 +317,7 @@ public class LObjGraphView extends LabObjectView
 
     public void close()
     {
+
 		/*
 		  Check if the datasource is a dataset
 		  Get the annots for each bin
@@ -327,6 +328,7 @@ public class LObjGraphView extends LabObjectView
 		Debug.println("Got close in graph");
 
 		if(av != null) av.free();
+		av = null;
 		graph.closeAll();
 		graph.saveAllAnnots();
 		

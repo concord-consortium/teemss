@@ -49,6 +49,7 @@ public class LObjGraph extends LObjSubDict
 		// need to clear the object that are stored in this one
 		// ick.
 		numDataSources = 0;		
+		graphSettings = null;
 	}
 
 	public boolean getVisible(int index)
