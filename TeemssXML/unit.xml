@@ -1090,12 +1090,12 @@
       then gradually slowing down</step></steps></step><step>Save your data to
       the handheld computer.</step><query-response layout="list"
       title="movements" type="describe"><query-description>Draw and describe
-      the postion graph for each set of movements in Notes on your handheld
-      computer.</query-description><querys><query drawing-response="true"
-      note-response="true">walking forward at a constant velocity</query><query
-      drawing-response="true" note-response="true">walking forward, then
-      backward, at constant velocity</query><query drawing-response="true"
-      note-response="true">walking forward slowly, then quickly, then stopping</query><query
+      the postion graph for each set of movements.</query-description><querys><query
+      drawing-response="true" note-response="true">walking forward at a
+      constant velocity</query><query drawing-response="true"
+      note-response="true">walking forward, then backward, at constant
+      velocity</query><query drawing-response="true" note-response="true">walking
+      forward slowly, then quickly, then stopping</query><query
       drawing-response="true" note-response="true">gradually speeding up, then
       gradually slowing down</query></querys></query-response></steps></trial>
 
@@ -4978,7 +4978,7 @@
       intensity of light hitting the solar cell.<datacollector-link
       type="dc-voltage-current-current" /></step><query-response
       layout="paragraph" title="light_source" type="describe"><query-description>Stop
-      the software and save your data. </query-description><querys><query
+      the software and save your data.</query-description><querys><query
       drawing-response="false" note-response="true">What were the best and
       worst light sources?</query></querys><query-static-link>Record your
       observations in Notes on your handheld computer.</query-static-link></query-response><step>Team
@@ -5002,7 +5002,7 @@
       intensity (lux). Measure the light level from light bulbs, direct
       sunlight, and light from the sky.<datacollector-link
       type="dc-light-100000" /></step><query-response layout="paragraph"
-      title="light" type="describe"><query-description> Stop recording.</query-description><querys><query
+      title="light" type="describe"><query-description>Stop recording.</query-description><querys><query
       drawing-response="false" note-response="true">Write down, in lux, how
       the three compare.</query></querys></query-response><step>Place the
       light bulb in a black film canister along with the Light probe. Make
