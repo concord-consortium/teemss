@@ -160,7 +160,7 @@ public static boolean isColor()
 
 	{
 
-	return Applet.currentApplet.isColor;
+	return (Applet.currentApplet == null)?true:Applet.currentApplet.isColor;
 
 	}
 
@@ -225,8 +225,7 @@ public static String getPlatform()
 public static String getUserName()
 
 	{
-
-	if (!Applet.currentApplet.isApplication)
+	if (Applet.currentApplet != null && !Applet.currentApplet.isApplication)
 
 		return null;
 
@@ -429,7 +428,7 @@ public static boolean isOk(String s)
 // added by guich@120
 public static java.io.InputStream openInputStream(String path)
 {
-	boolean isApp = Applet.currentApplet.isApplication;
+	boolean isApp = (Applet.currentApplet == null)?true:Applet.currentApplet.isApplication;
 	java.io.InputStream stream = null;
 	try 
 	{	   
@@ -484,7 +483,7 @@ public static java.io.InputStream openInputStream(String path)
 // added by guich@120
 public static java.io.OutputStream openOutputStream(String path)
 {
-	boolean isApp = Applet.currentApplet.isApplication;
+	boolean isApp = (Applet.currentApplet == null)?true:Applet.currentApplet.isApplication;
 	java.io.OutputStream stream = null;
 	try 
 	{	   

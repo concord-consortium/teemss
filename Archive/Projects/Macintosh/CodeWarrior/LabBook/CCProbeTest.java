@@ -15,6 +15,9 @@ public class CCProbeTest extends ExtraMainWindow
     Menu edit;
     TreeControl treeControl;
     TreeModel treeModel;
+    Title 		title;
+    
+    
     Container me = new Container();
     LabObjectView lObjView = null;
     int myHeight;
@@ -72,13 +75,13 @@ public class CCProbeTest extends ExtraMainWindow
 			lbDB = new LabBookCatalog("LabBook");
 		} else {
 			lbDB = new LabBookFile("LabBook");
-			GraphSettings.MAX_COLLECTIONS = 5;
+			GraphSettings.MAX_COLLECTIONS = 4;
 		}
 
 		if(myHeight < 180){
 			yOffset = 13;
 			dictHeight -= 13;
-			Title title = new Title("CCProbe");
+			if(title == null) title = new Title("CCProbe");
 			title.setRect(0,0,width, 13);
 			me.add(title);
 		}
@@ -272,9 +275,23 @@ public class CCProbeTest extends ExtraMainWindow
 		LabObject obj = source.getLabObject();
 		source.close();
 		me.remove(source);
+		if(title != null){
+			me.remove(title);
+		}
 		LabObjectView replacement = obj.getView(this, true);
 		// This automatically does the layout call for us
-		replacement.setRect(x,yOffset,width,myHeight);
+
+		waba.fx.Rect myRect = content.getRect();
+		myHeight = myRect.height;
+		int dictHeight = myHeight;
+		if(myHeight < 180){
+			yOffset = 13;
+			dictHeight -= 13;
+			if(title == null) title = new Title("CCProbe");
+			title.setRect(0,0,width, 13);
+			me.add(title);
+		}
+		replacement.setRect(x,yOffset,width,dictHeight);
 		replacement.setShowMenus(true);
 		me.add(replacement);
 		lObjView = replacement;
@@ -321,6 +338,32 @@ public class CCProbeTest extends ExtraMainWindow
 
 	LabObjectView curFullView = null;
 
+	public void closeTopWindowView()
+	{
+		if(fullViews != null &&
+		   fullViews.getCount() > 0){
+			LabObjectView topView = (LabObjectView)fullViews.get(fullViews.getCount()-1);
+			// You'd think we'd want to hide the menus, but that is actually done by the View
+			// if it closed.  If it isn't closed then the menus should stick around
+			// I think ????
+			remove(topView);
+			fullViews.del(fullViews.getCount()-1);			
+
+			if(fullViews.getCount() > 0){
+				curFullView = (LabObjectView)fullViews.get(fullViews.getCount()-1);	
+				curFullView.setShowMenus(true);
+				add(curFullView);
+			} else {
+				curFullView = null;
+				lObjView.setShowMenus(true);
+				add(me);
+			}
+		}
+	}
+
+	Vector fullViews = new Vector();
+	/* Might want to keep a vector of active views
+	 */
 	public void showFullWindowView(LabObjectView view)
 	{
 		if(view == curFullView){
@@ -329,19 +372,31 @@ public class CCProbeTest extends ExtraMainWindow
 		}
 
 		if(view == null){
-			// the curFullView must not be null
-			remove(curFullView);
-			curFullView = null;
+			// This used to be an valid call now it is 
+			// should not be used
+			/*
+			if(curFullView != null){
+				remove(curFullView);
+				curFullView = null;
+			}
 			add(me);
+			*/
 		} else {
-			if(curFullView == null) remove(me);
-			else remove(curFullView);
+			if(curFullView == null){
+				lObjView.setShowMenus(false);
+				remove(me);
+			}
+			else{
+				curFullView.setShowMenus(false);
+				remove(curFullView);
+			}
 
 			view.layout(true);
 			view.setRect(0,0,width,myHeight);
 			view.setShowMenus(true);
 			add(view);
 			curFullView = view;
+			fullViews.add(view);
 		} 
 		return;
 	}
