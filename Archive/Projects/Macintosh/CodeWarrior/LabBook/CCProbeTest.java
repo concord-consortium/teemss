@@ -18,6 +18,7 @@ public class CCProbeTest extends ExtraMainWindow
     LabObjectView lObjView = null;
     int myHeight;
 	Vector fileMenuStrings = new Vector();
+	
     int newIndex = 0;
 
     LObjDictionary loDict = null;
@@ -95,7 +96,7 @@ public class CCProbeTest extends ExtraMainWindow
 
 		loDict = (LObjDictionary)labBook.load(labBook.getRoot());
 		if(loDict == null){
-			loDict = new LObjDictionary();
+			loDict = DefaultFactory.createDictionary();
 			loDict.name = "Root";
 			labBook.store(loDict);
 
@@ -105,6 +106,9 @@ public class CCProbeTest extends ExtraMainWindow
 
 		me.add(view);
 		lObjView = view;
+		if(loDict != null){
+			newIndex = loDict.getChildCount();
+		}
 
     }
 
@@ -224,37 +228,8 @@ public class CCProbeTest extends ExtraMainWindow
 			}
 			if(doExit) break;
 		}
-/*
-		if(objType.equals("Folder")){
-			newObj = new LObjDictionary();
-		} else if(objType.equals("Notes")){
-			newObj = new LObjDocument();
-			autoEdit = true;
-		} else if(objType.equals("Questions")){
-			newObj = LObjQuestion.makeNewQuestionSet();
-			autoEdit = true;
-		} else if(objType.equals("Data Collector")){	       
-			newObj = LObjDataCollector.makeNew();
-			autoProp = true;
-		} else if(objType.equals("Drawing")){
-			newObj = new LObjDrawing();
-			autoEdit = true;
-		} else if(objType.equals("UnitConvertor")){
-			newObj = new LObjUConvertor();
-			autoEdit = true;
-		} else if(objType.equals("Image")){
-			newObj = new LObjImage();
-			autoEdit = true;
-		} else if(objType.equals("CCTextArea")){
-			newObj = new LObjCCTextArea();
-			autoEdit = true;
-		} 
-*/
+
 		if(newObj != null){
-		
-		
-			
-			
 			if(newIndex == 0){
 				newObj.name = objType;		    
 			} else {

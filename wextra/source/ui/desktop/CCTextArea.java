@@ -61,19 +61,28 @@ CCTARow		[]rows = null;
 		if(components != null){
 			for(int i = 0; i < components.length; i++){
 				LBCompDesc c = components[i];
-				Button b = new Button(""+i);
-				add(b);
+				Control cntrl = c.getControl();
+				if(cntrl == null){
+					Button b = new Button(""+i);
+					c.setControl(b);
+					cntrl = b;
+				}else{
+					remove(cntrl);
+				}
+				if(cntrl != null) add(cntrl);
 				int yTop = y;
 				int line = c.lineBefore;
 				if(line > 0){
 					if(lines != null && lines.length > line){
-						yTop += lines[line - 1].endRow*getItemHeight();
+						yTop += (lines[line - 1].endRow - firstLine)*getItemHeight();
 					}
 				}	
-				if(c.alignment == LBCompDesc.ALIGNMENT_RIGHT){
-					b.setRect(x+width-insetRight-c.w,yTop,c.w,c.h);
-				}else{
-					b.setRect(x+insetLeft,yTop,c.w,c.h);
+				if(cntrl != null){
+					if(c.alignment == LBCompDesc.ALIGNMENT_RIGHT){
+						cntrl.setRect(x+width-insetRight-c.w,yTop,c.w,c.h);
+					}else{
+						cntrl.setRect(x+insetLeft,yTop,c.w,c.h);
+					}
 				}
 			}
 		}
@@ -290,6 +299,7 @@ CCTARow		[]rows = null;
 			if(firstLine != 0){
 				removeCursor();
 				firstLine = 0;
+				layoutComponents();
 				repaint();
 			}
 		}else if (ev.key == IKeys.LEFT){
@@ -298,6 +308,7 @@ CCTARow		[]rows = null;
 			if(firstLine > 0){
 				removeCursor();
 				firstLine--;
+				layoutComponents();
 				repaint();
 			}
 		}else if (ev.key == IKeys.DOWN){
@@ -305,6 +316,7 @@ CCTARow		[]rows = null;
 			if(lines != null && firstLine < nRows - 2){
 				removeCursor();
 				firstLine++;
+				layoutComponents();
 				repaint();
 			}
 		}else if (ev.key >= 32 && ev.key <= 255){
@@ -564,7 +576,7 @@ int 	lineBefore;
 int 	w, h;
 int 	alignment;
 boolean wrapping;
-
+Control	control;
 final static int ALIGNMENT_LEFT = 0;
 final static int ALIGNMENT_RIGHT = 1;
 
@@ -576,5 +588,9 @@ final static int ALIGNMENT_RIGHT = 1;
 		this.h				= h;
 		this.alignment		= alignment;
 		this.wrapping		= wrapping;
+		control				= null;
 	}
+	
+	public void setControl(Control	control){this.control = control;}
+	public Control getControl(){return control;}
 }
