@@ -11,12 +11,13 @@ public class LObjDataControl extends LObjSubDict
     int interfaceId = CCInterfaceManager.INTERFACE_2;
     int portId = CCProb.INTERFACE_PORT_A;
     //    LObjGraph graph;
-    
-    public static LObjDataControl makeNew()
+
+	
+	public static LObjSubDict makeNew()
     {
 		LObjDataControl me = new LObjDataControl();
-		LObjDictionary dict = new LObjDictionary();
-		dict.setMainObj(me);
+		me.initSubDict();
+
 		LObjGraph graph = new LObjGraph();
 		graph.name = "Graph";
 		me.setGraph(graph);

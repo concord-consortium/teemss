@@ -34,7 +34,7 @@ public class LObjDataControlEditView extends LabObjectView
 
 		nameLabel = new Label("Name");
 		nameEdit = new Edit();
-		nameEdit.setText("" + dc.dict.name);
+		nameEdit.setText("" + dc.name);
 		add(nameLabel);
 		add(nameEdit);
 
@@ -82,7 +82,7 @@ public class LObjDataControlEditView extends LabObjectView
 
 		dc.curProbe = null;
 		if(nameEdit.getText() != "" && nameEdit.getText() != null){
-			dc.dict.name = nameEdit.getText();
+			dc.name = nameEdit.getText();
 		}
 		super.close();
     }

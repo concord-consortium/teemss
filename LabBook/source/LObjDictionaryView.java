@@ -159,9 +159,7 @@ public class LObjDictionaryView extends LabObjectView
 				    newObj = LObjQuestion.makeNewQuestionSet();
 				    autoEdit = true;
 				} else if(objType.equals("Data Collector")){	       
-				    LObjDataControl dc = LObjDataControl.makeNew();
-				    newObj = dc.dict;
-				    dc.dict.hideChildren = true;
+					newObj = LObjDataControl.makeNew();
 					autoProp = true;
 				} else if(objType.equals("Drawing")){
 				    newObj = new LObjDrawing();
@@ -176,9 +174,7 @@ public class LObjDictionaryView extends LabObjectView
 				    newObj = new LObjDataSource();
 				    autoEdit = true;
 				} else if(objType.equals("Probes")){
-				    LObjProbesRep dc = new LObjProbesRep();
-				    newObj = dc.dict;
-				    dc.dict.hideChildren = true;
+					newObj = LObjProbesRep.makeNew();
 				    autoEdit = true;
 				} 
 				if(newObj != null){

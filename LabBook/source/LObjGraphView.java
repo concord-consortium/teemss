@@ -97,7 +97,9 @@ public class LObjGraphView extends LabObjectView
 			av.setXLabel(graph.xLabel, graph.xUnit);
 
 			String newTitle = propTitle.getValue();
-			if(newTitle.charAt(0) == '*' && gTool != null){
+			if(newTitle.length() > 0 && 
+			   newTitle.charAt(0) == '*' && 
+			   gTool != null){
 				autoTitle = true;
 			} else {
 				autoTitle = false;

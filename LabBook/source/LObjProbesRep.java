@@ -16,13 +16,20 @@ public LObjProbesRepView view = null;
     public LObjProbesRep()
     {
 		objectType = PROBESREPOBJ;
-		setDict(new LObjDictionary());
-		dict.setMainObj(this);//dictionnary needs it 
-		setObj(new LObjProbe("1"),0);
-		setObj(new LObjProbe("2"),1);
-		setObj(new LObjProbe("3"),2);
-		setObj(new LObjProbe("4"),3);
     }
+
+	public static LObjProbesRep makeNew()
+	{
+		LObjProbesRep me = new LObjProbesRep();
+		me.initSubDict();
+		me.setObj(new LObjProbe("1"),0);
+		me.setObj(new LObjProbe("2"),1);
+		me.setObj(new LObjProbe("3"),2);
+		me.setObj(new LObjProbe("4"),3);
+		
+		return me;
+	}
+
     public LabObjectView getView(LObjViewContainer vc, boolean edit,LObjDictionary curDict)
     {
     	
