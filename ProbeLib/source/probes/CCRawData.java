@@ -78,6 +78,7 @@ int				firstIndex,secondIndex;
 		int		nSamples	= e.getNumbSamples();
 		int 	ndata 		= nSamples*chPerSample;
 		int 	v = 0,v1 = 0;
+		dEvent.type = e.type;
 		dEvent.intTime = e.intTime;
 		for(int i = 0; i < ndata; i+=chPerSample){
 			if(activeChannels == 1){
