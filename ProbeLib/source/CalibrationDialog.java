@@ -88,7 +88,7 @@ DeviationControl	devControl;
  		if(nContainers < 2) return;
  		if(calTable == null){
   			waba.fx.Rect contentRect = getContentPane().getRect();
-	 		calTable = new WTable(this);
+	 		calTable = new WTable(getWabaWindow());
 	 		CalibrationDesc caldesc = probe.getCalibrationDesc();
 	 		int nRows = caldesc.countParams();
 	 		if(calibratedRows == null){
@@ -136,7 +136,6 @@ DeviationControl	devControl;
 			getContentPane().remove(currentPane);
  		}
  		boolean needNewProp = (currContainer == PROP_PANE) && (propertiesPanes[currContainer] == null);
- 		System.out.println("needNewProp "+needNewProp);
  		if(propertiesPanes[currContainer] == null){
 			propertiesPanes[currContainer] = new Container();
  		}

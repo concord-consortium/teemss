@@ -239,6 +239,7 @@ private waba.ui.Container		contentPane;
      	drawTitle(g);
  }
  
+ 	public waba.ui.Window getWabaWindow(){return waba.ui.MainWindow.getMainWindow();}
 	public void show(){
 		if(popup != null) return;
 		popup = new extra.ui.Popup(this);
