@@ -622,6 +622,7 @@ public void setPixels(int bitsPerPixel, int colorMap[], int bytesPerRow,
 
 	{
 
+	if(_awtImage == null) return;
 	if (bitsPerPixel != 1 && bitsPerPixel != 4 && bitsPerPixel != 8)
 
 		return;
@@ -639,12 +640,16 @@ public void setPixels(int bitsPerPixel, int colorMap[], int bytesPerRow,
 	java.awt.image.MemoryImageSource imageSource;
 
 	imageSource = new java.awt.image.MemoryImageSource(width, numRows, rgb, 0, width);
+	if(imageSource == null) return;
 
 	java.awt.Toolkit awtToolkit = java.awt.Toolkit.getDefaultToolkit();
+	if(awtToolkit == null) return;
 
 	java.awt.Image rowImage = awtToolkit.createImage(imageSource);
+	if(rowImage == null) return;
 
 	java.awt.Graphics g = _awtImage.getGraphics();
+	if(g == null) return;
 
 	g.drawImage(rowImage, 0, y, null);
 
