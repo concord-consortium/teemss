@@ -44,6 +44,12 @@ public class LObjDataCollectorView extends LabObjectView
     {
 		super(vc, (LabObject)dc, session);
 
+		/*
+		for(int i=0; i<60; i++){
+			mem[i] = new byte[1000];
+		}
+		*/
+
 		graph = (LObjGraph)dc.getObj(0, session);
 
 		menu.add("Graph Properties..");
@@ -72,11 +78,10 @@ public class LObjDataCollectorView extends LabObjectView
 		this.dc = dc;
 		dataDict = curDict;
 
-
     }
 
 	public void addMenus()
-	{
+	{		
 		if(container != null){
 			container.getMainView().addMenu(this, menu);
 			if(waba.sys.Vm.getPlatform().equals("PalmOS")){
@@ -90,8 +95,9 @@ public class LObjDataCollectorView extends LabObjectView
 	{
 		if(container != null){
 			container.getMainView().delMenu(this,menu);
+			menu.removeActionListener(this);
 			container.getMainView().removeFileMenuItems(fileStrings, this);
-		}
+		}		
 	}
 
 	public void setTitle1(String t1)
@@ -202,6 +208,8 @@ public class LObjDataCollectorView extends LabObjectView
 		super.setRect(x,y,width,height);
 		if(!didLayout) layout(false);
 
+		//		addTimer(100);
+	  
 		int curY = 0;
 		int gHeight = height;
 
@@ -222,8 +230,7 @@ public class LObjDataCollectorView extends LabObjectView
 		title2Label.setRect(xPos, gt_height/2, width-xPos, gt_height/2);
 		doneB.setRect(width-27, 0, 27, gt_height/2);
 
-		setTitle1(dc.getName());
-
+		setTitle1(dc.getName());		
     }
 
     public void actionPerformed(ActionEvent e)
@@ -286,8 +293,17 @@ public class LObjDataCollectorView extends LabObjectView
 		super.close();
     }
 
+	//	int curMemPos = 0;
+	// byte [][] mem = new byte [200][];
     public void onEvent(Event e)
-    {		
+    {
+		/*
+		if(e.target == this && e.type == ControlEvent.TIMER){
+			mem[curMemPos] = new byte[1000];
+			curMemPos++;
+			repaint();
+		}
+		*/
 		if(e.target == gv){			
 			if(e.type == 1000){
 				// This must have come from the graph so
@@ -314,6 +330,15 @@ public class LObjDataCollectorView extends LabObjectView
 			graph.showProp(session);
 		}
     }
+
+	/*
+	public void onPaint(Graphics g){
+		g.setColor(255,255,255);
+		g.fillRect(0,0,100,30);
+		g.setColor(0,0,0);
+		g.drawText("count: " + curMemPos,0,0);
+	}
+	*/
 
 	public MainView getMainView()
 	{

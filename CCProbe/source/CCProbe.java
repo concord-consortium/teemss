@@ -87,8 +87,8 @@ public class CCProbe extends ExtraMainWindow
 			CCTextArea.INTER_LINE_SPACING = 0;
 		} else if(plat.equals("Java")){
 			/*
-			graph.Bin.START_DATA_SIZE = 1000;
-			graph.LargeFloatArray.MaxNumChunks = 1;
+			graph.Bin.START_DATA_SIZE = 4000;
+			graph.LargeFloatArray.MaxNumChunks = 4;
 			GraphSettings.MAX_COLLECTIONS = 1;
 			*/
 			lbDB = new LabBookCatalog("LabBook");
@@ -306,16 +306,6 @@ public class CCProbe extends ExtraMainWindow
     public void done(LabObjectView source)
 	{
 		if(source == curFullView){
-			curFullView.close();
-	    
-			// release it's session
-			if(curWinSession != null) curWinSession.release();
-			curWinSession = null;
-
-			// I don't think this is important
-			// The order is important here because closeTopWin
-			// calls setShowMenus which checks lObjView to decide which 
-			// menus to show.
 			closeTopWindowView();
 		}
 	}
@@ -393,52 +383,73 @@ public class CCProbe extends ExtraMainWindow
 		}
     }
 
+	public void onEvent(Event ev)
+	{
+		if(ev.target == this && ev.type == ControlEvent.TIMER){
+			removeTimer(winChangeTimer);
+			winChangeTimer = null;
+			showLastWindow();
+		}
+	}
+
 	LabObjectView curFullView = null;
+
+	Timer winChangeTimer = null;
 
 	public void closeTopWindowView()
 	{
+		// The order is important here because closeTopWin
+		// calls setShowMenus which checks lObjView to decide which 
+		// menus to show.
+
 		if(fullViews != null &&
 		   fullViews.getCount() > 0){
 
-			Object topWin = fullViews.get(fullViews.getCount()-1);
-
-			if(!(topWin instanceof PtrWindow)) return;
-
+			curFullView.setShowMenus(false);
+			curFullView.close();
 			remove(curFullView);
+			curFullView = null;
+	    
+			// release it's session
+			if(curWinSession != null) curWinSession.release();
+
 			setFocus(null);
 
 			fullViews.del(fullViews.getCount()-1);			
 
-			if(fullViews.getCount() > 0){
-				Object newTopWin = fullViews.get(fullViews.getCount()-1);
-				if(!(newTopWin instanceof PtrWindow)) return;
-
-				PtrWindow pWin = (PtrWindow)newTopWin;
-				LabObjectPtr ptr = pWin.ptr;
-					
-				curWinSession = labBook.getSession();
-
-				LabObject lObj = curWinSession.load(pWin.ptr);					
-				LObjDictionary dict = (LObjDictionary)curWinSession.load(pWin.dictPtr);
-
-				LabObjectView view = lObj.getView(this, pWin.edit, dict, curWinSession);
-
-				view.layout(true);
-				view.setRect(0,0,width,myHeight);
-				curFullView = view;
-
-				curFullView.setShowMenus(true);
-				add(curFullView);
-			} else {
-				curFullView = null;
-				lObjView.setShowMenus(true);
-				add(me);
-				if(lObjView instanceof LObjDictionaryView){
-					((LObjDictionaryView)lObjView).updateWindow();
-				}
+			if(winChangeTimer == null){
+				winChangeTimer = addTimer(50);		
 			}
+		}
+	}
 
+	private void showLastWindow()
+	{
+		if(fullViews.getCount() > 0){
+			Object newTopWin = fullViews.get(fullViews.getCount()-1);
+			if(!(newTopWin instanceof PtrWindow)) return;
 
+			PtrWindow pWin = (PtrWindow)newTopWin;
+			LabObjectPtr ptr = pWin.ptr;
+					
+			curWinSession = labBook.getSession();
+
+			LabObject lObj = curWinSession.load(pWin.ptr);					
+			LObjDictionary dict = (LObjDictionary)curWinSession.load(pWin.dictPtr);
+
+			curFullView = lObj.getView(this, pWin.edit, dict, curWinSession);
+
+			curFullView.layout(true);
+			curFullView.setRect(0,0,width,myHeight);
+
+			curFullView.setShowMenus(true);
+			add(curFullView);
+		} else {
+			lObjView.setShowMenus(true);
+			add(me);
+			if(lObjView instanceof LObjDictionaryView){
+				((LObjDictionaryView)lObjView).updateWindow();
+			}
 		}
 	}
 
@@ -462,7 +473,6 @@ public class CCProbe extends ExtraMainWindow
 	{
 		LabObject obj;
 
-		LabBookSession newSession = labBook.getSession();
 		LabObjectPtr dictPtr = null;
 		if(dict != null) dictPtr = dict.getVisiblePtr();
 
@@ -484,30 +494,19 @@ public class CCProbe extends ExtraMainWindow
 				// incase this object is owned by the session
 				// (it ought to be)
 
-				curWinSession.release();
+				 curWinSession.release();
 
 			}
-			remove(curFullView);			
+			remove(curFullView);	
+			curFullView = null;		
 		}
 
 		setFocus(null);
-		// we load the object into our session so the caller can
-		// release their session.
-		obj = newSession.load(ptr);
 
-		curWinSession = newSession;
-
-		dict = (LObjDictionary)curWinSession.load(dictPtr);
-
-		LabObjectView view = obj.getView(this, edit, dict, curWinSession);
-
-		view.layout(true);
-		view.setRect(0,0,width,myHeight);
-		view.setShowMenus(true);
-		add(view);
-		curFullView = view;
+		fullViews.add(new PtrWindow(ptr, dictPtr, edit));		
 		
-		
-		fullViews.add(new PtrWindow(obj.getVisiblePtr(), dictPtr, edit));		
+		if(winChangeTimer == null){
+			winChangeTimer = addTimer(50);
+		}
 	}
 }
