@@ -332,6 +332,7 @@ private final static EmptyLabObject emptyObject = new EmptyLabObject();
     
     public void initLineDictionary(){
     	if(subDictionary == null) return;
+
     	LabObject zeroObject = subDictionary.getObj(0);
 		if(objDictionary == null){
 			if(zeroObject instanceof LObjDictionary){
@@ -352,6 +353,8 @@ private final static EmptyLabObject emptyObject = new EmptyLabObject();
     }
     
     public void setObj(LabObject lobj,int index){
+    
+    
 		if(subDictionary == null) return;
     	LabObject zeroObject = subDictionary.getObj(0);
     	if(zeroObject instanceof LObjDictionary){
@@ -361,27 +364,30 @@ private final static EmptyLabObject emptyObject = new EmptyLabObject();
 		}
     }
     public LabObject getObj(int index){
-    	if(subDictionary == null) return null;
+    	LabObject retObject = null;
+    	if(subDictionary == null) return retObject;
     	LabObject zeroObject = subDictionary.getObj(0);
     	if(zeroObject instanceof LObjDictionary){
-    		return subDictionary.getObj(index + 1);
+    		retObject = subDictionary.getObj(index + 1);
+    	}else{
+    		retObject = subDictionary.getObj(index);
     	}
-    	return subDictionary.getObj(index);
+    	return retObject;
     }
 
     
     public void writeExternal(DataStream out){
     	out.writeString(getText());
- //   	out.writeBoolean(components != null);
-    	out.writeBoolean(true);
+    	out.writeBoolean(components != null);
     	if(components == null){
     		out.writeInt(-1);
-    		out.writeInt(version);//version
-    		return;
-    	}
-    	out.writeInt(-components.length - 1);//workaround for not breaking old SN
-    	if(lines != null){
-    		out.writeInt(version);//version
+    	}else{
+     		out.writeInt(-components.length - 1);//workaround for not breaking old SN
+   		}
+    	out.writeInt(version);//version
+    	if(lines == null){
+    		out.writeInt(0);
+    	}else{
     		out.writeInt(lines.getCount());
     		for(int l = 0; l < lines.getCount(); l++){
 				CCStringWrapper strWrapper = (CCStringWrapper)lines.get(l);
@@ -401,12 +407,14 @@ private final static EmptyLabObject emptyObject = new EmptyLabObject();
 				out.writeInt(0);//reserved
     		}
     	}
-    	for(int i = 0; i < components.length; i++){
-    		LBCompDesc d = components[i];
-    		out.writeBoolean(d != null);
-    		if(d == null) continue;
-    		d.writeExternal(out);
-    	}
+    	if(components != null){
+	    	for(int i = 0; i < components.length; i++){
+	    		LBCompDesc d = components[i];
+	    		out.writeBoolean(d != null);
+	    		if(d == null) continue;
+	    		d.writeExternal(out);
+	    	}
+	    }
     }
 
     public void readExternal(DataStream in){
@@ -418,7 +426,7 @@ private final static EmptyLabObject emptyObject = new EmptyLabObject();
 		if(nComp < 0){
 			int rVersion = in.readInt();
 			if(rVersion <= 0) return;
-			nComp = -nComp - 1;
+			nComp = -nComp - 1;			
 			wasComponents = (nComp > 0);
 			int nLines = in.readInt();
 			int realLines = (lines == null)?0:lines.getCount();
@@ -456,12 +464,14 @@ private final static EmptyLabObject emptyObject = new EmptyLabObject();
 		}
 		
 		if(!wasComponents) return;
+
 		components = new LBCompDesc[nComp];
 		for(int i = 0; i < nComp; i++){
 			boolean wasPart = in.readBoolean();
 			if(!wasPart) 	components[i] = null;
 			else			components[i] = new LBCompDesc(in);
 		}
+
     }
 
 
@@ -920,7 +930,7 @@ private final static EmptyLabObject emptyObject = new EmptyLabObject();
 			int nLines = (lines == null)?0:lines.getCount();
 			for(int k = 0; k < components.length; k++){
 				LBCompDesc cDesc = components[k];
-				if(cDesc.lineBefore == nLines){
+				if(cDesc != null && cDesc.lineBefore == nLines){
 					int addH = cDesc.h;
 					int addRows = 1 + (addH / getItemHeight());
 					int lastLineRow = (nLines < 1)?0:((CCStringWrapper)lines.get(nLines - 1)).endRow;
