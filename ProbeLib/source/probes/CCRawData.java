@@ -66,7 +66,7 @@ float  			dtChannel = 0.0f;
 				interfacePort = INTERFACE_PORT_B;
 			}
 		} else if(nameProperty.equals("Num Channels")){
-			if(value.equals("1")){
+			if(value.equals("1") && curChannel != 1){
 				activeChannels = 1;
 			} else if(value.equals("2")){
 				activeChannels = 2;
@@ -76,6 +76,7 @@ float  			dtChannel = 0.0f;
 				curChannel = 0;
 			} else if(value.equals("1")){
 				curChannel = 1;
+				activeChannels = 2;
 			}
 		}
 		return  super.setPValue(p,value);

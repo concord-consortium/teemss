@@ -9,6 +9,7 @@ import org.concord.waba.extra.event.DataListener;
 import org.concord.waba.extra.event.DataEvent;
 import extra.util.DataDesc;
 import org.concord.waba.extra.probware.probs.CCProb;
+import org.concord.waba.extra.ui.*;
 
 public class CCInterfaceManager extends Control{
 static protected CCInterfaceManager im = null;
@@ -57,7 +58,11 @@ protected ProbManager	pb = null;
 		notifyProbManager(dEvent);
 		dEvent.setType(DataEvent.DATA_RECEIVED);
 
-		if(!startA2D(startC)) return;
+		if(!startA2D(startC)){
+		    Dialog.showMessageDialog(null, "Interface Error","Error in interface start", 
+					     "Bummer", Dialog.ERR_DIALOG);
+		    return;
+		}
 		startTimer = Vm.getTimeStamp();
 		timer = addTimer(getRightMilliseconds());
 	}
@@ -67,6 +72,8 @@ protected ProbManager	pb = null;
 			timer = null;
 		}
 		if(port != null){
+		    buf[0] = (byte)'c';
+		    port.writeBytes(buf, 0, 1);
 			port.close();
 			port = null;
 		}
@@ -94,24 +101,28 @@ protected ProbManager	pb = null;
 	
 	public void onEvent(Event event){
     		if (event.type==ControlEvent.TIMER){
-    			doRightThings();
+		    if(!doRightThings()){
+			Dialog.showMessageDialog(null, "Interface Error","Error in interface step", 
+						 "Bummer", Dialog.ERR_DIALOG);
+			stop();
+		    }
 		}
 	}
 	
-	protected void doRightThings(){
-		if((port == null) || !port.isOpen()) return;
+	protected boolean doRightThings(){
+		if((port == null) || !port.isOpen()) return false;
 		if(mode == A2D_10_MODE){
-			step10bit();
+			return step10bit();
 		}else{
-			stepGeneric();
+			return stepGeneric();
 		}
 
 	}
 
 	boolean step10bit(){
 		if(interfaceType == INTERFACE_2) return step10bit_2();
-		if((port == null) || !port.isOpen()) return false;
-		int ret;
+		if((port == null) || !port.isOpen() || pb == null) return false;
+		int ret = -1;
 		byte tmp;
 		byte pos;
 		int i,j;
@@ -174,16 +185,19 @@ protected ProbManager	pb = null;
 			}
 			dEvent.setNumbSamples(curDataPos/dDesc.getChPerSample());
 			dEvent.setData(valueData);
-			notifyProbManager(dEvent);
+			pb.transform(dEvent);
 			if((ret - curPos) > 0){
 				for(j=0; j<(ret-curPos); j++) buf[j] = buf[curPos + j];
 				bufOffset = j;
 			}
 		}
+		// Should have a special error condition
+		if(ret < 0) return false;
+
 		dEvent.setType(DataEvent.DATA_COLLECTING);
-		notifyProbManager(dEvent);
+		pb.transform(dEvent);
 		dEvent.setType(DataEvent.DATA_RECEIVED);
-		return false;
+		return true;
     }
 	
 	protected void notifyProbManager(DataEvent e){
@@ -202,7 +216,7 @@ protected ProbManager	pb = null;
 	boolean stepGeneric(){
 		if(interfaceType == INTERFACE_2) return stepGeneric_2();
 		if((port == null) || !port.isOpen()) return false;
-		int ret;
+		int ret = -1;
 		int offset;
 		byte tmp;
 		byte pos;
@@ -212,7 +226,10 @@ protected ProbManager	pb = null;
 
 //		response = OK;
 		ret = port.readBytes(buf, bufOffset, readSize);
-		if(ret <= 0)	return false;
+		if(ret == 0) return true;
+
+		// Should return some special case
+		if(ret < 0)	return false;
 
 		ret += bufOffset;	    
 		curPos = 0;
@@ -328,6 +345,7 @@ protected ProbManager	pb = null;
 		}
 	}
 
+
 	boolean stopSampling(){
 		// Let the device wake up a bit
 		// But try to stop it as soon as we can
@@ -352,9 +370,18 @@ protected ProbManager	pb = null;
 			}
 		}
 		port.setReadTimeout(0);
-		if(interfaceType == INTERFACE_0){
-			tmp = port.readBytes(buf, 0, BUF_SIZE);//workaround 
+
+		tmp = port.readBytes(buf, 0, BUF_SIZE);//workaround 
+		if(tmp < 0){
+		    // There might have been a line error
+		    // Try again
+		    if(port.readBytes(buf, 0, BUF_SIZE) < 0){
+			port.close();
+			port = null;
+			return false;
+		    }
 		}
+		    
 		return true;
 	}
 
@@ -434,7 +461,7 @@ protected ProbManager	pb = null;
 	}
 	boolean stepGeneric_2(){
 		if((port == null) || !port.isOpen()) return false;
-		int ret;
+		int ret = -1;
 		int offset;
 		byte tmp;
 		byte pos;
@@ -444,7 +471,8 @@ protected ProbManager	pb = null;
 
 //		response = OK;
 		ret = port.readBytes(buf, bufOffset, readSize);
-		if(ret <= 0)	return false;
+		if(ret == 0) return true;
+		if(ret < 0)  return false;
 
 		ret += bufOffset;	    
 		curPos = 0;
@@ -501,12 +529,12 @@ protected ProbManager	pb = null;
 				// Return a reasonable resolution
 				syncChannels = true;
 			}else if(mode == DIG_COUNT_MODE){
-	    			curData[0] = curStepTime;
 	   			curStepTime += timeStepSize;
 	   			valueData[curDataPos++] = value;
 			}
-			curData[curChannel+1] = (float)value * tuneValue;
 			if(syncChannels){
+			    // This is a hack
+			    curData[curChannel+1] = (float)value * tuneValue*2f;
 				if(gotChannel0 && curChannel == 1){
 					curData[0] = curStepTime;
 					curStepTime += timeStepSize;
@@ -528,11 +556,11 @@ protected ProbManager	pb = null;
 		return true;
     }
 	boolean step10bit_2(){
-		if((port == null) || !port.isOpen()) return false;
+		if((port == null) || !port.isOpen() || pb == null) return false;
 
 		if(activeChannels == 1) return step10bitFast_2();
 
-		int ret;
+		int ret = -1;
 		byte tmp;
 		byte pos;
 		int i,j;
@@ -542,7 +570,7 @@ protected ProbManager	pb = null;
 
 //		response = OK;
 
-		
+
 		while(port != null && port.isOpen()){
 			curChannel = 0;
 			ret = port.readBytes(buf, bufOffset, readSize - bufOffset);
@@ -579,37 +607,39 @@ protected ProbManager	pb = null;
 				curChannel = ((value & 0x00400) >> 10);
 				value &= 0x03FF;
 
-				// Return a reasonable resolution
-				float rValue = (float)value * tuneValue;
-
 				if(gotChannel0 && curChannel == 1){
-					curStepTime += timeStepSize;
-					gotChannel0 = false;
-					curData[curChannel + 1] = rValue;
-					curData[0] = curStepTime;
-					valueData[curDataPos++] = curData[1];
-					valueData[curDataPos++] = curData[2];
+				    gotChannel0 = false;
+				    valueData[curDataPos++] = curDataCh0;
+				    // Return a reasonable resolution
+				    valueData[curDataPos++] = (float)value * tuneValue;
 				} else {
-					curData[1] = rValue;
-					gotChannel0 = (curChannel == 0);
+				    // Return a reasonable resolution
+				    curDataCh0 = (float)value * tuneValue;
+				    gotChannel0 = (curChannel == 0);
 				}
 			}
 
 			dEvent.numbSamples = (curDataPos/activeChannels);
-			notifyProbManager(dEvent);
+			curStepTime += dEvent.numbSamples*timeStepSize;
+			pb.transform(dEvent);
 			if((ret - curPos) > 0){
 				for(j=0; j<(ret-curPos); j++) buf[j] = buf[curPos + j];
 				bufOffset = j;
 			}
+
 		}
+		// Should have a special error condition
+		if(ret < 0) return false;
+
 		dEvent.setType(DataEvent.DATA_COLLECTING);
-		notifyProbManager(dEvent);
+		pb.transform(dEvent);
 		dEvent.setType(DataEvent.DATA_RECEIVED);
-		return false;
-    }
+		return true;
+	}
+
 	boolean step10bitFast_2(){
 
-		int ret;
+		int ret = -1;
 		byte tmp;
 		byte pos;
 		int i,j;
@@ -653,25 +683,28 @@ protected ProbManager	pb = null;
 			value &= 0x03FF;
 
 
-			curStepTime += timeStepSize;
-			
 			// Return a reasonable resolution
 			valueData[curDataPos++] = (float)value * tuneValue;
 
 		    }
 
-		    dEvent.setNumbSamples(curDataPos/dDesc.getChPerSample());
+		    dEvent.numbSamples = curDataPos/dDesc.chPerSample;
+		    curStepTime += dEvent.numbSamples*timeStepSize;
+			
 		    dEvent.setData(valueData);
-		    notifyProbManager(dEvent);
+		    pb.transform(dEvent);
 		    if((ret - curPos) > 0){
 			for(j=0; j<(ret-curPos); j++) buf[j] = buf[curPos + j];
 			bufOffset = j;
 		    }
 		}
+		// Should have a special error condition
+		if(ret < 0) return false;
+
 		dEvent.setType(DataEvent.DATA_COLLECTING);
-		notifyProbManager(dEvent);
+		pb.transform(dEvent);
 		dEvent.setType(DataEvent.DATA_RECEIVED);
-		return false;
+		return true;
 	}
 	
 	char getStartChar_2(){
@@ -681,6 +714,7 @@ protected ProbManager	pb = null;
 		activeChannels = 2;
 		if(mode == DIG_COUNT_MODE){
 		    activeChannels = 1;
+		    dDesc.setChPerSample(1);				    
 		    return 'r';
 		}
 		int numbProbs = pb.getNumbProbs();
@@ -750,6 +784,7 @@ protected ProbManager	pb = null;
 
     	public final static int NUMB_CHANNELS = 2;
 	float				[]curData = new float[1+NUMB_CHANNELS];
+    float curDataCh0;
 	
 	public float		tuneValue = 1.0f;
     	boolean 			gotChannel0 = false;

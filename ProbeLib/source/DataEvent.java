@@ -10,6 +10,9 @@ DataDesc	dataDesc = null;
 public int		numbSamples = 1;
 public int		dataOffset = 0;
 public float		time;
+    //    public int  [] profiling = new int [5];
+    // public int numProfiles = 0;
+
 	public DataEvent(){
 		this(0.0f);
 	}

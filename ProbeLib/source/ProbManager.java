@@ -128,13 +128,14 @@ protected 	static ProbManagerEvent   pmEvent = new ProbManagerEvent();
 		if(p!=null) p.removeDataListener(l);
 	}
 	
+    CCProb [] probArray = null;
+    int numProbs = 0;
+
     	public boolean transform(DataEvent e){
-    		if(probs == null) return false;
-    		for(int i = 0; i < probs.getCount(); i++){
-    			CCProb p = (CCProb)probs.get(i);
-			p.transform(e); //need offset important, but not relevant right now
-    		}
-    		return true;
+	    for(int i = 0; i < numProbs; i++){
+		probArray[i].transform(e);//need offset important, but not relevant right now
+	    }
+	    return true;
     	}
 	public int getMode(){return im.getMode();}
 	protected void setMode(int mode){
@@ -148,6 +149,17 @@ protected 	static ProbManagerEvent   pmEvent = new ProbManagerEvent();
 		if(im == null) return;
 		syncModeWithProb();
 		notifyListeners(ProbManagerEvent.PM_START,null);
+
+		if(probs == null){
+		    numProbs = 0;
+		} else {
+		    numProbs = probs.getCount();
+		}
+
+		probArray = new CCProb [probs.getCount()];		
+		for(int i = 0; i < numProbs; i++){
+		    probArray[i] = (CCProb)probs.get(i);
+		}
 		im.start();
 	}
 	public void stop(){
