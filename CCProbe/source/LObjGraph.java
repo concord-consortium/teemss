@@ -39,7 +39,7 @@ public class LObjGraph extends LObjSubDict
 			LObjGraphProp gProp = (LObjGraphProp) getPropertyView(null, null);
 			gProp.index = index;
 			ViewDialog vDialog = new ViewDialog((ExtraMainWindow)mw, null, "Properties", gProp);
-			vDialog.setRect(0,0,150,150);
+			vDialog.setRect(0,0,159,159);
 			vDialog.show();
 		}
     }

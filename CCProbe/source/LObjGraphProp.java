@@ -18,6 +18,7 @@ public class LObjGraphProp extends LabObjectView
     PropContainer props = null;
 	PropObject propTitle;
 	PropObject propDataSources;
+	PropObject propVisibleSources;
     PropObject propXmin;
     PropObject propXmax;
 	PropObject propXlabel;
@@ -29,6 +30,8 @@ public class LObjGraphProp extends LabObjectView
 
 	PropertyView propView = null;
 	int index=0;
+
+	String [] testList = {"test1", "test2"};
 
 	public LObjGraphProp(ViewContainer vc, LObjGraph g, int index)
     {
@@ -71,7 +74,7 @@ public class LObjGraphProp extends LabObjectView
 
 		if(graph.autoTitle)  propTitle = new PropObject("Title", "*" + graph.title);
 		else propTitle = new PropObject("Title", graph.title);
-		propTitle.prefWidth = 100;
+		propTitle.prefWidth = 120;
 		dsStrings = new String [graph.numDataSources];
 		for(int i=0; i<graph.numDataSources; i++){
 			DataSource ds = graph.getDataSource(i);
@@ -80,11 +83,15 @@ public class LObjGraphProp extends LabObjectView
 			}
 		}
 		propDataSources = new PropObject("Data", dsStrings);
-		propDataSources.prefWidth = 100;
+		propDataSources.prefWidth = 120;
+		propDataSources.setType(PropObject.CHOICE_SETTINGS);
+		propDataSources.setSettingsButtonName("Setup");
+		propVisibleSources = new PropObject("Visible", dsStrings);
+		propVisibleSources.prefWidth = 120;
+		propVisibleSources.setType(PropObject.MULTIPLE_SEL_LIST);
 		props.addProperty(propTitle, "Graph");
 		props.addProperty(propDataSources, "Graph");
-		PropContainer pc = props.getPropertiesContainer(0);
-		pc.addButton("Settings");
+		props.addProperty(propVisibleSources, "Graph");
 
 		propXmin = new PropObject("Min", curGS.xmin + "");
 		propXmax = new PropObject("Max", curGS.xmax + "");
@@ -140,7 +147,7 @@ public class LObjGraphProp extends LabObjectView
 			}
 			
 			graph.notifyObjListeners(new LabObjEvent(graph, 0));
-		} else if(e.getActionCommand().equals("Settings")){
+		} else if(e.getActionCommand().equals("Setup")){
 			// This should be an index for safety
 			String dataSourceName = propDataSources.getValue();
 			if(dsStrings != null){
