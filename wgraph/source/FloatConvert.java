@@ -254,7 +254,7 @@ public class FloatConvert
 	static int retVal = 0;
 	public static int getExp(float val)
 	{
-		int fBits = Float.floatToIntBits(val);
+		int fBits = waba.sys.Convert.toIntBitwise(val);
 
 		if(fBits == 0){
 			retVal = 0;
