@@ -10,7 +10,7 @@
 _DIR_NAMES = $(DEP_NAMES) ReleaseSystem
 
 define MAKE_DEP
-$(foreach el,$(_DIR_NAMES),$(MAKE) -C ../$(el) TAG=$(TAG) $(1)
+$(foreach el,$(_DIR_NAMES),$(MAKE) -C ../$(el) TAG=`cat tag` $(1)
 )
 endef
 
@@ -35,20 +35,20 @@ build-tag:
 	$(MAKE) cvs-diff
 	$(call MAKE_DEP, cvs-diff)
 	$(update_build)
-	$(MAKE) 
 	$(call MAKE_DEP, )
+	$(MAKE) 
 	mv new_build build
 	echo $(subst .,_,$(VERSION_EXP))_$(BUILD_EXP) > tag
 	#cvs commit -m "build checkin" $(basename $(VERSION_TEMPLATE)) build version tag
-	$(MAKE) cvs-tag
 	$(call MAKE_DEP, cvs-tag)
+	$(MAKE) cvs-tag
 	
 tag:
 	@echo "You must make a version or branch first for " $(MOD_NAME)
 	@exit 1
 
 cvs-diff:
-	cvs -Q diff > /dev/null || (echo The  directory **$(notdir $(CURDIR))** is different than the repository; test)
+	#cvs -Q diff > /dev/null || (echo The  directory **$(notdir $(CURDIR))** is different than the repository; test)
 	
 #Tag the dependencies with our tag so we can get them back
 cvs-tag: $(TAG_FILE)
