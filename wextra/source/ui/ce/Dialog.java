@@ -63,8 +63,8 @@ private waba.ui.Container		contentPane;
 			listener = null;
 		}
 	}
-  public static void showConfirmDialog(org.concord.waba.extra.event.DialogListener l,String title,String message,String []buttonTitles,int messageType){
-  	if(buttonTitles == null) return;
+  public static Dialog showConfirmDialog(org.concord.waba.extra.event.DialogListener l,String title,String message,String []buttonTitles,int messageType){
+  	if(buttonTitles == null) return null;
   	Dialog d = new Dialog(title);
   	waba.fx.FontMetrics fm = d.getFontMetrics(d.getFont());
 	int messageWidth 	= fm.getTextWidth(message);
@@ -117,9 +117,10 @@ private waba.ui.Container		contentPane;
 	}
 	d.addDialogListener(l);
 	d.show();
+	return d;
   }
  
-  public static void showMessageDialog(org.concord.waba.extra.event.DialogListener l,String title,String message,String buttonTitle,int messageType){
+  public static Dialog showMessageDialog(org.concord.waba.extra.event.DialogListener l,String title,String message,String buttonTitle,int messageType){
   	Dialog d = new Dialog(title);
   	waba.fx.FontMetrics fm = d.getFontMetrics(d.getFont());
 	int messageWidth 	= fm.getTextWidth(message);
@@ -163,6 +164,7 @@ private waba.ui.Container		contentPane;
 	}
 	d.addDialogListener(l);
 	d.show();
+	return d;
   }
   public static Dialog showInputDialog(org.concord.waba.extra.event.DialogListener l,String title,String message,String []buttonTitles,int messageType){
       return showInputDialog(l,title,message,buttonTitles,messageType,null);

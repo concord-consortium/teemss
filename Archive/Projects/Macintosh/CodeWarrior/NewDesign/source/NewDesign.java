@@ -8,7 +8,7 @@ import org.concord.waba.extra.probware.probs.*;
 import extra.util.*;
 import org.concord.waba.extra.ui.*;
 
-public class NewDesign extends ExtraMainWindow implements DialogListener, DataListener{
+public class NewDesign extends ExtraMainWindow implements DialogListener, DataListener, ProbManagerListener{
 public static ProbManager pb = null;
 Button startButton, stopButton,exitButton;
 Button calButton;
@@ -20,6 +20,43 @@ CCProb probe = null;
 		new NewDesign();
 	}
 	public NewDesign(){
+		
+/*
+		System.out.println("Celsius <-> Fahrenheit");
+		float baseValue = 20.0f;
+		float converted = CCUnit.unitConvert(CCUnit.UNIT_CODE_CELSIUS,baseValue,CCUnit.UNIT_CODE_FAHRENHEIT);
+		System.out.println("baseValue "+baseValue+" converted "+converted);
+		baseValue = converted;
+		converted = CCUnit.unitConvert(CCUnit.UNIT_CODE_FAHRENHEIT,baseValue,CCUnit.UNIT_CODE_CELSIUS);
+		System.out.println("baseValue "+baseValue+" converted "+converted);
+		
+		System.out.println("Min <-> Sec");
+		baseValue = 1.0f;
+		converted = CCUnit.unitConvert(CCUnit.UNIT_CODE_MIN,baseValue,CCUnit.UNIT_CODE_S);
+		System.out.println("baseValue "+baseValue+" converted "+converted);
+		baseValue = converted;
+		converted = CCUnit.unitConvert(CCUnit.UNIT_CODE_S,baseValue,CCUnit.UNIT_CODE_MIN);
+		System.out.println("baseValue "+baseValue+" converted "+converted);
+	
+		System.out.println("Gallon <-> Liter");
+		baseValue = 1.0f;
+		converted = CCUnit.unitConvert(CCUnit.UNIT_CODE_GAL_L,baseValue,CCUnit.UNIT_CODE_LITER);
+		System.out.println("baseValue "+baseValue+" converted "+converted);
+		baseValue = converted;
+		converted = CCUnit.unitConvert(CCUnit.UNIT_CODE_LITER,baseValue,CCUnit.UNIT_CODE_GAL_L);
+		System.out.println("baseValue "+baseValue+" converted "+converted);
+	
+		System.out.println("inch <-> m");
+		baseValue = 4.717f;
+		converted = CCUnit.unitConvert(CCUnit.UNIT_CODE_INCH,baseValue,CCUnit.UNIT_CODE_METER);
+		System.out.println("baseValue "+baseValue+" converted "+converted);
+		baseValue = converted;
+		converted = CCUnit.unitConvert(CCUnit.UNIT_CODE_METER,baseValue,CCUnit.UNIT_CODE_INCH);
+		System.out.println("baseValue "+baseValue+" converted "+converted);
+*/
+
+
+		
 		startButton = new Button("START");
 		startButton.setRect(width/2 - 20 - 40, height/2 - 10, 40, 20);
 		add(startButton);
@@ -34,10 +71,13 @@ CCProb probe = null;
 		add(calButton);
 		
 		pb = ProbManager.getProbManager();
-		probe = CCProb.getCCThermalCoupleProb("thermocouple");
-		probe.setPropertyValue(1,CCThermalCouple.tempModes[CCThermalCouple.FAHRENHEIT_TEMP_OUT]);
+		pb.addProbManagerListener(this);
+//		probe = ProbFactory.createProb(ProbFactory.Prob_ThermalCouple);
+//		probe.setPropertyValue(1,CCThermalCouple.tempModes[CCThermalCouple.FAHRENHEIT_TEMP_OUT]);
+		probe = ProbFactory.createProb(ProbFactory.Prob_SmartWheel);
+		probe.setPropertyValue(1,CCSmartWheel.wheelModes[CCSmartWheel.ANG_MODE_OUT]);
 		pb.registerProb(probe);
-		pb.addDataListenerToProb("thermocouple",this);
+		pb.addDataListenerToProb(probe.getName(),this);
 		
 		
 		System.out.println("number of properties "+probe.countProperties());
@@ -45,7 +85,7 @@ CCProb probe = null;
 			PropObject po = probe.getProperty(i);
 			System.out.println("property[ "+i+"]="+po.getName());
 		}
-//		pb.registerProb(CCProb.getCCLightIntensityProb("light"));
+//		pb.registerProb(ProbFactory.createProb(ProbFactory.Prob_Light));
 //		pb.addDataListenerToProb("light",this);
 
 
@@ -63,10 +103,7 @@ CCProb probe = null;
 			}else if (event.target == stopButton){
 				if(pb != null) pb.stop();
 			}else if(event.target == calButton){
-				CalibrationDialog cDialog = new CalibrationDialog(this,this,"Calibration",probe);
-				cDialog.setRect(100,100,160,160);
-//				cDialog.setContent();
-				cDialog.show();
+				probe.calibrateMe(this,this);
 			}
 		}
 	}
@@ -149,9 +186,17 @@ CCProb probe = null;
 			}
 		}
 	}
+	
+    	public void pmRegistration(ProbManagerEvent e){
+    		System.out.println(e);
+    	}
+    	public void pmActionPerformed(ProbManagerEvent e){
+     		System.out.println(e);
+   	}
+	
+	
+	
 }
-
-
 
 
 
