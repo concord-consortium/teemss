@@ -495,15 +495,11 @@ public class Bin
 		float [] data = lfArray.getChunk(index);
 		int numValues = lfArray.getChunkLen(index);
 
-		float [] realData = new float [numValues];
-		for(int i=0; i<numValues; i++){
-			realData[i] = data[i] + refY;
-		}
-
 		dEvent = new DataEvent(DataEvent.DATA_RECEIVED, 
-							   0, realData , dDesc);
+							   0, data , dDesc);
 		dEvent.dataOffset = 0;
 		dEvent.numbSamples = numValues;
+		dEvent.refVal = refY;
 		return dEvent;
     }
 
