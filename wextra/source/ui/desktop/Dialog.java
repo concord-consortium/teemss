@@ -89,7 +89,7 @@ private waba.ui.Container		contentPane;
 	}else{
 		remove(contentPane);
 	}
-	contentPane.setRect(0,0,d.width,d.height-insets.top - insets.bottom);
+	contentPane.setRect(0,0,d.width-insets.right-insets.left,d.height-insets.top - insets.bottom);
 	add(contentPane);
 	setContent();
 
