@@ -51,6 +51,7 @@ public 		waba.util.Vector 	dataListeners = null;
 		}
 	}
 
+	public void closeEverything(){}
 
 	public void startDataDelivery(){}
 	public void stopDataDelivery(){}

@@ -37,13 +37,13 @@ public 			waba.util.Vector 	probListeners = null;
 
 	public void startDataDelivery(){
 		if(probe == null) return;
-		ProbManager pb = ProbManager.getProbManager(probe.getInterfacePort());
+		ProbManager pb = ProbManager.getProbManager(probe.getInterfaceType());
 		if(pb != null) pb.start();
 	}
 	
 	public void stopDataDelivery(){
 		if(probe == null) return;
-		ProbManager pb = ProbManager.getProbManager(probe.getInterfacePort());
+		ProbManager pb = ProbManager.getProbManager(probe.getInterfaceType());
 		if(pb != null) pb.stop();
 	}
 
@@ -82,17 +82,30 @@ public 			waba.util.Vector 	probListeners = null;
 	
 	public void unRegisterProbeWithPM(){
 		if(probe == null) return;
-		ProbManager pb = ProbManager.getProbManager(probe.getInterfacePort());
+		ProbManager pb = ProbManager.getProbManager(probe.getInterfaceType());
 		pb.unRegisterProb(probe);
 	}
 	public void registerProbeWithPM(){
 		if(probe == null) return;
-		ProbManager pb = ProbManager.getProbManager(probe.getInterfacePort());
+		ProbManager pb = ProbManager.getProbManager(probe.getInterfaceType());
 		if(pb == null) return;
 		pb.registerProb(probe);
 		pb.addDataListenerToProb(probe.getName(),this);
 	}
 	
+	public void addProbManagerListener(ProbManagerListener l){
+		ProbManager pb = ProbManager.getProbManager(probe.getInterfaceType());
+		if(pb != null) pb.addProbManagerListener(l);
+	}
+	
+	public void closeEverything(){
+		ProbManager pb = ProbManager.getProbManager(probe.getInterfaceType());
+		if(pb != null){
+			pb.dispose();
+			pb = null;
+		}
+	}
+
 	void setUnit(){
 		if(probe == null){
 			currentUnit = null;
@@ -159,10 +172,16 @@ public 			waba.util.Vector 	probListeners = null;
 		setProbe(probe);
     }
 
+	public void calibrateMe(ExtraMainWindow owner,DialogListener l){
+		if(probe == null) return;
+		probe.calibrateMe(owner,l,probe.getInterfaceType());
+	}
 	
-	public static LObjProbeDataSource getProbeDataSource(int probeID,int interfacePort){
+	
+	public static LObjProbeDataSource getProbeDataSource(int probeID,int interfaceType, int interfacePort){
 		CCProb p = ProbFactory.createProb(probeID,interfacePort);
 		if(p == null) return null;
+		p.setInterfaceType(interfaceType);
 		return new LObjProbeDataSource(p);
 	}
 

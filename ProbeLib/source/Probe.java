@@ -37,6 +37,7 @@ public DataEvent	dEvent = new DataEvent();
 public ProbEvent	pEvent = new ProbEvent();
 
 protected	int interfacePort = INTERFACE_PORT_A;
+protected	int interfaceType = CCInterfaceManager.INTERFACE_2;
 protected int 	activeChannels = 1;
 
 protected	int	probeType = ProbFactory.Prob_Undefine;
@@ -51,6 +52,11 @@ DataListener calibrationListener = null;
 		calibrationDesc = null;
 		pEvent.setProb(this);
 	}
+	
+	
+	public int 	getInterfaceType(){return interfaceType;}
+	public void setInterfaceType(int interfaceType){this.interfaceType =  interfaceType;}
+	
 	public int 	getInterfacePort(){return interfacePort;}
 	public void setInterfacePort(int interfacePort){this.interfacePort =  interfacePort;}
 	
