@@ -3,6 +3,8 @@ package org.concord.LabBook;
 import graph.*;
 import waba.ui.*;
 import waba.util.*;
+import waba.fx.*;
+import waba.sys.*;
 import org.concord.waba.extra.event.*;
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.util.*;
@@ -10,8 +12,25 @@ import org.concord.waba.extra.probware.*;
 import org.concord.waba.extra.probware.probs.*;
 import extra.util.*;
 
+class TimeBin implements DecoratedValue
+{
+    float time = 0f;
+	CCUnit unit = CCUnit.getUnit(CCUnit.UNIT_CODE_S);
+
+    public String getLabel(){return "Time";}
+
+    public float getValue(){return time;}
+    public void setValue(float t){time = t;}
+
+    public Color getColor(){return null;}
+
+    public float getTime(){return 0f;}
+
+	public CCUnit getUnit(){return unit;}
+}
+
 public class LObjGraphView extends LabObjectView
-    implements ActionListener, DialogListener
+    implements ActionListener, DialogListener, DataListener
 
 {
     LObjGraph graph;
@@ -25,8 +44,7 @@ public class LObjGraphView extends LabObjectView
 
     Button doneButton = null;
     Label titleLabel = null;
-    Vector bins = null;
-	GraphTool gTool = null;
+    Vector bins = new Vector();
 
     Menu menu = new Menu("Graph");
 	int curViewIndex = 1;
@@ -43,11 +61,26 @@ public class LObjGraphView extends LabObjectView
 
 	boolean autoTitle = false;
 
-    public LObjGraphView(LObjViewContainer vc, LObjGraph g)
+    TimeBin timeBin = new TimeBin();
+
+    DigitalDisplay dd;
+    Bin curBin = null;
+	DecoratedValue curAnnot = null;
+
+	int dd_height = 20;
+
+	LObjDataControl dc = null;
+	LObjDictionary dataDict;
+
+    public LObjGraphView(LObjViewContainer vc, LObjGraph g, LObjDictionary curDict)
     {
 		super(vc);
 
-		menu.add("Change Axis...");
+		dataDict = curDict;
+
+		menu.add("Properties...");
+		menu.add("Save Data...");
+		menu.add("Export Data");
 		menu.addActionListener(this);
 
 		if(vc != null){
@@ -59,10 +92,11 @@ public class LObjGraphView extends LabObjectView
 
 		props = new PropContainer();
 		props.createSubContainer("Graph");
-		props.createSubContainer("Y Axis");	
-		props.createSubContainer("X Axis");
+		props.createSubContainer("YAxis");	
+		props.createSubContainer("XAxis");
 
 		propTitle = new PropObject("Title", graph.title);
+		propTitle.prefWidth = 100;
 
 		propXmin = new PropObject("Min", graph.xmin + "");
 		propXmax = new PropObject("Max", graph.xmax + "");
@@ -82,6 +116,22 @@ public class LObjGraphView extends LabObjectView
 		props.addProperty(propYlabel, "Y Axis");
     }
 
+	public void setDC(LObjDataControl dataC)
+	{
+		dc = dataC;
+		if(graph.name.equals("..auto_title..")){
+			graph.title = dc.getSummaryTitle();
+			autoTitle = true;
+		} 			
+	}
+
+	public void updateProp()
+	{
+		av.setYLabel(graph.yLabel, graph.yUnit);
+		av.setXLabel(graph.xLabel, graph.xUnit);		
+		curBin.setUnit(graph.yUnit);
+	}
+
     public void dialogClosed(DialogEvent e)
     {
 		if(!e.getActionCommand().equals("Cancel")){
@@ -99,29 +149,21 @@ public class LObjGraphView extends LabObjectView
 			String newTitle = propTitle.getValue();
 			if(newTitle.length() > 0 && 
 			   newTitle.charAt(0) == '*' && 
-			   gTool != null){
+			   dc != null){
 				autoTitle = true;
+				graph.name = "..auto_title..";
 			} else {
 				autoTitle = false;
 			}
 
-			if(autoTitle && gTool != null){
-		
-				gTool.dc.portId = gTool.dc.getProbe().getInterfacePort();
-				CCProb p = gTool.dc.getProbe();
-				graph.title = p.getName() + "(";
-				PropObject [] props = p.getProperties();
-				int i;
-				for(i=0; i < props.length-1; i++){
-					graph.title += props[i].getName() + "- " + props[i].getValue() + "; ";
-				}
-				graph.title += props[i].getName() + "- " + props[i].getValue() + ")";
+			if(autoTitle && dc != null){
+				graph.title = dc.getSummaryTitle();
 				propTitle.setValue("*" + graph.title);
 			} else {
 				graph.title = newTitle;
 			}
 
-			if(gTool != null) gTool.setTitle2(graph.title);
+			postEvent(new ControlEvent(1001, this));
 		}
 
 		if(e.getActionCommand().equals("Close")){
@@ -155,17 +197,121 @@ public class LObjGraphView extends LabObjectView
 		}
     }
 
+    float val= 0f;
+    float time = 0f;
+
+    int numVals = 0;
+
+    //    int [] [] pTimes = new int [1000][];
+    int [] [] pTimes = null;
+
+    public void dataReceived(DataEvent dataEvent)
+    {
+		if(dataEvent.type == DataEvent.DATA_READY_TO_START){
+			numVals = 0;
+			curPtime = 0;
+			return;
+		}
+
+		if(dataEvent.type == DataEvent.DATA_RECEIVED){
+			if(av.active){
+				int startPTime = Vm.getTimeStamp();
+				if(!curBin.dataReceived(dataEvent)){
+					postEvent(new ControlEvent(1000, this));
+					// stopGraph();
+					// av.curView.draw();
+					return;		
+				}
+				if(pTimes != null){
+					dataEvent.pTimes[dataEvent.numPTimes++] = Vm.getTimeStamp() - startPTime;		   
+					savePTimes(dataEvent);
+				}
+			}	
+			numVals += dataEvent.numbSamples;
+
+			val = dataEvent.data[dataEvent.dataOffset];
+		} else {
+			int startPTime = Vm.getTimeStamp();
+			if(pTimes != null){
+				pTimes [curPtime] = new int [6];
+				pTimes[curPtime][0] = 1;
+				pTimes[curPtime][1] = startPTime;
+				pTimes[curPtime][2] = numVals;
+			}
+
+			//		if(lg.active){
+			av.update();
+			
+			int newTime = Vm.getTimeStamp();
+			if(pTimes != null){
+				pTimes[curPtime][3] = (newTime - startPTime);		
+			}
+
+			startPTime = Vm.getTimeStamp();
+			if(pTimes != null){
+				pTimes[curPtime][4] = (startPTime - newTime);
+			}
+
+			timeBin.setValue(dataEvent.getTime());
+			dd.update();
+			//		curVal.setText(output1);
+			// curTime.setText(output2);
+
+			if(pTimes != null){
+				pTimes[curPtime][5] = (Vm.getTimeStamp() - startPTime);
+			}
+		
+			numVals = 0;
+			curPtime++;
+		}
+    }
+    
+    public String pTimeText = ""; 
+    int curPtime = 0;
+
+    public void savePTimes(DataEvent dEvent)
+    {
+		if(pTimes != null){
+			pTimes [curPtime] = new int [dEvent.numPTimes + 1];
+			pTimes [curPtime][0] = 0;
+			for(int i=0; i< dEvent.numPTimes; i++){
+				pTimes [curPtime][i+1] = dEvent.pTimes[i];
+			}
+			curPtime++;
+		}
+    }
+
     public void actionPerformed(ActionEvent e)
     {
 		String command;
 		Debug.println("Got action: " + e.getActionCommand());
 
 		if(e.getSource() == menu){
-			if(e.getActionCommand().equals("Change Axis...")){
+			if(e.getActionCommand().equals("Properties...")){
 				showAxisProp();
+			}else if(e.getActionCommand().equals("Save Data...")){
+				LObjDataSet dSet = LObjDataSet.makeNewDataSet();
+				dSet.setDataViewer(graph);
+				for(int i=0; i<bins.getCount(); i++){
+					dSet.addBin((Bin)bins.get(i));
+				}
+				LObjGraph graph = (LObjGraph)dc.getObj(0);
+				dSet.dict.name = graph.name;
+				if(dataDict != null){
+					dataDict.add(dSet.dict);
+					dSet.writeChunks();
+				} else {
+					// for now it is an error
+					// latter it should ask the user for the name
+				}
 			} else if(e.getActionCommand().equals("Export Data")){
-				if(bins.getCount() > 0 && bins.get(0) != null){
-					LabBookFile.export((Bin)bins.get(0), null);
+				if(bins != null ||
+				   bins.getCount() > 0){
+					if(av.curView instanceof GraphViewLine){
+						LabBookFile.export((Bin)bins.get(0), null);
+					} else {
+						LabBookFile.export((Bin)bins.get(0), av.lGraph.annots);
+					}
 				}
 			}
 		}
@@ -194,20 +340,11 @@ public class LObjGraphView extends LabObjectView
 		}
 	}
 
-	public void setGraphTool(GraphTool gt)
-	{
-		gTool = gt;
-		gTool.setTitle2(graph.title);
-	}
-
     public void layout(boolean sDone)
     {
 		if(didLayout) return;
 		didLayout = true;
 
-		if(bins != null){
-			menu.add("Export Data");	    
-		}
 		showDone = sDone;
 
 		if(sTitle){
@@ -252,12 +389,25 @@ public class LObjGraphView extends LabObjectView
 
 		int curY = 0;
 		int gHeight = height;
+		if(gHeight <= 160){
+			dd_height = 10;
+		}
 
 		if(sTitle){
 			titleLabel.setRect(x, curY, width, 16);
 			curY += 16;
 			gHeight -= 16;
 		} 
+
+		// Trying to get 10pt at dd_height = 10 
+		//  and 16pt at dd_height = 20
+		dd = new DigitalDisplay(new Font("Helvetica", 
+										 Font.BOLD, 3*dd_height/5 + 4));		
+		gHeight -= dd_height;
+		dd.setRect(0,curY, width, dd_height);
+		dd.addBin(timeBin);
+		add(dd);
+		curY += dd_height;
 
 		if(showDone){
 			doneButton.setRect(width-30,height-15,30,15);
@@ -292,10 +442,14 @@ public class LObjGraphView extends LabObjectView
 			for(int i = 0; i < bins.getCount(); i++){
 				av.addBin((Bin)bins.get(i));
 			}
-			av.lgView.autoScroll = false;
+			if(bins.getCount() > 0){
+				av.lgView.autoScroll = false;
+			}
 		}
 		av.setYLabel(graph.yLabel, graph.yUnit);
 		av.setXLabel(graph.xLabel, graph.xUnit);
+		curBin = av.getBin();
+		curBin.setUnit(graph.yUnit);
 
 		add(av);
     }
@@ -307,13 +461,42 @@ public class LObjGraphView extends LabObjectView
 		graph.ymax = av.getYmax();
 		graph.xmin = av.getXmin();
 		graph.xmax = av.getXmax();
+		if(autoTitle) graph.name = "..auto_title..";
+
 		graph.store();
 		if(container != null){
 			container.delMenu(this,menu);
 		}
 
+		av.free();
+
 		super.close();
     }
+
+	public void startGraph(){
+		if(bins.getCount() == 0){
+			av.active = true;
+			bins.add(curBin);
+			curBin.time = new Time();
+			dd.addBin(curBin);
+
+			// Don't quite know what to do here
+			// this should be taken care of by DataSources
+			curBin.description = "";
+		}
+	}
+
+	// Right this requires the caller to call repaint()
+	public void stopGraph()
+	{
+		if(av.active){
+			av.active = false;
+			dd.removeBin(curBin);
+			curBin = av.pause();
+			curBin.setUnit(graph.yUnit);
+		}
+	
+	}
 
     public void onEvent(Event e)
     {
@@ -337,6 +520,38 @@ public class LObjGraphView extends LabObjectView
 		} else if(e.target == addMark &&
 				  e.type == ControlEvent.PRESSED){
 			av.addAnnot();
+		} else if(e.type == 1003){
+			//	    System.out.println("Got 1003");
+			if(av.lgView.selAnnot != null){
+				timeBin.setValue(av.lgView.selAnnot.time);
+				// need to make sure lg.lgView.selAnnot has been added to dd
+				if(curAnnot == null){
+					// might need to remove the curBin to save space
+					curAnnot = av.lgView.selAnnot;
+					dd.addBin(curAnnot);
+				} else if(curAnnot != av.lgView.selAnnot){
+					dd.removeBin(curAnnot);
+					curAnnot = av.lgView.selAnnot;
+					dd.addBin(curAnnot);
+				}
+
+				dd.update();
+
+				// curVal.setText(convertor.fToString(lg.lgView.selAnnot.value) + units);
+				// curTime.setText(convertor.fToString() + "s");
+			} else {
+				// hack
+				// Need to remove annot bin from dd
+				// set value of timeBin to last time
+				if(curAnnot != null){
+					dd.removeBin(curAnnot);
+					curAnnot = null;
+				}
+				dd.update();
+		
+				// curVal.setText("");
+				// curTime.setText("");
+			}		
 		} else if(e.target == viewChoice){
 			if(e.type == ControlEvent.PRESSED){
 				int index = viewChoice.getSelectedIndex();
@@ -357,10 +572,26 @@ public class LObjGraphView extends LabObjectView
 			}
 		} else if(e.target == clear &&
 				  e.type == ControlEvent.PRESSED){
-			if(gTool != null) gTool.clear();
-			else av.reset();
+			clear();
 		}
 
     }
 
+    public void clear()
+    {
+		// ask for confirmation????
+
+
+		postEvent(new ControlEvent(1000, this));
+
+		av.reset();
+	
+		// Clear curBin and set time to 0
+		timeBin.setValue(0f);
+		dd.update();
+	
+		// curVal.setText("");
+		// curTime.setText("0.0s");
+		bins = new Vector();	
+    }
 }

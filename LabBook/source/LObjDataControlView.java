@@ -4,10 +4,11 @@ import graph.*;
 import waba.ui.*;
 import waba.fx.*;
 import extra.util.*;
+import extra.ui.*;
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
 import org.concord.waba.extra.probware.probs.*;
-
+import org.concord.waba.extra.probware.*;
 
 public class LObjDataControlView extends LabObjectView
     implements ActionListener, DialogListener, LObjViewContainer
@@ -20,11 +21,18 @@ public class LObjDataControlView extends LabObjectView
     Edit nameEdit = null;
 
     int gt_height = 40;
-	int dd_height = 20;
-    GraphTool gt = null;
-    DigitalDisplay dd = null;
 
     Menu menu = new Menu("Probe");
+
+    ProbManager pm = null;
+    ToggleButton collectButton;
+    Button doneB;
+
+    CCProb curProbe = null;
+
+	Label title1Label, title2Label;
+    String title1 = "";
+	String  title2 = "";
 
     public LObjDataControlView(LObjViewContainer vc, LObjDataControl dc, 
 							   LObjDictionary curDict)
@@ -32,8 +40,6 @@ public class LObjDataControlView extends LabObjectView
 		super(vc);
 
 		menu.add("Properties...");
-		menu.add("Save Data...");
-		menu.add("Export Data");
 		menu.add("Save Profile...");
 		menu.addActionListener(this);
 		if(vc != null){
@@ -43,13 +49,40 @@ public class LObjDataControlView extends LabObjectView
 		this.dc = dc;
 		lObj = dc;
 		dataDict = curDict;
+
+		pm = ProbManager.getProbManager(dc.interfaceId);
     }
 
+	public void setTitle1(String t1)
+	{
+		if(t1 == null) t1 = "";
+		title1Label.setText(t1);
+	}
+
+	public void setTitle2(String t2)
+	{
+		if(t2 == null) t2 = "";
+		title2Label.setText(t2);
+	}
+
+    void stop()
+    {
+		pm.stop();
+		collectButton.setSelected(false);    
+		gv.stopGraph();
+
+		repaint();
+    }
+    
     public void dialogClosed(DialogEvent e)
     {
-		Debug.println("Got closed");
-
-	
+		Debug.println("Got closed");	
+		gv.setDC(dc);
+		dc.updateGraphProp();
+		gv.updateProp();
+		setTitle2(graph.title);
+		dc.store();
+		repaint();
     }
 
     LObjGraph graph = null;
@@ -61,22 +94,32 @@ public class LObjDataControlView extends LabObjectView
 
 		showDone = sDone;
 
-		graph = (LObjGraph)dc.getObj(0);
-		if(graph.name.equals("Graph")){
-			CCProb p = dc.getProbe();
-			graph.name = p.getName() + "(";
-			PropObject [] props = p.getProperties();
-			int i;
-			for(i=0; i < props.length-1; i++){
-				graph.name += props[i].getName() + "- " + props[i].getValue() + "; ";
-			}
-			graph.name += props[i].getName() + "- " + props[i].getValue() + ")";
+		collectButton = new ToggleButton("Collect", false);
+		add(collectButton);
 
-		}
-		gv = (LObjGraphView)graph.getView(this, false);
+		graph = (LObjGraph)dc.getObj(0);
+		dc.updateGraphProp();
+		gv = (LObjGraphView)graph.getView(this, false, dataDict);
 		gv.showTitle(false);
+		gv.setDC(dc);
+
 		gv.layout(false);
+
+		title1Label = new Label(title1);
+		add(title1Label);
+
+		title2Label = new Label(graph.title);
+		add(title2Label);
+
+		doneB = new Button("Done");
+		add(doneB);
+
+
 		add(gv);
+
+		curProbe = dc.getProbe();
+		pm.registerProb(curProbe);
+		pm.addDataListenerToProb(curProbe.getName(),gv);
 
     }
 
@@ -91,26 +134,23 @@ public class LObjDataControlView extends LabObjectView
 
 		if(gHeight <= 160){
 			gt_height = 22;
-			dd_height = 10;
 		}
          
-		gv.setRect(0, curY+gt_height+dd_height, width, gHeight-gt_height-dd_height);
+		gv.setRect(0, curY+gt_height, width, gHeight-gt_height);
 	
-		dd = new DigitalDisplay(new Font("Helvetica", 
-										 Font.BOLD, gt_height*12/20 - (gt_height-20)*8/20));
-		gt = new GraphTool(graph.name , "", gv.av, dc, dd, width, gt_height);
-	
-		gt.setPos(0, curY);
-		gt.setTitle1(dc.name);
+		int buttonWidth = gt_height;
+		if(gt_height < 30) buttonWidth = 35;
 
-		gv.setGraphTool(gt);
+		int xPos = 0;
+        collectButton.setRect(xPos,0,buttonWidth,gt_height);
+		xPos += buttonWidth+2;
 
-		add(gt);
-		curY += gt_height;
+		title1Label.setRect(xPos, 0, width-xPos-27, gt_height/2);
+		title2Label.setRect(xPos, gt_height/2, width-xPos, gt_height/2);
+		doneB.setRect(width-27, 0, 27, gt_height/2);
 
-		dd.setRect(0,curY, width, dd_height);
-		add(dd);
-	
+		setTitle1(dc.name);
+
     }
 
     public void actionPerformed(ActionEvent e)
@@ -120,41 +160,16 @@ public class LObjDataControlView extends LabObjectView
 
 		if(e.getSource() == menu){
 			if(e.getActionCommand().equals("Properties...")){
-				gt.stop();
+				stop();
 				dc.getProbe().calibrateMe((ExtraMainWindow)(MainWindow.getMainWindow()), this, dc.interfaceId);
 
 				Debug.println("Callllll");
-			} else if(e.getActionCommand().equals("Save Data...")){
-				LObjDataSet dSet = LObjDataSet.makeNewDataSet();
-				dSet.setDataViewer(gv.graph);
-				for(int i=0; i<gt.bins.getCount(); i++){
-					dSet.addBin((Bin)gt.bins.get(i));
-				}
-				LObjGraph graph = (LObjGraph)dc.getObj(0);
-				dSet.dict.name = graph.name;
-				if(dataDict != null){
-					dataDict.add(dSet.dict);
-					dSet.writeChunks();
-				} else {
-					// for now it is an error
-					// latter it should ask the user for the name
-				}
-			} else if(e.getActionCommand().equals("Export Data")){
-				if(gt.bins != null ||
-				   gt.bins.getCount() > 0){
-					if(gv.av.curView instanceof GraphViewLine){
-						LabBookFile.export((Bin)gt.bins.get(0), null);
-					} else {
-						LabBookFile.export((Bin)gt.bins.get(0), gv.av.lGraph.annots);
-					}
-
-				}
-			}else if(e.getActionCommand().equals("Save Profile...")){
+			} else if(e.getActionCommand().equals("Save Profile...")){
 				LObjDocument dProf = new LObjDocument();
 				dProf.text = "";
-				for(int i=0; i < gt.curPtime; i++){
-					for(int j=0; j < gt.pTimes[i].length; j++){
-						dProf.text += gt.pTimes[i][j] + " ";		
+				for(int i=0; i < gv.curPtime; i++){
+					for(int j=0; j < gv.pTimes[i].length; j++){
+						dProf.text += gv.pTimes[i][j] + " ";		
 					}
 					dProf.text += "\n";
 				}
@@ -173,24 +188,45 @@ public class LObjDataControlView extends LabObjectView
     public void close()
     {
 		Debug.println("Got close in graph");
-		gv.close();
 		if(container != null){
 			container.delMenu(this,menu);
 		}
 
-		gt.onExit();
+		stop();	
+
+		gv.close();
+
+		if(curProbe != null){
+			pm.unRegisterProb(curProbe);
+		}
 		super.close();
     }
 
     public void onEvent(Event e)
     {
-		if(e.target == gt &&
-		   e.type == 2000){
-			// The GraphTool had its done pressed
-			if(container != null){
-				container.done(this);
-			}	    
-		}
+		if(e.target == gv){
+			if(e.type == 1000){
+				stop();
+			} else if(e.type == 1001){
+				setTitle2(gv.graph.title);
+			}			
+		} else 	if(e.type == ControlEvent.PRESSED){
+			Control target = (Control)e.target;
+			int index;
+			if(target == collectButton && collectButton.isSelected()){
+				// need to tell the GraphView to start
+				gv.startGraph();
+				pm.start();
+			} else if(target == collectButton && ! collectButton.isSelected()){
+				// need to tell the GraphView to stop
+				stop();
+			} else if(target == doneB){
+				// let our parent know we've been done'd
+				if(container != null){
+					container.done(this);
+				}	    
+			}
+		}  
     }
 
     public void reload(LabObjectView source){}

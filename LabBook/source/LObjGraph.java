@@ -23,7 +23,7 @@ public class LObjGraph extends LabObject
     
     public LabObjectView getView(LObjViewContainer vc, boolean edit, LObjDictionary curDict)
     {
-		return new LObjGraphView(vc, this);
+		return new LObjGraphView(vc, this, curDict);
     }
 
     public void readExternal(DataStream ds)

@@ -59,6 +59,7 @@ public class DigitalDisplay extends Container
 		int index = bins.find(bin);
 		bins.del(index);
 		LabelBuf curDisp = (LabelBuf)disps.get(index);
+		remove(curDisp);
 		curDisp.free();
 		disps.del(index);
 		repaint();
@@ -69,10 +70,12 @@ public class DigitalDisplay extends Container
 		DecoratedValue curBin;
 		LabelBuf curDisp;
 		String curLabel;
-	
+		String curUnit;
+
 		int x=RIGHT_PADDING;
 
 		g.setFont(_font);
+		g.setColor(0,0,0);
 		for(int i=0; i<bins.getCount(); i++){
 			curBin = (DecoratedValue)bins.get(i);
 			curLabel = curBin.getLabel() + ":";
@@ -80,7 +83,10 @@ public class DigitalDisplay extends Container
 			x += fm.getTextWidth(curLabel) + INNER_PADDING;
 			curDisp = (LabelBuf)disps.get(i);
 			curDisp.setPos(x,0);	    
-			x += curDisp.getWidth() + OUTER_PADDING;
+			x += curDisp.getWidth();
+			curUnit = curBin.getUnit().abbreviation;
+			g.drawText(curUnit, x, 0);
+			x += fm.getTextWidth(curUnit) + OUTER_PADDING;
 		}
 		g.setFont(MainWindow.defaultFont);
     }

@@ -19,13 +19,24 @@ package 	org.concord.LabBook;
 
 public class AboutMessages
 {
- public static String [] messages = {"CCProbe Copyright (c) 2001",
-					 "by Concord Consortium",
-					 "All Rights Reserved",
-					 "http://concord.org/ccprobeware",
-					 "/ccprobe/ccprobe.html",
-					 "Licensed under the GNU GPL",
-					 "http://concord.org/ccprobeware",
-					 "/ccprobe/ccprobe-license.html",
-					 "v"+Version.VERSION+"."+Version.MVERSION1+"."+Version.MVERSION2+" build "+Version.BUILD};
+	public static String [] getMessage()
+	{
+		messages[messages.length-1] = "v"+Version.VERSION+"."+
+			Version.MVERSION1+"."+Version.MVERSION2+" build "+Version.BUILD;
+		return messages;
+	}
+
+	// Leave a blank line at the end.  This had to be changed
+	// because wabajump doesn't do static initializers quite right
+	// so this message string was getting set before the Version class
+	// was initialized.
+	public static String [] messages = {"CCProbe Copyright (c) 2001",
+										"by Concord Consortium",
+										"All Rights Reserved",
+										"http://concord.org/ccprobeware",
+										"/ccprobe/ccprobe.html",
+										"Licensed under the GNU GPL",
+										"http://concord.org/ccprobeware",
+										"/ccprobe/ccprobe-license.html",
+										""};
 }
