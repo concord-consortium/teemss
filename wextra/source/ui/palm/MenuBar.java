@@ -68,8 +68,6 @@ public class MenuBar extends Control
 
   int oldselected=0;
 
-  int numDisplayed=0;
-
   // have to change that ...
 
   static int  height=16;
@@ -267,7 +265,7 @@ public class MenuBar extends Control
 
     g.setColor(0,0,0);
 
-    for(int i=0;i<numDisplayed;i++)
+    for(int i=0;i<menus.getCount();i++)
 
     {
 
@@ -315,8 +313,6 @@ public class MenuBar extends Control
 
     {
 
-        numDisplayed=menus.getCount();
-
         popup=new Popup(this);
 
         popup.popup(0,0,width,height);
@@ -338,8 +334,6 @@ public class MenuBar extends Control
     if (popup==null)
 
     {
-
-        numDisplayed=menus.getCount();
 
         popup=new Popup(this);
 
@@ -365,7 +359,7 @@ public class MenuBar extends Control
 
   {
 
-    for(int i=0;i<numDisplayed;i++)
+    for(int i=0;i<menus.getCount();i++)
 
         ((Menu)menus.get(i)).hide();
 
@@ -378,7 +372,6 @@ public class MenuBar extends Control
         popup=null;
 
     }
-    numDisplayed = 0;
 
   }
 
@@ -438,7 +431,7 @@ public class MenuBar extends Control
 
           {
 
-            for(int i=0;i<numDisplayed;i++)
+            for(int i=0;i<menus.getCount();i++)
 
             {
 

@@ -504,240 +504,149 @@ public class Menu extends Control
 
    */
 
-  public void onEvent(Event event)
-
-  {
-
-    if (event.type==ControlEvent.FOCUS_OUT)
+    public void onEvent(Event event)
 
     {
 
-		  if (MainWindow.getMainWindow() instanceof ExtraMainWindow &&
+	if (event.type==ControlEvent.FOCUS_OUT){
+	    if (MainWindow.getMainWindow() instanceof ExtraMainWindow &&		
+		((ExtraMainWindow)MainWindow.getMainWindow()).newFocus!=menubar)		
+		menubar.hide();
+	} else if (event.type==ControlEvent.TIMER){
+	    scrollOffset+=(scrollUp?-1:1);
+	    selected+=(scrollUp?-1:1);
 
-			  ((ExtraMainWindow)MainWindow.getMainWindow()).newFocus!=menubar)
+	    if (scrollOffset<=0||scrollOffset>=maxScrollOffset)
+		removeTimer(scrollTimer);
 
-				menubar.hide();
+	    drawList(createGraphics());
+	    return;
+	} else if (event instanceof PenEvent) {
+	    int px=((PenEvent)event).x;
+	    int py=((PenEvent)event).y;
+
+	    switch (event.type)	{
+	    case PenEvent.PEN_DOWN: 
+	    case PenEvent.PEN_DRAG:   
+		if (popup!=null){			    
+		    clicked=true;
+		    int position=py/textHeight;
+		    if (py<0){
+			MainWindow.getMainWindow().setFocus(menubar);
+			return;
+		    }
+
+		    if ((py<=5&&scrollOffset>0)||(py>=height-5&&scrollOffset<maxScrollOffset)){
+			if (scrollTimer==null){
+			    scrollUp=(py<=5);
+			    scrollTimer=addTimer(500);
+			}
+
+			return;
+		    } else if (scrollTimer!=null) {
+			removeTimer(scrollTimer);
+			scrollTimer=null;
+		    }
+
+		    if (position<0||position>=numDisplayed)
+			return;
+
+		    selected=position+scrollOffset;
+
+		    if (selected!=oldselected){
+			Graphics g=createGraphics();
+			if (oldselected!=-1){
+			    g.setColor(255,255,255);
+			    g.fillRect(1,(oldselected-scrollOffset)*textHeight+1,width-3,textHeight);
+			    g.setColor(0,0,0);
+			    //a separator
+			    if (((String)options.get(oldselected)).equals("-")){
+				for(int k = 0; k < width-3; k += 2)
+				    g.drawLine(k,(oldselected-scrollOffset)*textHeight + (textHeight /2),
+					       k,(oldselected-scrollOffset)*textHeight + (textHeight /2));   
+			    } else
+				g.drawText((String)options.get(oldselected),3,(oldselected-scrollOffset)*textHeight+1);
+			}
+			g.setColor(0,0,0);
+			//a separator
+
+			if (((String)options.get(selected)).equals("-")){				
+			    for(int k = 0; k < width-3; k += 2)
+				g.drawLine(k,(selected-scrollOffset)*textHeight + (textHeight /2),
+					   k,(selected-scrollOffset)*textHeight + (textHeight /2));   
+			} else {
+			    g.fillRect(1,(selected-scrollOffset)*textHeight+1,width-3,textHeight);
+			    g.setColor(255,255,255);
+			    g.drawText((String)options.get(selected),3,(selected-scrollOffset)*textHeight+1);
+			}
+			oldselected=selected;
+		    }
+		}
+
+		break;
+	    case PenEvent.PEN_UP:
+		if (popup!=null){
+		    clicked=true;
+		    int position=py/textHeight;
+		    if (py<0||position>=numDisplayed)
+			return;
+
+		    if (position<0||position>=numDisplayed)
+			return;
+
+		    selected=position+scrollOffset;
+
+		    if (selected!=oldselected){
+			Graphics g=createGraphics();
+			if (oldselected!=-1){
+			    g.setColor(255,255,255);
+			    g.fillRect(1,(oldselected-scrollOffset)*textHeight+1,width-3,textHeight);
+			    g.setColor(0,0,0);
+			    //a separator
+			    if (((String)options.get(oldselected)).equals("-")){
+				for(int k = 0; k < width-3; k += 2)
+				    g.drawLine(k,(oldselected-scrollOffset)*textHeight + (textHeight /2),
+					       k,(oldselected-scrollOffset)*textHeight + (textHeight /2));   
+			    } else
+				g.drawText((String)options.get(oldselected),3,(oldselected-scrollOffset)*textHeight+1);
+			}
+			g.setColor(0,0,0);
+			//a separator
+
+			if (((String)options.get(selected)).equals("-")){				
+			    for(int k = 0; k < width-3; k += 2)
+				g.drawLine(k,(selected-scrollOffset)*textHeight + (textHeight /2),
+					   k,(selected-scrollOffset)*textHeight + (textHeight /2));   
+			} else {
+			    g.fillRect(1,(selected-scrollOffset)*textHeight+1,width-3,textHeight);
+			    g.setColor(255,255,255);
+			    g.drawText((String)options.get(selected),3,(selected-scrollOffset)*textHeight+1);
+			}
+			oldselected=selected;
+		    }
+		
+		    if (!((String)options.get(oldselected)).equals("-")){
+			postEvent(new ControlEvent(ControlEvent.PRESSED,this));
+			this.hide();
+			menubar.hide();     
+
+			if(listener != null){
+			    listener.actionPerformed(new ActionEvent(this,this,(String)options.get(oldselected)));
+			}               
+		    }
+		}
+		break;
+
+	    }	    
+	}
 
     }
 
-    else
-
-    if (event.type==ControlEvent.TIMER)
-
-    {
-
-      scrollOffset+=(scrollUp?-1:1);
-
-      selected+=(scrollUp?-1:1);
-
-      if (scrollOffset<=0||scrollOffset>=maxScrollOffset)
-
-        removeTimer(scrollTimer);
-
-      drawList(createGraphics());
-
-      return;
-
-    }
-
-    else
-
-    if (event instanceof PenEvent)
-
-    {
-
-      
-
-      int px=((PenEvent)event).x;
-
-      int py=((PenEvent)event).y;
-
-
-
-      switch (event.type)
-
-      {
-
-        case PenEvent.PEN_DOWN: 
-
-        case PenEvent.PEN_DRAG:   
-
-          if (popup!=null)
-
-          {
-
-            clicked=true;
-
-            int position=py/textHeight;
-
-						if (py<0)
-
-						{
-
-  						MainWindow.getMainWindow().setFocus(menubar);
-
-							return;
-
-						}
-
-            if ((py<=5&&scrollOffset>0)||(py>=height-5&&scrollOffset<maxScrollOffset))
-
-            {
-
-              if (scrollTimer==null)
-
-              {
-
-                scrollUp=(py<=5);
-
-                scrollTimer=addTimer(500);
-
-              }
-
-              return;
-
-            }
-
-            else
-
-            if (scrollTimer!=null)
-
-            {
-
-              removeTimer(scrollTimer);
-
-              scrollTimer=null;
-
-            }
-
-            if (position<0||position>=numDisplayed)
-
-              return;
-
-            selected=position+scrollOffset;
-
-            if (selected!=oldselected)
-
-            {
-
-              Graphics g=createGraphics();
-
-						  if (oldselected!=-1)
-
-							{
-
-								g.setColor(255,255,255);
-
-								g.fillRect(1,(oldselected-scrollOffset)*textHeight+1,width-3,textHeight);
-
-								g.setColor(0,0,0);
-
-								//a separator
-
-								if (((String)options.get(oldselected)).equals("-"))
-
-								{
-
-									for(int k = 0; k < width-3; k += 2)
-
-									g.drawLine(k,(oldselected-scrollOffset)*textHeight + (textHeight /2),k,(oldselected-scrollOffset)*textHeight + (textHeight /2));   
-
-								}
-
-								else
-
-									g.drawText((String)options.get(oldselected),3,(oldselected-scrollOffset)*textHeight+1);
-
-							}
-
-              g.setColor(0,0,0);
-
-              //a separator
-
-              if (((String)options.get(selected)).equals("-"))
-
-              {
-
-                for(int k = 0; k < width-3; k += 2)
-
-                g.drawLine(k,(selected-scrollOffset)*textHeight + (textHeight /2),k,(selected-scrollOffset)*textHeight + (textHeight /2));   
-
-              }
-
-              else
-
-              {
-
-                  g.fillRect(1,(selected-scrollOffset)*textHeight+1,width-3,textHeight);
-
-                  g.setColor(255,255,255);
-
-                  g.drawText((String)options.get(selected),3,(selected-scrollOffset)*textHeight+1);
-
-              }
-
-              oldselected=selected;
-
-            }
-
-          }
-
-          break;
-
-        case PenEvent.PEN_UP:
-
-            if (popup!=null)
-
-            {
-
-                clicked=true;
-
-                int position=py/textHeight;
-
-                if (py<0||position>=numDisplayed)
-
-                  return;
-
-                if (!((String)options.get(oldselected)).equals("-"))
-
-                {
-                    postEvent(new ControlEvent(ControlEvent.PRESSED,this));
-
-
-                    this.hide();
-					menubar.hide();     
-
-
-
-					if(listener != null){
-
-						listener.actionPerformed(new ActionEvent(this,this,(String)options.get(oldselected)));
-
-					}               
-
-                }
-
-            }
-
-        break;
-
-      }
-
-    }
-
-  }
-
-  
-
-  public void addActionListener(ActionListener l){
-
+    public void addActionListener(ActionListener l){
   	if(listener == null){
-
-  		listener = l;
-
+	    listener = l;
   	}
-
-  }
+    }
 
   public void removeActionListener(ActionListener l){
 
