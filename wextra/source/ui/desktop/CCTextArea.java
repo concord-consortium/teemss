@@ -25,7 +25,7 @@ CCTARow		[]rows = null;
 	public CCTextArea(){
 		super();
 		components = new LBCompDesc[1];
-		components[0] = new LBCompDesc(0,20,50,0,true);
+		components[0] = new LBCompDesc(2,20,50,LBCompDesc.ALIGNMENT_LEFT,true);
 	}
 	
 	public FontMetrics getFontMetrics() {
@@ -56,16 +56,32 @@ CCTARow		[]rows = null;
 	public void insertObject(){
 		System.out.println("insertObject");
 	}
-	public void setRect(int x, int y, int width, int height){
-		super.setRect(x,y,width,height);
+	
+	public void layoutComponents(){
 		if(components != null){
 			for(int i = 0; i < components.length; i++){
 				LBCompDesc c = components[i];
 				Button b = new Button(""+i);
 				add(b);
-				b.setRect(x,0,c.w,c.h);
+				int yTop = y;
+				int line = c.lineBefore;
+				if(line > 0){
+					if(lines != null && lines.length > line){
+						yTop += lines[line - 1].endRow*getItemHeight();
+					}
+				}	
+				if(c.alignment == LBCompDesc.ALIGNMENT_RIGHT){
+					b.setRect(x+width-insetRight-c.w,yTop,c.w,c.h);
+				}else{
+					b.setRect(x+insetLeft,yTop,c.w,c.h);
+				}
 			}
 		}
+	}
+	
+	public void setRect(int x, int y, int width, int height){
+		super.setRect(x,y,width,height);
+		layoutComponents();
 	}
 	
 	public void setText(String str){
@@ -115,16 +131,28 @@ CCTARow		[]rows = null;
 						}
 					}
 				}
+				int leftMargin = r.x + insetLeft;
+				int rightMargin = r.x + r.width - insetRight;
+				int skipRows = 0;
 				if(compDesc != null){
 					int addH = compDesc.h;
 					int addRows = 1 + (addH / getItemHeight());
+					if(compDesc.alignment == LBCompDesc.ALIGNMENT_LEFT){
+						leftMargin = r.x + insetLeft + compDesc.w;
+					}else{
+						rightMargin = r.x + r.width - insetRight - compDesc.w;
+					}
+					if(!compDesc.wrapping){
+						lastRow += addRows;
+					}
+					
 					int nRows = (rows == null)?0:rows.length;
 					CCTARow []newRows = new CCTARow[nRows + addRows];
 					if(addRows > 0){
 						waba.sys.Vm.copyArray(rows,0,newRows,0,nRows);
 						for(int k = nRows; k < nRows + addRows; k++){
 							newRows[k] = new CCTARow(lines[nLines]);
-							newRows[k].setMargins(r.x + insetLeft + compDesc.w,r.x + r.width - insetRight);
+							newRows[k].setMargins(leftMargin,rightMargin);
 						}
 					}
 					rows = newRows;
@@ -440,7 +468,7 @@ String	[]strings = null;
 		int i = 0;
 		while(i < str.length()){
 			char c = str.charAt(i);
-			if(isWhiteSpace(c)){
+			if(isWordDelimiter(c)){
 				if(c == '\n') break;
 				lastWord = i+1;
 			}
@@ -515,7 +543,7 @@ String	[]strings = null;
 			}
 		}
 	}
-	public static boolean isWhiteSpace(char c){
+	public static boolean isWordDelimiter(char c){
 		boolean retValue = false;
 		for(int i = 0; i < wordDelimChars.length; i++){
 			if(c == wordDelimChars[i]){
