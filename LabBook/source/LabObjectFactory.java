@@ -2,13 +2,11 @@ package org.concord.LabBook;
 
 public abstract class LabObjectFactory
 {
-	protected static LabObjectFactory me = null;
 	public int factoryID = -1;
 	public LabObjDescriptor []labBookObjDesc;
 
 	protected LabObjectFactory(int id)
 	{
-		me = this;
 		factoryID = id;
 	}
 	
@@ -23,11 +21,11 @@ public abstract class LabObjectFactory
 		return obj;
 	}
 	
-	public static void initializeObj(LabObject obj)
+	public void initializeObj(LabObject obj)
 	{
-		if(me != null && obj != null ){
+		if(obj != null ){
 			obj.init();
-			obj.factory = me;
+			obj.factory = this;
 		}
 	}
 

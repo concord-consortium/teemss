@@ -5,6 +5,7 @@ import org.concord.LabBook.*;
 public class DataObjFactory
 	extends LabObjectFactory
 {
+	public static DataObjFactory me = null;
 	final public static int DATAOBJ_FACTORY 	= 0x0002;
 
     final public static int DATA_SET 			= 3;
@@ -16,6 +17,7 @@ public class DataObjFactory
 	public DataObjFactory()
 	{
 		super(DATAOBJ_FACTORY);
+		me = this;
 	}
 
 	public LabObject constructObj(int objectType)

@@ -3,11 +3,13 @@ package org.concord.LabBook;
 public class DefaultFactory 
 	extends LabObjectFactory
 {
+	private static DefaultFactory me = null;
 	final public static int DEFAULT_FACTORY 	= 0x0001;
 
 	public DefaultFactory()
 	{
 		super(DEFAULT_FACTORY);
+		me = this;
 	}
 
     final public static int UNDEFINED 			=0;
