@@ -198,11 +198,17 @@ public static QTManager qtManager = null;
 		if(labBook == null) return null;
 		if(!isElementLabBookObject(element)) return null;
 
+		String ID = element.getAttribute("ID");
+		if(validAttr(ID) &&
+		   docObjects.containsKey(ID)){
+			System.out.println("Object already loaded ref: " + ID);
+			return (LabObject)docObjects.get(ID);
+		}
+
 		LabObject labObject = createRegularObject(element);		
 				
 		if(labObject != null){
-			String ID = element.getAttribute("ID");
-			if(ID != null) docObjects.put(ID,labObject);
+			if(validAttr(ID)) docObjects.put(ID,labObject);
 			
 			labObject.store();
 		}
@@ -226,11 +232,14 @@ public static QTManager qtManager = null;
 		} else {
 			Element linkElement =  (Element)currentDocument.getElementById(idref);
 			if(linkElement == null){
-				System.out.println("*********Can't find object ref: " + idref + "*************);
+				System.out.println("*********Can't find object ref: " + idref + "*************");
 				return null;
 			}
 			labObject = createRegularObject(linkElement);
-			docObjects.put(idref, labObject);
+			if(labObject != null){
+				docObjects.put(idref, labObject);
+				labObject.store();
+			}
 		}
 		System.out.println("Linking Existing object ref: " + idref);
 		return labObject;
@@ -332,6 +341,7 @@ public static QTManager qtManager = null;
 				} else if(labObject instanceof LObjIntProbeTrans){
 					labObject = getIntProbeTrans(element, (LObjIntProbeTrans)labObject);
 				}
+
 				// note that Drawing and UnitConverter get created automatically
 			}
 		}
@@ -596,7 +606,10 @@ public static QTManager qtManager = null;
 			}
 		}
 
-		if(graph == null) return null;
+		if(graph == null){
+			System.out.println("******Error creating DataCollector null graph****");
+			return null;
+		}
 		dc.setGraph(graph);
 		return (LabObject)dc;
 	}
@@ -618,6 +631,7 @@ public static QTManager qtManager = null;
 					setupAxis((Element)node, graph.addYAxis());
 				} else if(tagName.equals("LINE")){
 					if(!setupLine((Element)node, graph)){
+						System.out.println("****Error setting up line***");
 						return null;
 					}
 				}
