@@ -455,7 +455,7 @@ public class LObjDictionaryView extends LabObjectView
 		if(parent == null) parent = rootNode;
 
 		getMainView().showFullWindowObj(edit, parent.getDict(), rootNode.getPtr(curNode));	
-		session.release();
+		if(session != null) session.release();
 	}
 
 	public void updateWindow()
