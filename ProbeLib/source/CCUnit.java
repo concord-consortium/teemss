@@ -190,7 +190,7 @@ public  static CCUnit 	[]unitTable =
 		new CCUnit("Newton","N",true,UNIT_CAT_FORCE,UNIT_CODE_NEWTON,UNIT_CODE_NEWTON,1,1,-2,0,0,0,0,0,0,1f,0.0f,false,true),
 		new CCUnit("dyne","dyn",true,UNIT_CAT_FORCE,UNIT_CODE_DYNE,UNIT_CODE_NEWTON,1,1,-2,0,0,0,0,0,0,1e-5f,0.0f,false,true),
 		new CCUnit("kilogram-force","kgf",true,UNIT_CAT_FORCE,UNIT_CODE_KGF,UNIT_CODE_NEWTON,1,1,-2,0,0,0,0,0,0,9.80665f,0.0f,false,true),
-		new CCUnit("pund-force","lbf",true,UNIT_CAT_FORCE,UNIT_CODE_LBF,UNIT_CODE_NEWTON,1,1,-2,0,0,0,0,0,0,4.448222f,0.0f,false,true),
+		new CCUnit("pound-force","lbf",true,UNIT_CAT_FORCE,UNIT_CODE_LBF,UNIT_CODE_NEWTON,1,1,-2,0,0,0,0,0,0,4.448222f,0.0f,false,true),
 		new CCUnit("watt","W",true,UNIT_CAT_POWER,UNIT_CODE_WATT,UNIT_CODE_WATT,2,1,-3,0,0,0,0,0,0,1f,0.0f,false,true),
 		new CCUnit("horsepower","hp",true,UNIT_CAT_POWER,UNIT_CODE_HP_MECH,UNIT_CODE_WATT,2,1,-3,0,0,0,0,0,0,745.7f,0.0f,false,false),
 		new CCUnit("horsepower (el)","hp(el)",true,UNIT_CAT_POWER,UNIT_CODE_HP_EL,UNIT_CODE_WATT,2,1,-3,0,0,0,0,0,0,746f,0.0f,false,false),
