@@ -125,7 +125,6 @@ CCDrawPath	currPath = null;
 			drawg = createGraphics();
 			if(drawg != null){
 				drawg.setClip(0, 0, this.width, this.height);
-				drawg.setColor(pen.red,pen.green,pen.blue);
 				drawgWasCreated = true;
 			}
 		}
@@ -135,6 +134,11 @@ CCDrawPath	currPath = null;
 				drawg.setDrawOp(Graphics.DRAW_XOR);
 				drawg.drawRect(lastMoveX - 10,lastMoveY - 10,20,20);
 				drawg.setDrawOp(Graphics.DRAW_OVER);
+			}
+			if(modeScribble == MODE_ERASE){
+				drawg.setColor(0,0,0);
+			}else{
+				drawg.setColor(pen.red,pen.green,pen.blue);
 			}
 		}
 		if(mode == MODE_ERASE){
@@ -191,19 +195,18 @@ CCDrawPath	currPath = null;
 				drawg.setColor(0,0,0);
 				drawg.setDrawOp(Graphics.DRAW_XOR);
 				drawg.drawRect(penEvent.x - 10,penEvent.y - 10,20,20);
-				drawg.setColor(pen.red,pen.green,pen.blue);
-				lastMoveX = penEvent.x;
-				lastMoveY = penEvent.y;
+//				drawg.setColor(pen.red,pen.green,pen.blue);
 				drawg.setDrawOp(Graphics.DRAW_OVER);
 			}
 			lastX = penEvent.x;
 			lastY = penEvent.y;
+			lastMoveX = lastX;
+			lastMoveY = lastY;
 			if(currPath != null){
 				currPath.addPixel((short)lastX,(short)lastY);
 			}
 		}else if((event.type == PenEvent.PEN_MOVE) && (mode == MODE_ERASE)){
 			PenEvent penEvent = (PenEvent)event;
-			drawg.setColor(0,0,0);
 			if(!wasFirstEraseRect){
 				lastMoveX = penEvent.x;
 				lastMoveY = penEvent.y;
@@ -217,7 +220,6 @@ CCDrawPath	currPath = null;
 				drawg.drawRect(lastMoveX - 10,lastMoveY - 10,20,20);
 				drawg.setDrawOp(Graphics.DRAW_OVER);
 			}
-			drawg.setColor(pen.red,pen.green,pen.blue);
 		}
 	}
 
