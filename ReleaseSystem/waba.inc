@@ -140,9 +140,9 @@ ifeq ($(shell [ -f $(WABA_DIR)/../jars/serialImpl.jar ] || echo false),)
 	jar u0vf $(BIN_DIR)/$(MW_CLASS).jar -C __tmpjar__ waba/ -C __tmpjar__ gnu/
 	rm -r __tmpjar__
 endif
-ifeq ($(shell [ -f $(WEXTRA_DIR)/../../jars/mrjSpecific.jar ] || echo false),)
+ifeq ($(shell [ -f $(WEXTRAS_DIR)/../../jars/mrjSpecific.jar ] || echo false),)
 	mkdir __tmpjar__
-	cd __tmpjar__; jar xvf $(WEXTRA_DIR)/../jars/mrjSpecific.jar
+	cd __tmpjar__; jar xvf $(WEXTRAS_DIR)/../../jars/mrjSpecific.jar
 	jar u0vf $(BIN_DIR)/$(MW_CLASS).jar -C __tmpjar__ org/ 
 	rm -r __tmpjar__
 endif	
