@@ -324,7 +324,7 @@ public class TextLine extends Object {
 
 		updateBuffer();
 
-		_g.copyRect(buffer, 0, 0, width, height, x, y);
+		if(buffer != null) _g.copyRect(buffer, 0, 0, width, height, x, y);
 
 
     }
