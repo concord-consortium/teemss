@@ -147,6 +147,7 @@ String []dialogButtonTitles = {"Yes","No"};
 Dialog					confirmDialogClear = null;
 Dialog					confirmDialogDeleteAll = null;
 Dialog					confirmDialogDeleteCurrent = null;
+Dialog					confirmDialogDeleteChosenParagraph = null;
 
 
 Vector	listeners;
@@ -158,7 +159,7 @@ LObjDictionary		objDictionary = null;
 
 private final static EmptyLabObject emptyObject = new EmptyLabObject();
 
-private CCStringWrapper textWasChoosen = null;
+private CCStringWrapper textWasChosen = null;
 
 	public CCTextArea(LObjCCTextAreaView owner,MainView mainView,LObjDictionary dict,LObjSubDict subDictionary){
 		super();
@@ -329,6 +330,12 @@ private CCStringWrapper textWasChoosen = null;
 				notifyListeners(0);
 			}
 			confirmDialogDeleteAll = null;
+		}else if(e.getSource() == confirmDialogDeleteChosenParagraph){
+			if(e.getActionCommand().equals("Yes")){
+				deleteChosenParagraph();
+				notifyListeners(0);
+			}
+			confirmDialogDeleteChosenParagraph = null;
 		}
     }
     
@@ -501,7 +508,7 @@ private CCStringWrapper textWasChoosen = null;
     }
 
 	public void close(){
-		textWasChoosen = null;
+		textWasChosen = null;
 		if(labBookDialog != null){
 			labBookDialog.hide();
 			labBookDialog = null;
@@ -604,7 +611,14 @@ private CCStringWrapper textWasChoosen = null;
 		confirmDialogDeleteAll = Dialog.showConfirmDialog(this,"Delete All Objects","Are you sure? ",dialogButtonTitles,Dialog.QUEST_DIALOG);
 	}
 	
-
+	public void requireDeleteChosenParagraph(){
+		if(!getEditMode()){
+			Sound.beep();
+			return;
+		}
+		confirmDialogDeleteChosenParagraph = Dialog.showConfirmDialog(this,"Delete Paragraph","Are you sure? ",dialogButtonTitles,Dialog.QUEST_DIALOG);
+	}
+	
 	public void deleteAllObjects(){
 		deleteAllObjects(true);
 	}
@@ -626,6 +640,27 @@ private CCStringWrapper textWasChoosen = null;
 			setText(getText());
 			restoreTextProperty(oldLines);
 		}
+	}
+
+	public void deleteChosenParagraph(){
+		if(!getEditMode() || (textWasChosen == null) || lines == null){
+			Sound.beep();
+			return;
+		}
+		int index = lines.find(textWasChosen);
+		if(index >= 0) lines.del(index);
+
+		String str = "";
+		for(int i = 0; i < lines.getCount(); i++){
+			str += (((CCStringWrapper)lines.get(i)).getStr() + "\n");
+		}
+		textWasChosen = null;
+		Vector oldLines = lines;
+		setText(str);//temporary
+		restoreTextProperty(oldLines);
+
+
+
 	}
 
 	public void insertText(String iStr){
@@ -1014,7 +1049,7 @@ private CCStringWrapper textWasChoosen = null;
 	//				currObjectViewDesc = null;
 				}
 			}else if(components != null){
-				textWasChoosen = null;
+				textWasChosen = null;
 				if(currObjectViewDesc != null){
 					if(currObjectViewDesc.getObject() instanceof LabObjectView){
 						((LabObjectView)currObjectViewDesc.getObject()).setShowMenus(false);
@@ -1070,7 +1105,7 @@ private CCStringWrapper textWasChoosen = null;
 	}
 	public void lostFocus(){
 		removeCursor();
-		textWasChoosen = null;
+		textWasChosen = null;
 	}
 	
 	LBCompDesc findComponentDesc(Object o){
@@ -1127,9 +1162,9 @@ private CCStringWrapper textWasChoosen = null;
 			}
 */
 		}else if(currObjPropDialog == null && objDictionary != null && 
-		             textWasChoosen != null && textWasChoosen.link && 
-		             textWasChoosen.indexInDict >= 0){
-			TreeNode node = objDictionary.getChildAt(textWasChoosen.indexInDict);
+		             textWasChosen != null && textWasChosen.link && 
+		             textWasChosen.indexInDict >= 0){
+			TreeNode node = objDictionary.getChildAt(textWasChosen.indexInDict);
 			if(node == null) return;
 			LabObject linkObj = objDictionary.getObj(node);
 			if(linkObj == null) return;
@@ -1153,10 +1188,10 @@ private CCStringWrapper textWasChoosen = null;
 
 	void openCompProp(LBCompDesc compDesc){
 		if(compDesc == null){
-			if(textWasChoosen != null){
+			if(textWasChosen != null){
 				MainWindow mw = MainWindow.getMainWindow();
 				if((mw instanceof ExtraMainWindow)){
-					TextObjPropertyView tPropView = new TextObjPropertyView((ExtraMainWindow)mw,(LObjDictionary)LabObject.lBook.load(LabObject.lBook.getRoot()), null,textWasChoosen);
+					TextObjPropertyView tPropView = new TextObjPropertyView((ExtraMainWindow)mw,(LObjDictionary)LabObject.lBook.load(LabObject.lBook.getRoot()), null,textWasChosen);
 					ViewDialog dialog = new ViewDialog((ExtraMainWindow)mw, this,"Properties",tPropView);
 					dialog.setRect(0,0,150,150);
 					dialog.show();		
@@ -1384,7 +1419,7 @@ private CCStringWrapper textWasChoosen = null;
 	public void onPenEvent(PenEvent ev){
 		if(ev.type == PenEvent.PEN_DOWN){
 			LBCompDesc compDesc = findComponentDesc(ev.target);
-			textWasChoosen = null;
+			textWasChosen = null;
 			if(compDesc == null && currObjectViewDesc != null){
 				currObjectViewDesc = null;
 				repaint();
@@ -1402,7 +1437,7 @@ private CCStringWrapper textWasChoosen = null;
 				CCStringWrapper sw = (CCStringWrapper)lines.get(lineIndex);
 
 				if(getEditMode() && sw != null){
-					textWasChoosen = sw;
+					textWasChosen = sw;
 					repaint();
 /*
 					MainWindow mw = MainWindow.getMainWindow();
@@ -1526,14 +1561,14 @@ private CCStringWrapper textWasChoosen = null;
 					g.setColor(0,0,0);
 					g.clearClip();
 				}
-			}else if(textWasChoosen != null){
+			}else if(textWasChosen != null){
 				Rect rClip = getRect();
 				g.setClip(0,0,rClip.width,rClip.height);
 				boolean isColor = waba.sys.Vm.isColor();
 				
-				int yText = yTextBegin + (textWasChoosen.beginRow - firstLine)*getItemHeight();
-				int hText = (textWasChoosen.endRow - textWasChoosen.beginRow)*getItemHeight();
-				Rect rText = new Rect(textWasChoosen.beginPos,yText,textWasChoosen.endPos - textWasChoosen.beginPos,hText);
+				int yText = yTextBegin + (textWasChosen.beginRow - firstLine)*getItemHeight();
+				int hText = (textWasChosen.endRow - textWasChosen.beginRow)*getItemHeight();
+				Rect rText = new Rect(textWasChosen.beginPos,yText,textWasChosen.endPos - textWasChosen.beginPos,hText);
 				if(!isColor){
 					g.setColor(0,0,0);
 					g.drawRect(rText.x-1,rText.y-1,rText.width+2,rText.height+2);

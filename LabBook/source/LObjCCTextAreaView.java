@@ -99,6 +99,7 @@ CCScrollBar				scrollBar;
 			menuEdit.add("Clear...");
 			menuEdit.add("-");
 			menuEdit.add("Insert Empty Line");
+			menuEdit.add("Delete Chosen Paragraph");
 			menuEdit.add("-");
 			menuEdit.add("Properties...");
 			menuEdit.addActionListener(this);
@@ -151,6 +152,8 @@ CCScrollBar				scrollBar;
 			if(tArea != null) tArea.openCurrentObjectPropertiesDialog();
 		}else if(e.getActionCommand().equals("Open Object")){
 			if(tArea != null) tArea.openCurrentObject();
+		}else if(e.getActionCommand().equals("Delete Chosen Paragraph")){
+			if(tArea != null) tArea.requireDeleteChosenParagraph();
 		}
 
     }
