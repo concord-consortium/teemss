@@ -21,14 +21,16 @@ public class ViewDialog extends Dialog
 		addDialogListener(l);
 		owner.setDialog(this);
 		listener = l;
-		view.setContainer(this);
+		if(view != null) view.setContainer(this);
 	}
 
 	public void setContent(){
  		waba.fx.Rect cRect = getContentPane().getRect();
-		view.layout(true);
-		view.setRect(0, 0, cRect.width, cRect.height);
-		getContentPane().add(view);
+		if(view != null){
+			view.layout(true);
+			view.setRect(0, 0, cRect.width, cRect.height);
+			getContentPane().add(view);
+		}
 	}
 
 	public void onEvent(Event e){}

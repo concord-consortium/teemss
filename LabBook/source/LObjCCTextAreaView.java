@@ -47,7 +47,7 @@ String [] fileStrings = {"Load Note..."};
 		if(menuEdit == null){
 			menuEdit = new Menu("Edit");
 			menuEdit.add("Paste");
-			menuEdit.add("Clear");
+			menuEdit.add("Clear...");
 			menuEdit.add("-");
 			menuEdit.add("Properties...");
 			menuEdit.addActionListener(this);
@@ -55,10 +55,10 @@ String [] fileStrings = {"Load Note..."};
 		if(vc != null) vc.getMainView().addMenu(this, menuEdit);
 		if(menu == null){
 			menu = new Menu("Object");
-			menu.add("Insert Object ...");
+			menu.add("Insert Object...");
 			menu.add("-");
-			menu.add("Delete Current Object");
-			menu.add("Delete All Objects");
+			menu.add("Delete Current Object...");
+			menu.add("Delete All Objects...");
 		}
 		menu.addActionListener(this);
 		if(vc != null) vc.getMainView().addMenu(this, menu);
@@ -69,7 +69,7 @@ String [] fileStrings = {"Load Note..."};
     public void actionPerformed(ActionEvent e){
 		if(e.getActionCommand().equals("Load Note...")){
 			openFileDialog();
-		}else if(e.getActionCommand().equals("Insert Object ...")){
+		}else if(e.getActionCommand().equals("Insert Object...")){
 			if(tArea != null) tArea.insertObject();
 		}else if(e.getActionCommand().equals("Paste")){
 			if(!CCClipboard.isClipboardEmpty()){
@@ -80,12 +80,12 @@ String [] fileStrings = {"Load Note..."};
 			}
 		}else if(e.getActionCommand().equals("Test")){
 			tArea.test();
-		}else if(e.getActionCommand().equals("Clear")){
-			if(tArea != null) tArea.clearAll();
-		}else if(e.getActionCommand().equals("Delete Current Object")){
-			if(tArea != null) tArea.deleteCurrentObject();
-		}else if(e.getActionCommand().equals("Delete All Objects")){
-			if(tArea != null) tArea.deleteAllObjects();
+		}else if(e.getActionCommand().equals("Clear...")){
+			if(tArea != null) tArea.requireClearingAll();
+		}else if(e.getActionCommand().equals("Delete Current Object...")){
+			if(tArea != null) tArea.requireDeleteCurrentObject();
+		}else if(e.getActionCommand().equals("Delete All Objects...")){
+			if(tArea != null) tArea.requireDeleteAllObjects();
 		}else if(e.getActionCommand().equals("Properties...")){
 			showProperties();
 		}

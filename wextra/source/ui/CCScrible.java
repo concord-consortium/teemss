@@ -67,19 +67,27 @@ private boolean  wasAddComponent = true;
 			if(modeButton != null) 			remove(modeButton);
 			if(choosePenButton != null) 	remove(choosePenButton);
 		}
-		if(embeddedState){
-			drawArea.setRect(0, 20, this.width, this.height);
-		}else{
-			drawArea.setRect(0, 20, this.width, this.height - 20);
+		if(drawArea != null){
+			if(embeddedState){
+				drawArea.setRect(0, 20, this.width, this.height);
+			}else{
+				drawArea.setRect(0, 20, this.width, this.height - 20);
+			}
+			add(drawArea);
 		}
-		add(drawArea);
 		if(!embeddedState){
-			clearButton.setRect(0, 2, 35, 15);
-			add(clearButton);
-			modeButton.setRect(40, 2, 35, 15);
-			add(modeButton);
-			choosePenButton.setRect(80, 2, 35, 15);
-			add(choosePenButton);
+			if(clearButton != null){
+				clearButton.setRect(0, 2, 35, 15);
+				add(clearButton);
+			}
+			if(modeButton != null){
+				modeButton.setRect(40, 2, 35, 15);
+				add(modeButton);
+			}
+			if(choosePenButton != null){
+				choosePenButton.setRect(80, 2, 35, 15);
+				add(choosePenButton);
+			}
 		}
 		wasAddComponent = true;
 	}

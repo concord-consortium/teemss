@@ -92,18 +92,20 @@ class LObjImageView extends LabObjectView implements ActionListener
 
     public void onPaint(waba.fx.Graphics g){
     	if(needCreateImageAfterRead){
- 			waba.fx.Image wabaImage = new waba.fx.Image(imageWidth,imageHeight);
-			if(wabaImage != null){
-			    int tmpCmap [] = imageCMAP;
-			    if(isWinCE){
-				tmpCmap = new int [256];
-				waba.sys.Vm.copyArray(imageCMAP, 0, tmpCmap, 0, imageCMAP.length);
-			    }
+    		if(imageWidth > 0 && imageHeight > 0){
+	 			waba.fx.Image wabaImage = new waba.fx.Image(imageWidth,imageHeight);
+				if(wabaImage != null){
+				    int tmpCmap [] = imageCMAP;
+				    if(isWinCE){
+					tmpCmap = new int [256];
+					waba.sys.Vm.copyArray(imageCMAP, 0, tmpCmap, 0, imageCMAP.length);
+				    }
 
-				wabaImage.setPixels(imageBPP,tmpCmap,imageScanlen,imageHeight,0,imagePixels);
-				imagePane = new ImagePane(wabaImage);
-				add(imagePane);
-				imagePane.setRect(0,0);
+					wabaImage.setPixels(imageBPP,tmpCmap,imageScanlen,imageHeight,0,imagePixels);
+					imagePane = new ImagePane(wabaImage);
+					add(imagePane);
+					imagePane.setRect(0,0);
+				}
 			}
 			needCreateImageAfterRead = false;
    		}

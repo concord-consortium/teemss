@@ -13,17 +13,19 @@ class CCTextAreaChooser extends LabBookChooser{
 EmbedObjectPropertyControl		objProperty;
 
 
-	public CCTextAreaChooser(LObjDictionary dict,ViewContainer viewContainer,DialogListener l){
-		super(dict,viewContainer,l);
+	public CCTextAreaChooser(ExtraMainWindow owner,LObjDictionary dict,ViewContainer viewContainer,DialogListener l){
+		super(owner,dict,viewContainer,l);
 	}
 	public void setContent(){
-  		waba.fx.FontMetrics fm = getFontMetrics(getFont()); 
-		boolean firstTime = (view == null);
+//  		waba.fx.FontMetrics fm = getFontMetrics(getFont()); 
+//		boolean firstTime = (view == null);
+		Rect r = getContentPane().getRect();
+
 		super.setContent();
+/*
 		if(view == null && viewContainer != null && dict != null){
 			view = (LObjDictionaryView)dict.getView(viewContainer, true);
 		}
-		Rect r = getContentPane().getRect();
 		if(view != null){
 			if(firstTime){
 				view.viewFromExternal = true;
@@ -32,18 +34,20 @@ EmbedObjectPropertyControl		objProperty;
 			}
 			view.setRect(0,0,r.width,r.height - 35);
 		}
-		if(objProperty == null){
-			objProperty = new EmbedObjectPropertyControl(null);
-			objProperty.layout(false);
-			getContentPane().add(objProperty);
-			objProperty.setRect(0,r.height - 80, r.width, 37);
-		}
 		
 		if(choiceButton == null){
 			choiceButton = new Button("Choose");
 			getContentPane().add(choiceButton);
 		}
 		choiceButton.setRect(r.width - 55,r.height - 18, 40, 16);
+*/
+		if(view != null) view.setRect(0,0,r.width,r.height - 30);
+		if(objProperty == null){
+			objProperty = new EmbedObjectPropertyControl(null);
+			objProperty.layout(false);
+			getContentPane().add(objProperty);
+			objProperty.setRect(0,r.height - 55, r.width, 37);
+		}
 		
 		
 	}
@@ -136,6 +140,11 @@ EmbedObjectPropertyControl currObjPropControl;
 
 ViewDialog 				currObjPropDialog = null;
 
+String []dialogButtonTitles = {"Yes","No"};
+Dialog					confirmDialogClear = null;
+Dialog					confirmDialogDeleteAll = null;
+Dialog					confirmDialogDeleteCurrent = null;
+
 	public CCTextArea(LObjCCTextAreaView owner,MainView mainView,LObjDictionary dict,LObjSubDict subDictionary){
 		super();
 		this.mainView = mainView;
@@ -221,32 +230,46 @@ ViewDialog 				currObjPropDialog = null;
    			}
     		currObjPropDialog = null;
     		return;
-    	}
-    
-    
-		if(e.getInfoType() != DialogEvent.OBJECT || e.getInfo() == null) return;
-		if(!(e.getInfo() instanceof LBCompDesc)) return;
-		LBCompDesc obj = (LBCompDesc)e.getInfo();
-		if(obj == null) return;
-		Object o = obj.getObject();
-		if(o == null || !(o instanceof LabObject)) return;
-		LabObject labObject = (LabObject)o;
-		int nComponents = (components == null)?0:components.length;
-		LBCompDesc []newComponents = new LBCompDesc[nComponents+1];
-		if(components != null){
-			waba.sys.Vm.copyArray(components,0,newComponents,0,nComponents);
+    	}else if(e.getSource() == labBookDialog){
+			if(e.getInfoType() != DialogEvent.OBJECT || e.getInfo() == null) return;
+			if(!(e.getInfo() instanceof LBCompDesc)) return;
+			LBCompDesc obj = (LBCompDesc)e.getInfo();
+			if(obj == null) return;
+			Object o = obj.getObject();
+			if(o == null || !(o instanceof LabObject)) return;
+			LabObject labObject = (LabObject)o;
+			int nComponents = (components == null)?0:components.length;
+			LBCompDesc []newComponents = new LBCompDesc[nComponents+1];
+			if(components != null){
+				waba.sys.Vm.copyArray(components,0,newComponents,0,nComponents);
+			}
+			components = newComponents;
+			LabObjectView view = labObject.getView(this,false);
+			view.setEmbeddedState(true);
+			components[nComponents] = obj;
+			components[nComponents].setObject(view);
+			components[nComponents].lineBefore = getLineIndex(curState.cursorRow + firstLine);
+			if(subDictionary != null) subDictionary.setObj(labObject,nComponents);
+			view.layout(false);
+			add(view);
+			layoutComponents();
+			setText(getText());
+		}else if(e.getSource() == confirmDialogClear){
+			if(e.getActionCommand().equals("Yes")){
+				clearAll();
+			}
+			confirmDialogClear = null;
+		}else if(e.getSource() == confirmDialogDeleteCurrent){
+			if(e.getActionCommand().equals("Yes")){
+				deleteCurrentObject();
+			}
+			confirmDialogDeleteCurrent = null;
+		}else if(e.getSource() == confirmDialogDeleteAll){
+			if(e.getActionCommand().equals("Yes")){
+				deleteAllObjects();
+			}
+			confirmDialogDeleteAll = null;
 		}
-		components = newComponents;
-		LabObjectView view = labObject.getView(this,false);
-		view.setEmbeddedState(true);
-		components[nComponents] = obj;
-		components[nComponents].setObject(view);
-		components[nComponents].lineBefore = getLineIndex(curState.cursorRow + firstLine);
-		if(subDictionary != null) subDictionary.setObj(labObject,nComponents);
-		view.layout(false);
-		add(view);
-		layoutComponents();
-		setText(getText());
     }
     public void writeExternal(DataStream out){
     	out.writeString(getText());
@@ -318,12 +341,19 @@ ViewDialog 				currObjPropDialog = null;
 		return (fm == null)?0:fm.getHeight()+2;
 	}
 
-
+	public void requireClearingAll(){
+		confirmDialogClear = Dialog.showConfirmDialog(this,"","Are you sure? ",dialogButtonTitles,Dialog.QUEST_DIALOG);
+	}
 	public void clearAll(){
 		setText("");
 		deleteAllObjects(false);
 		layoutComponents();
 	}
+	
+	public void requireDeleteCurrentObject(){
+		confirmDialogDeleteCurrent = Dialog.showConfirmDialog(this,"","Are you sure? ",dialogButtonTitles,Dialog.QUEST_DIALOG);
+	}
+	
 	public void deleteCurrentObject(boolean doLayout){
 		if(currObjectViewDesc != null){
 			if(currObjectViewDesc.getObject() instanceof LabObjectView){
@@ -364,6 +394,12 @@ ViewDialog 				currObjPropDialog = null;
 	public void deleteCurrentObject(){
 		deleteCurrentObject(true);
 	}
+
+	public void requireDeleteAllObjects(){
+		confirmDialogDeleteAll = Dialog.showConfirmDialog(this,"","Are you sure? ",dialogButtonTitles,Dialog.QUEST_DIALOG);
+	}
+	
+
 	public void deleteAllObjects(){
 		deleteAllObjects(true);
 	}
@@ -402,8 +438,10 @@ ViewDialog 				currObjPropDialog = null;
 			labBookDialog = null;
 		}
 		if(dict != null){
-//			labBookDialog = new CCTextAreaChooser(dict,this,this);
-			labBookDialog = new CCTextAreaChooser((LObjDictionary)LabObject.lBook.load(LabObject.lBook.getRoot()),this,this);
+			MainWindow mw = MainWindow.getMainWindow();
+			if(!(mw instanceof ExtraMainWindow)) return;
+			labBookDialog = new CCTextAreaChooser((ExtraMainWindow)mw,(LObjDictionary)LabObject.lBook.load(LabObject.lBook.getRoot()),this,this);
+			labBookDialog.setRect(0,0,150,150);
 			labBookDialog.show();
 		}
 
@@ -597,6 +635,7 @@ ViewDialog 				currObjPropDialog = null;
 					LabObjectView object = (LabObjectView)cntrl;
 					object.close();
 				}
+				currObjectViewDesc = null;
 			}
 		}
 	}
@@ -814,13 +853,17 @@ ViewDialog 				currObjPropDialog = null;
 	
 	public void onPenEvent(PenEvent ev){
 		if(ev.type == PenEvent.PEN_DOWN){
+			LBCompDesc compDesc = findComponentDesc(ev.target);
+			if(compDesc == null && currObjectViewDesc != null){
+				currObjectViewDesc = null;
+			}
 			if(getPropertyMode()){
-				LBCompDesc compDesc = findComponent(ev);
 				if(compDesc != null){
 					openCompProp(compDesc);
 				}
 				return;
 			}
+			if(compDesc != null) return;
 			int x = 0;
 			int h = getItemHeight();
 			int row = 1 + firstLine + (ev.y / h);
