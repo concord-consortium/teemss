@@ -268,6 +268,8 @@ public static void main(String args[])
 
 	frame.resize(width, height);
 
+	frame.setVisibleSize(width, height);
+
 //	frame.show();
 
 	applet.frame = frame;

@@ -48,7 +48,7 @@ public class Frame extends java.awt.Frame
 
 {
 
-public boolean handleEvent(java.awt.Event event)
+    public boolean handleEvent(java.awt.Event event)
 
 	{
 
@@ -65,6 +65,23 @@ public boolean handleEvent(java.awt.Event event)
 	return super.handleEvent(event);
 
 	}
+    
+    int visWidth = -1;
+    int visHeight = -1;
+    public void setVisibleSize(int w, int h)
+    {
+	visWidth = w;
+	visHeight = h;
+    }
+
+    public void paint(java.awt.Graphics g)
+    {
+	if(visWidth != -1){
+	    java.awt.Insets insets = getInsets();
+	    setSize(visWidth+insets.right+insets.left,visHeight+insets.top+insets.bottom);
+	    visWidth = -1;
+	}
+    }
 
 }
 
