@@ -173,6 +173,9 @@ public class CCLightIntens extends Probe
 					lightIntData[dataIndex] = v;
 					lightData[dataIndex] = ALow*dDesc.tuneValue*(float)v+BLow;
 				}
+				if(lightData[dataIndex] < 0f){
+					lightData[dataIndex] = 0f;
+				}
 				dataIndex++;
 			}
 			dEvent.setNumbSamples(dataIndex);
