@@ -103,14 +103,26 @@ protected CCTextAreaState curState = new CCTextAreaState();
 		else if (ev.type == ev.FOCUS_OUT) lostFocus();
 	}
 	public void gotFocus(){
-		hasCursor =  true;
-//		caretTimer = addTimer(500);
+		restoreCursor();
 	}
 	public void lostFocus(){
-		clearCursor();
-		cursorOn = cursorOn = false;
-		removeTimer(caretTimer);
+		removeCursor();
 	}
+	
+	public void restoreCursor(){
+		hasCursor =  true;
+		caretTimer = addTimer(500);
+	}
+	
+	
+	public void removeCursor(){
+		clearCursor();
+		hasCursor = false;
+		cursorOn = false;
+		removeTimer(caretTimer);
+		caretTimer = null;
+	}
+	
 	protected void clearCursor() {
 		if (cursorOn) paintCursor(null);
 	}
@@ -119,18 +131,54 @@ protected CCTextAreaState curState = new CCTextAreaState();
 		if (g == null) g = createGraphics();
 		if (hasCursor){
 			Rect r = new Rect(0,0,0,0);
-/*
-			if (getCharRect(curState.cursorPos,curState.cursorLine,r)){
-				g.drawCursor(r.x+spacing-curState.xShift,spacing+r.y-curState.firstLine*getItemHeight(),1,r.height);
+
+			if (getCharRect(r)){
+				g.drawCursor(r.x,r.y,r.width,r.height);
 				cursorOn = !cursorOn;
 			}
-*/
-//			g.drawCursor(10,10,1,8);
-			cursorOn = !cursorOn;
 		}
 		if (gr == null) g.free();
 	}
+	public boolean getCharRect(Rect r){
+		if(r == null) return false;
+		r.width 	= 1;
+		r.height 	= getItemHeight();
+		r.x = curState.cursorPos;
+		r.y = curState.cursorRow*getItemHeight();
+		return true;
+	}
 
+/*
+	public boolean getCharRect(int charPos,Rect r){
+		if(r == null) return false;
+		r.width 	= 1;
+		r.height 	= getItemHeight();
+		if(lines == null) return false;
+		int ind = 0;
+		boolean doExit = false;
+		for(int i = 0; i < lines.length; i++){
+			ind += lines[i].getStr().length();
+			if(charPos < ind + lines[i].getStr().length()){
+				String []strings = lines[i].strings;
+				if(strings != null){
+					int iPos = ind;
+					for(int j = 0; j < strings.length; j++){
+						if(charPos < iPos + strings[j].length()){
+							r.x = lines[i].insetLeft + fm.getTextWidth(strings[j].substring(0,(charPos - iPos)));
+							r.y = (lines[i].beginRow + j - firstLine)*r.height;
+							doExit = true;
+							break;
+						}
+						iPos += strings[j].length();
+					}
+					if(doExit) break;
+				}
+			}
+			ind += lines[i].getStr().length();
+		}
+		return true;
+	}
+*/
 	public void onEvent(Event ev){
 		if (ev instanceof PenEvent)
 			onPenEvent((PenEvent)ev);
@@ -150,6 +198,7 @@ protected CCTextAreaState curState = new CCTextAreaState();
 		}else if (ev.key == IKeys.END){
 		}else if (ev.key == IKeys.HOME){
 			if(firstLine != 0){
+				removeCursor();
 				firstLine = 0;
 				repaint();
 			}
@@ -157,12 +206,14 @@ protected CCTextAreaState curState = new CCTextAreaState();
 		}else if (ev.key == IKeys.RIGHT){
 		}else if (ev.key == IKeys.UP){
 			if(firstLine > 0){
+				removeCursor();
 				firstLine--;
 				repaint();
 			}
 		}else if (ev.key == IKeys.DOWN){
 			int nRows = getRowsNumber();
 			if(lines != null && firstLine < nRows - 2){
+				removeCursor();
 				firstLine++;
 				repaint();
 			}
@@ -191,6 +242,57 @@ protected CCTextAreaState curState = new CCTextAreaState();
 	}
 	
 	public void onPenEvent(PenEvent ev){
+		if(ev.type == PenEvent.PEN_DOWN){
+			int x = 0;
+			int h = getItemHeight();
+			int row = 1 + firstLine + (ev.y / h);
+			if(row > getRowsNumber()) row = getRowsNumber();
+			int lineIndex = getLineIndex(row - 1);
+			if(lineIndex >= 0 && lineIndex < lines.length){
+				CCStringWrapper sw = lines[lineIndex];
+				int rIndex = row - 1 - sw.beginRow;
+				if(rIndex >= 0 && rIndex < sw.strings.length){
+					String str = sw.strings[rIndex];
+					if(str != null){
+						int lastPos = sw.insetLeft + fm.getTextWidth(str);
+						if(ev.x < sw.insetLeft) x = sw.insetLeft;
+						else if(ev.x > lastPos) x = lastPos;
+						else{
+							int xp = sw.insetLeft;
+							x = ev.x;
+							for(int c = 0; c < str.length(); c++){
+								int cw = fm.getCharWidth(str.charAt(c));
+								if(x < xp + cw){
+									x = xp + cw;
+									break;
+								}
+								xp += cw;
+							}
+						}
+					}
+				}
+			}
+			if(hasCursor) clearCursor();
+			else		  restoreCursor();
+			curState.cursorPos = x;
+			curState.cursorRow = row - 1 - firstLine;
+			paintCursor(null);
+		}
+	}
+	
+	public int getLineIndex(int row){
+		int retValue = 0;
+		if(lines == null || lines.length < 1) return retValue;
+		if(row > getRowsNumber()) return lines.length - 1;
+		int ind = 0;
+		for(int i = 0; i < lines.length; i++){
+			if(row < ind + lines[i].getRows()){
+				retValue = i;
+				break;
+			}
+			ind += lines[i].getRows();
+		}
+		return retValue;
 	}
 	
 	public void onPaint(Graphics g){
@@ -211,7 +313,8 @@ protected CCTextAreaState curState = new CCTextAreaState();
 }
 
 class CCTextAreaState{
-int cursorRow = 0, cursorPos = 0;
+public int cursorRow = 0, cursorPos = 0;
+public int	cursorChar = 0;
 	CCTextAreaState(){
 	}
 }

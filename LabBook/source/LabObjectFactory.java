@@ -28,4 +28,10 @@ public LabObjDescriptor []labBookObjDesc;
 	
 	
 	public abstract int getFactoryType();
+	
+	/*
+		every factory should implement static method:
+		public static LabObject create(int objID);
+	*/
+	
 }
