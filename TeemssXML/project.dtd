@@ -30,6 +30,22 @@
   note-response     (true | false)        #REQUIRED>
 <!ELEMENT query-static-link (#PCDATA)>
 
+<!ELEMENT datacollector-link EMPTY>
+<!ATTLIST datacollector-link
+  type  (dc-force-200 |
+         dc-force-20 |
+         dc-force-2 |
+         dc-smartwheel-pos |
+         dc-smartwheel-vel |
+         dc-temperature1 |
+         dc-temperature2 |
+         dc-light-4000 |
+         dc-light-125000 |
+         voltage-current-v |
+         voltage-current-a |
+         voltage-current-w |
+         voltage-current-j)     #REQUIRED>
+
 <!ELEMENT teacher-notes (teacher-intro, teacher-discuss, teacher-background, teacher-timeline)>
 <!ELEMENT teacher-intro (summary, skills)>
 
@@ -78,7 +94,7 @@
 <!ELEMENT instruction (%INVESTIGATION_TEXT; | steps)*>
 <!ATTLIST instruction title CDATA #REQUIRED>
 <!ELEMENT steps (step | query-response)+>
-<!ELEMENT step (%INVESTIGATION_TEXT; | steps)*>
+<!ELEMENT step (%INVESTIGATION_TEXT; | datacollector-link | steps)*>
 
 <!ELEMENT hints (hint | tech-hint-ref)+>
 <!ELEMENT hint (title,heading?,body?)>
@@ -106,7 +122,7 @@
 <!ELEMENT image EMPTY>
   <!ATTLIST image name CDATA #REQUIRED>
   <!ATTLIST image  dir CDATA #REQUIRED>
-<!ELEMENT p (%TEXT;)*>
+<!ELEMENT p (%INVESTIGATION_TEXT;)*>
 
 <!ELEMENT equation (#PCDATA)>
 <!ELEMENT table (th?, tr*)>

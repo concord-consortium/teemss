@@ -453,7 +453,9 @@
             software.  </step>
           <step>Race your air cart with at least three other carts by
             rolling them down the ramp. Observe the motion of the
-            acrobat during the race.</step>
+            acrobat during the race.
+            <datacollector-link type="dc-smartwheel-pos"/>
+          </step>
           <step>What is your measure of friction? Which one has the
             least friction? Explain your thoughts and observations in
             Notes on your handheld computer. Refer to Technical Hints to
@@ -2331,7 +2333,9 @@
           </step>
           <step>Start the software and observe the temperature versus
             time graph as you test your two choices of water. Refer to
-            Technical Hints to see how to use the software.</step>
+            Technical Hints to see how to use the software.
+            <datacollector-link type="dc-temperature1"/>
+          </step>
           <step>Clear the graph and start again. Refer to Technical
             Hints to see how to use the software.  </step>
           <step>Make the following measurements one after another with
@@ -2370,7 +2374,9 @@
           <step>Start the temperature graph and run through this series
             of measurements so that you get all of your data on one
             graph. Refer to Technical Hints to see how to use the
-            software.  </step>
+            software.
+            <datacollector-link type="dc-temperature2"/>
+          </step>
           <step>Measure the air temperature.</step>
           <step>Use water from a non-room temperature source. It should
             be at least 10 degrees Celsius different from room
@@ -2409,7 +2415,9 @@
           <step>Start the temperature graph and run through this series
             of measurements so that you obtain all of your data on one
             graph. Refer to Technical Hints to see how to use the
-            software.  </step>
+            software.
+            <datacollector-link type="dc-temperature2"/>
+          </step>
           <step>Measure the air temperature.</step>
           <step>Make a small ball of clay, about the size of a large
             shooter marble. Stick the Temperature probe into the center
