@@ -22,7 +22,7 @@ public class LObjOutputSet extends LObjSubDict
      */
     public LObjOutputSet()
     {
-	objectType = OUTPUT_SET;
+		super(DefaultFactory.OUTPUT_SET);
     }
 
     public void setOutputDict(LObjDictionary outDict)

@@ -11,7 +11,7 @@ public abstract class LabObjectView extends Container
 
     protected LabObject lObj = null;
 
-    ViewContainer container = null;
+    protected ViewContainer container = null;
 
     public LabObjectView(ViewContainer vc)
     {

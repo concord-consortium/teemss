@@ -6,6 +6,7 @@ import extra.io.*;
 
 public class LabBook 
 {
+	public static Vector objFactories;
     int curDeviceId = 0;
 
     /*
@@ -43,6 +44,14 @@ public class LabBook
 
     LabBookDB db;
 
+	public static void init()
+	{
+		if(objFactories == null){
+			objFactories = new Vector();
+			addFactory(new DefaultFactory());
+		}
+	}
+
     // Should get a list of the pointer to objects from the 
     // beginning of the file.  This will also help us know
     // what ids are available.  And it will tell the file address of 
@@ -59,6 +68,24 @@ public class LabBook
     {
 		return rootPtr;
     }
+
+	public static void addFactory(LabObjectFactory objFact)
+	{
+		objFactories.add(objFact);
+	}
+
+	public static LabObject makeNewObj(int type)
+	{
+		LabObject newObj = null;
+
+		for(int i=0;i<objFactories.getCount(); i++){
+			LabObjectFactory objFact = (LabObjectFactory)objFactories.get(i);
+			newObj = objFact.makeNewObj(type);
+			if(newObj != null) break;
+		}
+
+		return newObj;
+	}
 
     // add this object to list to be stored
     // and return its pointer.
@@ -337,7 +364,7 @@ public class LabBook
 		// We need a way to instanciate object.
 		// We could have a list of objects and every new lab object will
 		// need to be added to this list.
-		lObj = LabObject.getNewObject(objectType);
+		lObj = makeNewObj(objectType);
 		if(lObj == null){
 			Debug.println("error: objectType: " + objectType + " devId: " + lObjPtr.devId +
 						  " objId: " + lObjPtr.objId);

@@ -6,6 +6,11 @@ public abstract class LObjSubDict extends LabObject
 {
     LObjDictionary dict = null;
 
+	public LObjSubDict(int type)
+	{
+		super(type);
+	}
+
 	/*
 	 * Only call this the first time the sub object is instantiated
 	 * if it is instanciated from the file 

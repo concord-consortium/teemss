@@ -1,28 +1,24 @@
 
 MODULE = LabBook
 
-DEP_NAMES = wabajump wabasdk wextra wgraph
+DEP_NAMES = wabajump wabasdk wextra
 
 FORKS= waba superwaba
 
-MW_CLASS= CCProbe
 PLATFORMS= palm other ce
 RUN_FORK= palm
 RUN_PLATFORM = palm
 WARP_PLATFORM = ce
 JUMP_PLATFORM =palm
-VERSION_TEMPLATE = source/Version.java.tpl
 
 EXE_CLASS_HEAP_SIZE = 5000000
 EXE_OBJ_HEAP_SIZE = 2000000
-WGRAPH_DIR:= $(CURDIR)/../wgraph/classes/_CUR_PLATFORM_
-JAR_LIST:= -C $(CURDIR)/classes/other org/concord/LabBook \
--C $(subst _CUR_PLATFORM_,other,$(WGRAPH_DIR)) graph/
+JAR_LIST:= -C $(CURDIR)/classes/other org/concord/LabBook
 
 include ../ReleaseSystem/waba.inc
 
 JAR_BUILD := other
-CLASSPATH := $(CLASSPATH):${WGRAPH_DIR}
+CLASSPATH := $(CLASSPATH):
 
-all: dependencies main warp jar exegen jump
+all: dependencies main
 test: dependencies main

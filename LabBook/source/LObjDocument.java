@@ -11,7 +11,7 @@ String 					text = null;
 public LObjDocumentView view = null;
 
     public LObjDocument(){
-		objectType = DOCUMENT;
+		super(DefaultFactory.DOCUMENT);
     }
 
     public void setText(String t){

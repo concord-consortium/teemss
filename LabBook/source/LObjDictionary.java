@@ -20,8 +20,7 @@ public class LObjDictionary extends LabObject
 
     public LObjDictionary()
     {       
-		objectType = DICTIONARY;
-
+		super(DefaultFactory.DICTIONARY);
     }
 
     public LabObjectView getPropertyView(ViewContainer vc, LObjDictionary curDict)

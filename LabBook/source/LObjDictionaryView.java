@@ -28,12 +28,6 @@ public class LObjDictionaryView extends LabObjectView
     Menu editMenu = new Menu("Edit");
     Menu viewMenu = new Menu("View");
 
-    PropContainer creationProps = new PropContainer();
-    PropContainer subCreateProps = creationProps.createSubContainer("Sub");
-    String [] creationTypes = {"Folder", "Notes", "Questions", "Data Collector", 
-							   "Drawing","UnitConvertor","Image","DataSource","Probes"};
-    PropObject newObjType = new PropObject("Type", creationTypes);
-
     boolean editStatus = false;
 
 	String [] fileStrings = {"New..", "Open", "Rename..", "Import..", "Export..", "Delete"};
@@ -62,7 +56,6 @@ public class LObjDictionaryView extends LabObjectView
 			vc.getMainView().addFileMenuItems(fileStrings, this);
 		}
 
-		creationProps.addProperty(newObjType, "Sub");
     }
 
     public void layout(boolean sDone)
@@ -129,7 +122,8 @@ public class LObjDictionaryView extends LabObjectView
 	{
 		String [] buttons = {"Cancel", "Create"};
 		newDialog = Dialog.showInputDialog( this, "Create", "Create a new Object",
-											buttons,Dialog.CHOICE_INP_DIALOG, creationTypes);
+											buttons,Dialog.CHOICE_INP_DIALOG,
+											getMainView().getCreateNames());
 	}
 
 	public void delSelected()
@@ -152,6 +146,11 @@ public class LObjDictionaryView extends LabObjectView
 		showPage(curNode, false,false);		
 	}
 
+	public void insertAtSelected(LabObject obj)
+	{
+		insertAtSelected(dict.getNode(obj));		
+	}
+
     public void insertAtSelected(TreeNode node)
     {
 		TreeNode curNode = treeControl.getSelected();
@@ -172,54 +171,7 @@ public class LObjDictionaryView extends LabObjectView
 		if(e.getSource() == newDialog){
 			if(command.equals("Create")){
 				String objType = (String)e.getInfo();
-				LabObject newObj = null;
-				boolean autoEdit = false;
-				boolean autoProp = true;
-
-				if(objType.equals("Folder")){
-				    newObj = new LObjDictionary();
-				} else if(objType.equals("Notes")){
-				    newObj = new LObjDocument();
-				    autoEdit = true;
-				} else if(objType.equals("Questions")){
-				    newObj = LObjQuestion.makeNewQuestionSet();
-				    autoEdit = true;
-				} else if(objType.equals("Data Collector")){	       
-					newObj = LObjDataCollector.makeNew();
-					autoProp = true;
-				} else if(objType.equals("Drawing")){
-				    newObj = new LObjDrawing();
-				    autoEdit = true;
-				} else if(objType.equals("UnitConvertor")){
-				    newObj = new LObjUConvertor();
-				    autoEdit = true;
-				} else if(objType.equals("Image")){
-				    newObj = new LObjImage();
-				    autoEdit = true;
-				} else if(objType.equals("Probes")){
-					newObj = LObjProbesRep.makeNew();
-				    autoEdit = true;
-				} 
-				if(newObj != null){
-				    if(newIndex == 0){
-					newObj.name = objType;		    
-				    } else {
-					newObj.name = objType + " " + newIndex;		    
-				    }
-				    newIndex++;
-				    TreeNode newNode = dict.getNode(newObj);
-				    insertAtSelected(newNode);
-
-				    if(autoEdit){
-						showPage(newNode, true, false);
-				    } else if(autoProp){
-						showPage(newNode, true, true);
-					} 
-
-					
-
-				}
-
+				getMainView().createObj(objType, this);
 			}
 		} else if(e.getSource() == rnDialog){
 			if(command.equals("Ok")){
@@ -351,7 +303,12 @@ public class LObjDictionaryView extends LabObjectView
 		obj = dict.getObj(curNode);
 		if(obj == null) Debug.println("showPage: object not in database: " +
 					      ((LabObjectPtr)curNode).debug());
+		showPage(obj,edit,property);
+	}
 
+
+	public void showPage(LabObject obj, boolean edit, boolean property)
+	{
 		getMainView().delMenu(this, viewMenu);
 		getMainView().delMenu(this, editMenu);
 		getMainView().removeFileMenuItems(fileStrings, this);

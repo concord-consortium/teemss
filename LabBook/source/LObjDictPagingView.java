@@ -26,7 +26,7 @@ public class LObjDictPagingView extends LabObjectView
 
     LabObject curObj;
     boolean editStatus = true;
-    int defaultNewObjectType = LabObject.DOCUMENT;
+    int defaultNewObjectType = -1;
 
     org.concord.waba.extra.ui.Menu menu = new org.concord.waba.extra.ui.Menu("View");
 
@@ -86,50 +86,52 @@ public class LObjDictPagingView extends LabObjectView
 
     public void onEvent(Event e)
     {
-	if(e.type == ControlEvent.PRESSED){
-	    TreeNode curNode;
-	    TreeNode parent;
+		if(e.type == ControlEvent.PRESSED){
+			TreeNode curNode;
+			TreeNode parent;
 
-	    LabObject newObj;
-	    if(e.target == nextButton){
-		index++;
-		if(!editStatus && 
-		   (index >= childArray.length)){
-		    // If edit is turned off make sure they can't add objects
-		    index = childArray.length - 1;
-		} else if(index < childArray.length){
-		    repaint();
-		} else {
-		    if(dict.hasObjTemplate){
-			newObj = dict.getObjTemplate().copy();
-		    } else {
-			newObj = LabObject.getNewObject(defaultNewObjectType);
-		    }
-		    newObj.name = "New" + newIndex;
-		    newIndex++;
-		    dict.insert(newObj, index);
-		    childArray = dict.childArray();
-		    if(index >= childArray.length) index = childArray.length - 1;
-		}
-		showObject();
+			LabObject newObj;
+			if(e.target == nextButton){
+				index++;
+				if(!editStatus && 
+				   (index >= childArray.length)){
+					// If edit is turned off make sure they can't add objects
+					index = childArray.length - 1;
+				} else if(index < childArray.length){
+					repaint();
+				} else {
+					if(dict.hasObjTemplate){
+						newObj = dict.getObjTemplate().copy();
+					} else if(defaultNewObjectType != -1){
+						newObj = LabBook.makeNewObj(defaultNewObjectType);
+					} else {
+						return;
+					}
+					newObj.name = "New" + newIndex;
+					newIndex++;
+					dict.insert(newObj, index);
+					childArray = dict.childArray();
+					if(index >= childArray.length) index = childArray.length - 1;
+				}
+				showObject();
 		
-	    } else if(e.target == delButton){
-		if(childArray == null) return;
-		if(childArray[index] == null) return;
-		dict.remove(childArray[index]);
-		childArray = dict.childArray();
-		if(index >= childArray.length) index = childArray.length - 1;
-		showObject();
-	    } else if(e.target == backButton){
-		index--;
-		if(index < 0) index = 0;
-		showObject();
-	    } else if(e.target == doneButton){
-		if(container != null){
-		    container.done(this);
+			} else if(e.target == delButton){
+				if(childArray == null) return;
+				if(childArray[index] == null) return;
+				dict.remove(childArray[index]);
+				childArray = dict.childArray();
+				if(index >= childArray.length) index = childArray.length - 1;
+				showObject();
+			} else if(e.target == backButton){
+				index--;
+				if(index < 0) index = 0;
+				showObject();
+			} else if(e.target == doneButton){
+				if(container != null){
+					container.done(this);
+				}
+			}	    
 		}
-	    }	    
-	}
     }
 
     public void actionPerformed(ActionEvent e)
@@ -168,29 +170,31 @@ public class LObjDictPagingView extends LabObjectView
 
     public void showObject()
     {
-	if(childArray == null) return;
-	if(index < 0 || index >= childArray.length) return;
+		if(childArray == null) return;
+		if(index < 0 || index >= childArray.length) return;
 
-	TreeNode curNode = childArray[index];
-	LabObject obj = null;
-	if(index == 0 &&
-	   curNode.toString().equals("..empty..")){
-	    if(dict.hasObjTemplate){
-		obj = dict.getObjTemplate().copy();
-	    } else {
-		obj = LabObject.getNewObject(defaultNewObjectType);
-	    }
+		TreeNode curNode = childArray[index];
+		LabObject obj = null;
+		if(index == 0 &&
+		   curNode.toString().equals("..empty..")){
+			if(dict.hasObjTemplate){
+				obj = dict.getObjTemplate().copy();
+			} else if(defaultNewObjectType != -1){
+				obj = LabBook.makeNewObj(defaultNewObjectType);
+			} else {
+				return;
+			}
 	    
-	    obj.name = "New" + newIndex;
-	    newIndex++;
-	    dict.insert(obj, 0);
-	    childArray = dict.childArray();
-	} else {
-	    obj = dict.getObj(curNode);
-	    if(obj == null) Debug.println("showPage: object not in database: " +
-					  ((LabObjectPtr)curNode).debug());
+			obj.name = "New" + newIndex;
+			newIndex++;
+			dict.insert(obj, 0);
+			childArray = dict.childArray();
+		} else {
+			obj = dict.getObj(curNode);
+			if(obj == null) Debug.println("showPage: object not in database: " +
+										  ((LabObjectPtr)curNode).debug());
 	    
-	} 
+		} 
 
 	if(obj == null) return;
        	if(obj == curObj) return;

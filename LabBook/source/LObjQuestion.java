@@ -21,7 +21,7 @@ public class LObjQuestion extends LObjSubDict
 
     public LObjQuestion()
     {
-		objectType = QUESTION;
+		super(DefaultFactory.QUESTION);
     }
 
     public static LObjDictionary makeNewQuestionSet()

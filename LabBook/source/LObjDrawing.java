@@ -13,8 +13,7 @@ public LObjDrawingView view = null;
 
     public LObjDrawing()
     {
-	objectType = DRAWING;
-
+		super(DefaultFactory.DRAWING);
     }
     public LabObjectView getView(ViewContainer vc, boolean edit, LObjDictionary curDict)
     {

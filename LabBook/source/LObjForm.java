@@ -6,7 +6,7 @@ public class LObjForm extends LabObject
 {
     public LObjForm ()
     {
-	objectType = FORM;
+		super(DefaultFactory.FORM);
     }
 
     public void readExternal(DataStream ds)

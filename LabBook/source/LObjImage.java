@@ -15,10 +15,7 @@ public LObjImageView view = null;
 
     public LObjImage()
     {
-		objectType = IMAGEOBJ;
-		
-
-
+		super(DefaultFactory.IMAGE);
     }
     public LabObjectView getView(ViewContainer vc, boolean edit,LObjDictionary curDict)
     {

@@ -12,4 +12,9 @@ public interface MainView
 	public void addFileMenuItems(String [] items, ActionListener source);
 
 	public void removeFileMenuItems(String [] items, ActionListener source);
+
+	public String [] getCreateNames();
+
+	public void createObj(String name, LObjDictionaryView dView);
+
 }
