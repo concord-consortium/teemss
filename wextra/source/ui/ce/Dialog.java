@@ -116,7 +116,7 @@ private waba.ui.Container		contentPane;
 	w += 20 + 20;//space + image
 	int bHeight = 20;
 	int mHeight = fm.getHeight();
-	int h = 15 + bHeight + 10 + (10 + mHeight);
+	int h = bHeight + 10 + (10 + mHeight);
 	d.setRect(50,50,w,h);
 	waba.ui.Container cp = d.getContentPane();
 	
@@ -129,7 +129,7 @@ private waba.ui.Container		contentPane;
 		cp.add(b);
 	}
 	waba.ui.Label label = new waba.ui.Label(message,waba.ui.Label.CENTER);
-	label.setRect(10 + w/2 - messageWidth/2,20,messageWidth,mHeight);
+	label.setRect(10 + w/2 - messageWidth/2,5,messageWidth,mHeight);
 	cp.add(label);
 	String imagePath = "";
 	switch(messageType){
@@ -150,7 +150,7 @@ private waba.ui.Container		contentPane;
 	}
 	if(showImages){
 	    ImagePane ip = (ImagePane)new ImagePane(imagePath);
-	    ip.setRect(d.widthBorder + 2,17,16,16);
+	    ip.setRect(d.widthBorder + 2,2,16,16);
 	    cp.add(ip);
 	}
 	d.addDialogListener(l);
