@@ -8,6 +8,21 @@ import org.concord.waba.extra.io.*;
 
 public class DataExport 
 {
+	File file;
+	DataStream ds;
+
+	public DataExport(Bin b)
+	{
+		String name = createNameFile(b);
+		if(name == null) return;
+
+		file = new File(name, File.CREATE);
+		file.close();
+		file = new File(name, File.READ_WRITE);
+
+		ds = new DataStream(file);
+	}
+
 	static public void showSerialDialog()
 	{
 		waba.io.impl.SerialManager.checkAvailableSerialPorts();
@@ -40,7 +55,7 @@ public class DataExport
 		return retValue;
 	} 
 
-    static public void export(Bin b)
+    public void export(Bin b)
     {
 		int i;
 		if(b == null ||
@@ -48,16 +63,9 @@ public class DataExport
 
 		Vector points = b.annots;
 
-		String name = createNameFile(b);
-		if(name == null) return;
-		File file = new File(name, File.CREATE);
-		file.close();
-		file = new File(name, File.READ_WRITE);
 
-		DataStream ds = new DataStream(file);
-	
 		writeString(ds, b.time.month + "/" + b.time.day + "/" + b.time.year + " " +
-					b.time.hour + ":" + b.time.minute + "\r\n");
+					b.time.hour + ":" + create2DigitString(b.time.minute) + "\r\n");
 		writeString(ds, b.description + "\r\n");
 		if(points != null){
 			writeString(ds, "Marks:\r\n");
@@ -68,22 +76,23 @@ public class DataExport
 							pt.getTime() + "\t" + 
 							pt.getValue() + "\r\n");
 			}
+			writeString(ds, "\r\n");
 
 		}
 
-		writeString(ds, b.label + "\r\n");
+		writeString(ds, b.label + " Data:\r\n");
 		writeString(ds, "time\tvalue\r\n");
 		float curTime = 0f;
 		for(i=0; i < b.lfArray.getCount(); i++){
 			writeString(ds, curTime + "\t" + (b.lfArray.getFloat(i)+b.lfArray.ref) + "\r\n");
 			curTime += b.dT;
 		}
-
-		file.close();
-	
-		
+		writeString(ds, "\r\n\r\n");
     }
 
-
+	public void close()
+	{
+		file.close();
+	}
 
 }

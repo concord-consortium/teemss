@@ -428,14 +428,9 @@ public class GraphSettings
 		}
 	}
 	
-	//???
-	public Bin getBin()
+	public Vector getBins()
 	{
-		if(bins != null ||
-		   bins.getCount() > 0){
-			return ((Bin)bins.get(0));
-		}
-		return null;
+		return bins;
 	}
     
 	float maxVisY = 0f;

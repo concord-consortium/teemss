@@ -458,26 +458,39 @@ public class LObjGraph extends LObjSubDict
 		ref = session.release(dSet);
 	}
 
-	public void exportCurData(LabBookSession session)
+	public void exportData(LabBookSession session)
 	{
 		GraphSettings curGS = getCurGraphSettings();
 		if(curGS != null){
-			Bin curBin = curGS.getBin();
-			if(title != null){
-				curBin.description = title;
-			} else {
-				curBin.description = null;
+			Vector bins = curGS.getBins();
+			if(bins.getCount() < 1 ||
+			   bins.get(0) == null){
+				return;
 			}
-			if(getSummary(session) != null){
-				if(curBin.description != null){
-					curBin.description += "\n" + getSummary(session);
+
+			DataExport dExport = new DataExport((Bin)bins.get(0));
+			for(int i=0; i<bins.getCount(); i++){
+				Bin curBin = (Bin)bins.get(i);
+
+				if(title != null){
+					curBin.description = title;
 				} else {
-					curBin.description = getSummary(session);
+					curBin.description = null;
+				}
+				if(getSummary(session) != null){
+					if(curBin.description != null){
+						curBin.description += "\r\n" + getSummary(session);
+					} else {
+						curBin.description = getSummary(session);
+					} 
 				} 
-			} 
-			if(curBin.description == null){
-				curBin.description = "";
+				if(curBin.description == null){
+					curBin.description = "";
+				}
+
+				dExport.export(curBin);
 			}
+			dExport.close();
 		}
 	}
 }

@@ -154,7 +154,7 @@ public class LObjGraphView extends LabObjectView
 			if(e.getActionCommand().equals("Save Data..")){
 				graph.saveCurData(dataDict, session);
 			} else if(e.getActionCommand().equals("Export Data..")){
-				graph.exportCurData(session);
+				graph.exportData(session);
 			}
 		}
 	}

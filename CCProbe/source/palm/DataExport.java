@@ -5,6 +5,11 @@ import waba.util.*;
 
 public class DataExport 
 {
+	public DataExport(Bin b){}
+
 	static public void showSerialDialog(){}
-    static public void export(Bin b){}
+
+    public void export(Bin b){}
+
+	public void close(){}
 }

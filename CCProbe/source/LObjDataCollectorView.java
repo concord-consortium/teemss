@@ -281,7 +281,7 @@ public class LObjDataCollectorView extends LabObjectView
 				if(gDataDict == null) gDataDict = dataDict;
 				graph.saveCurData(gDataDict, session);
 			} else if(e.getActionCommand().equals("Export Data..")){
-				graph.exportCurData(session);
+				graph.exportData(session);
 			}
 		}
     }
