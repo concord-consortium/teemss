@@ -197,6 +197,7 @@ public class PropertyPane extends Container
 			
 			if(type == po.EDIT){
 				Edit   eValue = new Edit();
+				if(value == null) value = "";
 				eValue.setText(value);
 				c1 = eValue;
 			} else if (type == po.CHOICE || type == po.CHOICE_SETTINGS){
