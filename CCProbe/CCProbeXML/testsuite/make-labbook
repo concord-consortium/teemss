@@ -1,7 +1,13 @@
 #! /bin/bash
 
-if ! [ $workingcopy ]
-then echo "********please set \$workingcopy to ccprobe project root*****" ; exit 
+if ! [ $workingcopy ]; then
+  echo "********please set \$workingcopy to ccprobe project root*****"
+
+  if [ -x ../../../XML2LabBook/make-labbook ]; then
+    echo "I just took a guess and found the needed file"
+    ../../../XML2LabBook/make-labbook $1 $2
+  fi
+  exit
 fi
 
 if [ $1 ]

@@ -708,4 +708,10 @@ Tracker Further Investigation
 - Try pushing the cart toward and up the ramp, but not over the top, then let it roll back down. Predict what you think the position and speed graphs will look like and then test your prediction. </SNPARAGRAPH>
     </SUPERNOTES>
   </FOLDER>
+
+  <FOLDER name="Locking test">
+	<NOTES locked="true" name="locked note"/>
+	<NOTES name="not locked note"/>
+  </FOLDER>
+
 </LABBOOK>
