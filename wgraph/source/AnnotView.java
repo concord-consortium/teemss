@@ -99,7 +99,6 @@ public class AnnotView extends Container
 		curBin.addActionListener(this);
 
 		lgView.lGraph.addBin(curBin);
-		System.out.println("AnVi: adding Bar");
 		bGraph.addBar(0, curBin);
 		return;
     }
