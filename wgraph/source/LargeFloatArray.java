@@ -53,6 +53,24 @@ public class LargeFloatArray
 
     }
 
+	public int getNumChunks()
+	{
+		return chunks.getCount();
+	}
+
+	public float [] getChunk(int i)
+	{
+		if(i < 0 || i >= chunks.getCount()) return null;
+		return (float [])chunks.get(i);
+	}
+
+	public int getChunkLen(int i)
+	{
+		if(i < 0 || i >= chunks.getCount()) return -1;
+		if(i != curChunk) return ChunkSize;
+		return curIndex;
+	}
+
     public float getFloat(int index)
     {
 		int chunkPos = index/ChunkSize;

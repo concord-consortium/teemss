@@ -481,21 +481,25 @@ public class Bin
 		return false;
     }
 
-    public int numDataChunks(){return 1;}
+    public int numDataChunks()
+	{
+		return lfArray.getNumChunks();
+	}
 
     public DataEvent getDataChunk(int index)
     {
 		DataEvent dEvent;
 		DataDesc dDesc = new DataDesc(dT, 1);
-		float [] data = lfArray.getFloats(0, lfArray.getCount());
-		int numValues = lfArray.getCount();
+		float [] data = lfArray.getChunk(index);
+		int numValues = lfArray.getChunkLen(index);
 
+		float [] realData = new float [numValues];
 		for(int i=0; i<numValues; i++){
-			data[i] += refY;
+			realData[i] = data[i] + refY;
 		}
 
 		dEvent = new DataEvent(DataEvent.DATA_RECEIVED, 
-							   0, data , dDesc);
+							   0, realData , dDesc);
 		dEvent.dataOffset = 0;
 		dEvent.numbSamples = numValues;
 		return dEvent;

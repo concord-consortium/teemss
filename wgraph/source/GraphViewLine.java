@@ -49,8 +49,8 @@ public class GraphViewLine extends GraphView
     float [] tempVal = new float [1];
 
     public boolean autoScroll = true;
-    float scrollFract = (float)0.25;
-    float scrollStepSize = (float)0.15;
+    public static float scrollEndFract = (float)0.25;
+    public static float scrollStepSize = (float)0.15;
     int scrollSteps = 5;
 
 	int selectLeftX, selectRightX;
@@ -87,6 +87,8 @@ public class GraphViewLine extends GraphView
 		lGraph.switchYAxis(yaxis);
 	}
 
+	boolean needMoreScrolling = false;
+
     public void plot(Graphics myG)
     {
 		if(myG == null) return;
@@ -109,28 +111,40 @@ public class GraphViewLine extends GraphView
 			drawn = true;
 		} else if(autoScroll &&
  		   bin != null &&
-		   bin.xaxis == xaxis &&
+		   bin.xaxis == xaxis && 				  
 		   (bin.getNumVals() > 0) && 
 		   (bin.getCurX() > (xaxis.dispMin + (float)xaxis.dispLen / xaxis.scale ) ||
-			xaxis.drawnX == -1)){
+			xaxis.drawnX == -1 ||
+			needMoreScrolling)){
 
 			// scroll
 			range = lGraph.xaxis.getRange();
-			scrollEnd = bin.getCurX() - range * scrollFract;
+			scrollEnd = bin.getCurX() - range * scrollEndFract;
 
 			if(scrollEnd < (float)0)
 				scrollEnd = (float)0;
 			if((scrollEnd - xaxis.dispMin) * xaxis.scale > (10 * myScrollStep)){
 				myScrollStep = (int)((scrollEnd - xaxis.dispMin) * xaxis.scale + 2);
 			}
-			
-			while((xaxis.dispMin < scrollEnd) || 
-				  (xaxis.drawnX > (lGraph.xOriginOff + 4)) ||
-				  (xaxis.drawnX == -1)){
+
+			lGraph.scrollNoCache(myScrollStep, 0);
+			drawn = false;
+			super.plot(myG);
+
+			if((xaxis.dispMin < scrollEnd) || 
+			   (xaxis.drawnX > (lGraph.xOriginOff + 4)) ||
+			   (xaxis.drawnX == -1)){
+				needMoreScrolling = true;
+			} else {
+				needMoreScrolling = false;
+			}
+
+			/*
 				lGraph.scrollNoCache(myScrollStep, 0);
 				drawn = false;
 				super.plot(myG);
 			}
+			*/
 			lGraph.scroll(0,0);
 		} else {
 
@@ -205,6 +219,7 @@ public class GraphViewLine extends GraphView
 	{
 		lGraph.reset();
 		curChar = 'A';
+		needMoreScrolling = false;
 
 		if(selAnnot != null){
 			selAnnot.selected = false;
