@@ -98,23 +98,13 @@ public class LObjDataCollectorView extends LabObjectView
     {
 		if(stopping) return;
 		stopping = true;
-		dc.stop();
 		collectButton.setSelected(false);
 		collectButton.repaint();
 		if(notifyGraph){
-			gv.stopGraph();
+			graph.stopAll();
 		}
 		stopping = false;
     }
-
-	public void labObjChanged(LabObjEvent e)
-	{
-		if(e.getObject() != dc){
-			gv.updateProp();
-			setTitle2(graph.title);		
-			dc.store();
-		}
-	}		
 
     public void layout(boolean sDone)
     {
@@ -127,19 +117,10 @@ public class LObjDataCollectorView extends LabObjectView
 		add(collectButton);
 
 		graph = (LObjGraph)dc.getObj(0);
+		graph.addLabObjListener(this);
+
 		gv = (LObjGraphView)graph.getView(this, false, dataDict);
 		gv.showTitle(false);
-		Vector dataSources = dc.getDataSources();
-		for(int i=0; i<dataSources.getCount(); i++){
-			DataSource ds = (DataSource)dataSources.get(i);
-			
-			if(ds instanceof LObjProbeDataSource){
-				LObjProbeDataSource pDS = (LObjProbeDataSource)ds;
-				pDS.addLabObjListener(this);
-			}
-			
-			graph.addDataSource(ds);
-		}
 
 		gv.layout(false);
 
@@ -156,6 +137,16 @@ public class LObjDataCollectorView extends LabObjectView
 		add(gv);
     }
 
+	public void labObjChanged(LabObjEvent e)
+	{
+		if(e.getObject() == graph &&
+		   graph != null){
+			setTitle2(graph.title);		
+			// this used to happen here but I don't think
+			// it is needed
+			// dc.store();  // maybe
+		}
+	}
 
     public void setRect(int x, int y, int width, int height)
     {
@@ -195,12 +186,13 @@ public class LObjDataCollectorView extends LabObjectView
 			if(e.getActionCommand().equals("Probe Properties..")){
 				stop(true);
 
-				if(dc.dataSources == null || dc.dataSources.getCount() < 1 ||
-				   !(dc.dataSources.get(0) instanceof LObjProbeDataSource)){
+				Vector dataSources = dc.getDataSources();
+				if(dataSources == null || dataSources.getCount() < 1 ||
+				   !(dataSources.get(0) instanceof LObjProbeDataSource)){
 					return;
 				}
 
-				LObjProbeDataSource pds = (LObjProbeDataSource)dc.dataSources.get(0);
+				LObjProbeDataSource pds = (LObjProbeDataSource)dataSources.get(0);
 				pds.showProp();
 
 				Debug.println("Callllll");
@@ -227,28 +219,10 @@ public class LObjDataCollectorView extends LabObjectView
 				*/
 			}
 		} else {
- 			if(e.getActionCommand().equals("Save Data..")){
-				LObjDataSet dSet = DataObjFactory.createDataSet();
-
-				LObjGraph dsGraph = (LObjGraph)graph.copy();
-				dsGraph.name = "Graph";
-
-				dSet.setDataViewer(dsGraph);
-				graph.curGS.saveData(dSet);
-
-				if(dataDict != null){
-					dataDict.add(dSet);
-					dSet.store();
-				} else {
-					// for now it is an error
-					// latter it should ask the user for the name
-				}
+			if(e.getActionCommand().equals("Save Data..")){
+				graph.saveCurData(dataDict);
 			} else if(e.getActionCommand().equals("Export Data..")){
-				Bin curBin = graph.curGS.getBin();
-				if(curBin != null){
-					curBin.description = graph.title;
-					DataExport.export(curBin, gv.av.lGraph.annots);
-				}
+				graph.exportCurData(gv.av.lGraph.annots);
 			}
 		}
     }
@@ -258,11 +232,10 @@ public class LObjDataCollectorView extends LabObjectView
 		Debug.println("Got close in graph");
 		stop(true);	
 
-		// need to make sure this unregisters data sources
+		// need to make sure this unregisters data sources!!
 		gv.close();
 
-		dc.closeSources();
-		dc.dcv = null;
+		if(graph != null) graph.delLabObjListener(this);
 
 		super.close();
     }
@@ -271,20 +244,19 @@ public class LObjDataCollectorView extends LabObjectView
     {		
 		if(e.target == gv){			
 			if(e.type == 1000){
+				// This must have come from the graph so
+				// I don't need to notify it
 				stop(false);
-			} else if(e.type == 1001){
-				setTitle2(gv.graph.title);
-			}			
+			} 		
 		} else 	if(e.type == ControlEvent.PRESSED){
 			Control target = (Control)e.target;
 			int index;
 			if(target == collectButton && collectButton.isSelected()){
 				// need to tell the GraphView to start
-				dc.start();
+				graph.startAll();
 			} else if(target == collectButton && ! collectButton.isSelected()){
 				// need to tell the GraphView to stop
 				stop(true);
-
 			} else if(target == doneB){
 				// let our parent know we've been done'd
 				if(container != null){

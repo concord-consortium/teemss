@@ -91,17 +91,16 @@ public class LObjDataCollectorProp extends LabObjectView
 																		   CCProb.INTERFACE_PORT_A);
 		dataSources.add(newDS);
 
+		/*
 		int numSources = waba.sys.Convert.toInt(numDCs.getText());
 		for(int i= 1; i < numSources; i++){
 			dataSources.add(null);
 		}
+		*/
+
 		dc.setDataSources(dataSources);
 
-		GraphSettings gs = graph.getNewGS();
-		gs.setXUnit(CCUnit.getUnit(CCUnit.UNIT_CODE_S));
-		gs.setXLabel("Time");
-		gs.setYLabel(newDS.getLabel());
-		gs.setYUnit(newDS.getUnit());
+		graph.addDataSource(newDS);
 
 		graph.store();
 
@@ -109,7 +108,7 @@ public class LObjDataCollectorProp extends LabObjectView
 			dc.name = nameEdit.getText();
 		}
 
-		dc.closeSources();
+		newDS.closeEverything();
 
 		super.close();
     }

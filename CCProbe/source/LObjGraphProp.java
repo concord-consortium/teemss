@@ -58,7 +58,7 @@ public class LObjGraphProp extends LabObjectView
 
 	public void setupProperties()
 	{
-		GraphSettings curGS = graph.curGS;
+		GraphSettings curGS = graph.getCurGraphSettings();
 		if(curGS == null) return;
 
 		props = new PropContainer();
@@ -94,7 +94,7 @@ public class LObjGraphProp extends LabObjectView
 
 	public void actionPerformed(ActionEvent e)
 	{
-		GraphSettings curGS = graph.curGS;
+		GraphSettings curGS = graph.getCurGraphSettings();
 
 		if(e.getActionCommand().equals("Apply")){
 			if(curGS == null) return;
@@ -124,10 +124,10 @@ public class LObjGraphProp extends LabObjectView
 
 			if(!graph.autoTitle){
 				graph.title = newTitle;
-				graph.curGS.setYLabel(newYLabel);
+				curGS.setYLabel(newYLabel);
 			}
 			
-			if(graph.gv != null) graph.gv.updateProp();
+			graph.notifyObjListeners(new LabObjEvent(graph, 0));
 		} else {
 			// this is a cancel or close
 			if(container != null){

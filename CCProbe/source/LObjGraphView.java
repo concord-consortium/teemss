@@ -27,10 +27,12 @@ class TimeBin implements DecoratedValue
 }
 
 public class LObjGraphView extends LabObjectView
-    implements ActionListener
+    implements ActionListener, LabObjListener
 {
     LObjGraph graph;
     AnnotView av = null;
+
+	Vector axisVector = new Vector();
 
 	Choice viewChoice = null;
 	LineGraphMode lgm = null;
@@ -70,7 +72,16 @@ public class LObjGraphView extends LabObjectView
 		graph = g;
 		lObj = g;	
 
+		graph.addLabObjListener(this);
+
     }
+
+	public void labObjChanged(LabObjEvent e)
+	{
+		if(e.getObject() == graph){
+			av.update();
+		}
+	}
 
 	public void addMenus()
 	{
@@ -96,20 +107,6 @@ public class LObjGraphView extends LabObjectView
 		instant = true;
 	}		
 
-	public void updateProp()
-	{
-		if(graph.curGS == null) return;
-		if(graph.curDS != null){
-			graph.curGS.setYUnit(graph.curDS.getUnit());
-			if(graph.autoTitle){
-				graph.curGS.setYLabel(graph.curDS.getLabel());
-				graph.title = graph.curDS.getSummary();
-			}
-		}
-		av.update();
-		postEvent(new ControlEvent(1001, this));
-	}
-
     public void actionPerformed(ActionEvent e)
     {
 		String command;
@@ -121,27 +118,9 @@ public class LObjGraphView extends LabObjectView
 			}
 		} else {
 			if(e.getActionCommand().equals("Save Data..")){
-				LObjDataSet dSet = DataObjFactory.createDataSet();
-
-				LObjGraph dsGraph = (LObjGraph)graph.copy();
-				dsGraph.name = "Graph";
-
-				dSet.setDataViewer(dsGraph);
-				graph.curGS.saveData(dSet);
-
-				if(dataDict != null){
-					dataDict.add(dSet);
-					dSet.store();
-				} else {
-					// for now it is an error
-					// latter it should ask the user for the name
-				}
+				graph.saveCurData(dataDict);
 			} else if(e.getActionCommand().equals("Export Data..")){
-				Bin curBin = graph.curGS.getBin();
-				if(curBin != null){
-					curBin.description = graph.title;
-					DataExport.export(curBin, av.lGraph.annots);
-				}
+				graph.exportCurData(av.lGraph.annots);
 			}
 		}
 	}
@@ -271,36 +250,35 @@ public class LObjGraphView extends LabObjectView
 		xaxis = new SplitAxis(Axis.BOTTOM);
 		yaxis = new ColorAxis(Axis.LEFT);
 		yaxis.setMaxDigits(6);
+		axisVector.add(xaxis);
+		axisVector.add(yaxis);
 
 		// This is just a hack
 		if(gHeight < 1) gHeight = 1;
 			
 		av = new AnnotView(width, gHeight, xaxis, yaxis);
 		av.setPos(0,curY);
-		Bin curBin = new Bin(xaxis.lastAxis, yaxis);
-		av.addBin(curBin);
 
 		GraphSettings gs = (GraphSettings)graph.graphSettings.get(0);
-		gs.init(this, (Object)av, curBin, xaxis, yaxis);
+		gs.init(this, (Object)av, xaxis, yaxis);
 
 		for(int i=1; i<graph.graphSettings.getCount(); i++){
 			xaxis = new SplitAxis(Axis.BOTTOM);
 			yaxis = new ColorAxis(Axis.LEFT);
 			yaxis.setMaxDigits(6);
+			axisVector.add(xaxis);
+			axisVector.add(yaxis);
 
 			av.setAxis(xaxis, yaxis);
 
-			curBin = new Bin(xaxis.lastAxis, yaxis);
-			av.addBin(curBin);
-
 			gs = (GraphSettings)graph.graphSettings.get(i);
-			gs.init(this, (Object)av, curBin, xaxis, yaxis);
+			gs.init(this, (Object)av, xaxis, yaxis);
 		}
 
 		add(av);
 
 		if(instant){
-			graph.startDataDelivery();
+			graph.startAll();
 			instant = false;
 		}
     }
@@ -309,10 +287,15 @@ public class LObjGraphView extends LabObjectView
     {
 		Debug.println("Got close in graph");
 
-		av.free();
-		if(yaxis != null)yaxis.free();
-		if(xaxis != null)xaxis.free();
-		graph.removeGV();
+		if(av != null) av.free();
+		graph.closeAll();
+		
+		for(int i=0; i<axisVector.getCount(); i++){
+			Axis ax = (Axis)axisVector.get(i);
+			if(ax != null) ax.free();
+		}
+
+		graph.delLabObjListener(this);
 		graph.store();
 		super.close();
     }
@@ -320,6 +303,7 @@ public class LObjGraphView extends LabObjectView
 	int numStarted = 0;
 	public void startGraph(Object cookie, Bin curBin)
 	{
+		av.addBin(curBin);
 		dd.addBin(curBin);
 		numStarted++;
 		av.lgView.autoScroll = true;
@@ -331,49 +315,28 @@ public class LObjGraphView extends LabObjectView
 		dd.update();
 	}
 
-	public void stopGraph()
-	{
-		if(graph.graphSettings == null){
-			return;
-		}
-
-		for(int i=0; i<graph.graphSettings.getCount(); i++){
-			GraphSettings gs = (GraphSettings)graph.graphSettings.get(i);
-			gs.stopGraph();
-		}
-	}
-
 	// Right this requires the caller to call repaint()
-	public Bin stopGraph(Object cookie, Bin curBin, 
-						 boolean newBin, SplitAxis xaxis)
+
+	// This is a mess
+	public void stopGraph(Object cookie, Bin curBin) 
 	{
 		numStarted--;
 
+		av.removeBin(curBin);
 		dd.removeBin(curBin);
-
-		if(numStarted == 0 && (curBin.maxX < 0 || curBin.getNumVals() < 3)){
-			curBin.reset();
-			curBin.xaxis = xaxis.lastAxis;
-			curBin.label = "Probe";
-		} else {
-			av.removeBin(curBin);
-
-			if(newBin){
-				xaxis.addAxis(curBin.maxX);
-				curBin = new Bin(xaxis.lastAxis, curBin.yaxis);
-				curBin.label = "Probe";
-				av.addBin(curBin);
-			} else {
-				curBin = null;
-			}
-		}
-		av.update();
 
 		if(numStarted == 0){
 			av.lgView.autoScroll = false;
 			postEvent(new ControlEvent(1000, this));	
 		}
-		return curBin;
+
+		av.update();
+	}
+
+	public void clear(Object cookie, Bin curBin)
+	{
+		av.removeBin(curBin);
+		dd.removeBin(curBin);		
 	}
 
     public void onEvent(Event e)
@@ -436,7 +399,10 @@ public class LObjGraphView extends LabObjectView
 		} else if(e.type == 1005){
 			graph.showAxisProp(1);
 		} else if(e.type == 1006){
-			graph.curGS.updateGS();
+			// really this shouldn't be necessay
+			// the graph settings can listen to the axis
+			GraphSettings curGS = graph.getCurGraphSettings();
+			curGS.updateGS();
 		} else if(e.target == viewChoice){
 			if(e.type == ControlEvent.PRESSED){
 				int index = viewChoice.getSelectedIndex();
@@ -463,7 +429,7 @@ public class LObjGraphView extends LabObjectView
 				case 1:
 					break;
 				case 2:
-					GraphSettings gs = graph.curGS;
+					GraphSettings gs = graph.getCurGraphSettings();
 					if(gs.calcVisibleRange()){
 						float margin = (gs.maxVisY - gs.minVisY)*0.1f;
 						int count=0;
@@ -500,27 +466,17 @@ public class LObjGraphView extends LabObjectView
     public void clear()
     {
 		// ask for confirmation????
+		graph.clearAll();
+
 		postEvent(new ControlEvent(1000, this));
 		av.reset();
 	
 		// Clear curBin and set time to 0
 		timeBin.setValue(0f);
 
-		if(graph.graphSettings == null){
-			return;
-		}
-
-		for(int i=0; i<graph.graphSettings.getCount(); i++){
-			GraphSettings gs = (GraphSettings)graph.graphSettings.get(i);
-			gs.clear();
-		}
 		numStarted = 0;
 
 		dd.update();
     }
 
-	public void clear(Object cookie, Bin curBin)
-	{
-		dd.removeBin(curBin);		
-	}
 }

@@ -11,30 +11,20 @@ import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.util.*;
 import extra.util.*;
 
-public class LObjGraph extends LabObject
+public class LObjGraph extends LObjSubDict
 {
     String title = null;
 	boolean autoTitle = false;
 
 	Vector graphSettings = null;
-	GraphSettings curGS = null;
+	//	GraphSettings curGS = null;
 
-	LObjGraphView gv = null;
+	int numDataSources = 0;
+	int curGSIndex = -1;
 
     public LObjGraph()
     {
 		super(DataObjFactory.GRAPH);
-	}
-
-	public GraphSettings getNewGS()
-	{
-		if(graphSettings == null){
-			graphSettings = new Vector();
-			curGS = new GraphSettings();
-			graphSettings.add(curGS);
-		}
-
-		return curGS;
 	}
 
     public void showAxisProp()
@@ -54,115 +44,217 @@ public class LObjGraph extends LabObject
 		}
     }
 
+	public void addDataSource(DataSource ds)
+	{
+		addDataSource(ds, true);
+	}
+
+	public void addDataSource(DataSource ds, boolean newSettings)
+	{
+		if(ds instanceof LabObject){
+			if(graphSettings == null){
+				graphSettings = new Vector();
+				curGSIndex = 0;
+				numDataSources = 0;
+			}
+			setObj((LabObject)ds, numDataSources);
+			if(newSettings){
+				GraphSettings gs = new GraphSettings(this, numDataSources);
+				gs.setXUnit(CCUnit.getUnit(CCUnit.UNIT_CODE_S));
+				gs.setXLabel("Time");
+				gs.setYLabel(ds.getLabel());
+				gs.setYUnit(ds.getUnit());
+				title = ds.getSummary();
+
+				graphSettings.add(gs);
+			} else if(graphSettings.getCount() > numDataSources){
+				GraphSettings gs = (GraphSettings)graphSettings.get(numDataSources);
+				gs.dsIndex = numDataSources;
+			}
+			numDataSources++;
+		}
+	}
+
+	public DataSource getDataSource(int index)
+	{
+		if(index >= 0 && index < numDataSources){
+			LabObject obj = getObj(index);
+			if(obj instanceof DataSource){
+				return (DataSource)obj;
+			}
+		}
+		return null;
+	}
+
+	public GraphSettings getCurGraphSettings()
+	{
+		if(graphSettings != null &&
+		   curGSIndex >= 0 &&
+		   curGSIndex < graphSettings.getCount()){
+			return (GraphSettings)graphSettings.get(curGSIndex);
+		}
+		return null;
+	}
+
     public LabObjectView getPropertyView(ViewContainer vc, LObjDictionary curDict){
 		return new LObjGraphProp(vc, this, 0);
 	}
 
     public LabObjectView getView(ViewContainer vc, boolean edit, LObjDictionary curDict)
     {
-		if(graphSettings != null){
-			curGS = (GraphSettings)graphSettings.get(0);
-		}
-
-		gv = new LObjGraphView(vc, this, curDict);
-		return gv;
+		return new LObjGraphView(vc, this, curDict);
     }
 
-	public void removeGV()
+
+	public void store()
 	{
 		if(autoTitle) name = "..auto_title..";
-
-		if(curDS != null){
-			curDS.removeDataListener(curGS);
-		}
-
-		gv = null;
+		
+		super.store();
 	}
 
     public void readExternal(DataStream ds)
     {
 		super.readExternal(ds);
 		title = ds.readString();
-		int numSettings = ds.readInt();
-		if(numSettings <= 0) return;
+		numDataSources = ds.readInt();
+		if(numDataSources <= 0) return;
 
-		graphSettings = new Vector(numSettings);
-		for(int i=0; i<numSettings; i++){
-			GraphSettings gs = new GraphSettings();
+		curGSIndex = ds.readInt();
+
+		graphSettings = new Vector(numDataSources);
+		for(int i=0; i<numDataSources; i++){
+			GraphSettings gs = new GraphSettings(this, i);
 			gs.readExternal(ds);
 			graphSettings.add(gs);
 		}
 		
+		
+		if(name != null && name.equals("..auto_title..")){
+			autoTitle = true;
+		} 			
 		// little white hack
-		curGS = (GraphSettings)graphSettings.get(0);
+		// curGS = (GraphSettings)graphSettings.get(0);
     }
 
     public void writeExternal(DataStream ds)
     {
 		super.writeExternal(ds);
 		ds.writeString(title);
-		if(graphSettings == null ||
-		   graphSettings.getCount() <= 0){
+
+		if(numDataSources <= 0 ||
+		   graphSettings == null ||
+		   numDataSources != graphSettings.getCount()){
 			ds.writeInt(0);		
 			return;
 		} else {
-			ds.writeInt(graphSettings.getCount());
+			ds.writeInt(numDataSources);
 		}
+		
+		ds.writeInt(curGSIndex);
 
 		for(int i=0; i<graphSettings.getCount(); i++){
 			GraphSettings gs = (GraphSettings)graphSettings.get(i);
 			gs.writeExternal(ds);
 		}
     }
+
+	public LabObject copy(int gsIndex)
+	{
+		if(gsIndex >= 0 &&
+		   gsIndex < numDataSources){
+			LObjGraph g = DataObjFactory.createGraph();
+			
+			g.title = title.toString();
+			g.graphSettings = new Vector(graphSettings.getCount());
+		
+			GraphSettings gs = (GraphSettings)graphSettings.get(gsIndex);
+			g.graphSettings.add(gs.copy(g));
+			g.curGSIndex = 0;
+			g.numDataSources = 0;
+			
+			return g;
+		}
+
+		return null;
+	}
+
 	
 	public LabObject copy()
 	{
-		LObjGraph g = DataObjFactory.createGraph();
+		return copy(0);
+	}
 
-		g.title = title.toString();
-		g.graphSettings = new Vector(graphSettings.getCount());
-		
+	public void startAll()
+	{ 
+		if(graphSettings == null) return;
 		for(int i=0; i<graphSettings.getCount(); i++){
 			GraphSettings gs = (GraphSettings)graphSettings.get(i);
-			g.graphSettings.add(gs.copy());
+			if(gs != null) gs.startDataDelivery();
 		}
-
-		return g;
 	}
 
-	public void startDataDelivery()
+	public void stopAll()
 	{
-		curDS.startDataDelivery();
+		if(graphSettings == null) return;
+		for(int i=0; i<graphSettings.getCount(); i++){
+			GraphSettings gs = (GraphSettings)graphSettings.get(i);
+			if(gs != null) gs.stopDataDelivery();
+		}
+	}		
+
+	public void clearAll()
+	{
+		if(graphSettings == null) return;
+		for(int i=0; i<graphSettings.getCount(); i++){
+			GraphSettings gs = (GraphSettings)graphSettings.get(i);
+			gs.clear();
+		}
 	}
 
-	DataSource curDS;
-	int numDataSources = 0;
-	public void addDataSource(DataSource ds)
+	public void closeAll()
 	{
-		if(ds == null) return;
+		if(graphSettings == null) return;
+		for(int i=0; i<graphSettings.getCount(); i++){
+			GraphSettings gs = (GraphSettings)graphSettings.get(i);
+			if(gs != null) gs.close();
+		}
+	}
 
-		// need to pass in object at this point to identify which 
-		// data source is which
-		if(graphSettings == null) graphSettings = new Vector();
+	public void saveCurData(LObjDictionary dataDict)
+	{
+		LObjDataSet dSet = DataObjFactory.createDataSet();
 
-		if(numDataSources < graphSettings.getCount()){
-			curGS = (GraphSettings)graphSettings.get(numDataSources);
-		} else {
-			curGS = new GraphSettings();
-			graphSettings.add(curGS);
+		LObjGraph dsGraph = (LObjGraph)copy();
+		dsGraph.name = "Graph";
+
+		dSet.setDataViewer(dsGraph);
+		GraphSettings curGS = getCurGraphSettings();
+		if(curGS != null){
+			curGS.saveData(dSet);
+
+			if(dataDict != null){
+				dataDict.add(dSet);				
+				dSet.store();
+				dsGraph.addDataSource(dSet, false);
+				dsGraph.store();
+			} else {
+				// for now it is an error
+				// latter it should ask the user for the name
+			}
 		}
 
-		numDataSources++;
-		
-		if(curGS != null) ds.addDataListener(curGS);
-		curDS = ds;
-		if(curDS != null && curGS != null){			
-			curGS.setYUnit(curDS.getUnit());
-			if(name.equals("..auto_title..")){
-				curGS.setYLabel(curDS.getLabel());
-				title = curDS.getSummary();
-				autoTitle = true;
-			} 			
+	}
+
+	public void exportCurData(Vector annots)
+	{
+		GraphSettings curGS = getCurGraphSettings();
+		if(curGS != null){
+			Bin curBin = curGS.getBin();
+			if(curBin != null){
+				curBin.description = title;
+				DataExport.export(curBin, annots);
+			}
 		}
 	}
 }

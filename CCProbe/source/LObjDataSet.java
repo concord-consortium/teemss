@@ -101,7 +101,6 @@ public class LObjDataSet extends LObjSubDict
 			LObjGraph dataView = (LObjGraph)getObj(0);
 			if(dataView != null){
 				gView = (LObjGraphView)dataView.getView(vc, edit);
-				dataView.addDataSource(this);
 				gView.doInstantCollection();
 				return gView;
 			}

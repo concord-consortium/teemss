@@ -56,7 +56,7 @@ public class DataObjFactory
 
 	public static LObjGraph createGraph()
 	{
-		return (LObjGraph) create(GRAPH);
+		return (LObjGraph) create(GRAPH);		
 	}
 	public static LabObject create(int objectType)
 	{

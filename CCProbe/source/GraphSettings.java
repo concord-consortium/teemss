@@ -15,7 +15,7 @@ import org.concord.waba.extra.probware.probs.*;
 import org.concord.LabBook.*;
 
 public class GraphSettings
-    implements DataListener
+    implements DataListener, LabObjListener
 {
     float xmin = 0f, xmax = 100f;
     float ymin = -20f, ymax = 50f;
@@ -39,10 +39,19 @@ public class GraphSettings
 
 	public static int MAX_COLLECTIONS = 10;
 
-	public void init(LObjGraphView gv, Object cookie, Bin bin, 
+	LObjGraph graph = null;
+	int dsIndex = -1;
+	DataSource ds = null;
+
+	public GraphSettings(LObjGraph g, int dataSourceIndex)
+	{
+		graph = g;
+		dsIndex = dataSourceIndex;
+	}
+
+	public void init(LObjGraphView gv, Object cookie,
 					 SplitAxis xAx, ColorAxis yAx)
 	{
-		curBin = bin;
 		gvCookie = cookie;
 		this.gv = gv;
 		xaxis = xAx;
@@ -56,6 +65,58 @@ public class GraphSettings
 
 		xaxis.setRange(xmin, xmax-xmin);
 		yaxis.setRange(ymin, ymax-ymin);		
+
+		if(graph != null && ds == null && dsIndex >= 0){
+			ds = graph.getDataSource(dsIndex);
+		}
+
+		if(ds == null) return;
+
+		if(ds instanceof LObjProbeDataSource){
+			LObjProbeDataSource pDS = (LObjProbeDataSource)ds;
+			pDS.addLabObjListener(this);
+		}			
+		
+		ds.addDataListener(this);
+
+		setYUnit(ds.getUnit());
+		if(graph != null && 
+		   graph.autoTitle){
+			setYLabel(ds.getLabel());
+			graph.title = ds.getSummary();
+			graph.notifyObjListeners(new LabObjEvent(graph, 0));
+		}
+		// might need to do a notify here
+
+	}
+
+	public void labObjChanged(LabObjEvent e)
+	{
+		if(e.getObject() == ds &&
+		   ds != null){
+			setYUnit(ds.getUnit());
+			if(graph != null && 
+			   graph.autoTitle){
+				setYLabel(ds.getLabel());
+				graph.title = ds.getSummary();
+			}
+			graph.notifyObjListeners(new LabObjEvent(graph, 0));
+		}
+	}		
+
+
+	public void close()
+	{
+		// might need to stop the ds first
+		if(ds != null){
+			ds.removeDataListener(this);
+			ds.closeEverything();
+		}
+
+		ds = null;
+
+		// might also need to remove our selves from 
+		// listening to the axis if we are doing that
 	}
 
 	public void setXValues(float min, float max)
@@ -109,33 +170,88 @@ public class GraphSettings
 		xmax = xaxis.getDispMax();
 	}
 
-	public void startGraph(){
-		if(bins.getCount() < MAX_COLLECTIONS && curBin != null){
-			started = true;
-			bins.add(curBin);
-			curBin.time = new Time();
+	// The last x axis should always be empty
+	// when this function is called
+	public void startDataDelivery()
+	{
+		if(ds == null || gv == null) return;
 
+		if(bins.getCount() < MAX_COLLECTIONS){
+			if(curBin == null || curBin.xaxis != xaxis.lastAxis){
+				// either this is the first time
+				// or the curBin is linked to an old xaxis
+				curBin = new Bin(xaxis.lastAxis, yaxis);
+			}
+			bins.add(curBin);
+			curBin.label = "Probe";
+			curBin.setUnit(yUnit);
+			curBin.time = new Time();
 			// Don't quite know what to do here
 			// this should be taken care of by DataSources
 			curBin.description = "";
 
-			if(gv != null) gv.startGraph(gvCookie, curBin);
+			gv.startGraph(gvCookie, curBin);
+
+			started = true;
+			ds.startDataDelivery();
 		}
 	}
 
-	public void stopGraph()
+	public void stopDataDelivery()
 	{
-		if(gv != null && started){
-			started = false;
-			Bin newBin = gv.stopGraph(gvCookie, curBin, 
-									  bins.getCount() < MAX_COLLECTIONS,
-									  xaxis);
-			if(newBin == null) return;
-			curBin = newBin;
-			curBin.setUnit(yUnit);
-			curBin.label = "";
-		}
+		stopDataDelivery(true);
 	}
+
+	public void stopDataDelivery(boolean needDSStop)
+	{
+		if(ds == null || gv == null || !started) return;
+
+		started = false;
+		if(needDSStop) ds.stopDataDelivery();
+		if(curBin == null) return;
+
+		if(curBin.maxX < 0 || curBin.getNumVals() < 3){
+			// Save this bin and xaxis for the next time
+			curBin.reset();
+			// remove this bin because it hasn't been used yet
+			bins.del(bins.getCount() - 1);
+		} else {
+			if(bins.getCount() < MAX_COLLECTIONS){
+				xaxis.addAxis(curBin.maxX);
+			} 
+		}
+		gv.stopGraph(gvCookie, curBin);
+	}
+
+	public void clear()
+	{
+		if(ds == null || gv == null) return;
+
+		if(started){
+			started = false;
+			ds.stopDataDelivery();
+			gv.stopGraph(gvCookie, curBin);
+		}
+
+		// do this for safety incase it isn't done
+		// by the LineGraph
+		xaxis.reset();
+
+		if(curBin != null){
+			// This is a hack need to figure out
+			// about reseting the curBin
+			curBin.reset();
+			curBin.setXAxis(xaxis.lastAxis);
+		}
+
+		// Don't free the last bin
+		for(int i=0 ; i < bins.getCount()-1; i++){
+			Bin bin = (Bin)bins.get(i);
+			if(bin != null) bin.free();
+		}
+		bins = new Vector();
+	}
+	
 
     int numVals = 0;
 
@@ -146,13 +262,13 @@ public class GraphSettings
 	{
 		switch(dataEvent.type){
 		case DataEvent.DATA_READY_TO_START:
-			startGraph();
+			//			startGraph();
 			return;
 		case DataEvent.DATA_COLLECTING:
 			if(gv != null) gv.update(gvCookie, dataEvent.getTime());
 			break;
 		case DataEvent.DATA_STOPPED:
-			stopGraph();
+			if(started) stopDataDelivery(false);
 			break;
 		}
 	}
@@ -161,7 +277,7 @@ public class GraphSettings
     {
 		if(curBin == null || !started) return;
 		if(!curBin.dataReceived(dataEvent)){
-			stopGraph();
+			stopDataDelivery(true);
 			return;		
 		}
     }
@@ -177,6 +293,7 @@ public class GraphSettings
 		}
 	}
 	
+	//???
 	public Bin getBin()
 	{
 		if(bins != null ||
@@ -248,18 +365,6 @@ public class GraphSettings
 		return setRanges;
     }
 
-	public void clear()
-	{
-		started = false;
-		if(gv != null && curBin != null) gv.clear(gvCookie, curBin);
-		for(int i=0 ; i < bins.getCount(); i++){
-			Bin bin = (Bin)bins.get(i);
-			if(bin != null) bin.free();
-		}
-		bins = new Vector();	
-		if(curBin != null) curBin.reset();
-	}
-	
 	public String toString()
 	{
 		return super.toString() + " xmin: " + xmin + " xmax: " + xmax + " xLabel: " + xLabel +
@@ -268,6 +373,7 @@ public class GraphSettings
 
 	public void readExternal(DataStream ds)
 	{
+		dsIndex = ds.readInt();
 		xmin = ds.readFloat();
 		xmax = ds.readFloat();
 		ymin = ds.readFloat();
@@ -286,6 +392,7 @@ public class GraphSettings
 
     public void writeExternal(DataStream ds)
     {
+		ds.writeInt(dsIndex);
 		ds.writeFloat(xmin);
 		ds.writeFloat(xmax);
 		ds.writeFloat(ymin);
@@ -299,9 +406,10 @@ public class GraphSettings
 		else ds.writeInt(yUnit.code);
     }
 
-	public GraphSettings copy()
+	// Note: we aren't copying the dsIndex
+	public GraphSettings copy(LObjGraph newGraph)
 	{
-		GraphSettings g = new GraphSettings();
+		GraphSettings g = new GraphSettings(newGraph, -1);
 
 		g.xmin = xmin;
 		g.ymin = ymin;

@@ -10,7 +10,7 @@ import org.concord.LabBook.*;
 
 public class LObjDataCollector extends LObjSubDict
 {
-	Vector dataSources;
+	private Vector dataSources;
 	int numDataSources = 0;
 	int [][] dsArray;
 
@@ -27,17 +27,19 @@ public class LObjDataCollector extends LObjSubDict
 
     public void init(){
     	super.init();
-		LObjGraph graph = new LObjGraph();
+		LObjGraph graph = DataObjFactory.createGraph();
 		graph.name = "..auto_title..";
+		graph.store();
 		setGraph(graph);
     }
     
 	public void store()
 	{
-		if(dataSources == null) return;
-		for(int i=0; i<dataSources.getCount(); i++){
-			LabObject obj = (LabObject)dataSources.get(i);
-			if(obj != null) obj.store();
+		if(dataSources != null){
+			for(int i=0; i<dataSources.getCount(); i++){
+				LabObject obj = (LabObject)dataSources.get(i);
+				if(obj != null) obj.store();
+			}
 		}
 		super.store();		
 	}
@@ -72,37 +74,9 @@ public class LObjDataCollector extends LObjSubDict
 		return dataSources;
 	}
 
-	public void start()
-	{ 
-		for(int i=0; i<dataSources.getCount(); i++){
-			DataSource ds = (DataSource)dataSources.get(i);
-			if(ds != null) ds.startDataDelivery();
-		}
-
-	}
-
-	public void stop()
-	{
-		for(int i=0; i<dataSources.getCount(); i++){
-			DataSource ds = (DataSource)dataSources.get(i);
-			if(ds != null) ds.stopDataDelivery();
-		}
-	}		
-
-	public void closeSources()
-	{
-		for(int i=0; i<dataSources.getCount(); i++){
-			DataSource ds = (DataSource) dataSources.get(i);
-			if(ds != null) ds.closeEverything();
-		}
-	}
-
-	LObjDataCollectorView dcv = null;
-
     public LabObjectView getView(ViewContainer vc, boolean edit, LObjDictionary curDict)
     {
-		dcv = new LObjDataCollectorView(vc, this, curDict);
-		return dcv;
+	    return new LObjDataCollectorView(vc, this, curDict);
     }
     public LabObjectView getPropertyView(ViewContainer vc, LObjDictionary curDict){
 		return new LObjDataCollectorProp(vc, this, curDict);
