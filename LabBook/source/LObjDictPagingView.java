@@ -233,7 +233,7 @@ public class LObjDictPagingView extends LabObjectView
 
 		curObj = obj;
 
-		lObjView = obj.getView(this, editStatus);
+		lObjView = obj.getView(this, editStatus,dict);//dima add dict
 
 		lObjView.layout(false);
 		if(width > 0 || height > 15){
