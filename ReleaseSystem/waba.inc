@@ -133,7 +133,7 @@ test-var:
 
 $(BIN_DIR)/$(MW_CLASS).jar: $(BIN_DIR) $(CLASSES_DIR)/$(JAR_BUILD)
 	cd $(CLASSES_DIR)/$(JAR_BUILD); jar c0vf ../../$(BIN_DIR)/$(MW_CLASS).jar $(EXT_FILES) *.class \
--C $(WABA_DIR) waba/ -C $(WEXTRA_CLASSES-) org/ -C $(WEXTRA_CLASSES-) extra/ \
+-C $(WABA_DIR) waba/ -C $(WEXTRA_CLASSES-) org/ \
 $(JAR_LIST)
 ifeq ($(shell [ -f $(WABA_DIR)/../jars/serialImpl.jar ] || echo false),)
 	mkdir __tmpjar__
