@@ -64,11 +64,20 @@ $(CLASSES_DIR): FORCE
 	$(foreach plat, $(PLATFORMS), $(MAKE) PLATFORM=$(plat) $(CLASSES_DIR)/$(plat);)
 endif
 
-ifneq ($(PLATFORM),)
+ifeq ($(PLATFORM),)
+$(PLATFORMS:%=$(CLASSES_DIR)/%): $(CLASSES_DIR)/% :
+	$(MAKE) PLATFORM=$* $@
+
+else 
+
 $(CLASSES_DIR)/$(PLATFORM): source/*.java $(wildcard source/$(PLATFORM)/*.java)
 	[ -d $@ ] || mkdir $@
 	javac -classpath $@:$(call PLATFORM_CP,$(PLATFORM)):$(call COMPILE_CP,$(PLATFORM)) -d $@ -O $?
 	touch $@
+
+$(patsubst %,$(CLASSES_DIR)/%,$(filter-out $(PLATFORM),$(PLATFORMS))):$(CLASSES_DIR)/%:
+	$(MAKE) PLATFORM=$* $@
+
 endif
 
 $(BIN_DIR) $(WJUMP_DIR):
