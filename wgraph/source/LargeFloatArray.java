@@ -94,11 +94,31 @@ public class LargeFloatArray
 
     public boolean addFloats(float [] vals, int start, int step, int count)
     {
+	float val;
+
+	if(isFull) return false;
+
+	float [] data = (float [])chunks.get(curChunk);
+
 	for(int i=start; i<count*step; i+=step){
-	    if(!addFloat(vals[i])){
-		return false;
+	    val = vals[i];
+	    data[curIndex] = val - ref;
+	    
+	    if(max < val) max = val;
+	    if(min > val) min = val;
+
+	    curIndex++;
+	    if(curIndex >= ChunkSize){
+		curChunk++;
+		curIndex = 0;
+		if(curChunk >= MaxNumChunks){
+		    isFull = true;		
+		    return false;
+		}
+		chunks.add(new float [ChunkSize]);
 	    }
 	}
+
 	return true;
     }
 

@@ -152,6 +152,7 @@ public class Bin
 	int newX, newY;
 	int curPtPos = (numPoints-1)*3;
 	int avgY;
+	float xMult = dT*xscale;
 
 	if(numPoints < 2){
 	    recalc(xscale, yscale);
@@ -164,7 +165,8 @@ public class Bin
 
 	i=lastCalcValue;
 
-	newX = (int)(dT*i * xscale);
+	
+	newX = (int)((float)i * xMult);
 	newY = (int)(lfArray.getFloat(i) * yscale);
 	i++;		
 
@@ -175,7 +177,7 @@ public class Bin
 		if(newY > maxPtY) maxPtY = newY;
 		else if(newY < minPtY) minPtY = newY;
 
-		newX = (int)(dT*(float)i * xscale);
+		newX = (int)((float)i * xMult);
 		newY = (int)(lfArray.getFloat(i) * yscale);
 		i++;		
 

@@ -31,6 +31,8 @@ public class LabelBuf extends Control
 
     String text;
     Font font = MainWindow.defaultFont;
+    FontMetrics fm = null;
+    int fmHeight = -1;
     int align = LEFT;
 
     public LabelBuf(String t){
@@ -54,10 +56,19 @@ public class LabelBuf extends Control
 	draw();
     }
 	
+    public void setRect(int x, int y, int w, int h){
+	super.setRect(x,y,w,h);
+	if(fmHeight != -1){
+	    textY = (h - fmHeight)/2;
+	}
+    }
+
     public void setFont(Font f)
     {
 	font = f;
     }
+
+    int textY;
 
     public void onPaint(Graphics g)
     {
@@ -65,6 +76,9 @@ public class LabelBuf extends Control
 	    Rect r = getRect();
 	    buffer = new Image(r.width, r.height);
 	    bufG = new Graphics(buffer);
+	    fm = getFontMetrics(font);
+	    fmHeight = fm.getHeight();
+	    textY = (this.height - fmHeight) / 2;
 	}
 
 	bufG.setColor(255,255,255);
@@ -72,9 +86,9 @@ public class LabelBuf extends Control
 	bufG.setColor(0,0,0);
 
 	bufG.setFont(font);
-	FontMetrics fm = getFontMetrics(font);
+
 	int x = 0;
-	int y = (this.height - fm.getHeight()) / 2;
+	int y = (this.height - fmHeight) / 2;
 	if (align == CENTER)
 		x = (this.width - fm.getTextWidth(text)) / 2;
 	else if (align == RIGHT)
