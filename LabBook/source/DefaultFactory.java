@@ -36,10 +36,10 @@ public class DefaultFactory
 				obj= new LObjDocument();
 				break;
 			case OUTPUT_SET:
-				obj= new LObjOutputSet();
+				obj = null;
 				break;
 			case QUESTION:
-				obj= new LObjQuestion();
+				obj = null;
 				break;
 			case DRAWING:
 				obj= new LObjDrawing();
@@ -55,15 +55,13 @@ public class DefaultFactory
 	}
 
 	public void createLabBookObjDescriptors(){
-		labBookObjDesc = new LabObjDescriptor[8];
+		labBookObjDesc = new LabObjDescriptor[6];
 		labBookObjDesc[0] = new LabObjDescriptor("Folder",DICTIONARY);
 		labBookObjDesc[1] = new LabObjDescriptor("Form",FORM);
 		labBookObjDesc[2] = new LabObjDescriptor("Notes",DOCUMENT);
-		labBookObjDesc[3] = new LabObjDescriptor("OutputSet",OUTPUT_SET);
-		labBookObjDesc[4] = new LabObjDescriptor("Questions",QUESTION);
-		labBookObjDesc[5] = new LabObjDescriptor("Drawing",DRAWING);
-		labBookObjDesc[6] = new LabObjDescriptor("Image",IMAGE);
-		labBookObjDesc[7] = new LabObjDescriptor("SuperNotes",CCTEXTAREA);
+		labBookObjDesc[3] = new LabObjDescriptor("Drawing",DRAWING);
+		labBookObjDesc[4] = new LabObjDescriptor("Image",IMAGE);
+		labBookObjDesc[5] = new LabObjDescriptor("SuperNotes",CCTEXTAREA);
 	}
 
 	public static LabObject create(int objectType)
@@ -75,16 +73,6 @@ public class DefaultFactory
 	public static LObjDictionary createDictionary()
 	{
 		return (LObjDictionary)create(DICTIONARY);
-	}
-
-	public static LObjQuestion createQuestion()
-	{
-		return (LObjQuestion) create(QUESTION);
-	}
-
-	public static LObjOutputSet createOutputSet()
-	{
-		return (LObjOutputSet) create(OUTPUT_SET);
 	}
 
 	public static LObjDocument createDocument()

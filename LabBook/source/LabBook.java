@@ -454,12 +454,12 @@ public class LabBook
 	public void release(LabObject lObj)
 	{
 		LabObjectPtr curObjPtr = null;
-		LabObjectPtr lObjPtr = lObj;
+		LabObjectPtr lObjPtr = lObj.ptr;
 
 		int numLoaded = loaded.getCount();
 		// if this is true we have major problems
 		// if(lObjPtr.devId == -1 && lObjPtr.objId == -1) return null;
-		for(i=0; i<numLoaded; i++){
+		for(int i=0; i<numLoaded; i++){
 			curObjPtr = (LabObjectPtr)loaded.get(i);
 			if(curObjPtr.equals(lObjPtr)){
 				// found it
