@@ -170,6 +170,15 @@ public class PropertyView extends Container
 				propertiesPanes[currContainer].add(lName);
 				propertiesPanes[currContainer].add(c);
 			}
+
+			// Ugly hack by Scott
+			PropContainer pc = propContainer.getPropertiesContainer(currContainer);
+			if(pc.buttonName != null){
+				int bWidth = fm.getTextWidth(pc.buttonName) + 5;
+				Button b = new Button(pc.buttonName);
+				b.setRect(labelStartX+maxLabelWidth+spaceSize, y0, bWidth, 16);
+				propertiesPanes[currContainer].add(b);
+			}
 		}
 		add(propertiesPanes[currContainer]);
 		currentPane = propertiesPanes[currContainer];
