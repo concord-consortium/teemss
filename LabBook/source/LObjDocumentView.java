@@ -12,19 +12,22 @@ public class LObjDocumentView extends LabObjectView
     LObjDocument doc;
     Button doneButton;
 
-    public LObjDocumentView(LObjDocument d)
+    public LObjDocumentView(LObjViewContainer vc, LObjDocument d)
     {
+	super(vc);
+
 	doc = d;
 	lObj = (LabObject)doc;
     }
+
+    public boolean showName = true;
     
-    public void layout(boolean sDone, boolean sName)
+    public void layout(boolean sDone)
     {
 	if(didLayout) return;
 	didLayout = true;
 
 	showDone = sDone;
-	showName = sName;
 
 	if(showName){
 	    nameEdit = new Edit();
@@ -51,7 +54,7 @@ public class LObjDocumentView extends LabObjectView
     public void setRect(int x, int y, int width, int height)
     {
 	super.setRect(x,y,width,height);
-	if(!didLayout) layout(false, false);
+	if(!didLayout) layout(false);
 
 	if(showDone){
 	    edit.setRect(0,0,width,height-15);
@@ -63,7 +66,7 @@ public class LObjDocumentView extends LabObjectView
 
     public void close()
     {
-	System.out.println("Got close in document");
+	Debug.println("Got close in document");
 	if(showName){
 	    doc.name = nameEdit.getText();
 	}

@@ -20,13 +20,14 @@ public class LObjQuestionEditView extends LabObjectView
 
     LabObjectView options = null;
 
-    public LObjQuestionEditView(LObjQuestion lq)
+    public LObjQuestionEditView(LObjViewContainer vc, LObjQuestion lq)
     {
+	super(vc);
 	quest = lq;
 	lObj = (LabObject)lObj;
 	typeChoice.setSelectedIndex(quest.questionType);
 	if(quest.options != null){
-	    options = quest.options.getView(true);
+	    options = quest.options.getView(null, true);
 	}
     }
 
@@ -38,8 +39,8 @@ public class LObjQuestionEditView extends LabObjectView
 		if(options == null){
 		    LObjDictionary optionsDict = new LObjDictionary();
 		    optionsDict.viewType = LObjDictionary.PAGING_VIEW;
-		    options = optionsDict.getView(true);
-		    options.layout(false, false);
+		    options = optionsDict.getView(null, true);
+		    options.layout(false);
 		    options.setRect(1, (height - 16)/2 + 40, 140, 100);		    
 		    add(options);
 		}
@@ -56,14 +57,15 @@ public class LObjQuestionEditView extends LabObjectView
 	    }	    
 	}
     }
+    
+    public boolean showName = true;
 
-    public void layout(boolean sDone, boolean sName)
+    public void layout(boolean sDone)
     {
 	if(didLayout) return;
 	didLayout = true;
 
 	showDone = sDone;
-	showName = sName;
 
 	if(showName){
 	    nameEdit = new Edit();
@@ -74,8 +76,9 @@ public class LObjQuestionEditView extends LabObjectView
 	    nameEdit.setRect(30, 1, 50, 15);
 	    add(nameEdit);
 	} 
-	doc = quest.getQuestionText().getView(true);
-	doc.layout(false, false);
+	doc = quest.getQuestionText().getView(null, true);
+	if(doc instanceof LObjDocumentView) ((LObjDocumentView)doc).showName = false;
+	doc.layout(false);
 	add(doc);
 
 	add(typeLabel);
@@ -85,7 +88,7 @@ public class LObjQuestionEditView extends LabObjectView
 	    if(options == null){
 		LObjDictionary optionsDict = new LObjDictionary();
 		optionsDict.viewType = LObjDictionary.PAGING_VIEW;
-		options = optionsDict.getView(true);
+		options = optionsDict.getView(null, true);
 	    }
 	    add(options);
 	}
@@ -100,7 +103,7 @@ public class LObjQuestionEditView extends LabObjectView
     public void setRect(int x, int y, int width, int height)
     {
 	super.setRect(x,y,width,height);
-	if(!didLayout) layout(false, false);
+	if(!didLayout) layout(false);
 
 	doc.setRect(1, 16, width - 200, (height - 16)/2);
 
@@ -118,7 +121,7 @@ public class LObjQuestionEditView extends LabObjectView
 
     public void close()
     {
-	System.out.println("Got close in document");
+	Debug.println("Got close in document");
 	quest.questionType = typeChoice.getSelectedIndex();
 	if(quest.questionType == quest.MULTIPLE_CHOICE || 
 	   options != null){	    

@@ -19,28 +19,20 @@ public class LObjDocument extends LabObject
 	text = t;
     }
 
-    public LabObjectView getView(boolean edit)
+    public LabObjectView getView(LObjViewContainer vc, boolean edit)
     {
-	return new LObjDocumentView(this);
+	return new LObjDocumentView(vc, this);
     }
 
     public void writeExternal(DataStream out)
     {
-	if(name == null){
-	    out.writeString("_null_name_");
-	    System.out.println("Writing noname doc");
-	} else {
-	    System.out.println("Writing " + name + " doc");
-	    out.writeString(name);
-	}
+	super.writeExternal(out);
 	out.writeString(text);
     }
 
     public void readExternal(DataStream in)
     {
-	name = in.readString();
-	if(name.equals("_null_name_")) name = null;
-	System.out.println("Reading " + name + " doc");
+	super.readExternal(in);
 	
 	text = in.readString();
     }

@@ -18,12 +18,18 @@ public class LObjDataControlView extends LabObjectView
     int gt_height = 40;
     GraphTool gt = null;
 
-    org.concord.waba.extra.ui.Menu menu = new org.concord.waba.extra.ui.Menu("Probe");
+    Menu menu = new Menu("Probe");
 
-    public LObjDataControlView(LObjDataControl dc)
+    public LObjDataControlView(LObjViewContainer vc, LObjDataControl dc)
     {
-	menu.add("Calibrate...");
+	super(vc);
+
+	menu.add("Settings...");
+	menu.add("Save Data...");
 	menu.addActionListener(this);
+	if(vc != null){
+	    vc.addMenu(this, menu);
+	}
 
 	this.dc = dc;
 	lObj = dc;
@@ -31,32 +37,23 @@ public class LObjDataControlView extends LabObjectView
 
     public void dialogClosed(DialogEvent e)
     {
-	System.out.println("Got closed");
+	Debug.println("Got closed");
     }
 
-    public void layout(boolean sDone, boolean sName)
+    public void layout(boolean sDone)
     {
 	if(didLayout) return;
 	didLayout = true;
 
 	showDone = sDone;
-	showName = sName;
-
-	if(showName){
-	    nameEdit = new Edit();
-	    nameEdit.setText(dc.dict.name);
-	    nameLabel = new Label("Name");
-	    add(nameLabel);
-	    add(nameEdit);
-	} 
 
 	if(showDone){
 	    doneButton = new Button("Done");
 	    add(doneButton);
 	} 
 
-	gv = (LObjGraphView)dc.graph.getView(false);
-	gv.layout(false,false);
+	gv = (LObjGraphView)dc.graph.getView(null, false);
+	gv.layout(false);
 	add(gv);
     }
 
@@ -64,16 +61,10 @@ public class LObjDataControlView extends LabObjectView
     public void setRect(int x, int y, int width, int height)
     {
 	super.setRect(x,y,width,height);
-	if(!didLayout) layout(false, false);
+	if(!didLayout) layout(false);
 
 	int curY = 0;
 	int gHeight = height;
-	if(showName){
-	    nameLabel.setRect(1, 1, 30, 15);
-	    nameEdit.setRect(31, 1, 80, 15);
-	    curY = 16;
-	    gHeight -= 16;
-	}
 
 	if(showDone){
 	    doneButton.setRect(width-30,height-15,30,15);
@@ -85,45 +76,37 @@ public class LObjDataControlView extends LabObjectView
 	}
          
 	gv.setRect(0, curY+gt_height, width, gHeight-gt_height);
-
+	
 	gt = new GraphTool(gv.av, dc.probeId, "C", 
 			   width, gt_height);
-
+	
 	gt.setPos(0, curY);
 	add(gt);
-
+	
     }
 
     public void actionPerformed(ActionEvent e)
     {
 	String command;
-	System.out.println("Got action: " + e.getActionCommand());
+	Debug.println("Got action: " + e.getActionCommand());
 
 	if(e.getSource() == menu){
-	    if(e.getActionCommand().equals("Calibrate...")){
+	    if(e.getActionCommand().equals("Settings...")){
 		gt.stop();
 		gt.curProbe.calibrateMe((ExtraMainWindow)(MainWindow.getMainWindow()), this);
 
-		System.out.println("Callllll");
+		Debug.println("Callllll");
 	    }
 
 	}
     }
 
-    public void addViewContainer(LObjViewContainer vc)
-    {
-	container = vc;
-	vc.addMenu(this, menu);
-    }
-
     public void close()
     {
-	System.out.println("Got close in graph");
-	if(showName){
-	    dc.dict.name = nameEdit.getText();
-	}
+	Debug.println("Got close in graph");
 	gv.close();
 	if(container != null)  container.delMenu(this,menu);
+	gt.onExit();
 
     }
 

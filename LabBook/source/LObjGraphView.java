@@ -6,32 +6,22 @@ public class LObjGraphView extends LabObjectView
     LObjGraph graph;
     AnnotView av = null;
 
-    Label nameLabel = null;
-    Edit nameEdit = null;
-
     Button doneButton = null;
 
-    public LObjGraphView(LObjGraph g)
+    public LObjGraphView(LObjViewContainer vc, LObjGraph g)
     {
+	super(vc);
+
 	graph = g;
 	lObj = (LabObject)g;	
     }
 
-    public void layout(boolean sDone, boolean sName)
+    public void layout(boolean sDone)
     {
 	if(didLayout) return;
 	didLayout = true;
 
 	showDone = sDone;
-	showName = sName;
-
-	if(showName){
-	    nameEdit = new Edit();
-	    nameEdit.setText(graph.name);
-	    nameLabel = new Label("Name");
-	    add(nameLabel);
-	    add(nameEdit);
-	} 
 
 	if(showDone){
 	    doneButton = new Button("Done");
@@ -43,16 +33,10 @@ public class LObjGraphView extends LabObjectView
     public void setRect(int x, int y, int width, int height)
     {
 	super.setRect(x,y,width,height);
-	if(!didLayout) layout(false, false);
+	if(!didLayout) layout(false);
 
-	int curY = 0;
+	int curY = 1;
 	int gHeight = height;
-	if(showName){
-	    nameLabel.setRect(1, 1, 30, 15);
-	    nameEdit.setRect(31, 1, 80, 15);
-	    curY = 16;
-	    gHeight -= 16;
-	}
 
 	if(showDone){
 	    doneButton.setRect(width-30,height-15,30,15);
@@ -69,10 +53,7 @@ public class LObjGraphView extends LabObjectView
 
     public void close()
     {
-	System.out.println("Got close in graph");
-	if(showName){
-	    graph.name = nameEdit.getText();
-	}
+	Debug.println("Got close in graph");
 	graph.ymin = av.getYmin();
 	graph.ymax = av.getYmax();
 	graph.xmin = av.getXmin();

@@ -50,7 +50,7 @@ public abstract class LabObject implements TreeNode
     {
 	name = in.readString();
 	if(name.equals("_null_name_")) name = null;
-	System.out.println("Reading " + name + " " + typeNames[objectType]);
+	Debug.println("Reading " + name + " " + typeNames[objectType]);
 
     }
 
@@ -58,9 +58,9 @@ public abstract class LabObject implements TreeNode
     {
 	if(name == null){
 	    out.writeString("_null_name_");
-	    System.out.println("Writing noname " + typeNames[objectType]);
+	    Debug.println("Writing noname " + typeNames[objectType]);
 	} else {
-	    System.out.println("Writing " + name + " " + typeNames[objectType]);
+	    Debug.println("Writing " + name + " " + typeNames[objectType]);
 	    out.writeString(name);
 	}
 
@@ -94,7 +94,7 @@ public abstract class LabObject implements TreeNode
 	return name;
     }
 
-    public LabObjectView getView(boolean edit){return null;}
+    public LabObjectView getView(LObjViewContainer vc, boolean edit){return null;}
 
     public LabObject copy(){return null;}
 }

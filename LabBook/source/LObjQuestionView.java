@@ -13,11 +13,12 @@ public class LObjQuestionView extends LabObjectView
 
     LabObjectView doc;
 
-    public LObjQuestionView(LObjQuestion lq)
+    public LObjQuestionView(LObjViewContainer vc, LObjQuestion lq)
     {
+	super(vc);
 	quest = lq;
 	lObj = (LabObject)lObj;
-	System.out.println("Opening QV for: " + lq.name);
+	Debug.println("Opening QV for: " + lq.name);
     }
 
     public void onEvent(Event e)
@@ -34,25 +35,25 @@ public class LObjQuestionView extends LabObjectView
     LabObjectView [] options;
     LabObjectView essay;
 
-    public void layout(boolean sDone, boolean sName)
+    public void layout(boolean sDone)
     {
 	if(didLayout) return;
 	didLayout = true;
 
 	showDone = sDone;
-	showName = sName;
 
 	if(quest.outputSet.curOutput != null){
 	    // There should be some answers for this question
 	    int index = ((LObjDictionary)(quest.outputSet.mainObject)).getIndex(quest.dict);
-	    System.out.println("Setting answer for " + quest.dict.name +  " #" + index + " in dict: " + 
+	    Debug.println("Setting answer for " + quest.dict.name +  " #" + index + " in dict: " + 
 			       (LObjDictionary)(quest.outputSet.mainObject));
 	    answer = (LabObject)(((LObjDictionary)(quest.outputSet.curOutput)).getChildAt(index));
-	    System.out.println(" Got answer: " + answer);
+	    Debug.println(" Got answer: " + answer);
 	}
 
-	doc = quest.getQuestionText().getView(true);
-	doc.layout(false, false);
+	doc = quest.getQuestionText().getView(null, true);
+	if(doc instanceof LObjDocumentView) ((LObjDocumentView)doc).showName = false;
+	doc.layout(false);
 	add(doc);
 
 	switch(quest.questionType){
@@ -84,8 +85,9 @@ public class LObjQuestionView extends LabObjectView
 		for(int i=0; i<choices.length; i++){
 		    radios[i] = new Radio("");
 		    add(radios[i]);
-		    options[i] = ((LabObject)(choices[i])).getView(false);
-		    options[i].layout(false, false);
+		    options[i] = ((LabObject)(choices[i])).getView(null, false);
+		    if(options[i] instanceof LObjDocumentView) ((LObjDocumentView)options[i]).showName = false;
+		    options[i].layout(false);
 		    if(answers != null){
 			for(int j=0; j<answers.length; j++){
 			    if(choices[i] == answers[j]){
@@ -101,9 +103,9 @@ public class LObjQuestionView extends LabObjectView
 	case quest.ESSAY:
 	    if(answer != null &&
 	       answer instanceof LObjDocument){
-		essay = answer.getView(true);
+		essay = answer.getView(null, true);
 	    } else {		
-		essay = ((new LObjDocument()).getView(true));
+		essay = ((new LObjDocument()).getView(null, true));
 	    }
 	    add(essay);
 	    break;
@@ -119,7 +121,7 @@ public class LObjQuestionView extends LabObjectView
     public void setRect(int x, int y, int width, int height)
     {
 	super.setRect(x,y,width,height);
-	if(!didLayout) layout(false, false);
+	if(!didLayout) layout(false);
 
 	int curY = 1;
 	doc.setRect(1, curY, width, height/2);
@@ -160,7 +162,7 @@ public class LObjQuestionView extends LabObjectView
     public void close()
     {
 	LObjDictionary tmp;
-	System.out.println("Got close in quest");
+	Debug.println("Got close in quest");
 	// Check if answered.  maybe pull up dialog
 
 	// create answer dict if null

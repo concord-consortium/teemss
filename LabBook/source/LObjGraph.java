@@ -16,9 +16,9 @@ public class LObjGraph extends LabObject
 	objectType = GRAPH;
     }
     
-    public LabObjectView getView(boolean edit)
+    public LabObjectView getView(LObjViewContainer vc, boolean edit)
     {
-	return (LabObjectView)(new LObjGraphView(this));
+	return new LObjGraphView(vc, this);
     }
 
     public void readExternal(DataStream ds)

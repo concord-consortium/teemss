@@ -15,8 +15,6 @@ public class LObjDictionaryView extends LabObjectView
     int newIndex = 0;
 
     LObjDictionary dict;
-    Edit nameEdit;
-    RelativeContainer edit = new RelativeContainer();
     GridContainer buttons = null; 
  
     Button doneButton = new Button("Done");
@@ -25,45 +23,46 @@ public class LObjDictionaryView extends LabObjectView
     Button editButton = new Button("Edit");
     Button delButton = new Button("Del");
 
-    org.concord.waba.extra.ui.Menu menu = new org.concord.waba.extra.ui.Menu("Dict");
+    Menu editMenu = new Menu("Edit");
+    Menu viewMenu = new Menu("View");
 
     PropContainer creationProps = new PropContainer();
     PropContainer subCreateProps = creationProps.createSubContainer("Sub");
-    String [] creationTypes = {"Dictionary", "Document", "Questions", "DataControl"};
+    String [] creationTypes = {"Dictionary", "Document", "Questions", "Data Collector"};
     PropObject newObjType = new PropObject("Type", creationTypes);
 
     boolean editStatus = false;
 
-    public LObjDictionaryView(LObjDictionary d)
+    public LObjDictionaryView(LObjViewContainer vc, LObjDictionary d)
     {
+	super(vc);
 	dict = d;
 	lObj = (LabObject)dict;
 	add(me);
-	menu.add("*Pager View");
-	menu.addActionListener(this);
-	
+	editMenu.add("Rename...");
+	viewMenu.add("Paging View");
+	editMenu.addActionListener(this);
+	viewMenu.addActionListener(this);
+
+	if(vc != null){
+	    vc.addMenu(this, editMenu);
+	    vc.addMenu(this, viewMenu);
+	}
+   	
 	creationProps.addProperty(newObjType, "Sub");
     }
 
-    public void layout(boolean sDone, boolean sName)
+    public void layout(boolean sDone)
     {
 	if(didLayout) return;
 	didLayout = true;
 
 	showDone = sDone;
-	showName = sName;
 
-	if(showName){
-	    nameEdit = new Edit();
-	    nameEdit.setText(dict.name);
-	    edit.add(new Label("Name"), 1, 1, 30, 15);
-	    edit.add(nameEdit, 30, 1, 50, 15);
-	} 
 	treeModel = new TreeModel(dict);
 	treeControl = new TreeControl(treeModel);
-	edit.add(treeControl, 1, RelativeContainer.BELOW, 
-		 RelativeContainer.REST, RelativeContainer.REST);
-	me.add(edit);
+	treeControl.showRoot(false);
+	me.add(treeControl);
 
 	if(showDone){
 	    buttons = new GridContainer(5,1);
@@ -81,13 +80,15 @@ public class LObjDictionaryView extends LabObjectView
     public void setRect(int x, int y, int width, int height)
     {
 	super.setRect(x,y,width,height);
-	if(!didLayout) layout(false, false);
+	if(!didLayout) layout(false);
 	
 	me.setRect(0,0, width, height);
-	edit.setRect(0,0,width, height-20);
-	System.out.println("Setting grid size: " + width + " " + height);
+	treeControl.setRect(1,1,width-2, height-22);
+	Debug.println("Setting grid size: " + width + " " + height);
 	buttons.setRect(0,height-20,width,20);
     }
+
+    Dialog newDialog = null;
 
     public void onEvent(Event e)
     {
@@ -98,12 +99,10 @@ public class LObjDictionaryView extends LabObjectView
 	    LabObject newObj;
 	    if(e.target == newButton){
 		if(treeControl.getSelected() == null) return;
-		PropertyDialog pd = new PropertyDialog((org.concord.waba.extra.ui.ExtraMainWindow)MainWindow.getMainWindow(),
-						       this, "Create new lab object", 
-						       creationProps);
-		pd.setRect(50,50, 140,140);
-		//		pd.setContent();
-		pd.show();
+		String [] buttons = {"Cancel", "Create"};
+		newDialog = Dialog.showInputDialog(this, "Create", "Create a new Object",
+						      buttons,Dialog.CHOICE_INP_DIALOG, creationTypes);
+
 	    } else if(e.target == delButton){
 		curNode = treeControl.getSelected();
 		if(curNode == null) return;
@@ -111,16 +110,10 @@ public class LObjDictionaryView extends LabObjectView
 		treeModel.removeNodeFromParent(curNode, parent);
 	    } else if(e.target == openButton){
 		curNode = treeControl.getSelected();
-		if(curNode == null) return;
-		editStatus = false;
-		lObjView = ((LabObject)curNode).getView(false);
-		showPage(lObjView);
+		showPage((LabObject)curNode, false);
 	    } else if(e.target == editButton){
 		curNode = treeControl.getSelected();
-		if(curNode == null) return;
-		editStatus = true;
-		lObjView = ((LabObject)curNode).getView(true);
-		showPage(lObjView);
+		showPage((LabObject)curNode, true);
 	    } else if(e.target == doneButton){
 		if(container != null){
 		    container.done(this);
@@ -129,42 +122,54 @@ public class LObjDictionaryView extends LabObjectView
 	}
     }
 
+    Dialog rnDialog = null;
+
     public void dialogClosed(DialogEvent e)
     {
 	String command = e.getActionCommand();
-	if(!command.equals("Cancel")){
-	    String objType = newObjType.getValue();
-	    LabObject newObj = null;
-	    if(objType.equals("Dictionary")){
-		newObj = (LabObject)new LObjDictionary();
-	    } else if(objType.equals("Document")){
-		newObj = (LabObject)new LObjDocument();
-	    } else if(objType.equals("Questions")){
-		newObj = LObjQuestion.makeNewQuestionSet();
+	if(e.getSource() == newDialog){
+	    if(command.equals("Create")){
+		String objType = (String)e.getInfo();
+		LabObject newObj = null;
+		if(objType.equals("Dictionary")){
+		    newObj = (LabObject)new LObjDictionary();
+		} else if(objType.equals("Document")){
+		    newObj = (LabObject)new LObjDocument();
+		} else if(objType.equals("Questions")){
+		    newObj = LObjQuestion.makeNewQuestionSet();
 
-	    } else if(objType.equals("DataControl")){	       
-		LObjDataControl dc = LObjDataControl.makeNew();
-		newObj = (LabObject)dc.dict;
+		} else if(objType.equals("Data Collector")){	       
+		    LObjDataControl dc = LObjDataControl.makeNew();
+		    newObj = (LabObject)dc.dict;
+		}
+		if(newObj != null){
+		    TreeNode curNode = treeControl.getSelected();
+		    TreeNode parent = treeControl.getSelectedParent();
+		    if(curNode == null) return;
+		    newObj.name = "New" + newIndex;
+		    newIndex++;
+		    treeModel.insertNodeInto((TreeNode)newObj, parent, parent.getIndex(curNode)+1);
+		}
 	    }
-	    if(newObj != null){
-		TreeNode curNode = treeControl.getSelected();
-		TreeNode parent = treeControl.getSelectedParent();
-		if(curNode == null) return;
-		newObj.name = "New" + newIndex;
-		newIndex++;
-		treeModel.insertNodeInto((TreeNode)newObj, parent, parent.getIndex(curNode)+1);
+	} else if(e.getSource() == rnDialog){
+	    if(command.equals("Ok")){
+		LabObject selObj = (LabObject)treeControl.getSelected();
+		if(selObj != null){
+		    selObj.name = (String)e.getInfo();
+		    treeControl.repaint();
+		    // repaint??
+		} else {
+		    dict.name = (String)e.getInfo();
+		    treeControl.repaint();
+		}
 	    }
-	}
-	if(command.equals("Apply")){
-	    ((Dialog)(e.getSource())).hide();
-	    ((org.concord.waba.extra.ui.ExtraMainWindow)(MainWindow.getMainWindow())).setDialog(null);
-	}	   	
+	}		   
     }
 
     public void actionPerformed(ActionEvent e)
     {
 	String command;
-	System.out.println("Got action: " + e.getActionCommand());
+	Debug.println("Got action: " + e.getActionCommand());
 
 	if(e.getSource() == lObjView){
 	    if(e.getActionCommand().equals("Done")){
@@ -172,37 +177,48 @@ public class LObjDictionaryView extends LabObjectView
 		remove(lObjView);
 		add(me);
 	    }
-	} else if(e.getSource() == menu){
-	    if(e.getActionCommand().equals("*Pager View")){
+	} else if(e.getSource() == viewMenu){
+	    if(e.getActionCommand().equals("Paging View")){
 		dict.viewType = dict.PAGING_VIEW;
 		if(container != null){
 		    container.reload(this);
 		}
 	    }
-
+	} else if(e.getSource() == editMenu){	    
+	    if(e.getActionCommand().equals("Rename...")){
+		LabObject selObj = (LabObject)treeControl.getSelected();
+		String [] buttons = {"Cancel", "Ok"};
+		if(selObj != null){
+		    rnDialog = Dialog.showInputDialog(this, "Rename Object", "Old Name was " + selObj.name,
+						      buttons,Dialog.EDIT_INP_DIALOG);
+		} else {
+		    rnDialog = Dialog.showInputDialog(this, "Rename Parent", "Old Name was " + dict.name,
+						      buttons,Dialog.EDIT_INP_DIALOG);
+		}		    
+	    }
 	}
     }
 
-    public void addViewContainer(LObjViewContainer vc)
+    public void showPage(LabObject obj, boolean edit)
     {
-	container = vc;
-	vc.addMenu(this, menu);
-    }
+	if(obj == null) return;
 
-    public void showPage(LabObjectView page)
-    {
-	if(page == null) return;
+	delMenu(this, viewMenu);
+	delMenu(this, editMenu);
 
+	editStatus = edit;
+	lObjView = obj.getView(this, edit);
+
+	if(lObjView == null){
+	    addMenu(this, editMenu);
+	    addMenu(this, viewMenu);
+	    return;
+	}
 	remove(me);
-	if(container != null){
-	    container.delMenu(this, menu);
-	}
-	page.layout(true, true);
-	page.setRect(x,y,width,height);
-	page.addViewContainer(this);
-	add(page);
-	// do I need this
-	// repaint();
+        lObjView.layout(true);
+	lObjView.setRect(x,y,width,height);
+	add(lObjView);
+
     }
 
     public void addMenu(LabObjectView source, org.concord.waba.extra.ui.Menu menu)
@@ -221,9 +237,11 @@ public class LObjDictionaryView extends LabObjectView
 	    lObjView.close();
 	    remove(lObjView);
 	    add(me);
-	    if(container != null) container.addMenu(this, menu);
+	    addMenu(this, editMenu);
+	    addMenu(this, viewMenu);
 	    lObjView = null;
 	}
+	//	System.gc();
     }
 
     public void reload(LabObjectView source)
@@ -233,10 +251,9 @@ public class LObjDictionaryView extends LabObjectView
 	    lObjView.close();
 	    remove(lObjView);
 	    
-	    lObjView = obj.getView(editStatus);
-	    lObjView.layout(true, true);
+	    lObjView = obj.getView(this, editStatus);
+	    lObjView.layout(true);
 	    lObjView.setRect(x,y,width,height);
-	    lObjView.addViewContainer(this);
 	    add(lObjView);
 	}
     }
@@ -248,11 +265,11 @@ public class LObjDictionaryView extends LabObjectView
 
     public void close()
     {
-	if(showName){
-	    dict.name = nameEdit.getText();
-	}
 	
-	if(container != null)  container.delMenu(this,menu);
+	if(container != null){
+	    container.delMenu(this,editMenu);
+	    container.delMenu(this,viewMenu);
+	}
 
 	// Commit ???
 	// Store ??

@@ -29,9 +29,9 @@ public class LObjDataControl extends LObjSubDict
 	objectType = DATA_CONTROL;
     }
 
-    public LabObjectView getView(boolean edit)
+    public LabObjectView getView(LObjViewContainer vc, boolean edit)
     {
-	return new LObjDataControlView(this);
+	return new LObjDataControlView(vc, this);
     }
 
     public void readExternal(DataStream ds)

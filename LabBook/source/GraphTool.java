@@ -52,6 +52,8 @@ public class GraphTool extends Container
 
     CCProb curProbe = null;
 
+    Bin curBin = null;
+
     public GraphTool(AnnotView av, int probeId, 
 		     String units, int w, int h) 
     {
@@ -61,6 +63,7 @@ public class GraphTool extends Container
 
 	this.units = units;
 	lg = av;
+	
 	//	curProbe = probeId;
 
 	convertor.maxDigits = 2;
@@ -108,6 +111,9 @@ public class GraphTool extends Container
 	    clearB.setRect(w-32, h/2, 32, h/2);
 	    add(clearB);	    
 	}
+
+	curBin = lg.getBin();
+
 	curProbe = ProbFactory.createProb(probeId);
 
 	pm.registerProb(curProbe);
@@ -127,23 +133,12 @@ public class GraphTool extends Container
 	int dOff = dataEvent.getDataOffset();
 	float data [] = dataEvent.getData();
 
-	System.out.print("Data: ");
-	for(int i=0; i< dataEvent.getDataDesc().getChPerSample(); i++){
-	    System.out.print(data[dOff+i] + " ");
-	}
-	System.out.println("");
-
-	if(!lg.addPoints(0, dataEvent.getNumbData(), dataEvent.getDataOffset(), 
-			 dataEvent.getDataDesc().getChPerSample(), 
-			 dataEvent.getData(),
-			 dataEvent.getTime(), dataEvent.getDataDesc().getDt())){
+	if(!curBin.dataReceived(dataEvent)){
 	    stop();
 	    lg.curView.draw();
 	    return;		
 	}
 	lg.update();
-	//startingTrans.update();
-
     }
 
 
@@ -152,18 +147,17 @@ public class GraphTool extends Container
 	setRect(x,y,width,height);
     }
 
-    Timer timer = null;
     float oldVal;
 
     public void onExit()
     {
-	if(timer != null){
-	    pm.stop();
-	    removeTimer(timer);
-	    timer = null;
-	    // startingTrans.stop();
+	pm.stop();
+	
+	if(curProbe != null){
+	    pm.unRegisterProb(curProbe);
 	}
-
+	
+	lg.free();
     }
 
     void stop()
@@ -171,7 +165,7 @@ public class GraphTool extends Container
 
 	if(lg.active){
 	    lg.active = false;
-	    lg.pause();
+	    curBin = lg.pause();
 	}
 	
 	pm.stop();
@@ -179,9 +173,6 @@ public class GraphTool extends Container
 	modControl[1].setSelected(true);    
 	repaint();
     }
-
-    float curX = 0f;
-    float curTemp = 0f;
 
     public void onEvent(Event e)
     {
@@ -194,24 +185,9 @@ public class GraphTool extends Container
 		// start
 		lg.active = true;
 		
-		if(timer == null){
-		    bytesRead.setText((byte)'C' + "");
-		    pm.start();
-		    /*
-		    if(pm.start()){
-			
-			 bytesRead.setText("Failed start");
-			
-		    }
-		    */
-		    //		    startingTrans.start();
-		    
-		    //if(timer == null)
-		    //timer = addTimer(50);
+		bytesRead.setText((byte)'C' + "");
+		pm.start();
 
-		    
-		}
-		// timer = null;
 	    } else if(target == modControl[1] && modControl[1].isSelected()){
 		stop();
 	    } else if(target == clearB){
@@ -237,20 +213,6 @@ public class GraphTool extends Container
 		curVal.setText("");
 		curTime.setText("");
 	    }		
-	} else if(e.type == ControlEvent.TIMER){
-	    /*
-	    pm.step();
-
-	    if(pm.response == pm.ERROR){
-		// put up message box
-		// These happen rarely
-		// mb = new MessageBox("Error", pm.msg);
-		// popupModal(mb);			    		
-		// System.out.println("Probe error: " + pm.msg);
-	    }
-	    //	    lg.update();
-	    // startingTrans.update();
-	    */
 	}  
     }
     

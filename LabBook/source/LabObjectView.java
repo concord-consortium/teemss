@@ -4,7 +4,6 @@ import org.concord.waba.extra.ui.*;
 
 public abstract class LabObjectView extends Container
 {
-    protected boolean showName = false;
     protected boolean showDone = false;
     protected boolean didLayout = false;
 
@@ -12,17 +11,23 @@ public abstract class LabObjectView extends Container
 
     LObjViewContainer container = null;
 
-    public abstract void layout(boolean sDone, boolean sName);
-
-    public abstract void close();
-
-    public void addViewContainer(LObjViewContainer vc)
+    public LabObjectView(LObjViewContainer vc)
     {
 	container = vc;
     }
 
+    public abstract void layout(boolean sDone);
+
+    public abstract void close();
+
     public LabObject getLabObject()
     {
 	return lObj;
+    }
+
+    public String getTitle()
+    {
+	if(lObj != null) return lObj.name;
+	else return null;
     }
 }

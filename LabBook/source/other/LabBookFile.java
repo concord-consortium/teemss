@@ -172,7 +172,7 @@ public class LabBookFile implements LabBookDB
 	return true;
     }
 
-    public boolean getError(){return true;};
+    public boolean getError(){return false;};
 
     // search through object Index       
     // and find object bytes
@@ -208,8 +208,6 @@ public class LabBookFile implements LabBookDB
 	int i;
 	FileObject fObj;
 	
-	System.out.println("Writing obj: " + devId + ", " + objId);
-
 	// Find the object
 	for(i=0; i<numObj; i++){
 	    fObj = (FileObject)objects.get(i);

@@ -28,7 +28,7 @@ public abstract class LObjSubDict extends LabObject
 	    }
 	    dict.insert(obj, id);
 	} else {
-	    System.out.println("Removing #" + id + " from dict: " + dict.name);
+	    Debug.println("Removing #" + id + " from dict: " + dict.name);
 	    dict.remove(id);
 	    dict.insert(obj, id);
 	}
@@ -38,7 +38,7 @@ public abstract class LObjSubDict extends LabObject
     public LabObject getObj(int id)
     {
 	LabObject obj = (LabObject)dict.getChildAt(id);
-	if(obj == null) System.out.println("Got null obj from subDict");
+	if(obj == null) Debug.println("Got null obj from subDict");
 
 	return obj;
     }

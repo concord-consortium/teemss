@@ -71,7 +71,7 @@ public class LabBook
 	    // Should be check to see if this pointer already exist in store
 	    // list??
 	} else {
-	    System.out.println("Creating new ptr");
+	    Debug.println("Creating new ptr");
 	    lObjPtr = new LabObjectPtr(curDeviceId, db.getNewObjId(),
 				   lObj);
 	    lObj.ptr = lObjPtr;
@@ -237,8 +237,8 @@ public class LabBook
 	return lObj;
     }
 
-    public void close()
+    public boolean close()
     {
-	db.close();
+	return db.close();
     }
 }

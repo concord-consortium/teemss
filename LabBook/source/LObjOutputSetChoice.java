@@ -17,19 +17,24 @@ public class LObjOutputSetChoice extends LabObjectView
     Button newButton = new Button("New");
     Button openButton = new Button("Open");
 
-    public LObjOutputSetChoice(LObjOutputSet o)
+    Label message = new Label("Previously saved answers or data:");
+
+    public LObjOutputSetChoice(LObjViewContainer vc, LObjOutputSet o)
     {
+	super(vc);
+
 	lObj = (LabObject)o;
 	output = o;
     }
 
-    public void layout(boolean sDone, boolean sName)
+    public void layout(boolean sDone)
     {
 	if(didLayout) return;
 	didLayout = true;
 
 	showDone = sDone;
-	showName = sName;
+
+	add(message);
 
 	treeModel = new TreeModel(output.outputDict);
 	treeControl = new TreeControl(treeModel);
@@ -48,10 +53,11 @@ public class LObjOutputSetChoice extends LabObjectView
     public void setRect(int x, int y, int width, int height)
     {
 	super.setRect(x,y,width,height);
-	if(!didLayout) layout(false, false);
+	if(!didLayout) layout(false);
 	
-	treeControl.setRect(0,0, width, height-20);
-	System.out.println("Setting grid size: " + width + " " + height);
+	message.setRect(1,2, width-2, 18);
+	treeControl.setRect(2,20, width-4, height-40);
+	Debug.println("Setting grid size: " + width + " " + height);
 	buttons.setRect(0,height-20,width,20);
     }
 

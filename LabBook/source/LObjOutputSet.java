@@ -2,15 +2,18 @@ import waba.util.*;
 import waba.ui.*;
 import extra.io.*;
 import org.concord.waba.extra.ui.*;
-import extra.ui.*;
 
 public class LObjOutputSet extends LObjSubDict
+    implements LObjViewContainer
 {
     LabObject curOutput = null;
     LabObject mainObject = null;
     LObjDictionary outputDict = null;
     
+    LObjViewContainer mObjCont = null;
+
     public boolean skipChoice = false;
+
 
     /*
      * need to figure out object loading and storing :(
@@ -59,7 +62,7 @@ public class LObjOutputSet extends LObjSubDict
 	}
     }
 
-    public LabObjectView getView(boolean edit)
+    public LabObjectView getView(LObjViewContainer vc, boolean edit)
     {
 	if(mainObject == null) return null;
 
@@ -68,12 +71,27 @@ public class LObjOutputSet extends LObjSubDict
 	   edit || 
 	   skipChoice){
 	    skipChoice = false;
-	    return mainObject.getView(edit);
+	    mObjCont = vc;
+	    return mainObject.getView(this, edit);
 	}
 
-	return new LObjOutputSetChoice(this);
+	return new LObjOutputSetChoice(vc, this);
 		
     }
+
+    public void addMenu(LabObjectView source, Menu menu){mObjCont.addMenu(source, menu);}
+
+    public void delMenu(LabObjectView source, Menu menu){mObjCont.delMenu(source, menu);}
+
+    public void done(LabObjectView source)
+    {
+	// popup save output menu
+	mObjCont.done(source);
+    }
+    
+    public void reload(LabObjectView source){mObjCont.reload(source);}
+
+    public LObjDictionary getDict(){return mObjCont.getDict();}
 
     public void writeExternal(DataStream out)
     {

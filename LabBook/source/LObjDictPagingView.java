@@ -26,26 +26,30 @@ public class LObjDictPagingView extends LabObjectView
     boolean editStatus = true;
     int defaultNewObjectType = LabObject.DOCUMENT;
 
-    org.concord.waba.extra.ui.Menu menu = new org.concord.waba.extra.ui.Menu("Dict");
+    org.concord.waba.extra.ui.Menu menu = new org.concord.waba.extra.ui.Menu("View");
 
-    public LObjDictPagingView(LObjDictionary d, boolean edit)
+    public LObjDictPagingView(LObjViewContainer vc, LObjDictionary d, boolean edit)
     {
+	super(vc);
+
 	dict = d;
 	lObj = (LabObject)dict;
 	childArray = dict.childArray();
 	index = 0;
-	menu.add("*Tree View");
+	menu.add("Tree View");
 	menu.addActionListener(this);
 	editStatus = edit;
+
+	if(vc != null) vc.addMenu(this, menu);
+	
     }
 
-    public void layout(boolean sDone, boolean sName)
+    public void layout(boolean sDone)
     {
 	if(didLayout) return;
 	didLayout = true;
 
 	showDone = sDone;
-	showName = sName;
 
 	if(showDone){
 	    add(doneButton);
@@ -62,7 +66,7 @@ public class LObjDictPagingView extends LabObjectView
     public void setRect(int x, int y, int width, int height)
     {
 	super.setRect(x,y,width,height);
-	if(!didLayout) layout(false, false);
+	if(!didLayout) layout(false);
 	
 	backButton.setRect(0, height-15, 15, 15);
 	statusLabel.setRect(15, height-15, 40, 15);
@@ -73,7 +77,7 @@ public class LObjDictPagingView extends LabObjectView
 	}
 	if(lObjView != null){
 	    lObjView.setRect(0,0,width, height-15);
-	    System.out.println("Adding lObjView at: " + x + ", " + y +
+	    Debug.println("Adding lObjView at: " + x + ", " + y +
 			       ", " + width + ", " + height);
 	}
     }
@@ -87,7 +91,11 @@ public class LObjDictPagingView extends LabObjectView
 	    LabObject newObj;
 	    if(e.target == nextButton){
 		index++;
-		if(index < childArray.length){
+		if(!editStatus && 
+		   (index >= childArray.length)){
+		    // If edit is turned off make sure they can't add objects
+		    index = childArray.length - 1;
+		} else if(index < childArray.length){
 		    repaint();
 		} else {
 		    if(dict.newObjectTemplate != null){
@@ -125,19 +133,13 @@ public class LObjDictPagingView extends LabObjectView
     public void actionPerformed(ActionEvent e)
     {
 	if(e.getSource() == menu){
-	    if(e.getActionCommand().equals("*Tree View") &&
+	    if(e.getActionCommand().equals("Tree View") &&
 	       container != null){
 		dict.viewType = dict.TREE_VIEW;
 		container.reload(this);
 	    }
 
 	}		
-    }
-
-    public void addViewContainer(LObjViewContainer vc)
-    {
-	container = vc;
-	vc.addMenu(this, menu);
     }
 
     public void addMenu(LabObjectView source, org.concord.waba.extra.ui.Menu menu)
@@ -159,10 +161,9 @@ public class LObjDictPagingView extends LabObjectView
 	    lObjView.close();
 	    remove(lObjView);
 	    
-	    lObjView = obj.getView(editStatus);
-	    lObjView.layout(false, true);
+	    lObjView = obj.getView(this, editStatus);
+	    lObjView.layout(false);
 	    lObjView.setRect(x,y,width,height-15);
-	    lObjView.addViewContainer(this);
 	    add(lObjView);
 	}
     }
@@ -204,15 +205,14 @@ public class LObjDictPagingView extends LabObjectView
 
 	statusLabel.setText((index + 1) + " of " + childArray.length);
 
-	lObjView = obj.getView(editStatus);
+	lObjView = obj.getView(this, editStatus);
 
-	lObjView.layout(false, true);
+	lObjView.layout(false);
 	if(width > 0 || height > 15){
 	    lObjView.setRect(0,0,width,height-15);
-	    System.out.println("Adding lObjView at: " + x + ", " + y +
+	    Debug.println("Adding lObjView at: " + x + ", " + y +
 			       ", " + width + ", " + height);
 	}
-	lObjView.addViewContainer(this);
 	add(lObjView);
 
 	// do I need this

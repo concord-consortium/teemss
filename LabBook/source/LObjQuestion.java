@@ -41,12 +41,12 @@ public class LObjQuestion extends LObjSubDict
 	return me.outputSet.dict;
     }
 
-    public LabObjectView getView(boolean edit)
+    public LabObjectView getView(LObjViewContainer vc, boolean edit)
     {
 	if(edit){
-	    return new LObjQuestionEditView(this);
+	    return new LObjQuestionEditView(vc, this);
 	} else {
-	    return new LObjQuestionView(this);
+	    return new LObjQuestionView(vc, this);
 	}
     }
 
@@ -59,7 +59,7 @@ public class LObjQuestion extends LObjSubDict
 	   questionText != (LObjDocument)dict.getChildAt(1) ||
 	   (questionType == MULTIPLE_CHOICE &&
 	    options != (LObjDictionary)dict.getChildAt(2))){
-	    System.out.println("Question Dict setup wrong");
+	    Debug.println("Question Dict setup wrong");
 	}	
     }
 
@@ -78,10 +78,10 @@ public class LObjQuestion extends LObjSubDict
 
     public void setDict(LObjDictionary d)
     {
-	System.out.println("Setting quest dict");
+	Debug.println("Setting quest dict");
 	super.setDict(d);
 	if(outputSet != null){
-	    System.out.println(" Set non-null outputSet");
+	    Debug.println(" Set non-null outputSet");
 	    setObj(outputSet, 0);
 	} 
 	if(questionText != null) setObj(questionText, 1);
