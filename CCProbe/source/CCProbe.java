@@ -299,7 +299,6 @@ public class CCProbe extends MainView implements CCApplHandlerListener
 		}
 	}
 	public void handlePrefs(){
-		java.awt.Toolkit.getDefaultToolkit().beep();
 	}
 	public void handleAbout(){
 		Dialog.showAboutDialog(aboutTitle,AboutMessages.getMessage());
