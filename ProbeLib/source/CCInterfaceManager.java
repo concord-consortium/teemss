@@ -47,6 +47,7 @@ protected ProbManager	pb = null;
 		dDesc.setChPerSample(2);
 		dEvent.setDataOffset(1);
 		dEvent.setDataDesc(dDesc);
+		System.out.println("start");
 	}
 	public void stop(){
 		if(timer != null){
@@ -240,6 +241,7 @@ protected ProbManager	pb = null;
 			}else if(mode == DIG_COUNT_MODE){
 	    			curData[0] = curStepTime;
 	   			curStepTime += timeStepSize;
+	   			valueData[1+curDataPos++] = value;
 			}
 			curData[curChannel+1] = (float)value * tuneValue;
 			if(syncChannels){

@@ -9,7 +9,7 @@ import java.io.FileInputStream;
 public class SerialChoiceDialog extends java.awt.Dialog implements java.awt.event.ActionListener, java.awt.event.ItemListener{
 java.awt.Choice choice = null;
 	public SerialChoiceDialog(java.awt.Frame parent){
-		super(parent,"Choose Serial Port",true);
+		super(parent,"Choose Serial Port",false);
 		java.awt.Panel buttonPanel = new java.awt.Panel();
 		java.awt.Button cancel = new java.awt.Button("Cancel");
 		cancel.addActionListener(this);

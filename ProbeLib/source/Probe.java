@@ -14,10 +14,11 @@ CalibrationDesc	calibrationDesc;
 public static final String defaultModeName = "Default";
 
 public final static String samplingModeString = "Sampling";
-public String	[]samplingModes =  {"Slow","Fast"};
+public String	[]samplingModes =  {"Slow","Fast","Digital"};
 
 public final static int		SAMPLING_24BIT_MODE = 0;
 public final static int		SAMPLING_10BIT_MODE = 1;
+public final static int		SAMPLING_DIG_MODE = 2;
 
 public int unit = CCUnit.UNIT_CODE_UNKNOWN;
 

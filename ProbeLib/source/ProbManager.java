@@ -87,6 +87,8 @@ protected 	static ProbManagerEvent   pmEvent = new ProbManagerEvent();
 			setMode(CCInterfaceManager.A2D_24_MODE);
 		}else if(p.samplingModes[CCProb.SAMPLING_10BIT_MODE] != null && modeValue.equals(p.samplingModes[CCProb.SAMPLING_10BIT_MODE])){
 			setMode(CCInterfaceManager.A2D_10_MODE);
+		}else if(p.samplingModes[CCProb.SAMPLING_DIG_MODE] != null && modeValue.equals(p.samplingModes[CCProb.SAMPLING_DIG_MODE])){
+			setMode(CCInterfaceManager.DIG_COUNT_MODE);
 		}
 	}
 	

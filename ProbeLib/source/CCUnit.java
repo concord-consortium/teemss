@@ -232,6 +232,10 @@ public final static int UNIT_CODE_CMH2O			= 51;
 
 public final static int UNIT_CODE_TORR				= 52;
 
+public final static int UNIT_CODE_ANG_VEL			= 53;
+
+public final static int UNIT_CODE_LINEAR_VEL		= 54;
+
 
 
 public final static int UNIT_CAT_UNKNOWN			= 0;
@@ -255,6 +259,8 @@ public final static int UNIT_CAT_FORCE				= 8;
 public final static int UNIT_CAT_POWER				= 9;
 
 public final static int UNIT_CAT_PRESSURE			= 10;
+
+public final static int UNIT_CAT_MISC				= 11;
 
 
 
@@ -369,6 +375,14 @@ private  static CCUnit 	[]unitTable =
 		new CCUnit("cm H2O","cmH2O",true,UNIT_CAT_PRESSURE,UNIT_CODE_CMH2O,UNIT_CODE_PASCAL,-1,1,-1,0,0,0,0,0,0,98.0638f,0.0f,false),
 
 		new CCUnit("torr","torr",true,UNIT_CAT_PRESSURE,UNIT_CODE_TORR,UNIT_CODE_PASCAL,-1,1,-1,0,0,0,0,0,0,133.3224f,0.0f,false),
+
+		new CCUnit("rad/s","rad/s",true,UNIT_CAT_MISC,UNIT_CODE_ANG_VEL,UNIT_CODE_ANG_VEL,0,0,-1,0,0,0,0,1,0,1f,0.0f,false),
+
+		new CCUnit("m/s","m/s",true,UNIT_CAT_MISC,UNIT_CODE_LINEAR_VEL,UNIT_CODE_LINEAR_VEL,1,0,-1,0,0,0,0,0,0,1f,0.0f,false),
+
+
+
+
 
 	};
 
