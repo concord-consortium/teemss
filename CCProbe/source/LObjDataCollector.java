@@ -20,8 +20,9 @@ public class LObjDataCollector extends LObjSubDict
 
 	
     public LObjDataCollector()
-    {		
+    {	
 		super(DataObjFactory.DATA_COLLECTOR);
+		LObjProbeDataSource.interfaceType = interfaceId;
     }
 
     public void init(){
@@ -73,6 +74,10 @@ public class LObjDataCollector extends LObjSubDict
 	public void start()
 	{ 
 		for(int i=0; i<dataSources.getCount(); i++){
+			DataSource ds = (DataSource)dataSources.get(i);
+			if(ds instanceof LObjProbeDataSource){
+				LObjProbeDataSource pDS = (LObjProbeDataSource)ds;
+			}
 			((DataSource) dataSources.get(i)).startDataDelivery();
 		}
 

@@ -98,7 +98,13 @@ public class LObjDataCollectorView extends LabObjectView
 		gv.showTitle(false);
 		Vector dataSources = dc.getDataSources();
 		for(int i=0; i<dataSources.getCount(); i++){
-			graph.addDataSource((DataSource)dataSources.get(i));
+			DataSource ds = (DataSource)dataSources.get(i);
+			if(ds instanceof LObjProbeDataSource){
+				LObjProbeDataSource pDS = (LObjProbeDataSource)ds;
+			    pDS.getProbe().setInterfaceType(dc.interfaceId);
+				pDS.setProbe(pDS.getProbe());
+			}
+			graph.addDataSource(ds);
 		}
 
 		gv.layout(false);

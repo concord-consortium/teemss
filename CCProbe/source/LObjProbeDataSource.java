@@ -21,6 +21,7 @@ DataListener 	calibrationListener = null;
 CCUnit		currentUnit = null;
 public 		waba.util.Vector 	dataListeners = null;
 	public waba.util.Vector probListeners = null;
+	public static int interfaceType = CCInterfaceManager.INTERFACE_2;
 
     public LObjProbeDataSource()
     {
@@ -92,7 +93,7 @@ public 		waba.util.Vector 	dataListeners = null;
 	public void startDataDelivery(){
 		if(probe == null) return;
 		ProbManager pb = ProbManager.getProbManager(probe.getInterfaceType());
-
+		
 		if(pb != null){
 			pb.start();
 		}
@@ -235,6 +236,7 @@ public 		waba.util.Vector 	dataListeners = null;
     {
 		super.readExternal(in);
     	CCProb probe = ProbFactory.createProbeFromStream(in);
+		probe.setInterfaceType(interfaceType);
 		setProbe(probe);
     }
 
@@ -242,7 +244,6 @@ public 		waba.util.Vector 	dataListeners = null;
 		if(probe == null) return;
 		probe.calibrateMe(owner,l,probe.getInterfaceType());
 	}
-	
 	
 	public static LObjProbeDataSource getProbeDataSource(int probeID,int interfaceType, int interfacePort){
 		CCProb p = ProbFactory.createProb(probeID,interfacePort);
