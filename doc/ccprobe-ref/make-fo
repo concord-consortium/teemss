@@ -1,2 +1,0 @@
-#!/bin/sh
-java org.apache.xalan.xslt.Process -in $1.xml -xsl ../docbook-xsl-1.49/fo/customization.xsl -out $1.fo
