@@ -16,6 +16,7 @@ public class ModelPage extends Container
     ThermalPlane tp = null;
     PushButtonGroup selector, modControl;
     Control curControl;
+    BlockModel bm;
 
     // Common to all pages
     String curFileName = "untitled.dnm";
@@ -27,7 +28,7 @@ public class ModelPage extends Container
 	// add a canvas
 	modelCanvas = new Canvas(236, 129, 2);
 	modelCanvas.live = true;
-	modelCanvas.setPos(2,119);
+	modelCanvas.setPos(2,110);
 	
 	modelLayer = modelCanvas.getLayer(0);
 	modelLayer.gridSpace = 7;
@@ -59,34 +60,34 @@ public class ModelPage extends Container
 	modControl.setRect(1,60,34,30);
 	add(modControl);
 	
-	gv = new GraphView(195, 110);
+	gv = new GraphView(195, 105);
 	gv.setPos(35,2);
 	modelCanvas.gv = gv;
 	add(gv);
 	curControl = gv;
 
 	// add a canvas
-	addCanvas = new Canvas(190, 110, 1);
+	addCanvas = new Canvas(190, 105, 1);
 	addCanvas.setPos(42,2);
 	addCanvas.gv = gv;
 
 	layer = addCanvas.getLayer(0);
 	ModelObject mo = new ModelObject(null, 14, 42);
-	mo.specHeat = (float)0.25;
-	mo.conduct = (float)0.25;
+	mo.specHeat = (float)1.0;
+	mo.conduct = (float)12.5;
 	mo.initTemp = 25;
 	mo.dragAction = mo.EXT_DRAG_COPY;
 	// the order is important here that should be fixed
 	addCanvas.addObject(mo, layer);
 
-	mo = new ModelObject(null, 21, 21);
+	mo = new ModelObject(null, 14, 14);
 	mo.specHeat = 0;
 	mo.conduct = 1;
 	mo.initTemp = 40;
 	mo.dragAction = mo.EXT_DRAG_COPY;
 	addCanvas.addObject(mo, layer);
 
-	mo = new ModelObject(null, 21, 21);
+	mo = new ModelObject(null, 14, 14);
 	mo.specHeat = 0;
 	mo.conduct = 1;
 	mo.initTemp = 10;

@@ -18,9 +18,9 @@ public class TabManager extends Container
 	panes = null;
 	curPane = 0;
 	tBar = new TabBar();
-	tBar.setRect(0,0,width,20);
+	tBar.setRect(0,0,width,17);
 	add(tBar);
-	setRect(0,0,width,20);
+	setRect(0,0,width,17);
 	curContainer = null;
 	this.above = above; 
     }
@@ -72,7 +72,7 @@ public class TabManager extends Container
 	    newPane = new Container();
 	}
 	panes[curPane] = newPane;
-	panes[curPane].setRect(x,y+20,width,totalHeight-20);
+	panes[curPane].setRect(x,y+17,width,totalHeight-17);
 	if(curContainer == null){
 	    curContainer = panes[curPane];
 	    above.add(panes[curPane]);

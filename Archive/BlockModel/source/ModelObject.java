@@ -185,6 +185,7 @@ class ModelObject extends CanvasObject
     public void updateProp()
     {
 	if(tp != null) tp.removePatch(this, x, y);
+	temps = null;
 	initTemp = floatValue(tempEdit.getText());
 	specHeat = floatValue(specHeatEdit.getText());
 	conduct = floatValue(conducEdit.getText());

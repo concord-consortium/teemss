@@ -308,6 +308,15 @@ public class Canvas extends Control implements IKeys
 	}
     }
 
+    public void propSelected()
+    {
+	if(checkSelected()){
+	    if(!selected.action()){
+		prop.showProp(selected);
+	    }
+	}
+    }
+
     public void rotateSelected(int rot)
     {
 	CanvasObject oldO;
@@ -442,11 +451,7 @@ public class Canvas extends Control implements IKeys
 		removeTimer(downTimer);
 		downTimer = null;
 	    }
-	    if(checkSelected()){
-		if(!selected.action()){
-		    prop.showProp(selected);
-		}
-	    }
+	    propSelected();
 
 	} else if(e.type == PenEvent.PEN_DRAG && e.target == this){
 	    if(selected != null){

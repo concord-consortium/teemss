@@ -97,7 +97,7 @@ public class PSConnection extends Control
 	*/
     }
 
-    public void open(String a)
+    public boolean open(String a)
     {
 	if(pm == null){
 	    addr = a;
@@ -108,22 +108,24 @@ public class PSConnection extends Control
 	    // should check status of create
 	    if(pm.response == pm.ERROR){
 		printStatus("Error opening");
-		dp.netControl.setSelected(1);
-		return;
+		return false;
 	    }
 
 	    int numProbes = discover();
 	    if(numProbes == -1){
 		// error in discover
-		dp.netControl.setSelected(1);
-		return;
+		return false;
 	    }
 
 	    printStatus(numProbes + " blocks");
 
 	    pos = 0;
 	    count = 0;
-	}		
+	    
+	    return true;
+	}
+
+	return false;
     }
 
     public void close()
@@ -158,7 +160,7 @@ public class PSConnection extends Control
 			    pm.close();
 			    pm = null;
 			}	
-			dp.netControl.setSelected(1);
+			dp.forceClose();
 		    }
 		    if(pm != null){
 			pm.requestAck();
@@ -198,7 +200,7 @@ public class PSConnection extends Control
 	    pm = (ProbeManager) new JavaProbeManager(addr, port, 0, "wPC");
 	    if(pm.response == pm.ERROR){
 		printStatus("Error Opening");
-		dp.netControl.setSelected(1);
+		dp.forceClose();
 		return -1;
 	    }
 	}
@@ -221,7 +223,7 @@ public class PSConnection extends Control
 	    if(pm.response == pm.ERROR){
 		printStatus("getProbes failed");
 		// disconnect
-		dp.netControl.setSelected(1);
+		dp.forceClose();
 		pm = null;
 		blocks = null;
 		return -1;

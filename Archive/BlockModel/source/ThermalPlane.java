@@ -16,6 +16,7 @@ class ThermalPlane extends Container
     int grid;
     int transNum;
     int transDenom;
+    float heatFac = (float)1/(float)100;
 
     public int trans(int val){
 	return val * transNum / transDenom;
@@ -257,7 +258,8 @@ class ThermalPlane extends Container
 	    switch(pos){
 	    case 0:
 	    case 1:
-	    case 2:
+		step();
+		step();
 		step();
 		step();
 		step();
@@ -265,7 +267,7 @@ class ThermalPlane extends Container
 		step();
 		step();
 		break;
-	    case 3:
+	    case 2:
 		updateObj();
 
 		if(graph != null){
@@ -275,7 +277,7 @@ class ThermalPlane extends Container
 		break;
 	    }
 	    pos++;
-	    pos %= 4;
+	    pos %= 3;
 	}
     }
 
@@ -362,7 +364,7 @@ class ThermalPlane extends Container
 		    totalT++;
 		}
 
-		newTemp = myS * myC * (sumT - myT * (float)totalT) + myT;
+		newTemp = (myC / myS) * heatFac * (sumT - myT * (float)totalT) + myT;
 		if(newTemp > maxTemp)
 		    newTemp = maxTemp;
 		else if(newTemp < minTemp)
