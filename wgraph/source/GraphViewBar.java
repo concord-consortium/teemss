@@ -39,131 +39,161 @@ public class GraphViewBar extends GraphView
 
     public GraphViewBar(int w, int h)
     {
-	super(w,h);
+		super(w,h);
 
-	fConvert.maxDigits = 4;
-	fConvert.minDigits = 2;
+		fConvert.maxDigits = 4;
+		fConvert.minDigits = 2;
 
-	range = DEFAULT_RANGE;
-	minValue = DEFAULT_MIN;
+		range = DEFAULT_RANGE;
+		minValue = DEFAULT_MIN;
 
-	graph = bGraph = new BarGraph(w, h);
-	bGraph.setYRange(minValue, range);
+		graph = bGraph = new BarGraph(w, h);
+		bGraph.setYRange(minValue, range);
 	
-	units = new String("C");
+		units = new String("C");
 	
-	numBars = 0;	
+		numBars = 0;	
 	
-	// Make the popup!
-	/*
-	yAxisPage = new PropPage(this);
-	yAxisPage.addEdit("Max", 50);
-	yAxisPage.addEdit("Min", 50);
-	*/
+		// Make the popup!
+		/*
+		  yAxisPage = new PropPage(this);
+		  yAxisPage.addEdit("Max", 50);
+		  yAxisPage.addEdit("Min", 50);
+		*/
     }
     /*
-    public void updateProp(PropPage pp, int action)
-    {
-	if(pp == yAxisPage){
-	    switch(action){
-	    case PropPage.UPDATE:
-		minValue = fConvert.toFloat(((Edit)(pp.props.get(0))).getText());
-		range = fConvert.toFloat(((Edit)(pp.props.get(1))).getText()) - minValue;
-		bGraph.setYRange(minValue, range);
-		length = 0;
-		repaint();
-		break;
-	    case PropPage.REFRESH:
-		((Edit)(pp.props.get(0))).setText(minValue + range + "");
-		((Edit)(pp.props.get(1))).setText(minValue + "");
-		break;
-	    }
-	}
+	  public void updateProp(PropPage pp, int action)
+	  {
+	  if(pp == yAxisPage){
+	  switch(action){
+	  case PropPage.UPDATE:
+	  minValue = fConvert.toFloat(((Edit)(pp.props.get(0))).getText());
+	  range = fConvert.toFloat(((Edit)(pp.props.get(1))).getText()) - minValue;
+	  bGraph.setYRange(minValue, range);
+	  length = 0;
+	  repaint();
+	  break;
+	  case PropPage.REFRESH:
+	  ((Edit)(pp.props.get(0))).setText(minValue + range + "");
+	  ((Edit)(pp.props.get(1))).setText(minValue + "");
+	  break;
+	  }
+	  }
 
-    }
+	  }
     */
 
+	public void reset()
+	{
+		bGraph.removeAllBars();
+		if(selBar != null){
+			setSelectedBar(null);
+		}
+	}
+
+	public void delBar(DecoratedValue dv)
+	{
+		if(dv == selBar){
+			setSelectedBar(null);
+		}
+		bGraph.removeBar(dv);
+	}
+	
+
+	public void setSelectedBar(DecoratedValue dv)
+	{
+		if(selBar == dv) return;
+ 
+		selBar = dv;
+		for(int i=0; i<bGraph.bars.getCount(); i++){
+			bGraph.barSet.barSel[i] = false;
+			if(dv == (DecoratedValue)bGraph.bars.get(i)){
+				bGraph.barSet.barSel[i] = true;
+			}
+		}
+
+		postEvent(new ControlEvent(1000, this));
+	}
+
     boolean barDown, yAxisDown;
-    Object selBar = null;
+    DecoratedValue selBar = null;
     int downX, downY, dragX, dragY;
 
     public void onEvent(Event e)
     {
-	PenEvent pe = null;
-	int i;
-	int moveX, moveY;
-	float xChange;
-	float yChange;
+		PenEvent pe = null;
+		int i;
+		int moveX, moveY;
+		float xChange;
+		float yChange;
 
-	if(e.target == this){
-	    if(e instanceof PenEvent){
-		pe = (PenEvent)e;
-		switch(e.type){
-		case PenEvent.PEN_DOWN:
-		    barDown = yAxisDown = false;
-		    if(pe.y < bGraph.yOriginOff && pe.x < bGraph.xOriginOff){
-			yAxisDown = true;		
-		    } else {
-			Object oldBar = selBar;
-			selBar = null;
+		if(e.target == this){
+			if(e instanceof PenEvent){
+				pe = (PenEvent)e;
+				switch(e.type){
+				case PenEvent.PEN_DOWN:
+					barDown = yAxisDown = false;
+					if(pe.y < bGraph.yOriginOff && pe.x < bGraph.xOriginOff){
+						yAxisDown = true;		
+					} else {
+						DecoratedValue oldBar = selBar;
+						selBar = null;
 
-			for(i=0; i<bGraph.barSet.nBars; i++){
-			    bGraph.barSet.barSel[i] = false;
-			    if(!yAxisDown && 
-			       (pe.x > bGraph.barSet.barPos[i] && pe.x < 
-				(bGraph.barSet.barPos[i] + bGraph.barSet.barWidth))){
-				bGraph.barSet.barSel[i] = true;
-				selBar = bGraph.bars.get(i);
-				barDown = true;
-			    }
-			}
+						for(i=0; i<bGraph.bars.getCount(); i++){
+							bGraph.barSet.barSel[i] = false;
+							if(!yAxisDown && 
+							   (pe.x > bGraph.barSet.barPos[i] && pe.x < 
+								(bGraph.barSet.barPos[i] + bGraph.barSet.barWidth))){
+								bGraph.barSet.barSel[i] = true;
+								selBar = (DecoratedValue)bGraph.bars.get(i);
+								barDown = true;
+							}
+						}
 			
-			if(oldBar != selBar)
-			    draw();
-
-			if(selBar != null)
-			    postEvent(new ControlEvent(1000, this));
-
-		    }
+						if(oldBar != selBar){
+							postEvent(new ControlEvent(1000, this));
+							draw();
+						}
+					}
 		    
-		    downX = pe.x;
-		    downY = pe.y;
-		    dragY = 0;
-		    dragX = 0;
-		    break;
-		case PenEvent.PEN_DRAG:
-		case PenEvent.PEN_UP:
-		    moveX = pe.x - downX;
-		    moveY = pe.y - downY;
-		    if(moveX < 0)
-			dragX -= moveX;
-		    else
-			dragX += moveX;
-		    if(moveY < 0)
-			dragY -= moveY;
-		    else
-			dragY += moveY;
+					downX = pe.x;
+					downY = pe.y;
+					dragY = 0;
+					dragX = 0;
+					break;
+				case PenEvent.PEN_DRAG:
+				case PenEvent.PEN_UP:
+					moveX = pe.x - downX;
+					moveY = pe.y - downY;
+					if(moveX < 0)
+						dragX -= moveX;
+					else
+						dragX += moveX;
+					if(moveY < 0)
+						dragY -= moveY;
+					else
+						dragY += moveY;
 
-		    if(yAxisDown && (dragY > 10 || dragX > 10)){ 
-			if(bGraph.yOriginOff - pe.y > 20){
-			    yChange = (float)(bGraph.yOriginOff - pe.y)/ (float)(bGraph.yOriginOff - downY);
+					if(yAxisDown && (dragY > 10 || dragX > 10)){ 
+						if(bGraph.yOriginOff - pe.y > 20){
+							yChange = (float)(bGraph.yOriginOff - pe.y)/ (float)(bGraph.yOriginOff - downY);
 			    
-			    bGraph.yaxis.setScale(bGraph.yaxis.scale * yChange);
-			    draw();
-			}
-		    }
+							bGraph.yaxis.setScale(bGraph.yaxis.scale * yChange);
+							draw();
+						}
+					}
 
-		    downX = pe.x;
-		    downY = pe.y;
-		    if(e.type == PenEvent.PEN_UP){
-			yAxisDown = false;
-			barDown = false;
-			postEvent(new ControlEvent(1001, this));
-		    }
-		    break;		    
+					downX = pe.x;
+					downY = pe.y;
+					if(e.type == PenEvent.PEN_UP){
+						yAxisDown = false;
+						barDown = false;
+						postEvent(new ControlEvent(1001, this));
+					}
+					break;		    
+				}
+			}
 		}
-	    }
-	}
 
     }
 

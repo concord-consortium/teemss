@@ -313,7 +313,7 @@ public class LineGraph extends Graph2D
 		drawAxis(g);
 
 		for(i=0; i<bins.getCount(); i++){
-			((Bin) bins.get(i)).lastPlottedPoint = -1;
+			((Bin) bins.get(i)).resetDraw();
 		}
 
 		if(profile){

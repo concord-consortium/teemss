@@ -24,8 +24,10 @@ import waba.sys.*;
 import extra.ui.*;
 import extra.util.*;
 import org.concord.waba.extra.ui.*;
+import org.concord.waba.extra.event.*;
 
 public class AnnotView extends Container
+	implements ActionListener
 {
     public GraphView curView = null;
     public GraphViewLine lgView = null;
@@ -33,12 +35,14 @@ public class AnnotView extends Container
     
     public BarGraph bGraph;
     public LineGraph lGraph;
-
-    Bin lgBins [] = new Bin [1];
-    Object bgBins [] = new Object [1];
+	
+	Vector lineBins = new Vector();
+	Bin curLineBin = null;
 
 	SplitAxis xaxis = null;
 	ColorAxis yaxis = null;
+
+    float minX, maxX;
 
     public AnnotView(int w, int h, 
 					 SplitAxis xAx, ColorAxis yAx)
@@ -67,8 +71,6 @@ public class AnnotView extends Container
 		lgView.setAxis(xAx, yAx);
 	}
 
-    float minX, maxX;
-
     public void setRange(float minX, float maxX, float minY, float maxY)
     {
 		yaxis.setRange(minY, maxY - minY);
@@ -92,73 +94,132 @@ public class AnnotView extends Container
 
     public void addBin(Bin curBin)
     {
-		lgBins[0] = curBin;
+		lineBins.add(curBin);
+		curLineBin = curBin;
+		curBin.addActionListener(this);
 
 		lgView.lGraph.addBin(curBin);
+		System.out.println("AnVi: adding Bar");
 		bGraph.addBar(0, curBin);
 		return;
     }
 
 	public void removeBin(Bin curBin)
 	{
+		int index = lineBins.find(curBin);
+		if(index < 0) return;
+
+		lineBins.del(index);
+		curBin.removeActionListener(this);
+		if(curLineBin == curBin) curLineBin = null;
+
 		//	  Hack to save memory on palm
 		bGraph.removeBar(curBin);		
 	}
 
+	public void closeBin(Bin curBin)
+	{
+		//	  Hack to save memory on palm
+		bGraph.removeBar(curBin);		
+	}
+
+	public void actionPerformed(ActionEvent e)
+	{
+		Object obj = e.getSource();
+		if(obj instanceof Bin){
+			Bin b = (Bin)obj;
+			switch(e.type){
+			case Bin.ANNOT_ADDED:
+				// this is 
+				bGraph.addBar(bGraph.numBars, b.getCurAnnot());
+				break;
+			case Bin.ANNOT_DELETED:				
+				Annotation a = b.getCurAnnot();
+				bgView.delBar(a);
+				lgView.delAnnot(a);
+				repaint();
+				break;
+			case Bin.ANNOTS_CLEARED:
+				// This is a strange case that isn't handled right
+				Vector binAnnots = b.annots;
+				for(int i=0; i<binAnnots.getCount(); i++){
+					bGraph.removeBar((Annotation)binAnnots.get(i));
+				}
+				break;
+			}
+		}
+	}
+
+	public void delAnnot(Annotation a)
+	{
+		if(a == null || a.bin == null) return;
+
+		Bin b = (Bin)a.bin;
+		b.delAnnot(a);
+
+		// notice that when the bin is deleted
+		// we will get an ANNOT_DELETED event
+	}
+	
 	public void addAnnot()
 	{
 		Annotation a = null;
 
-		if(lgBins[0] != null){
-			a = lGraph.addAnnot("" + lgView.curChar, lgBins[0].getCurX());
+		// note this will cause an ANNOT_ADDED event which we will
+		// recieve and add the bar
+		a = lgView.addAnnot();
 
-			if(a != null){
-				lgView.curChar++;
-				repaint();
-			}
+		if(a != null){
+			repaint();
 		}
 	}
 
     public void reset()
     {
-		lgView.lGraph.reset();
-		bGraph.removeAllBars();
-		lgView.curChar = 'A';
-		lgBins[0] = null;
+		bgView.reset();
+		lgView.reset();
+
+		curLineBin = null;
+		for(int i=0; i<lineBins.getCount(); i++){
+			((Bin)lineBins.get(i)).removeActionListener(this);
+		}
+		lineBins = new Vector();
 
 		// repaint
 		repaint();
     }
+
+	public Annotation getSelectedAnnot()
+	{
+		return lgView.selAnnot;
+	}
 
     boolean barDown = false;
     Timer timer = null;
     public void onEvent(Event e)
     {
 		int i;
-		Annotation a = null;
 
-		if((e.type == ControlEvent.PRESSED)){
-			/*
-			if(false) {
-				if(bgView.selBar == null)
-					return;
+		if(e.type == 1000 && e.target == bgView) {
+			// Selected bar change event
 
+			if(bgView.selBar != null){
+				timer = addTimer(750);
+				barDown = true;
+				// should update selected annotation on the graph
 				if(bgView.selBar instanceof Annotation){
-					a = (Annotation)bgView.selBar;
-					lgView.lGraph.annots.del(lgView.lGraph.annots.find(a));
-					bgView.selBar = null;
-
-					bGraph.removeBar(a);
-					repaint();
+					lgView.setSelectedAnnot((Annotation)bgView.selBar);
+					// this is a kludge
+					postEvent(new ControlEvent(1008, this));
 				}
-			}
-			*/
-		} else if(e.type == 1000 && e.target == bgView) {
-			// Bar down event 
-
-			timer = addTimer(750);
-			barDown = true;
-
+			} else {
+				lgView.setSelectedAnnot(null);
+				if(timer != null){
+					removeTimer(timer);
+					timer = null;
+				}
+				postEvent(new ControlEvent(1008, this));
+			}			
 		} else if(e.type == 1001 && e.target == bgView) {
 			// Bar up event
 			barDown = false;
@@ -166,13 +227,11 @@ public class AnnotView extends Container
 				removeTimer(timer);
 				timer = null;
 			}
-		} else if(e.type == 1002 && e.target == lgView) {
-			// Annotation added event
-
-		} else if(e.type == 1003 && e.target == lgView) {
-			// Annotation moved event
-			// This should now be taken care of automagically :)
-
+		} else if(e.type == 1006 && e.target == lgView) {
+			// Annotation selection change event
+			// need to update the selected bar
+			bgView.setSelectedBar(lgView.selAnnot);
+			postEvent(new ControlEvent(1008, this));
 		} else if(e.type == ControlEvent.TIMER && e.target == this){
 			if(timer != null){
 				removeTimer(timer);
@@ -232,6 +291,12 @@ public class AnnotView extends Container
     {
 		if(lgView != null) lgView.free();
 		if(bgView != null) bgView.free();
+
+		curLineBin = null;
+		for(int i=0; i<lineBins.getCount(); i++){
+			((Bin)lineBins.get(i)).removeActionListener(this);
+		}
+		lineBins = new Vector();
     }
 
 }

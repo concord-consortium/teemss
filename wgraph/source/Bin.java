@@ -33,17 +33,10 @@ public class Bin
 
     public int [] points = null;
     public int numPoints;
-    int lastPlottedPoint;
-    int c;
-    int collection;
-    int curX;
-    int sumY;
-    int numXs;
-    int minPtY;
-    int maxPtY;
+
     public float refX = 0f;
     public float refY = 0f;
-    public float minX, minY, maxX, maxY;
+    private float minX, minY, maxX, maxY;
     int [] color = {255,0,0};
     public Axis xaxis = null;
 	public Axis yaxis = null;
@@ -56,6 +49,23 @@ public class Bin
 	float curXscale, curYscale;
 	CCUnit unit;
     public Vector annots = new Vector();
+
+	int remainder;
+	int remainderSum;
+	int denom = 0;
+    int curX;
+    int sumY;
+    int numXs;
+    int minPtY;
+    int maxPtY;
+
+    int lastDrawnPoint;
+	int drawnCurX;
+	int drawnRemainder;
+	int drawnRemainderSum;
+	int drawnDenom;
+
+	Annotation delAnnot = null;
 
     public Bin(Axis xAx, Axis yAx)
     {
@@ -85,6 +95,8 @@ public class Bin
 	{
 		xaxis.removeActionListener(this);
 		yaxis.removeActionListener(this);
+
+		clearAnnots();
 		binListeners = null;		
 	}
 
@@ -108,11 +120,18 @@ public class Bin
 
 	public Annotation getCurAnnot()
 	{
+		if(delAnnot != null) return delAnnot;
+
 		if(annots != null &&
 		   annots.getCount() > 0){
 			return (Annotation)annots.get(annots.getCount() - 1);
 		}
 		return null;
+	}
+
+	public Annotation addAnnot(String label)
+	{
+		return addAnnot(label, getCurX());
 	}
 
 	public Annotation addAnnot(String label, float time)
@@ -125,17 +144,30 @@ public class Bin
 
 		if(valid){
 			a = new Annotation(label, time, tempVal[0], xaxis);
+			// This could be a memory leak if we don't clear this link
+			a.bin = this;
 			annots.add(a);
-		}
-
-		notifyListeners(ANNOT_ADDED);
+			
+			notifyListeners(ANNOT_ADDED);
+		} 
 
 		return a;
+	}
+
+	public void delAnnot(Annotation a)
+	{
+		int index = annots.find(a);
+		if(index < 0) return;
+		annots.del(index);
+		delAnnot = a;
+		notifyListeners(ANNOT_DELETED);
+		delAnnot = null;
 	}
 
 	ActionEvent annotEvent = new ActionEvent(this, null, null);
 	public final static int ANNOT_ADDED = 4000;
 	public final static int ANNOT_DELETED = 4001;
+	public final static int ANNOTS_CLEARED = 4002;
 	Vector binListeners = new Vector();
 
 	public void addActionListener(ActionListener al)
@@ -241,9 +273,6 @@ public class Bin
 		return lfArray.getCount();
     }
 
-	int remainder;
-	int remainderSum;
-
     public void recalc()
     {
 		curXscale = xaxis.scale;
@@ -275,7 +304,7 @@ public class Bin
 
 		int curPtPos;
 
-		curPtPos = (numPoints-1)*3;
+		curPtPos = (numPoints-1)*2;
 
 		i=lastCalcValue;
 	
@@ -297,7 +326,6 @@ public class Bin
 				i++;		
 
 			}
-			points[curPtPos++] = curX;
 			avgY = sumY / numXs;
 			points[curPtPos++] = avgY;
 			points[curPtPos++] = (maxPtY - avgY) << 16 | (avgY - minPtY);
@@ -327,7 +355,6 @@ public class Bin
 			// This is just an estimate
 			// so we need to set the curPtPos to 
 			// check this point the next time
-			points[curPtPos++] = curX;
 			avgY = sumY / numXs;
 			points[curPtPos++] = avgY;
 			points[curPtPos++] = (maxPtY - avgY) << 16 | (avgY - minPtY);
@@ -342,8 +369,7 @@ public class Bin
 			i++;
 
 			// update the points.
-			curPtPos-=3;
-			points[curPtPos++] = curX;
+			curPtPos-=2;
 			avgY = sumY / numXs;
 			points[curPtPos++] = avgY;
 			points[curPtPos++] = (maxPtY - avgY) << 16 | (avgY - minPtY);
@@ -351,7 +377,7 @@ public class Bin
 		}
 		// else the curX == newX so 
 		// we should be ok
-		numPoints = curPtPos / 3;
+		numPoints = curPtPos / 2;
 		lastCalcValue = i-1;
 
 		return true;
@@ -368,7 +394,7 @@ public class Bin
 			lfArray.ref = refY;
 			minX = 0;
 			if(points == null){
-				points = new int [START_DATA_SIZE*3];
+				points = new int [START_DATA_SIZE*2];
 			}
 		}
 
@@ -382,16 +408,27 @@ public class Bin
 		return ret;
     }
 
-	int denom = 0;
+	public void resetDraw()
+	{
+		lastDrawnPoint = -1;
+
+		if(curXscale != 0f && dT != 0f){
+			drawnDenom = (int) (10000f/xaxis.scale/dT);
+		} else {
+			drawnDenom = 10000;
+		}
+		drawnRemainderSum = 0;
+		drawnCurX = 0;
+	}
 
 	void resetPts()
 	{
 		if(curXscale != 0f && dT != 0f){
 			denom = (int) (10000f/curXscale/dT);
 		} else {
-			denom = 1;
+			denom = 10000;
 		}
-		remainder = (int)(dT*curXscale*denom);
+		remainder = 10000;
 		remainderSum = 0;
 		numXs = 0;
 		curX = 0;
@@ -399,6 +436,18 @@ public class Bin
 		lastCalcValue = 1;
 		numXs = 1;
 		numPoints = 1;
+		resetDraw();
+	}
+
+	public void clearAnnots()
+	{
+		notifyListeners(ANNOTS_CLEARED);
+		// remove annotations
+		for(int i=0; i<annots.getCount(); i++){
+			((Annotation)annots.get(i)).bin = null;
+		}
+		
+		annots = null;
 	}
 
     public void reset()
@@ -413,10 +462,9 @@ public class Bin
 			minY *= (float)10;
 			maxY *= (float)10;
 		}
-		lastPlottedPoint = -1;
 		resetPts();
 
-		// remove annotations
+		clearAnnots();
 		annots = new Vector();
 
 		needRecalc = true;
@@ -425,7 +473,7 @@ public class Bin
     public boolean getValue(float time, float [] value)
     {
 		int i;
-		if(time > 0f && time < maxX){
+		if(time > 0f && time <= maxX){
 			value[0] = lfArray.getFloat((int)(time / dT )) + refY;
 			return true;
 		}
@@ -458,138 +506,115 @@ public class Bin
 		visible = val;
 	}
 
+	public static int FIXED_PT_DENOM = 1000;
+
 	public void draw(Graphics g)
 	{
+		int i,j,k;
+		int lastX, lastY, newX, curY;
+		Axis xa = xaxis;
+
 		if(!visible)return;
+
+		/*
 		if(xaxis.estimateScale || yaxis.estimateScale){
 			drawEst(g);
 			return;
 		}
-
-		int i,j,k;
-		int lastX, lastY, curX, curY;
-		Axis xa = xaxis;
+		*/
 
 		if(xa.drawnX == -1) return;
 
-		update(true);
+		if(xaxis.estimateScale || yaxis.estimateScale){
+			resetDraw();
+			update(false);
+		} else {			
+			update(true);
+		}
 
 		if(numPoints < 2) return;
 
-		int lastOffset = numPoints*3;	    
+		int lastOffset = numPoints*2;	    
 		int xOffset = (int)((xa.dispMin - refX) * xa.scale);
 		int xTrans = xa.drawnX - xOffset + xa.axisDir;
 		int yTrans = (int)((refY - yaxis.dispMin) * yaxis.scale) + yaxis.drawnY + yaxis.axisDir;
-	    
+	    int ptRemainderSum = remainderSum;
+		int drRemainderSum = drawnRemainderSum;
+
 		g.translate(xTrans, yTrans);
 		g.setColor(color[0], color[1], color[2]);
 
-		if(lastPlottedPoint == -1){
+		if(lastDrawnPoint == -1){
 			i=0;
 		} else {
-			// Start 1 before the lastPlottedPoint, because the lastpp might have
+			// Start 1 before the lastDrawnPoint, because the lastpp might have
 			// moved
-			i = lastPlottedPoint*3 - 3;
+			i = lastDrawnPoint*2 - 2;
 		}
 				
-		lastX = points[i++];
-		lastY = points[i++];
-		i++;
-		
-		for(; i<lastOffset;){
-			curX = points[i++];
-			curY = points[i++];
+		lastX = drawnCurX;
+
+		if(yaxis.estimateScale){
+			// We need to estimate the Y-scale 
+			// this needs to be "estimated" for speed reasons so we need to cut out
+			// as many float ops as possible
+			// y numerator
+			int yNum = (int)(yaxis.scale*(float)FIXED_PT_DENOM/curYscale);
+			lastY = points[i++] * yNum / FIXED_PT_DENOM;
 			i++;
-		
-			if(curX > (xOffset - 1) && curX <= (xOffset + xa.dispLen))
-				g.drawLine(lastX, lastY, curX, curY);
-			
-			lastY = curY;
-			lastX = curX;
-		}
-	    
-		g.translate(-xTrans, -yTrans);
-
-		lastPlottedPoint = numPoints - 1;
-	}
-
-	public static int FIXED_PT_DENOM = 1000;
-
-	public void drawEst(Graphics g)
-	{
-		int xNum = (int)(xaxis.scale*(float)FIXED_PT_DENOM/curXscale); 
-		int yNum = (int)(yaxis.scale*(float)FIXED_PT_DENOM/curYscale);
-		int i,j,k;
-		int lastOffset;
-		int lastX, lastY, curX, curY;
-		Axis xa = xaxis;
-
-		if(xa.drawnX == -1) return;
-		update(false);
-
-		if(numPoints < 2) return;
-	    
-		lastOffset = numPoints*3;
-	    
-		int xOffset = (int)((xa.dispMin - refX) * xa.scale);
-		int xTrans = xa.drawnX - xOffset + xa.axisDir;
-		int yTrans = (int)((refY - yaxis.dispMin) * yaxis.scale) + yaxis.drawnY + yaxis.axisDir;
-
-		g.translate(xTrans, yTrans);
-		g.setColor(color[0], color[1], color[2]);
-
-		if(lastPlottedPoint == -1){
-			i=0;
-		} else {
-				i = lastPlottedPoint*3;
-		}
-				
-		lastX = points[i++] * xNum / FIXED_PT_DENOM;
-		lastY = points[i++] * yNum / FIXED_PT_DENOM;
-		i++;
-		
-		if(yaxis.scale == curYscale ){
 			for(; i<lastOffset;){
-				curX = points[i++] * xNum / FIXED_PT_DENOM;
+				drawnRemainderSum = drRemainderSum;
+				while(ptRemainderSum/denom == 0){
+					ptRemainderSum += remainder;
+					drRemainderSum += remainder;
+				}
+				
+				newX = lastX + drRemainderSum/drawnDenom;
+				curY = points[i++] * yNum / FIXED_PT_DENOM;
+				i++;
+					
+				if(newX > (xOffset - 1) && newX <= (xOffset + xa.dispLen))
+					g.drawLine(lastX, lastY, newX, curY);
+				
+				lastY = curY;
+				drawnCurX = lastX;		
+				lastX = newX;
+				
+				ptRemainderSum %= denom;
+				drRemainderSum %= drawnDenom;
+			}
+		} else {
+			lastY = points[i++];
+			i++;
+			for(;i<lastOffset;){
+				drawnRemainderSum = drRemainderSum;
+				while(ptRemainderSum/denom == 0){
+					ptRemainderSum += remainder;
+					drRemainderSum += remainder;
+				}
+				
+				newX = lastX + drRemainderSum/drawnDenom;
 				curY = points[i++];
 				i++;
-					
-				if(curX > (xOffset - 1) && curX <= (xOffset + xa.dispLen))
-					g.drawLine(lastX, lastY, curX, curY);
-					
+				
+				if(newX > (xOffset - 1) && newX <= (xOffset + xa.dispLen))
+					g.drawLine(lastX, lastY, newX, curY);
+				
 				lastY = curY;
-				lastX = curX;
-			}
-		} else if(xaxis.scale == curXscale){
-			for(; i<lastOffset;){
-				curX = points[i++];
-				curY = points[i++] * yNum / FIXED_PT_DENOM;
-				i++;
-					
-				if(curX > (xOffset - 1) && curX <= (xOffset + xa.dispLen))
-					g.drawLine(lastX, lastY, curX, curY);
-					
-				lastY = curY;
-				lastX = curX;
-			}
-		} else {
-			for(; i<lastOffset;){
-				curX = points[i++] * xNum / FIXED_PT_DENOM;
-				curY = points[i++] * yNum / FIXED_PT_DENOM;
-				i++;
-					
-				if(curX > (xOffset - 1) && curX <= (xOffset + xa.dispLen))
-					g.drawLine(lastX, lastY, curX, curY);
-					
-				lastY = curY;
-				lastX = curX;
+				drawnCurX = lastX;		
+				lastX = newX;
+				
+				ptRemainderSum %= denom;
+				drRemainderSum %= drawnDenom;
 			}
 		}
-	    
+		
 		g.translate(-xTrans, -yTrans);
 
-		lastPlottedPoint = numPoints - 1;
+		lastDrawnPoint = numPoints - 1;
 	}
+
+
 }
 
 

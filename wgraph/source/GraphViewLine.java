@@ -51,6 +51,22 @@ public class GraphViewLine extends GraphView
 
     FloatConvert fConvert = new FloatConvert();
 
+    int downX, downY, dragX, dragY;
+    boolean xAxisDown, yAxisDown, graphDown, barDown, annotDown;
+
+    public Annotation selAnnot = null;
+    
+    float [] tempVal = new float [1];
+
+    public boolean autoScroll = true;
+    float scrollFract = (float)0.25;
+    float scrollStepSize = (float)0.15;
+    int scrollSteps = 5;
+
+	int selectLeftX, selectRightX;
+	int selectTopY, selectBotY;
+	boolean selection = false;
+
     public GraphViewLine(int w, int h, 
 						 SplitAxis xaxis, Axis yaxis)
 	{
@@ -97,11 +113,6 @@ public class GraphViewLine extends GraphView
 		*/
 	}
 
-    public boolean autoScroll = true;
-    float scrollFract = (float)0.25;
-    float scrollStepSize = (float)0.15;
-    int scrollSteps = 5;
-
     public void plot(Graphics myG)
     {
 		if(myG == null) return;
@@ -111,9 +122,13 @@ public class GraphViewLine extends GraphView
 		int myScrollStep = (int)(lGraph.dwWidth * scrollStepSize);
 		Axis xaxis = lGraph.xaxis.lastAxis;
 
-		if(!drawn || graph.redraw || bufG != null){
-			graph.draw(bufG);
-			myG.copyRect(buffer, 0, 0, width, height, 0, 0);
+		if(!drawn || graph.redraw){
+			if(bufG == null){
+				graph.draw(myG);
+			} else {
+				graph.draw(bufG);
+				myG.copyRect(buffer, 0, 0, width, height, 0, 0);
+			}
 			if(mode == ZOOM_MODE && selection){
 				drawSelector(myG);
 			}
@@ -122,11 +137,11 @@ public class GraphViewLine extends GraphView
  		   bin != null &&
 		   bin.xaxis == xaxis &&
 		   (bin.getNumVals() > 0) && 
-		   (bin.maxX > (xaxis.dispMin + (float)xaxis.dispLen / xaxis.scale ) ||
+		   (bin.getCurX() > (xaxis.dispMin + (float)xaxis.dispLen / xaxis.scale ) ||
 			xaxis.drawnX == -1)){
 			// scroll
 			range = lGraph.xaxis.getRange();
-			scrollEnd = bin.maxX - range * scrollFract;
+			scrollEnd = bin.getCurX() - range * scrollFract;
 
 			if(scrollEnd < (float)0)
 				scrollEnd = (float)0;
@@ -142,15 +157,10 @@ public class GraphViewLine extends GraphView
 				super.plot(myG);
 			}
 			lGraph.scroll(0,0);
-			postEvent(new ControlEvent(1006, this));
 		} else {
 			graph.plot(myG);
 		}
     }
-
-	int selectLeftX, selectRightX;
-	int selectTopY, selectBotY;
-	boolean selection = false;
 
 	public void drawSelector(Graphics g)
 	{
@@ -176,15 +186,58 @@ public class GraphViewLine extends GraphView
 		
 		selection = false;
 		draw();
+	}
+
+	public void delAnnot(Annotation a)
+	{
+		if(a == selAnnot){
+			setSelectedAnnot(null);
+		}
+	}
+	
+	public void setSelectedAnnot(Annotation a)
+	{
+		if(a == selAnnot) return;
+
+		if(selAnnot != null){
+			selAnnot.selected = false;
+		}
+		selAnnot = a;
+
+		if(selAnnot != null){
+			lGraph.setSelectedAnnot(selAnnot);
+		} 
+						
+		// annotation selection change event
 		postEvent(new ControlEvent(1006, this));
 	}
-    
-    int downX, downY, dragX, dragY;
-    boolean xAxisDown, yAxisDown, graphDown, barDown, annotDown;
 
-    public Annotation selAnnot = null;
+	public Annotation addAnnot()
+	{
+		if(lGraph.curBin == null) return null;
+
+		Annotation a = lGraph.curBin.addAnnot("" + curChar);
+
+		if(a != null){
+			curChar++;
+		}
+
+		return a;
+	}
+
+	public void reset()
+	{
+		lGraph.reset();
+		curChar = 'A';
+
+		if(selAnnot != null){
+			selAnnot.selected = false;
+			selAnnot = null;
+			// annotation selection change event
+			postEvent(new ControlEvent(1006, this));
+		}		
+	}
     
-    float [] tempVal = new float [1];
     public void onEvent(Event e)
     {
 		PenEvent pe;
@@ -223,17 +276,21 @@ public class GraphViewLine extends GraphView
 						if(selAnnot != null){
 							selAnnot.selected = false;
 							selAnnot = null;
+							// annotation selection change event
+							postEvent(new ControlEvent(1006, this));
 						}
 
 						switch(mode){
 						case ANNOT_MODE:
 							curAnnot = lGraph.addAnnot("" + curChar, pe.x);
+							// annotation added event
+							postEvent(new ControlEvent(1002, this));
 							curChar++;
 							if(curAnnot != null){
-								postEvent(new ControlEvent(1002, this));
 								curAnnot.selected = true;
 								selAnnot = curAnnot;
-								postEvent(new ControlEvent(1003, this));								
+								// annotation selection change event
+								postEvent(new ControlEvent(1006, this));
 							}
 							draw();
 							break;
@@ -260,9 +317,11 @@ public class GraphViewLine extends GraphView
 							lGraph.setSelectedAnnot(selAnnot);
 							annotDown = true;
 						} 
+						
 						draw();
 
-						if(oldAnnot != selAnnot) postEvent(new ControlEvent(1003, this));
+						// annotation selection change event
+						if(oldAnnot != selAnnot) postEvent(new ControlEvent(1006, this));
 					}
 					downX = pe.x;
 					downY = pe.y;
@@ -292,7 +351,6 @@ public class GraphViewLine extends GraphView
 								lGraph.scroll(-moveX, -moveY);
 							}
 							draw();
-							postEvent(new ControlEvent(1006, this));
 							break;
 						case ZOOM_MODE:
 							if(lGraph == lGraph.getObjAtPoint(pe.x, pe.y)){
@@ -338,7 +396,6 @@ public class GraphViewLine extends GraphView
 								lGraph.yaxis.setScale(lGraph.yaxis.scale * yChange, true);
 							} else {
 								lGraph.yaxis.setScale(lGraph.yaxis.scale * yChange);
-								postEvent(new ControlEvent(1006, this));
 							}				
 							draw();
 						}else if(xAxisDown && graph == lGraph){
@@ -349,7 +406,6 @@ public class GraphViewLine extends GraphView
 								lGraph.xaxis.setScale(lGraph.xaxis.scale * xChange, true);
 							} else {
 								lGraph.xaxis.setScale(lGraph.xaxis.scale * xChange);
-								postEvent(new ControlEvent(1006, this));
 							}
 							draw();
 						}

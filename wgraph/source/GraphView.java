@@ -61,9 +61,13 @@ public abstract class GraphView extends Container
     {
 		if(myG == null) return;
 
-		if(!drawn || graph.redraw || bufG != null){
-			graph.draw(bufG);
-			myG.copyRect(buffer, 0, 0, width, height, 0, 0); 	    
+		if(!drawn || graph.redraw){
+			if(bufG != null){
+				graph.draw(bufG);
+				myG.copyRect(buffer, 0, 0, width, height, 0, 0); 	    
+			} else {
+				graph.draw(myG);
+			}
 			drawn = true;
 		} else {
 			graph.plot(myG);

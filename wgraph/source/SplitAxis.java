@@ -478,12 +478,8 @@ public class SplitAxis extends Axis
 			}
 		}
 
-		String labelStr;
-		if(ds.readBoolean()){
-			labelStr = ds.readString();
-		} else {
-			labelStr = null;
-		}
+		String labelStr = ds.readString();
+
 		int labelUnitCode = ds.readInt();
 		CCUnit labelUnit = null;
 		if(labelUnitCode >= 0){
@@ -492,6 +488,8 @@ public class SplitAxis extends Axis
 		if(labelStr != null){
 			setAxisLabel(labelStr, labelUnit);
 		}
+
+		autoLabel = ds.readBoolean();
 	}
 
 	// This will only be valid after the axis has been drawn
@@ -527,14 +525,12 @@ public class SplitAxis extends Axis
 			}
 		}
 
-		if(axisLabelStr == null){
-			ds.writeBoolean(false);
-		} else {
-			ds.writeBoolean(true);
-			ds.writeString(axisLabelStr);
-		}
+		ds.writeString(axisLabelStr);
+
 		if(axisLabelUnit == null) ds.writeInt(-1);
 		else ds.writeInt(axisLabelUnit.code);
+
+		ds.writeBoolean(autoLabel);
     }
 
 

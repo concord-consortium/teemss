@@ -121,6 +121,8 @@ public class Axis
 
 	Vector scaleListeners = new Vector();
 
+	public boolean autoLabel = false;
+
     public Axis(int type)
     {
 		this.min = dispMin = 0f;
@@ -209,6 +211,8 @@ public class Axis
 	}
 
 	private boolean axisLabelChanged = true;
+	public String getLabel(){return axisLabelStr;}
+	public CCUnit getUnit(){return axisLabelUnit;}
 	public void setAxisLabel(String label, CCUnit unit)
 	{
 		axisLabelChanged = true;
@@ -217,7 +221,6 @@ public class Axis
 		notifyListeners(LABEL_CHANGE);
 	}
 
-	public String getLabel(){return axisLabelStr;}
 
     public void setRange(float min, float range)
     {
@@ -227,7 +230,7 @@ public class Axis
 
     public void setRange(float range)
     {		
-		setScale((dispLen - axisDir) / range);
+		setScale((dispLen - axisDir)/ range);
     }
 
 	int drawnLabelExp = -10000;
@@ -301,7 +304,7 @@ public class Axis
 
 	public float getDispMax()
 	{
-		return dispMin+dispLen/scale;
+		return dispMin+(dispLen-axisDir)/scale;
 	}
 
     /**
@@ -893,12 +896,8 @@ public class Axis
 		readExternalFlag = true;
 		dispMin = ds.readFloat();
 		readDispMax = ds.readFloat();
-		String labelStr;
-		if(ds.readBoolean()){
-			labelStr = ds.readString();
-		} else {
-			labelStr = null;
-		}
+		String labelStr = ds.readString();
+
 		int labelUnitCode = ds.readInt();
 		CCUnit labelUnit = null;
 		if(labelUnitCode >= 0){
@@ -907,6 +906,7 @@ public class Axis
 		if(labelStr != null){
 			setAxisLabel(labelStr, labelUnit);
 		}
+		autoLabel = ds.readBoolean();
 	}
 
     public void writeExternal(DataStream ds)
@@ -919,14 +919,12 @@ public class Axis
 		} else {
 			ds.writeFloat(getDispMax());
 		}
-		if(axisLabelStr == null){
-			ds.writeBoolean(false);
-		} else {
-			ds.writeBoolean(true);
-			ds.writeString(axisLabelStr);
-		}
+
+		ds.writeString(axisLabelStr);
+
 		if(axisLabelUnit == null) ds.writeInt(-1);
 		else ds.writeInt(axisLabelUnit.code);
+		ds.writeBoolean(autoLabel);
     }
 
 }

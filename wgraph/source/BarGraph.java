@@ -99,6 +99,7 @@ public class BarGraph extends Graph2D
 
 		if(barSet != null) barSet.free();
 		barSet = new BarSet(yaxis, numBars, BarSet.BOTTOM);
+		System.out.println("BrGri: adding Bar numBars: " + numBars + " bars.getCount: " + bars.getCount());
 
 		curValues = new float[numBars];
 		for(i=0; i < numBars; i++){
@@ -107,6 +108,7 @@ public class BarGraph extends Graph2D
 			curValues[i] = curBar.getValue();
 		}
 
+		redraw = true;
 		return true;
     }
 
@@ -148,6 +150,7 @@ public class BarGraph extends Graph2D
 
 		}
 
+		redraw = true;
 		return true;
     }
 
