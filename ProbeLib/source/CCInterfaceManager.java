@@ -449,7 +449,11 @@ protected ProbManager	pb = null;
 		switch(mode){
 			case A2D_24_MODE:
 				MASK = (byte)(0x0FF << bitsPerByte);
-	    			tuneValue = 0.000075f;
+				if(interfaceType == INTERFACE_2){
+				    tuneValue = 0.00015f;
+				} else {
+				    tuneValue = 0.000075f;
+				}
 				break;
 			case A2D_10_MODE:
 	   			numBytes = 2;
@@ -492,6 +496,7 @@ protected ProbManager	pb = null;
 		int packEnd = 0;
 
 		curDataPos = 0;
+
 		dEvent.setTime(curStepTime);
 
 		boolean clearBufferOffset = true;
@@ -546,23 +551,25 @@ protected ProbManager	pb = null;
 			}
 			if(syncChannels){
 			    // This is a hack
-			    curData[curChannel+1] = (float)value * tuneValue*2f;
-				if(gotChannel0 && curChannel == 1){
-					curData[0] = curStepTime;
-					curStepTime += timeStepSize;
-					gotChannel0 = false;
-					valueData[curDataPos++] = curData[1];
-					valueData[curDataPos++] = curData[2];
-				} else {
-					gotChannel0 = (curChannel == 0);
-				}
+			    if(gotChannel0 && curChannel == 1){
+				gotChannel0 = false;
+				valueData[curDataPos++] = curDataCh0;
+				valueData[curDataPos++] = (float)value * tuneValue;
+			    } else {
+				gotChannel0 = (curChannel == 0);
+				if(gotChannel0) curDataCh0 = (float)value * tuneValue;
+				
+			    }
 			}
 //		    	convertValA2D(value);
 		}
 		if(curDataPos > 0){
-			dEvent.setNumbSamples(curDataPos/dDesc.getChPerSample());
-			dEvent.setData(valueData);
-			notifyProbManager(dEvent);
+		    int numSamp = curDataPos/dDesc.chPerSample;
+		    dEvent.setNumbSamples(numSamp);
+		    curStepTime += timeStepSize*numSamp;
+
+		    dEvent.setData(valueData);
+		    notifyProbManager(dEvent);
 		}
 		if(clearBufferOffset) bufOffset = 0;
 		return OK;
