@@ -19,6 +19,7 @@ public class PropertyView extends Container
 	Container []propertiesPanes =null;
 	Container   currentPane =null;
 	int 	bHeight = 20;
+	int botMargin = 5;
 	ActionListener listener = null;
 	int widthBorder = 1;
 
@@ -46,15 +47,15 @@ public class PropertyView extends Container
 		int bWidthApply 	= fm.getTextWidth("Apply") + 5;
 		if(bClose == null) 	bClose = new Button("Close");
 		else 				remove(bClose);
-		bClose.setRect(contentRect.width/2 + 5 + bWidthApply/2,contentRect.height - 5 - bHeight,bWidthClose,bHeight);
+		bClose.setRect(contentRect.width/2 + 5 + bWidthApply/2,contentRect.height - botMargin - bHeight,bWidthClose,bHeight);
 		add(bClose);
 		if(bCancel == null) bCancel = new waba.ui.Button("Cancel");
 		else remove(bCancel);
-		bCancel.setRect(contentRect.width/2 - 5 - bWidthApply/2 - bWidthCancel,contentRect.height - 5 - bHeight,bWidthCancel,bHeight);
+		bCancel.setRect(contentRect.width/2 - 5 - bWidthApply/2 - bWidthCancel,contentRect.height - botMargin - bHeight,bWidthCancel,bHeight);
 		add(bCancel);
 		if(bApply == null) bApply = new waba.ui.Button("Apply");
 		else remove(bApply);
-		bApply.setRect(contentRect.width/2 - bWidthApply/2 ,contentRect.height - 5 - bHeight,bWidthApply,bHeight);
+		bApply.setRect(contentRect.width/2 - bWidthApply/2 ,contentRect.height - botMargin - bHeight,bWidthApply,bHeight);
 		add(bApply);
 	}
 
@@ -79,6 +80,10 @@ public class PropertyView extends Container
 	public void setRect(int x, int y, int width, int height)
 	{
 		super.setRect(x, y, width, height);
+		if(height <= 160){
+			bHeight = 13;
+			botMargin = 2;
+		}
 		setButtons();
 		setTabBar();
 		setPropertiesPane();
@@ -102,11 +107,21 @@ public class PropertyView extends Container
 			int pHeight = height - (25 + bHeight);
 			int pWidth = width - 2*widthBorder;
 			propertiesPanes[currContainer].setRect(widthBorder,20, pWidth ,pHeight);
-			int y0 = pHeight / 2  - (nProperties * 20) / 2;
+
+			PropObject po;
+			int totalPropHeight = 0;
+			for(int i=0; i< nProperties; i++){
+				po = (PropObject)prop.get(i);
+				if(po.getType() == po.MULTIPLE_SEL_LIST){
+					totalPropHeight += 44;
+				} else {
+					totalPropHeight += 20;
+				}
+			}
+			int y0 = pHeight / 2  - totalPropHeight / 2;
 			if (y0 < 0) y0 = 0;
 			int x0 = 5;
 
-			PropObject po;
 			int maxLabelWidth = 0;
 			int curLabelWidth = 0;
 			int maxPrefValWidth = 0;
@@ -139,13 +154,16 @@ public class PropertyView extends Container
 				String name = po.getName();
 				String value = po.getValue();
 				waba.ui.Label lName = new waba.ui.Label(name);
-				waba.ui.Control c = null;
+				waba.ui.Control c1 = null;
+				waba.ui.Control c2 = null;
 				String []possibleValues = po.getPossibleValues();
-				if(possibleValues == null){
+				int type = po.getType();
+				int poHeight = 16;
+				if(type == po.EDIT){
 					waba.ui.Edit   eValue = new waba.ui.Edit();
 					eValue.setText(value);
-					c = eValue;
-				}else{
+					c1 = eValue;
+				} else if (type == po.CHOICE || type == po.CHOICE_SETTINGS){
 					int index = -1;
 					for(int j = 0; j < possibleValues.length; j++){
 						if(value.equals(possibleValues[j])){
@@ -157,33 +175,41 @@ public class PropertyView extends Container
 					if(index >= 0){
 						ch.setSelectedIndex(index);
 					}
-					c = ch;
+					c1 = ch;
+					if(type == po.CHOICE_SETTINGS){
+						c2 = new Button(po.getSettingsButtonName());
+					}
+				} else if (type == po.MULTIPLE_SEL_LIST){
+					MultiList mList = new MultiList(possibleValues);
+					poHeight = mList.getPrefHeight();
+					c1 = mList;
 				}
-				po.setValueKeeper(c);
+				po.setValueKeeper(c1);
 				lName.setRect(labelStartX,y0,maxLabelWidth,16);
-				if(po.prefWidth < maxPrefValWidth){
-					c.setRect(labelStartX+maxLabelWidth+spaceSize,y0,po.prefWidth,16);
+				int prefWidth = po.prefWidth;
+				if(po.prefWidth > maxPrefValWidth){
+					prefWidth = maxPrefValWidth;
+				} 
+				if(c2 == null){
+					c1.setRect(labelStartX+maxLabelWidth+spaceSize,y0,prefWidth,poHeight);
 				} else {
-					c.setRect(labelStartX+maxLabelWidth+spaceSize,y0,maxPrefValWidth,16);
+					int c2width = fm.getTextWidth(po.getSettingsButtonName()) + 4;
+					c1.setRect(labelStartX+maxLabelWidth+spaceSize,y0,prefWidth-c2width-2,poHeight);
+					c2.setRect(labelStartX+maxLabelWidth+spaceSize+prefWidth-c2width+2,y0,c2width,poHeight);
 				}
-				y0 += 20;
-				propertiesPanes[currContainer].add(lName);
-				propertiesPanes[currContainer].add(c);
-			}
 
-			// Ugly hack by Scott
-			PropContainer pc = propContainer.getPropertiesContainer(currContainer);
-			if(pc.buttonName != null){
-				int bWidth = fm.getTextWidth(pc.buttonName) + 5;
-				Button b = new Button(pc.buttonName);
-				b.setRect(labelStartX+maxLabelWidth+spaceSize, y0, bWidth, 16);
-				propertiesPanes[currContainer].add(b);
+				y0 += poHeight+4;
+				propertiesPanes[currContainer].add(lName);
+				propertiesPanes[currContainer].add(c1);
+				if(c2 != null){
+					propertiesPanes[currContainer].add(c2);
+				}
 			}
 		}
 		add(propertiesPanes[currContainer]);
 		currentPane = propertiesPanes[currContainer];
- 	}
-
+	}
+	
 	public void updateProperties(boolean clearKeepers){
 		int nContainers = propContainer.getNumbPropContainers();
 		for(int i = 0; i < nContainers; i++){

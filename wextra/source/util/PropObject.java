@@ -3,12 +3,20 @@ import waba.ui.Control;
 
 public class PropObject
 {
+	public static int EDIT = 0;
+	public static int CHOICE = 1;
+	public static int CHOICE_SETTINGS = 2;
+	public static int MULTIPLE_SEL_LIST = 3;
+
 	String 	name;
 	String 	[]possibleValues;
 	String 	value;
 	float		fval = 0.0f;
 	Control	valueKeeper = null;
 	public int prefWidth = 60;
+	String settingsButtonName;
+
+	int type = EDIT;
 
 	public PropObject(extra.io.DataStream in){
 		valueKeeper = null;
@@ -18,6 +26,7 @@ public class PropObject
 		this.name = name;
 		this.possibleValues = possibleValues;
 		if(possibleValues != null && possibleValues.length > 0){
+			type = CHOICE;
 			value = possibleValues[defaultIndex];
 		}
 	}
@@ -31,6 +40,12 @@ public class PropObject
 	public 	PropObject(String name){
 		this(name,null,0);
 	}
+	public void setType(int t){ type = t;}
+	public int getType(){return type;}
+
+	public String getSettingsButtonName(){return settingsButtonName;}
+	public void setSettingsButtonName(String sbn){settingsButtonName = sbn;}
+
 	public void setValueKeeper(Control c){
 		valueKeeper = c;
 	}

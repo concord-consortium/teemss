@@ -6,7 +6,6 @@ public class PropContainer
 Vector propContainers 		= null;
 Vector propContainersNames 	= null;
 Vector properties 			= null;
-public	String buttonName = null; // ugly hack by scott
 
 	public PropContainer(){
 	}
@@ -38,12 +37,6 @@ public	String buttonName = null; // ugly hack by scott
 		}
 	}
 
-	// ugly hack by scott
-	public void addButton(String name)
-	{
-		buttonName = name;
-	}
-	
 	public Vector getProperties(){return properties;}
 	
 	public Vector getProperties(String nameContainer){
