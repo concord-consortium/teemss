@@ -10,10 +10,10 @@ public class CCMacApplHandler implements CCApplHandler, MRJQuitHandler, MRJAbout
 {
 CCApplHandlerListener	listener;
 	public void registerHandlers(CCApplHandlerListener	listener){
-    	MRJApplicationUtils.registerQuitHandler(this);
+		//    	MRJApplicationUtils.registerQuitHandler(this);
 //    	MRJApplicationUtils.registerPrefsHandler(this);
-    	MRJApplicationUtils.registerAboutHandler(this);
-    	addCCApplHandlerListener(listener);
+		//    	MRJApplicationUtils.registerAboutHandler(this);
+    	// addCCApplHandlerListener(listener);
 	}
 	public void addCCApplHandlerListener(CCApplHandlerListener	l){
 		if(l == null) return;

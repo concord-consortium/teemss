@@ -91,7 +91,7 @@ public abstract class  ExtraMainWindow extends MainWindow implements ActionListe
     
     public ExtraMainWindow()
     {
-	this(null,false);
+		this(null,false);
     }
 
     /**
@@ -101,7 +101,7 @@ public abstract class  ExtraMainWindow extends MainWindow implements ActionListe
 
     public ExtraMainWindow(boolean doubleBuffered)
     {
-	this(null,doubleBuffered);
+		this(null,doubleBuffered);
     }
 
     /**
@@ -109,7 +109,7 @@ public abstract class  ExtraMainWindow extends MainWindow implements ActionListe
      */
     public ExtraMainWindow(String name)
     {
-	this(name,false);
+		this(name,false);
     }
 
     /**
@@ -120,10 +120,10 @@ public abstract class  ExtraMainWindow extends MainWindow implements ActionListe
      */
     public ExtraMainWindow(String name,boolean doubleBuffered)
     {
-	this.doubleBuffered=doubleBuffered;
-	// if (platform==JAVA) setRect(0,0,260,260);
-	super.add(content=new RelativeContainer());
-	content.setRect(x,y,width,height);
+		this.doubleBuffered=doubleBuffered;
+		// if (platform==JAVA) setRect(0,0,260,260);
+		super.add(content=new RelativeContainer());
+		content.setRect(x,y,width,height);
     }
 
     /**
@@ -136,8 +136,8 @@ public abstract class  ExtraMainWindow extends MainWindow implements ActionListe
      */
     public void setFocus(Control c)
     {
-	newFocus=c;
-	super.setFocus(c);
+		newFocus=c;
+		super.setFocus(c);
     }
 
 
@@ -148,41 +148,41 @@ public abstract class  ExtraMainWindow extends MainWindow implements ActionListe
      */
     protected void damageRect(int x, int y, int width, int height)
     {
-	super.damageRect(x,y,width,height);
+		super.damageRect(x,y,width,height);
 
-	if (!doubleBuffered){
-	    needsPaint = true;
-	    return;
-	}
+		if (!doubleBuffered){
+			needsPaint = true;
+			return;
+		}
 
-	if (needsPaint){
-	    int ax = x + width;
-	    int ay = y + height;
-	    int bx = paintX + paintWidth;
-	    int by = paintY + paintHeight;
-	    if (paintX < x)
-		x = paintX;
+		if (needsPaint){
+			int ax = x + width;
+			int ay = y + height;
+			int bx = paintX + paintWidth;
+			int by = paintY + paintHeight;
+			if (paintX < x)
+				x = paintX;
 
-	    if (paintY < y)
-		y = paintY;
+			if (paintY < y)
+				y = paintY;
 
-	    if (ax > bx)
-		width = ax - x;
-	    else
-		width = bx - x;
+			if (ax > bx)
+				width = ax - x;
+			else
+				width = bx - x;
 
-	    if (ay > by)
-		height = ay - y;
-	    else
-		height = by - y;
+			if (ay > by)
+				height = ay - y;
+			else
+				height = by - y;
 
-	}
+		}
 
-	paintX = x;
-	paintY = y;
-	paintWidth = width;
-	paintHeight = height;
-	needsPaint = true;
+		paintX = x;
+		paintY = y;
+		paintWidth = width;
+		paintHeight = height;
+		needsPaint = true;
     }
 
     /**
@@ -190,46 +190,46 @@ public abstract class  ExtraMainWindow extends MainWindow implements ActionListe
      * to prevent the compiler from removing it during optimization.
      */
     public boolean isControlHDialogOwned(Control c){
-	boolean retValue = false;
-	/*	if(c instanceof Dialog) return true;
-		Control cc = c.getParent();
-		while(cc != null){
-		if(cc instanceof Dialog) return true;
-		cc = cc.getParent();
-		}*/
-	return retValue;
+		boolean retValue = false;
+		/*	if(c instanceof Dialog) return true;
+			Control cc = c.getParent();
+			while(cc != null){
+			if(cc instanceof Dialog) return true;
+			cc = cc.getParent();
+			}*/
+		return retValue;
     }
 
     public void _postEvent(int type, int key, int x, int y, int modifiers, int timeStamp)
     {
-	if(popupDialog != null){
-	    if (type == PenEvent.PEN_DOWN){
-		Control c = findChild(x, y);
-//		System.out.println(c);
-		if(!(c instanceof Choice)){
-		    if(!isControlHDialogOwned(c)){
-			Sound.beep();
-			return;
-		    }
+		if(popupDialog != null){
+			if (type == PenEvent.PEN_DOWN){
+				Control c = findChild(x, y);
+				//		System.out.println(c);
+				if(!(c instanceof Choice)){
+					if(!isControlHDialogOwned(c)){
+						Sound.beep();
+						return;
+					}
+				}
+			}
 		}
-	    }
-	}
 
-	super._postEvent(type,key,x,y,modifiers,timeStamp);
+		super._postEvent(type,key,x,y,modifiers,timeStamp);
 
-	if (doubleBuffered&&needsPaint)
-	    _doPaint(paintX, paintY, paintWidth, paintHeight);
+		if (doubleBuffered&&needsPaint)
+			_doPaint(paintX, paintY, paintWidth, paintHeight);
 
     }
 
 
     public void _finishAWTEvent()
     {
-	if(needsPaint){
-	    _doPaint(x, y, width, height);
-	} else {
-	    super._finishAWTEvent();
-	}
+		if(needsPaint){
+			_doPaint(x, y, width, height);
+		} else {
+			super._finishAWTEvent();
+		}
     }
 
 
@@ -239,42 +239,42 @@ public abstract class  ExtraMainWindow extends MainWindow implements ActionListe
      */
     public void _doPaint(int x, int y, int width, int height)
     {
-	// if (doubleBuffered&&!needsPaint) return;
+		// if (doubleBuffered&&!needsPaint) return;
 	
-	if (!doubleBuffered){
-	    super._doPaint(x,y,width,height);
-	    needsPaint = false;
-	    return;
-	}
+		if (!doubleBuffered){
+			super._doPaint(x,y,width,height);
+			needsPaint = false;
+			return;
+		}
 
-	if (ig == null||(x + width)>bufIm.getWidth()||(y+ height)>bufIm.getHeight()){
-	    bufIm=new Image(x + width,y + height);
-	    ig = new Graphics(bufIm);
-	    sg = new Graphics(this);
-	}
+		if (ig == null||(x + width)>bufIm.getWidth()||(y+ height)>bufIm.getHeight()){
+			bufIm=new Image(x + width,y + height);
+			ig = new Graphics(bufIm);
+			sg = new Graphics(this);
+		}
 
-	// clear background
-	ig.setClip(x, y, width, height);
+		// clear background
+		ig.setClip(x, y, width, height);
 
-	// java style background
-	ig.setColor(200, 200, 200);
+		// java style background
+		ig.setColor(200, 200, 200);
 
-	ig.fillRect(x, y, width, height);
-	onPaint(ig);
-	ig.clearClip();
-	paintChildren(ig, x, y, width, height);
+		ig.fillRect(x, y, width, height);
+		onPaint(ig);
+		ig.clearClip();
+		paintChildren(ig, x, y, width, height);
 
-	if (needsPaint){
-	    int ax = x + width;
-	    int ay = y + height;
-	    int bx = paintX + paintWidth;
-	    int by = paintY + paintHeight;
-	    if (x <= paintX && y <= paintY && ax >= bx && ay >= by){
-		needsPaint = false;
-	    }
-	}
+		if (needsPaint){
+			int ax = x + width;
+			int ay = y + height;
+			int bx = paintX + paintWidth;
+			int by = paintY + paintHeight;
+			if (x <= paintX && y <= paintY && ax >= bx && ay >= by){
+				needsPaint = false;
+			}
+		}
 
-	sg.copyRect(bufIm,x,y,width,height,x,y);
+		sg.copyRect(bufIm,x,y,width,height,x,y);
     }
 
 
@@ -282,7 +282,7 @@ public abstract class  ExtraMainWindow extends MainWindow implements ActionListe
     /** Returns the child located at the given x and y coordinates. */
     public Control findChild(int x, int y)
     {
-	return content.findChild(x, y);
+		return content.findChild(x, y);
     }
 
 
@@ -294,23 +294,23 @@ public abstract class  ExtraMainWindow extends MainWindow implements ActionListe
      */
     public void setGaps(int x,int y)
     {
-	content.setGaps(x,y);
+		content.setGaps(x,y);
     }
 
     public void setMenuBar(MenuBar menubar)
     {
-	if(!awtMenubarWasInserted){
-	    java.awt.Frame awtFrame = (java.awt.Frame)waba.applet.Applet.currentApplet.getParent();
-	    if(awtFrame != null){
+		if(!awtMenubarWasInserted){
+			java.awt.Frame awtFrame = (java.awt.Frame)waba.applet.Applet.currentApplet.getParent();
+			if(awtFrame != null){
 		
-		awtFrame.setMenuBar(menubar.getAWTMenuBar());
-		awtMenubarWasInserted = true;
-	    }
-	}
+				awtFrame.setMenuBar(menubar.getAWTMenuBar());
+				awtMenubarWasInserted = true;
+			}
+		}
     }
 
     public void add(PopupMenu pMenu){
-	waba.applet.Applet.currentApplet.add(pMenu.getAWTPopupMenu());
+		waba.applet.Applet.currentApplet.add(pMenu.getAWTPopupMenu());
     }
 
 
@@ -320,7 +320,7 @@ public abstract class  ExtraMainWindow extends MainWindow implements ActionListe
      */
     public void add(Control control,int x,int y)
     {
-	content.add(control,x,y);
+		content.add(control,x,y);
     }
 
     /**
@@ -330,7 +330,7 @@ public abstract class  ExtraMainWindow extends MainWindow implements ActionListe
 
     public void add(Control control,int x,int y,Control relative)
     {
-	content.add(control,x,y,relative);
+		content.add(control,x,y,relative);
     }
 
     /**
@@ -340,7 +340,7 @@ public abstract class  ExtraMainWindow extends MainWindow implements ActionListe
 
     public void add(Control control,int x,int y,int width,int height)
     {
-	content.add(control,x,y,width,height);
+		content.add(control,x,y,width,height);
     }
 
     /**
@@ -350,7 +350,7 @@ public abstract class  ExtraMainWindow extends MainWindow implements ActionListe
 
     public void add(Control control,int x,int y,int width,int height,Control relative)
     {
-	content.add(control,x,y,width,height,relative);
+		content.add(control,x,y,width,height,relative);
     }
 
     /**
@@ -359,7 +359,7 @@ public abstract class  ExtraMainWindow extends MainWindow implements ActionListe
      */
     public void add(Control control)
     {
-	content.add(control);
+		content.add(control);
     }
 
     /**
@@ -368,7 +368,7 @@ public abstract class  ExtraMainWindow extends MainWindow implements ActionListe
      */
     public void remove(Control control)
     {
-	content.remove(control);
+		content.remove(control);
     }
 
     /**
@@ -377,7 +377,7 @@ public abstract class  ExtraMainWindow extends MainWindow implements ActionListe
      */
     public void removePermanently(Control control)
     {
-	content.removePermanently(control);
+		content.removePermanently(control);
     }
 
     /**
@@ -385,13 +385,13 @@ public abstract class  ExtraMainWindow extends MainWindow implements ActionListe
      */
     public void setRect(int x,int y,int width,int height)
     {
-	super.setRect(x,y,width,height);
-	if (content!=null)
-	    content.setRect(x,y,width,height);
+		super.setRect(x,y,width,height);
+		if (content!=null)
+			content.setRect(x,y,width,height);
     }
   
     public void setDialog(Dialog d){
-  	popupDialog = d;
+		popupDialog = d;
     }
 	public void handleAbout(){}
 	public void handleQuit(){}
