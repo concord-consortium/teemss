@@ -71,7 +71,7 @@ $(PLATFORMS:%=$(CLASSES_DIR)/%): $(CLASSES_DIR)/% :
 else 
 
 $(CLASSES_DIR)/$(PLATFORM): source/*.java $(wildcard source/$(PLATFORM)/*.java)
-	[ -d $@ ] || mkdir $@
+	[ -d $@ ] || mkdir -p $@
 	javac -classpath $@:$(call PLATFORM_CP,$(PLATFORM)):$(call COMPILE_CP,$(PLATFORM)) -d $@ -O $?
 	touch $@
 
