@@ -479,7 +479,7 @@ public final static int	yTextBegin = 2;
 
 	public void insertText(String iStr){
 	
-	
+		removeCursor();
 		if(iStr == null) return;
 		int nStr = iStr.length();
 		if(nStr < 1){
@@ -534,6 +534,7 @@ public final static int	yTextBegin = 2;
 */
 		layoutComponents();
 		notifyListeners(0);
+		restoreCursor(true);
 	}
 	public void insertEmptyLine(){
 		if(lines == null){
@@ -729,6 +730,27 @@ public final static int	yTextBegin = 2;
 			String s = sb.toString();
 			if(s.length() > 1){
 				lines.add(new CCStringWrapper(this,s,lastRow));
+			}
+		}
+		if(components != null){
+			int nLines = (lines == null)?0:lines.getCount();
+			for(int k = 0; k < components.length; k++){
+				LBCompDesc cDesc = components[k];
+				if(cDesc.lineBefore == nLines){
+					int addH = cDesc.h;
+					int addRows = 1 + (addH / getItemHeight());
+					int lastLineRow = (nLines < 1)?0:((CCStringWrapper)lines.get(nLines - 1)).endRow;
+					if(rows == null)  rows = new waba.util.Vector();
+					int nRows = rows.getCount();
+					if(addRows > 0){
+						for(int rw = nRows; rw < nRows + addRows; rw++){
+							CCTARow newRow = new CCTARow();
+							newRow.setMargins(r.x + insetLeft,r.x + r.width - insetRight);
+							rows.add(newRow);
+						}
+					}		
+					break;
+				}
 			}
 		}
 		repaint();
@@ -1036,8 +1058,21 @@ public final static int	yTextBegin = 2;
 */
 	public int getRowsNumber(){
 		int retValue = 0;
-		if(lines == null || lines.getCount() < 1) return 0;
-		retValue = ((CCStringWrapper)lines.get(lines.getCount() - 1)).endRow + 1;
+		int nLines = (lines == null)?0:lines.getCount();
+		int addRow = 0;
+		if(components != null){
+			for(int i = 0; i < components.length; i++){
+	    		LBCompDesc d = components[i];
+	    		if(d == null) continue;
+	    		if(d.lineBefore == nLines){
+	    			addRow = 1 + (d.h / getItemHeight());
+	    			break;	
+	    		}
+			}
+		}
+		retValue = addRow;
+		if(nLines < 1) return retValue;
+		retValue = addRow + ((CCStringWrapper)lines.get(lines.getCount() - 1)).endRow + 1;
 		return retValue;
 	}
 	
