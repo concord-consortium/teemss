@@ -7,4 +7,7 @@ classes: $(wildcard $(SRC_DIRS:%=source/waba/%/*.java))
 	javac -classpath classes:$(CLASSPATH):../wj_tools/jump.jar -d classes $?
 	touch classes
 
+clean:
+	rm -rf classes
+
 include ../ReleaseSystem/Makefile.inc

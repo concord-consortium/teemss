@@ -174,20 +174,6 @@ public void _postEvent(int type, int key, int x, int y, int modifiers, int timeS
 		_doPaint(paintX, paintY, paintWidth, paintHeight);
 	}
 
-    Graphics getGraphics()
-    {
-	if (_g == null){
-	    _g = new Graphics(this);
-	} else {
-	    // zero translation
-	    _g.translateZero();
-	}
-
-	return _g;
-	    
-	
-    }
-
 /**
  * Called by the VM to repaint an area.
  */
