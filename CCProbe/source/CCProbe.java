@@ -102,7 +102,7 @@ public class CCProbe extends ExtraMainWindow
 			labBook.store(loDict);
 
 		}
-		LObjDictionaryView view = (LObjDictionaryView)loDict.getView(this, true);
+		LabObjectView view = (LabObjectView)loDict.getView(this, true);
 		view.setRect(x,y,width,myHeight);
 		view.setShowMenus(true);
 		me.add(view);
@@ -259,7 +259,7 @@ public class CCProbe extends ExtraMainWindow
 		LabObjectView replacement = obj.getView(this, true);
 		// This automatically does the layout call for us
 		replacement.setRect(x,y,width,myHeight);
-
+		replacement.setShowMenus(true);
 		me.add(replacement);
 		lObjView = replacement;
     }
@@ -273,6 +273,7 @@ public class CCProbe extends ExtraMainWindow
 			command = e.getActionCommand();
 			if(command.equals("Exit")){
 				Debug.println("commiting");
+				lObjView.close();
 				labBook.store(loDict);
 				if(!labBook.commit() ||
 				   !labBook.close()){
