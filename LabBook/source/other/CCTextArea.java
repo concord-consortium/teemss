@@ -226,7 +226,11 @@ public final static int	yTextBegin = 2;
 				}
 			}
 			owner.setShowMenus(false);
-    		mainView.showFullWindowView(view);
+			if(view == null){
+				mainView.showFullWindowView(view);
+			} else {				
+				mainView.showFullWindowView(view);
+			}
     	}
 	}
 
