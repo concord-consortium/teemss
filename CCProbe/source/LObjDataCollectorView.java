@@ -335,7 +335,7 @@ public class LObjDataCollectorView extends LabObjectView
 			graph.showProp(session);
 		} else if(e.target == title1Label &&
 				  e.type == PenEvent.PEN_DOWN){
-			addTimer(200);
+			// addTimer(200);
 		}
 		
     }
