@@ -153,25 +153,32 @@ public class GraphTool extends Container
 
 	if(slowUpdate){
 	    if(dataEvent.type == DataEvent.DATA_RECEIVED){
+		if(lg.active){
+		    if(!curBin.dataReceived(dataEvent)){
+			stop();
+			lg.curView.draw();
+			return;		
+		    }
+		}		    
+		    val = dataEvent.data[dataEvent.dataOffset];
+		    time = dataEvent.time;		
+	    } else {	     
+		if(lg.active){
+		    lg.update();
+		} else {
+		    curVal.setText(val +"");
+		    curTime.setText(time + "s");
+		}
+	    }
+	} else {
+	    if(lg.active){
 		if(!curBin.dataReceived(dataEvent)){
 		    stop();
 		    lg.curView.draw();
 		    return;		
 		}
-		val = dataEvent.data[dataEvent.dataOffset];
-		time = dataEvent.time;
-	    } else {	     
 		lg.update();
-		//		curVal.setText(val +"");
-		// curTime.setText(time + "s");
 	    }
-	} else {
-	    if(!curBin.dataReceived(dataEvent)){
-		stop();
-		lg.curView.draw();
-		return;		
-	    }
-	    lg.update();
 	    curVal.setText(dataEvent.data[dataEvent.dataOffset] + "");
 	    curTime.setText(dataEvent.time + "s");
 	}
@@ -194,6 +201,8 @@ public class GraphTool extends Container
 	}
 	
 	lg.free();
+	curVal.free();
+	curTime.free();
     }
 
     void stop()
@@ -219,12 +228,14 @@ public class GraphTool extends Container
 	    int index;
 	    if(target == modControl[0] && modControl[0].isSelected()){
 		// start
-		lg.active = true;
+		if(bins.getCount() == 0){
+		    lg.active = true;
+		    bins.add(curBin);
+		}
 		slowUpdate = false;
 
 		bytesRead.setText((byte)'C' + "");
 		pm.start();
-		bins.add(curBin);
 
 	    } else if(target == modControl[1] && modControl[1].isSelected()){
 		stop();
@@ -235,6 +246,7 @@ public class GraphTool extends Container
 
 		    curVal.setText("");
 		    curTime.setText("0.0s");
+		    bins = new Vector();
 
 	    } else if(target == exitB){
 		    // doit

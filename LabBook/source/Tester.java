@@ -24,8 +24,11 @@ public class Tester extends ExtraMainWindow
 	Dialog.showImages = false;
 	ImagePane.showImages = false;
 
+	graph.Bin.START_DATA_SIZE = 4000;
+	graph.LargeFloatArray.MaxNumChunks = 4;
+
 	if(waba.sys.Vm.getPlatform().equals("PalmOS")){
-	    graph.Bin.START_DATA_SIZE = 1000;
+	    graph.Bin.START_DATA_SIZE = 4000;
 	    graph.LargeFloatArray.MaxNumChunks = 4;
 	}
 	menuBar = new MenuBar();
