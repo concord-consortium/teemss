@@ -197,9 +197,9 @@ public void onPaint(Graphics g)
 
 		x = this.width - fm.getTextWidth(text);
 
-	g.drawText(text, x, y);
-
+	if(text != null){
+		g.drawText(text, x, y);
+	} 
 	}
-
 }
-
+	
