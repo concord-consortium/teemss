@@ -1,0 +1,288 @@
+
+<!--  file: datacollectors.xml, Data Collectors include folder -->
+
+<dc-list>
+
+      <DATACOLLECTOR ID="dc-temperature1" name="Measure Temperature">
+       <PROBE ID="dc-temp1" probe="Temperature">
+         <PROP name="Port" value="A"/>
+         <PROP name="Mode" value="C"/>
+       </PROBE>
+       <GRAPH current-line="0" title="">
+         <DATAFOLDER object="saved-datasets"/>
+         <XAXIS min="0" max="60"/>
+         <YAXIS min="10" max="40"/>
+         <LINE xaxis="0" yaxis="0" datasource="dc-temp1"/>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+      <DATACOLLECTOR ID="dc-temperature2" name="Measure Temperature">
+       <PROBE ID="dc-temp2" probe="Temperature">
+         <PROP name="Port" value="A"/>
+         <PROP name="Mode" value="C"/>
+       </PROBE>
+       <GRAPH current-line="0" title="">
+         <XAXIS min="0" max="120"/>
+         <YAXIS min="10" max="40"/>
+         <LINE xaxis="0" yaxis="0" datasource="dc-temp2"/>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+      <DATACOLLECTOR ID="dc-temperature3" name="Measure Temperature">
+       <PROBE ID="dc-temp3" probe="Temperature">
+         <PROP name="Port" value="A"/>
+         <PROP name="Mode" value="C"/>
+       </PROBE>
+       <GRAPH current-line="0" title="">
+         <XAXIS min="0" max="150"/>
+         <YAXIS min="20" max="30"/>
+         <LINE xaxis="0" yaxis="0" datasource="dc-temp3"/>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+      <DATACOLLECTOR ID="dc-temperature4" name="Measure Temperature">
+       <PROBE ID="dc-temp4" probe="Temperature">
+         <PROP name="Port" value="A"/>
+         <PROP name="Mode" value="C"/>
+       </PROBE>
+       <GRAPH current-line="0" title="">
+         <XAXIS min="0" max="60"/>
+         <YAXIS min="20" max="35"/>
+         <LINE xaxis="0" yaxis="0" datasource="dc-temp4"/>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+      <DATACOLLECTOR ID="dc-temperature5" name="Measure Temperature">
+       <PROBE ID="dc-temp5" probe="Temperature">
+         <PROP name="Port" value="A"/>
+         <PROP name="Mode" value="C"/>
+       </PROBE>
+       <GRAPH current-line="0" title="">
+         <XAXIS min="0" max="50"/>
+         <YAXIS min="20" max="25"/>
+         <LINE xaxis="0" yaxis="0" datasource="dc-temp5"/>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+      <DATACOLLECTOR ID="dc-temperature6" name="Measure Temperature">
+       <PROBE ID="dc-temp6" probe="Temperature">
+         <PROP name="Port" value="A"/>
+         <PROP name="Mode" value="C"/>
+       </PROBE>
+       <GRAPH current-line="0" title="">
+         <XAXIS min="0" max="50"/>
+         <YAXIS min="20" max="50"/>
+         <LINE xaxis="0" yaxis="0" datasource="dc-temp6"/>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+      <DATACOLLECTOR ID="dc-voltage-current-voltage" name="Measure Voltage" >
+       <PROBE ID="dc-vi1" probe="VoltageCurrent">
+         <PROP name="Port" value="A"/>
+         <PROP name="Speed" value="3 per second"/>
+         <PROP name="Version" value="2.0"/>
+       </PROBE>
+       <GRAPH current-line="2" title="">
+         <XAXIS min="0" max="60"/>
+         <YAXIS min="0" max="3"/>
+         <YAXIS min="-1" max="1"/>
+         <YAXIS min="0" max="6"/>
+         <YAXIS min="0" max="50"/>
+         <LINE xaxis="0" yaxis="0">
+           <INTPROBETRANS quantity="Voltage" probe="dc-vi1"/></LINE>
+         <LINE xaxis="0" yaxis="1">
+           <INTPROBETRANS quantity="Current" probe="dc-vi1"/></LINE>
+         <LINE xaxis="0" yaxis="2">
+           <INTPROBETRANS quantity="Power" probe="dc-vi1"/></LINE>
+         <LINE xaxis="0" yaxis="3">
+           <INTPROBETRANS quantity="Energy" probe="dc-vi1"/></LINE>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+      <DATACOLLECTOR ID="dc-voltage-current-power" name="Measure Power" >
+       <PROBE ID="dc-vi2" probe="VoltageCurrent">
+         <PROP name="Port" value="A"/>
+         <PROP name="Speed" value="3 per second"/>
+         <PROP name="Version" value="2.0"/>
+       </PROBE>
+       <GRAPH current-line="2" title="">
+         <XAXIS min="0" max="40"/>
+         <YAXIS min="-10" max="10"/>
+         <YAXIS min="-1" max="1"/>
+         <YAXIS min="0" max="6"/>
+         <YAXIS min="0" max="50"/>
+         <LINE xaxis="0" yaxis="0">
+           <INTPROBETRANS quantity="Voltage" probe="dc-vi2"/></LINE>
+         <LINE xaxis="0" yaxis="1">
+           <INTPROBETRANS quantity="Current" probe="dc-vi2"/></LINE>
+         <LINE xaxis="0" yaxis="2">
+           <INTPROBETRANS quantity="Power" probe="dc-vi2"/></LINE>
+         <LINE xaxis="0" yaxis="3">
+           <INTPROBETRANS quantity="Energy" probe="dc-vi2"/></LINE>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+      <DATACOLLECTOR ID="dc-voltage-current-energy" name="Measure Energy" >
+       <PROBE ID="dc-vi3" probe="VoltageCurrent">
+         <PROP name="Port" value="A"/>
+         <PROP name="Speed" value="3 per second"/>
+         <PROP name="Version" value="2.0"/>
+       </PROBE>
+       <GRAPH current-line="3" title="">
+         <XAXIS min="0" max="40"/>
+         <YAXIS min="-10" max="10"/>
+         <YAXIS min="-1" max="1"/>
+         <YAXIS min="0" max="6"/>
+         <YAXIS min="0" max="50"/>
+         <LINE xaxis="0" yaxis="0">
+           <INTPROBETRANS quantity="Voltage" probe="dc-vi3"/></LINE>
+         <LINE xaxis="0" yaxis="1">
+           <INTPROBETRANS quantity="Current" probe="dc-vi3"/></LINE>
+         <LINE xaxis="0" yaxis="2">
+           <INTPROBETRANS quantity="Power" probe="dc-vi3"/></LINE>
+         <LINE xaxis="0" yaxis="3">
+           <INTPROBETRANS quantity="Energy" probe="dc-vi3"/></LINE>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+      <DATACOLLECTOR ID="dc-light-4000" name="Measure Light, 4000 Lux">
+       <PROBE ID="dc-light" probe="Light">
+         <PROP name="Port" value="A"/>
+         <PROP name="Range" value="Dim Light"/>
+         <PROP name="Speed" value="3 per second"/>
+       </PROBE>
+       <GRAPH current-line="0" title="">
+         <XAXIS min="0" max="60"/>
+         <YAXIS min="0" max="4000"/>
+         <LINE xaxis="0" yaxis="0" datasource="dc-light"/>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+      <DATACOLLECTOR ID="dc-light-100000" name="Measure Light, 125000 Lux">
+       <PROBE ID="dc-light3" probe="Light">
+         <PROP name="Port" value="A"/>
+         <PROP name="Range" value="Bright Light"/>
+         <PROP name="Speed" value="3 per second"/>
+       </PROBE>
+       <GRAPH current-line="0" title="">
+         <XAXIS min="0" max="60"/>
+         <YAXIS min="0" max="125000"/>
+         <LINE xaxis="0" yaxis="0" datasource="dc-light3"/>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+      <DATACOLLECTOR ID="dc-force1" name="Measure Force" >
+       <PROBE ID="dc-f1" probe="Force">
+         <PROP name="Mode" value="End of Arm"/>
+         <PROP name="Range" value="+/- 20N"/>
+         <PROP name="Speed" value="3 per second"/>
+       </PROBE>
+       <GRAPH current-line="0" title="">
+         <XAXIS min="0" max="20"/>
+         <YAXIS min="-0.1" max="0.6"/>
+         <LINE xaxis="0" yaxis="0" datasource="dc-f1"/>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+
+      <DATACOLLECTOR ID="dc-force2" name="Measure Force" >
+       <PROBE ID="dc-f2" probe="Force">
+         <PROP name="Mode" value="End of Arm"/>
+         <PROP name="Range" value="+/- 20N"/>
+         <PROP name="Speed" value="400 per second"/>
+       </PROBE>
+       <GRAPH current-line="0" title="">
+         <XAXIS min="0" max="10"/>
+         <YAXIS min="-20" max="0"/>
+         <LINE xaxis="0" yaxis="0" datasource="dc-f2"/>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+
+      <DATACOLLECTOR ID="dc-force3" name="Measure Force" >
+       <PROBE ID="dc-f3" probe="Force">
+         <PROP name="Mode" value="End of Arm"/>
+         <PROP name="Range" value="+/- 20N"/>
+         <PROP name="Speed" value="400 per second"/>
+       </PROBE>
+       <GRAPH current-line="0" title="">
+         <XAXIS min="0" max="10"/>
+         <YAXIS min="0" max="4"/>
+         <LINE xaxis="0" yaxis="0" datasource="dc-f3"/>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+
+      <DATACOLLECTOR ID="dc-force4" name="Measure Force" >
+       <PROBE ID="dc-f4" probe="Force">
+         <PROP name="Mode" value="End of Arm"/>
+         <PROP name="Range" value="+/- 20N"/>
+         <PROP name="Speed" value="400 per second"/>
+       </PROBE>
+       <GRAPH current-line="0" title="">
+         <XAXIS min="0" max="10"/>
+         <YAXIS min="-20" max="1"/>
+         <LINE xaxis="0" yaxis="0" datasource="dc-f4"/>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+      <DATACOLLECTOR ID="dc-smartwheel-pos1" name="Measure Position" >
+        <PROBE ID="dc-sw-pos1" probe="SmartWheel">
+         <PROP name="Port" value="A"/>
+       </PROBE>
+        <GRAPH current-line="0" title="">
+          <XAXIS min="0" max="40"/>
+          <YAXIS min="-0.5" max="6"/>
+          <LINE xaxis="0" yaxis="0">
+            <INTPROBETRANS quantity="Position" probe="dc-sw-pos1"/></LINE>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+      <DATACOLLECTOR ID="dc-smartwheel-pos2" name="Measure Position" >
+        <PROBE ID="dc-sw-pos2" probe="SmartWheel">
+         <PROP name="Port" value="A"/>
+       </PROBE>
+        <GRAPH current-line="0" title="">
+          <XAXIS min="0" max="10"/>
+          <YAXIS min="-0.5" max="6"/>
+          <LINE xaxis="0" yaxis="0">
+            <INTPROBETRANS quantity="Position" probe="dc-sw-pos2"/></LINE>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+      <DATACOLLECTOR ID="dc-smartwheel-vel1" name="Measure Velocity">
+        <PROBE ID="dc-sw-vel1" probe="SmartWheel">
+         <PROP name="Port" value="A"/>
+       </PROBE>
+        <GRAPH current-line="0" title="">
+          <XAXIS min="0" max="20"/>
+          <YAXIS min="-1" max="1"/>
+          <LINE xaxis="0" yaxis="0">
+            <INTPROBETRANS quantity="Velocity" probe="dc-sw-vel1"/></LINE>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+      <DATACOLLECTOR ID="dc-smartwheel-vel2" name="Measure Velocity">
+        <PROBE ID="dc-sw-vel2" probe="SmartWheel">
+         <PROP name="Port" value="A"/>
+       </PROBE>
+        <GRAPH current-line="0" title="">
+          <XAXIS min="0" max="10"/>
+          <YAXIS min="-1" max="1"/>
+          <LINE xaxis="0" yaxis="0">
+            <INTPROBETRANS quantity="Velocity" probe="dc-sw-vel2"/></LINE>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+      <DATACOLLECTOR ID="dc-smartwheel-vel3" name="Measure Velocity">
+        <PROBE ID="dc-sw-vel3" probe="SmartWheel">
+         <PROP name="Port" value="A"/>
+       </PROBE>
+        <GRAPH current-line="0" title="">
+          <XAXIS min="0" max="10"/>
+          <YAXIS min="-0.5" max="0.5"/>
+          <LINE xaxis="0" yaxis="0">
+            <INTPROBETRANS quantity="Velocity" probe="dc-sw-vel3"/></LINE>
+	</GRAPH>
+      </DATACOLLECTOR>
+</dc-list>
