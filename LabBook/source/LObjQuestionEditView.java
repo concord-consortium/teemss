@@ -28,7 +28,7 @@ public class LObjQuestionEditView extends LabObjectView
     {
 	super(vc);
 	quest = lq;
-	lObj = (LabObject)quest;
+	lObj = quest;
 	typeChoice.setSelectedIndex(quest.questionType);
 	if(quest.options != null){
 	    options = quest.options.getView(null, true);

@@ -19,7 +19,7 @@ public class LObjQuestionView extends LabObjectView
     {
 	super(vc);
 	quest = lq;
-	lObj = (LabObject)quest;
+	lObj = quest;
 	Debug.println("Opening QV for: " + lq.name);
     }
 
