@@ -157,10 +157,12 @@ public class LObjGraph extends LObjSubDict
 		GraphSettings gs = null;
 		if(newSettings){
 			gs = new GraphSettings(this, numDataSources, linkX, linkY);
-			gs.setXAuto(true);
+			Axis xaxis = gs.getXAxis();
+			xaxis.autoLabel = true;
 			gs.setXUnit(CCUnit.getUnit(CCUnit.UNIT_CODE_S));
 			
-			gs.setYAuto(true);
+			Axis yaxis = gs.getYAxis();
+			yaxis.autoLabel = true;
 			gs.setYUnit(ds.getUnit());
 
 			title = ds.getSummary();
@@ -417,8 +419,10 @@ public class LObjGraph extends LObjSubDict
 				dsGraph.xAxisVector.add(xaxis);
 				dsGraph.yAxisVector.add(yaxis);
 
-				xaxis.setRange(curGS.getXMin(), curGS.getXMax()-curGS.getXMin());
-				yaxis.setRange(curGS.getYMin(), curGS.getYMax()-curGS.getYMin());
+				Axis oldXA = curGS.getXAxis();
+				Axis oldYA = curGS.getYAxis();
+				xaxis.setRange(oldXA.getDispMin(), oldXA.getDispMax()-oldXA.getDispMin());
+				yaxis.setRange(oldYA.getDispMin(), oldYA.getDispMax()-oldYA.getDispMin());
 
 				dsGraph.addDataSource(dSet, true, 0, 0);
 				dsGraph.store();

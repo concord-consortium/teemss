@@ -33,21 +33,23 @@ public class LObjDataCollectorProp extends LabObjectView
 
 		mainProps = new PropContainer("Main");
 		nameProp = new PropObject("Name", "Name", 0, dc.name);
+		nameProp.prefWidth = 120;
 		mainProps.addProperty(nameProp);
 
 		Vector dataSources = dc.getDataSources();
+		int index = 0;
 		if(dataSources != null &&
 		   dataSources.getCount() > 0 &&
 		   dataSources.get(0) instanceof LObjProbeDataSource){
 		    String curName = ((LObjProbeDataSource)dataSources.get(0)).getProbeName();
 			for(int i=0; i<probeNames.length; i++){
 				if(curName.equals(probeNames[i])){
-				   probeType = new PropObject("Probe", "Probe", 1, probeNames, i);
+					index = i;
 				}
 			}
-		} else{
-			probeType = new PropObject("Probe", "Probe", 1, probeNames);
-		}
+		} 
+		probeType = new PropObject("Probe", "Probe", 1, probeNames, index);
+		probeType.prefWidth = 120;
 		mainProps.addProperty(probeType, this);
 
 		LObjProbeDataSource probeDS =  
@@ -72,6 +74,7 @@ public class LObjDataCollectorProp extends LabObjectView
 		didLayout = true;
 
 		propView = new PropertyView(this);
+		propView.setAlignment(PropertyView.ALIGN_TOP);
 		propView.addContainer(mainProps);
 		if(dsProps != null){
 			propView.addContainer(dsProps);

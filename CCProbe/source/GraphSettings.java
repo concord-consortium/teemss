@@ -69,8 +69,8 @@ public class GraphSettings
 	{
 		this.gv = gv;
 
-		xaxis = (SplitAxis)graph.getXAxis(linkX);
-		yaxis = (ColorAxis)graph.getYAxis(linkY);		
+		xaxis = (SplitAxis)getXAxis();
+		yaxis = (ColorAxis)getYAxis();
 
 		if(xaxis == null || yaxis == null){
 			return;
@@ -98,23 +98,8 @@ public class GraphSettings
 	   
 		xUnit = xaxis.getUnit();
 		
-		// update the yaxis label just to be safe
-		if(getYAuto()){
-
-			// need to set the ylabel to it's auto name
-			if(ds != null){
-				yLabel = ds.getQuantityMeasured();
-			} else {
-				yLabel = "null DS";
-			}
-			yaxis.setAxisLabel(yLabel, yUnit);
-		}
-
-		// update the xaxis label just to be safe
-		if(getXAuto()){
-			xLabel = "Time";
-			xaxis.setAxisLabel(xLabel, xUnit);
-		}
+		// update the yaxis labels just to be safe
+		updateAxis();
 
 		if(graph != null && 
 		   graph.autoTitle){
@@ -136,9 +121,9 @@ public class GraphSettings
 		if(e.getObject() == ds &&
 		   ds != null){
 			setYUnit(ds.getUnit());
+			updateAxis();
 			if(graph != null && 
 			   graph.autoTitle){
-				setYLabel(ds.getQuantityMeasured());
 				graph.title = ds.getSummary();
 			}
 			graph.notifyObjListeners(new LabObjEvent(graph, 0));
@@ -162,62 +147,41 @@ public class GraphSettings
 		// listening to the axis if we are doing that
 	}
 
-	// This needs to be fixed
-	public float getXMin(){return xaxis.getDispMin();}
-	public float getXMax(){return xaxis.getDispMax();}
-	public void setXValues(float min, float max)
+	public Axis getXAxis()
 	{
-		if(xaxis != null) xaxis.setRange(min, max-min);
+		if(xaxis == null){
+			xaxis = (SplitAxis)graph.getXAxis(linkX);
+		}
+		return xaxis;
 	}
 
-	public float getYMin(){return yaxis.dispMin;} 
-	public float getYMax(){return yaxis.getDispMax();}
-	public void setYValues(float min, float max)
+	public Axis getYAxis()
 	{
-		if(yaxis != null) yaxis.setRange(min, max-min);
+		if(yaxis == null){
+			yaxis = (ColorAxis)graph.getYAxis(linkY);				
+		}
+		return yaxis;
 	}
 
-	public String getXLabel(){ return xaxis.getLabel();}
-	public void setXLabel(String label)
+	public void updateAxis()
 	{
-		if(getXAuto()){ return; }
-		xLabel = label;
-		if(xaxis != null) xaxis.setAxisLabel(xLabel, xUnit);
-	}
-
-	public String getYLabel(){ return yaxis.getLabel();}
-	public void setYLabel(String label)
-	{
-		if(getYAuto()){ return; }
-		yLabel = label;
-		if(yaxis != null) yaxis.setAxisLabel(yLabel, yUnit);
-	}
-
-	public boolean getYAuto(){ return yaxis.autoLabel;}
-	public void setYAuto(boolean flag)
-	{
-		if(flag){
+		if(yaxis != null && yaxis.autoLabel){
 			// need to set the ylabel to it's auto name
 			if(ds != null){
-				setYLabel(ds.getQuantityMeasured());
+				yLabel = ds.getQuantityMeasured();
 			} else {
-				setYLabel("null DS");
+				yLabel = "null DS";
 			}
+			yaxis.setAxisLabel(yLabel, yUnit);
 		}
-		yaxis.autoLabel = flag;
-	}
-
-	public boolean getXAuto(){ return xaxis.autoLabel;}
-	public void setXAuto(boolean flag)
-	{
-		if(flag){
+		
+		if(xaxis != null && xaxis.autoLabel){
 			// need to set the xlabel to it's auto name
-			setXLabel("Time");
+			xLabel = "Time";
+			xaxis.setAxisLabel(xLabel, xUnit);
 		}
-		xaxis.autoLabel = flag;
 	}
 
-	
 	public void setYUnit(CCUnit unit)
 	{
 		// Probably want to check if this a valid switch

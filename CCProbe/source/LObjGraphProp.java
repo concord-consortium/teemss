@@ -21,16 +21,11 @@ public class LObjGraphProp extends LabObjectView
 	PropObject propVisibleSources = null;
 	PropObject propTitle;
 	PropObject propAutoTitle = null;
-    PropObject propXmin;
-    PropObject propXmax;
-	PropObject propXlabel;
-	PropObject propAutoXlabel;
-    PropObject propYmin;
-    PropObject propYmax;
-	PropObject propYlabel;
-	PropObject propAutoYlabel;
 
 	LObjGraph graph;
+
+	Axis visYAxis = null;
+	Axis visXAxis = null;
 
 	PropertyView propView = null;
 	int index=0;
@@ -79,8 +74,14 @@ public class LObjGraphProp extends LabObjectView
 
 		if(propsGraph == null){
 			propsGraph = new PropContainer("Graph");
-			propsYAxis = new PropContainer("YAxis");
-			propsXAxis = new PropContainer("XAxis");
+			visYAxis = curGS.getYAxis();
+			visXAxis = curGS.getXAxis();
+
+			if(visYAxis == null || visXAxis == null) return;
+			propsYAxis = visYAxis.getPropContainer();
+			propsYAxis.setName("YAxis");
+			propsXAxis = visXAxis.getPropContainer();
+			propsXAxis.setName("XAxis");
 
 			dsStrings = new String [graph.numDataSources];
 			for(int i=0; i<graph.numDataSources; i++){
@@ -115,28 +116,6 @@ public class LObjGraphProp extends LabObjectView
 			propsGraph.addProperty(propTitle);
 			propsGraph.addProperty(propAutoTitle);
 
-			propXmin = new PropObject("Min", "Min", id++, curGS.getXMin() + "");
-			propXmax = new PropObject("Max", "Max", id++, curGS.getXMax() + "");
-			propXlabel = new PropObject("Label", "Label", id++, curGS.getXLabel());
-			propXlabel.prefWidth = 100;
-			propAutoXlabel = new PropObject("Auto", "Auto", id++, curGS.getXAuto());
-
-			propsXAxis.addProperty(propXmax);
-			propsXAxis.addProperty(propXmin);
-			propsXAxis.addProperty(propXlabel);
-			propsXAxis.addProperty(propAutoXlabel);
-
-			propYmin = new PropObject("Min", "Min", id++, curGS.getYMin() + "");
-			propYmax = new PropObject("Max", "Max", id++, curGS.getYMax() + "");
-
-			propYlabel = new PropObject("Label", "Label", id++, curGS.getYLabel());
-			propAutoYlabel = new PropObject("Auto", "Auto", id++, curGS.getYAuto());
-
-			propYlabel.prefWidth = 100;
-			propsYAxis.addProperty(propYmax);
-			propsYAxis.addProperty(propYmin);
-			propsYAxis.addProperty(propYlabel);
-			propsYAxis.addProperty(propAutoYlabel);
 		} else {
 			propAutoTitle.setChecked(graph.autoTitle);
 			propTitle.setValue(graph.title);
@@ -151,15 +130,14 @@ public class LObjGraphProp extends LabObjectView
 				}
 			}
 
-			propXmin.setValue(curGS.getXMin() + "");
-			propXmax.setValue(curGS.getXMax() + "");
-			propXlabel.setValue(curGS.getXLabel());
-			propAutoXlabel.setChecked(curGS.getXAuto());
+			visYAxis = curGS.getYAxis();
+			visXAxis = curGS.getXAxis();
 
-			propYmin.setValue(curGS.getYMin() + "");
-			propYmax.setValue(curGS.getYMax() + "");
-			propYlabel.setValue("*" + curGS.getYLabel());
-			propAutoYlabel.setChecked(curGS.getYAuto());
+			if(visYAxis == null || visXAxis == null) return;
+			propsYAxis = visYAxis.getPropContainer();
+			propsYAxis.setName("YAxis");
+			propsXAxis = visXAxis.getPropContainer();
+			propsXAxis.setName("XAxis");
 		}
 	}
 
@@ -188,20 +166,11 @@ public class LObjGraphProp extends LabObjectView
 				newGS = graph.getCurGraphSettings();
 			}
 
-			if(newGS != curGS){
-				return;
-			}
+			if(newGS == null || visXAxis == null || visYAxis == null) return;
+			visXAxis.applyProperties();
+			visYAxis.applyProperties();
+			newGS.updateAxis();
 
-			if(curGS == null) return;
-			curGS.setXValues(propXmin.getFValue(), propXmax.getFValue());
-			curGS.setYValues(propYmin.getFValue(), propYmax.getFValue());
-			
-			curGS.setXAuto(propAutoXlabel.getChecked());
-			curGS.setXLabel(propXlabel.getValue());
-
-			curGS.setYAuto(propAutoYlabel.getChecked());
-			curGS.setYLabel(propYlabel.getValue());
-		   
 			// This should be cleaned up
 			boolean autoTitle = propAutoTitle.getChecked();
 			if(autoTitle){

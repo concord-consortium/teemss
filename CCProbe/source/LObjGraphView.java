@@ -83,10 +83,8 @@ public class LObjGraphView extends LabObjectView
 
 	public void labObjChanged(LabObjEvent e)
 	{
-		if(e.getType() == 0){
-			if(e.getObject() == graph){
-				if(av != null) av.update();
-			}
+		if(e.getType() == 0 && e.getObject() == graph){
+			if(av != null) av.update();
 		} else {
 			// curGS change
 			GraphSettings newGS = graph.getCurGraphSettings();
@@ -445,7 +443,7 @@ public class LObjGraphView extends LabObjectView
 						while(margin == 0f && count < 4){
 							ymin = gs.minVisY - (-1f)/gs.yaxis.scale;
 							ymax = gs.maxVisY + (-1f)/gs.yaxis.scale;
-							gs.setYValues(ymin, ymax);
+							gs.yaxis.setRange(ymin, ymax-ymin);
 							av.update();
 
 							if(!gs.calcVisibleRange()) return;
@@ -455,7 +453,7 @@ public class LObjGraphView extends LabObjectView
 						if(margin < 1.0E-8f) margin = 1.0E-8f; 
 						ymin = gs.minVisY - margin;
 						ymax = gs.maxVisY + margin;
-						gs.setYValues(ymin, ymax);
+						gs.yaxis.setRange(ymin, ymax-ymin);
 						av.update();
 					}
 				} else if(toolName.equals(TOOL_ZOOM_SELECT_NAME)){
