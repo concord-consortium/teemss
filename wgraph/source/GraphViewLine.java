@@ -75,12 +75,13 @@ public class GraphViewLine extends GraphView
 	units = new String("C");
 	
 	props = new PropContainer();
-	PropContainer pCont = props.createSubContainer("X Axis");
 	props.createSubContainer("Y Axis");	
-	props.addProperty(propXmin, "X Axis");
+	props.createSubContainer("X Axis");
 	props.addProperty(propXmax, "X Axis");
-	props.addProperty(propYmin, "Y Axis");
+	props.addProperty(propXmin, "X Axis");
+
 	props.addProperty(propYmax, "Y Axis");
+	props.addProperty(propYmin, "Y Axis");
 
     }
 
@@ -93,6 +94,9 @@ public class GraphViewLine extends GraphView
 	    maxY = propYmax.createFValue();
 	    lGraph.setYRange(minY, maxY - minY);
 	    lGraph.setXRange(minX, maxX - minX);
+	}
+	if(e.getActionCommand().equals("Close")){
+	    draw();
 	}
     }
 
@@ -157,13 +161,9 @@ public class GraphViewLine extends GraphView
 		    xAxisDown = yAxisDown = graphDown = annotDown = false;
 		    Object obj = lGraph.getObjAtPoint(pe.x, pe.y);
 		    if(obj == lGraph.xaxis){
-			showAxisProp();
-			return;
-			// xAxisDown = true;
+			xAxisDown = true;
 		    } else if(obj == lGraph.yaxis) {
-			showAxisProp();
-			return;
-			// yAxisDown = true;
+			yAxisDown = true;
 		    } else if(obj != null){
 			Annotation oldAnnot = selAnnot;
 			if(selAnnot != null){
