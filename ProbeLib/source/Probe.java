@@ -27,6 +27,9 @@ public final static int		INTERFACE_PORT_B	= 1;
 
 public int unit = CCUnit.UNIT_CODE_UNKNOWN;
 
+public final static int		CALIBRATION_PROB_START 	= 10000;
+public final static int		CALIBRATION_PROB_END 		= 10001;
+
 public DataDesc		dDesc = new DataDesc();
 public DataEvent	dEvent = new DataEvent();
 public ProbEvent	pEvent = new ProbEvent();
@@ -130,19 +133,19 @@ DataListener calibrationListener = null;
 		return properties.length;
 	}
 	
-	public void setPropertyValue(String nameProperty,String value){
-		PropObject p = getProperty(nameProperty);
-		if(p == null) return;
+	protected boolean setPValue(PropObject p,String value){
+		if(p == null || value == null) return false;
 		p.setValue(value);
 		pEvent.setInfo(p);
 		notifyProbListeners(pEvent);
+		return true;
 	}
-	public void setPropertyValue(int index,String value){
-		PropObject p = getProperty(index);
-		if(p == null) return;
-		p.setValue(value);
-		pEvent.setInfo(p);
-		notifyProbListeners(pEvent);
+	
+	public boolean setPropertyValue(String nameProperty,String value){
+		return setPValue(getProperty(nameProperty),value);
+	}
+	public boolean setPropertyValue(int index,String value){
+		return setPValue(getProperty(index),value);
 	}
 	
 	public String getPropertyValue(String nameProperty){
@@ -174,6 +177,24 @@ DataListener calibrationListener = null;
 	}
 	public int getUnit(){return unit;}
 	public void setUnit(int unit){this.unit = unit;}
-	
+	public void writeExternal(extra.io.DataStream out){
+		out.writeInt(CALIBRATION_PROB_START);
+		out.writeBoolean(calibrationDesc != null);
+		if(calibrationDesc != null){
+			calibrationDesc.writeExternal(out);
+		}
+		out.writeInt(CALIBRATION_PROB_END);
+	}
+	public void readExternal(extra.io.DataStream in){
+		int temp = in.readInt();
+		if(temp != CALIBRATION_PROB_START) return;
+		if(in.readBoolean()){
+			if(calibrationDesc == null) calibrationDesc = new CalibrationDesc();
+			calibrationDesc.readExternal(in);
+			calibrationDescReady();
+		}
+		in.readInt();//CALIBRATION_PROB_END
+	}
+	public void calibrationDescReady(){}
 	
 }

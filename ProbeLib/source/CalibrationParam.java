@@ -12,6 +12,10 @@ int		index = 0;
 	public CalibrationParam(int index){
 		this(index,1.0f);
 	}
+	public CalibrationParam(extra.io.DataStream in){
+		valid = true;
+		readExternal(in);
+	}
 	public CalibrationParam(int index,float defaultValue){
 		this.index = index;
 		this.defaultValue = defaultValue;
@@ -33,6 +37,16 @@ int		index = 0;
 	}
 	public void setValueToDefault(){
 		setValue(defaultValue);
+	}
+	public void writeExternal(extra.io.DataStream out){
+		out.writeInt(index);
+		out.writeFloat(value);
+		out.writeFloat(defaultValue);
+	}
+	public void readExternal(extra.io.DataStream in){
+		this.index 		= in.readInt();
+		this.value 		= in.readFloat();
+		this.defaultValue 	= in.readFloat();
 	}
 	
 	

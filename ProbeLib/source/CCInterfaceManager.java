@@ -247,7 +247,6 @@ protected ProbManager	pb = null;
 				// Offset the value to zero
 				value = value - (int)0x4000000;
 				// Return ar reasonable resolution
-				curData[curChannel+1] = (float)value * tuneValue;
 				syncChannels = true;
 			}else if(mode == A2D_10_MODE){
 				// Ignore the change bit

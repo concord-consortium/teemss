@@ -55,51 +55,30 @@ float  			dtChannel = 0.0f;
 	return true;
     }
 
-    public void setPropertyValue(String nameProperty,String value)
-    {
-	
-	if(nameProperty == null || value == null) return;
-	if(nameProperty.equals("Port")){
-	    setPropertyValue(0, value);
-	    return;
-	} else if(nameProperty.equals("Num Channels")){
-	    setPropertyValue(1, value);
-	    return;
-	} else if(nameProperty.equals("Channel #")){
-	    setPropertyValue(2, value);
-	    return;
+	protected boolean setPValue(PropObject p,String value){
+		if(p == null || value == null) return false;
+		String nameProperty = p.getName();
+		if(nameProperty == null) return false;
+		if(nameProperty.equals("Port")){
+			if(value.equals("A")){
+				interfacePort = INTERFACE_PORT_A;
+			} else if(value.equals("B")){
+				interfacePort = INTERFACE_PORT_B;
+			}
+		} else if(nameProperty.equals("Num Channels")){
+			if(value.equals("1")){
+				activeChannels = 1;
+			} else if(value.equals("2")){
+				activeChannels = 2;
+			}		
+		} else if(nameProperty.equals("Channel #")){
+			if(value.equals("0")){
+				curChannel = 0;
+			} else if(value.equals("1")){
+				curChannel = 1;
+			}
+		}
+		return  super.setPValue(p,value);
 	}
 
-	super.setPropertyValue(nameProperty,value);	       
-	return;
-    }
-
-    public void setPropertyValue(int index,String value)
-    {
-
-	switch(index){
-	case 0:
-	    if(value.equals("A")){
-		interfacePort = INTERFACE_PORT_A;
-	    } else if(value.equals("B")){
-		interfacePort = INTERFACE_PORT_B;
-	    }
-	    break;
-	case 1:
-	    if(value.equals("1")){
-		activeChannels = 1;
-	    } else if(value.equals("2")){
-		activeChannels = 2;
-	    }		
-	    break;
-	case 2:
-	    if(value.equals("0")){
-		curChannel = 0;
-	    } else if(value.equals("1")){
-		curChannel = 1;
-	    }
-	}
-
-	super.setPropertyValue(index, value);
-    }
 }

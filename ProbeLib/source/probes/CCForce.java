@@ -5,13 +5,13 @@ import extra.util.DataDesc;
 import org.concord.waba.extra.probware.*;
 import extra.util.*;
 
-public class CCLightIntens extends CCProb{
-float  			[]lightData = new float[1];
+public class CCForce extends CCProb{
+float  			[]forceData = new float[1];
 float  			dtChannel = 0.0f;
-	CCLightIntens(){
+	CCForce(){
 		this("unknown");
 	}
-	CCLightIntens(String name){
+	CCForce(String name){
 	    activeChannels = 2;
 		setName(name);
 		dDesc.setChPerSample(2);
@@ -19,7 +19,7 @@ float  			dtChannel = 0.0f;
 		dEvent.setDataDesc(dDesc);
 		dEvent.setDataOffset(0);
 		dEvent.setNumbSamples(1);
-		dEvent.setData(lightData);
+		dEvent.setData(forceData);
 
 		properties = new PropObject[1];
 		properties[0] = new PropObject(samplingModeString,samplingModes); 
@@ -33,6 +33,7 @@ float  			dtChannel = 0.0f;
 		dtChannel = dt / (float)chPerSample;
 	}
 	public boolean transform(DataEvent e){
+/*
 		dEvent.type = e.type;
 		if(e.getType() == DataEvent.DATA_READY_TO_START){
 			dDesc.setDt(e.getDataDesc().getDt());
@@ -58,6 +59,7 @@ float  			dtChannel = 0.0f;
 				notifyDataListeners(dEvent);
 			}
 		}
+*/
 		return true;
 	}
 }

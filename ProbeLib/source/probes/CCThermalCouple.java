@@ -51,12 +51,13 @@ float FC = 0.0f;
 		unit = CCUnit.UNIT_CODE_CELSIUS;
 	}
 	public int	getActiveChannels(){return 2;}
-	public void setPropertyValue(String nameProperty,String value){
+	protected boolean setPValue(PropObject p,String value){
+		if(p == null || value == null) return false;
+		String nameProperty = p.getName();
+		if(nameProperty == null) return false;
 		if(!fromConstructor && (nameProperty.equals(samplingModeString))){
-			return;
+			return true;
 		}
-		super.setPropertyValue(nameProperty,value);
-		if(nameProperty == null || value == null) return;
 		if(nameProperty.equals(tempModeString)){
 			outputMode = DEFAULT_TEMP_OUT;
 			for(int i = 1; i < tempModes.length;i++){
@@ -79,62 +80,38 @@ float FC = 0.0f;
 					break;
 			}
 		}
+		return  super.setPValue(p,value);
 	}
-	public void setPropertyValue(int index,String value){
-		if(!fromConstructor && (index == 0)){
-			return;
-		}
-		super.setPropertyValue(index,value);
-		if(index == 1){
-			outputMode = DEFAULT_TEMP_OUT;
-			for(int i = 1; i < tempModes.length;i++){
-				if(tempModes[i].equals(value)){
-					outputMode = i;
-					break;
-				}
-			}
-			switch(outputMode){
-				case FAHRENHEIT_TEMP_OUT:
-					unit = CCUnit.UNIT_CODE_FAHRENHEIT;
-					break;
-				case KELVIN_TEMP_OUT:
-					unit = CCUnit.UNIT_CODE_KELVIN;
-					break;
-				default:
-				case CELSIUS_TEMP_OUT:
-					unit = CCUnit.UNIT_CODE_CELSIUS;
-					break;
-			}
-		}
-	}
-	
+
 	public void setDataDescParam(int chPerSample,float dt){
 		dDesc.setDt(dt);
 		dDesc.setChPerSample(chPerSample);
 		dtChannel = dt / (float)chPerSample;
 	}
 	public boolean transform(DataEvent e){
-		float t0 = e.getTime();
-		float[] data = e.getData();
-		int nOffset = e.getDataOffset();
-		dDesc.setDt(e.getDataDesc().getDt());
-		dDesc.setChPerSample(e.getDataDesc().getChPerSample());
-		int ndata = e.getNumbSamples()*dDesc.getChPerSample();
-		dtChannel = dDesc.getDt() / (float)dDesc.getChPerSample();
-		int  	chPerSample = dDesc.getChPerSample();
-		if(ndata < chPerSample) return false;
-		if(calibrationListener != null){
-			dDesc.setChPerSample(3);
-		}else{
-			dDesc.setChPerSample(1);
-		}
-		dEvent.setNumbSamples(1);
 		dEvent.type = e.type;
-		
+		if(e.getType() == DataEvent.DATA_READY_TO_START){
+			dDesc.setDt(e.getDataDesc().getDt());
+			dDesc.setChPerSample(e.getDataDesc().getChPerSample());
+			dEvent.setNumbSamples(1);
+			if(calibrationListener != null){
+				dDesc.setChPerSample(3);
+			}else{
+				dDesc.setChPerSample(1);
+			}
+			dtChannel = dDesc.getDt() / (float)dDesc.getChPerSample();
+		}
 		if(e.getType() != DataEvent.DATA_RECEIVED){
 			notifyDataListeners(dEvent);
 			return true;
 		}
+		int nOffset = e.getDataOffset();
+		int ndata = e.getNumbSamples()*dDesc.getChPerSample();
+		int  	chPerSample = dDesc.getChPerSample();
+		if(ndata == 0) return false;
+		
+		float t0 = e.getTime();
+		float[] data = e.getData();
 		for(int i = 0; i < ndata; i+=chPerSample){
 			dEvent.setTime(t0 + dtChannel*(float)i);
 			float ch1 = data[nOffset+i];
@@ -184,5 +161,15 @@ float FC = 0.0f;
 				break;
 		}
 		FC = userValue - trueValue;
+		if(calibrationDesc != null){
+			CalibrationParam p = calibrationDesc.getCalibrationParam(0);
+			if(p != null) p.setValue(FC);
+		}
+	}
+	public void calibrationDescReady(){
+		if(calibrationDesc == null) return;
+		CalibrationParam p = calibrationDesc.getCalibrationParam(0);
+		if(p == null || !p.isValid()) return;
+		FC = p.getValue();
 	}
 }
