@@ -221,17 +221,20 @@ public class LObjDictionary extends LabObject
 		if(index < 0 || index >= objects.getCount()) return null;
 
 		LabObjectPtr ptr = (LabObjectPtr)(objects.get(index));
-		LabObject obj = lBook.load(ptr);
-		if(obj instanceof LObjDictionary){
-			LObjDictionary newDict = (LObjDictionary)obj;
+		if(!lBook.readHeader(ptr)) return null;
+
+		if(ptr.objType == DefaultFactory.DICTIONARY){
+			LObjDictionary newDict = (LObjDictionary)lBook.load(ptr);
+			/*
 			if(newDict.hasMainObject){
-				LObjSubDict mainObj = newDict.getMainObj();
+				LObjSubDict mainObj = newDict.getMainObjPtr();
 				newDict.name = mainObj.name;
 			}
-			return (TreeNode)obj;
+			*/
+			return (TreeNode)newDict;
 		} else if(hasMainObject && index == 0){
-			((LObjSubDict)obj).setDict(this);
-			ptr.name = "..main_obj..: " + obj.name;
+			//			((LObjSubDict)obj).setDict(this);
+			ptr.name = "..main_obj..: " + ptr.name;
 		}
 
 		return ptr;
@@ -279,28 +282,29 @@ public class LObjDictionary extends LabObject
 	
 		children = new TreeNode [numObjs];
 		for(int i=0; i<numObjs; i++){
-		    LabObjectPtr ptr = ((LabObjectPtr)objects.get(i));			
-		    LabObject obj = lBook.load(ptr);
-		    if(obj instanceof LObjDictionary){
-				children[i] = (TreeNode)obj;
-				LObjDictionary newDict = (LObjDictionary)obj;
+		    LabObjectPtr ptr = ((LabObjectPtr)objects.get(i));		
+			if(!lBook.readHeader(ptr)){
+				// This is a null object
+				ptr.name = "..null_object..";
+				children[i] = ptr;
+				continue;
+			} 
+
+			if(ptr.objType == DefaultFactory.DICTIONARY){
+				LObjDictionary newDict = (LObjDictionary)lBook.load(ptr);
+				children[i] = (TreeNode)newDict;
+				/*
 				if(newDict.hasMainObject){
 					LObjSubDict mainObj = newDict.getMainObj();
 					newDict.name = mainObj.name;
 				}
-		    } else if(obj instanceof LObjSubDict &&
-			          hasMainObject && 
+				*/
+		    } else if(hasMainObject && 
 					  i == 0){
-				((LObjSubDict)obj).setDict(this);
-				ptr.name = "..main_obj..";
+				//				((LObjSubDict)obj).setDict(this);
+				ptr.name = "..main_obj..: " + ptr.name;
 				children[i] = ptr;
 		    } else {
-				if(obj == null){
-			    	Debug.println("childArray: Null Object");
-			    	ptr.name = "..null_object..";
-				} else {
-			    	ptr.name = obj.name;
-				}
 				children[i] = ptr;
 		    }
 		}
@@ -381,6 +385,7 @@ public class LObjDictionary extends LabObject
 
     public String toString()
     {
+		/*
 		if(hasMainObject){
 			LObjSubDict mainObj = getMainObj();
 			if(mainObj != null){
@@ -395,7 +400,7 @@ public class LObjDictionary extends LabObject
 				return "..null_mainObj..";
 			}
 		} 
-
+		*/
 
 		if(name == null) return "..null_name..";
 		return name;

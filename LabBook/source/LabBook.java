@@ -440,6 +440,15 @@ public class LabBook
 		return dsIn;
 	}
 
+	public boolean readHeader(LabObjectPtr lObjPtr)
+	{
+		// if this is true we have major problems
+		if(lObjPtr.devId == -1 && lObjPtr.objId == -1) return false;
+
+		initPointer(lObjPtr);
+		return true;
+	}
+
 
 	public void export(LabObject lObj, LabBookDB db)
     {

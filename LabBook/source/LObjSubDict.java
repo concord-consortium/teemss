@@ -34,7 +34,10 @@ public abstract class LObjSubDict extends LabObject
     }
     public void store()
     {
-		if(dict != null) dict.store();
+		if(dict != null){
+			dict.name = name;
+			dict.store();
+		}
 		super.store();
     }
 
