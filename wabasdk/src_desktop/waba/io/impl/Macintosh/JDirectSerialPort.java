@@ -50,11 +50,19 @@ short		outputRefNumber = 0;
 
 		short	errInp,errOut;
 		short macRate,macBits,macParity,macStopBits;
-		String portPrefix = "."+(char)('A'+number);
 		
 		SerialPortDesc sPort = SerialManager.getAssignedPort();
-		if(sPort == null){//provide dialog
-			errOut = errInp = -1;
+		if(sPort == null){
+			java.awt.Frame f = SerialManager.getMainFrame();
+			if(f != null){
+				SerialChoiceDialog dialog = new SerialChoiceDialog(f);
+				sPort = SerialManager.getAssignedPort();
+			}
+		}
+		if(sPort == null){
+			String portPrefix = "."+(char)('A'+number);
+			errOut 	= jdirect.OpenDriver(JDirectImpl.toStr255(portPrefix+"Out"),outRef);
+			errInp 	= jdirect.OpenDriver(JDirectImpl.toStr255(portPrefix+"in"),inpRef);
 		}else{
 			System.out.println(sPort.inpName+" "+sPort.outName+" "+sPort.name);
 			errOut 	= jdirect.OpenDriver(JDirectImpl.toStr255(sPort.outName),outRef);
@@ -62,8 +70,6 @@ short		outputRefNumber = 0;
 		}
 
 
-//		errOut 	= jdirect.OpenDriver(JDirectImpl.toStr255(portPrefix+"Out"),outRef);
-//		errInp 	= jdirect.OpenDriver(JDirectImpl.toStr255(portPrefix+"in"),inpRef);
 		if(errOut != JDirectImpl.noErr || errInp != JDirectImpl.noErr){
 			outputRefNumber = 0;
 			inputRefNumber = 0;

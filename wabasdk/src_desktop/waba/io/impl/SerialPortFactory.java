@@ -16,12 +16,16 @@ public class SerialPortFactory
 		return getISerialPort(number, baudRate, 8, false, 1);
 	}
 	public static ISerialPort getISerialPort(int number, int baudRate, int bits, boolean parity, int stopBits){
-		String osVersion = System.getProperty("os.version");
-		if(osVersion == null) return null;
-		if(!loadLibrarySuccess){
-			return new JDirectSerialPort(number,baudRate,bits,parity,stopBits);
+		boolean macOS = System.getProperty("os.name").startsWith("Mac OS");
+		if(macOS){
+			String osVersion = System.getProperty("os.version");
+			if(osVersion == null) return null;
+			if(!loadLibrarySuccess){
+				return new JDirectSerialPort(number,baudRate,bits,parity,stopBits);
+			}
+			if(osVersion.startsWith("10")) return null;//X
+			return new SerialPortImpl(number,baudRate,bits,parity,stopBits);//native lib requires in extensions
 		}
-		if(osVersion.startsWith("10")) return null;//X
-		return new SerialPortImpl(number,baudRate,bits,parity,stopBits);//native lib requires in extensions
+		return new WinSerialPortImpl(number,baudRate,bits,parity,stopBits);
 	}
 }

@@ -9,39 +9,37 @@ import java.util.Properties;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileInputStream;
+import javax.comm.CommPortIdentifier;
 
 public class SerialManager
 {
 private 	static Vector 	availablePorts = new Vector();
-	public static void checkAvailableSerialPorts(){
-		boolean macOS = System.getProperty("os.name").startsWith("Mac OS");
-		availablePorts.removeAllElements();
-		if(macOS) createMACPorts();
-	}
+private     static java.awt.Frame  mainFrame = null;
+
+	public static java.awt.Frame getMainFrame(){return mainFrame;}
 	
-	private static void createMACPorts(){
-		CRMRecStruct 			c = new CRMRecStruct();
-		int					cPtrInt = -1;
-		int crmErr = JDirectImpl.InitCRM();
-		if(crmErr == JDirectImpl.noErr){
-			c.setCrmDeviceType(CRMSerialDeviceConstants.crmSerialDevice);
-			c.setCrmDeviceID(0);
-			while(cPtrInt != 0){
-				cPtrInt = JDirectImpl.CRMSearch(c);
-				if(cPtrInt != 0){
-					MyPtr1 tempPtr = new MyPtr1(cPtrInt);
-					CRMRecStruct ct = new CRMRecStruct(tempPtr,0);
-					int crmAttrInt = ct.getCrmAttributes();
-					tempPtr = new MyPtr1(crmAttrInt);
-					CRMSerialRecordStruct serialStruct = new CRMSerialRecordStruct(tempPtr,0);
-					String in = JDirectImpl.getStringFromStringHandle(serialStruct.getInputDriverName());
-					String out = JDirectImpl.getStringFromStringHandle(serialStruct.getOutputDriverName());
-					String nm = JDirectImpl.getStringFromStringHandle(serialStruct.getName());
-					c.setCrmDeviceID(ct.getCrmDeviceID());
-					availablePorts.addElement(new SerialPortDesc(in,out,nm));
-				}
+	public static void checkAvailableSerialPorts(){
+		if(mainFrame == null){
+			mainFrame = new java.awt.Frame("Java Serial Test");
+			mainFrame.reshape(0,0,200,200);
+		}
+		availablePorts.removeAllElements();
+		(new PortScanner()).scanPorts(availablePorts);
+		SerialPortDesc sPort = getAssignedPort();
+		if(sPort == null) return;
+//check does sPort exist in port's list
+		boolean wasPort = false;
+		for(java.util.Enumeration pe = getSerialPorts();pe.hasMoreElements();){
+			SerialPortDesc portDesc = (SerialPortDesc)pe.nextElement();
+			if(sPort.equals(portDesc)){
+				wasPort = true;
+				break;
 			}
 		}
+		if(wasPort) return;
+		String userHomeName = System.getProperty("user.home");
+		File serialProp = new File(userHomeName,"concordSerial.properties");
+		if(serialProp.exists()) serialProp.delete();
 	}
 	
 	public static int getNumbSerialPorts(){
@@ -52,12 +50,16 @@ private 	static Vector 	availablePorts = new Vector();
 	
 	public static void assignZeroPort(int index){
 		if(index < 0 || index >= getNumbSerialPorts()) return;
+		SerialPortDesc pDesc = (SerialPortDesc)availablePorts.elementAt(index);
+		assignZeroPort(pDesc);
+	}
+	public static void assignZeroPort(SerialPortDesc pDesc){
+		if(pDesc == null) return;
 		String userHomeName = System.getProperty("user.home");
 		File serialProp = new File(userHomeName,"concordSerial.properties");
 		if(serialProp.exists()) serialProp.delete();
 		Properties p = new Properties();
-		SerialPortDesc pDesc = (SerialPortDesc)availablePorts.elementAt(index);
-		p.put("org.concord.zeroport",pDesc.inpName+";"+pDesc.outName+";"+pDesc.name);
+		p.put("org.concord.zeroport",""+pDesc.index+";"+pDesc.inpName+";"+pDesc.outName+";"+pDesc.name);
 		try{
 			FileOutputStream fout = new FileOutputStream(serialProp);
 			p.save(fout,"Serial port assigned to communication with probs");
@@ -78,17 +80,122 @@ private 	static Vector 	availablePorts = new Vector();
 			portProp = p.getProperty("org.concord.zeroport");
 			fin.close();
 			java.util.StringTokenizer parser = new java.util.StringTokenizer(portProp,";");
+			int index = Integer.valueOf(parser.nextToken()).intValue();
 			String inpName = parser.nextToken();
 			String outName = parser.nextToken();
 			String name = parser.nextToken();
-			retValue = new SerialPortDesc(inpName,outName,name);
-		}catch(Exception e){
+			retValue = new SerialPortDesc(index,inpName,outName,name);
+	}catch(Exception e){
 			retValue = null;
 		}
 		return retValue;
 
 	}
 	
+}
+public class PortScanner{
+	public void scanPorts(java.util.Vector v){
+		boolean macOS = System.getProperty("os.name").startsWith("Mac OS");
+		if(macOS) (new MacPortScanner()).scanPorts(v);
+		else		(new NonMacPortScanner()).scanPorts(v);
+	}
+}
+public class MacPortScanner{
+	public void scanPorts(java.util.Vector v){
+		try{
+			CRMRecStruct 			c = new CRMRecStruct();
+			int					cPtrInt = -1;
+			int crmErr = JDirectImpl.InitCRM();
+			if(crmErr == JDirectImpl.noErr){
+				c.setCrmDeviceType(CRMSerialDeviceConstants.crmSerialDevice);
+				c.setCrmDeviceID(0);
+				int index = 0;
+				while(cPtrInt != 0){
+					cPtrInt = JDirectImpl.CRMSearch(c);
+					if(cPtrInt != 0){
+						MyPtr1 tempPtr = new MyPtr1(cPtrInt);
+						CRMRecStruct ct = new CRMRecStruct(tempPtr,0);
+						int crmAttrInt = ct.getCrmAttributes();
+						tempPtr = new MyPtr1(crmAttrInt);
+						CRMSerialRecordStruct serialStruct = new CRMSerialRecordStruct(tempPtr,0);
+						String in = JDirectImpl.getStringFromStringHandle(serialStruct.getInputDriverName());
+						String out = JDirectImpl.getStringFromStringHandle(serialStruct.getOutputDriverName());
+						String nm = JDirectImpl.getStringFromStringHandle(serialStruct.getName());
+						c.setCrmDeviceID(ct.getCrmDeviceID());
+						v.addElement(new SerialPortDesc(index++,in,out,nm));
+					}
+				}
+			}
+		}catch(Throwable t){}
+	}
+}
+public class NonMacPortScanner{
+	public void scanPorts(java.util.Vector v){
+		try{
+			int index = 0;
+			for(java.util.Enumeration en =  CommPortIdentifier.getPortIdentifiers(); en.hasMoreElements();){
+				CommPortIdentifier portId = (CommPortIdentifier)en.nextElement();
+				if(portId == null) continue;
+				if(portId.getPortType() == CommPortIdentifier.PORT_SERIAL){
+					String name = portId.getName();
+					v.addElement(new SerialPortDesc(index++,name,name,name));
+					
+				}
+			}
+		}catch(Throwable t){}
+	}
+}
+
+public class SerialChoiceDialog extends java.awt.Dialog implements java.awt.event.ActionListener, java.awt.event.ItemListener{
+java.awt.Choice choice = null;
+	public SerialChoiceDialog(java.awt.Frame parent){
+		super(parent,"Choose Serial Port",true);
+		java.awt.Panel buttonPanel = new java.awt.Panel();
+		java.awt.Button cancel = new java.awt.Button("Cancel");
+		cancel.addActionListener(this);
+		buttonPanel.add(cancel);
+		java.awt.Button save = new java.awt.Button("Save");
+		save.addActionListener(this);
+		buttonPanel.add(save);
+		add(buttonPanel,java.awt.BorderLayout.SOUTH);
+				
+		choice = new java.awt.Choice();
+		int index = -1;
+		for(java.util.Enumeration pe = SerialManager.getSerialPorts();pe.hasMoreElements();){
+			SerialPortDesc portDesc = (SerialPortDesc)pe.nextElement();
+			choice.add(portDesc.name);
+			if(!portDesc.name.startsWith("Infrared") && !portDesc.name.startsWith("Internal")){
+				index = portDesc.index;
+			}
+		}
+		if(index >=0){
+			choice.select(index);
+		}
+		
+		choice.addItemListener(this);
+		
+		add(choice,java.awt.BorderLayout.CENTER);
+
+		setResizable(false);
+		pack();
+		show();
+	}
+	
+	public void actionPerformed(java.awt.event.ActionEvent ae){
+		if(ae.getActionCommand().equals("Save")){
+			String choosenPortName = (String)choice.getSelectedItem();
+			for(java.util.Enumeration pe = SerialManager.getSerialPorts();pe.hasMoreElements();){
+				SerialPortDesc portDesc = (SerialPortDesc)pe.nextElement();
+				if(portDesc.name.equals(choosenPortName)){
+					SerialManager.assignZeroPort(portDesc);
+					break;
+				}
+			}
+		}
+		dispose();
+	}
+	public void itemStateChanged(java.awt.event.ItemEvent ie){}
+
 }
 
 public interface CRMSerialDeviceConstants {
@@ -292,13 +399,22 @@ public class CRMRecStruct extends ByteArrayStruct {
 	public final static int sizeOfCRMRec = 34;
 }
 public class SerialPortDesc{
+public int 	index = -1;
 public String	inpName;
 public String	outName;
 public String	name;
-	public SerialPortDesc(String inpName,String outName,String name){
+	public SerialPortDesc(int index,String inpName,String outName,String name){
+		this.index = index;
 		this.inpName = inpName;
 		this.outName = outName;
 		this.name = name;
+	}
+	
+   	 public boolean equals(Object obj) {
+		if(super.equals(obj)) return true;
+		if(!(obj instanceof SerialPortDesc)) return false;
+		SerialPortDesc p = (SerialPortDesc)obj;
+		return (p.name.equals(name) && p.inpName.equals(inpName) && p.outName.equals(outName));
 	}
 }
 
