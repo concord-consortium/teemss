@@ -13,6 +13,8 @@ protected Timer 	caretTimer = null;
 protected boolean 	hasCursor = false,cursorOn = false;
 protected Font font = new Font("Helvetica",Font.PLAIN,12);
 
+protected	int firstLine = 0;
+
 protected CCTextAreaState curState = new CCTextAreaState();
 			
 			
@@ -137,12 +139,45 @@ protected CCTextAreaState curState = new CCTextAreaState();
 		}else if (ev.key == IKeys.ENTER){// && editable(this)){
 		}else if (ev.key == IKeys.END){
 		}else if (ev.key == IKeys.HOME){
+			if(firstLine != 0){
+				firstLine = 0;
+				repaint();
+			}
 		}else if (ev.key == IKeys.LEFT){
 		}else if (ev.key == IKeys.RIGHT){
 		}else if (ev.key == IKeys.UP){
+			if(firstLine > 0){
+				firstLine--;
+				repaint();
+			}
 		}else if (ev.key == IKeys.DOWN){
+			int nRows = getRowsNumber();
+			if(lines != null && firstLine < nRows - 2){
+				firstLine++;
+				repaint();
+			}
 		}else if (ev.key >= 32 && ev.key <= 255){
+			if((ev.modifiers & IKeys.CONTROL) > 0){
+				if(ev.key == 'v' || ev.key == 'V'){
+					if(!CCClipboard.isClipboardEmpty()){
+						String str = CCClipboard.getStringContent();
+						if(str != null){
+							insertText(str);
+						}
+					}
+				}
+			}else{
+			}
 		}
+	}
+	
+	public int getRowsNumber(){
+		int retValue = 0;
+		if(lines == null || lines.length < 1) return 0;
+		for(int i = 0; i < lines.length; i++){
+			retValue += lines[i].getRows();
+		}
+		return retValue;
 	}
 	
 	public void onPenEvent(PenEvent ev){
@@ -159,7 +194,7 @@ protected CCTextAreaState curState = new CCTextAreaState();
 	public void doPaintData(Graphics g){
 		if(lines == null) return;
 		for (int i = 0; i<lines.length; i++){
-			(lines[i]).draw(g);
+			(lines[i]).draw(g,firstLine);
 		}
 	}
 
@@ -195,13 +230,14 @@ int		beginRow	= -1;
 int		endRow		= -1;
 String	[]strings = null;
 
-int inset = 5;
+int insetLeft = 5;
+int insetRight = 10;
 
 	CCStringWrapper(CCTextArea owner,String str,int beginRow){
 		this.owner = owner;
 		Rect r = owner.getRect();
-		beginPos 	= r.x + inset;
-		endPos 		= beginPos + r.width - inset;
+		beginPos 	= r.x + insetLeft;
+		endPos 		= r.x + r.width - insetRight;
 		setStr(str,beginRow);
 	}
 	String getStr(){return str;}
@@ -280,12 +316,13 @@ int inset = 5;
 		this.beginRow 	= beginRow;
 		this.endRow 	= endRow;
 	}
-	public void draw(Graphics gr){
+	public void draw(Graphics gr,int firstRow){
 		if(gr == null || strings == null || owner == null) return;
 		gr.setColor(0,0,0);
 		int h = owner.getItemHeight();
 		for(int i = beginRow; i < endRow; i++){
-			int y = i*h;
+			if(i < firstRow) continue;
+			int y = (i - firstRow)*h;
 			if(i - beginRow < strings.length){
 				gr.drawText(strings[i-beginRow],beginPos,y);
 			}

@@ -65,7 +65,6 @@ public WinCanvas(Window win)
 public boolean handleEvent(java.awt.Event event)
 
 	{
-
 	int type = 0;
 
 	int key = 0;
@@ -77,12 +76,18 @@ public boolean handleEvent(java.awt.Event event)
 	int modifiers = 0;
 
 	if ((event.modifiers & java.awt.Event.SHIFT_MASK) > 0)
-
 		modifiers |= IKeys.SHIFT;
-
+		
 	if ((event.modifiers & java.awt.Event.CTRL_MASK) > 0)
-
 		modifiers |= IKeys.CONTROL;
+		
+	if ((event.modifiers & java.awt.Event.ALT_MASK) > 0)
+		modifiers |= IKeys.ALT;
+
+	if ((event.id == java.awt.Event.KEY_PRESS) && ((event.modifiers & java.awt.Event.META_MASK) > 0))
+		modifiers |= IKeys.CONTROL;//dima command macintosh
+
+
 
 	boolean doPostEvent = false;
 
@@ -129,7 +134,6 @@ public boolean handleEvent(java.awt.Event event)
 			break;
 
 		case java.awt.Event.KEY_PRESS:
-
 			type = KeyEvent.KEY_PRESS;
 
 			key = keyValue(event.key, modifiers);
