@@ -599,6 +599,21 @@ public void insertText(String str){//dima
 	fixText();
 }
 
+
+	public void scrollUp(){
+		curState.firstLine -= (int)(0.8f*getScreenRows()+0.5f);
+		if(curState.firstLine < 0) curState.firstLine = 0;
+		repaintDataNow();
+		updateScrolls();
+	}
+	public void scrollDown(){
+		curState.firstLine += (int)(0.8f*getScreenRows()+0.5f);
+		if(curState.firstLine > getNumLines() - 3) curState.firstLine = getNumLines() - 3;
+		repaintDataNow();
+		updateScrolls();
+	}
+
+
 //==================================================================
 public void onKeyEvent(KeyEvent ev)
 //==================================================================
