@@ -20,6 +20,7 @@ cd $(BIN_DIR); tar cvzf $(MW_CLASS).tar.gz *
 cp tag $(BIN_DIR)/Version.txt
 endef
 
+PROJECT_JARS=$(shell for jar in $(wildcard ../jars/*) ; do echo -n $$jar:; done)
 
 WABA_DIR= $(CURDIR)/../wabasdk/classes
 WEXTRAS_DIR= $(CURDIR)/../wextra/classes/desktop
@@ -44,9 +45,9 @@ WEXTRA_CLASSES-ce= $(CURDIR)/../wextra/classes/ce
 
 
 PLATFORM_CP= $(subst _CUR_PLATFORM_,$(1),$(CLASSPATH))
-COMPILE_CP= $(WEXTRA_CLASSES-$(1)):$(WABA_CLASSES-$(1))
+COMPILE_CP= $(WEXTRA_CLASSES-$(1)):$(WABA_CLASSES-$(1)):$(PROJECT_JARS)
 ARCHIVE_CP= $(WEXTRA_CLASSES-$(1))
-RUN_CP= $(WEXTRA_CLASSES-$(1)):$(WABA_CLASSES-)
+RUN_CP= $(WEXTRA_CLASSES-$(1)):$(WABA_CLASSES-):$(PROJECT_JARS)
 
 CLIENT_IPS= $(foreach num, $(shell cat clients), 4.19.234.$(shell echo $$(($(num) + 130)))) 
 FTP_PRE=ncftpput -m -E $(IP_ADDRESS)
