@@ -1,5 +1,6 @@
 import waba.ui.*;
 import waba.util.*;
+import extra.ui.*;
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
 import org.concord.LabBook.*;
@@ -17,6 +18,7 @@ public class CCProbeTest extends ExtraMainWindow
     Container me = new Container();
     LabObjectView lObjView = null;
     int myHeight;
+	int yOffset = 0;
 	Vector fileMenuStrings = new Vector();
 	
     int newIndex = 0;
@@ -30,7 +32,7 @@ public class CCProbeTest extends ExtraMainWindow
     String [] creationTypes = {"Folder", "Notes", "Questions", "Data Collector", 
 							   "Drawing","UnitConvertor","Image","DataSource"};
 
-	int		[]creationID = {0x00100100};
+	int		[]creationID = {0x00010100};
     public void onStart()
     {
 		LabBook.init();
@@ -48,8 +50,9 @@ public class CCProbeTest extends ExtraMainWindow
 		setMenuBar(menuBar);
 		waba.fx.Rect myRect = content.getRect();
 		myHeight = myRect.height;
+		int dictHeight = myHeight;
 
-		me.setRect(x,y,width,myHeight);
+		me.setRect(0,0,width,myHeight);
 
 		add(me);
 
@@ -58,12 +61,27 @@ public class CCProbeTest extends ExtraMainWindow
 		if(plat.equals("PalmOS")){
 			graph.Bin.START_DATA_SIZE = 4000;
 			graph.LargeFloatArray.MaxNumChunks = 4;
+			GraphSettings.MAX_COLLECTIONS = 1;
 			lbDB = new LabBookCatalog("LabBook");
 		} else if(plat.equals("Java")){
+			/*
+			graph.Bin.START_DATA_SIZE = 1000;
+			graph.LargeFloatArray.MaxNumChunks = 1;
+			GraphSettings.MAX_COLLECTIONS = 1;
+			*/
 			lbDB = new LabBookCatalog("LabBook");
 		} else {
 			lbDB = new LabBookFile("LabBook");
-		}	    
+			GraphSettings.MAX_COLLECTIONS = 5;
+		}
+
+		if(myHeight < 180){
+			yOffset = 13;
+			dictHeight -= 13;
+			Title title = new Title("CCProbe");
+			title.setRect(0,0,width, 13);
+			me.add(title);
+		}
 
 		if(lbDB.getError()){
 			// Error;
@@ -100,9 +118,9 @@ public class CCProbeTest extends ExtraMainWindow
 			labBook.store(loDict);
 
 		}
-		LObjDictionaryView view = (LObjDictionaryView)loDict.getView(this, true);
-		view.setRect(x,y,width,myHeight);
-
+		LabObjectView view = (LabObjectView)loDict.getView(this, true);
+		view.setRect(x,yOffset,width,dictHeight);
+		view.setShowMenus(true);
 		me.add(view);
 		lObjView = view;
 		if(loDict != null){
@@ -183,6 +201,7 @@ public class CCProbeTest extends ExtraMainWindow
 					LabObjDescriptor []desc = factory.getLabBookObjDesc();
 					if(desc != null){
 						for(int d = 0; d < desc.length; d++){
+							if(desc[d] == null) continue;
 							if(desc[d].objType == objID){
 								String name = desc[d].name;
 								if(name != null){
@@ -238,9 +257,9 @@ public class CCProbeTest extends ExtraMainWindow
 			dView.insertAtSelected(newObj);
 
 			if(autoEdit){
-				dView.showPage(newObj, true, false);
+				dView.showPage(newObj, true);
 			} else if(autoProp){
-				dView.showPage(newObj, true, true);
+				dView.showProperties(newObj);
 			} 				   
 		}
 	}
@@ -255,8 +274,8 @@ public class CCProbeTest extends ExtraMainWindow
 		me.remove(source);
 		LabObjectView replacement = obj.getView(this, true);
 		// This automatically does the layout call for us
-		replacement.setRect(x,y,width,myHeight);
-
+		replacement.setRect(x,yOffset,width,myHeight);
+		replacement.setShowMenus(true);
 		me.add(replacement);
 		lObjView = replacement;
     }
@@ -270,6 +289,7 @@ public class CCProbeTest extends ExtraMainWindow
 			command = e.getActionCommand();
 			if(command.equals("Exit")){
 				Debug.println("commiting");
+				lObjView.close();
 				labBook.store(loDict);
 				if(!labBook.commit() ||
 				   !labBook.close()){
@@ -299,4 +319,30 @@ public class CCProbeTest extends ExtraMainWindow
 
     }
 
+	LabObjectView curFullView = null;
+
+	public void showFullWindowView(LabObjectView view)
+	{
+		if(view == curFullView){
+			// the view isn't being changed
+			return;
+		}
+
+		if(view == null){
+			// the curFullView must not be null
+			remove(curFullView);
+			curFullView = null;
+			add(me);
+		} else {
+			if(curFullView == null) remove(me);
+			else remove(curFullView);
+
+			view.layout(true);
+			view.setRect(0,0,width,myHeight);
+			view.setShowMenus(true);
+			add(view);
+			curFullView = view;
+		} 
+		return;
+	}
 }
