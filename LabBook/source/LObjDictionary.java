@@ -179,7 +179,6 @@ public class LObjDictionary extends LabObject
     {
 		objects = new Vector();
 		int i;
-		super.readExternal(ds);
 		short flags = ds.readShort();
 
 		viewType = (flags & 0x0F);
@@ -202,7 +201,6 @@ public class LObjDictionary extends LabObject
     {
 		int i;
 		int size = objects.getCount();
-		super.writeExternal(ds);
 
 		short flags = (short)viewType;
 		flags = hideChildren?(short)(flags|0x010):flags;
@@ -233,7 +231,7 @@ public class LObjDictionary extends LabObject
 			return (TreeNode)obj;
 		} else if(hasMainObject && index == 0){
 			((LObjSubDict)obj).setDict(this);
-			ptr.name = "..main_obj..";
+			ptr.name = "..main_obj..: " + obj.name;
 		}
 
 		return ptr;
@@ -281,7 +279,7 @@ public class LObjDictionary extends LabObject
 	
 		children = new TreeNode [numObjs];
 		for(int i=0; i<numObjs; i++){
-		    LabObjectPtr ptr = ((LabObjectPtr)objects.get(i));
+		    LabObjectPtr ptr = ((LabObjectPtr)objects.get(i));			
 		    LabObject obj = lBook.load(ptr);
 		    if(obj instanceof LObjDictionary){
 				children[i] = (TreeNode)obj;
@@ -321,6 +319,7 @@ public class LObjDictionary extends LabObject
 		} else if(node instanceof LabObjectPtr){
 			LabObject obj = lBook.load((LabObjectPtr)node);
 			if(hasMainObject &&
+			   obj instanceof LObjSubDict &&
 			   ((LabObjectPtr)(objects.get(0))).equals(node)){
 				((LObjSubDict)obj).setDict(this);
 			}

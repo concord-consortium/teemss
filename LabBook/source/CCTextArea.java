@@ -1912,4 +1912,6 @@ LObjDictionaryView	view;
 
 final class EmptyLabObject extends LabObject{
 	public EmptyLabObject(){super(-1);}
+	public void readExternal(DataStream in){}
+	public void writeExternal(DataStream out){}
 }

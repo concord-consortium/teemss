@@ -38,18 +38,8 @@ public abstract class LObjSubDict extends LabObject
 		super.store();
     }
 
-    public void writeExternal(DataStream out)
-    {
-		super.writeExternal(out);
-    }
-
-
     // Notice for this to work correctly the dictionary needs to be
     // loaded before the this object is
-    public void readExternal(DataStream in)
-    {
-		super.readExternal(in);
-    }
 
 	public int getNumObjs()
 	{

@@ -7,7 +7,6 @@ import org.concord.waba.extra.ui.*;
 
 public abstract class LabObject
 {
-    public String type;
     public String name = null;
     public LabObjectPtr ptr;
     int objectType = -1;
@@ -21,25 +20,9 @@ public abstract class LabObject
 
 	public void init(){}
 
-    public void readExternal(DataStream in)
-    {
-		name = in.readString();
-		if(name.equals("_")) name = null;
-		//	Debug.println("Reading " + name + " " + typeNames[objectType]);
+    public abstract void readExternal(DataStream in);
 
-    }
-
-    public void writeExternal(DataStream out)
-    {
-		if(name == null){
-			out.writeString("_");
-			//Debug.println("Writing noname " + typeNames[objectType]);
-		} else {
-			//Debug.println("Writing " + name + " " + typeNames[objectType]);
-			out.writeString(name);
-		}
-
-    }
+    public abstract void writeExternal(DataStream out);
 
     public boolean equals(TreeNode node)
     {

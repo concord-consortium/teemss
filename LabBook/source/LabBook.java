@@ -229,6 +229,7 @@ public class LabBook
 				toBeStored.del(0);
 
 				dsOut.writeInt(curObjPtr.obj.objectType);
+				dsOut.writeString(curObjPtr.obj.name);
 
 				// This might call store which will change the toBeStored vector
 				curObjPtr.obj.writeExternal(dsOut);
@@ -255,7 +256,7 @@ public class LabBook
 		return true;
     }
 
-	public boolean commit(LabObjectPtr lObjPtr)
+	boolean commit(LabObjectPtr lObjPtr)
 	{
 		byte [] outBuf;
 
@@ -263,7 +264,9 @@ public class LabBook
 		int index = toBeStored.find(lObjPtr);
 		if(index < 0) return false;
 
+		// write object header
 		dsOut.writeInt(lObjPtr.obj.objectType);
+		dsOut.writeString(lObjPtr.obj.name);
 
 		// This might call store which will change the toBeStored vector
 		lObjPtr.obj.writeExternal(dsOut);
@@ -360,16 +363,61 @@ public class LabBook
 
     public LabObject load(LabObjectPtr lObjPtr)
     {
+		if(lObjPtr.devId == -1 && lObjPtr.objId == -1) return null;
+
+		DataStream dsIn = initPointer(lObjPtr);
+		if(dsIn == null){
+			// this object was already loaded
+			return lObjPtr.obj;
+		}
+
+		LabObject lObj = null;
+
+		// We need a way to instanciate object.
+		// We could have a list of objects and every new lab object will
+		// need to be added to this list.
+		lObj = makeNewObj(lObjPtr.objType, false);
+		if(lObj == null){
+			Debug.println("error: objectType: " + lObjPtr.objType + " devId: " + lObjPtr.devId +
+						  " objId: " + lObjPtr.objId);
+			return null;
+		}
+		lObj.ptr = lObjPtr;
+		lObjPtr.obj = lObj;
+		lObj.name = lObjPtr.name;
+
+		// This might be recursive so add this object to the 
+		// loaded array so we don't load it again
+		loaded.add(lObjPtr);
+		    
+		lObj.readExternal(dsIn);
+
+		return lObj;
+    }
+
+	/**
+	 * Check if the object this pointer points to is already loaded
+	 * If so, update this pointers name and type info
+	 * If not, read the heading information from the object
+	 * 
+	 * returns the datastream of the object data if the object hasn't
+	 * already been loaded, otherwise it returns null
+	 */
+	private DataStream initPointer(LabObjectPtr lObjPtr)
+	{
 		int i;
 		int numLoaded = loaded.getCount();
 		LabObjectPtr curObjPtr;
-		if(lObjPtr.devId == -1 && lObjPtr.objId == -1) return null;
 
+		// if this is true we have major problems
+		// if(lObjPtr.devId == -1 && lObjPtr.objId == -1) return null;
 		for(i=0; i<numLoaded; i++){
 			curObjPtr = (LabObjectPtr)loaded.get(i);
 			if(curObjPtr.equals(lObjPtr)){
 				lObjPtr.obj = curObjPtr.obj;
-				return curObjPtr.obj;
+				lObjPtr.objType = lObjPtr.obj.objectType;
+				lObjPtr.name = lObjPtr.obj.name;
+				return null;
 			}
 		}
 
@@ -386,31 +434,14 @@ public class LabBook
 		// read buffer by
 		bsIn.setBuffer(buffer);
 	
-		int objectType = dsIn.readInt();
-		LabObject lObj = null;
+		lObjPtr.objType = dsIn.readInt();
+		lObjPtr.name = dsIn.readString();
 
-		// We need a way to instanciate object.
-		// We could have a list of objects and every new lab object will
-		// need to be added to this list.
-		lObj = makeNewObj(objectType, false);
-		if(lObj == null){
-			Debug.println("error: objectType: " + objectType + " devId: " + lObjPtr.devId +
-						  " objId: " + lObjPtr.objId);
-			return null;
-		}
-		lObj.ptr = lObjPtr;
+		return dsIn;
+	}
 
-		// This might be recursive so add this object to the 
-		// loaded array so we don't load it again
-		lObjPtr.obj = lObj;
-		loaded.add(lObjPtr);
-		    
-		lObj.readExternal(dsIn);
 
-		return lObj;
-    }
-
-    public void export(LabObject lObj, LabBookDB db)
+	public void export(LabObject lObj, LabBookDB db)
     {
 		if(waba.sys.Vm.getPlatform().equals("PalmOS")){
 			Catalog memoDB = new Catalog("MemoDB.memo.DATA", Catalog.READ_WRITE);
@@ -443,14 +474,14 @@ public class LabBook
 	  but since the pointers are the same we don't have to
 	  worry about any pointer conflicts
 	*/
-	public LabObject export(LabObjectPtr lObjPtr)
+	private LabObject export(LabObjectPtr lObjPtr)
 	{
 		LabObject obj = load(lObjPtr);
 		store(obj);
 		return obj;		
 	}
 
-    public LabObjectPtr exportAll(LabObject lObj)
+    private LabObjectPtr exportAll(LabObject lObj)
     {	
 		LabObjectPtr lObjPtr = null;
 		if(lObj instanceof LObjSubDict){

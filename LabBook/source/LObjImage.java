@@ -31,14 +31,12 @@ public LObjImageView view = null;
 
     public void writeExternal(DataStream out)
     {
-		super.writeExternal(out);
 		if(view == null) return;
 		view.writeExternal(out);
     }
 
     public void readExternal(DataStream in)
     {
-		super.readExternal(in);
 		if(view == null) view = new LObjImageView(null, this,false);
 		view.readExternal(in);
     }

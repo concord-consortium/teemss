@@ -28,13 +28,10 @@ public LObjDocumentView view = null;
     }
 
     public void writeExternal(DataStream out){
-		super.writeExternal(out);
 		out.writeString(text);
     }
 
     public void readExternal(DataStream in){
-		super.readExternal(in);
-	
 		text = in.readString();
     }
 }

@@ -33,7 +33,6 @@ static public	boolean editMode = false;
     }
 
     public void writeExternal(DataStream out){
-		super.writeExternal(out);
 		out.writeBoolean(view != null);
 		if(view != null){
 			view.writeExternal(out);
@@ -41,7 +40,6 @@ static public	boolean editMode = false;
     }
 
     public void readExternal(DataStream in){
-		super.readExternal(in);
 		boolean wasView = in.readBoolean();
 		if(wasView){
 			if(view == null) view = new LObjCCTextAreaView(null, this,false);

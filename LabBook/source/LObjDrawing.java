@@ -10,7 +10,7 @@ import org.concord.waba.extra.event.*;
 public class LObjDrawing extends LabObject
 {
 
-public LObjDrawingView view = null;
+	public LObjDrawingView view = null;
 
     public LObjDrawing()
     {
@@ -30,18 +30,16 @@ public LObjDrawingView view = null;
 
     public void writeExternal(DataStream out)
     {
-	super.writeExternal(out);
-	if(view == null) return;
-	view.writeExternal(out);
+		if(view == null) return;
+		view.writeExternal(out);
     }
 
     public void readExternal(DataStream in)
     {
-	super.readExternal(in);
-	if(view == null){
-		view = new LObjDrawingView(null, this);
-	}
-	view.readExternal(in);
+		if(view == null){
+			view = new LObjDrawingView(null, this);
+		}
+		view.readExternal(in);
 	
     }
 }
@@ -182,13 +180,13 @@ class LObjDrawingView extends LabObjectView
     {
 		if(e.target == doneButton &&
 		   e.type == ControlEvent.PRESSED){
-				if(scribble.isChooserUp()){
-					scribble.closeChooser();
-				}else{
-					if(container != null){
-						container.done(this);
-					}	
-				}    
+			if(scribble.isChooserUp()){
+				scribble.closeChooser();
+			}else{
+				if(container != null){
+					container.done(this);
+				}	
+			}    
 		}
     }
 

@@ -15,18 +15,18 @@ public class LabObjectPtr implements TreeNode
 
     public LabObjectPtr(int dId, int oId, LabObject o)
     {
-	devId = dId;
-	objId = oId;
-	obj = o;
+		devId = dId;
+		objId = oId;
+		obj = o;
 
     }
 
     public LabObjectPtr(String name)
     {
-	devId = -1;
-	objId = -1;
-	obj = null;
-	this.name = name;
+		devId = -1;
+		objId = -1;
+		obj = null;
+		this.name = name;
     }
 
     public LabObjectPtr()
@@ -35,16 +35,16 @@ public class LabObjectPtr implements TreeNode
 
     public static LabObjectPtr readExternal(DataStream in)
     {
-	LabObjectPtr me = new LabObjectPtr();
-	me.devId = in.readInt();
-	me.objId = in.readInt();
-	return me;
+		LabObjectPtr me = new LabObjectPtr();
+		me.devId = in.readInt();
+		me.objId = in.readInt();
+		return me;
     }
     
     public void writeExternal(DataStream out)
     {
-	out.writeInt(devId);
-	out.writeInt(objId);
+		out.writeInt(devId);
+		out.writeInt(objId);
     }
 
     public TreeNode [] childArray(){return null;}
@@ -72,16 +72,16 @@ public class LabObjectPtr implements TreeNode
     public String debug(){return "devId " + devId + " objId " + objId;};
 
     public boolean equals(TreeNode node){
-	if(node == this) return true;
-	if(node != null &&
-	   node instanceof LabObjectPtr){
-	    LabObjectPtr ptr = (LabObjectPtr)node;
-	    return devId == ptr.devId &&
-		    objId == ptr.objId;
+		if(node == this) return true;
+		if(node != null &&
+		   node instanceof LabObjectPtr){
+			LabObjectPtr ptr = (LabObjectPtr)node;
+			return devId == ptr.devId &&
+				objId == ptr.objId;
 
-	}
+		}
 
-	return false;
+		return false;
     }
 	  
 }

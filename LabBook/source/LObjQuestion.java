@@ -58,7 +58,6 @@ public class LObjQuestion extends LObjSubDict
 
     public void writeExternal(DataStream out)
     {	
-		super.writeExternal(out);
 		out.writeInt(questionType);
 	
 		// This is dangerous if we've been commited
@@ -72,9 +71,7 @@ public class LObjQuestion extends LObjSubDict
 
     public void readExternal(DataStream in)
     {
-		super.readExternal(in);
 		questionType = in.readInt();
-
     }
 
     public void setDict(LObjDictionary d)

@@ -93,16 +93,8 @@ public class LObjOutputSet extends LObjSubDict
     
     public void reload(LabObjectView source){mObjCont.reload(source);}
 
-    public void writeExternal(DataStream out)
-    {
-		super.writeExternal(out);
-	
-    }
-
-    public void readExternal(DataStream in)
-    {
-		super.readExternal(in);
-    }
+    public void writeExternal(DataStream out){}
+    public void readExternal(DataStream in){}
 
     public void setDict(LObjDictionary dict)
     {
