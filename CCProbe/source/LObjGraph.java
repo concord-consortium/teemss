@@ -70,13 +70,29 @@ public class LObjGraph extends LObjSubDict
 		if(index >= 0 && index < graphSettings.getCount()){
 			GraphSettings gs = (GraphSettings)graphSettings.get(index);
 			gs.setVisible(val);
+		} else {
+			index = -1;
 		}
+
+		if(val == true && index >= 0 && maxLines == 1 && index != curGSIndex){
+			GraphSettings oldGS = (GraphSettings)graphSettings.get(curGSIndex);
+			// need to change the current graph settings
+			oldGS.setVisible(false);
+			setCurGSIndex(index);
+		}
+	}
+
+	int maxLines = 1;
+	public int getMaxLines(){ return maxLines;}
+	public void setMaxLines(int maxLines)
+	{
+		this.maxLines = maxLines;			
 	}
 
     static float XMIN = 0f, XMAX = 100f;
     static float YMIN = -20f, YMAX = 50f;
 
-	public void initAxis()
+	public void createDefaultAxis()
 	{
 		SplitAxis xaxis = new SplitAxis(Axis.BOTTOM);
 		ColorAxis yaxis = new ColorAxis(Axis.LEFT);
@@ -138,8 +154,9 @@ public class LObjGraph extends LObjSubDict
 			setObj(null, numDataSources);
 		}
 
+		GraphSettings gs = null;
 		if(newSettings){
-			GraphSettings gs = new GraphSettings(this, numDataSources, linkX, linkY);
+			gs = new GraphSettings(this, numDataSources, linkX, linkY);
 			gs.setXAuto(true);
 			gs.setXUnit(CCUnit.getUnit(CCUnit.UNIT_CODE_S));
 			
@@ -151,10 +168,14 @@ public class LObjGraph extends LObjSubDict
 			graphSettings.add(gs);
 			gs.close();
 		} else if(graphSettings.getCount() > numDataSources){
-			GraphSettings gs = (GraphSettings)graphSettings.get(numDataSources);
+			gs = (GraphSettings)graphSettings.get(numDataSources);
 			gs.dsIndex = numDataSources;
 			gs.ds = null;
 		}
+		if(maxLines == 1 && numDataSources > 0 && gs != null){
+			gs.setVisible(false);
+		}
+
 		numDataSources++;
 	}
 
@@ -170,11 +191,12 @@ public class LObjGraph extends LObjSubDict
 	}
 
 	public void setCurGSIndex(int index)
-	{
+	{		
 		if(index >= 0 && index < graphSettings.getCount() &&
 		   index != curGSIndex){
 			curGSIndex = index;
 			notifyObjListeners(new LabObjEvent(this, 1));
+			getCurGraphSettings().setVisible(true);
 		}
 	}
 
@@ -184,6 +206,15 @@ public class LObjGraph extends LObjSubDict
 		   curGSIndex >= 0 &&
 		   curGSIndex < graphSettings.getCount()){
 			return (GraphSettings)graphSettings.get(curGSIndex);
+		}
+		return null;
+	}
+
+	public GraphSettings getGraphSettings(int index)
+	{
+		if(index >= 0 && index < graphSettings.getCount() &&
+		   index != curGSIndex){
+			return (GraphSettings)graphSettings.get(index);
 		}
 		return null;
 	}
@@ -343,14 +374,13 @@ public class LObjGraph extends LObjSubDict
 
 		for(int i=0; i<xAxisVector.getCount(); i++){
 			Axis ax = (Axis)xAxisVector.get(i);
-			ax.free();
+			//			if(ax.refCount != 0) ystem.out.println("LOG: xaxis: " + i + " not freed");
 		}
 
 		for(int i=0; i<yAxisVector.getCount(); i++){
 			Axis ax = (Axis)yAxisVector.get(i);
-			ax.free();
+			// if(ax.refCount != 0) ystem.out.println("LOG: yaxis: " + i + " not freed");
 		}
-
 	}
 
 	public void saveAllAnnots()
@@ -387,13 +417,8 @@ public class LObjGraph extends LObjSubDict
 				dsGraph.xAxisVector.add(xaxis);
 				dsGraph.yAxisVector.add(yaxis);
 
-				xaxis.init();
 				xaxis.setRange(curGS.getXMin(), curGS.getXMax()-curGS.getXMin());
-				xaxis.free();
-
-				yaxis.init();
 				yaxis.setRange(curGS.getYMin(), curGS.getYMax()-curGS.getYMin());
-				yaxis.free();
 
 				dsGraph.addDataSource(dSet, true, 0, 0);
 				dsGraph.store();

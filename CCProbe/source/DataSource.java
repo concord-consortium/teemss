@@ -28,7 +28,7 @@ public interface DataSource
 	public CCUnit 	getUnit();
 	public boolean 	setUnit(CCUnit unit);
 
-	public String getLabel();
+	public String getQuantityMeasured();
 
 	public String getSummary();
 }

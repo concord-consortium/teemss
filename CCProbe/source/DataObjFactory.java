@@ -15,6 +15,7 @@ public class DataObjFactory
     final public static int PROBE_DATA_SOURCE 	= 12;
 	final public static int ANNOTATION          = 13;
 	final public static int CALCULUS_TRANS      = 14;
+	final public static int INT_PROBE_TRANS     = 15;
 
 	public DataObjFactory()
 	{
@@ -47,6 +48,8 @@ public class DataObjFactory
 		case CALCULUS_TRANS:
 			obj = new LObjCalculusTrans();
 			break;
+		case INT_PROBE_TRANS:
+			obj = new LObjIntProbeTrans();
 		}
 
 		return obj;

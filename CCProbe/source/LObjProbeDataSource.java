@@ -21,6 +21,8 @@ CCUnit		currentUnit = null;
 	public waba.util.Vector probListeners = null;
 	public static int interfaceType = CCInterfaceManager.INTERFACE_0;
 
+	ProbManager pb = null;
+
     public LObjProbeDataSource()
     {
 		super(DataObjFactory.PROBE_DATA_SOURCE);
@@ -63,10 +65,23 @@ CCUnit		currentUnit = null;
 		}
 	}
 
-	public String getLabel()
+	public DataListener setModeDataListener(DataListener l, int type)
 	{
-		if(probe != null) return probe.getLabel();
-		else return null;		
+		if(probe != null){
+			return probe.setModeDataListener(l, type);
+		}
+		return null;
+	}
+
+	public static String [] getProbeNames()
+	{
+		return ProbFactory.getProbNames();	
+	}
+
+	public String getProbeName()
+	{
+		int probeId = getProbe().getProbeType();
+		return ProbFactory.getName(probeId);
 	}
 
 	public String getSummary()
@@ -105,7 +120,11 @@ CCUnit		currentUnit = null;
 	boolean started = false;
 	public void startDataDelivery(){
 		if(probe == null || started) return;
-		ProbManager pb = ProbManager.getProbManager(probe.getInterfaceType());
+
+		if(pb == null){
+			// This ds was disposed so we should reset the probe
+			setProbe(probe);
+		}
 		
 		if(pb != null){
 			pb.start();
@@ -115,7 +134,6 @@ CCUnit		currentUnit = null;
 	
 	public void stopDataDelivery(){
 		if(probe == null || !started) return;
-		ProbManager pb = ProbManager.getProbManager(probe.getInterfaceType());
 		if(pb != null){
 			pb.stop();
 			started = false;
@@ -149,13 +167,13 @@ CCUnit		currentUnit = null;
 	}
 	
 	public void unRegisterProbeWithPM(){
-		if(probe == null) return;
-		ProbManager pb = ProbManager.getProbManager(probe.getInterfaceType());
+		if(probe == null || pb == null) return;
 		pb.unRegisterProb(probe);
 	}
 	public void registerProbeWithPM(){
 		if(probe == null) return;
-		ProbManager pb = ProbManager.getProbManager(probe.getInterfaceType());
+		if(pb == null) pb = ProbManager.getProbManager(probe.getInterfaceType());
+
 		if(pb == null) return;
 		pb.registerProb(probe);
 	}
@@ -165,7 +183,6 @@ CCUnit		currentUnit = null;
 			probe.removeProbListener(this);
 		}
 
-		ProbManager pb = ProbManager.getProbManager(probe.getInterfaceType());
 		if(pb != null){
 			pb.dispose();
 			pb = null;
@@ -219,13 +236,67 @@ CCUnit		currentUnit = null;
 		probe.calibrateMe(owner,l,probe.getInterfaceType());
 	}
 	
-	public static LObjProbeDataSource getProbeDataSource(int probeID,int interfaceType, int interfacePort){
-		CCProb p = ProbFactory.createProb(probeID,interfacePort);
+	public static LObjProbeDataSource getProbeDataSource(String probeName, int interfaceType)
+	{
+		return getProbeDataSource(ProbFactory.getIndex(probeName), interfaceType);
+	}
+
+	public static LObjProbeDataSource getProbeDataSource(int probeID,int interfaceType){
+		CCProb p = ProbFactory.createProb(probeID,CCProb.INTERFACE_PORT_A);
 		if(p == null) return null;
 		p.setInterfaceType(interfaceType);
 		LObjProbeDataSource me = DataObjFactory.createProbeDataSource();
 		me.setProbe(p);
 		return me;
+	}
+
+	public DataSource getQuantityDataSource(String qName)
+	{
+		if(qName.equals(getQuantityMeasured())){
+			return this;
+		} else {
+			LObjIntProbeTrans trans = (LObjIntProbeTrans)DataObjFactory.create(DataObjFactory.INT_PROBE_TRANS);
+			trans.setDataSource(this);
+			trans.setType(getQuantityId(qName));
+			return trans;
+		}
+	}
+
+	public String getQuantityMeasured(int id)
+	{
+		if(probe != null) return probe.getQuantityName(id);
+		return null;
+	}
+
+	public int getQuantityId(String quantityName)
+	{
+		if(probe != null) return probe.getQuantityId(quantityName);
+		return -1;
+	}
+
+	public String getQuantityMeasured()
+	{
+		if(probe != null) return probe.getDefQuantityName();
+		return null;
+	}
+ 
+	public String [] getQuantityNames()
+	{
+		if(probe != null){
+		    return probe.getQuantityNames();
+		} 
+		return null;
+	}
+	
+	public CCUnit getQuantityUnit(int id)
+	{
+		if(probe != null){
+			int unitId =  probe.getQuantityUnit(id);
+			if(unitId >= 0){
+				return CCUnit.getUnit(unitId);
+			}
+		}
+		return null;
 	}
 
 	public void getRootSources(Vector sources)

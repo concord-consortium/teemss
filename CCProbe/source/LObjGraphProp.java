@@ -85,20 +85,21 @@ public class LObjGraphProp extends LabObjectView
 			dsStrings = new String [graph.numDataSources];
 			for(int i=0; i<graph.numDataSources; i++){
 				DataSource ds = graph.getDataSource(i);
-				if(ds instanceof LabObject){
-					dsStrings[i] = ((LabObject)ds).name;
-				}
+				dsStrings[i] = ds.getQuantityMeasured();
 			}
-			int defIndex = graph.getCurGraphSettings().dsIndex;
-			propDataSources = new PropObject("Data", "Data", id++, dsStrings, defIndex);
-			propDataSources.prefWidth = 120;
-			propDataSources.setType(PropObject.CHOICE_SETTINGS);
-			propDataSources.setSettingsButtonName("Setup");
-			
+			if(graph.getMaxLines() != 1){
+				int defIndex = graph.getCurGraphSettings().dsIndex;
+				propDataSources = new PropObject("Data", "Data", id++, dsStrings, defIndex);
+				propDataSources.prefWidth = 120;
+				propDataSources.setType(PropObject.CHOICE_SETTINGS);
+				propDataSources.setSettingsButtonName("Setup");
+			}
+
 			if(dsStrings.length > 1){
 				propVisibleSources = new PropObject("Visible", "Visible", id++, dsStrings);
 				propVisibleSources.prefWidth = 120;
 				propVisibleSources.setType(PropObject.MULTIPLE_SEL_LIST);
+				if(graph.getMaxLines() == 1) propVisibleSources.setRadio(true);
 				for(int i=0; i<dsStrings.length; i++){
 					propVisibleSources.setCheckedValue(i, graph.getVisible(i));
 				}
@@ -109,7 +110,7 @@ public class LObjGraphProp extends LabObjectView
 
 			propAutoTitle = new PropObject("Auto", "Auto", id++, graph.autoTitle);
 			
-			propsGraph.addProperty(propDataSources);
+			if(propDataSources != null) propsGraph.addProperty(propDataSources);
 			if(propVisibleSources != null) propsGraph.addProperty(propVisibleSources);
 			propsGraph.addProperty(propTitle);
 			propsGraph.addProperty(propAutoTitle);
@@ -139,9 +140,12 @@ public class LObjGraphProp extends LabObjectView
 		} else {
 			propAutoTitle.setChecked(graph.autoTitle);
 			propTitle.setValue(graph.title);
-			propDataSources.setValue(dsStrings[graph.getCurGraphSettings().dsIndex]);
-			
+			if(propDataSources != null){
+				propDataSources.setValue(dsStrings[graph.getCurGraphSettings().dsIndex]);
+			}
+
 			if(propVisibleSources != null){
+				if(graph.getMaxLines() == 1) propVisibleSources.setRadio(true);
 				for(int i=0; i<dsStrings.length; i++){
 					propVisibleSources.setCheckedValue(i, graph.getVisible(i));
 				}
@@ -164,10 +168,26 @@ public class LObjGraphProp extends LabObjectView
 		GraphSettings curGS = graph.getCurGraphSettings();
 
 		if(e.getActionCommand().equals("Apply")){
-			int dsIndex = propDataSources.getIndex();
-			graph.setCurGSIndex(dsIndex);
+			int firstDS = -1;
+			if(propVisibleSources != null){
+				String [] dsNames = propVisibleSources.getPossibleValues();
+				for(int i=0; i<dsNames.length; i++){
+					graph.setVisible(i, propVisibleSources.getCheckedValue(i));
+					if(propVisibleSources.getCheckedValue(i)){
+						firstDS = i;
+					}
+				}
+			}
 
-			GraphSettings newGS = graph.getCurGraphSettings();
+			GraphSettings newGS;
+			if(propDataSources == null){
+				newGS = graph.getCurGraphSettings();
+			} else {
+				int dsIndex = propDataSources.getIndex();
+				graph.setCurGSIndex(dsIndex);
+				newGS = graph.getCurGraphSettings();
+			}
+
 			if(newGS != curGS){
 				return;
 			}
@@ -182,13 +202,6 @@ public class LObjGraphProp extends LabObjectView
 			curGS.setYAuto(propAutoYlabel.getChecked());
 			curGS.setYLabel(propYlabel.getValue());
 		   
-			if(propVisibleSources != null){
-				String [] dsNames = propVisibleSources.getPossibleValues();
-				for(int i=0; i<dsNames.length; i++){
-					graph.setVisible(i, propVisibleSources.getCheckedValue(i));
-				}
-			}
-
 			// This should be cleaned up
 			boolean autoTitle = propAutoTitle.getChecked();
 			if(autoTitle){

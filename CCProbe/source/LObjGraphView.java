@@ -63,6 +63,8 @@ public class LObjGraphView extends LabObjectView
 	public static String TOOL_AUTO_ZOOM_NAME = "Auto Resize";
 	public static String TOOL_ANNOT_MARK_NAME = "Annotate Mark";
 
+	GraphSettings curGS = null;
+
     public LObjGraphView(ViewContainer vc, LObjGraph g, LObjDictionary curDict)
     {
 		super(vc);
@@ -87,9 +89,14 @@ public class LObjGraphView extends LabObjectView
 			}
 		} else {
 			// curGS change
-			GraphSettings gs = graph.getCurGraphSettings();
-			if(gs != null){
-				av.setAxis(gs.xaxis, gs.yaxis);
+			GraphSettings newGS = graph.getCurGraphSettings();
+			if(graph.getMaxLines() == 1 && curGS != newGS){
+				if(newGS != null) newGS.init(this);
+				if(curGS != null) curGS.close();
+			}
+			curGS = newGS;
+			if(curGS != null){
+				av.setAxis(curGS.xaxis, curGS.yaxis);
 			}
 		}
 	}
@@ -270,19 +277,21 @@ public class LObjGraphView extends LabObjectView
 		// This is just a hack
 		if(gHeight < 1) gHeight = 1;
 			
-		GraphSettings gs = (GraphSettings)graph.graphSettings.get(0);
-		gs.init(this);
-
-		for(int i=1; i<graph.graphSettings.getCount(); i++){
-			gs = (GraphSettings)graph.graphSettings.get(i);
-
-			// av.setAxis(xaxis, yaxis);
-
+		if(graph.getMaxLines() == 1){
+			curGS = graph.getCurGraphSettings();
+			curGS.init(this);
+		} else {
+			GraphSettings gs = (GraphSettings)graph.graphSettings.get(0);
 			gs.init(this);
+			
+			for(int i=1; i<graph.graphSettings.getCount(); i++){
+				gs = (GraphSettings)graph.graphSettings.get(i);
+				gs.init(this);
+			}
+			curGS = graph.getCurGraphSettings();
 		}
 
-		gs = graph.getCurGraphSettings();
-		av = new AnnotView(width, gHeight, gs.xaxis, gs.yaxis);
+		av = new AnnotView(width, gHeight, curGS.xaxis, curGS.yaxis);
 		av.setPos(0,curY);
 		curY += gHeight;
 

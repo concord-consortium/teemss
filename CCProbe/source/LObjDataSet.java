@@ -291,7 +291,7 @@ public class LObjDataSet extends LObjSubDict
 		return true;
 	}
 
-	public String getLabel(){return label;}
+	public String getQuantityMeasured(){return label;}
 
 	public void setLabel(String l)
 	{

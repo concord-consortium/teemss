@@ -42,6 +42,8 @@ public class GraphSettings
 	DataSource ds = null;
 	Vector annots = new Vector();
 
+	boolean visible = true;
+
 	public GraphSettings(LObjGraph g, int dataSourceIndex)
 	{
 		graph = g;
@@ -101,7 +103,7 @@ public class GraphSettings
 
 			// need to set the ylabel to it's auto name
 			if(ds != null){
-				yLabel = ds.getLabel();
+				yLabel = ds.getQuantityMeasured();
 			} else {
 				yLabel = "null DS";
 			}
@@ -136,13 +138,12 @@ public class GraphSettings
 			setYUnit(ds.getUnit());
 			if(graph != null && 
 			   graph.autoTitle){
-				setYLabel(ds.getLabel());
+				setYLabel(ds.getQuantityMeasured());
 				graph.title = ds.getSummary();
 			}
 			graph.notifyObjListeners(new LabObjEvent(graph, 0));
 		}
 	}		
-
 
 	public void close()
 	{
@@ -154,7 +155,9 @@ public class GraphSettings
 
 		ds = null;
 
-		
+		if(xaxis != null) xaxis.freeRef();
+		if(yaxis != null) yaxis.freeRef();
+
 		// might also need to remove our selves from 
 		// listening to the axis if we are doing that
 	}
@@ -196,7 +199,7 @@ public class GraphSettings
 		if(flag){
 			// need to set the ylabel to it's auto name
 			if(ds != null){
-				setYLabel(ds.getLabel());
+				setYLabel(ds.getQuantityMeasured());
 			} else {
 				setYLabel("null DS");
 			}
@@ -229,7 +232,6 @@ public class GraphSettings
 		if(xaxis != null) xaxis.setAxisLabel(xLabel, xUnit);
 	}
 
-	boolean visible = true;
 	public boolean getVisible()
 	{
 		return visible;
@@ -274,6 +276,7 @@ public class GraphSettings
 			// Don't quite know what to do here
 			// this should be taken care of by DataSources
 			curBin.description = "";
+			curBin.setVisible(visible);
 
 			gv.startGraph(curBin);
 

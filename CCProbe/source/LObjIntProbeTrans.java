@@ -13,65 +13,42 @@ import extra.util.CCUnit;
 import org.concord.waba.extra.event.*;
 import org.concord.LabBook.*;
 
-public class LObjCalculusTrans extends LObjSubDict
+public class LObjIntProbeTrans extends LObjSubDict
 	implements DataSink, DataSource, DataListener
 {
-	float  			[]data = new float[CCInterfaceManager.BUF_SIZE];
-	float sum = 0f;
-	DataEvent dEvent = new DataEvent();
-	DataDesc dDesc = new DataDesc();
 	Vector dataListeners = new Vector();
-	DataSource dataSource = null;
+	LObjProbeDataSource dataSource = null;
 
 	int chPerSample;
 
-    public LObjCalculusTrans()
+    public LObjIntProbeTrans()
     {
-		super(DataObjFactory.CALCULUS_TRANS);
+		super(DataObjFactory.INT_PROBE_TRANS);
+	}
+
+	int type = -1;
+	public int getType(){return type;}
+	public void setType(int t)
+	{
+		type = t;
+	}
+
+	public String getQuantityMeasured()
+	{
+		if(dataSource == null) getDataSource();
+
+		if(dataSource != null) return dataSource.getQuantityMeasured(type);
+		return null;
 	}
 
 	public void dataStreamEvent(DataEvent dataEvent)
 	{
-		switch(dataEvent.type){
-		case DataEvent.DATA_READY_TO_START:
-			DataDesc dataDesc = dataEvent.getDataDesc();
-			dDesc.setChPerSample(1);
-			dDesc.setDt(dataDesc.getDt());
-			dEvent.setDataDesc(dDesc);
-			dEvent.setDataOffset(0);
-			dEvent.setNumbSamples(1);
-			dEvent.setData(data);			
-			chPerSample = dataDesc.getChPerSample();
-			sum = 0f;
-			dEvent.type = dataEvent.type;
-			notifyDataListenersEvent(dEvent);
-			return;
-		case DataEvent.DATA_COLLECTING:
-		case DataEvent.DATA_STOPPED:
-			notifyDataListenersEvent(dataEvent);
-			break;
-		}
+		notifyDataListenersEvent(dataEvent);
 	}
 
 	public void dataReceived(DataEvent dataEvent)
 	{
-		DataDesc dataDesc = dataEvent.getDataDesc();
-		dEvent.type = dataEvent.type;
-
-		int nSamps = dataEvent.getNumbSamples();
-		int startPos = dataEvent.getDataOffset();
-		int endPoint = startPos + nSamps*chPerSample;
-
-		float [] inData = dataEvent.getData();
-		int j = 0;
-		float dt = dataDesc.getDt();
-		for(int i= dataEvent.getDataOffset(); i < endPoint;
-			i+= chPerSample, j++){
-			data[j] = sum = inData[i]*dt + sum;
-		}
-		dEvent.setNumbSamples(j);
-		notifyDataListenersReceived(dEvent);
-		// notify listeners
+		notifyDataListenersReceived(dataEvent);
 	}
 
 	public void addDataListener(DataListener l){
@@ -101,15 +78,15 @@ public class LObjCalculusTrans extends LObjSubDict
 		}
 	}
 
-	public void setDataSource(DataSource ds)
+	public void setDataSource(LObjProbeDataSource ds)
 	{
 		if(dataSource != ds){
 			if(dataSource != null){
-				dataSource.removeDataListener(this);
+				dataSource.setModeDataListener(null, type);
 			}
 			dataSource = ds;
 			if(dataSource != null){
-				dataSource.addDataListener(this);
+				dataSource.setModeDataListener(this, type);
 			}
 			if(ds instanceof LabObject) setObj((LabObject)ds,0);
 		}
@@ -120,13 +97,13 @@ public class LObjCalculusTrans extends LObjSubDict
 		LabObject obj = getObj(0);
 		if(obj != null && obj instanceof DataSource){
 			if(dataSource != null && dataSource != obj){
-				dataSource.removeDataListener(this);
+				dataSource.setModeDataListener(null, type);
 			}
 			if(dataSource != obj){
-				dataSource = (DataSource)obj; 
-				dataSource.addDataListener(this);
+				dataSource = (LObjProbeDataSource)obj; 
+				dataSource.setModeDataListener(this, type);
 			}
-			dataSource = (DataSource)obj; 
+			dataSource = (LObjProbeDataSource)obj; 
 			return dataSource;
 		}
 		return null;
@@ -135,7 +112,7 @@ public class LObjCalculusTrans extends LObjSubDict
 	public void closeEverything()
 	{
 		if(dataSource != null){
-			dataSource.removeDataListener(this);
+			dataSource.setModeDataListener(null, type);
 			dataSource.closeEverything();
 		}
 		dataSource = null;
@@ -156,10 +133,16 @@ public class LObjCalculusTrans extends LObjSubDict
 		}
 	}
 
-	public CCUnit 	getUnit(){return null;}
+	public CCUnit 	getUnit()
+	{
+		if(dataSource == null) getDataSource();
+		if(dataSource == null) return null;
+		return dataSource.getQuantityUnit(type);
+	}
+
 	public boolean 	setUnit(CCUnit unit){return false;}
 
-	public String getQuantityMeasured(){return "";}
+	public String getLabel(){return "";}
 
 	public String getSummary(){return "";}
 
@@ -170,5 +153,17 @@ public class LObjCalculusTrans extends LObjSubDict
 		if(dataSource != null && sources != null){
 			dataSource.getRootSources(sources);
 		}
+	}
+
+	public void writeExternal(DataStream out)
+	{
+		super.writeExternal(out);
+		out.writeInt(type);
+	}
+
+	public void readExternal(DataStream in)
+	{
+		super.readExternal(in);
+		type = in.readInt();
 	}
 }

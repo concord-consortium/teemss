@@ -11,124 +11,180 @@ import extra.util.*;
 import org.concord.LabBook.*;
 
 public class LObjDataCollectorProp extends LabObjectView
+	implements ActionListener, PropOwner
 {
     LObjDataCollector dc;
-    Button doneButton;
-    Choice probeChoice = null;
-    Edit nameEdit = null;
-    Label nameLabel = null;
-	Check addIntegral = new Check("Add Integral");	
-
+	PropContainer mainProps;
+	PropContainer dsProps;
+	PropertyView propView = null;
+	PropObject probeType = null;
+	PropObject [] probeQuantities = null;
+	PropObject nameProp;
+	
     public LObjDataCollectorProp(ViewContainer vc, LObjDataCollector d,
 								   LObjDictionary curDict)
     {
 		super(vc);
-
 		dc = d;
 		lObj = dc;
-    }
-    
-    public void layout(boolean sDone)
-    {
-		if(didLayout) return;
-		didLayout = true;
 
-		showDone = sDone;
+		String [] probeNames = LObjProbeDataSource.getProbeNames();
+		probeQuantities = new PropObject[probeNames.length];
 
-		nameLabel = new Label("Name");
-		nameEdit = new Edit();
-		nameEdit.setText("" + dc.name);
-		add(nameLabel);
-		add(nameEdit);
+		mainProps = new PropContainer("Main");
+		nameProp = new PropObject("Name", "Name", 0, dc.name);
+		mainProps.addProperty(nameProp);
 
-		probeChoice = new Choice(ProbFactory.getProbNames());	
 		Vector dataSources = dc.getDataSources();
 		if(dataSources != null &&
 		   dataSources.getCount() > 0 &&
 		   dataSources.get(0) instanceof LObjProbeDataSource){
-			LObjProbeDataSource pds = (LObjProbeDataSource)dataSources.get(0);
-			int probeId = pds.getProbe().getProbeType();
-			String curName = ProbFactory.getName(probeId);
-			probeChoice.setSelectedIndex(curName);
+		    String curName = ((LObjProbeDataSource)dataSources.get(0)).getProbeName();
+			for(int i=0; i<probeNames.length; i++){
+				if(curName.equals(probeNames[i])){
+				   probeType = new PropObject("Probe", "Probe", 1, probeNames, i);
+				}
+			}
+		} else{
+			probeType = new PropObject("Probe", "Probe", 1, probeNames);
 		}
-		add(probeChoice);
+		mainProps.addProperty(probeType, this);
 
-		add(addIntegral);
-
-		if(showDone){
-			doneButton = new Button("Done");
-			add(doneButton);
-		} 
+		LObjProbeDataSource probeDS =  
+			LObjProbeDataSource.getProbeDataSource(probeType.getValue(),
+											  dc.interfaceId);
+		if(probeDS == null) return;
+		String [] quantityNames = probeDS.getQuantityNames();
+		if(quantityNames == null || quantityNames.length <= 1) return;
+		
+		dsProps = new PropContainer("Outputs");
+		PropObject quantityProp = new PropObject("", "DS", 0, quantityNames);
+		probeQuantities[probeType.getIndex()] = quantityProp;
+		
+		quantityProp.setType(PropObject.MULTIPLE_SEL_LIST);
+		quantityProp.setRadio(false);
+		dsProps.addProperty(quantityProp);
     }
+    
+	public void layout(boolean sDone)
+	{
+		if(didLayout) return;
+		didLayout = true;
+
+		propView = new PropertyView(this);
+		propView.addContainer(mainProps);
+		if(dsProps != null){
+			propView.addContainer(dsProps);
+		}
+		add(propView);
+	}
 
     public void setRect(int x, int y, int width, int height)
     {
 		super.setRect(x,y,width,height);
 		if(!didLayout) layout(false);
 
-		nameLabel.setRect(1, 2, 30, 15);
-		nameEdit.setRect(35, 2, width-40, 15);
+		propView.setRect(0,0,width,height);
+	}
 
-		probeChoice.setRect(3,30, width-7, 15);
-
-		addIntegral.setRect(3, 60, 70, 15);
-
-		if(showDone){
-			doneButton.setRect(width-30,height-15,30,15);
-		} 
-    }
-
-    public void close()
-    {
-		Debug.println("Got close in document");
-		int probeId = ProbFactory.getIndex(probeChoice.getSelected());
-		LObjGraph graph = dc.getGraph();
-
-		Vector dataSources = new Vector(1);
-		LObjProbeDataSource newDS = 
-			LObjProbeDataSource.getProbeDataSource(probeId, dc.interfaceId,
-												   CCProb.INTERFACE_PORT_A);
-		dataSources.add(newDS);
-
-		LObjCalculusTrans trans = null;
-		if(addIntegral.getChecked()){
-			trans = (LObjCalculusTrans)DataObjFactory.create(DataObjFactory.CALCULUS_TRANS);
-			trans.setDataSource(newDS);
-			trans.name = "Integral";
-			trans.store();
-			dataSources.add(trans);
+	public boolean visValueChanged(PropObject po)
+	{		
+		if(po == probeType){
+			if(probeQuantities[probeType.getVisIndex()] != null){
+				if(dsProps == null){
+					dsProps = new PropContainer("Outputs");
+					propView.addContainer(dsProps);
+				} else {
+					PropObject oldQuantProp = dsProps.findProperty(0);
+					dsProps.removeProperty(oldQuantProp);
+				}
+				dsProps.addProperty(probeQuantities[probeType.getVisIndex()]);
+				propView.updateView();
+			} else {
+				LObjProbeDataSource probeDS =  
+					LObjProbeDataSource.getProbeDataSource(probeType.getVisValue(),
+														   dc.interfaceId);
+				if(probeDS == null) return false;
+				String [] quantityNames = probeDS.getQuantityNames();
+				if(quantityNames == null) return false;
+				if(quantityNames.length <= 1){
+					if(dsProps != null){
+						propView.removeContainer(dsProps);
+						dsProps = null;						
+						propView.updateView();
+					}
+				} else {
+					if(dsProps == null){
+						dsProps = new PropContainer("Outputs");
+						propView.addContainer(dsProps);
+					} else {
+						PropObject oldQuantProp = dsProps.findProperty(0);
+						dsProps.removeProperty(oldQuantProp);
+					}
+					PropObject quantityProp = new PropObject("", "DS", 0, quantityNames);
+					quantityProp.setType(PropObject.MULTIPLE_SEL_LIST);
+					quantityProp.setRadio(false);
+					probeQuantities[probeType.getVisIndex()] = quantityProp;
+					dsProps.addProperty(quantityProp);
+					propView.updateView();
+				}
+			}
 		}
+		return true;
+	}
 
-		dc.setDataSources(dataSources);
+	public void actionPerformed(ActionEvent e)
+	{
+		if(e.getActionCommand().equals("Apply")){
+			LObjGraph graph = dc.getGraph();
+			
+			Vector dataSources = new Vector(1);
+			LObjProbeDataSource probeDS = 
+				LObjProbeDataSource.getProbeDataSource(probeType.getValue(),
+													   dc.interfaceId);
+			if(dsProps == null){
+				dataSources.add(probeDS);
+			} else {
+				PropObject quantProp  = dsProps.findProperty(0);
+				if(quantProp == null){
+					dataSources.add(probeDS);
+				} else {
+					String [] quantNames = quantProp.getPossibleValues();
+					for(int i=0; i<quantNames.length; i++){
+						if(quantProp.getCheckedValue(i)){
+							DataSource newDS = probeDS.getQuantityDataSource(quantNames[i]);
+							dataSources.add(newDS);
+						}
+					}
+				}
+			}
+			if(dataSources.getCount() < 1){
+				// error
+				return;
+			}
 
-		graph.clear();
-		graph.initAxis();
-		graph.addDataSource(newDS,true,0,0);
-		if(trans != null){
-			graph.addYAxis();
-			graph.addDataSource(trans, true, 0, 1);
-		}
+			dc.setDataSources(dataSources);
 
-		graph.store();
 
-		if(nameEdit.getText() != "" && nameEdit.getText() != null){
-			dc.name = nameEdit.getText();
-		}
+			graph.clear();
+			graph.createDefaultAxis();
+			graph.addDataSource((DataSource)dataSources.get(0),true,0,0);
+			for(int i=1; i<dataSources.getCount(); i++){
+				graph.addYAxis();
+				graph.addDataSource((DataSource)dataSources.get(i),true,0,i);
+			}
+			graph.store();
 
-		newDS.closeEverything();
-		if(trans != null){
-			trans.closeEverything();
-		}
-		super.close();
-    }
+			dc.name = nameProp.getValue();
 
-    public void onEvent(Event e)
-    {
-		if(e.target == doneButton &&
-		   e.type == ControlEvent.PRESSED){
+			// to be safe
+			((DataSource)dataSources.get(0)).closeEverything();
+
+		} else if(e.getActionCommand().equals("Close")){
 			if(container != null){
 				container.done(this);
 			}	    
 		}
-    }
+	}
+
 }
