@@ -4,8 +4,10 @@
 ALL_MODULE_NAME= $(MODULE)-all
 BUILD_DOC= $(ALL_MODULE_NAME)/$(MODULE)/bin/BUILD.txt
 TAG_NAME := `read; echo $$REPLY`
+REMOTE_HOST := hub.concord.org
+REMOTE_ROOT := releases
 
-all:
+release-sub:
 # Check out the release to our directory
 # This will ask for a password
 	cvs checkout -r $(TAG) $(ALL_MODULE_NAME)
@@ -19,3 +21,5 @@ all:
 	#ncftpput -u scytacki -m $(REMOTE_HOST) \
 $(REMOTE_ROOT)/$(MODULE)/$(TAG) \
 #$(ALL_MODULE_NAME)/$(MODULE)/bin/*
+
+include cvs.inc

@@ -23,7 +23,7 @@ release: tag $(DEP_TAGS) $(DEP_NAMES) ReleaseSystem
 	# supposably this means we have taged everything
 	# so now we can call the realease makefile which will checkout
 	# all these files using our tag and try to build it and publish it
-	cd ../ReleaseSystem/ && $(MAKE) TAG=$(shell cat tag) MODULE=$(MODULE)
+	cd ../ReleaseSystem/ && $(MAKE) release-sub TAG=$(shell cat tag) MODULE=$(MODULE)
 
 tag:
 	@echo "You must make a version or branch first for " $(MOD_NAME)
@@ -37,13 +37,4 @@ $(DEP_NAMES) ReleaseSystem : % : tag ../%/tag
 	#Tag the dependencies with our tag so we can get them back
 	cvs rtag -r $(shell cat ../$@/tag) $(shell cat tag) $@
 
-version:
-	@echo "The old version was:"
-	@more tag
-	@echo "Enter the new version(tag):"
-	@echo $(GET_NAME)
-	#cvs tag $(GET_NAME) $(ALL_MODULE_NAME)
-	@echo $(TAG_NAME) > tag
-	cvs ci -m "Updating tag" tag
-
-branch:
+include cvs.inc
