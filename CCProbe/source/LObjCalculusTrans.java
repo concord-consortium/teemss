@@ -64,10 +64,12 @@ public class LObjCalculusTrans extends LObjSubDict
 
 		float [] inData = dataEvent.getData();
 		int j = 0;
+		float dt = dataDesc.getDt();
 		for(int i= dataEvent.getDataOffset(); i < endPoint;
 			i+= chPerSample, j++){
-			data[j] = sum = inData[i] + sum;
+			data[j] = sum = inData[i]*dt + sum;
 		}
+		dEvent.setNumbSamples(j);
 		notifyDataListenersReceived(dEvent);
 		// notify listeners
 	}
@@ -75,6 +77,7 @@ public class LObjCalculusTrans extends LObjSubDict
 	public void addDataListener(DataListener l){
 		if(dataListeners == null) dataListeners = new waba.util.Vector();
 		if(dataListeners.find(l) < 0) dataListeners.add(l);
+		if(dataSource == null) getDataSource();
 	}
 	public void removeDataListener(DataListener l){
 		if(dataListeners == null) return;
@@ -108,23 +111,39 @@ public class LObjCalculusTrans extends LObjSubDict
 			if(dataSource != null){
 				dataSource.addDataListener(this);
 			}
+			if(ds instanceof LabObject) setObj((LabObject)ds,0);
 		}
 	}
 
 	DataSource getDataSource()
 	{
-		return dataSource;
+		LabObject obj = getObj(0);
+		if(obj != null && obj instanceof DataSource){
+			if(dataSource != null && dataSource != obj){
+				dataSource.removeDataListener(this);
+			}
+			if(dataSource != obj){
+				dataSource = (DataSource)obj; 
+				dataSource.addDataListener(this);
+			}
+			dataSource = (DataSource)obj; 
+			return dataSource;
+		}
+		return null;
 	}
 
 	public void closeEverything()
 	{
 		if(dataSource != null){
+			dataSource.removeDataListener(this);
 			dataSource.closeEverything();
 		}
+		dataSource = null;
 	}
 
 	public void startDataDelivery()
 	{
+		getDataSource();
 		if(dataSource != null){
 			dataSource.startDataDelivery();
 		}
@@ -147,6 +166,7 @@ public class LObjCalculusTrans extends LObjSubDict
 	// add the root sources to the passed in vector
 	public void getRootSources(Vector sources)
 	{
+		getDataSource();
 		if(dataSource != null && sources != null){
 			dataSource.getRootSources(sources);
 		}

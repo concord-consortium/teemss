@@ -17,7 +17,7 @@ public class LObjDataCollectorProp extends LabObjectView
     Choice probeChoice = null;
     Edit nameEdit = null;
     Label nameLabel = null;
-	Edit numDCs = null;
+	Check addIntegral = new Check("Add Integral");
 
     public LObjDataCollectorProp(ViewContainer vc, LObjDataCollector d,
 								   LObjDictionary curDict)
@@ -53,9 +53,7 @@ public class LObjDataCollectorProp extends LabObjectView
 		}
 		add(probeChoice);
 
-		numDCs = new Edit();
-		numDCs.setText("1");
-		add(numDCs);
+		add(addIntegral);
 
 		if(showDone){
 			doneButton = new Button("Done");
@@ -73,7 +71,7 @@ public class LObjDataCollectorProp extends LabObjectView
 
 		probeChoice.setRect(3,30, width-7, 15);
 
-		numDCs.setRect(3, 60, 30, 15);
+		addIntegral.setRect(3, 60, 70, 15);
 
 		if(showDone){
 			doneButton.setRect(width-30,height-15,30,15);
@@ -92,17 +90,21 @@ public class LObjDataCollectorProp extends LabObjectView
 												   CCProb.INTERFACE_PORT_A);
 		dataSources.add(newDS);
 
-		int numSources = waba.sys.Convert.toInt(numDCs.getText());
-		for(int i= 1; i < numSources; i++){
-			dataSources.add(null);
+		LObjCalculusTrans trans = null;
+		if(addIntegral.getChecked()){
+			trans = (LObjCalculusTrans)DataObjFactory.create(DataObjFactory.CALCULUS_TRANS);
+			trans.setDataSource(newDS);
+			trans.name = "Integral";
+			trans.store();
+			dataSources.add(trans);
 		}
 
 		dc.setDataSources(dataSources);
 
 		graph.clearDataSources();
 		graph.addDataSource(newDS);
-		for(int i= 1; i < numSources; i++){
-			graph.addDataSource(null);
+		if(trans != null){
+			graph.addDataSource(trans, true, 0, -1);
 		}
 
 		graph.store();
@@ -112,7 +114,9 @@ public class LObjDataCollectorProp extends LabObjectView
 		}
 
 		newDS.closeEverything();
-
+		if(trans != null){
+			trans.closeEverything();
+		}
 		super.close();
     }
 

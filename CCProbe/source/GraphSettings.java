@@ -28,6 +28,8 @@ public class GraphSettings
 
 	SplitAxis xaxis=null;
 	ColorAxis yaxis=null;
+	int linkX = -1;
+	int linkY = -1;
 
 	Object gvCookie;
 	LObjGraphView gv=null;
@@ -199,11 +201,18 @@ public class GraphSettings
 	{
 		if(ds == null || gv == null) return;
 
+		// This MAX_COLLECTIONS needs to be centralized somehow
 		if(bins.getCount() < MAX_COLLECTIONS){
-			if(curBin == null || curBin.xaxis != xaxis.lastAxis){
+			if(curBin == null || curBin.getNumVals() > 0){
 				// either this is the first time
 				// or the curBin is linked to an old xaxis
+				if(curBin != null){
+					// This should also pass in the old axis
+					xaxis.setAxisEndPoint(curBin.xaxis, curBin.maxX);
+				}
 				curBin = new Bin(xaxis.lastAxis, yaxis);
+			} else if(curBin.getNumVals() <= 0 && curBin.xaxis != xaxis.lastAxis){
+				curBin.setXAxis(xaxis.lastAxis);
 			}
 			bins.add(curBin);
 			curBin.addActionListener(this);
@@ -239,11 +248,7 @@ public class GraphSettings
 			curBin.reset();
 			// remove this bin because it hasn't been used yet
 			bins.del(bins.getCount() - 1);
-		} else {
-			if(bins.getCount() < MAX_COLLECTIONS){
-				xaxis.addAxis(curBin.maxX);
-			} 
-		}
+		} 
 		gv.stopGraph(gvCookie, curBin);
 	}
 
@@ -265,7 +270,6 @@ public class GraphSettings
 			// This is a hack need to figure out
 			// about reseting the curBin
 			curBin.reset();
-			curBin.setXAxis(xaxis.lastAxis);
 		}
 
 		// Don't free the last bin
@@ -464,6 +468,8 @@ public class GraphSettings
 		if(code == -1) yUnit = null;
 		else yUnit = CCUnit.getUnit(code);
 		visible = ds.readBoolean();
+		linkX = ds.readByte();
+		linkY = ds.readByte();
 	}
 
     public void writeExternal(DataStream ds)
@@ -481,6 +487,8 @@ public class GraphSettings
 		if(yUnit == null) ds.writeInt(-1);
 		else ds.writeInt(yUnit.code);
 		ds.writeBoolean(visible);
+		ds.writeByte(linkX);
+		ds.writeByte(linkY);
     }
 
 	// Note: we aren't copying the dsIndex

@@ -102,20 +102,23 @@ CCUnit		currentUnit = null;
 		return retValue;
 	}
 
+	boolean started = false;
 	public void startDataDelivery(){
-		if(probe == null) return;
+		if(probe == null || started) return;
 		ProbManager pb = ProbManager.getProbManager(probe.getInterfaceType());
 		
 		if(pb != null){
 			pb.start();
+			started = true;
 		}
 	}
 	
 	public void stopDataDelivery(){
-		if(probe == null) return;
+		if(probe == null || !started) return;
 		ProbManager pb = ProbManager.getProbManager(probe.getInterfaceType());
 		if(pb != null){
 			pb.stop();
+			started = false;
 		}
 	}
 

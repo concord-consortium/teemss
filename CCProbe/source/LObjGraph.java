@@ -70,10 +70,10 @@ public class LObjGraph extends LObjSubDict
 
 	public void addDataSource(DataSource ds)
 	{
-		addDataSource(ds, true);
+		addDataSource(ds, true, -1, -1);
 	}
 
-	public void addDataSource(DataSource ds, boolean newSettings)
+	public void addDataSource(DataSource ds, boolean newSettings, int linkX, int linkY)
 	{
 		if(graphSettings == null){
 			graphSettings = new Vector();
@@ -95,6 +95,8 @@ public class LObjGraph extends LObjSubDict
 				gs.setYUnit(ds.getUnit());
 				title = ds.getSummary();
 			}
+			gs.linkX = linkX;
+			gs.linkY = linkY;
 			graphSettings.add(gs);
 		} else if(graphSettings.getCount() > numDataSources){
 			GraphSettings gs = (GraphSettings)graphSettings.get(numDataSources);
@@ -285,7 +287,7 @@ public class LObjGraph extends LObjSubDict
 			if(dataDict != null){
 				dataDict.add(dSet);				
 				dSet.store();
-				dsGraph.addDataSource(dSet, false);
+				dsGraph.addDataSource(dSet, false, -1, -1);
 				dsGraph.store();
 			} else {
 				// for now it is an error

@@ -284,15 +284,24 @@ public class LObjGraphView extends LabObjectView
 		gs.init(this, (Object)av, xaxis, yaxis);
 
 		for(int i=1; i<graph.graphSettings.getCount(); i++){
-			xaxis = new SplitAxis(Axis.BOTTOM);
-			yaxis = new ColorAxis(Axis.LEFT);
-			yaxis.setMaxDigits(6);
-			axisVector.add(xaxis);
-			axisVector.add(yaxis);
+			gs = (GraphSettings)graph.graphSettings.get(i);
+			if(gs.linkX >= 0 && gs.linkX < graph.graphSettings.getCount()){
+				xaxis = ((GraphSettings) graph.graphSettings.get(gs.linkX)).xaxis;
+			} else {				 
+				xaxis = new SplitAxis(Axis.BOTTOM);
+				axisVector.add(xaxis);
+			}
+
+			if(gs.linkY >= 0 && gs.linkY < graph.graphSettings.getCount()){
+				yaxis = ((GraphSettings) graph.graphSettings.get(gs.linkY)).yaxis;
+			} else {				 
+				yaxis = new ColorAxis(Axis.LEFT);
+				yaxis.setMaxDigits(6);
+				axisVector.add(yaxis);
+			}
 
 			av.setAxis(xaxis, yaxis);
 
-			gs = (GraphSettings)graph.graphSettings.get(i);
 			gs.init(this, (Object)av, xaxis, yaxis);
 		}
 
@@ -405,7 +414,6 @@ public class LObjGraphView extends LabObjectView
 				  e.type == ControlEvent.PRESSED){
 			av.addAnnot();
 		} else if(e.type == 1003){
-			//	    System.out.println("Got 1003");
 			if(av.lgView.selAnnot != null){
 				timeBin.setValue(av.lgView.selAnnot.time);
 				// need to make sure lg.lgView.selAnnot has been added to dd
