@@ -36,7 +36,7 @@ public class BarGraph extends Graph2D
     public int numBars;
     Vector bars = new Vector();
     FontMetrics	fontMet = 
-	MainWindow.getMainWindow().getFontMetrics(MainWindow.defaultFont);
+		MainWindow.getMainWindow().getFontMetrics(MainWindow.defaultFont);
 
     int xOriginOff, yOriginOff;
     int dwWidth, dwHeight;
@@ -45,34 +45,34 @@ public class BarGraph extends Graph2D
 
     public BarGraph(int w, int h)
     {
-	width = w;
-	height = h;
+		width = w;
+		height = h;
 
-	range = DEFAULT_RANGE;
-	minValue = DEFAULT_MIN;
+		range = DEFAULT_RANGE;
+		minValue = DEFAULT_MIN;
 
-	dwWidth = w - 50;
-	dwHeight = h - 40;
+		dwWidth = w - 50;
+		dwHeight = h - 40;
 
-	xOriginOff = 40;
-	yOriginOff = h - 30;
+		xOriginOff = 40;
+		yOriginOff = h - 30;
 
-	yaxis = new ColorAxis(minValue, minValue + range, -dwHeight, Axis.LEFT);
+		yaxis = new ColorAxis(minValue, minValue + range, -dwHeight, Axis.LEFT);
 	
-	yaxis.gridEndOff=dwWidth-1;
+		yaxis.gridEndOff=dwWidth-1;
 
-	barSet = new BarSet(yaxis, 1, BarSet.BOTTOM);	
+		barSet = new BarSet(yaxis, 1, BarSet.BOTTOM);	
 
-	units = new String("C");
+		units = new String("C");
 	
-	numBars = 0;	
+		numBars = 0;	
 	
     }
 
     public void free()
     {
-	if(yaxis != null)yaxis.free();
-	if(barSet != null)barSet.free();	
+		if(yaxis != null)yaxis.free();
+		if(barSet != null)barSet.free();	
     }
 
     public void resize(int w, int h){}
@@ -81,123 +81,123 @@ public class BarGraph extends Graph2D
 
     public void setYRange(float min, float range)
     {
-	minValue = min;
-	this.range = range;
+		minValue = min;
+		this.range = range;
 
-	yaxis.dispMin = min;
-	yaxis.setScale((yaxis.dispLen - yaxis.axisDir)/range);
+		yaxis.dispMin = min;
+		yaxis.setScale((yaxis.dispLen - yaxis.axisDir)/range);
     }
 
     public boolean addBar(int location, DecoratedValue dv)
     {
-	int i;
-	DecoratedValue curBar = null;
+		int i;
+		DecoratedValue curBar = null;
 
-	numBars++;
+		numBars++;
 	
-	bars.insert(location, dv);
+		bars.insert(location, dv);
 
-	if(barSet != null) barSet.free();
-	barSet = new BarSet(yaxis, numBars, BarSet.BOTTOM);
+		if(barSet != null) barSet.free();
+		barSet = new BarSet(yaxis, numBars, BarSet.BOTTOM);
 
-	curValues = new float[numBars];
-	for(i=0; i < numBars; i++){
-	    curBar = (DecoratedValue)bars.get(i);
-	    barSet.labels[i].setText(curBar.getLabel());
-	    curValues[i] = curBar.getValue();
-	}
+		curValues = new float[numBars];
+		for(i=0; i < numBars; i++){
+			curBar = (DecoratedValue)bars.get(i);
+			barSet.labels[i].setText(curBar.getLabel());
+			curValues[i] = curBar.getValue();
+		}
 
-	return true;
+		return true;
     }
 
     public void removeAllBars()
     {
-	bars = new Vector();
-	curValues = null;
-	if(barSet != null) barSet.free();
-	barSet = new BarSet(yaxis, 1, BarSet.BOTTOM);
-	numBars = 0;
-	redraw = true;
+		bars = new Vector();
+		curValues = null;
+		if(barSet != null) barSet.free();
+		barSet = new BarSet(yaxis, 1, BarSet.BOTTOM);
+		numBars = 0;
+		redraw = true;
     }
 
     public boolean removeBar(DecoratedValue dv)
     {
-	DecoratedValue curBar = null;
-	int i;
+		DecoratedValue curBar = null;
+		int i;
 
-	int index = bars.find(dv);
-	if(index < 0) return false;
+		int index = bars.find(dv);
+		if(index < 0) return false;
 
-	numBars--;
-	bars.del(index);
+		numBars--;
+		bars.del(index);
 
-	if(numBars == 0){
-		if(barSet != null) barSet.free();
-	    barSet = new BarSet(yaxis, 1, BarSet.BOTTOM);
-	    curValues = null;
-	} else {
-	    curValues = new float[numBars];
-		if(barSet != null) barSet.free();
-	    barSet = new BarSet(yaxis, numBars, BarSet.BOTTOM);
+		if(numBars == 0){
+			if(barSet != null) barSet.free();
+			barSet = new BarSet(yaxis, 1, BarSet.BOTTOM);
+			curValues = null;
+		} else {
+			curValues = new float[numBars];
+			if(barSet != null) barSet.free();
+			barSet = new BarSet(yaxis, numBars, BarSet.BOTTOM);
 	    
-	    for(i=0; i < numBars; i++){
-		curBar = (DecoratedValue)bars.get(i);
-		barSet.labels[i].setText(curBar.getLabel());
-		curValues[i] = curBar.getValue();
-	    }
+			for(i=0; i < numBars; i++){
+				curBar = (DecoratedValue)bars.get(i);
+				barSet.labels[i].setText(curBar.getLabel());
+				curValues[i] = curBar.getValue();
+			}
 
-	}
+		}
 
-	return true;
+		return true;
     }
 
     public void draw(Graphics g)
     {
-	int w = width;
-	int h = height;
+		int w = width;
+		int h = height;
 
-	barSet.reset();
+		barSet.reset();
 
-	g.setColor(255,255,255);
-	g.fillRect(0,0,w,h);
+		g.setColor(255,255,255);
+		g.fillRect(0,0,w,h);
 	
-	g.setColor(0,0,0);
+		g.setColor(0,0,0);
 
-	// DrawAxis
-	yaxis.draw(g,xOriginOff,yOriginOff-1);
+		// DrawAxis
+		yaxis.draw(g,xOriginOff,yOriginOff-1);
 
-	barSet.draw(g,xOriginOff+1,yOriginOff,
-		   dwWidth, dwHeight);
+		barSet.draw(g,xOriginOff+1,yOriginOff,
+					dwWidth, dwHeight);
 	
-	plot(g);
+		plot(g);
 
-	redraw = false;
+		redraw = false;
     }
 
     public int plot(Graphics g)
     {
-	float x = 0;
-	int i;
-	DecoratedValue curBar = null;
+		float x = 0;
+		int i;
+		DecoratedValue curBar = null;
 
-	if(g != null && numBars > 0){
-	    // Plot data
-	    for(i=0; i < numBars; i++){
-		curBar = (DecoratedValue)bars.get(i);
-		barSet.labels[i].setText(curBar.getLabel());
-		curValues[i] = curBar.getValue();
-	    }
+		if(g != null && numBars > 0){
+			// Plot data
+			for(i=0; i < numBars; i++){
+				curBar = (DecoratedValue)bars.get(i);
+				barSet.labels[i].setText(curBar.getLabel());
+				curValues[i] = curBar.getValue();
+			}
 
-	    g.setColor(0,0,0);
-	    barSet.addColorPoint(g, x, curValues);
-	}
+			g.setColor(0,0,0);
+			barSet.addColorPoint(g, x, curValues);
+		}
 	
-	return 0;
+		return 0;
     }
 
     public void reset()
     {
-	barSet.reset();
+		barSet.reset();
     }
 
 }

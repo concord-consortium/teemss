@@ -113,7 +113,6 @@ public class TextLine extends Object {
     }
 
 	public TextLine(){
-		fontMet = MainWindow.getMainWindow().getFontMetrics(MainWindow.defaultFont);
 	}		
 
 	public TextLine(int d){
@@ -206,6 +205,10 @@ public class TextLine extends Object {
 
     public boolean  parseText()
     {
+		if(fontMet == null){
+			fontMet = MainWindow.getMainWindow().getFontMetrics(MainWindow.defaultFont);
+		}
+
 		textWidth = fontMet.getTextWidth(text);
 		textHeight = fontMet.getHeight();
 		textHeight -= 1;
@@ -257,8 +260,9 @@ public class TextLine extends Object {
 		text = s;
 		parseText();
 		if(buffer != null) buffer.free();
-		if(bufG != null)bufG.free();
+		if(bufG != null) bufG.free();
 		buffer = null;
+		bufG = null;
 
 		if(update) updateBuffer();
     }
@@ -297,6 +301,11 @@ public class TextLine extends Object {
 		}
 
 		buffer = new Image(width, height);
+		if(buffer.getWidth() <= 0) {
+			// Don't have the memory to create this image 
+			buffer = null;
+			return;
+		}
 		g = bufG = new Graphics(buffer);
 
 		if(direction == RIGHT){

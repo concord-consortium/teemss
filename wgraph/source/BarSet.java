@@ -285,8 +285,7 @@ public class BarSet extends Object
 			labelY += label.height;
 		}
 		for(i=0; i<nBars; i++){
-			labels[i].drawCenter(g, barPos[i]+barWidth/2,
-								 labelY, label.TOP_EDGE);
+			labels[i].drawCenter(g, barPos[i]+barWidth/2, labelY, label.TOP_EDGE);
 		}
 
     }
