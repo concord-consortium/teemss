@@ -191,10 +191,12 @@ public class WinCanvas extends java.awt.Canvas
 		
 		while(true){
 			synchronized(this){
-				try{
-					wait();
-				} catch (InterruptedException e){
-					e.printStackTrace();
+				if(paintClipRect == null){
+					try{
+						wait();
+					} catch (InterruptedException e){
+						e.printStackTrace();
+					}
 				}
 			}
 
