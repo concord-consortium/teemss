@@ -367,6 +367,15 @@ public class Graphics
 		drawWinGraphics = null;		
 	}
 
+	static ISurface getCurSurface()
+	{
+		if(drawWinGraphics != null){
+			return drawWinGraphics.surface;
+		} else {
+			return null;
+		}
+	}
+
     public void setDrawWindow()
     {
 		if(drawWinGraphics != null){
