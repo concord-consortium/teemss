@@ -3,7 +3,6 @@
 # DEP_NAMES
 #
 
-GET_NAME := `read; echo $$REPLY`
 export DEP_NAMES
 
 #should check for already built dependencies
