@@ -58,6 +58,9 @@ public static boolean qtInstalled = false;
 
 public static QTManager qtManager = null;
 
+	public static LabBook labBook = null;
+	public static LabBookSession session = null;
+
 	public static void exit(int code){
 			if(qtManager != null) qtManager.closeQTSession();
 			System.exit(code);
@@ -125,12 +128,15 @@ public static QTManager qtManager = null;
 			exit(1);
         }
         
-        LabBook labBook = createLabBook(doc.getDocumentElement());
+        labBook = createLabBook(doc.getDocumentElement());
    		if(labBook == null){
    			System.out.println("Error creating LabBook");
 			exit(1);
    		}
- 		LObjDictionary loDict = initRootDictionary(labBook);
+
+		session = labBook.getSession();
+
+ 		LObjDictionary loDict = initRootDictionary();
    		boolean pagingView = doc.getDocumentElement().getAttribute("view").equals("paging");
    		if(pagingView){
 			loDict.viewType = LObjDictionary.PAGING_VIEW;
@@ -145,7 +151,7 @@ public static QTManager qtManager = null;
 			Node node = nodeList.item(i);
 			int type = node.getNodeType();
 			if(type == Node.ELEMENT_NODE){
-				LabObject obj = getLabBookObject(labBook,(Element)node);
+				LabObject obj = getLabBookObject((Element)node);
 				loDict.add(obj);
 			}
    		}
@@ -188,11 +194,11 @@ public static QTManager qtManager = null;
 		LabBook.registerFactory(new DataObjFactory());
 	}
 	
-	public static LabObject getLabBookObject(LabBook labBook,Element element){
+	public static LabObject getLabBookObject(Element element){
 		if(labBook == null) return null;
 		if(!isElementLabBookObject(element)) return null;
 
-		LabObject labObject = createRegularObject(labBook, element);		
+		LabObject labObject = createRegularObject(element);		
 				
 		if(labObject != null){
 			String ID = element.getAttribute("ID");
@@ -224,9 +230,10 @@ public static QTManager qtManager = null;
 		return true;
 	}
 
-	public static LObjDictionary initRootDictionary(LabBook labBook){
+	public static LObjDictionary initRootDictionary(){
 		if(labBook == null) return null;
  		LObjDictionary dict = DefaultFactory.createDictionary();
+		session.storeNew(dict);
 		dict.setName("Home");
 		labBook.store(dict);
 		return dict;
@@ -251,7 +258,7 @@ public static QTManager qtManager = null;
 		return url;
 	}
 		
-	public static LabObject createRegularObject(LabBook labBook,Element element)
+	public static LabObject createRegularObject(Element element)
 	{
 		if(element == null) return null;
 
@@ -287,21 +294,21 @@ public static QTManager qtManager = null;
 					labObject.setName("");
 				}
 				if(labObject instanceof LObjDictionary){
-					labObject = getFolder(labBook,element,(LObjDictionary)labObject);
+					labObject = getFolder(element,(LObjDictionary)labObject);
 				}else if(labObject instanceof LObjDocument){
-					labObject = getNotes(labBook,element,(LObjDocument)labObject);
+					labObject = getNotes(element,(LObjDocument)labObject);
 				}else if(labObject instanceof LObjDataCollector){
-					labObject = getDataCollector(labBook,element, (LObjDataCollector)labObject);
+					labObject = getDataCollector(element, (LObjDataCollector)labObject);
 				}else if(labObject instanceof LObjImage){
-					labObject = getImage(labBook,element,(LObjImage)labObject);
+					labObject = getImage(element,(LObjImage)labObject);
 				}else if(labObject instanceof LObjCCTextArea){
-					labObject = getSuperNotes(labBook,element,(LObjCCTextArea)labObject);
+					labObject = getSuperNotes(element,(LObjCCTextArea)labObject);
 				} else if(labObject instanceof LObjGraph){
-					labObject = getGraph(labBook,element,(LObjGraph)labObject);
+					labObject = getGraph(element,(LObjGraph)labObject);
 				} else if(labObject instanceof LObjProbeDataSource){
-					labObject = getProbeDataSource(labBook, element, (LObjProbeDataSource)labObject);
+					labObject = getProbeDataSource(element, (LObjProbeDataSource)labObject);
 				} else if(labObject instanceof LObjIntProbeTrans){
-					labObject = getIntProbeTrans(labBook, element, (LObjIntProbeTrans)labObject);
+					labObject = getIntProbeTrans(element, (LObjIntProbeTrans)labObject);
 				}
 				// note that Drawing and UnitConverter get created automatically
 			}
@@ -310,7 +317,7 @@ public static QTManager qtManager = null;
 		return labObject;
 	}
 
-	public static LabObject getFolder(LabBook labBook,Element element, LObjDictionary folder){
+	public static LabObject getFolder(Element element, LObjDictionary folder){
 		if(labBook == null || folder == null) return null;
 		
 		String	urlStr = convertURLStringToPath(element.getAttribute("url"));
@@ -322,14 +329,14 @@ public static QTManager qtManager = null;
 			if(autoRecursion && (folder.getName() == null || folder.getName().length() < 1)){
 				folder.setName(file.getName());
 			}
-			addFileSystemIntoFolder(labBook,folder,file);
+			addFileSystemIntoFolder(folder,file);
 		} else {
 			NodeList nodeList = element.getChildNodes();
 			for(int i = 0; i < nodeList.getLength(); i++){
 				Node node = nodeList.item(i);
 				int type = node.getNodeType();
 				if(type == Node.ELEMENT_NODE){
-					LabObject obj = getLabBookObject(labBook, (Element)node);
+					LabObject obj = getLabBookObject((Element)node);
 					if(obj != null) folder.add(obj);
 				}
 	   		}
@@ -345,7 +352,7 @@ public static QTManager qtManager = null;
    		return (LabObject)folder;
 	}
 	
-	public static void addFileSystemIntoFolder(LabBook labBook,LObjDictionary dict,File file){
+	public static void addFileSystemIntoFolder(LObjDictionary dict,File file){
 		if(file == null || !file.exists() || !file.isDirectory()) return;
 		String []files = file.list();
 		if(files == null || files.length < 1) return;
@@ -356,7 +363,7 @@ public static QTManager qtManager = null;
 				String objName = labBookObjectNames[FOLDER_TAG];
 				LObjDictionary folderObject = (LObjDictionary)createObj(objName);
 				folderObject.setName(fileChild.getName());
-				addFileSystemIntoFolder(labBook,folderObject,fileChild);
+				addFileSystemIntoFolder(folderObject,fileChild);
 				dict.add(folderObject);
 			}else if(fileChild.isFile()){
 				if(files[i].endsWith(".gif")  || files[i].endsWith(".GIF")  ||
@@ -365,7 +372,7 @@ public static QTManager qtManager = null;
 				   files[i].endsWith(".tiff") || files[i].endsWith(".TIFF") ||
 				   files[i].endsWith(".jpg")  || files[i].endsWith(".JPG")  ||
 				   files[i].endsWith(".jpeg") || files[i].endsWith(".JPEG")){					
-						LObjImage imgObj = getImageFromFile(fileChild,labBook);
+						LObjImage imgObj = getImageFromFile(fileChild);
 						dict.add(imgObj);
 				}else if(files[i].endsWith(".export")){
 					LabBookFile imFile = new LabBookFile(fileChild.getAbsolutePath());
@@ -381,7 +388,7 @@ public static QTManager qtManager = null;
 		dict.store();
 	}
 
-	public static LObjImage getImageFromFile(File file,LabBook labBook){
+	public static LObjImage getImageFromFile(File file){
 		if(file == null || !file.exists() || file.isDirectory()) return null;
 		String fileName = file.getName();
 		String objName = labBookObjectNames[IMAGE_TAG];
@@ -431,11 +438,10 @@ public static QTManager qtManager = null;
 	}
 
 
-	public static LabObject getSuperNotes(LabBook labBook, Element element, 
-										  LObjCCTextArea superNotes){
+	public static LabObject getSuperNotes(Element element, LObjCCTextArea superNotes){
 		if(labBook == null || superNotes == null) return null;
 		
-		LObjCCTextAreaView view = (LObjCCTextAreaView)superNotes.getView(null,false,null);
+		LObjCCTextAreaView view = (LObjCCTextAreaView)superNotes.getView(null,false,null,session);
 
 		if(view == null) return null;
 		waba.util.Vector lines = new waba.util.Vector();
@@ -474,7 +480,7 @@ public static QTManager qtManager = null;
 							if(linkElement == null){
 								link = false;
 							}else{      
-								LabObject linkObject = createRegularObject(labBook,linkElement);
+								LabObject linkObject = createRegularObject(linkElement);
 								if(linkObject == null){
 									link = false;
 								}else{
@@ -493,15 +499,13 @@ public static QTManager qtManager = null;
 							if(embElement != null){
 								int id = getIdentifierFromElement(embElement);
 								if(id >= 0){
-									if(superNotes.getDict() != null){
-										embObject = getLabBookObject(labBook, embElement);
-										superNotes.getDict().add(embObject);
-									}
+									embObject = getLabBookObject(embElement);
+									superNotes.setObj(embObject,superNotes.getNumObjs());
 								}
 							}
 						}else{
 							embElement =  (Element)currentDocument.getElementById(idref);        
-							if(embElement != null) embObject = createRegularObject(labBook,embElement);
+							if(embElement != null) embObject = createRegularObject(embElement);
 						}
 						if(embObject != null){
 							String tempStr = child.getAttribute("link");
@@ -559,8 +563,7 @@ public static QTManager qtManager = null;
 	
 	}	
 	
-	public static LabObject getDataCollector(LabBook labBook, Element element,
-											 LObjDataCollector dc){
+	public static LabObject getDataCollector(Element element, LObjDataCollector dc){
 		if(dc == null) return null;
 
 		NodeList nodeList = element.getChildNodes();
@@ -570,7 +573,7 @@ public static QTManager qtManager = null;
 			Node node = nodeList.item(i);
 			int type = node.getNodeType();
 			if(type == Node.ELEMENT_NODE) {
-				LabObject dcObj = getLabBookObject(labBook, (Element)node);
+				LabObject dcObj = getLabBookObject((Element)node);
 				if(graph == null && dcObj instanceof LObjGraph){
 					graph = (LObjGraph)dcObj;
 				}
@@ -582,7 +585,7 @@ public static QTManager qtManager = null;
 		return (LabObject)dc;
 	}
 
-	public static LabObject getGraph(LabBook labBook, Element element, LObjGraph graph)
+	public static LabObject getGraph(Element element, LObjGraph graph)
 	{
 		if(graph == null) return null;
 		
@@ -598,7 +601,7 @@ public static QTManager qtManager = null;
 				} else if(tagName.equals("YAXIS")){
 					setupAxis((Element)node, graph.addYAxis());
 				} else if(tagName.equals("LINE")){
-					if(!setupLine(labBook, (Element)node, graph)){
+					if(!setupLine((Element)node, graph)){
 						return null;
 					}
 				}
@@ -639,7 +642,7 @@ public static QTManager qtManager = null;
 						   " max: " + max);
 	}		
 
-	public static boolean setupLine(LabBook labBook, Element element, LObjGraph graph)
+	public static boolean setupLine(Element element, LObjGraph graph)
 	{
 		int xAxisNum = 0;
 		int yAxisNum = 0;
@@ -668,7 +671,7 @@ public static QTManager qtManager = null;
 				Node node = nodeList.item(i);
 				int type = node.getNodeType();
 				if(type == Node.ELEMENT_NODE){
-					dsObj = getLabBookObject(labBook, (Element)node);
+					dsObj = getLabBookObject((Element)node);
 					break;
 				}
 			}
@@ -679,12 +682,11 @@ public static QTManager qtManager = null;
 			return false;
 		}
 		
-		graph.addDataSource((DataSource)dsObj,true,xAxisNum,yAxisNum);
+		graph.addDataSource((DataSource)dsObj,true,xAxisNum,yAxisNum,session);
 		return true;
 	}
 
-	public static LabObject getProbeDataSource(LabBook labBook, Element element,
-											   LObjProbeDataSource pds)
+	public static LabObject getProbeDataSource(Element element, LObjProbeDataSource pds)
 	{
 		if(pds == null) return null;
 
@@ -701,6 +703,8 @@ public static QTManager qtManager = null;
 			System.out.println("X2L: error invalid probe");
 			return null;
 		}
+		session.storeNew(pds);
+
 		CCProb probe = pds.getProbe();
 		if(probe == null){
 			System.out.println("X2L: error invalid probe");
@@ -751,8 +755,7 @@ public static QTManager qtManager = null;
 		return pds;
 	}
 
-	public static LabObject getIntProbeTrans(LabBook labBook, Element element,
-											 LObjIntProbeTrans obj)
+	public static LabObject getIntProbeTrans(Element element, LObjIntProbeTrans obj)
 	{
 		if(obj == null) return null;
 
@@ -774,7 +777,7 @@ public static QTManager qtManager = null;
 				Node node = nodeList.item(i);
 				int type = node.getNodeType();
 				if(type == Node.ELEMENT_NODE){
-					probeObj = getLabBookObject(labBook, (Element)node);
+					probeObj = getLabBookObject((Element)node);
 					break;
 				}
 			}
@@ -786,7 +789,7 @@ public static QTManager qtManager = null;
 		}
 		LObjProbeDataSource probeDS = (LObjProbeDataSource)probeObj;
 
-		DataSource newDS = probeDS.getQuantityDataSource(quantityName);
+		DataSource newDS = probeDS.getQuantityDataSource(quantityName, session);
 		if(newDS == null){
 			System.err.println("X2L: the quantity: " + quantityName + 
 							   " is not valid for: " + probeDS.getProbeName());
@@ -800,7 +803,7 @@ public static QTManager qtManager = null;
 		return (LabObject)newDS;
 	}
 
-	public static LabObject getNotes(LabBook labBook, Element element,LObjDocument doc){
+	public static LabObject getNotes(Element element,LObjDocument doc){
 		if(doc == null) return null;
 		int nSpaces = getIntFromString(element.getAttribute("indent"));
 		Node textNode = element.getFirstChild();
@@ -817,7 +820,7 @@ public static QTManager qtManager = null;
 		return (LabObject)doc;
 	}
 		
-	public static LabObject getImage(LabBook labBook,Element element,LObjImage image){
+	public static LabObject getImage(Element element,LObjImage image){
 		if(image == null) return null;
 
 		String imageURL = convertURLStringToPath(element.getAttribute("url"));
@@ -861,6 +864,7 @@ public static QTManager qtManager = null;
 		}
 
 		if(newObj != null){
+			session.storeNew(newObj);
 			if(newIndex == 0){
 				newObj.setName(objType);		    
 			} else {
