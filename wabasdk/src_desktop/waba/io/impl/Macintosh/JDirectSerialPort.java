@@ -10,7 +10,9 @@ import  com.apple.mrj.jdirect.JDirectLinker;
 import  com.apple.mrj.jdirect.ByteArrayStruct;
 import  com.apple.mrj.jdirect.Struct;
 import  com.apple.mrj.jdirect.PointerStruct;
-
+import  com.apple.mrj.macos.toolbox.Handle;
+import java.util.Vector;
+import java.util.Enumeration;
 /**
 *JDirectSerialPort is Waba's SerialPort implementation for Mac OS less than X
 *JDirectSerialPort uses JDirect2 for calling MAC OS Toolbox's routines
@@ -19,7 +21,7 @@ import  com.apple.mrj.jdirect.PointerStruct;
 
 
 public class JDirectSerialPort implements waba.io.impl.ISerialPort{
-private static short noErr = 0;
+
 int			timeOut 	= 100;
 int			baudRate 	= waba.io.impl.ISerialPort.RATE_9600;
 int			bits 		= 8;
@@ -50,10 +52,19 @@ short		outputRefNumber = 0;
 		short macRate,macBits,macParity,macStopBits;
 		String portPrefix = "."+(char)('A'+number);
 		
-		
-		errOut 	= jdirect.OpenDriver(JDirectImpl.toStr255(portPrefix+"Out"),outRef);
-		errInp 	= jdirect.OpenDriver(JDirectImpl.toStr255(portPrefix+"in"),inpRef);
-		if(errOut != noErr || errInp != noErr){
+		SerialPortDesc sPort = SerialManager.getAssignedPort();
+		if(sPort == null){//provide dialog
+			errOut = errInp = -1;
+		}else{
+			System.out.println(sPort.inpName+" "+sPort.outName+" "+sPort.name);
+			errOut 	= jdirect.OpenDriver(JDirectImpl.toStr255(sPort.outName),outRef);
+			errInp 	= jdirect.OpenDriver(JDirectImpl.toStr255(sPort.inpName),inpRef);
+		}
+
+
+//		errOut 	= jdirect.OpenDriver(JDirectImpl.toStr255(portPrefix+"Out"),outRef);
+//		errInp 	= jdirect.OpenDriver(JDirectImpl.toStr255(portPrefix+"in"),inpRef);
+		if(errOut != JDirectImpl.noErr || errInp != JDirectImpl.noErr){
 			outputRefNumber = 0;
 			inputRefNumber = 0;
 		}else{
@@ -66,7 +77,7 @@ short		outputRefNumber = 0;
 			macStopBits = JDirectImpl.getMacStopBits(stopBits);
 			errOut = jdirect.SerReset(outputRefNumber,(short)(macRate+macStopBits+macBits+macParity));
 			errInp = jdirect.SerReset(inputRefNumber,(short)(macRate+macStopBits+macBits+macParity));
-			if(errOut != noErr || errInp != noErr){
+			if(errOut != JDirectImpl.noErr || errInp != JDirectImpl.noErr){
 				closePort();
 			}
 		}
@@ -79,7 +90,7 @@ short		outputRefNumber = 0;
 			hs.setFInX((byte)0);
 			hs.setFDTR((byte)0);
 			errOut = jdirect.Control(outputRefNumber, (short)14, hs.getBytes()); //csCode = 14
-			if(errOut != noErr){
+			if(errOut != JDirectImpl.noErr){
 				closePort();
 			}
 		}
@@ -112,7 +123,7 @@ short		outputRefNumber = 0;
     	if(pointer == 0) return -1;
 		MyPtr myBuffer = new MyPtr(buf);
 		int	  	numBytes = 0;
-		short 	errInp = noErr;
+		short 	errInp = JDirectImpl.noErr;
 		long 	startTime = java.lang.System.currentTimeMillis();
 		int 	readData = 0;
 		boolean doExit = false;
@@ -142,7 +153,7 @@ short		outputRefNumber = 0;
 					pInBlock.setIoVRefNum((short)0);  //not used by the Serial Driver
 					pInBlock.setIoPosMode((short)0);  //not used by the Serial Driver
 					errInp = jdirect.PBReadSync(pInBlock);
-					if(errInp != noErr) break;
+					if(errInp != JDirectImpl.noErr) break;
 					currBuffer 	+= needBytes;//??
 					readData 	+= needBytes;
 				}
@@ -157,7 +168,6 @@ short		outputRefNumber = 0;
 	    
 		myBuffer.freePointer();
 		jdirect.DisposePtr(pointer);
-		
 		return readData;
 	}
 
@@ -165,7 +175,7 @@ short		outputRefNumber = 0;
 		if(!isOpen()) return -1;
 		int	numBytes[] = new int[1];
 		short errInp = jdirect.SerGetBuf(inputRefNumber,numBytes);
-		if(errInp != noErr) return -1;
+		if(errInp != JDirectImpl.noErr) return -1;
 		return numBytes[0];
 	}
 
@@ -180,7 +190,7 @@ short		outputRefNumber = 0;
 		hs.setFDTR((byte)0);
 
 		short errOut = jdirect.Control(outputRefNumber, (short)14, hs.getBytes()); //csCode = 14
-		return (errOut == noErr);
+		return (errOut == JDirectImpl.noErr);
 	}
 
 	public boolean setReadTimeout(int millis){
@@ -218,7 +228,7 @@ short		outputRefNumber = 0;
 				pOutBlock.setIoVRefNum((short)0);  //not used by the Serial Driver
 				pOutBlock.setIoPosMode((short)0);  //not used by the Serial Driver
 				short errOut = jdirect.PBWriteSync(pOutBlock);  //synchronous Device Manager request
-				if(errOut != noErr) actNeedData = -1;
+				if(errOut != JDirectImpl.noErr) actNeedData = -1;
 				ptr.freePointer();
 				ptr = null;
 			}
@@ -238,17 +248,17 @@ short		outputRefNumber = 0;
 			retValue = false;
 		}else{
 			errInp = jdirect.KillIO(inputRefNumber);
-			if(retValue && (errInp != noErr)) retValue = false;
+			if(retValue && (errInp != JDirectImpl.noErr)) retValue = false;
 			errInp = jdirect.CloseDriver(inputRefNumber);
-			if(retValue && (errInp != noErr)) retValue = false;
+			if(retValue && (errInp != JDirectImpl.noErr)) retValue = false;
 		}
 		if(outputRefNumber == 0){
 			retValue = false;
 		}else{
 			errOut = jdirect.KillIO(outputRefNumber);
-			if(retValue && (errOut != noErr)) retValue = false;
+			if(retValue && (errOut != JDirectImpl.noErr)) retValue = false;
 			errOut = jdirect.CloseDriver(outputRefNumber);
-			if(retValue && (errOut != noErr)) retValue = false;
+			if(retValue && (errOut != JDirectImpl.noErr)) retValue = false;
 		}
 		inputRefNumber = 0;
 		outputRefNumber = 0;
@@ -256,6 +266,7 @@ short		outputRefNumber = 0;
 	}
 }
 public class JDirectImpl implements InterfaceLib {
+public static final short noErr = 0;
 	protected JDirectImpl() { //use factory
 	}
 	static JDirectImpl theJDirectImpl = null;
@@ -321,7 +332,21 @@ public class JDirectImpl implements InterfaceLib {
 		}
 		return retValue;
 	}
-	
+	public static String getStringFromStringHandle(int h){
+		String retValue = "";
+		try{
+			MyHandle hTemp = new MyHandle(h);
+			byte b[] = hTemp.getBytes();
+			int lnb = (b == null)?0:b.length;
+			if(lnb > 0){
+				int strLength = b[0];
+				if(strLength > 0) retValue = new String(b,1,strLength);//pascal str
+			}
+		}catch(Exception e){
+			retValue = null;
+		}
+		return retValue;
+	}
 //look Devices.java example	
 	/**
 	 * @param name			in C: <CODE>ConstStr255Param name</CODE>
@@ -401,8 +426,25 @@ public class JDirectImpl implements InterfaceLib {
 	 * @param p				in C: <CODE>Ptr p</CODE>
 	 */
 	public native static void DisposePtr(int p);
+	public native static int GetPtrSize(int p);
+	public native static int GetHandleSize(int h);
+	
+//CRM routines
+	public native static short InitCRM();
+	public static int CRMSearch(CRMRecStruct crmReqPtr) {
+		 return CRMSearch(crmReqPtr.getByteArray());
+	}
+	public native static int CRMSearch(byte[] crmReqPtr);
 
 }	
+public class MyPtr1 extends com.apple.mrj.jdirect.PointerStruct{
+	public MyPtr1(int p){
+		super(p);
+	}
+	public int getSize(){
+		return  JDirectImpl.GetPtrSize(pointer);
+	}
+}
 
 public class MyPtr extends com.apple.mrj.macos.toolbox.Ptr{
     public MyPtr(byte ab[])
@@ -412,6 +454,14 @@ public class MyPtr extends com.apple.mrj.macos.toolbox.Ptr{
     public void freePointer(){
     	super.freePointer();
     }
+}
+public class MyHandle extends com.apple.mrj.jdirect.HandleStruct{
+	public MyHandle(int h){
+		super(h);
+	}
+	public int getSize(){
+		return  JDirectImpl.GetHandleSize(handle);
+	}
 }
 
 /**
@@ -2228,4 +2278,3 @@ public class ParamBlockRecStruct extends PointerStruct {
 		return sizeOfParamBlockRec;
 	}
 }
-
