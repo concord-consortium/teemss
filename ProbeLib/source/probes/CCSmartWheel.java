@@ -13,14 +13,16 @@ int				nTicks = 660;
 float				radius = 0.06f;
 float				koeff = 2f*Maths.PI;
 
+	/*
 	PropObject modeProp = new PropObject("Output Mode", "Mode", PROP_MODE, wheelModes,
 										 LIN_POS_MODE_OUT);
+	*/
 
 	public final static String	[]wheelModes =  {"Ang. Velocity","Velocity", "Position"};
 	public final static int		ANG_MODE_OUT 		= 0;
 	public final static int		LINEAR_MODE_OUT 	= 1;
     public final static int     LIN_POS_MODE_OUT        = 2;
-	int	 outputMode = LIN_POS_MODE_OUT;
+	//	int	 outputMode = LIN_POS_MODE_OUT;
 
 	CCSmartWheel(boolean init, String name, int interfaceT){
 		super(init, name, interfaceT);
@@ -39,7 +41,7 @@ float				koeff = 2f*Maths.PI;
 		dEvent.setData(wheelData);
 		dEvent.setIntData(wheelIntData);
 
-		addProperty(modeProp);
+		//		addProperty(modeProp);
 
 		if(init){
 			calibrationDesc = new CalibrationDesc();
@@ -79,6 +81,7 @@ float				koeff = 2f*Maths.PI;
 
 	public int getUnit()
 	{
+		/*
 		int oMode = modeProp.getIndex();
 		switch(oMode){
 		case LINEAR_MODE_OUT:
@@ -94,12 +97,14 @@ float				koeff = 2f*Maths.PI;
 		}
 
 		return unit;
+		*/
 
+		return CCUnit.UNIT_CODE_ANG_VEL;
 	}
 
 	public int getInterfaceMode()
 	{
-		outputMode = modeProp.getIndex();
+		//		outputMode = modeProp.getIndex();
 		return interfaceMode;
 	}
 
