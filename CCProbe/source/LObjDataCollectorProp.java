@@ -42,6 +42,15 @@ public class LObjDataCollectorProp extends LabObjectView
 		add(nameEdit);
 
 		probeChoice = new Choice(ProbFactory.getProbNames());	
+		Vector dataSources = dc.getDataSources();
+		if(dataSources != null &&
+		   dataSources.getCount() > 0 &&
+		   dataSources.get(0) instanceof LObjProbeDataSource){
+			LObjProbeDataSource pds = (LObjProbeDataSource)dataSources.get(0);
+			int probeId = pds.getProbe().getProbeType();
+			String curName = ProbFactory.getName(probeId);
+			probeChoice.setSelectedIndex(curName);
+		}
 		add(probeChoice);
 
 		numDCs = new Edit();
