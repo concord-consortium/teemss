@@ -45,6 +45,8 @@ LabObjectView			addedLabObjectView		= null;
 			menu.add("Insert Object ...");
 			menu.add("Delete Current Object");
 			menu.add("Delete All Objects");
+			menu.add("-");
+			menu.add("Test");
 			menu.addActionListener(this);
 		}
 		if(vc != null) vc.getMainView().addMenu(this, menu);
@@ -62,6 +64,8 @@ LabObjectView			addedLabObjectView		= null;
 					tArea.insertText(str);
 				}
 			}
+		}else if(e.getActionCommand().equals("Test")){
+			tArea.test();
 		}else if(e.getActionCommand().equals("Clear")){
 			if(tArea != null) tArea.clearAll();
 		}else if(e.getActionCommand().equals("Delete Current Object")){

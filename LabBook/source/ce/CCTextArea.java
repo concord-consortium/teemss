@@ -188,7 +188,11 @@ LObjSubDict				subDictionary;
 LObjCCTextAreaView		owner;
 //int						startClick = 0;
 String				text;
+int					[]profiles = new int[100];
+int					currProfile = 0;
 
+static 				int numbRead = 0;
+static 				int numbWrite = 0;
 
 	public CCTextArea(LObjCCTextAreaView owner,MainView mainView,LObjDictionary dict,LObjSubDict subDictionary){
 		super();
@@ -233,8 +237,6 @@ String				text;
 	}
 
 
-	public void showFullWindowView(LabObjectView view){}
-
     public void dialogClosed(DialogEvent e){
 		if(e.getInfoType() != DialogEvent.OBJECT || e.getInfo() == null) return;
 		if(!(e.getInfo() instanceof LBCompDesc)) return;
@@ -261,7 +263,10 @@ String				text;
 		setText(getText());
     }
     public void writeExternal(DataStream out){
+    	numbWrite++;
+    	int startTime = waba.sys.Vm.getTimeStamp();
     	out.writeString(getText());
+		profiles[1] = waba.sys.Vm.getTimeStamp() - startTime;
     	out.writeBoolean(components != null);
     	if(components == null) return;
     	out.writeInt(components.length);
@@ -274,7 +279,11 @@ String				text;
     }
 
     public void readExternal(DataStream in){
+     	numbRead++;
+    	currProfile = 0;
+    	int startTime = waba.sys.Vm.getTimeStamp();
 		setText(in.readString());
+		profiles[0] = waba.sys.Vm.getTimeStamp() - startTime;
 		boolean wasComponents = in.readBoolean();
 		if(!wasComponents) return;
 		int nComp = in.readInt();
@@ -464,6 +473,10 @@ String				text;
 		layoutComponents();
 	}
 	
+	public void test(){
+		setText(getText());
+		repaint();
+	}
 	public void setText(String str){
 		lines = null;
 		rows = null;
@@ -885,6 +898,21 @@ String				text;
 		doPaintData(g);
 	}
 	public void doPaintData(Graphics g){
+		if(profiles != null && g != null){
+			int y = 0;
+			g.setColor(0,0,0);
+			int    numbTotalRows = profiles.length;
+			int h = getItemHeight();
+			g.drawText("numbRead "+numbRead,1,y);
+			y += h;
+			g.drawText("numbWrite "+numbWrite,1,y);
+			y += h;
+			g.drawText("readExternal "+profiles[0],1,y);
+			y += h;
+			g.drawText("writeExternal "+profiles[1],1,y);
+			y += h;
+			return;
+		}
 		if(lines == null) return;
 		for (int i = 0; i<lines.length; i++){
 			(lines[i]).draw(g,firstLine);

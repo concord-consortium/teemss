@@ -164,7 +164,8 @@ Label	alignmentLabel,wrapLabel,widthLabel,heightLabel;
 
 
 public class CCTextArea  extends Container implements ViewContainer, MainView, DialogListener{
-CCStringWrapper		[] lines;
+//CCStringWrapper		[] lines;
+Vector				lines = null;
 FontMetrics 		fm = null;
 int 				insetLeft = 5;
 int 				insetRight = 10;
@@ -177,7 +178,8 @@ protected	int firstLine = 0;
 protected CCTextAreaState curState = new CCTextAreaState();
 			
 LBCompDesc			[]components = null;
-CCTARow				[]rows = null;		
+//CCTARow				[]rows = null;		
+Vector				rows = null;		
 MainView 			mainView = null;
 LObjDictionary 		dict = null;
 LBCompDesc			currObjectViewDesc = null;
@@ -188,7 +190,11 @@ LObjSubDict				subDictionary;
 LObjCCTextAreaView		owner;
 //int						startClick = 0;
 String				text;
+static int			[]profiles = new int[10];
+int					currProfile = 0;
 
+static 				int numbRead = 0;
+static 				int numbWrite = 0;
 
 	public CCTextArea(LObjCCTextAreaView owner,MainView mainView,LObjDictionary dict,LObjSubDict subDictionary){
 		super();
@@ -232,7 +238,6 @@ String				text;
 	public void createObj(String name, LObjDictionaryView dView){
 	}
 
-	public void showFullWindowView(LabObjectView view){}
 
     public void dialogClosed(DialogEvent e){
 		if(e.getInfoType() != DialogEvent.OBJECT || e.getInfo() == null) return;
@@ -260,7 +265,10 @@ String				text;
 		setText(getText());
     }
     public void writeExternal(DataStream out){
+    	numbWrite++;
+    	int startTime = waba.sys.Vm.getTimeStamp();
     	out.writeString(getText());
+		profiles[2] = waba.sys.Vm.getTimeStamp() - startTime;
     	out.writeBoolean(components != null);
     	if(components == null) return;
     	out.writeInt(components.length);
@@ -273,7 +281,14 @@ String				text;
     }
 
     public void readExternal(DataStream in){
-		setText(in.readString());
+     	numbRead++;
+    	currProfile = 0;
+    	int startTime = waba.sys.Vm.getTimeStamp();
+    	String str = in.readString();
+		profiles[0] = waba.sys.Vm.getTimeStamp() - startTime;
+		startTime = waba.sys.Vm.getTimeStamp();
+		setText(str,false);
+		profiles[1] = waba.sys.Vm.getTimeStamp() - startTime;
 		boolean wasComponents = in.readBoolean();
 		if(!wasComponents) return;
 		int nComp = in.readInt();
@@ -441,8 +456,9 @@ String				text;
 				int yTop = 0;
 				int line = c.lineBefore;
 				if(line > 0){
-					if(lines != null && line < lines.length){
-						yTop += (lines[line - 1].endRow - firstLine)*getItemHeight();
+					if(lines != null && line < lines.getCount()){
+//						yTop += (lines[line - 1].endRow - firstLine)*getItemHeight();
+						yTop += (((CCStringWrapper)lines.get(line - 1)).endRow - firstLine)*getItemHeight();
 					}
 				}else if(line == 0){
 					yTop -= firstLine*getItemHeight();
@@ -463,12 +479,24 @@ String				text;
 		layoutComponents();
 	}
 	
+	
+	public void test(){
+    	int startTime = waba.sys.Vm.getTimeStamp();
+		setText(getText());
+		profiles[0] = waba.sys.Vm.getTimeStamp() - startTime;
+		repaint();
+	}
 	public void setText(String str){
-		lines = null;
-		rows = null;
+		setText(str,true);
+	}
+	
+	public void setText(String str, boolean forceAction){
 		int determinedSystem = -1; //unix - 0; //mac - 1 dos - 2
 		if(str == null) return;
 		text = str;
+		if(!forceAction) return;
+		lines = new Vector();
+		rows = new Vector();
 		removeCursor();
 		Rect r = getRect();
 		StringBuffer sb = new StringBuffer();
@@ -496,12 +524,15 @@ String				text;
 				sb.append(c);
 			}
 			if(wasEndOfLine){
+/*
 				int nLines = (lines == null)?0:lines.length;
 				CCStringWrapper []newLines = new CCStringWrapper[nLines+1];
 				if(lines != null){
 					waba.sys.Vm.copyArray(lines,0,newLines,0,nLines);
 				}
 				lines = newLines;
+*/
+				int nLines = lines.getCount();
 				LBCompDesc compDesc = null;
 				if(components != null){
 					for(int k = 0; k < components.length; k++){
@@ -514,7 +545,9 @@ String				text;
 				int leftMargin = r.x + insetLeft;
 				int rightMargin = r.x + r.width - insetRight;
 				int skipRows = 0;
-				if(compDesc != null){
+				if(compDesc == null){
+					lines.add(new CCStringWrapper(this,sb.toString(),lastRow));
+				}else{
 					int addH = compDesc.h;
 					int addRows = 1 + (addH / getItemHeight());
 					if(compDesc.alignment == LBCompDesc.ALIGNMENT_LEFT){
@@ -526,35 +559,54 @@ String				text;
 						lastRow += addRows;
 					}
 					
-					int nRows = (rows == null)?0:rows.length;
-					CCTARow []newRows = new CCTARow[nRows + addRows];
+					lines.add(new CCStringWrapper(this,sb.toString(),lastRow));
+//					int nRows = (rows == null)?0:rows.length;
+					int nRows = rows.getCount();
+//					CCTARow []newRows = new CCTARow[nRows + addRows];
 					if(addRows > 0){
-						waba.sys.Vm.copyArray(rows,0,newRows,0,nRows);
+//						waba.sys.Vm.copyArray(rows,0,newRows,0,nRows);
 						for(int k = nRows; k < nRows + addRows; k++){
-							newRows[k] = new CCTARow(lines[nLines]);
-							newRows[k].setMargins(leftMargin,rightMargin);
+//							newRows[k] = new CCTARow(lines[nLines]);
+//							newRows[k] = new CCTARow((CCStringWrapper)lines.get(nLines));
+//							newRows[k].setMargins(leftMargin,rightMargin);
+							CCTARow newRow = new CCTARow((CCStringWrapper)lines.get(nLines));
+							newRow.setMargins(leftMargin,rightMargin);
+							rows.add(newRow);
 						}
 					}
-					rows = newRows;
+//					rows = newRows;
 				}
-				lines[nLines] = new CCStringWrapper(this,sb.toString(),lastRow);
-				int nRows = (rows == null)?0:rows.length;
-				int lastLineRow = lines[nLines].endRow;
+//				lines[nLines] = new CCStringWrapper(this,sb.toString(),lastRow);
+//				int nRows = (rows == null)?0:rows.length;
+				int nRows = rows.getCount();
+//				int lastLineRow = lines[nLines].endRow;
+				int lastLineRow = ((CCStringWrapper)lines.get(nLines)).endRow;
 				int addRows = lastLineRow - nRows;
 				if(addRows > 0){
-					CCTARow []newRows = new CCTARow[nRows + addRows];
-					waba.sys.Vm.copyArray(rows,0,newRows,0,nRows);
+//					CCTARow []newRows = new CCTARow[nRows + addRows];
+//					waba.sys.Vm.copyArray(rows,0,newRows,0,nRows);
 					for(int k = nRows; k < nRows + addRows; k++){
-						newRows[k] = new CCTARow(lines[nLines]);
-						newRows[k].setMargins(r.x + insetLeft,r.x + r.width - insetRight);
+//						newRows[k] = new CCTARow(lines[nLines]);
+//						newRows[k] = new CCTARow((CCStringWrapper)lines.get(nLines));
+//						newRows[k].setMargins(r.x + insetLeft,r.x + r.width - insetRight);
+						CCTARow newRow = new CCTARow((CCStringWrapper)lines.get(nLines));
+						newRow.setMargins(r.x + insetLeft,r.x + r.width - insetRight);
+						rows.add(newRow);
 					}
-					rows = newRows;
+//					rows = newRows;
 				}				
-				lastRow += (lines[nLines].getRows());
+//				lastRow += (lines[nLines].getRows());
+				lastRow += (((CCStringWrapper)lines.get(nLines)).getRows());
 				sb.setLength(0);
 			}
 			i++;
 		}
+		if(lines.getCount() < 1){
+			lines.add(new CCStringWrapper(this,sb.toString(),0));
+		}else{
+			lines.add(new CCStringWrapper(this,sb.toString(),lastRow));
+		}
+/*
 		if(lines == null){
 			lines = new CCStringWrapper[1];
 			lines[0] = new CCStringWrapper(this,sb.toString(),0);
@@ -565,6 +617,7 @@ String				text;
 			lines = newLines;
 			lines[nLines] = new CCStringWrapper(this,sb.toString(),lastRow);
 		}
+*/
 		repaint();
 	}
 	public void onControlEvent(ControlEvent ev){
@@ -789,9 +842,10 @@ String				text;
 	
 	public int getRowsNumber(){
 		int retValue = 0;
-		if(lines == null || lines.length < 1) return 0;
-		for(int i = 0; i < lines.length; i++){
-			retValue += lines[i].getRows();
+		if(lines == null || lines.getCount() < 1) return 0;
+		for(int i = 0; i < lines.getCount(); i++){
+//			retValue += lines[i].getRows();
+			retValue += ((CCStringWrapper)lines.get(i)).getRows();
 		}
 		return retValue;
 	}
@@ -826,11 +880,13 @@ String				text;
 			int row = 1 + firstLine + (ev.y / h);
 			if(row > getRowsNumber()) row = getRowsNumber();
 			int lineIndex = getLineIndex(row - 1);
-			if(lineIndex >= 0 && lineIndex < lines.length){
-				CCStringWrapper sw = lines[lineIndex];
+			if(lineIndex >= 0 && lineIndex < lines.getCount()){
+//				CCStringWrapper sw = lines[lineIndex];
+				CCStringWrapper sw = (CCStringWrapper)lines.get(lineIndex);
 				int rIndex = row - 1 - sw.beginRow;
-				if(rIndex >= 0 && rIndex < sw.strings.length){
-					String str = sw.strings[rIndex];
+				if(rIndex >= 0 && rIndex < sw.delimiters.length / 2){
+//					String str = sw.strings[rIndex];
+					String str = sw.getSubString(rIndex);
 					if(str != null){
 						int lastPos = insetLeft + fm.getTextWidth(str);
 						if(ev.x < insetLeft) x = insetLeft;
@@ -862,15 +918,16 @@ String				text;
 
 	public int getLineIndex(int row){
 		int retValue = 0;
-		if(lines == null || lines.length < 1) return retValue;
-		if(row > getRowsNumber()) return lines.length - 1;
+		if(lines == null || lines.getCount() < 1) return retValue;
+		if(row > getRowsNumber()) return lines.getCount() - 1;
 		int ind = 0;
-		for(int i = 0; i < lines.length; i++){
-			if(row < ind + lines[i].getRows()){
+		for(int i = 0; i < lines.getCount(); i++){
+			int swRows = ((CCStringWrapper)lines.get(i)).getRows();
+			if(row < ind + swRows){
 				retValue = i;
 				break;
 			}
-			ind += lines[i].getRows();
+			ind += swRows;
 		}
 		return retValue;
 	}
@@ -884,9 +941,33 @@ String				text;
 		doPaintData(g);
 	}
 	public void doPaintData(Graphics g){
+
+
+
+
+/*
+		if(profiles != null && g != null){
+			int y = 0;
+			g.setColor(0,0,0);
+			int    numbTotalRows = profiles.length;
+			int h = getItemHeight();
+			g.drawText("numbRead "+numbRead,1,y);
+			y += h;
+			g.drawText("numbWrite "+numbWrite,1,y);
+			y += h;
+			g.drawText("readExternal1 "+profiles[0],1,y);
+			y += h;
+			g.drawText("readExternal2 "+profiles[1],1,y);
+			y += h;
+			g.drawText("writeExternal "+profiles[2],1,y);
+			y += h;
+			return;
+		}
+*/
 		if(lines == null) return;
-		for (int i = 0; i<lines.length; i++){
-			(lines[i]).draw(g,firstLine);
+		for (int i = 0; i<lines.getCount(); i++){
+//			(lines[i]).draw(g,firstLine);
+			((CCStringWrapper)lines.get(i)).draw(g,firstLine);
 		}
 	}
 
@@ -926,7 +1007,9 @@ int		endPos 		= 50;
 
 int		beginRow	= -1;
 int		endRow		= -1;
-String	[]strings = null;
+char 	[]chars = null;
+int		delimiters[] = null;
+static int	[]charWidthMappers = null;
 
 
 	CCStringWrapper(CCTextArea owner,String str,int beginRow){
@@ -936,6 +1019,17 @@ String	[]strings = null;
 		endPos 		= r.x + r.width - owner.insetRight;
 		setStr(str,beginRow);		
 	}
+	
+	private static void createCharWidthMappers(CCTextArea owner){
+		if(charWidthMappers != null || owner == null) return;
+		FontMetrics fm = owner.getFontMetrics();
+		if(fm == null) return;
+		charWidthMappers = new int[96];
+		for(int i = 0; i < 96; i++){
+			charWidthMappers[i] = fm.getCharWidth((char)(i+32));
+		}
+	}
+	
 	String getStr(){return str;}
 	void setStr(String str,int beginRow){
 		this.beginRow 	= beginRow;
@@ -944,61 +1038,84 @@ String	[]strings = null;
 			return;
 		}
 		
-		int    numbTotalRows = (owner.rows == null)?0:owner.rows.length;
+//		int    numbTotalRows = (owner.rows == null)?0:owner.rows.length;
+		int    numbTotalRows = (owner.rows == null)?0:owner.rows.getCount();
 		this.str = str;
 		FontMetrics fm = owner.getFontMetrics();
 		if(fm == null || str == null) return;
 		int currRow = beginRow;
-		int x 			= (currRow >= numbTotalRows || owner.rows == null)?beginPos:owner.rows[currRow].beginPos;
+//		int x 			= (currRow >= numbTotalRows || owner.rows == null)?beginPos:owner.rows[currRow].beginPos;
+		int x 			= (currRow >= numbTotalRows || owner.rows == null)?beginPos:((CCTARow)owner.rows.get(currRow)).beginPos;
 		int lastWord 	= 0;
 		int	blankWidth = fm.getCharWidth(' ');
 		int	delimiterIndex = 0;
 		int i = 0;
+		
+		int nLines = 0;
+		delimiters = null;
+		chars = str.toCharArray();
 		while(i < str.length()){
 			char c = str.charAt(i);
 			if(isWordDelimiter(c)){
 				if(c == '\n') break;
 				lastWord = i+1;
 			}
-			int w = fm.getCharWidth(c);
-			int limitX = (currRow >= numbTotalRows || owner.rows == null)?endPos:owner.rows[currRow].endPos;
+			if(charWidthMappers == null){
+				createCharWidthMappers(owner);
+			}
+//			int w = fm.getCharWidth(c);
+			int w = 0;
+			if(c >= ' ' && c < (char)128){
+				w = (charWidthMappers != null)?charWidthMappers[(int)c - 32]:fm.getCharWidth(c);
+			}else{
+				w = fm.getCharWidth(c);
+			}
+			
+			
+//			int limitX = (currRow >= numbTotalRows || owner.rows == null)?endPos:owner.rows[currRow].endPos;
+			int limitX = (currRow >= numbTotalRows || owner.rows == null)?endPos:((CCTARow)owner.rows.get(currRow)).endPos;
 			if(x + w > limitX){
 				if(lastWord == delimiterIndex){
 					lastWord = i;
 				}else{
 					i = lastWord;
 				}
-				int nStrings = 0;
-				if(strings != null){
-					nStrings = strings.length;
+				int nInt = 0;
+				if(delimiters != null){
+					nInt = delimiters.length;
 				}
-				String []newStrings = new String[nStrings + 1];
-				if(strings != null){
-					waba.sys.Vm.copyArray(strings,0,newStrings,0,nStrings);
+				int	[]newDelimiters = new int[nInt + 2];
+				if(delimiters != null){
+					waba.sys.Vm.copyArray(delimiters,0,newDelimiters,0,nInt);
 				}
-				strings = newStrings;
-				strings[nStrings] = str.substring(delimiterIndex,lastWord);
+				delimiters = newDelimiters;
+				delimiters[nInt] = delimiterIndex;
+				delimiters[nInt+1] = lastWord;
+				
 				currRow++;
-				x = (currRow >= numbTotalRows || owner.rows == null)?beginPos:owner.rows[currRow].beginPos;
+//				x = (currRow >= numbTotalRows || owner.rows == null)?beginPos:owner.rows[currRow].beginPos;
+				x = (currRow >= numbTotalRows || owner.rows == null)?beginPos:((CCTARow)owner.rows.get(currRow)).beginPos;
 				delimiterIndex = i;
 			}else{
 				x += w;
 			}
 			i++;
 		}
-		if(strings == null){
-			strings = new String[1];
-			strings[0] = str;
+		if(delimiters == null){
+			delimiters = new int[2];
+			delimiters[0] = 0;
+			delimiters[1] = chars.length;
 		}else{
 			if(delimiterIndex < str.length()){
-				int nStrings = strings.length;
-				String []newStrings = new String[nStrings + 1];
-				waba.sys.Vm.copyArray(strings,0,newStrings,0,nStrings);
-				strings = newStrings;
-				strings[nStrings] = str.substring(delimiterIndex,str.length());
+				int nInt = delimiters.length;
+				int	[]newDelimiters = new int[nInt + 2];
+				waba.sys.Vm.copyArray(delimiters,0,newDelimiters,0,nInt);
+				delimiters = newDelimiters;
+				delimiters[nInt] = delimiterIndex;
+				delimiters[nInt+1] = chars.length;
 			}
 		}
-		this.endRow 	= this.beginRow + strings.length;
+		this.endRow 	= this.beginRow + (delimiters.length / 2);
 	}
 	
 	public int getRows(){
@@ -1017,27 +1134,50 @@ String	[]strings = null;
 		this.beginRow 	= beginRow;
 		this.endRow 	= endRow;
 	}
+	
+	public String getSubString(int index){
+		if(chars == null || delimiters == null) return null;
+		if(index < 0 || index >= delimiters.length / 2) return null;
+		return new String(chars,delimiters[2*index],delimiters[2*index+1]-delimiters[2*index]);
+	}
+	
 	public void draw(Graphics gr,int firstRow){
-		if(gr == null || strings == null || owner == null) return;
+		if(gr == null || delimiters == null || owner == null) return;
 		gr.setColor(0,0,0);
-		int    numbTotalRows = (owner.rows == null)?0:owner.rows.length;
+//		int    numbTotalRows = (owner.rows == null)?0:owner.rows.length;
+		int    numbTotalRows = (owner.rows == null)?0:owner.rows.getCount();
 		int h = owner.getItemHeight();
+		int limitRow = delimiters.length / 2;
 		for(int i = beginRow; i < endRow; i++){
 			if(i < firstRow) continue;
 			int y = (i - firstRow)*h;
-			if(i - beginRow < strings.length){
-				int x = (i >= numbTotalRows || owner.rows == null)?beginPos:owner.rows[i].beginPos;
-				gr.drawText(strings[i-beginRow],x,y);
+			if(i - beginRow < limitRow ){
+//				int x = (i >= numbTotalRows || owner.rows == null)?beginPos:owner.rows[i].beginPos;
+				int x = (i >= numbTotalRows || owner.rows == null)?beginPos:((CCTARow)owner.rows.get(i)).beginPos;
+				int index = (i - beginRow)*2;
+				gr.drawText(chars,delimiters[index],delimiters[index+1] - delimiters[index],x,y);
 			}
 		}
+
 	}
 	public static boolean isWordDelimiter(char c){
 		boolean retValue = false;
+/*
 		for(int i = 0; i < wordDelimChars.length; i++){
 			if(c == wordDelimChars[i]){
 				retValue = true;
 				break;
 			}
+		}
+*/
+		switch(c){
+			case ' ':
+			case '\t':
+			case ';':
+			case '.':
+			case ',':
+				retValue = true;
+				break;
 		}
 		return retValue;
 	}
