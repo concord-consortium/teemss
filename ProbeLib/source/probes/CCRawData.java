@@ -78,12 +78,18 @@ public class CCRawData extends Probe
 	public int getPrecision()
 	{
 		// This is for the current part of the probe so...
+		// The value returned is the minimum step resolution
+		// of the probe expressed as an exponent
+                // ex: -3 refers to a minimum step resolution of 0.001
+                // 
+
 		int modeIndex = sampProp.getIndex();
 		if(modeIndex == 0){
-			// A2D 24 mode  +/- 0.00015 milliVolts 
+			// A2D 24 mode, currently set to just 0.0001 Volts 
+			// to fix digital display problem on PalmOS 
 			return -5;
 		} else { 
-			// A2D 10 mode +/- 3 milliVolts
+			// A2D 10 mode +/- 0.001 V
 			return -3;
 		}
 
