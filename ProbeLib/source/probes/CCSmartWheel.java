@@ -82,7 +82,13 @@ int					outputMode = DEFAULT_MODE_OUT;
 		dDesc.setChPerSample(chPerSample);
 		dtChannel = dt / (float)chPerSample;
 	}
+
+
     float posOffset = 0f;
+    float dt;
+
+
+
 	public boolean transform(DataEvent e){
 		dEvent.type = e.type;
 		if(e.getType() == DataEvent.DATA_READY_TO_START){
@@ -96,42 +102,51 @@ int					outputMode = DEFAULT_MODE_OUT;
 			dEvent.setNumbSamples(1);
 			dtChannel = dDesc.getDt() / (float)dDesc.getChPerSample();
 			posOffset = 0f;
+			dt = dDesc.getDt();
 		}
 		if(e.getType() != DataEvent.DATA_RECEIVED){
 			notifyDataListeners(dEvent);
 			return true;
 		}
 	    //System.out.println("wheel transform "+e);
-		float t0 = e.getTime();
-		float[] data = e.getData();
-		int nOffset = e.getDataOffset();
-
-		float dt = dDesc.getDt();
+		float t0 = e.time;
+		float[] data = e.data;
+		int nOffset = e.dataOffset;
+		float calibrated;
+		float calFactor = koeff/(float)nTicks/dt;
+		System.out.println("Cal Factor: " + calFactor + " firstD: " + data[nOffset]);
+		
 
 		int ndata = e.getNumbSamples()*dDesc.getChPerSample();
 		int  	chPerSample = dDesc.getChPerSample();
 		if(ndata < chPerSample) return false;
-				
+
+		if(calibrationListener != null){
+		    wheelData[0] = data[nOffset];//row
+		    calibrated = wheelData[0]*calFactor;
+		    wheelData[1] = wheelData[0] ;
+		    wheelData[0] = calibrated * radius*koeff;
+		    dEvent.setTime(t0);
+		    notifyDataListeners(dEvent);
+		    return true;
+		}
+
+		dEvent.setTime(t0);
+		dEvent.numbSamples = e.numbSamples;
 		for(int i = 0; i < ndata; i+=chPerSample){
-			dEvent.setTime(t0 + dtChannel*(float)i);
-			wheelData[i] = data[nOffset+i];//row
-			float calibrated = wheelData[0]*koeff/(float)nTicks/dt;
-			if(calibrationListener != null){
-				wheelData[1] = wheelData[0] ;
-				wheelData[0] = calibrated * radius*koeff;
-			}else{
-				switch(outputMode){
-					case LINEAR_MODE_OUT:
-						wheelData[i+1] = calibrated * radius*koeff;
-						break;
-				case LIN_POS_MODE_OUT:
-				    wheelData[i+1] = posOffset = posOffset + calibrated * radius*koeff;
-				    break;
-				default:
-						wheelData[i+1] = calibrated;
-						break;
-				}
-			}
+		    calibrated = data[nOffset+i]*calFactor;
+		    switch(outputMode){
+		    case LINEAR_MODE_OUT:
+			wheelData[i] = calibrated * radius*koeff;
+			break;
+		    case LIN_POS_MODE_OUT:
+			wheelData[i] = posOffset = posOffset + calibrated * radius*koeff;
+			break;
+		    default:
+			wheelData[i] = calibrated;
+			break;
+		    }
+			    
 		}
 		notifyDataListeners(dEvent);
 		return true;

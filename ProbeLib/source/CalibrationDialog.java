@@ -17,7 +17,7 @@ TabBar 	 tabBar = null;
 waba.ui.Label  contName = null;
 Container []propertiesPanes =null;
 Container   currentPane =null;
-int 	bHeight = 20;
+int 	bHeight = 16;
 ExtraMainWindow owner = null;
 WTable 		calTable = null;
 CCProb	probe = null;
@@ -151,7 +151,7 @@ DeviationControl	devControl;
  		if(propertiesPanes[currContainer] == null){
 			propertiesPanes[currContainer] = new Container();
  		}
-		int pHeight = contentRect.height - (25 + bHeight) - 20;
+		int pHeight = contentRect.height - (5 + bHeight) - 20;
 		int pWidth = contentRect.width - 2*widthBorder;
 		propertiesPanes[currContainer].setRect(widthBorder,20, pWidth ,pHeight);
 		currentPane = propertiesPanes[currContainer];
