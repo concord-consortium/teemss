@@ -10,8 +10,11 @@ CLASSES= ProbeSystem.java ProbeManager.java ManagerWorker.java \
 	CmdErrorException.java JavaProbeManager.java TCPDataChannel.java \
 	TBProbeManager.java
 
-main:
+main: classes
 	javac -d classes -O $(CLASSES:%=source/%)
+
+classes:
+	-mkdir $@
 
 tini: main
 	javac -bootclasspath /home/scytacki/tini1.01/bin/tiniclasses.jar \
