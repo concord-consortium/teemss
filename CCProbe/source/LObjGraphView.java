@@ -67,18 +67,29 @@ public class LObjGraphView extends LabObjectView
 		menu.add("Properties..");
 		menu.addActionListener(this);
 
-		if(vc != null){
-			vc.getMainView().addMenu(this, menu);
-			if(waba.sys.Vm.getPlatform().equals("PalmOS")){
-				fileStrings = palmFileStrings;
-			}
-			vc.getMainView().addFileMenuItems(fileStrings, this);
-		}
-
 		graph = g;
 		lObj = g;	
 
     }
+
+	public void addMenus()
+	{
+		if(container == null) return;
+
+		container.getMainView().addMenu(this, menu);
+		if(waba.sys.Vm.getPlatform().equals("PalmOS")){
+			fileStrings = palmFileStrings;
+		}
+		container.getMainView().addFileMenuItems(fileStrings, this);
+	}
+
+	public void delMenus()
+	{
+		if(container != null){
+			container.getMainView().delMenu(this,menu);
+			container.getMainView().removeFileMenuItems(fileStrings, this);
+		}
+	}
 
 	public void doInstantCollection()
 	{
@@ -297,11 +308,6 @@ public class LObjGraphView extends LabObjectView
     public void close()
     {
 		Debug.println("Got close in graph");
-
-		if(container != null){
-			container.getMainView().delMenu(this,menu);
-			container.getMainView().removeFileMenuItems(fileStrings, this);
-		}
 
 		av.free();
 		if(yaxis != null)yaxis.free();

@@ -104,7 +104,7 @@ public class CCProbe extends ExtraMainWindow
 		}
 		LObjDictionaryView view = (LObjDictionaryView)loDict.getView(this, true);
 		view.setRect(x,y,width,myHeight);
-
+		view.setShowMenus(true);
 		me.add(view);
 		lObjView = view;
 		if(loDict != null){

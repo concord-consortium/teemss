@@ -41,14 +41,28 @@ public class LObjDataCollectorView extends LabObjectView
 		menu.add("Properties...");
 		menu.add("Save Profile...");
 		menu.addActionListener(this);
-		if(vc != null){
-			vc.getMainView().addMenu(this, menu);
-		}
 
 		this.dc = dc;
 		lObj = dc;
 		dataDict = curDict;
     }
+
+	public void addMenus()
+	{
+		if(container != null){
+			container.getMainView().addMenu(this, menu);
+		}
+		if(gv != null) gv.addMenus();
+
+	}
+
+	public void delMenus()
+	{
+		if(container != null){
+			container.getMainView().delMenu(this,menu);
+		}
+		if(gv != null) gv.delMenus();
+	}
 
 	public void setTitle1(String t1)
 	{
@@ -213,10 +227,6 @@ public class LObjDataCollectorView extends LabObjectView
     public void close()
     {
 		Debug.println("Got close in graph");
-		if(container != null){
-			container.getMainView().delMenu(this,menu);
-		}
-
 		stop(true);	
 
 		// need to make sure this unregisters data sources
