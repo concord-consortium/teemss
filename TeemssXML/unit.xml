@@ -2,10 +2,47 @@
 <!DOCTYPE project PUBLIC "-//CONCORD.ORG//DTD Param Description//EN" "project.dtd">
 <project name="teemss">
   <title>TEEMSS</title>
+  <skill-list>
+	<skill name="learn stuff">I'm learning xsl haha</skill>
+	<skill name="learn other stuff">Of course that means I'm learning XML too.</skill>
+  </skill-list>
   <unit name="Motions_and_Forces">
     <title>Motions and Forces</title>
     <investigation name="Air_Cart">
       <title>Air Cart</title>
+	  <teacher-notes>
+		<teacher-intro>
+		  <summary>Testing testing </summary>
+		  <skills>
+			<skill-ref ref="learn stuff"/>
+			<skill-ref ref="learn other stuff"/>
+		  </skills>
+		</teacher-intro>
+		<teacher-discuss>
+		  <teacher-overview>This investigation is important because students build a low-friction cart and ramp that will be needed later. Most of this investigation is devoted to construction and testing. This can be most absorbing, but to get the most out of the time, you should encourage students to think about the goal of friction reduction and how the cart design achieves this.
+</teacher-overview>
+		  <teacher-stage>Before beginning the construction, engage students in a conversation about friction. A good first discussion can be about what it would be like to exist in a world without friction. Here are some questions you might ask, followed by possible responses.
+<teacher-questions>
+			  <question>When have you experienced very low friction?</question>
+			  <answer>Roller-skating, ice skating, skateboarding. Not swimming</answer>
+			  <question>What would it be like if every surface was covered by slippery ice?</question>
+			  <answer>It would be hard to stand up. Going down stairs would be very dangerous--hanging on the banister would not help much because your hands would slip, too.</answer>
+			  <question>Would your bike work in a frictionless world?</question>
+			</teacher-questions>
+</teacher-stage>
+		  <teacher-wrap>If students investigate the effect of mass, they might be in for a surprise. It is natural to assume that the heavier cart will zoom down the ramp faster. Ask students:
+</teacher-wrap>
+		</teacher-discuss>
+		<teacher-background>
+The energy lost to friction always ends up as heat energy in the form of random molecular motion. This will come up in later investigations, when the question "where did the energy go?" will be asked again and again. There can be many sources of friction. In the case of the cart, the axle rubs in the straw when it turns. There is some rolling friction as the wheel surface touches and then lifts from the floor. This is much less than if the wheels were locked and dragged across the floor, however! That's why car brakes work: when the wheel is braked, it is dragged along the road instead of being free to roll. It's also why you can steer: it's easier for a wheel to roll in the direction it's steered than to slide sideways, so the car tends to go in that direction, unless the road is icy.
+</teacher-background>
+		<teacher-timeline>
+		  <time-period periods="1" type="setup"/>
+		  <time-period periods="1.5" type="trial" number="1"/>
+		  <time-period periods=".5" type="trial" number="2"/>
+		  <time-period periods="1" type="wrap"/>
+		</teacher-timeline>
+	  </teacher-notes>
       <summary> Build (and test) an air cart that operates with very
         little friction</summary>
       <question> What happens to a vehicle when there&apos;s very little friction?</question>
