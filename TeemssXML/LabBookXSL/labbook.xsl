@@ -26,6 +26,64 @@
     </FOLDER>
     <FOLDER ID="saved-datasets" name="Saved Datasets">
     </FOLDER>
+
+<SUPERNOTES ID="embedtest" name="Embed Test">
+
+        <EMBOBJ object="ccprobe_titlebar_154.bmp"/>
+
+        <SNPARAGRAPH linkcolor="0000FF">
+          About CCProbe
+       </SNPARAGRAPH>
+       <SNPARAGRAPH/>
+Embed Test
+
+  <xsl:element name="EMBOBJ">
+    <xsl:attribute name="object">test-temperature1</xsl:attribute>
+    <xsl:attribute name="link">true</xsl:attribute>
+    <xsl:attribute name="linkcolor">FF0000</xsl:attribute>
+
+
+<xsl:element name="DATACOLLECTOR">
+  <xsl:attribute name="ID">test-temperature1</xsl:attribute>
+  <xsl:attribute name="name">Measure Temperature</xsl:attribute>
+  <xsl:element name="PROBE">
+    <xsl:attribute name="ID">test-temp1</xsl:attribute>
+    <xsl:attribute name="probe">Temperature</xsl:attribute>
+    <xsl:element name="PROP">
+      <xsl:attribute name="name">Port</xsl:attribute>
+      <xsl:attribute name="value">A</xsl:attribute>
+    </xsl:element>
+    <xsl:element name="PROP">
+      <xsl:attribute name="name">Mode</xsl:attribute>
+      <xsl:attribute name="value">C</xsl:attribute>
+    </xsl:element>
+  </xsl:element>
+  <xsl:element name="GRAPH">
+    <xsl:attribute name="current-line">0</xsl:attribute>
+    <xsl:attribute name="title"></xsl:attribute>
+    <xsl:element name="DATAFOLDER">
+      <xsl:attribute name="object">saved-datasets</xsl:attribute>
+    </xsl:element>
+    <xsl:element name="XAXIS">
+      <xsl:attribute name="min">0</xsl:attribute>
+      <xsl:attribute name="max">40</xsl:attribute>
+    </xsl:element>
+    <xsl:element name="YAXIS">
+      <xsl:attribute name="min">10</xsl:attribute>
+      <xsl:attribute name="max">40</xsl:attribute>
+    </xsl:element>
+    <xsl:element name="LINE">
+      <xsl:attribute name="xaxis">0</xsl:attribute>
+      <xsl:attribute name="yaxis">0</xsl:attribute>
+      <xsl:attribute name="datasource">test-temp1</xsl:attribute>
+    </xsl:element>
+  </xsl:element>
+</xsl:element>
+
+</xsl:element>
+
+</SUPERNOTES>
+
   </LABBOOK>
 </xsl:template>
 
@@ -352,7 +410,19 @@
     </xsl:attribute>
     <xsl:attribute name="name">
 
-      <xsl:value-of select="name(ancestor::*[../../investigation])"/><xsl:text> </xsl:text><xsl:number value="position()"/><xsl:text> </xsl:text><xsl:value-of select="@type"/><xsl:text> </xsl:text><xsl:value-of select="@title"/>
+<xsl:text>Question </xsl:text>
+<xsl:call-template name="query-response-position"/>
+ <xsl:text>. </xsl:text>
+
+<!--
+<xsl:value-of select="name(ancestor::*[../../investigation])"/><xsl:text> </xsl:text>
+
+<xsl:number value="position()"/>
+-->
+
+<xsl:value-of select="@type"/>
+<xsl:text> </xsl:text>
+<xsl:value-of select="@title"/>
 
     </xsl:attribute>
     <EMBOBJ object="teemss_titlebar.bmp"/>
@@ -381,7 +451,9 @@
 <xsl:template match="querys" mode="response">
   <xsl:for-each select="query">
     <SNPARAGRAPH>
-      <xsl:number value="position()" format="1"/>. <xsl:value-of select="normalize-space(.)"/>
+      <xsl:call-template name="query-response-position"/><xsl:text>.</xsl:text>
+      <xsl:number value="position()" format="1"/><xsl:text> </xsl:text>
+      <xsl:value-of select="normalize-space(.)"/>
     </SNPARAGRAPH>
     <xsl:if test="@drawing-response='true'">
       <SNPARAGRAPH/>
