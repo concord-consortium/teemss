@@ -100,7 +100,7 @@ int					outputMode = DEFAULT_MODE_OUT;
 		dtChannel = dt / (float)chPerSample;
 	}
 	public boolean transform(DataEvent e){
-		if(e.getType() == DataEvent.DATA_COLLECTING){
+		if(e.getType() != DataEvent.DATA_RECEIVED){
 			notifyListeners(dEvent);
 			return true;
 		}

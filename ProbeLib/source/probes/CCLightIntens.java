@@ -32,7 +32,7 @@ float  			dtChannel = 0.0f;
 		dtChannel = dt / (float)chPerSample;
 	}
 	public boolean transform(DataEvent e){
-		if(e.getType() == DataEvent.DATA_COLLECTING){
+		if(e.getType() != DataEvent.DATA_RECEIVED){
 			notifyListeners(dEvent);
 		}else{
 			float t0 = e.getTime();
