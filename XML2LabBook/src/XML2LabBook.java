@@ -88,6 +88,7 @@ public static QTManager qtManager = null;
 				if(args[0].equals("palm")){
 					palmDB = true;
 				} else if(args[0].equals("ce")){
+					System.out.println("outputin wince file");
 					palmDB = false;
 				}
 			}			
@@ -144,9 +145,15 @@ public static QTManager qtManager = null;
 			exit(1);
    		}
 
-		session = labBook.getSession();
+		LabObjectPtr rootPtr = labBook.getRoot();
 
- 		LObjDictionary loDict = initRootDictionary();
+		session = rootPtr.getSession();
+
+		LObjDictionary loDict = (LObjDictionary)session.getObj(rootPtr);
+		if(loDict == null){
+			loDict = initRootDictionary();
+		}
+
    		boolean pagingView = doc.getDocumentElement().getAttribute("view").equals("paging");
    		if(pagingView){
 			loDict.viewType = LObjDictionary.PAGING_VIEW;
@@ -262,7 +269,6 @@ public static QTManager qtManager = null;
 		if(labBook == null) return null;
  		LObjDictionary dict = DefaultFactory.createDictionary();
 		session.storeNew(dict);
-		LabObjectPtr ptr = dict.getVisiblePtr();
 		dict.setName("Home");
 		labBook.store(dict);
 		return dict;
@@ -800,13 +806,40 @@ public static QTManager qtManager = null;
 					PropObject propObj = probe.getProperty(propName);
 					if(propObj == null){
 						invalidProps = true;
-						System.out.println("X2L invalid property: " + propName);
+						System.out.println("**X2L invalid property: " + propName);
 						continue;
 					}
-					propObj.setValue(propVal);
+					switch(propObj.setVisValue(propVal)){
+					case -1:
+						// this isn't a valid value in this context
+						invalidProps = true;
+						System.out.println("**X2L invalid value in this context: " + propVal);
+						System.out.print("  Valid values are: ");
+						System.out.print("   " + propObj.getName());
+						String [] posVals = propObj.getVisPossibleValues();
+						if(posVals == null){
+							System.out.println("");
+						} else {
+							System.out.print(": ( ");
+							for(int j=0; j<posVals.length-1; j++){
+								System.out.print("\"" + posVals[j] + "\" | ");
+							}
+							System.out.println("\"" + posVals[posVals.length-1] + "\" )");
+						}
+						continue;
+					case 0:
+						// no change
+						break;
+					case 1:
+						// new value
+						probe.visValueChanged(propObj);
+						break;
+					}
 				}
-			}
+			}			
 		}
+
+		probe.apply();
 
 		if(invalidProps){
 			Vector props = probe.getProperties();
@@ -826,6 +859,8 @@ public static QTManager qtManager = null;
 				}
 			}			
 		}
+
+		
 
 		return pds;
 	}
