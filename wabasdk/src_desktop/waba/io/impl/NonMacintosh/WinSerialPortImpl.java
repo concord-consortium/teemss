@@ -19,6 +19,7 @@ public class WinSerialPortImpl implements ISerialPort
 		String portName = null;
 		SerialPortDesc sPortDesc = SerialManager.getAssignedPort();
 		if(sPortDesc == null){
+		 	waba.io.impl.SerialManager.checkAvailableSerialPorts();
 			java.awt.Frame f = SerialManager.getMainFrame();
 			if(f != null){
 				SerialChoiceDialog dialog = new SerialChoiceDialog(f);
@@ -56,7 +57,10 @@ public class WinSerialPortImpl implements ISerialPort
   {
     try
     {
-      sPort.enableReceiveTimeout(millis);
+	sPort.enableReceiveTimeout(millis);
+	if(millis == 0){
+		sPort.enableReceiveThreshold(0);
+	}
       return true;
     }
     catch(UnsupportedCommOperationException e)
