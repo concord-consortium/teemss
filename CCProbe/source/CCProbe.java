@@ -353,7 +353,8 @@ public class CCProbe extends ExtraMainWindow
 			command = e.getActionCommand();
 			if(command.equals("Exit")){
 				Debug.println("commiting");
-				lObjView.close();
+				if(curFullView != null) curFullView.close();
+				else lObjView.close();
 				if(!labBook.commit() ||
 				   !labBook.close()){
 					//error
@@ -479,6 +480,7 @@ public class CCProbe extends ExtraMainWindow
 			remove(curFullView);			
 		}
 
+		setFocus(null);
 		// we load the object into our session so the caller can
 		// release their session.
 		obj = newSession.load(ptr);
