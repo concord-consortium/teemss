@@ -50,13 +50,16 @@ public class CCProbe extends ExtraMainWindow
 	add(me);
 
 	LabBookDB lbDB;
-	if(waba.sys.Vm.getPlatform().equals("PalmOS")){
+	String plat = waba.sys.Vm.getPlatform();
+	if(plat.equals("PalmOS")){
 	    graph.Bin.START_DATA_SIZE = 4000;
 	    graph.LargeFloatArray.MaxNumChunks = 4;
 	    lbDB = new LabBookCatalog("LabBook");
-	} else {
+	} else if(plat.equals("Java")){
 	    lbDB = new LabBookCatalog("LabBook");
-	}
+	} else {
+	    lbDB = new LabBookFile("LabBook");
+	}	    
 
 	if(lbDB.getError()){
 	    // Error;
@@ -69,7 +72,7 @@ public class CCProbe extends ExtraMainWindow
 	Debug.println("Openning");
 	labBook.open(lbDB);
 
-	loDict = (LObjDictionary)labBook.load(new LabObjectPtr(0,0,null));
+	loDict = (LObjDictionary)labBook.load(labBook.getRoot());
 	if(loDict == null){
 	    loDict = new LObjDictionary();
 	    loDict.name = "Root";

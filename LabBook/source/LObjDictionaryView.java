@@ -42,6 +42,10 @@ public class LObjDictionaryView extends LabObjectView
 	lObj =dict;
 	add(me);
 	editMenu.add("Rename...");
+	editMenu.add("Cut");
+	editMenu.add("Paste");
+	editMenu.add("Import");
+	editMenu.add("Export");
 	editMenu.add("Properties...");
 	editMenu.add("Toggle hidden");
 	viewMenu.add("Paging View");
@@ -122,6 +126,18 @@ public class LObjDictionaryView extends LabObjectView
 	}
     }
 
+    public void insertAtSelected(TreeNode node)
+    {
+	TreeNode curNode = treeControl.getSelected();
+	TreeNode parent = treeControl.getSelectedParent();
+	if(curNode == null){
+	    treeModel.insertNodeInto(node, treeModel.getRoot(), treeModel.getRoot().getChildCount());
+	} else {
+	    treeModel.insertNodeInto(node, parent, parent.getIndex(curNode)+1);
+	}
+	dict.lBook.commit();
+    }
+
     Dialog rnDialog = null;
 
     public void dialogClosed(DialogEvent e)
@@ -156,8 +172,6 @@ public class LObjDictionaryView extends LabObjectView
 		    autoEdit = true;
 		}
 		if(newObj != null){
-		    TreeNode curNode = treeControl.getSelected();
-		    TreeNode parent = treeControl.getSelectedParent();
 		    if(newIndex == 0){
 			newObj.name = objType;		    
 		    } else {
@@ -165,15 +179,10 @@ public class LObjDictionaryView extends LabObjectView
 		    }
 		    newIndex++;
 		    TreeNode newNode = dict.getNode(newObj);
-		    if(curNode == null){
-			treeModel.insertNodeInto(newNode, treeModel.getRoot(), treeModel.getRoot().getChildCount());
-		    } else {
-			treeModel.insertNodeInto(newNode, parent, parent.getIndex(curNode)+1);
-		    }
-		    dict.lBook.commit();
+		    insertAtSelected(newNode);
+
 		    if(autoEdit){
 			showPage(newNode, true);
-
 		    }
 		}
 
@@ -192,6 +201,10 @@ public class LObjDictionaryView extends LabObjectView
 		if(obj != null){
 		    obj.name = (String)e.getInfo();
 		    obj.store();
+		    if(!dict.lBook.commit()){
+			// error (what to do)
+			return;
+		    }
 		}
 
 		treeControl.reparse();
@@ -199,6 +212,8 @@ public class LObjDictionaryView extends LabObjectView
 	    }
 	}		   
     }
+
+    TreeNode clipboardNode = null;
 
     public void actionPerformed(ActionEvent e)
     {
@@ -227,7 +242,47 @@ public class LObjDictionaryView extends LabObjectView
 		} else {
 		    rnDialog = Dialog.showInputDialog(this, "Rename Parent", "Old Name was " + dict.name,
 						      buttons,Dialog.EDIT_INP_DIALOG);
-		}		    
+		}
+	    } else if(e.getActionCommand().equals("Cut")){
+		TreeNode curNode = treeControl.getSelected();
+		if(curNode == null || curNode.toString().equals("..empty..")) return;
+		TreeNode parent = treeControl.getSelectedParent();
+		clipboardNode = curNode;
+		treeModel.removeNodeFromParent(curNode, parent);
+	    } else if(e.getActionCommand().equals("Paste")){
+		if(clipboardNode != null){
+		    insertAtSelected(clipboardNode);		    
+		}
+	    } else if(e.getActionCommand().equals("Import")){
+		FileDialog fd = FileDialog.getFileDialog(FileDialog.FILE_LOAD, null);
+
+		fd.show();
+		LabBookFile imFile = new LabBookFile(fd.getFilePath());
+
+		LabObject newObj = dict.lBook.importDB(imFile);
+		imFile.close();
+
+		if(newObj != null){
+		    TreeNode newNode = dict.getNode(newObj);
+		    insertAtSelected(newNode);
+		}
+
+	    } else if(e.getActionCommand().equals("Export")){
+		TreeNode curNode = treeControl.getSelected();
+		LObjDictionary parent = (LObjDictionary)treeControl.getSelectedParent();
+		if(parent == null) return;
+
+		LabObject obj = parent.getObj(curNode);
+
+		FileDialog fd = FileDialog.getFileDialog(FileDialog.FILE_SAVE, null);
+		fd.setFile(obj.name);
+		fd.show();
+
+		LabBookFile lbFile = new LabBookFile(fd.getFilePath());
+		dict.lBook.export(obj.ptr, lbFile);
+		lbFile.save();
+		lbFile.close();
+
 	    } else if(e.getActionCommand().equals("Properties...")){
 		TreeNode curNode = treeControl.getSelected();
 		if(curNode == null || curNode.toString().equals("..empty..")) return;

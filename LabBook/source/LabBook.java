@@ -329,53 +329,63 @@ public class LabBook
 	return lObj;
     }
 
-    public void export(LabObjectPtr lObjPtr, DataStream ds)
+    public void export(LabObjectPtr lObjPtr, LabBookDB db)
     {
+	LabBookDB oldDb = this.db;
 
+	commit();
+	export(lObjPtr);
+	this.db = db;
+	db.setRootDevId(lObjPtr.devId);
+	db.setRootObjId(lObjPtr.objId);
+	commit();
+	this.db = oldDb;	
     }
 
-    public void export(LabObjectPtr lObjPtr, Vector ptrs, Vector bufs)
-    {
-	BufferStream bsIn = new BufferStream();
-	DataStream dsIn = new DataStream(bsIn);
+    public void export(LabObjectPtr lObjPtr)
+    {	
+	LabObject obj = load(lObjPtr);
+	store(obj);
 
-	byte [] curObjBuf = db.readObjectBytes(lObjPtr.devId, lObjPtr.objId);
-	ptrs.add(lObjPtr);
-	bufs.add(curObjBuf);
-
-	// set bufferStream buffer
-	// read buffer by
-	bsIn.setBuffer(curObjBuf);
-
-	int objectType = dsIn.readInt();
-	LabObject lObj = null;
-
-	// We need a way to instanciate object.
-	// We could have a list of objects and every new lab object will
-	// need to be added to this list.
-	lObj = LabObject.getNewObject(objectType);
-	if(lObj == null){
-	    Debug.println("error: objectType: " + objectType + " devId: " + lObjPtr.devId +
-			       " objId: " + lObjPtr.objId);
-	    return;
-	}
-	lObj.ptr = lObjPtr;
-	lObjPtr.obj = lObj;
-	
-	if(lObj instanceof LObjDictionary){
-	    lObj.readExternal(dsIn);
-	    LObjDictionary dict = (LObjDictionary)lObj;
+	if(obj instanceof LObjDictionary){
+	    LObjDictionary dict = (LObjDictionary)obj;
 	    for(int i=0; i<dict.getChildCount(); i++){
-		export((LabObjectPtr)dict.objects.get(i), ptrs, bufs);
+		export((LabObjectPtr)dict.objects.get(i));
 	    }
 	}
     }
 
-    public LabObjectPtr importPtr(DataStream ds)
+
+    public LabObject importDB(LabBookDB db)
     {
-	return null;
+	LabBookDB oldDb = this.db;
+
+	commit();
+	this.db = db;
+	LabObject root = importPtr(new LabObjectPtr(db.getRootDevId(), db.getRootObjId(), null), oldDb);
+	this.db = oldDb;
+	commit();
+	return root;
     }
     
+
+    public LabObject importPtr(LabObjectPtr ptr, LabBookDB oldDB)
+    {
+	LabObject obj = load(ptr);
+	obj.ptr = new LabObjectPtr(curDeviceId, oldDB.getNewObjId(),
+				   obj);
+	store(obj);
+	if(obj instanceof LObjDictionary){
+	    LObjDictionary dict = (LObjDictionary)obj;
+	    LabObject child = null;
+	    for(int i=0; i<dict.getChildCount(); i++){
+		child = importPtr((LabObjectPtr)dict.objects.get(i), oldDB);
+		dict.objects.set(i, child.ptr);
+	    }
+	}
+
+	return obj;
+    }
 
     public boolean close()
     {
