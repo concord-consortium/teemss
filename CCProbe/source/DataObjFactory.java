@@ -24,15 +24,15 @@ public class DataObjFactory
 		LabObject obj = null;
 		switch(objectType){
 			case DATA_SET:
-				obj = LObjDataSet();
+				obj = new LObjDataSet();
 			case GRAPH:
-				obj = LObjGraph();
+				obj = new LObjGraph();
 			case DATA_COLLECTOR:
-				obj = LObjDataCollector();
+				obj = new LObjDataCollector();
 			case UCONVERTOR:
-				obj = LObjUConvertor();
+				obj = new LObjUConvertor();
 			case PROBE_DATA_SOURCE:
-				obj = LObjProbeDataSource();
+				obj = new LObjProbeDataSource();
 		}
 
 		return obj;
