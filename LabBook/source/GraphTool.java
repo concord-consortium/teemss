@@ -61,9 +61,12 @@ public class GraphTool extends Container
 
     int [] [] pTimes = new int [1000][];
 
+    LObjDataControl dc = null;
+
     public GraphTool(AnnotView av, LObjDataControl dc, String units, int w, int h) 
     {
 	convertor.maxDigits = 2;
+	this.dc = dc;
 
 	pm = ProbManager.getProbManager(dc.interfaceId);
 
@@ -228,12 +231,6 @@ public class GraphTool extends Container
 	curPtime++;
     }
 
-    public void showAxisProp()
-    {
-	lg.lgView.showAxisProp();
-    }
-
-
     public void setPos(int x, int y)
     {
 	setRect(x,y,width,height);
@@ -280,6 +277,8 @@ public class GraphTool extends Container
 		if(bins.getCount() == 0){
 		    lg.active = true;
 		    bins.add(curBin);
+		    curBin.time = new Time();
+		    curBin.description = dc.getObj(0).name;
 		}
 		slowUpdate = false;
 

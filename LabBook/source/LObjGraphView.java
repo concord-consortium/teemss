@@ -3,21 +3,50 @@ package org.concord.LabBook;
 import graph.*;
 import waba.ui.*;
 import waba.util.*;
+import org.concord.waba.extra.event.*;
+import org.concord.waba.extra.ui.*;
 
 public class LObjGraphView extends LabObjectView
+    implements ActionListener
 {
     LObjGraph graph;
     AnnotView av = null;
 
     Button doneButton = null;
+    Label titleLabel = null;
     Vector bins = null;
+
+    Menu menu = new Menu("Graph");
 
     public LObjGraphView(LObjViewContainer vc, LObjGraph g)
     {
 	super(vc);
 
+	menu.add("Change Axis...");
+	menu.addActionListener(this);
+
+	if(vc != null){
+	    vc.addMenu(this, menu);
+	}
+
 	graph = g;
 	lObj = g;	
+    }
+
+    public void actionPerformed(ActionEvent e)
+    {
+	String command;
+	Debug.println("Got action: " + e.getActionCommand());
+
+	if(e.getSource() == menu){
+	    if(e.getActionCommand().equals("Change Axis...")){
+		av.lgView.showAxisProp();
+	    } else if(e.getActionCommand().equals("Export Data")){
+		if(bins.getCount() > 0 && bins.get(0) != null){
+		    LabBookFile.export((Bin)bins.get(0), null);
+		}
+	    }
+	}
     }
 
     public void addBins(Vector bs)
@@ -30,7 +59,13 @@ public class LObjGraphView extends LabObjectView
 	if(didLayout) return;
 	didLayout = true;
 
+	if(bins != null){
+	    menu.add("Export Data");	    
+	}
 	showDone = sDone;
+
+	titleLabel = new Label(graph.name, Label.CENTER);
+	add(titleLabel);
 
 	if(showDone){
 	    doneButton = new Button("Done");
@@ -46,6 +81,14 @@ public class LObjGraphView extends LabObjectView
 
 	int curY = 1;
 	int gHeight = height;
+
+	if(height > 160){
+	    titleLabel.setRect(x, curY, width, 16);
+	    curY += 16;
+	    gHeight -= 16;
+	} else {
+	    titleLabel.setRect(0,0,0,0);
+	}
 
 	if(showDone){
 	    doneButton.setRect(width-30,height-15,30,15);
@@ -74,6 +117,9 @@ public class LObjGraphView extends LabObjectView
 	graph.xmin = av.getXmin();
 	graph.xmax = av.getXmax();
 	graph.lBook.store(graph);
+	if(container != null){
+	    container.delMenu(this,menu);
+	}
     }
 
     public void onEvent(Event e)

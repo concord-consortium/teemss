@@ -6,6 +6,7 @@ import waba.sys.*;
 import extra.io.*;
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
+import graph.*;
 
 class FileObject 
 {
@@ -29,6 +30,9 @@ public class LabBookFile
     Catalog cat;
 
     boolean error = false;
+
+    static public void export(Bin b, Vector points){}
+
 
     public LabBookFile(String name)
     {

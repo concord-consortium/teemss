@@ -4,6 +4,7 @@ import waba.io.*;
 import waba.util.*;
 import waba.sys.*;
 import extra.io.*;
+import graph.*;
 
 class FileObject 
 {
@@ -24,6 +25,60 @@ public class LabBookFile implements LabBookDB
 
     int curDevId;
     int nextObjId;
+
+    static public void writeString(DataStream ds, String s)
+    {
+	ds.writeFixedString(s, s.length());
+    }
+
+    static public void export(Bin b, Vector points)
+    {
+	int i;
+
+	if(b == null ||
+	   b.time == null) return;
+	String name = "Data-" + b.time.year + "_" + b.time.month + "_" + b.time.day + "-" +
+	    b.time.hour + "_" + b.time.minute + ".txt";
+	File file = new File(name, File.DONT_OPEN);
+	if(file.exists()){
+	    file.close();
+	    file = new File(name, File.READ_WRITE);
+	} else {
+	    file.close();
+	    file = new File(name, File.CREATE);
+	    file.close();
+	    file = new File(name, File.READ_WRITE);
+	}
+
+	DataStream ds = new DataStream(file);
+	
+	writeString(ds, b.time.month + "/" + b.time.day + "/" + b.time.year + " " +
+		    b.time.hour + ":" + b.time.minute + "\r\n");
+	writeString(ds, b.description + "\r\n");
+	if(points == null){
+	    writeString(ds, b.label + "\r\n");
+	    writeString(ds, "time\tvalue\r\n");
+	    float curTime = 0f;
+	    for(i=0; i < b.lfArray.getCount(); i++){
+		writeString(ds, curTime + "\t" + b.lfArray.getFloat(i) + "\r\n");
+		curTime += b.dT;
+	    }
+
+	} else {
+	    writeString(ds, "label\ttime\tvalue\r\n");
+	    for(i=0; i < points.getCount(); i++){
+		DecoratedValue pt = (DecoratedValue)points.get(i);
+		writeString(ds, pt.getLabel() + "\t" + 
+			    pt.getTime() + "\t" + 
+			    pt.getValue() + "\r\n");
+	    }
+	    
+	}
+
+	file.close();
+	
+		
+    }
 
     public LabBookFile(String name)
     {

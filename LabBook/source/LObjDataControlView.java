@@ -2,12 +2,14 @@ package org.concord.LabBook;
 
 import graph.*;
 import waba.ui.*;
+import extra.util.*;
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
+import org.concord.waba.extra.probware.probs.*;
 
 
 public class LObjDataControlView extends LabObjectView
-    implements ActionListener, DialogListener
+    implements ActionListener, DialogListener, LObjViewContainer
 {
     LObjDataControl dc;
     LObjGraphView gv;
@@ -20,22 +22,19 @@ public class LObjDataControlView extends LabObjectView
     int gt_height = 40;
     GraphTool gt = null;
 
-    Menu pMenu = new Menu("Probe");
-    Menu gMenu = new Menu("Graph");
+    Menu menu = new Menu("Probe");
 
     public LObjDataControlView(LObjViewContainer vc, LObjDataControl dc)
     {
 	super(vc);
 
-	pMenu.add("Properties...");
-	pMenu.add("Save Data...");
-	pMenu.add("Save Profile...");
-	pMenu.addActionListener(this);
-	gMenu.add("Change Axis...");
-	gMenu.addActionListener(this);
+	menu.add("Properties...");
+	menu.add("Save Data...");
+	menu.add("Export Data");
+	menu.add("Save Profile...");
+	menu.addActionListener(this);
 	if(vc != null){
-	    vc.addMenu(this, pMenu);
-	    vc.addMenu(this, gMenu);
+	    vc.addMenu(this, menu);
 	}
 
 	this.dc = dc;
@@ -46,6 +45,17 @@ public class LObjDataControlView extends LabObjectView
     {
 	Debug.println("Got closed");
 	dc.portId = dc.getProbe().getInterfacePort();
+	LObjGraph graph = (LObjGraph)dc.getObj(0);
+	CCProb p = dc.getProbe();
+	graph.name = p.getName() + "(";
+	PropObject [] props = p.getProperties();
+	int i;
+	for(i=0; i < props.length-1; i++){
+	    graph.name += props[i].getName() + "- " + props[i].getValue() + "; ";
+	}
+	graph.name += props[i].getName() + "- " + props[i].getValue() + ")";
+
+	gv.titleLabel.setText(graph.name);
     }
 
     public void layout(boolean sDone)
@@ -60,7 +70,18 @@ public class LObjDataControlView extends LabObjectView
 	    add(doneButton);
 	} 
 
-	gv = (LObjGraphView)dc.getObj(0).getView(null, false);
+	LObjGraph graph = (LObjGraph)dc.getObj(0);
+	if(graph.name.equals("Graph")){
+	    CCProb p = dc.getProbe();
+	    graph.name = p.getName() + "(";
+	    PropObject [] props = p.getProperties();
+	    int i;
+	    for(i=0; i < props.length-1; i++){
+		graph.name += props[i].getName() + "- " + props[i].getValue() + "; ";
+	    }
+	    graph.name += props[i].getName() + "- " + props[i].getValue() + ")";
+	}
+	gv = (LObjGraphView)graph.getView(this, false);
 	gv.layout(false);
 	add(gv);
     }
@@ -97,7 +118,7 @@ public class LObjDataControlView extends LabObjectView
 	String command;
 	Debug.println("Got action: " + e.getActionCommand());
 
-	if(e.getSource() == pMenu){
+	if(e.getSource() == menu){
 	    if(e.getActionCommand().equals("Properties...")){
 		gt.stop();
 		dc.getProbe().calibrateMe((ExtraMainWindow)(MainWindow.getMainWindow()), this, dc.interfaceId);
@@ -109,6 +130,8 @@ public class LObjDataControlView extends LabObjectView
 		for(int i=0; i<gt.bins.getCount(); i++){
 		    dSet.addBin((Bin)gt.bins.get(i));
 		}
+		LObjGraph graph = (LObjGraph)dc.getObj(0);
+		dSet.dict.name = graph.name;
 		LObjDictionary dataDict = (LObjDictionary)dc.getObj(1);
 		if(dataDict != null){
 		    dataDict.add(dSet.dict);
@@ -117,7 +140,17 @@ public class LObjDataControlView extends LabObjectView
 		    // for now it is an error
 		    // latter it should ask the user for the name
 		}
-	    } else if(e.getActionCommand().equals("Save Profile...")){
+	    } else if(e.getActionCommand().equals("Export Data")){
+		if(gt.bins != null ||
+		   gt.bins.getCount() > 0){
+		    if(gv.av.curView instanceof GraphViewLine){
+			LabBookFile.export((Bin)gt.bins.get(0), null);
+		    } else {
+			LabBookFile.export((Bin)gt.bins.get(0), gv.av.lGraph.annots);
+		    }
+
+		}
+	    }else if(e.getActionCommand().equals("Save Profile...")){
 		LObjDocument dProf = new LObjDocument();
 		dProf.text = "";
 		for(int i=0; i < gt.curPtime; i++){
@@ -136,11 +169,7 @@ public class LObjDataControlView extends LabObjectView
 		} 
 		
 	    }
-	} else if(e.getSource() == gMenu){
-	    if(e.getActionCommand().equals("Change Axis...")){
-		gt.showAxisProp();
-	    } 
-	}
+	} 
     }
 
     public void close()
@@ -148,8 +177,7 @@ public class LObjDataControlView extends LabObjectView
 	Debug.println("Got close in graph");
 	gv.close();
 	if(container != null){
-	    container.delMenu(this,pMenu);
-	    container.delMenu(this,gMenu);
+	    container.delMenu(this,menu);
 	}
 
 	gt.onExit();
@@ -165,4 +193,21 @@ public class LObjDataControlView extends LabObjectView
 	    }	    
 	}
     }
+
+    public void reload(LabObjectView source){}
+
+    public void addMenu(LabObjectView source, org.concord.waba.extra.ui.Menu menu)
+    {
+	if(container != null) container.addMenu(this, menu);
+    }
+    
+    public void delMenu(LabObjectView source, org.concord.waba.extra.ui.Menu menu)
+    {
+	if(container != null) container.delMenu(this, menu);
+    }
+
+    public void done(LabObjectView source) {}
+
+    public LObjDictionary getDict(){return null;}
+
 }
