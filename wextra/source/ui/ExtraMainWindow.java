@@ -278,9 +278,11 @@ public class ExtraMainWindow extends MainWindow
 
     this.doubleBuffered=doubleBuffered;
 
+    /*
     if (platform==JAVA)
 
-      setRect(0,0,160,160);
+	      setRect(0,0,160,160);
+    */
 
     super.add(content=new RelativeContainer());
 
