@@ -26,6 +26,7 @@ public class Frame extends java.awt.Frame
 waba.ui.Window wabaWindow = null;
 	void setWabaWindow(waba.ui.Window wabaWindow){
 		this.wabaWindow = wabaWindow;
+		addKeyListener(wabaWindow);
 	}
 
 	public void addNotify(){

@@ -35,13 +35,14 @@ waba.ui.Window wabaWindow = null;
 	public DimaDialog(waba.ui.Window wabaWindow,java.awt.Frame f){
 		super(f);
 		this.wabaWindow = wabaWindow;
+		addKeyListener(wabaWindow);
 	} 
 	public void addNotify(){
 		super.addNotify();
 		wabaWindow.wasAWTAddNotify();
 	}
 }
-public class Window extends Container implements ISurface
+public class Window extends Container implements ISurface, java.awt.event.KeyListener
 {
 WinCanvas _winCanvas;
 
@@ -82,6 +83,21 @@ public Window()
 	jWindow.add("Center", _winCanvas);
 	_winCanvas.requestFocus();
 	}
+
+
+	public void keyPressed(java.awt.event.KeyEvent event){
+		if(_winCanvas != null) _winCanvas.keyPressed(event);
+	}
+
+	public void keyReleased(java.awt.event.KeyEvent event){
+		if(_winCanvas != null) _winCanvas.keyReleased(event);
+	}
+
+	public void keyTyped(java.awt.event.KeyEvent event){
+		if(_winCanvas != null) _winCanvas.keyTyped(event);
+	}
+
+
 
 public java.awt.Graphics createAWTGraphics()
 	{
