@@ -1,2 +1,0 @@
-#!/bin/sh
-~/devtools/fop-0.20.3/fop.sh -fo $1.fo -pdf $1.pdf
