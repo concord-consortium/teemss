@@ -102,8 +102,13 @@ public class TreeControl extends Container implements TreeModelListener
 		TreeLine line;
 		int curY = 0;
 
+
+		g.setColor(0,0,0);
+		g.drawRect(0,0,width,height-1);
+		g.setClip(1,1,width-2,height-3);
+
 		g.setColor(255,255,255);
-		g.fillRect(0,0,width,height);
+		g.fillRect(1,1,width-2,height-3);
 		g.setColor(0,0,0);
 
 		if(numLines == 0) return;
@@ -140,7 +145,6 @@ public class TreeControl extends Container implements TreeModelListener
 		}
 		g.translate(-1,-1);
 
-		g.drawRect(0,0,width,height);
     }
 
     public void setSelected(TreeNode node)
