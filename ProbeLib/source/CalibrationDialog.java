@@ -53,7 +53,7 @@ DeviationControl	devControl;
 		pb.addDataListenerToProb(probe.getName(),this);
 		devControl = new DeviationControl(20.0f);
 		
-		nChannels = probe.getActiveChannels();
+		nChannels = probe.getActiveCalibrationChannels();
 		
 	}
 
@@ -98,7 +98,7 @@ DeviationControl	devControl;
   			waba.fx.Rect contentRect = getContentPane().getRect();
 	 		calTable = new WTable(getWabaWindow());
 	 		CalibrationDesc caldesc = probe.getCalibrationDesc();
-	 		int nRows = caldesc.countParams();
+	 		int nRows = caldesc.countAvailableParams();
 	 		if(calibratedRows == null){
 	 			calibratedRows = new int[nRows];
 	 		}else if(calibratedRows.length != nRows){
@@ -252,6 +252,7 @@ DeviationControl	devControl;
 
 	public void updateProperties(boolean clearKeepers){
 		if(probe == null) return;
+		int oldContainers = nContainers;
  		int nProperties = probe.countProperties();
 		for(int j = 0; j < nProperties; j++){
 			PropObject po = (PropObject)probe.getProperty(j);
@@ -264,6 +265,9 @@ DeviationControl	devControl;
 				((Choice)c).setSelectedIndex(probe.getPropertyValue(j));
 			}
 			if(clearKeepers) po.setValueKeeper(null);
+		}
+		int newContainers = (probe != null && probe.needCalibration())?2:1;
+		if(newContainers != oldContainers){
 		}
 		repaint();
 	}
@@ -361,13 +365,13 @@ DeviationControl	devControl;
 					if((probe != null) && (event.target == bApply)){
 						if(currContainer == PROP_PANE){
 							updateProperties(false);
-							if(nChannels != probe.getActiveChannels()){
-								nChannels = probe.getActiveChannels();
+							if(nChannels != probe.getActiveCalibrationChannels()){
+								nChannels = probe.getActiveCalibrationChannels();
 								calTable = null;
 							}
 						}else{
 		 					CalibrationDesc caldesc = probe.getCalibrationDesc();
-		 					int nRows = caldesc.countParams();
+		 					int nRows = caldesc.countAvailableParams();
 		 					//nChannels
 							float []row1 = new float[nRows];
 							float []calibrated = new float[nRows];

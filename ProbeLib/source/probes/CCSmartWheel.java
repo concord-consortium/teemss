@@ -8,8 +8,8 @@ import org.concord.waba.extra.probware.*;
 public class CCSmartWheel extends CCProb{
 float  			[]wheelData = new float[CCInterfaceManager.BUF_SIZE*2];
 float  			dtChannel = 0.0f;
-int				nTicks = 400;
-float				radius = 0.0599f;
+int				nTicks = 660;
+float				radius = 0.06f;
 float				koeff = 2f*Maths.PI;
 public final static String	wheelModeString = "Output Mode";
 public final static String	[]wheelModes =  {defaultModeName,"Ang. Vel.","Lin. Vel.", "Lin. Pos."};
@@ -146,10 +146,10 @@ int					outputMode = DEFAULT_MODE_OUT;
 		    calibrated = data[nOffset+i]*calFactor;
 		    switch(outputMode){
 		    case LINEAR_MODE_OUT:
-			wheelData[i] = calibrated * radius*koeff;
+			wheelData[i] = calibrated * radius;
 			break;
 		    case LIN_POS_MODE_OUT:
-			wheelData[i] = posOffset = posOffset + calibrated * radius*koeff;
+			wheelData[i] = posOffset = posOffset + calibrated * radius;
 			break;
 		    default:
 			wheelData[i] = calibrated;

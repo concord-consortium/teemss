@@ -6,7 +6,7 @@ import org.concord.waba.extra.probware.*;
 import extra.util.*;
 
 public class CCVoltCurrent extends CCProb{
-float  			[]data = new float[3];
+float  			[]data = new float[2];
 float  			dtChannel = 0.0f;
 float				energy = 0.0f;
 public final static int		CURRENT_OUT 			= 0;
@@ -15,15 +15,15 @@ public final static int		WATT_OUT 			= 2;
 public final static int		ENERGY_OUT 			= 3;
 public final static String [] propNames = {"Port", "Output mode"};
 
-float					zeroPoint						= 1257f;//	mV
-float					zeroPointCurrent				= zeroPoint;//	
-float					zeroPointVoltage				= zeroPoint;//	
+float					zeroPointCurrent				= 1257f;//	
+float					zeroPointVoltage				= 1257f;//	
 float					currentResolution		= 700f; //       mV(reading)/A
 float					voltageResolution		= 650f/20; //     mV(reading)/(true)V
 
 int					outputMode 			= VOLTAGE_OUT;
     String [] portNames = {"A", "B"};
 public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
+
    
    
    
@@ -48,16 +48,19 @@ public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
 		properties[1] = new PropObject(propNames[0], portNames);
 		properties[2] = new PropObject(propNames[1], modelNames);
 		
+		calibrationDesc = new CalibrationDesc();
+		calibrationDesc.addCalibrationParam(new CalibrationParam(0,zeroPointCurrent));
+		calibrationDesc.addCalibrationParam(new CalibrationParam(1,currentResolution));
+		calibrationDesc.addCalibrationParam(new CalibrationParam(2,zeroPointVoltage));
+		calibrationDesc.addCalibrationParam(new CalibrationParam(3,voltageResolution));
 		setPropertyValue(0,samplingModes[CCProb.SAMPLING_24BIT_MODE]);
 		setPropertyValue(1,portNames[0]);
 		setPropertyValue(2,modelNames[1]);
-		calibrationDesc = new CalibrationDesc();
-		calibrationDesc.addCalibrationParam(new CalibrationParam(0,zeroPoint));
 		unit = CCUnit.UNIT_CODE_VOLT;
 		fromConstructor = false;
-
-		
 	}
+
+	public int  getActiveCalibrationChannels(){return 1;}
 	public void setDataDescParam(int chPerSample,float dt){
 		dDesc.setDt(dt);
 		dDesc.setChPerSample(chPerSample);
@@ -97,6 +100,14 @@ public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
 					unit = CCUnit.UNIT_CODE_JOULE;
 					break;
 			}
+			CalibrationParam cp = calibrationDesc.getCalibrationParam(0);
+			if(cp != null) cp.setAvailable(outputMode == CURRENT_OUT);
+			cp = calibrationDesc.getCalibrationParam(1);
+			if(cp != null) cp.setAvailable(outputMode == CURRENT_OUT);
+			cp = calibrationDesc.getCalibrationParam(2);
+			if(cp != null) cp.setAvailable(outputMode == VOLTAGE_OUT);
+			cp = calibrationDesc.getCalibrationParam(3);
+			if(cp != null) cp.setAvailable(outputMode == VOLTAGE_OUT);
 		}
 		return  super.setPValue(p,value);
 	}
@@ -128,13 +139,13 @@ public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
 		switch(outputMode){
 			case CURRENT_OUT:
 				data[0] = (dataEvent[nOffset] - zeroPointCurrent)/currentResolution;
+				data[1] = dataEvent[nOffset];
 				break;
 			case VOLTAGE_OUT:
 				data[0] = (dataEvent[nOffset+1] - zeroPointVoltage)/voltageResolution;
+				data[1] = dataEvent[nOffset+1];
 				break;
 		}
-		data[1] = dataEvent[nOffset];
-		data[2] = dataEvent[nOffset+1];
 	}else{
 		int  	chPerSample = e.dataDesc.getChPerSample();
 		for(int i = 0; i < ndata; i+=chPerSample){
@@ -164,25 +175,35 @@ public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
 	notifyDataListeners(dEvent);
 	return true;
     }
+    
+	protected void writeInternal(extra.io.DataStream out){
+	}
+	protected void readInternal(extra.io.DataStream in){
+	}
+	
 	public void  calibrationDone(float []row1,float []row2,float []calibrated){
 		if(outputMode != CURRENT_OUT && outputMode != VOLTAGE_OUT) return;
-		if((row1 == null && (outputMode == CURRENT_OUT)) || calibrated == null) return;
-		if((row2 == null && (outputMode == VOLTAGE_OUT)) || calibrated == null) return;
+		if(row1 == null  || calibrated == null) return;
+		float zeroPoint = (calibrated[0]*row1[1] - calibrated[1]*row1[0])/(calibrated[0] - calibrated[1]);
+		float resolution = (row1[0] - zeroPoint)/calibrated[0];
+		
 		if(outputMode == CURRENT_OUT){
-			zeroPointCurrent = row1[0]  - calibrated[0]*currentResolution;
-			zeroPoint = zeroPointCurrent;
+			zeroPointCurrent 		= zeroPoint;
+			currentResolution 		= resolution;
 			if(calibrationDesc != null){
 				CalibrationParam p = calibrationDesc.getCalibrationParam(0);
-				if(p != null) p.setValue(zeroPoint);
+				if(p != null) p.setValue(zeroPointCurrent);
+				p = calibrationDesc.getCalibrationParam(1);
+				if(p != null) p.setValue(currentResolution);
 			}
 		}else if(outputMode == VOLTAGE_OUT){
-			zeroPointVoltage = row2[0]  - calibrated[0]*voltageResolution;
-			
-			
-			zeroPoint = zeroPointVoltage;
+			zeroPointVoltage 		= zeroPoint;
+			voltageResolution 		= resolution;
 			if(calibrationDesc != null){
-				CalibrationParam p = calibrationDesc.getCalibrationParam(0);
-				if(p != null) p.setValue(zeroPoint);
+				CalibrationParam p = calibrationDesc.getCalibrationParam(2);
+				if(p != null) p.setValue(zeroPointVoltage);
+				p = calibrationDesc.getCalibrationParam(3);
+				if(p != null) p.setValue(voltageResolution);
 			}
 		}
 	}
@@ -190,9 +211,19 @@ public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
 		if(calibrationDesc == null) return;
 		CalibrationParam p = calibrationDesc.getCalibrationParam(0);
 		if(p != null && p.isValid()){
-			zeroPoint = p.getValue();
-			zeroPointCurrent = zeroPoint;
-			zeroPointVoltage = zeroPoint;
+			zeroPointCurrent = p.getValue();
+		}
+		p = calibrationDesc.getCalibrationParam(1);
+		if(p != null && p.isValid()){
+			currentResolution = p.getValue();
+		}
+		p = calibrationDesc.getCalibrationParam(2);
+		if(p != null && p.isValid()){
+			zeroPointVoltage = p.getValue();
+		}
+		p = calibrationDesc.getCalibrationParam(3);
+		if(p != null && p.isValid()){
+			voltageResolution = p.getValue();
 		}
 	}
 

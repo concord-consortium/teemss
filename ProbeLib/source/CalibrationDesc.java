@@ -6,13 +6,23 @@ waba.util.Vector params = null;
 		params = new waba.util.Vector();
 	}
 	
-	public int countParams(){
+	public int countTotalParams(){
 		return params.getCount();
 	}
 	
+	public int countAvailableParams(){
+		int retValue = 0;
+		for(int i = 0; i < countTotalParams(); i++){
+			CalibrationParam cp = (CalibrationParam)params.get(i);
+			if(cp == null) continue;
+			if(cp.isAvailable()) retValue++;
+		}
+		return retValue;
+	}
+	
 	public CalibrationParam getCalibrationParam(int index){
-		if(countParams() < 1) return null;
-		for(int i = 0; i < countParams(); i++){
+		if(countTotalParams() < 1) return null;
+		for(int i = 0; i < countTotalParams(); i++){
 			CalibrationParam cp = (CalibrationParam)params.get(i);
 			if(cp == null) continue;
 			if(cp.getIndex() == index){
@@ -26,8 +36,8 @@ waba.util.Vector params = null;
 		params.add(cp);
 	}
 	public void writeExternal(extra.io.DataStream out){
-		out.writeInt(countParams());
-		for(int i = 0; i < countParams(); i++){
+		out.writeInt(countTotalParams());
+		for(int i = 0; i < countTotalParams(); i++){
 			CalibrationParam cp = (CalibrationParam)params.get(i);
 			out.writeBoolean(cp != null);
 			if(cp == null) continue;

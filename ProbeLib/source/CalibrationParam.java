@@ -5,6 +5,7 @@ boolean   valid = false;
 float      value = 0.0f;
 float     defaultValue = 1.0f;
 int		index = 0;
+boolean   available = true;
 	public CalibrationParam(){
 		this(0,1.0f);
 		valid = false;
@@ -14,6 +15,7 @@ int		index = 0;
 	}
 	public CalibrationParam(extra.io.DataStream in){
 		valid = true;
+		available = true;
 		readExternal(in);
 	}
 	public CalibrationParam(int index,float defaultValue){
@@ -29,6 +31,8 @@ int		index = 0;
 	}
 	
 	public boolean isValid(){return valid;}
+	public boolean isAvailable(){return available;}
+	public void setAvailable(boolean available){this.available =  available;}
 	
 	public float getValue(){return value;}
 	public void setValue(float value){

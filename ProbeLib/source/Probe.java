@@ -54,11 +54,12 @@ DataListener calibrationListener = null;
 	public void setInterfacePort(int interfacePort){this.interfacePort =  interfacePort;}
 	
 
-	public boolean needCalibration(){return (calibrationDesc != null);}
+	public boolean needCalibration(){return ((calibrationDesc != null) && (calibrationDesc.countAvailableParams() > 0));}
 	public CalibrationDesc getCalibrationDesc(){return calibrationDesc;}
 	public void setCalibrationDesc(CalibrationDesc calibrationDesc){this.calibrationDesc = calibrationDesc;}
 
 	public int	getActiveChannels(){return activeChannels;}
+	public int	getActiveCalibrationChannels(){return getActiveChannels();}
 	public void	setActiveChannels(int activeChannels){this.activeChannels = activeChannels;}
 
 	public void setCalibrationListener(DataListener calibrationListener){
@@ -200,9 +201,13 @@ DataListener calibrationListener = null;
 			}
 		}
 		out.writeInt(PROPERTIES_PROB_END);
-		
-		
+		writeInternal(out);
 	}
+	protected void writeInternal(extra.io.DataStream out){
+	}
+	protected void readInternal(extra.io.DataStream in){
+	}
+	
 	public void readExternal(extra.io.DataStream in){
 		int temp = in.readInt();
 		if(temp != CALIBRATION_PROB_START) return;
@@ -224,6 +229,7 @@ DataListener calibrationListener = null;
 			}
 		}
 		temp = in.readInt();//PROPERTIES_PROB_END
+		readInternal(in);
 	}
 	public void calibrationDescReady(){}
 	
