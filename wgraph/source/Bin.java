@@ -63,6 +63,7 @@ public class Bin
 	int drawnCurX;
 	int drawnRemainder;
 	int drawnRemainderSum;
+	int drawnPtRemainderSum;
 	int drawnDenom;
 
 	Annotation delAnnot = null;
@@ -419,6 +420,7 @@ public class Bin
 			drawnDenom = 10000;
 		}
 		drawnRemainderSum = 0;
+		drawnPtRemainderSum = 0;
 		drawnCurX = 0;
 	}
 
@@ -521,13 +523,6 @@ public class Bin
 
 		if(!visible)return;
 
-		/*
-		if(xaxis.estimateScale || yaxis.estimateScale){
-			drawEst(g);
-			return;
-		}
-		*/
-
 		if(xa.drawnX == -1) return;
 
 		if(xaxis.estimateScale || yaxis.estimateScale){
@@ -543,7 +538,7 @@ public class Bin
 		int xOffset = (int)((xa.dispMin - refX) * xa.scale);
 		int xTrans = xa.drawnX - xOffset + xa.axisDir;
 		int yTrans = (int)((refY - yaxis.dispMin) * yaxis.scale) + yaxis.drawnY + yaxis.axisDir;
-	    int ptRemainderSum = remainderSum;
+	    int ptRemainderSum = drawnPtRemainderSum;
 		int drRemainderSum = drawnRemainderSum;
 
 		g.translate(xTrans, yTrans);
@@ -569,6 +564,7 @@ public class Bin
 			i++;
 			for(; i<lastOffset;){
 				drawnRemainderSum = drRemainderSum;
+				drawnPtRemainderSum = ptRemainderSum;
 				while(ptRemainderSum/denom == 0){
 					ptRemainderSum += remainder;
 					drRemainderSum += remainder;
@@ -578,9 +574,10 @@ public class Bin
 				curY = points[i++] * yNum / FIXED_PT_DENOM;
 				i++;
 					
-				if(newX > (xOffset - 1) && newX <= (xOffset + xa.dispLen))
+				if(newX > (xOffset - 1) && newX <= (xOffset + xa.dispLen)){
 					g.drawLine(lastX, lastY, newX, curY);
-				
+				}				
+
 				lastY = curY;
 				drawnCurX = lastX;		
 				lastX = newX;
@@ -593,6 +590,7 @@ public class Bin
 			i++;
 			for(;i<lastOffset;){
 				drawnRemainderSum = drRemainderSum;
+				drawnPtRemainderSum = ptRemainderSum;
 				while(ptRemainderSum/denom == 0){
 					ptRemainderSum += remainder;
 					drRemainderSum += remainder;
@@ -602,9 +600,10 @@ public class Bin
 				curY = points[i++];
 				i++;
 				
-				if(newX > (xOffset - 1) && newX <= (xOffset + xa.dispLen))
+				if(newX > (xOffset - 1) && newX <= (xOffset + xa.dispLen)){
 					g.drawLine(lastX, lastY, newX, curY);
-				
+				}
+
 				lastY = curY;
 				drawnCurX = lastX;		
 				lastX = newX;
@@ -618,8 +617,6 @@ public class Bin
 
 		lastDrawnPoint = numPoints - 1;
 	}
-
-
 }
 
 
