@@ -4,9 +4,9 @@ import waba.fx.*;
 public class ColorAxis extends Axis
 {
 	
-    public ColorAxis(float minValue, float max, int len)
+    public ColorAxis(float minValue, float max, int len, int type)
     {
-	super(minValue, max, len);
+	super(minValue, max, len, type);
     }
 
     public void setTempColor(Graphics graphics, float temp)

@@ -19,15 +19,20 @@ public class GraphViewBar extends GraphView
     PropPage yAxisPage;
     BarGraph bGraph;
 
+    FloatConvert fConvert = new FloatConvert();
+
     public GraphViewBar(int w, int h)
     {
 	super(w,h);
+
+	fConvert.maxDigits = 4;
+	fConvert.minDigits = 2;
 
 	range = DEFAULT_RANGE;
 	minValue = DEFAULT_MIN;
 
 	graph = bGraph = new BarGraph(w, h);
-	graph.setYRange(minValue, range);
+	bGraph.setYRange(minValue, range);
 	
 	units = new String("C");
 	
@@ -44,9 +49,9 @@ public class GraphViewBar extends GraphView
 	if(pp == yAxisPage){
 	    switch(action){
 	    case PropPage.UPDATE:
-		minValue = Convert.toFloat(((Edit)(pp.props.get(0))).getText());
-		range = Convert.toFloat(((Edit)(pp.props.get(1))).getText()) - minValue;
-		graph.setYRange(minValue, range);
+		minValue = fConvert.toFloat(((Edit)(pp.props.get(0))).getText());
+		range = fConvert.toFloat(((Edit)(pp.props.get(1))).getText()) - minValue;
+		bGraph.setYRange(minValue, range);
 		length = 0;
 		repaint();
 		break;
@@ -98,7 +103,7 @@ public class GraphViewBar extends GraphView
 			    draw();
 
 			if(selBar != null)
-			    postEvent(new Event(1000, this, 0));
+			    postEvent(new ControlEvent(1000, this));
 
 		    }
 		    
@@ -134,7 +139,7 @@ public class GraphViewBar extends GraphView
 		    if(e.type == PenEvent.PEN_UP){
 			yAxisDown = false;
 			barDown = false;
-			postEvent(new Event(1001, this, 0));
+			postEvent(new ControlEvent(1001, this));
 		    }
 		    break;		    
 		}

@@ -5,33 +5,6 @@ import waba.fx.*;
 import waba.io.*;
 import waba.sys.*;
 import waba.util.*;
-
-class Bin
-{
-    public final static int START_DATA_SIZE = 10000;
-
-    int [] points;
-    float [] values;
-    int numPoints;
-    int lastPlottedPoint;
-    int c;
-    int collection;
-    Axis xaxis;
-    int [] binPtr;
-    int lastPlottedY;
-    int lastPlottedX;
-    int curX;
-    int sumY;
-    int numXs;
-
-    public Bin()
-    {
-	points = new int [START_DATA_SIZE*2];
-	values = new float [START_DATA_SIZE*2];
-	numPoints = 0;
-	lastPlottedPoint = -1;
-    }
-}
     
 public class LineGraph extends Graph2D
 {
@@ -55,21 +28,20 @@ public class LineGraph extends Graph2D
     Axis firstXaxis = null;
     int numXaxis;
     float xRange;
-    float xScale, xScaleLast;
+    float xScale;
     float yScale;
 
     public ColorAxis yaxis = null;
     int platform = 0;
 
     int width, height;
-    public float minX, minY, maxX, maxY;
 
-    int [] lineColors = { 255, 0, 0,   // red
-			  0, 255, 0,   // green
-			  0, 0, 255,   // blue
-			  255, 255, 0, // yellow
-			  255, 0, 255, // purple
-			  0, 255, 255,}; // turquois
+    int [][] lineColors = { {255, 0, 0},   // red
+			    {0, 255, 0},   // green
+			    {0, 0, 255},   // blue
+			    {255, 255, 0}, // yellow
+			    {255, 0, 255}, // purple
+			    {0, 255, 255},}; // turquois
 
     protected int length = 0;
 
@@ -78,47 +50,50 @@ public class LineGraph extends Graph2D
     int numBins = 0;
     int binStorSize = 0;
 
-    Image buffer = null;
-    JGraphics bufG;
-
     Vector annots = new Vector();
     Bin curBin;
     Bin binArray [];
 
     TextLine yExpLabel = new TextLine("", TextLine.UP);
 
+    boolean axisFlipped = false;
+    Object [][] graphLayout = new Object[3][3];
+    Object annotSection = new Object();
+
+    // These hold the top left corner of the dataWin in 
+    // screen coord.
+    int dwX, dwY;
+
+    public boolean profile = false;
+
     public LineGraph(int w, int h)
     {
 	int i;
 	width = w;
 	height = h;
+	dwX = 36;
+	dwY = 10;
 
-	dwWidth = w - 40 - 10;
-	dwHeight = h - 30 - 10;
-	xaxis = new Axis(X_MIN, X_MAX, dwWidth);
-	xaxis.ticDir = 1;
-	xaxis.orient = Axis.X_SCREEN_AXIS;
-	xaxis.labelOff = 7;
-	xaxis.labelEdge = TextLine.TOP_EDGE;
+	dwWidth = w - dwX - 10;
+	if(profile)
+	    dwHeight = h - dwY - 30;
+	else
+	    dwHeight = h - dwY - 20;
+
+	xaxis = new Axis(X_MIN, X_MAX, dwWidth, Axis.BOTTOM);
 	xOriginOff = 35;
 	xaxis.gridEndOff=-dwHeight+1;
-	xaxis.minMajTicSpacing = 40;
+	xaxis.max = (float)1E30;  // some huge number 
 
 	xaxisArray[0] = xaxis;
 	numXaxis = 1;
 	xRange = X_MAX - X_MIN;
-	xScale = xScaleLast = xaxis.scale;
+	xScale = xaxis.scale;
 	firstXaxis = xaxis;
 
-	yaxis = new ColorAxis(Y_MIN, Y_MAX, -dwHeight);
-	yaxis.ticDir = -1;
-	yaxis.orient = Axis.Y_SCREEN_AXIS;
-	yaxis.labelOff = -7;
-	yaxis.labelEdge = TextLine.RIGHT_EDGE;
-	yaxis.axisDir = -1;
-	yOriginOff = h - 30;
+	yaxis = new ColorAxis(Y_MIN, Y_MAX, -dwHeight, Axis.LEFT);
+	yOriginOff = dwHeight + dwY;
 	yaxis.gridEndOff=dwWidth-1;
-	yaxis.gridDir = 1;
 
 	int newSize = DEFAULT_STOR_SIZE;
 	binStorSize = newSize;
@@ -127,8 +102,12 @@ public class LineGraph extends Graph2D
 
 	reset();
 
-	buffer = new Image(w, h);
-	bufG = new JGraphics(buffer);
+	graphLayout[0][0] = graphLayout[1][0] = graphLayout[2][0] = annotSection;
+	graphLayout[0][1] = yaxis;
+	graphLayout[1][1] = this;
+	graphLayout[1][2] = xaxis;
+	graphLayout[2][1] = graphLayout[0][2] = graphLayout[2][2] = null;
+
     }
 
     // need to find correct axis
@@ -161,31 +140,40 @@ public class LineGraph extends Graph2D
 	return addAnnot(label, time, xaxis);
     }
 
-
-    public Annotation addAnnot(String label, float time, Axis xa)
+    public boolean getValue(float time, Axis xa, float []value)
     {
-	float value;
 	int i,k;
 	Bin bin = null;
-	boolean valid = false;
+	boolean valid = true;
+	boolean atLeastOne = false;
 	Annotation a = null;
-
+	float [] binValue = new float [1];
+	
 	i = 0;
 	for(k=0; k<numBins; k++){
 	    bin = binArray[k];
+
 	    if(xa == bin.xaxis){
-		for(i = 0; i < bin.numPoints; i++){
-		    if(time - bin.values[i*2] < (float)0.01){
-			valid = true;
-			break;
-		    }
-		}
-		break;
+		valid = valid && bin.getValue(time, binValue);
+		value [i] = binValue[0];
+		i++;
 	    }
 	}
 
+	return valid && (i > 0);
+    }
+
+
+    float []  tempVal = new float[1];
+    public Annotation addAnnot(String label, float time, Axis xa)
+    {
+	Annotation a = null;
+	boolean valid;
+
+	valid = getValue(time, xa, tempVal);
+
 	if(valid){
-	    a = new Annotation(label, time, bin.values[i*2+1], xa);
+	    a = new Annotation(label, time, tempVal[0], xa);
 	    annots.add(a);	
 	}
 	
@@ -198,16 +186,23 @@ public class LineGraph extends Graph2D
 	int i;
 	Annotation a;
 	int pos;
+	int xPos;
+	int valPos;
 
 	for(i=0; i<annotObj.length; i++){
 	    a = (Annotation)annotObj[i];
 	    if(a.xaxis.drawnX != -1){
 		pos = (int)((a.time - a.xaxis.dispMin) * a.xaxis.scale);
 		if((pos*a.xaxis.axisDir >= 0) && 
-		   (pos*a.xaxis.axisDir < a.xaxis.axisDir*a.xaxis.dispLen)){ 
-		    a.draw(g, 
-			   pos + a.xaxis.drawnX + a.xaxis.axisDir - a.width/2, 
-			   annotTopY);
+		   (pos*a.xaxis.axisDir < a.xaxis.axisDir*a.xaxis.dispLen)){
+		    xPos = pos + a.xaxis.drawnX + a.xaxis.axisDir;
+		    a.draw(g, xPos- a.width/2, annotTopY);
+		    if(a.selected){
+			g.setColor(0,0,0);
+			g.drawLine(xPos, dwY, xPos, dwY + dwHeight - 1);
+			valPos = (int)((a.value - yaxis.min) * yaxis.scale) + yaxis.drawnOffset;
+			g.drawLine(dwX, valPos, dwX + dwWidth - 1, valPos);
+		    }
 		}
 	    }
 	}
@@ -216,15 +211,14 @@ public class LineGraph extends Graph2D
     public void resize(int w, int h){}
 
     // return the maximum x offset plotted
-    public int plot(JGraphics g)
+    public int plot(Graphics g)
     {
 	int i,j,k;
 	int lastOffset, lastPlottedOffset;
 	int [] binPoints;
-	int lastX, lastY, nextX, nextY;
+	int lastX, lastY, curX, curY;
 	Bin bin;
 	Axis xa;
-	int curX, numXs, sumY;
 
 	// set the clipping region
 	g.setClip(xOriginOff+1, yOriginOff-dwHeight, dwWidth, dwHeight);
@@ -233,73 +227,52 @@ public class LineGraph extends Graph2D
 	    bin = binArray[k];
 	    xa = bin.xaxis;
 
-	    if(bin.numPoints == 0 || xa.drawnX == -1)
-		continue;
+	    if(xa.drawnX == -1) continue;
+
+	    bin.update();
+
+	    if(bin.numPoints < 2) continue;
 	    
 	    binPoints = bin.points;
-	    lastOffset = bin.numPoints*2;
+	    lastOffset = bin.numPoints*3;
 	    
+	    g.setColor(bin.color[0], bin.color[1], bin.color[2]);
+	    int xOffset = (int)((xa.dispMin - bin.refX) * xa.scale);
+	    int xTrans = xa.drawnX - xOffset + xa.axisDir;
+	    int yTrans = (int)((bin.refY - yaxis.dispMin) * yaxis.scale) + yaxis.drawnY + yaxis.axisDir;
+	    g.translate(xTrans, yTrans);
+
 	    if(bin.lastPlottedPoint == -1){
-		// No points have been plotted yet
-		sumY = 0;
-		numXs = 0;
-		curX = binPoints[0];
-
-		for(i=0; i<lastOffset && binPoints[i] == curX; i+= 2){
-		    sumY += binPoints[i+1];
-		    numXs++;
-		}
-
-		if(i >= lastOffset) {
-		    return 0;
-		} else {
-		    lastY = sumY / numXs;
-		    lastX = curX;
-		    curX = binPoints[i];
-		    sumY = 0;
-		    numXs = 0;
-		} 
-
+		i=0;
+		lastX = binPoints[i++];
+		lastY = binPoints[i++];
+		i++;
+		
 	    } else {
 		lastY = bin.lastPlottedY;
 		lastX = bin.lastPlottedX;
-		curX = bin.curX;
-		sumY = bin.sumY;
-		numXs = bin.numXs;
-		i=bin.lastPlottedPoint*2 + 2;
+		i=bin.lastPlottedPoint*3 + 3;
+		
 	    }
-		
-	    g.setColor(lineColors[bin.c*3], lineColors[bin.c*3+1], lineColors[bin.c*3+2]);
-	    g.translate(xa.drawnOffset, yaxis.drawnOffset);
 
-	    for(; i<lastOffset; i+=2){
-		nextX = binPoints[i];
-
-		if(nextX == curX){
-		    sumY += binPoints[i+1];
-		    numXs++;
-		    continue;
-		}
+	    for(; i<lastOffset;){
+		curX = binPoints[i++];
+		curY = binPoints[i++];
+		i++;
 		
-		nextY = sumY / numXs;
-		if(curX > (xa.dispOffset - 1) && curX <= (xa.dispOffset + xa.dispLen))
-		    g.drawLine(lastX, lastY, curX, nextY);
+		if(curX > (xOffset - 1) && curX <= (xOffset + xa.dispLen))
+		    g.drawLine(lastX, lastY, curX, curY);
 		
-		lastY = nextY;
+		lastY = curY;
 		lastX = curX;
-		curX = nextX;
-		sumY = binPoints[i+1];	       
-		numXs = 1;
 	    }
 	    
+	    g.translate(-xTrans, -yTrans);
+
 	    bin.lastPlottedPoint = bin.numPoints - 1;
 	    bin.lastPlottedY = lastY;
 	    bin.lastPlottedX = lastX;
-	    bin.curX = curX;
-	    bin.sumY = sumY;
-	    bin.numXs = numXs;
 
-	    g.translate(-xa.drawnOffset, -yaxis.drawnOffset);
 	}
 
 	g.clearClip();
@@ -334,20 +307,18 @@ public class LineGraph extends Graph2D
     }
 
     public void setYRange(float min, float range)
-    {
-	yaxis.dispMin = min;
-	yaxis.setScale((yaxis.dispLen - yaxis.axisDir)/ range);
+    {       
+	yaxis.setDispMin(min);
 
-	needRecalc = true;
+	if(yaxis.scale != range){
+	    yaxis.setScale((yaxis.dispLen - yaxis.axisDir)/ range);
+	    needRecalc = true;
+	}
     }  
 
     public void setYMin(float min)
     {
-	if(min < yaxis.min){
-	    needRecalc = true;
-	}
-
-	yaxis.dispMin = min;
+	yaxis.setDispMin(min);
     }
 	
 
@@ -356,15 +327,14 @@ public class LineGraph extends Graph2D
 
     public void setXRange(float min, float range)
     {
-	xaxis.min = min;
-	setXscale(xaxis.dispLen / range);
-	xRange = range;
+	xaxis.setDispMin(min);
+	setXRange(range);
     }
 
     public void setXRange(float range)
     {
 	if(range != xRange){
-	    setXscale(xaxis.dispLen / range);
+	    setXscale(dwWidth / range);
 	    needRecalc = true;
 	    xRange = range;
 	}
@@ -379,16 +349,16 @@ public class LineGraph extends Graph2D
 	int curStartPos;
 	float max;
 
-	xaxis.min = min;
-	if(range != xRange){
-	    setXscale(xaxis.dispLen / range);
-	    xRange = range;
-	    needRecalc = true;
-	}
-
+	// We'll just blow this off for now
+	setXRange(min, range);
     }
 
     int xaxisStartPos = 0;
+    /* 
+     * This is a very tricky piece of code where we change
+     * the xScale.  However we need to keep the xaxisStartPos
+     * in the same place
+     */
     public void setXscale(float newScale)
     {
 	int i;
@@ -399,22 +369,24 @@ public class LineGraph extends Graph2D
 
 	xScale = newScale;
 	needRecalc = true;
-	for(i =0; i < numXaxis; i++){
+	for(i =0; i < numXaxis-1; i++){
 	    xa = xaxisArray[i];
 	    if(newXaxisStartPos == -1 &&
-	       xaxisStartPos < (oldScaleSP + xa.length)){
+	       xaxisStartPos < (oldScaleSP + (int)(xa.max * xa.scale))){
 		newXaxisStartPos = curStartPos + (int)(xa.dispMin * xScale);
 	    }
-	    oldScaleSP += 10 + xa.length;
-	    xa.length = (int)((xa.max - xa.min)* xScale);
+	    oldScaleSP += 10 + xa.dispMin * xScale + xa.dispLen;
 	    xa.setScale(xScale);
-	    curStartPos += 10 + xa.length;
+	    curStartPos += 10 + (int)(xa.max * xa.scale);
 	}
 
-	if(newXaxisStartPos != -1){
-	    xaxisStartPos = newXaxisStartPos;
+	xa = xaxisArray[i];
+	xa.setScale(xScale);
+	if(newXaxisStartPos == -1){
+	    newXaxisStartPos = curStartPos + (int)(xa.dispMin * xScale);
 	}
 
+	xaxisStartPos = newXaxisStartPos;
     }
 
     public void setYscale(float scale)
@@ -424,14 +396,17 @@ public class LineGraph extends Graph2D
 	needRecalc = true;
     }
 
-    public void scroll(int dist)
+    public void scroll(int xDist, int yDist)
     {
 
-	xaxisStartPos += dist;
+	xaxisStartPos += xDist;
 	if(xaxisStartPos < 0){
 	    xaxisStartPos = 0;
 	}
 
+	if(yDist != 0){
+	    yaxis.setDispMin(yaxis.dispMin + yDist / yaxis.scale);
+	}
     }
 
     public void incBinStor()
@@ -446,223 +421,193 @@ public class LineGraph extends Graph2D
 	binStorSize = newSize;
     }
 
-    public void endCollection()
-    {
-	int i;
-
-	if(maxX < 0 || curBin.numPoints < 3) return;
-
-	xaxis.min = minX;
-	xaxis.length = (int)((maxX - minX) * xaxis.scale);
-	xaxis.max = maxX;
-	xaxis.fixedLength = true;
-
-	if(numXaxis >= xaxisArray.length){
-	    Axis [] newAxis = new Axis[(numXaxis * 3)/ 2];
-	    Vm.copyArray(xaxisArray, 0, newAxis, 0, numXaxis);
-	    xaxisArray = newAxis;
-	} 
-	xaxisArray[numXaxis] = xaxis = new Axis(X_MIN, dwWidth, xaxis.scale);
-	xaxis.ticDir = 1;
-	xaxis.orient = Axis.X_SCREEN_AXIS;
-	xaxis.labelOff = 7;
-	xaxis.labelEdge = TextLine.TOP_EDGE;
-	xaxis.gridEndOff=-dwHeight+1;
-	xaxis.minMajTicSpacing = 40;
-
-	numXaxis++;
-
-	Object [] binObjs = activeBins.toObjectArray();
-	for(i=0; i < binObjs.length; i++){
-	    addBin(0, binObjs[i]);
-	    activeBins.del(0);
-	    //	    ((Bin)binObjs[i]).
-	}
-
-	minX = minY = 1;
-	maxX = maxY = -1;
-
-	for(i=0; i<100; i++){
-	    minX *= (float)10;
-	    maxX *= (float)10;
-	    minY *= (float)10;
-	    maxY *= (float)10;
-	}
-
-	startPosChanged = true;
-	needRecalc = true;
-    }
-    
-    public Object addBin(int location, Object oldPtr)
-    {
-	Bin oldBin = (Bin)oldPtr;
-	Object newPtr = addBin(0, "");
-	int [] newBinPtr = (int [])newPtr;
-	Bin newBin = binArray[newBinPtr[0]];
-
-	newBin.c = oldBin.c;
-	oldBin.binPtr[0] = newBin.binPtr[0];
-	newBin.binPtr = oldBin.binPtr;
-	return newPtr;
-    }
-
-
     // return a Object linked to this location
     // we are ignoring location for now
-    public Object addBin(int location, String label)
+    public Bin addBin(int location, String label, boolean newCollection)
     {
-	int [] binPtr = new int [1];
 	Bin bin;
+
+	// We need to add a new xaxis
+	if(newCollection){
+
+	    // This is a hack 
+	    if(curBin.maxX < 0 || curBin.numPoints < 3){
+		curBin.reset();
+		return curBin;
+	    }
+
+	    // Technically this should search through all the active bins
+	    // and get the max
+	    xaxis.max = curBin.maxX;
+
+	    if(numXaxis >= xaxisArray.length){
+		Axis [] newAxis = new Axis[(numXaxis * 3)/ 2];
+		Vm.copyArray(xaxisArray, 0, newAxis, 0, numXaxis);
+		xaxisArray = newAxis;
+	    } 
+	    xaxisArray[numXaxis] = xaxis = new Axis(X_MIN, dwWidth, xaxis.scale, Axis.BOTTOM);
+	    xaxis.gridEndOff=-dwHeight+1;
+	    xaxis.max = (float)1E30;  // some huge number 
+
+	    graphLayout[1][2] = xaxis;
+	    numXaxis++;
+
+	    activeBins = new Vector();
+
+	    startPosChanged = true;
+	    needRecalc = true;	    
+	}
 
 	if(numBins >= binStorSize){
 	    incBinStor();
 	}
 
 	// setup points, reset to the begining of the graph
-	binPtr[0] = numBins;
-	binArray[numBins] = curBin = new Bin();	
+	binArray[numBins] = curBin = new Bin(this);	
 	curBin.xaxis = xaxis;
-	curBin.c = activeBins.getCount();
-	curBin.binPtr = binPtr;
+	curBin.yaxis = yaxis;
+	curBin.color = lineColors[activeBins.getCount()];
+	curBin.minX = 0f;
+
+	// This is a hack
+	curBin.minY = -100f;
 
 	numBins++;
 	activeBins.add(curBin);
 
-	return binPtr;
+	return curBin;
     }
 
-    void drawXaxis(JGraphics g, int x, int y)
+    void drawXaxis(Graphics g)
     {
 	int xaxisOffset = xOriginOff;
 	int curStartPos = 0;
 	Axis xa;
-	int aRange;
-	int aDispRange;
-	float aMax, aMin;
+	int axisLen;
 	int i;
 
-	xRange = dwWidth / xScale;
-	
+	// System.out.println("Drawing x axis");
+	xRange = dwWidth / xScale;	
 	curStartPos = 0;
-	// first figure out which axis to start with
-	for(i = 0; i<(numXaxis-1); i++){
+
+	// Find the first visible axis
+	// And set all the axis drawnX to -1;
+	int firstVisible = -1;
+	int xaScMax;
+
+	for(i=0;i<numXaxis;i++){
 	    xa = xaxisArray[i];
-	    if(xaxisStartPos < (curStartPos + xa.length)){
-		// We've got a winner draw the axis
-		xa.dispOffset = xaxisStartPos - curStartPos;
-		aDispRange = xa.length - xa.dispOffset;
-		if(aDispRange >= dwWidth){
-		    xa.dispLen = dwWidth;
-		} else {
-		    g.setColor(0,0,0);
-		    g.drawLine(x + xaxisOffset + aDispRange + 1, y+yOriginOff, 
-			       x+xaxisOffset + aDispRange + 1, y+yOriginOff - dwHeight);
-		    xa.dispLen = aDispRange;
+	    xa.drawnX = -1;
+	    if(xa.max > (float)1E25)
+		// This is the active axis
+		xaScMax = (int)0x7FFFFFF - curStartPos - 10;
+	    else
+		xaScMax = (int)(xa.max * xa.scale);
+	    if(firstVisible == -1){
+		if(xaxisStartPos < (curStartPos + xaScMax)){
+		    firstVisible = i;
+		    // Once we found a visible one we need to leave the
+		    // curStartPos at the begining of this axis
+		    continue;
 		}
-		xa.draw(g, x + xaxisOffset, y+ yOriginOff);
-		curStartPos += xa.length;
-		curStartPos += 10;
-		i++;
-		break;
-	    } else {
-		xa.drawnX = -1;
-		curStartPos += xa.length + 10;
-		if(xaxisStartPos < curStartPos){
-		    i++;
-		    break;
-		}
+		curStartPos += xaScMax + 10;
 	    }
 	}
 
-	for(;i<(numXaxis-1);i++){
-	    if((curStartPos - xaxisStartPos) >= dwWidth){
-		//our work is done
-		xaxisArray[i].drawnX = -1;
-		continue;
-	    }
-	    // draw the next axis
-	    g.setColor(0,0,0);
-	    g.drawLine(x + xaxisOffset + curStartPos - xaxisStartPos, y+yOriginOff, 
-		       x+xaxisOffset + curStartPos - xaxisStartPos, y+yOriginOff - dwHeight);	    
-	    curStartPos++;
+	if(firstVisible == -1){
+	    //	    System.out.println("No visible xaxis??");
+	    return;
+	}
+
+	int endPoint = xaxisStartPos + dwWidth;
+	int dispOffset = 0;
+	for(i=firstVisible;i<numXaxis;i++){
 	    xa = xaxisArray[i];
-	    xa.dispOffset = 0;
-	    if((xa.length + (curStartPos - xaxisStartPos)) >= dwWidth){
-		xa.dispLen = aDispRange = dwWidth - (curStartPos - xaxisStartPos);	      
-	    } else {
-		xa.dispLen = aDispRange = xa.length;	       
-		g.setColor(0,0,0);
-		g.drawLine(x + xaxisOffset + curStartPos - xaxisStartPos + aDispRange + 1, y+yOriginOff, 
-			   x + xaxisOffset + curStartPos - xaxisStartPos + aDispRange + 1, y+yOriginOff - dwHeight);
+	    if(curStartPos >= endPoint){
+		//our drawing work is done
+		//we still need to set the remaining axis drawnX to -1
+		break;
 	    }
-	    xa.draw(g, x + xaxisOffset + (curStartPos - xaxisStartPos), y+ yOriginOff);
-	    curStartPos += aDispRange + 10;
+
+	    g.setColor(0,0,0);
+	    if(curStartPos < xaxisStartPos){
+		// This axis starts before the visible area so we need to offset it
+		dispOffset = xaxisStartPos - curStartPos;
+		xa.setDispOffset(X_MIN, dispOffset);
+		curStartPos = xaxisStartPos;
+		if(xa.max > (float)1E25){
+		    // this is the active axis
+		    axisLen = dwWidth;
+		} else {
+		    axisLen = (int)(xa.max * xa.scale) - dispOffset;
+		}
+	    } else {
+		// The axis starts in the visible area
+		// Need to draw the beginning line of the axis
+		// draw the next axis
+		g.drawLine(xaxisOffset + curStartPos - xaxisStartPos, yOriginOff, 
+			   xaxisOffset + curStartPos - xaxisStartPos, yOriginOff - dwHeight);
+		// And set the dispMin correctly
+		xa.setDispMin(X_MIN);
+		if(xa.max > (float)1E25){
+		    // this is the active axis
+		    axisLen = dwWidth;
+		} else {
+		    axisLen = (int)(xa.max * xa.scale);
+		}
+	    } 
+	
+	    if(axisLen + (curStartPos - xaxisStartPos) >= dwWidth){
+		// The axis extends beyond the visible area
+		xa.dispLen = dwWidth - (curStartPos - xaxisStartPos);
+	    } else {
+		// This axis ends before the end of the visible area so draw an end line
+		xa.dispLen = axisLen;
+		g.drawLine(xaxisOffset + curStartPos - xaxisStartPos + axisLen + 1, yOriginOff, 
+			   xaxisOffset + curStartPos - xaxisStartPos + axisLen + 1, yOriginOff - dwHeight);
+	    }
+	    
+	    xa.draw(g, xaxisOffset + (curStartPos - xaxisStartPos), yOriginOff);
+	    curStartPos += axisLen + 10;
 	}
 
 	/*
 	endTime = Vm.getTimeStamp();
-	_g.drawText(endTime - startTime + "", xText, yText);
+	g.drawText(endTime - startTime + "", xText, yText);
 	startTime = endTime;
 	xText += 20;
 	*/		
 
-	if((curStartPos - xaxisStartPos) >= dwWidth){
-	    //our work is done
-	    xaxisArray[numXaxis-1].drawnX = -1;
-	    return;
-	}
-
-	// Now the nasty stuff we must draw the most current axis
-	// it's max may be in a screwy state
-	xa = xaxisArray[numXaxis-1];
-	if(curStartPos <= xaxisStartPos){
-	    aDispRange = dwWidth;
-	    xa.dispOffset = xaxisStartPos - curStartPos;
-	    xa.dispLen = dwWidth;
-	    if(xa.length < (xa.dispLen + xa.dispOffset)){
-		xa.length = (xa.dispOffset + xa.dispLen) * 2 / 3;
-		xa.needCalcTics = true;
-	    }
-	    xa.draw(g, x + xaxisOffset, y+ yOriginOff);
-	    curStartPos += aDispRange + 10;
-	} else {
-	    g.setColor(0,0,0);
-	    g.drawLine(x + xaxisOffset + curStartPos - xaxisStartPos, y+yOriginOff, 
-		       x+xaxisOffset + curStartPos - xaxisStartPos, y+yOriginOff - dwHeight);
-	    curStartPos++;
-	    xa.dispOffset = 0;
-	    xa.dispLen = dwWidth - (curStartPos - xaxisStartPos);
-	    if(xa.length < (xa.dispLen + xa.dispOffset)){
-		xa.length = (xa.dispOffset + xa.dispLen) * 2 / 3;
-		xa.needCalcTics = true;
-	    }
-	    xa.draw(g, x + xaxisOffset + (curStartPos - xaxisStartPos), y+ yOriginOff);
-	}
     }
 	
 
-    public void drawAxis(JGraphics g, int x, int y)
+    public void drawAxis(Graphics g)
     {
 	g.setColor(255,255,255);
-	g.fillRect(x,y,width,height);
+	g.fillRect(0,0,width,height);
 	
 	g.setColor(0,0,0);
-	
-	yaxis.draw(g,x+xOriginOff,y+yOriginOff);
+
+	if(profile)
+	    yaxis.lGraph = this;
+	else 
+	    yaxis.lGraph = null;
+
+	yaxis.draw(g,xOriginOff,yOriginOff);
        
 	if(yaxis.labelExp != 0){
 	    yExpLabel.setText("10^" + yaxis.labelExp);
 	    yExpLabel.draw(g, 1, 10);
 	} 
       
-	/*
-	endTime = Vm.getTimeStamp();
-	_g.drawText(endTime - startTime + "", xText, yText);
-	startTime = endTime;
-	xText += 20;
-	*/
+	if(profile){
+	    endTime = Vm.getTimeStamp();
+	    g.drawText(endTime - startTime + "", xText, yText);
+	    startTime = endTime;
+	    xText += 20;
+	}
 
-	drawXaxis(g, x, y);
+	drawXaxis(g);
 
     }
 
@@ -670,83 +615,70 @@ public class LineGraph extends Graph2D
     int xText =0;
     int beginTime, startTime,endTime;
 
-    public JGraphics _g = null;
-
-    public void draw(JGraphics _g, int x, int y)
+    public void draw(Graphics g)
     {
-	JGraphics g = bufG;
-	yText = y+height+40;
+	yText = height-10;
 	xText =0;
 	boolean dataWinChanged;
 	int i;
 	int curStartPos;
        
-	/*
-	_g.setColor(255,255,255);
-	_g.fillRect(0, yText, 200, 30);
-	_g.setColor(0,0,0);
+	if(profile){
+	    g.setColor(255,255,255);
+	    g.fillRect(0, yText, 200, 30);
+	    g.setColor(0,0,0);
+	    startTime = beginTime = Vm.getTimeStamp();
+	}
 
-		startTime = beginTime = Vm.getTimeStamp();
-	*/
-
-	this._g = _g;
-	drawAxis(g, x, y);
+	drawAxis(g);
 
 	for(i=0; i<numBins; i++){
 	    binArray[i].lastPlottedPoint = -1;
 	}
-       
-	/*
-	endTime = Vm.getTimeStamp();
-	_g.drawText(endTime - startTime + "", xText, yText);
-	startTime = endTime;
-	xText += 20;
-	*/
+
+	if(profile){
+	    endTime = Vm.getTimeStamp();
+	    g.drawText(endTime - startTime + "", xText, yText);
+	    startTime = endTime;
+	    xText += 20;
+	}
 
 	Bin bin;
 	Axis xa;
 
 	if(needRecalc){
 	    for(int k=0; k<numBins; k++){
-		bin = binArray[k];
-		xa = bin.xaxis;
-		
-		for(i=0; i<bin.numPoints*2; i++){
-		    bin.points[i] = (int)((bin.values[i] - xa.min)* xa.scale);	  
-		    i++;
-		    bin.points[i] = (int)((bin.values[i] - yaxis.min) * yaxis.scale);
-		}
+		binArray[k].recalc();		
 	    }
+	    needRecalc = false;
 	}
- 
+
+	if(profile){
+	    endTime = Vm.getTimeStamp();
+	    g.drawText(endTime - startTime + "", xText, yText);
+	    startTime = endTime;
+	    xText += 20;
+	}
+
 	plot(g);
 
-	/*
-	endTime = Vm.getTimeStamp();
-	_g.drawText(endTime - startTime + "", xText, yText);
-	startTime = endTime;
-	xText += 20;
-	*/	
-
-	// 2 ms when empty
 	drawAnnots((Graphics)g);
-	
-	// 24 ms 
-	if(_g != null){
-	    _g.copyRect(buffer, 0, 0, width, height, x, y); 	    
+
+	if(profile){
+	    endTime = Vm.getTimeStamp();
+	    g.drawText(endTime - startTime + "", xText, yText);
+	    startTime = endTime;
+	    xText += 20;
+
+	    g.drawText(endTime - beginTime + "", xText, yText);
+	    startTime = endTime;
+	    xText += 20;      
 	}
-     
-	/*
-	endTime = Vm.getTimeStamp();
-	_g.drawText(endTime - beginTime + "", xText, yText);
-	startTime = endTime;
-	xText += 20;      
-	*/
 
 	redraw = false;
     }
 
-    public boolean calcDataWin(JGraphics g, int w, int h)
+    public boolean calcDataWin(Graphics g, int w, int h)
     {	
 	// This should be a bit of an iteration
 	// attempting to arrive at the approx
@@ -777,25 +709,11 @@ public class LineGraph extends Graph2D
     {
 	int i;
 
-	minX = minY = 1;
-	maxX = maxY = -1;
-
-	for(i=0; i<100; i++){
-	    minX *= (float)10;
-	    maxX *= (float)10;
-	    minY *= (float)10;
-	    maxY *= (float)10;
-	}
-
-
 	length = 0;
 
 	xaxisArray[0] = xaxis;
-	xaxis.min = xaxis.dispMin = X_MIN;
-	xaxis.dispOffset = 0;
-	xaxis.length = xaxis.dispLen = dwWidth;
-	xaxis.setScale((X_MAX - X_MIN) / (float)xaxis.length);
-	xRange = X_MAX - X_MIN;
+	xaxis.dispLen = dwWidth;
+	xaxis.setDispMin(X_MIN);
 	numXaxis = 1;
 	xaxisStartPos = 0;
 
@@ -806,9 +724,7 @@ public class LineGraph extends Graph2D
 	for(i=0; i<numBins; i++){
 	    bin = (Bin)binObjs[i];
 	    binArray[i] = bin;
-	    bin.binPtr[0] = i;
-	    bin.numPoints = 0;
-	    bin.lastPlottedPoint = -1;
+	    bin.reset();
 	}
 	
 
@@ -826,69 +742,72 @@ public class LineGraph extends Graph2D
 	int offset;
 	Bin bin;
 
-
 	for(k=0; k<numBins; k++){
-	    bin = binArray[k];
-
-	    offset = bin.numPoints*2;
-
-	    // should check the current config
-	    if(offset >= bin.points.length){
-		// x is out of bounds
-		endCollection();
-		return false;
-	    }
-	
-	    if(maxX < x) maxX = x;
-	    if(minX > x) minX = x;
-	    bin.values[offset] = x;
-
-	    bin.points[offset] = (int)((x - xaxis.min)* xaxis.scale);
-	    //	    xaxis.max = x;
-	    offset++;
-	    
-	    if(maxY < newValues[k]) maxY = newValues[k];
-	    if(minY > newValues[k]) minY = newValues[k];
-	    bin.values[offset] = newValues[k];
-
-	    bin.points[offset] = (int)((newValues[k] - yaxis.min) * yaxis.scale);
-	    
-	    bin.numPoints++;
+	    binArray[k].addPoint(x, newValues[k]);
 	}
 
 	return true;
     }
 
-    public boolean addPoint(Object binID, float x, float value)
+    /*
+     * There are 9 sections that we can be in:
+     *  1 2 3
+     *  4 5 6
+     *  7 8 9
+     * The Data Window  will always be in section 5
+     * The axis could be in 4,2,6,8
+     * The annotations can be in three neighboring sections on
+     *   any of the sides.
+     * We won't do any bounds checking.
+     * We use the array graphLayout that represents the grid above.
+     */
+    Object getObjAtPoint(int x, int y)
     {
-	int [] binPtr = (int []) binID;
-	int k = binPtr[0];
-	Bin bin = binArray[k];
-	int offset = bin.numPoints*2;
+	int xPos, yPos;
+	Object obj = null;
 
-	// should check the current config
-	if(offset >= bin.points.length){
-	    // x is out of bounds
-	    endCollection();
-	    return false;
+	if(x < dwX) xPos = 0;
+	else if(x < (dwX  + dwWidth)) xPos = 1;
+	else xPos = 2;
+
+	if(y < dwY) yPos = 0;
+	else if(y < (dwY + dwHeight)) yPos = 1;
+	else yPos = 2;
+
+	return graphLayout[xPos][yPos];
+    }
+
+    /*
+     *  We need to check the bounds or only take
+     * one direction or something
+     */
+    Annotation getAnnotAtPoint(int x, int y){
+	
+	// Track down which annotation
+	Object [] annotObj = annots.toObjectArray();
+	int i;
+	Annotation a;
+	int pos;
+	
+	// We draw them forward, so we search backwards
+	//   because they might overlap
+	for(i=annotObj.length-1; i>=0; i--){
+	    a = (Annotation)annotObj[i];
+	    if(a.xaxis.drawnX != -1){
+		pos = (int)((a.time - a.xaxis.dispMin) * a.xaxis.scale);
+		if((pos*a.xaxis.axisDir >= 0) && 
+		   (pos*a.xaxis.axisDir < a.xaxis.axisDir*a.xaxis.dispLen)){ 
+		    // Need to make this layout independent
+		    
+		    if(x >= (pos + a.xaxis.drawnX + a.xaxis.axisDir - a.width/2) &&
+		       x < (pos + a.xaxis.drawnX + a.xaxis.axisDir + a.width/2))
+			return a;
+		}
+	    }
 	}
 	
-	if(maxX < x) maxX = x;
-	if(minX > x) minX = x;
-	bin.values[offset] = x;
-
-	bin.points[offset] = (int)((x - xaxis.min) * xaxis.scale);
-	// xaxis.max = x;
-	offset++;
-	
-	if(maxY < value) maxY = value;
-	if(minY > value) minY = value;
-	bin.values[offset] = value;
-
-	bin.points[offset] = (int)((value - yaxis.min) * yaxis.scale);	
-	bin.numPoints++;
-
-	return true;
+	// We didn't find any anotations
+	return null;			
     }
 
 }

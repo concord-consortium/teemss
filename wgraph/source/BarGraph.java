@@ -40,14 +40,8 @@ public class BarGraph extends Graph2D
 	xOriginOff = 40;
 	yOriginOff = h - 30;
 
-	yaxis = new ColorAxis(minValue, minValue + range, -dwHeight);
-	yaxis.ticDir = -1;
-	yaxis.orient = Axis.Y_SCREEN_AXIS;
-	yaxis.labelOff = -7;
-	yaxis.labelEdge = TextLine.RIGHT_EDGE;
-	yaxis.axisDir = -1;
+	yaxis = new ColorAxis(minValue, minValue + range, -dwHeight, Axis.LEFT);
 	yaxis.gridEndOff=dwWidth-1;
-	yaxis.gridDir = 1;
 
 	barSet = new BarSet(yaxis, 1, BarSet.BOTTOM);	
 
@@ -82,7 +76,8 @@ public class BarGraph extends Graph2D
 
 	numBars++;
 	// need to update list of probes
-	bars.add(bar);
+	// need to check that location is valid
+	bars.insert(location, bar);
 
 	// need to add a new bar to the graph
 	barSet = new BarSet(yaxis, numBars, BarSet.BOTTOM);
@@ -90,16 +85,22 @@ public class BarGraph extends Graph2D
 	objArray = bars.toObjectArray();
 	for(i=0; i < numBars; i++){
 	    barSet.labels[i].setText(((Bar)objArray[i]).label);
+	    ((Bar)objArray[i]).index = i;
 	}
 
 	oldValues = curValues;
 	curValues = new float[numBars];
 	if(oldValues != null){
-	    for(i = 0; i<numBars-1; i++){
+	    for(i = 0; i<location; i++){
 		curValues[i] = oldValues[i];
+	    }
+	    curValues[i++] = (float)0;
+	    for(; i < numBars; i++){
+		curValues[i] = oldValues[i-1];
 	    }
 	}
 
+	bar.barGraph = this;
 	return bar;
     }
 
@@ -146,23 +147,23 @@ public class BarGraph extends Graph2D
 	return true;
     }
 
-    public void draw(JGraphics g, int x, int y)
+    public void draw(Graphics g)
     {
-	System.out.println("Redrawing bGraph");
+	//	System.out.println("Redrawing bGraph");
 	int w = width;
 	int h = height;
 
 	barSet.reset();
 
 	g.setColor(255,255,255);
-	g.fillRect(x,y,w,h);
+	g.fillRect(0,0,w,h);
 	
 	g.setColor(0,0,0);
 
 	// DrawAxis
-	yaxis.draw(g,x+xOriginOff,y+yOriginOff-1);
+	yaxis.draw(g,xOriginOff,yOriginOff-1);
 
-	barSet.draw(g,x+xOriginOff+1,y+yOriginOff,
+	barSet.draw(g,xOriginOff+1,yOriginOff,
 		   dwWidth, dwHeight);
 	
 	needUpdate = true;
@@ -174,7 +175,7 @@ public class BarGraph extends Graph2D
     float [] curValues;
     boolean needUpdate = true;
 
-    public int plot(JGraphics g)
+    public int plot(Graphics g)
     {
 	float x = 0;
 	float []y;

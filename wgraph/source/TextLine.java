@@ -2,8 +2,6 @@ package graph;
 
 import waba.fx.*;
 import waba.ui.*;
-import extra.util.Maths;
-
 
 public class TextLine extends Object {
     // Constant
@@ -29,14 +27,14 @@ public class TextLine extends Object {
   /**
    * Text color
    */
-    public Color color   = null;
+    public int [] col = {0,0,0,};
+
   /**
    * Background Color
    */
-    public Color background   = null;
-    
-    
+    public int [] bgCol = {255,255,255,};
 
+    
   /**
    * The text to display
    */
@@ -47,7 +45,6 @@ public class TextLine extends Object {
      */
     public int direction = 0;
 
-    protected boolean cleared = false;
     protected int width = 0;
     protected int height = 0;
     protected int textWidth = 0;
@@ -69,7 +66,10 @@ public class TextLine extends Object {
 
     public TextLine(String s, Font f, Color c) {
 	this(s, f);
-	color = c;
+	col[0] = c.getRed();
+	col[1] = c.getGreen();
+	col[2] = c.getBlue();
+	
     }
 
     public TextLine(String s, int d){
@@ -107,7 +107,11 @@ public class TextLine extends Object {
 		return new String("0");
 	}
 
-	intChars = String.valueOf((int)Maths.abs(val)).toCharArray();
+	float absVal = val;
+	if(val < 0f){ 
+	    absVal = -val;
+	}
+	intChars = String.valueOf((int)absVal).toCharArray();
 	len = intChars.length;
 
 	if(len <= maxDigits){
@@ -166,45 +170,56 @@ public class TextLine extends Object {
     {
 	text = s;
 	parseText();
+	buffer = null;
     }
 
     /* Draw starting at the upper left hand corner
      */
 
-    public void drawRight(JGraphics g, int x, int y)
-    {
+    Image buffer = null;
+    Graphics bufG;
 
-	if(background != null && !cleared) {
-	    g.setColor(background);
-	    g.fillRect(x, y, textWidth, textHeight);
-	}
+    public void drawRight(Graphics g, int x, int y)
+    {
+	g.setColor(bgCol[0],bgCol[1],bgCol[2]);
+	g.fillRect(x, y, textWidth, textHeight);
 
 	if(font != null) g.setFont(font);
-	if(color != null) g.setColor(color);
+	g.setColor(col[0],col[1],col[2]);
 
-	g.drawString(text, x, y);
+	g.drawText(text, x, y);
 
-	cleared = false;
 	return;
     }
 
-    public void draw(JGraphics g, int x, int y)
+    public void draw(Graphics _g, int x, int y)
     {
 	Image offsI = null;
 	Image rotImage = null;
-	JGraphics offsG = null;
+	Graphics offsG = null;
 	Graphics rotG = null;
+	Graphics g = null;
+
+	if(buffer != null){
+	    _g.copyRect(buffer, 0, 0, width, height, x, y); 	    
+	    return;
+	}
+
+
+	buffer = new Image(width, height);
+	g = bufG = new Graphics(buffer);
 
 	if(direction == RIGHT){
-	    drawRight(g, x, y);
+	    drawRight(g, 0, 0);
+	    _g.copyRect(buffer, 0, 0, width, height, x, y); 	    
 	    return;
 	}
 
 	offsI = new Image(textWidth, textHeight);
-	offsG = new JGraphics((ISurface)offsI);
+	offsG = new Graphics((ISurface)offsI);
 
-	offsG.setFont(g.getFont());
-	offsG.setColor(g.getColor());
+	if(font != null) offsG.setFont(font);
+	offsG.setColor(col[0],col[1],col[2]);
 
 	drawRight(offsG, 0, 0);
 
@@ -212,23 +227,17 @@ public class TextLine extends Object {
 	rotG =  new Graphics(rotImage);
 	rotateImage(offsI, rotG);
 	rotG.free();
-	offsG.dispose();
+	offsG.free();
 	offsI.free();
 
-	g.drawImage(rotImage, x, y);
+	g.drawImage(rotImage, 0, 0);
 	rotImage.free();
+
+	_g.copyRect(buffer, 0, 0, width, height, x, y); 	    
+
     }
 
-    public void clear(JGraphics g, int x, int y)
-    {
-	if(cleared == false && background != null){
-	    g.setColor(background);
-	    g.fillRect(x,y,width,height);
-	    cleared = true;
-	}
-    }
-
-    public void drawCenter(JGraphics g, int x, int y, int edge)
+    public void drawCenter(Graphics g, int x, int y, int edge)
     {
 	int x0, y0;
 

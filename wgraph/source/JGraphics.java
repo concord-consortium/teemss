@@ -57,6 +57,31 @@ public class JGraphics extends Graphics
 	translate(x,y);
     }
 
+    public static JGraphics createGraphics(Control c)
+    {
+	MainWindow mw = MainWindow.getMainWindow();
+
+	int x, y;
+	Rect r = c.getRect();
+	x = r.x;
+	y = r.y;
+	c = (Control)(c.getParent());
+	while(c != null && 
+	      c != (Control)mw){
+	    r = c.getRect();
+	    x += r.x;
+	    y += r.y;
+	    c = (Control)(c.getParent());
+	}
+	
+	if(c != mw) return null;
+	
+	JGraphics jg = new JGraphics((ISurface)mw);
+	jg.translate(x,y);
+	return jg;
+    }
+
+
     public void setColor(Color c)
     {
 	curColor = c;

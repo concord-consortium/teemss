@@ -14,6 +14,11 @@ public class Axis
     public final static int X_SCREEN_AXIS = 0;
     public final static int Y_SCREEN_AXIS = 1;
 
+    public final static int TOP = 0;
+    public final static int BOTTOM = 1;
+    public final static int LEFT = 2;
+    public final static int RIGHT = 3;
+
     int orient = X_SCREEN_AXIS;
 
     TextLine label = new TextLine("0");
@@ -26,8 +31,6 @@ public class Axis
     float min;
     int length;
 
-    boolean fixedLength = false;
-
     // This is for external use it does not affect the drawing
     float max;
 
@@ -37,7 +40,7 @@ public class Axis
     
     // If the absolute min is at 0 in screen coordiates
     // this is the value of dispMin 
-    int dispOffset;
+    public int dispOffset;
 
     // (screen units)/(input units)
     public float scale;
@@ -65,10 +68,10 @@ public class Axis
 
     int gridEndOff = 100;
     int gridDir = -1;
-    Color gridMinColor = new Color(220,220,220);
-    Color gridMajColor = new Color(170,170,170);
 
-    Color axisColor = new Color(0,0,0);
+    int [] gridMinCol = {205,205,205};
+    int [] gridMajCol = {170,170,170};
+    int [] axisCol = {0,0,0};
 
     int labelEdge, labelOff;
 
@@ -79,21 +82,43 @@ public class Axis
     int drawnY = -1;
     int drawnOffset = 1;
 
-    public Axis(float min, int len, float s)
+    boolean nonNegative = true;
+
+    public Axis(float min, int len, float s, int type)
     {
-	this.min = minLast = dispMin = dispMinLast = min;
+	this.min = dispMin = min;
 	axisDir = 1;
 	if(s < (float)0) axisDir = -1;
 	length = dispLen = len;	
 	label.maxDigits = 2;
 	dispOffset = 0;	
 	needCalcTics = true;
+
+	switch(type){
+	case BOTTOM:
+	    ticDir = 1;
+	    orient = Axis.X_SCREEN_AXIS;
+	    labelOff = 7;
+	    labelEdge = TextLine.TOP_EDGE;
+	    minMajTicSpacing = 40;
+	    break;
+	case LEFT:
+	    ticDir = -1;
+	    orient = Axis.Y_SCREEN_AXIS;
+	    labelOff = -7;
+	    labelEdge = TextLine.RIGHT_EDGE;
+	    axisDir = -1;
+	    gridDir = 1;
+	    nonNegative = false;
+	    break;
+	}
+
 	setScale(s);
     }
 
-    public Axis(float min, float max, int len)
+    public Axis(float min, float max, int len, int type)
     {
-	this(min, len, (float)len / (max - min));
+	this(min, len, (float)len / (max - min), type);
 
     }
 
@@ -208,12 +233,10 @@ public class Axis
 
 	firstLabelTic = exp10(firstTic, -labelExp);
 
-	computeTicArrays();
+	//	computeTicArrays();
     }
 	
-    float minLast;
-    float dispMinLast;
-    int dispOffsetLast;
+    // float minLast;
     int maxLabelOff = 0;
     int minLabelOff = 0;
     float ticStep = (float)1;
@@ -300,64 +323,67 @@ public class Axis
     }
 
 
+    // This holds the dispMin fixed and changes the scale around that
     public void setScale(float s)
     {
-	dispOffset = dispOffsetLast = (int)((dispMin - min) * s);
-	minLast = min;
-
 	scale = s;
 	axisDir = 1;
 	if(scale < (float)0) axisDir = -1;
+	setDispOffset(dispMin, 0);
 	setStepSize();
 	needCalcTics = true;       
     }
 
+    public void setDispOffset(float startMin, int newDO)
+    {
+	dispMin = startMin + (float)newDO / scale;
+	dispOffset = (int)((dispMin - min) * scale);
+	
+	if((axisDir*(dispOffset + dispLen) > axisDir*length) ||
+	   (dispMin < min)){
+	    min = dispMin - (2*dispLen/scale);
+	    length = 5*dispLen;
+	    dispOffset = (int)((dispMin - min) * scale);
+	    setFirstTic();
+	    needCalcTics = true;
+	}
+    }
+
+    public void setDispMin(float newDM)
+    {
+	setDispOffset(newDM, 0);
+    }
+
     boolean needCalcTics = false;
+
+    LineGraph lGraph = null;
 
     // have the two arrays
     // tic offsets and tic labels
     // also have first dispTic
-    public void draw(JGraphics g, int x, int y)
+    public void draw(Graphics g, int x, int y)
     {
 	drawnX = x;
 	drawnY = y;
 
-	// Check if the scroll offset changed
-	if(dispMinLast != dispMin){
-	    dispMinLast = dispMin;
-	    dispOffset = dispOffsetLast = (int)((dispMin - min) * scale);
-	    if(dispMin < min){
-		min = dispMin;
-	    }
+	if(lGraph != null){
+	    lGraph.endTime = Vm.getTimeStamp();
+	    g.drawText(lGraph.endTime - lGraph.startTime + "", lGraph.xText, lGraph.yText);
+	    lGraph.startTime = lGraph.endTime;
+	    lGraph.xText += 20;
 	}
 
-	if(dispOffsetLast != dispOffset){
-	    dispOffsetLast = dispOffset;
-	    dispMin = dispMinLast = min + (float)dispOffset / scale;
-	    //	    System.out.println("Setting dispMin to: " + dispMin);
-	}
-
-	if(!fixedLength &&
-	   (axisDir*dispLen < (axisDir*length / 11))){
+	if(axisDir*dispLen*11 < axisDir*length){
 	    // we are tracking way too many tics here.
 	    length = 5*dispLen;
 	    min = dispMin - (2*dispLen/scale);
-	    needCalcTics = true;
-	}
-
-	// Check if the real size changed
-	if(minLast != min){
-	    minLast = min;
-	    dispOffset = dispOffsetLast = (int)((dispMin - min) * scale);
+	    if(nonNegative && min < (float)0){
+		min = (float)0;
+	    }
 	    setFirstTic();
 	    needCalcTics = true;
 	}
 	
-	if(axisDir*(dispOffset + dispLen) > axisDir*length){
-	    length = dispOffset + dispLen;
-	    needCalcTics = true;
-	}
-
 	if(needCalcTics){
 	    computeTicArrays();
 	    needCalcTics = false;
@@ -369,11 +395,13 @@ public class Axis
 	      (ticOffsets[i]*axisDir < dispOffset*axisDir))
 	    i++;
 
+
+
 	int curPos;
 	int firstIndex = i;
 
 	//	System.out.println("FirstIndex: " + firstIndex + ", FirstOffset: " + curPos);
-	//System.out.println("DispLen: " + dispLen);
+	// System.out.println("DispLen: " + dispLen);
 
 	int lastIndex;
 	int endPos = dispOffset + dispLen - axisDir;
@@ -386,13 +414,13 @@ public class Axis
 	    g.translate(x, y);
 
 	    // draw axis line
-	    g.setColor(axisColor);
+	    g.setColor(axisCol[0],axisCol[1],axisCol[2]);
 	    g.drawLine(0,0, dispLen + axisDir, 0);
 
 	    g.translate(axisDir - dispOffset, gridDir);
 
-	    // draw tic marks and labels	    
-	    g.setColor(axisColor);
+	    // draw tic marks and labels
+	    // System.out.print("Drawing maj tick:");
 	    while((i < ticOffsets.length) &&
 		  ((curPos = ticOffsets[i])*axisDir <= endPos*axisDir)){
 		if(majTicLabels[i] == null){
@@ -400,14 +428,16 @@ public class Axis
 		} else {
 		    g.drawLine(curPos, ticDir, curPos, majTicEndOff);
 		    majTicLabels[i].drawCenter(g, curPos, labelOff, labelEdge);
+		    // System.out.print(curPos + ", ");
 		}
 		i++;
 	    }
 
+	    // System.out.println("");
 	    lastIndex = i;
 
 	    // draw Minor GridLines
-	    g.setColor(gridMinColor);	    
+	    g.setColor(gridMinCol[0],gridMinCol[1],gridMinCol[2]);	    
 	    for(i=firstIndex; i< lastIndex; i++){
 		curPos = ticOffsets[i];
 		if(majTicLabels[i] == null)
@@ -415,28 +445,38 @@ public class Axis
 	    }
 
 	    // draw Major GridLines
-	    g.setColor(gridMajColor);	    
+	    g.setColor(gridMajCol[0],gridMajCol[1],gridMajCol[2]);
+	    // System.out.print("Drawing maj gridLines: ");
 	    for(i=firstIndex; i< lastIndex; i++){
 		curPos = ticOffsets[i];
-		if(majTicLabels[i] != null)
+		if(majTicLabels[i] != null){
 		    g.drawLine(curPos, 0, curPos, gridEndOff);
+		    // System.out.print(curPos + ", ");
+		}
 	    }
 
+	    // System.out.println("");
 
 	    g.translate(-(x + axisDir - dispOffset), -(y + gridDir));
 	} else {
+	    if(lGraph != null){
+		lGraph.endTime = Vm.getTimeStamp();
+		g.drawText(lGraph.endTime - lGraph.startTime + "", lGraph.xText, lGraph.yText);
+		lGraph.startTime = lGraph.endTime;
+		lGraph.xText += 20;
+	    }
+
 	    drawnOffset = y + axisDir - dispOffset;
 
 	    g.translate(x, y);
 
 	    // draw axis line
-	    g.setColor(axisColor);
+	    g.setColor(axisCol[0],axisCol[1],axisCol[2]);
 	    g.drawLine(0,0, 0, dispLen + axisDir);
 
 	    g.translate(gridDir, axisDir - dispOffset);
 
 	    // draw tic marks and labels	    
-	    g.setColor(axisColor);
 	    while((i < ticOffsets.length) &&
 		  ((curPos = ticOffsets[i])*axisDir <= endPos*axisDir)){
 		if(majTicLabels[i] == null){
@@ -450,8 +490,17 @@ public class Axis
 
 	    lastIndex = i;
 
+	    if(lGraph != null){
+		g.translate(-(x + gridDir), -(y + axisDir - dispOffset));
+		lGraph.endTime = Vm.getTimeStamp();
+		g.drawText(lGraph.endTime - lGraph.startTime + "", lGraph.xText, lGraph.yText);
+		lGraph.startTime = lGraph.endTime;
+		lGraph.xText += 20;
+		g.translate((x + gridDir), (y + axisDir - dispOffset));
+	    }
+
 	    // draw Minor GridLines
-	    g.setColor(gridMinColor);	    
+	    g.setColor(gridMinCol[0],gridMinCol[1],gridMinCol[2]);	    
 	    for(i=firstIndex; i< lastIndex; i++){
 		curPos = ticOffsets[i];
 		if(majTicLabels[i] == null)
@@ -459,7 +508,7 @@ public class Axis
 	    }
 
 	    // draw Major GridLines
-	    g.setColor(gridMajColor);	    
+	    g.setColor(gridMajCol[0],gridMajCol[1],gridMajCol[2]);	    
 	    for(i=firstIndex; i< lastIndex; i++){
 		curPos = ticOffsets[i];
 		if(majTicLabels[i] != null)
@@ -479,13 +528,15 @@ public class Axis
 	int minOffset, maxOffset;
 
 	// Check if the real size changed
+	/*
 	if(minLast != min){
 	    minLast = min;
 	    dispMin = min;
 	    setFirstTic();
 	    needCalcTics = true;
 	}
-	
+	*/	
+
 	if(needCalcTics){
 	    computeTicArrays();
 	    needCalcTics = false;

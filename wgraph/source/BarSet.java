@@ -3,8 +3,6 @@ package graph;
 import waba.fx.*;
 import waba.ui.*;
 import waba.sys.*;
-import extra.util.Maths;
-
 
 public class BarSet extends Object
 {
@@ -31,8 +29,9 @@ public class BarSet extends Object
     protected int barPos[];
     public boolean barSel[];
     protected int barDir = 1;
-    public Color upColor = null;
-    public Color downColor = null;
+    int [] upCol = {0,0,0};
+    int [] downCol = {255,255,255};
+
 
     static final int MINDIGITS = 1;
     static final int MAXDIGITS = 4;
@@ -50,8 +49,7 @@ public class BarSet extends Object
 	orientation = orien;
 	length = 0;
 	barDir = -1;
-	upColor = new Color(0, 0, 0);
-	downColor = new Color(255,255,255);
+	
 	label.maxDigits = 1;
 	label.minDigits = 1;
 	labels = new TextLine[num];
@@ -61,10 +59,6 @@ public class BarSet extends Object
 	    digitals[i] = new TextLine("00.0");
 	    digitals[i].maxDigits = 1;
 	    digitals[i].minDigits = 1;
-	    digitals[i].background = downColor;
-	    digitals[i].color = upColor;
-	    labels[i].background = downColor;
-	    labels[i].color = upColor;
 	    barSel[i] = false;
 	}
     }
@@ -76,9 +70,10 @@ public class BarSet extends Object
 	maxHeight = axis.length - 1;
 
 	length = 0;
+
     }
 
-    public void drawLabel(JGraphics g, float val, int index)
+    public void drawLabel(Graphics g, float val, int index)
     {
 	digitals[index].setText(label.fToString(val));
 	
@@ -94,10 +89,10 @@ public class BarSet extends Object
     }
 
     /*
-     *  The JGraphics should be translated 0,0 is the top left
+     *  The Graphics should be translated 0,0 is the top left
      *  corner of the DataWindow
      */
-    public void addColorPoint(JGraphics g, float x, float val[])
+    public void addColorPoint(Graphics g, float x, float val[])
     {
 	int barPercent;
 	int i;
@@ -112,7 +107,7 @@ public class BarSet extends Object
 		    barLen = (barDir*axis.dispLen);
 		}
 		if(oldBarLen[i] > barLen){
-		    g.setColor(downColor);
+		    g.setColor(downCol[0],downCol[1],downCol[2]);
 		    // Hack for bottom only
 		    g.fillRect(barPos[i], start - oldBarLen[i], 
 			       barWidth,(oldBarLen[i]) - barLen);
@@ -158,10 +153,10 @@ public class BarSet extends Object
     }
 
     /*
-     *  The JGraphics should be translated 0,0 is the top left
+     *  The Graphics should be translated 0,0 is the top left
      *  corner of the DataWindow
      */
-    public void addPoint(JGraphics g, float x, float val[])
+    public void addPoint(Graphics g, float x, float val[])
     {
 	int i;
 	int barLen;
@@ -172,11 +167,11 @@ public class BarSet extends Object
 	    for(i=0; i<nBars; i++){
 		barLen = (int)((val[i] - axis.dispMin) * lenScale);
 		if(oldBarLen[i] > barLen){
-		    g.setColor(upColor);
+		    g.setColor(upCol[0],upCol[1],upCol[2]);
 		    g.fillRect(barPos[i], start + barLen, barWidth, 
 			       (oldBarLen[i] - barLen));
 		} else {
-		    g.setColor(downColor);
+		    g.setColor(downCol[0],downCol[1],downCol[2]);
 		    g.fillRect(barPos[i], start + oldBarLen[i], 
 			       barWidth,(barLen - oldBarLen[i]));
 		}
@@ -187,7 +182,7 @@ public class BarSet extends Object
 	} else {
 	    // Watch out for color changes
 	    for(i=0; i<nBars; i++){
-		g.setColor(upColor);
+		g.setColor(upCol[0],upCol[1],upCol[2]);
 		barLen = (int)((val[i] - axis.dispMin) * lenScale);
 		// Hack for bottom only bar graphs
 		g.fillRect(barPos[i], start + barLen, 
@@ -208,27 +203,28 @@ public class BarSet extends Object
 	/* This is a hack
 	 * it should take into account the orientation
 	 */
-    public void draw(JGraphics g, int x, int y, int aLen, int gLen)
+    public void draw(Graphics g, int x, int y, int aLen, int gLen)
     {
 	// Figure out the postions and widths of the bars and labels
 	int maxSpacing;
-	float barScale;
 	int i;
 
 	drawnX = x;
 	axisLen = aLen;
 
-	barScale = (float)((float)(aLen - BAR_SPACE)/ (float)nBars);
-	maxSpacing = (int)barScale;
-	// Keep at least a 2:1 ratio of height:width of the bars 
-	if(maxSpacing > barDir*axis.dispLen / 2){
-	    maxSpacing = barDir*axis.dispLen / 2;
+	maxSpacing = (aLen - BAR_SPACE)/ nBars;
+
+	// Keep at least a 3:1 ratio of height:width of the bars 
+	if(maxSpacing > barDir*axis.dispLen / 3){
+	    maxSpacing = barDir*axis.dispLen / 3;
 	}
 
 	barWidth = maxSpacing - BAR_SPACE;
 	
+	int curPos = BAR_SPACE + x;
 	for(i=0; i<nBars; i++){
-	    barPos[i] = (int)(barScale * i) + BAR_SPACE + x;
+	    barPos[i] = curPos;
+	    curPos += barWidth + BAR_SPACE;
 	}
 
 	// Draw the axis line
@@ -240,10 +236,6 @@ public class BarSet extends Object
 
 	// When this funct is called the background has been cleared
 	// so tell all our labels so they don't draw in their old pos
-	for(i=0; i<nBars; i++){
-	    digitals[i].cleared = true;
-	    labels[i].cleared = true;
-	}
 
 	configLabels();
 
@@ -266,7 +258,9 @@ public class BarSet extends Object
 	label.setText(label.fToString(axis.min));
 	int max_label_width = label.width;
 	label.setText(label.fToString(axis.dispMin + (axis.dispLen / axis.scale)));
-	max_label_width = Maths.max(max_label_width, label.width); 
+	if(max_label_width < label.width){
+	    max_label_width = label.width;
+	}
 	interleaveLabels = false;
 	if(max_label_width + 2 > barWidth){
 	    interleaveLabels = true;
