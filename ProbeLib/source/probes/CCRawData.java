@@ -58,7 +58,7 @@ int				firstIndex,secondIndex;
 		dEvent.type = e.type;
 		dDesc.setDt(e.getDataDesc().getDt());
 		// Change to Volts
-		dDesc.setTuneValue(e.getDataDesc().getTuneValue()/1000f);
+		dDesc.setTuneValue(e.getDataDesc().getTuneValue()/100f);
 		if(activeChannels == 2){
 			dDesc.setChPerSample(2);
 			dDesc.setIntChPerSample(2);
