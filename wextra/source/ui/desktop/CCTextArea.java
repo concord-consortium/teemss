@@ -43,11 +43,15 @@ protected CCTextAreaState curState = new CCTextAreaState();
 		}
 		return retValue;
 	}
+	public void insertObject(){
+		System.out.println("insertObject");
+	}
 	
 	public void setText(String str){
 		lines = null;
 		int determinedSystem = -1; //unix - 0; //mac - 1 dos - 2
 		if(str == null) return;
+		removeCursor();
 		StringBuffer sb = new StringBuffer();
 		int i = 0;
 		int lastRow = 0;
@@ -264,6 +268,8 @@ protected CCTextAreaState curState = new CCTextAreaState();
 								int cw = fm.getCharWidth(str.charAt(c));
 								if(x < xp + cw){
 									x = xp + cw;
+									row = sw.endRow + 1;
+									x = sw.insetLeft;
 									break;
 								}
 								xp += cw;
