@@ -9,7 +9,7 @@
   doctype-public="-//Concord.ORG//DTD LabBook Description//EN" 
   doctype-system="../../DTD/labbook.dtd"/>
 
-<xsl:strip-space element=*/>
+<xsl:strip-space elements="*"/>
 
 <xsl:template match="/">
   <xsl:apply-templates/>
@@ -19,7 +19,8 @@
   <LABBOOK>
     <xsl:copy-of select="document('ccprobe.xml')"/>
     <FOLDER ID="{title}" name="{title}">
-    <xsl:apply-templates select="unit"/>
+      <xsl:apply-templates select="unit"/>
+      <xsl:copy-of select="document('datacollectors.xml')"/>
     </FOLDER>
   </LABBOOK>
 </xsl:template>
@@ -30,6 +31,7 @@
     <FOLDER ID="{@name}-response" name="Responses">
       <xsl:apply-templates select="investigation" mode="response"/>
     </FOLDER>
+
   </FOLDER>
 </xsl:template>
 
@@ -225,6 +227,8 @@
   <xsl:apply-templates select="text()[position()!=1]|*"/>
 </xsl:template>
 
+<!--
+
 <xsl:template match="query-response" mode="step">
   <xsl:variable name="format_depth">
     <xsl:value-of select="count(ancestor::steps)"/>
@@ -255,6 +259,8 @@
   </xsl:if>
   <xsl:apply-templates select="text()[position()!=1]|*"/>
 </xsl:template>
+
+-->
 
 <xsl:template match="query-response">
   <xsl:choose>
@@ -318,10 +324,18 @@
     </SNPARAGRAPH>
 </xsl:template>
 
+<xsl:template match="datacollector-link">
+  <xsl:element name="EMBOBJ">
+    <xsl:attribute name="object"><xsl:value-of select="@type"/></xsl:attribute>
+    <xsl:attribute name="link">true</xsl:attribute>
+    <xsl:attribute name="linkcolor">FF0000</xsl:attribute>
+  </xsl:element>
+</xsl:template>
+
+
 <xsl:template match="ext-image-sequence">
   <xsl:apply-templates/>
 </xsl:template>
-
 
 <xsl:template match="ext-image">
   <xsl:if test="preceding-sibling::node()[(self::text() and normalize-space(.)!='') or self::*]">
