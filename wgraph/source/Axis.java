@@ -437,6 +437,7 @@ public class Axis
 	int endPos = dispOffset + dispLen - axisDir;
 	int majTicEndOff = ticDir * majTicSize;
 	int minTicEndOff = ticDir * minTicSize;
+	int j;
 	
 	if(orient == X_SCREEN_AXIS){
 	    drawnOffset = x - dispOffset;
@@ -446,8 +447,14 @@ public class Axis
 	    // draw axis line
 	    g.setColor(axisCol[0],axisCol[1],axisCol[2]);
 	    g.drawLine(0,0, dispLen + axisDir, 0);
+	    for(j=0; j <= majTicSize; j++){
+		g.drawLine(dispLen + axisDir - axisDir*j,0,
+			   dispLen + axisDir - axisDir*j, majTicEndOff - ticDir);
+	    }
 
 	    g.translate(axisDir - dispOffset, gridDir);
+		       
+
 
 	    // draw tic marks and labels
 	    while((i < ticOffsets.length) &&
@@ -497,6 +504,10 @@ public class Axis
 	    // draw axis line
 	    g.setColor(axisCol[0],axisCol[1],axisCol[2]);
 	    g.drawLine(0,0, 0, dispLen + axisDir);
+	    for(j=0; j<= majTicSize; j++){
+		g.drawLine(0, dispLen + axisDir - axisDir*j,
+			    majTicEndOff - ticDir, dispLen + axisDir - axisDir*j);
+	    }
 
 	    g.translate(gridDir, axisDir - dispOffset);
 
