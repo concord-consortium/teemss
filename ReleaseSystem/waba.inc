@@ -132,7 +132,7 @@ ftp-web: get-clients
 	mkdir -p __tmp__/$(BIN_DIR)
 	ncftpget ftp.concord.org  __tmp__/bin pub/ccprobeware/bin/*.wrp pub/ccprobeware/bin/*.lnk
 	cd __tmp__; $(foreach IP_ADDRESS, $(CLIENT_IPS), $(FTP_COMMAND))
-
+	rm -r __tmp__
 
 ftp: get-clients
 	@$(foreach IP_ADDRESS, $(CLIENT_IPS), $(FTP_COMMAND))
