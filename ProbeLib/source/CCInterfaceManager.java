@@ -12,7 +12,6 @@ import extra.util.DataDesc;
 public class CCInterfaceManager extends Control{
 static protected CCInterfaceManager im = null;
 protected  SerialPort port;
-static int refCount = 0;
 public int		startTimer =  0;
 
 protected Timer	timer = null;
@@ -22,6 +21,10 @@ public final static int COMMAND_MODE = 0;
 public final static int A2D_24_MODE = 1;
 public final static int A2D_10_MODE = 2;
 public final static int DIG_COUNT_MODE = 3;
+
+
+public final static int INTERFACE_0 = 0;
+public final static int INTERFACE_2 = 2;
 
 
 protected ProbManager	pb = null;
@@ -60,9 +63,15 @@ protected ProbManager	pb = null;
 		}
 	}
 	
-	public static CCInterfaceManager getInterfaceManager(){
-		if(im == null) im = (CCInterfaceManager) new CCInterfaceManager2();
-		refCount++;
+	public static CCInterfaceManager getInterfaceManager(int interfaceType){
+		if(im == null){
+			im = (interfaceType == INTERFACE_2)?new CCInterfaceManager2():new CCInterfaceManager();
+		}else{
+			int oldInterfaceType = (im instanceof CCInterfaceManager2)?INTERFACE_2:INTERFACE_0;
+			if(oldInterfaceType != interfaceType){
+				im = (interfaceType == INTERFACE_2)?new CCInterfaceManager2():new CCInterfaceManager();
+			}
+		}
 		return im;
 	}
 	//we need optimization probably: dynamically calculate getRightMilliseconds
@@ -148,7 +157,7 @@ protected ProbManager	pb = null;
 					gotChannel0 = (curChannel == 0);
 				}
 			}
-			dEvent.setNumbData(curDataPos/2);
+			dEvent.setNumbSamples(curDataPos/dDesc.getChPerSample());
 			dEvent.setData(valueData);
 			notifyProbManager(dEvent);
 			if((ret - curPos) > 0){
@@ -259,7 +268,7 @@ protected ProbManager	pb = null;
 //		    	convertValA2D(value);
 		}
 		if(curDataPos > 0){
-			dEvent.setNumbData(curDataPos/2);
+			dEvent.setNumbSamples(curDataPos/dDesc.getChPerSample());
 			dEvent.setData(valueData);
 			notifyProbManager(dEvent);
 		}
@@ -334,8 +343,6 @@ protected ProbManager	pb = null;
 	
 	public void dispose(){
 		stop();
-		refCount--;
-		if(refCount <= 0) im = null;
 	}
 	
     	protected void finalize() throws Throwable {
