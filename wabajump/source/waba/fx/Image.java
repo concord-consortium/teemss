@@ -248,7 +248,7 @@ public void setPixels(int bitsPerPixel, int colorMap[], int bytesPerRow,
 	}
 	break;
     case 8:
-	Graphics.drawWinGraphics = null;
+		Graphics.clearDrawWindow();
 	Palm.WinSetDrawWindow(winHandle);
 	int i;
 	int newMapLength = colorMap.length;

@@ -314,6 +314,14 @@ public class Graphics
          Palm.WinSetClip(mwOldClip);
     }
 
+	public static void clearDrawWindow()
+	{
+	if(drawWinGraphics != null){
+	    Palm.WinSetClip(drawWinGraphics.oOldClip);
+	}
+	drawWinGraphics = null;		
+	}
+
     public void setDrawWindow()
     {
 	if(drawWinGraphics != null){
