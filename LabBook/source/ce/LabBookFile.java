@@ -18,7 +18,7 @@ public class LabBookFile implements LabBookDB
     File file;
     DataStream ds;
 
-    int objIndexStart = 8;
+    int objIndexStart = 16;
     int [] objIndex;
 
     Vector objects = new Vector();
@@ -126,6 +126,8 @@ public class LabBookFile implements LabBookDB
 	if(newDB){
 	    curDevId = 0;
 	    nextObjId = 0;
+	    rootDevId = 0;
+	    rootObjId = 0;
 	    return;
 	} else {
 	    curDevId = ds.readInt();
@@ -185,6 +187,10 @@ public class LabBookFile implements LabBookDB
 	file.seek(0);
 	ds.writeInt(curDevId);
 	ds.writeInt(nextObjId);
+	ds.writeInt(rootDevId);
+	ds.writeInt(rootObjId);
+	
+	
 
 	file.seek(objIndexStart);
 	ds.writeInt(numObj);
@@ -323,6 +329,9 @@ public class LabBookFile implements LabBookDB
 	fObj.buffer = new byte [count];
 	Vm.copyArray(buffer, start, fObj.buffer, 0, count);
 	objects.add(fObj);
+	if(devId == curDevId && nextObjId <= objId){
+	    nextObjId = objId;
+	}
 	return true;	
     }
 

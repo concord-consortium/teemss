@@ -268,21 +268,24 @@ public class LObjDictionaryView extends LabObjectView
 		}
 
 	    } else if(e.getActionCommand().equals("Export")){
-		TreeNode curNode = treeControl.getSelected();
-		LObjDictionary parent = (LObjDictionary)treeControl.getSelectedParent();
-		if(parent == null) return;
+		if(waba.sys.Vm.getPlatform().equals("PalmOS")){
+		    dict.lBook.export(null, null);
+		} else {
+		    TreeNode curNode = treeControl.getSelected();
+		    LObjDictionary parent = (LObjDictionary)treeControl.getSelectedParent();
+		    if(parent == null) return;
+		    
+		    LabObject obj = parent.getObj(curNode);
+		    
+		    FileDialog fd = FileDialog.getFileDialog(FileDialog.FILE_SAVE, null);
+		    fd.setFile(obj.name);
+		    fd.show();
 
-		LabObject obj = parent.getObj(curNode);
-
-		FileDialog fd = FileDialog.getFileDialog(FileDialog.FILE_SAVE, null);
-		fd.setFile(obj.name);
-		fd.show();
-
-		LabBookFile lbFile = new LabBookFile(fd.getFilePath());
-		dict.lBook.export(obj.ptr, lbFile);
-		lbFile.save();
-		lbFile.close();
-
+		    LabBookFile lbFile = new LabBookFile(fd.getFilePath());
+		    dict.lBook.export(obj.ptr, lbFile);
+		    lbFile.save();
+		    lbFile.close();
+		}
 	    } else if(e.getActionCommand().equals("Properties...")){
 		TreeNode curNode = treeControl.getSelected();
 		if(curNode == null || curNode.toString().equals("..empty..")) return;
