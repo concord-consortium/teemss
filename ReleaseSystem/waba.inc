@@ -32,7 +32,6 @@ WEXTRA_CLASSES-palm= $(CURDIR)/../wextra/classes/palm
 WEXTRA_CLASSES-ce= $(CURDIR)/../wextra/classes/ce
 
 
-CLASSPATH=
 PLATFORM_CP= $(subst _CUR_PLATFORM_,$(1),$(CLASSPATH))
 COMPILE_CP= $(WEXTRA_CLASSES-$(1)):$(WABA_CLASSES-$(1))
 ARCHIVE_CP= $(WEXTRA_CLASSES-$(1))
@@ -59,7 +58,7 @@ $(CLASSES_DIR) $(BIN_DIR) $(WJUMP_DIR):
 	-mkdir $@
 
 $(PLATFORMS:%=$(CLASSES_DIR)/%): $(CLASSES_DIR)
-	-mkdir $@
+	[ -d $@ ] || -mkdir $@
 
 warp: $(BIN_DIR) $(WARP_PLATFORM)
 	cd $(CLASSES_DIR)/$(WARP_PLATFORM); java \
@@ -67,7 +66,7 @@ warp: $(BIN_DIR) $(WARP_PLATFORM)
 wababin.Warp c ../../$(BIN_DIR)/$(MW_CLASS) $(MW_CLASS).class
 
 exegen: $(BIN_DIR) 
-	cd $(CLASSES_DIR); java -classpath $(WEXTRAS_DIR) wababin.Exegen /l $(EXE_CLASS_HEAP_SIZE) /m $(EXE_OBJ_HEAP_SIZE) /s 5000 /t 50 $(MW_CLASS) $(MW_CLASS) $(MW_CLASS); mv $(MW_CLASS).lnk ../bin
+	cd $(CLASSES_DIR); java -classpath $(CLASSPATH):$(WEXTRAS_DIR) wababin.Exegen /l $(EXE_CLASS_HEAP_SIZE) /m $(EXE_OBJ_HEAP_SIZE) /s 5000 /t 50 $(MW_CLASS) $(MW_CLASS) $(MW_CLASS); mv $(MW_CLASS).lnk ../bin
 
 jump: $(BIN_DIR) $(CLASSES_DIR)/$(JUMP_PLATFORM)
 	cd $(WJUMP_DIR);pilrc -R $(MW_CLASS).res $(MW_CLASS).rcp
@@ -75,25 +74,40 @@ ifeq ($(JUMP_PLATFORM),)
 	javac -classpath $(CLASSPATH):$(call ARCHIVE_CP,palm):$(WABAJUMP_DIR)  \
 -d $(CLASSES_DIR)/$(JUMP_PLATFORM) \
 -O $(wildcard source/*.java)
-	cd $(WJUMP_DIR);java -classpath $(JUMP_JAR):.:$(CLASSPATH):$(call ARCHIVE_CP,palm):$(WABAJUMP_DIR):../$(CLASSES_DIR) \
+	cd $(WJUMP_DIR);java -classpath $(JUMP_JAR):$(CLASSPATH):$(call ARCHIVE_CP,palm):$(WABAJUMP_DIR):../$(CLASSES_DIR) \
  	   Jump -mw $(MW_CLASS) 
 else
 	javac -classpath $(call PLATFORM_CP,$(JUMP_PLATFORM)):$(call ARCHIVE_CP,palm):$(WABAJUMP_DIR)  \
 -d $(CLASSES_DIR)/$(JUMP_PLATFORM) \
 -O $(wildcard source/*.java) $(wildcard source/$(JUMP_PLATFORM)/*.java)
-	cd $(WJUMP_DIR);java -classpath $(JUMP_JAR):.:$(call PLATFORM_CP,$(JUMP_PLATFORM)):$(call ARCHIVE_CP,palm):$(WABAJUMP_DIR):../$(CLASSES_DIR)/$(JUMP_PLATFORM) Jump -mw $(MW_CLASS)
+	cd $(WJUMP_DIR);java -classpath $(call PLATFORM_CP,$(JUMP_PLATFORM)):$(JUMP_JAR):$(call ARCHIVE_CP,palm):$(WABAJUMP_DIR):../$(CLASSES_DIR)/$(JUMP_PLATFORM) Jump -mw $(MW_CLASS)
 endif
 	cd $(WJUMP_DIR); pila $(MW_CLASS).asm
 	mv $(WJUMP_DIR)/$(MW_CLASS).prc $(BIN_DIR)
 	cd $(WJUMP_DIR);rm *.res *.asm *.bin
 
+empty=
+space= $(empty) $(empty)
+fill= ^
+array = testing one; testing two; testing 3
+replace_space = $(subst $(space),$(fill),$(strip $(1)))
+foreach_array = $(foreach element, $(subst ;,$(space),$(call replace_space, $(1))), \
+$(call $(2), $(subst $(fill),$(space),$(element))))
+
+command = echo start $(subst $(space), inside ,$(strip $(1))) ending;
 test: 
 	echo $$PILAINC
+	$(call foreach_array, $(array), command)
 
+jar_command=cd $(subst $(space),;jar c0vf $(CURDIR)/$(BIN_DIR)/$(MW_CLASS).jar ,$(strip $(1)));
+
+
+# JAR_LIST:= $(WABA_DIR) .; $(WEXTRA_CLASSES-) .; $(JAR_LIST)
 # this might need to have it's classpath twiddled with
 jar: $(BIN_DIR) $(JAR_BUILD)
-	cd $(CLASSES_DIR)/$(JAR_BUILD); jar c0vf ../../$(BIN_DIR)/$(MW_CLASS).jar $(EXT_FILES) *.class \
--C $(WABA_DIR) . -C $(WEXTRA_CLASSES-) . $(JAR_EXTRAS)
+	cd $(CLASSES_DIR)/$(JAR_BUILD); jar c0vf ../../$(BIN_DIR)/$(MW_CLASS).jar $(EXT_FILES) *.class -C $(WABA_DIR) waba/ -C $(WEXTRA_CLASSES-) org/ -C $(WEXTRA_CLASSES-) wababin/ -C $(WEXTRA_CLASSES-) extra/ \
+$(JAR_LIST)
+#	$(call foreach_array, $(JAR_LIST), jar_command)
 
 ftp: get-clients
 	@$(foreach IP_ADDRESS, $(CLIENT_IPS), $(FTP_COMMAND))
@@ -112,13 +126,13 @@ run-desk-fork=other
 run-fork=other
 
 $(RUN-FORMATS:%=run-%) run:
-	cd $(CLASSES_DIR)/$($(@)-fork); java -cp .:$(call PLATFORM_CP,$(RUN_PLATFORM)):$(call RUN_CP,$($(@)-fork)) waba.applet.Applet \
+	cd $(CLASSES_DIR)/$($(@)-fork); java -classpath .:$(call PLATFORM_CP,$(RUN_PLATFORM)):$(call RUN_CP,$($(@)-fork)) waba.applet.Applet \
 $($@) $(MW_CLASS) 
 
 DEBUG_OPTS = -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=localhost:2112,server=n,suspend=y
 
 debug:
-	cd $(CLASSES_DIR)/$(RUN_PLATFORM); java -cp .:$(call RUN_CP,$(RUN_FORK)) $(DEBUG_OPTS) waba.applet.Applet $(run-desk) $(MW_CLASS)
+	cd $(CLASSES_DIR)/$(RUN_PLATFORM); java -classpath .:$(call RUN_CP,$(RUN_FORK)) $(DEBUG_OPTS) waba.applet.Applet $(run-desk) $(MW_CLASS)
 
 clean:
 	rm -rf $(CLASSES_DIR)/*
