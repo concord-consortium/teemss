@@ -207,7 +207,7 @@ private waba.ui.Container		contentPane;
   }
   
    public void drawBorder(waba.fx.Graphics g){
- 	if(waba.applet.Applet.currentApplet.isColor)
+ 	if(Vm.isColor())
    		g.setColor(0, 0, 128);
  	else
    		g.setColor(0, 0, 0);
