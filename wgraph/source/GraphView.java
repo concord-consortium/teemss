@@ -22,7 +22,6 @@ import waba.fx.*;
 
 public abstract class GraphView extends Container
 {
-    Graphics myG = null;
     boolean drawn = false;
 
     public Graph2D graph = null;
@@ -35,16 +34,34 @@ public abstract class GraphView extends Container
 		width = w;
 		height = h;
 
-		buffer = new Image(w, h);
-		bufG = new Graphics(buffer);
     }
 
-    public void plot()
+	public void makeActive(boolean flag)
+	{
+		if(flag && buffer==null){
+			buffer = new Image(width, height);
+			bufG = new Graphics(buffer);
+		} else if(!flag && buffer != null){
+			if(buffer != null) buffer.free();
+			if(bufG != null) bufG.free();
+			buffer = null;
+			bufG = null;
+		}
+	}
+
+	public void plot()
+	{
+		Graphics g = createGraphics();
+		if(g == null) return;
+		plot(g);
+		g.free();
+	}
+
+    public void plot(Graphics myG)
     {
-		myG = createGraphics();
 		if(myG == null) return;
 
-		if(!drawn || graph.redraw){
+		if(!drawn || graph.redraw || bufG != null){
 			graph.draw(bufG);
 			myG.copyRect(buffer, 0, 0, width, height, 0, 0); 	    
 			drawn = true;
@@ -53,10 +70,17 @@ public abstract class GraphView extends Container
 		}
     }
 
+	public void draw(Graphics g)
+	{
+		drawn = false;
+		plot(g);
+	}
+
     public void draw()
     {
-		drawn = false;
-		plot();
+		Graphics g = createGraphics();
+		draw(g);
+		g.free();
     }
 
     public void setPos(int x, int y)
@@ -76,6 +100,9 @@ public abstract class GraphView extends Container
     {
 		if(buffer != null) buffer.free();
 		if(bufG != null) bufG.free();
+		buffer = null;
+		bufG = null;
+
 		if(graph != null) graph.free();
     }
 

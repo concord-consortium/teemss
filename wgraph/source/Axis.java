@@ -44,6 +44,10 @@ public class Axis
      *  The Axis is designed to show a portion of its full length
      *  These values are the full length values.
      *  the disp* values are the "portion". 
+	 *
+	 *  Also note the int values are in screen resolution and can 
+	 *  be negative. (think about the yaxis)  So for a regular
+	 *  yaxis dispLen and length will be negative
      */
     float min;
     int length;
@@ -152,17 +156,17 @@ public class Axis
 	public void init()
 	{
 		if(label == null){
-			label = new TextLine("0");
+			label = new TextLine();
 			label.maxDigits = 2;
 		}
 
 		if(axisLabel == null){
 			switch(orient){
 			case X_SCREEN_AXIS:
-				axisLabel = new TextLine("", TextLine.RIGHT);
+				axisLabel = new TextLine(TextLine.RIGHT);
 				break;
 			case Y_SCREEN_AXIS:
-				axisLabel = new TextLine("", TextLine.UP);
+				axisLabel = new TextLine(TextLine.UP);
 				break;
 			}
 		}
@@ -203,8 +207,10 @@ public class Axis
 		}
 	}
 
+	private boolean axisLabelChanged = true;
 	public void setAxisLabel(String label, CCUnit unit)
 	{
+		axisLabelChanged = true;
 		axisLabelStr = label;
 		axisLabelUnit = unit;
 		notifyListeners(LABEL_CHANGE);
@@ -223,20 +229,26 @@ public class Axis
 		setScale((dispLen - axisDir) / range);
     }
 
+	int drawnLabelExp = -10000;
 	public void drawAxisLabel(Graphics g, int edgePos)
 	{
-		String unitStr;
-		if(axisLabelUnit != null){
-			unitStr = " (" + axisLabelUnit.abbreviation + ")";
-		} else {
-			unitStr = "";
+		if(axisLabelChanged || labelExp != drawnLabelExp){
+			String unitStr;
+			if(axisLabelUnit != null){
+				unitStr = " (" + axisLabelUnit.abbreviation + ")";
+			} else {
+				unitStr = "";
+			}
+
+			if(labelExp != 0){
+				axisLabel.setText(axisLabelStr + unitStr + "  10^"+ labelExp);
+			} else {
+				axisLabel.setText(axisLabelStr + unitStr);
+			}
+			drawnLabelExp = labelExp;
+			axisLabelChanged = false;
 		}
 
-		if(labelExp != 0){
-			axisLabel.setText(axisLabelStr + unitStr + "  10^"+ labelExp);
-		} else {
-			axisLabel.setText(axisLabelStr + unitStr);
-		}
 		if(labelEdge == TextLine.RIGHT_EDGE){
 		   axisLabel.drawCenter(g, edgePos, drawnY + dispLen/2, TextLine.LEFT_EDGE);
 		} else if(labelEdge == TextLine.TOP_EDGE){
@@ -508,7 +520,7 @@ public class Axis
 					// make TextLine
 					if(majTicLabels[i] == null){
 						majTicLabels[i] = curLabel = 
-							new TextLine("");
+							new TextLine();
 						curLabel.minDigits = label.minDigits;
 						curLabel.maxDigits = label.maxDigits;
 						curLabel.setText(curLabelVal);
@@ -549,7 +561,7 @@ public class Axis
 					// make TextLine
 					if(majTicLabels[i] == null){
 						majTicLabels[i] = curLabel = 
-							new TextLine("");
+							new TextLine();
 						curLabel.minDigits = label.minDigits;
 						curLabel.maxDigits = label.maxDigits;
 						curLabel.setText(curLabelVal);
@@ -608,26 +620,47 @@ public class Axis
 		notifyListeners(SCALE_CHANGE);
     }
 
-    public void setDispOffset(float startMin, int newDO)
+	public void setCacheAbs(int cacheOffset, int cacheLen)
+	{
+		min = cacheOffset/scale;
+		length = cacheLen;
+		if(drawnX != -1){
+			dispOffset = (int)((dispMin - min) * scale);
+		}
+		setFirstTic();
+		needCalcTics = true;							
+	}
+
+	public void setCache(int cacheBefore, int cacheAfter)
+	{
+		min = dispMin - cacheBefore/scale;
+		length = dispLen + cacheAfter + cacheBefore;
+		dispOffset = (int)((dispMin - min) * scale);
+		setFirstTic();
+		needCalcTics = true;					
+	}
+
+    public void setDispOffset(float startMin, int newDO, boolean cache)
     {
 		dispMin = startMin + (float)newDO / scale;
 		dispOffset = (int)((dispMin - min) * scale);
 	
-		if((axisDir*(dispOffset + dispLen) > axisDir*length) ||
+		if(cache ||
+		   (axisDir*(dispOffset + dispLen) > axisDir*length) ||
 		   (dispMin < min)){
-			min = dispMin - (dispLen/scale);
-			length = 3*dispLen;
-			dispOffset = (int)((dispMin - min) * scale);
-			setFirstTic();
-			needCalcTics = true;
-		}
+			setCache(dispLen, dispLen);
+		} 
 		
 		notifyListeners(ORIGIN_CHANGE);
     }
 
+    public void setDispOffset(float startMin, int newDO)
+    {
+		setDispOffset(startMin, newDO, true);
+	}
     public void setDispMin(float newDM)
     {
-		setDispOffset(newDM, 0);
+		setDispOffset(newDM, 0, true);
     }
 
 	public void init(int x, int y)

@@ -120,7 +120,11 @@ public class SplitAxis extends Axis
      */
     public void setScale(float newScale, boolean eScale)
     {
-		if(!estimateScale && eScale) oldScale = scale;
+		boolean saveScale = false;
+		if(!estimateScale && eScale){
+			oldScale = scale;
+			saveScale = true;
+		}
 		estimateScale = eScale;
 
 		scale = newScale;
@@ -158,7 +162,7 @@ public class SplitAxis extends Axis
 		if(newXaxisStartPos == -1){
 			newXaxisStartPos = curStartPos + (int)(((startPos - oldScaleSP) / xa.scale) * scale);
 		}
-		xa.setScale(scale);
+		xa.setScale(scale, eScale);
 
 		startPos = newXaxisStartPos;
 
@@ -191,6 +195,83 @@ public class SplitAxis extends Axis
 		}
 
 		return dispMin = (startPos - curStartPos) / scale;
+	}
+
+	public void cacheAxis()
+	{
+		int curStartPos = 0;
+		Axis xa;
+		int cacheLen;
+		int i;
+
+		int startCachePos = startPos - dispLen;
+		curStartPos = 0;
+
+		// Find the first axis to cache
+		int firstCache = -1;
+		int xaScMax;
+		for(i=0;i<numAxis;i++){
+			xa = axisArray[i];
+			if(xa.max > (float)1E25)
+				// This is the active axis
+				xaScMax = (int)0x7FFFFFF - curStartPos - 10;
+			else
+				xaScMax = (int)(xa.max * xa.scale);
+			if(firstVisible == -1){
+				if(startCachePos < (curStartPos + xaScMax)){
+					firstCache = i;
+					// Once we found a visible one we need to leave the
+					// curStartPos at the begining of this axis
+					continue;
+				}
+				curStartPos += xaScMax + 10;
+			}
+		}
+
+		if(firstCache == -1){
+			return;
+		}
+
+		int endPoint = startCachePos + dispLen*3;
+		int cacheOffset = 0;
+		for(i=firstCache;i<numAxis;i++){
+			xa = axisArray[i];
+			if(curStartPos >= endPoint){
+				break;
+			}
+
+			if(curStartPos < startCachePos){
+				// This axis starts before the cache area so we need to offset it
+				cacheOffset = startCachePos - curStartPos;
+				curStartPos = startCachePos;
+				if(xa.max > (float)1E25){
+					// this is the active axis
+					cacheLen = dispLen*3;
+				} else {
+					cacheLen = (int)(xa.max * xa.scale) - (startCachePos - curStartPos);
+				}
+			} else {
+				// The axis starts in the cache area
+				// Set the dispMin correctly
+				cacheOffset = 0;
+				if(xa.max > (float)1E25){
+					// this is the active axis
+					cacheLen = dispLen*3;
+				} else {
+					cacheLen = (int)(xa.max * xa.scale);
+				}
+			} 
+	
+			if(cacheLen + (curStartPos - startCachePos) >= dispLen*3){
+				// The axis extends beyond the cache area
+				xa.setCacheAbs(cacheOffset, cacheLen);
+			} else {
+				// This axis ends before the end of the cache area 
+				xa.setCacheAbs(cacheOffset, cacheLen);
+			}
+	    
+			curStartPos += cacheLen + 10;
+		}
 	}
 
     public void scrollStartPos(int xDist)
@@ -330,7 +411,7 @@ public class SplitAxis extends Axis
 			if(curStartPos < startPos){
 				// This axis starts before the visible area so we need to offset it
 				dispOffset = startPos - curStartPos;
-				xa.setDispOffset(0f, dispOffset);
+				xa.setDispOffset(0f, dispOffset, false);
 				curStartPos = startPos;
 				if(xa.max > (float)1E25){
 					// this is the active axis
@@ -346,7 +427,7 @@ public class SplitAxis extends Axis
 						   xaxisOffset + curStartPos - startPos, yOriginOff + gridEndOff);
 
 				// And set the dispMin correctly
-				xa.setDispMin(MIN);
+				xa.setDispOffset(MIN,0,false);
 				if(xa.max > (float)1E25){
 					// this is the active axis
 					axisLen = dispLen;

@@ -55,7 +55,8 @@ public class AnnotView extends Container
 
 		lGraph = lgView.lGraph;
 		bGraph = bgView.bGraph;
-	
+
+		curView.makeActive(true);
 		add(curView);
     }
 
@@ -197,13 +198,18 @@ public class AnnotView extends Container
 			bGraph.yaxis.setScale(lgView.lGraph.yaxis.scale);
 		    
 			remove(curView);
+			curView.makeActive(false);
+
 			curView = bgView;
+			curView.makeActive(true);
 			add(curView);			
 		} else if(type == 1){
 			if(curView instanceof GraphViewLine) return;
 			
 			remove(curView);
+			curView.makeActive(false);
 			curView = lgView;
+			curView.makeActive(true);
 			add(curView);			
 		}
 

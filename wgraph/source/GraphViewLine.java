@@ -102,18 +102,16 @@ public class GraphViewLine extends GraphView
     float scrollStepSize = (float)0.15;
     int scrollSteps = 5;
 
-    public void plot()
+    public void plot(Graphics myG)
     {
+		if(myG == null) return;
 		Bin bin = lGraph.curBin;
 		float range;
 		float scrollEnd;
 		int myScrollStep = (int)(lGraph.dwWidth * scrollStepSize);
 		Axis xaxis = lGraph.xaxis.lastAxis;
 
-		if(!drawn || graph.redraw){
-			myG = createGraphics();
-			if(myG == null) return;
-
+		if(!drawn || graph.redraw || bufG != null){
 			graph.draw(bufG);
 			myG.copyRect(buffer, 0, 0, width, height, 0, 0);
 			if(mode == ZOOM_MODE && selection){
@@ -135,17 +133,17 @@ public class GraphViewLine extends GraphView
 			if((scrollEnd - xaxis.dispMin) * xaxis.scale > (10 * myScrollStep)){
 				myScrollStep = (int)((scrollEnd - xaxis.dispMin) * xaxis.scale + 2);
 			}
+			
 			while((xaxis.dispMin < scrollEnd) || 
 				  (xaxis.drawnX > (lGraph.xOriginOff + 4)) ||
 				  (xaxis.drawnX == -1)){
-				lGraph.scroll(myScrollStep, 0);
+				lGraph.scrollNoCache(myScrollStep, 0);
 				drawn = false;
-				super.plot();
+				super.plot(myG);
 			}
+			lGraph.scroll(0,0);
 			postEvent(new ControlEvent(1006, this));
 		} else {
-			myG = createGraphics();
-			if(myG == null) return;
 			graph.plot(myG);
 		}
     }
@@ -288,7 +286,11 @@ public class GraphViewLine extends GraphView
 						switch(mode){
 						case ANNOT_MODE:
 						case DRAG_MODE:
-							lGraph.scroll(-moveX, -moveY);
+							if(e.type == PenEvent.PEN_DRAG){
+								lGraph.scrollNoCache(-moveX, -moveY);
+							} else {
+								lGraph.scroll(-moveX, -moveY);
+							}
 							draw();
 							postEvent(new ControlEvent(1006, this));
 							break;

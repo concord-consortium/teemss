@@ -47,7 +47,9 @@ public class LabelBuf extends Control
     
     public void draw()
     {
-		onPaint(createGraphics());
+		Graphics g = createGraphics();
+		onPaint(g);
+		g.free();
     }
 
     public void setText(String s)

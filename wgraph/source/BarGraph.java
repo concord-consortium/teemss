@@ -114,6 +114,7 @@ public class BarGraph extends Graph2D
     {
 	bars = new Vector();
 	curValues = null;
+	if(barSet != null) barSet.free();
 	barSet = new BarSet(yaxis, 1, BarSet.BOTTOM);
 	numBars = 0;
 	redraw = true;
@@ -131,10 +132,12 @@ public class BarGraph extends Graph2D
 	bars.del(index);
 
 	if(numBars == 0){
+		if(barSet != null) barSet.free();
 	    barSet = new BarSet(yaxis, 1, BarSet.BOTTOM);
 	    curValues = null;
 	} else {
 	    curValues = new float[numBars];
+		if(barSet != null) barSet.free();
 	    barSet = new BarSet(yaxis, numBars, BarSet.BOTTOM);
 	    
 	    for(i=0; i < numBars; i++){

@@ -76,7 +76,7 @@ public class TextLine extends Object {
 		font = f;
 		fontMet = MainWindow.getMainWindow().getFontMetrics(font);
 
-		setText(v);
+		setText(v, false);
 	}
 
 	public TextLine(float v){
@@ -90,7 +90,7 @@ public class TextLine extends Object {
 		font = f;
 		fontMet = MainWindow.getMainWindow().getFontMetrics(font);
 
-		setText(s);
+		setText(s, false);
     }
 
     public TextLine(String s){
@@ -115,6 +115,11 @@ public class TextLine extends Object {
 	public TextLine(){
 		fontMet = MainWindow.getMainWindow().getFontMetrics(MainWindow.defaultFont);
 	}		
+
+	public TextLine(int d){
+		this();
+		direction = d;
+	}
 
     public void free()
     {
@@ -220,10 +225,15 @@ public class TextLine extends Object {
 		return true;
     }
 
+	public void setText(float v)
+	{
+		setText(v, true);
+	}
+
 	float fVal = Maths.NaN;
 	int fMinDigits = -1;
 	int fMaxDigits = -1;
-	public void setText(float v)
+	public void setText(float v, boolean update)
 	{
 		if(v == fVal && fMinDigits == minDigits && 
 		   fMaxDigits == maxDigits){
@@ -232,11 +242,16 @@ public class TextLine extends Object {
 			fVal = v;
 			fMaxDigits = maxDigits;
 			fMinDigits = minDigits;
-			setText(fToString(v));
+			setText(fToString(v), update);
 		}
 	}
 
-    public void setText(String s)
+	public void setText(String s)
+	{
+		setText(s, true);
+	}
+
+    public void setText(String s, boolean update)
     {
 		if(text != null && text.equals(s)) return;
 		text = s;
@@ -244,7 +259,8 @@ public class TextLine extends Object {
 		if(buffer != null) buffer.free();
 		if(bufG != null)bufG.free();
 		buffer = null;
-		updateBuffer();
+
+		if(update) updateBuffer();
     }
 
     /* Draw starting at the upper left hand corner
@@ -275,10 +291,11 @@ public class TextLine extends Object {
 		Graphics rotG = null;
 		Graphics g = null;
 
-		if(width <= 0 || height <= 0){
+		if(width <= 0 || height <= 0 || width > 160 || height > 160){
 			buffer = null;
 			return;
 		}
+
 		buffer = new Image(width, height);
 		g = bufG = new Graphics(buffer);
 
@@ -289,9 +306,6 @@ public class TextLine extends Object {
 
 		offsI = new Image(textWidth, textHeight);
 		offsG = new Graphics((ISurface)offsI);
-
-		if(font != null) offsG.setFont(font);
-		offsG.setColor(col[0],col[1],col[2]);
 
 		drawRight(offsG, 0, 0);
 

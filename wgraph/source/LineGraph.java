@@ -240,11 +240,19 @@ public class LineGraph extends Graph2D
     public void scroll(int xDist, int yDist)
     {
 		xaxis.scrollStartPos(xDist);
+		xaxis.cacheAxis();
+
+		yaxis.setDispOffset(yaxis.dispMin, yDist, true);
+    }
+
+	public void scrollNoCache(int xDist, int yDist)
+	{
+		xaxis.scrollStartPos(xDist);
 
 		if(yDist != 0){
-			yaxis.setDispMin(yaxis.dispMin + yDist / yaxis.scale);
+			yaxis.setDispOffset(yaxis.dispMin, yDist, false);
 		}
-    }
+	}
 
     // return a Object linked to this location
     // we are ignoring location for now
