@@ -41,6 +41,12 @@ MainWindow 		owner;
 		add(choosePenButton);
 	}
 	
+	public void destroy(){
+		if(drawArea != null) drawArea.destroy();
+		if(colorChooser != null) colorChooser.destroy();
+		if(penChooser != null) penChooser.destroy();
+	}
+	
 	public void onPaint(Graphics g){
 		paintChildren(g,0,0,width,height);
 	}
@@ -98,6 +104,14 @@ CCDrawPath	currPath = null;
 		pen.setPenSize((byte)1,(byte)1);
 		pen.setPenColor(0,0,0);
 	}
+	
+	public void destroy(){
+		if(bufIm != null){
+			bufIm.free();
+			bufIm = null;
+		}
+	}
+	
 	public void setPenColor(int red,int green,int blue){
 		pen.setPenColor(red,green,blue);
 		createOffGraphics();

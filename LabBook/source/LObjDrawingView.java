@@ -54,6 +54,7 @@ public class LObjDrawingView extends LabObjectView
 
     public void close()
     {
+    	scribble.destroy();
     }
 
     public void onEvent(Event e)

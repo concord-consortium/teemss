@@ -8,6 +8,10 @@ int	nPens = 8;
 		super.setRect(x,y,16,h);
 		dh = (int)((float)height / nPens + 0.5);
 	}
+
+	public void destroy(){
+	}
+
 	public void onPaint(waba.fx.Graphics gr){
 		int y = 0;
 		gr.setColor(0,0,0);
