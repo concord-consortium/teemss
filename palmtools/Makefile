@@ -22,3 +22,5 @@ pilrc-2.8p6/Makefile:
 
 clean:
 # do nothing for now
+
+include ../ReleaseSystem/Makefile.inc
