@@ -68,6 +68,8 @@ public abstract class LObjSubDict extends LabObject
     {
 		if(dict != null){
 			dict.setName(getName());
+			// we need to keep our locking consistent
+			// don't know how yet
 			dict.store();
 		}
 		super.store();

@@ -660,19 +660,29 @@ public class LabBook
     {	
 		LabObjectPtr retObjPtr = null;
 
+		boolean checkLoaded = false;
+		boolean localCopy = false;
+		if(srcDB == this.db){
+			checkLoaded = true;
+			localCopy = true;
+		}
+
+		if(localCopy &&
+		   ((lObjPtr.flags & LabObject.FLAG_LOCKED) != 0)){
+			// This is locked object so we shouldn't copy it
+			// just return the srcPtr to the current dict
+			return lObjPtr;
+		}
+
 		Vector trans = new Vector();
 		Vector dictionaries = new Vector();
+
 		LabObjectPtr ptr =  retObjPtr = copy(lObjPtr, srcDB, destDB, trans);
 
 		if(lObjPtr.objType == DefaultFactory.DICTIONARY){
 			dictionaries.add(lObjPtr);
 			dictionaries.add(ptr);
 		} 
-
-		boolean checkLoaded = false;
-		if(srcDB == this.db){
-			checkLoaded = true;
-		}
 
 		int curDict=0;
 		while(curDict < dictionaries.getCount()){
@@ -699,6 +709,13 @@ public class LabBook
 
 				LabObjectPtr srcPtr = (LabObjectPtr)srcDict.objects.get(i);
 				initPointer(srcPtr, srcDB, false);
+				if(localCopy &&
+				   ((srcPtr.flags & LabObject.FLAG_LOCKED) != 0)){
+					// This is locked object so we shouldn't copy it
+					// just add the srcPtr to the current dict
+					destDict.objects.add(srcPtr);
+					continue;
+				}
 
 				ptr = copy(srcPtr, srcDB, destDB, trans);
 				if(ptr.objType == DefaultFactory.DICTIONARY &&
