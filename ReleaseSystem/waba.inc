@@ -161,6 +161,6 @@ debug:
 clean:
 	rm -rf $(CLASSES_DIR)/*
 	rm -rf $(BIN_DIR)/*
-	rm -f $(WJUMP_DIR)/*.bin $(WJUMP_DIR)/*.res
+	rm -f $(WJUMP_DIR)/*.bin $(WJUMP_DIR)/*.res $(WJUMP_DIR)/*.asm
 
 include ../ReleaseSystem/Makefile.inc
