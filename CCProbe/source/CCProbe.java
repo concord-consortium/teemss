@@ -260,7 +260,7 @@ public class CCProbe extends MainView
 				String [] buttons = {"Beam", "Cancel"};
 				beamLBDialog = Dialog.showConfirmDialog(this, "Confirm", 
 														"Close CCProbe on the receiving| " +
-														"Palm before beaming",
+														"Palm before beaming.",
 														buttons,
 														Dialog.INFO_DIALOG);
 			} else if(command.equals("Serial Port Setup..")){

@@ -15,7 +15,7 @@ import org.concord.LabBook.*;
 	
 public class LObjDataCollectorView extends LabObjectView
     implements ActionListener, ViewContainer, LabObjListener,
-			   GraphTool
+			   GraphTool, DialogListener
 {
     LObjDataCollector dc;
     LObjGraphView gv;
@@ -208,6 +208,20 @@ public class LObjDataCollectorView extends LabObjectView
 		}
 	}
 
+	Dialog doneDialog = null;
+	public void dialogClosed(DialogEvent e)
+	{
+		String command = e.getActionCommand();
+		if(e.getSource() == doneDialog){
+			if(command.equals("Exit")){
+				// let our parent know we've been done'd
+				if(container != null){
+					container.done(this);
+				}
+			}
+		}
+	}
+
     public void setRect(int x, int y, int width, int height)
     {
 		super.setRect(x,y,width,height);
@@ -329,6 +343,21 @@ public class LObjDataCollectorView extends LabObjectView
 				// need to tell the GraphView to stop
 				stop(true);
 			} else if(target == doneB){
+				if(collectButton.isSelected()){
+					stop(true);
+					return;
+				}
+
+				if(!graph.isCurDataSaved()){
+					String [] buttons = {"Exit", "Cancel"};
+					doneDialog = Dialog.showConfirmDialog(this, "Confirmation",
+														  "Your data has not been saved.| " +
+														  "Are you sure you want to| " +
+														  "exit and lose this data?",
+														  buttons, Dialog.QUEST_DIALOG);
+					return;
+				}
+
 				// let our parent know we've been done'd
 				if(container != null){
 					container.done(this);
