@@ -843,10 +843,8 @@ private CCStringWrapper textWasChosen = null;
 			labBookDialog.hide();
 			labBookDialog = null;
 		}
-		System.out.println("dict "+dict);
 		if(dict != null){
 			MainWindow mw = MainWindow.getMainWindow();
-			System.out.println("mw "+mw);
 			if(!(mw instanceof ExtraMainWindow)) return;
 			labBookDialog = new CCTextAreaChooser((ExtraMainWindow)mw,(LObjDictionary)LabObject.lBook.load(LabObject.lBook.getRoot()),this,this);
 			labBookDialog.setRect(0,0,150,150);
