@@ -333,7 +333,13 @@ public final static int	yTextBegin = 2;
 		boolean wasComponents = in.readBoolean();
 		if(!wasComponents) return;
 		int nComp = in.readInt();
-		if(nComp < 1) return;
+		if(nComp == 0) return;
+		if(nComp < 0){
+			int version = in.readInt();
+			if(version <= 0) return;
+//reading of lines'properties			
+		}
+		
 		components = new LBCompDesc[nComp];
 		for(int i = 0; i < nComp; i++){
 			boolean wasPart = in.readBoolean();
@@ -1252,14 +1258,24 @@ public final static int	yTextBegin = 2;
 	}
 	public void paintChildren(Graphics g, int x, int y, int width, int height){
 		super.paintChildren(g,x,y,width,height);
-		if(g != null && currObjectViewDesc != null){
+		if(getEditMode() && g != null && currObjectViewDesc != null){
 			if(currObjectViewDesc.getObject() instanceof LabObjectView){
 				LabObjectView objView = (LabObjectView)currObjectViewDesc.getObject();
 				Rect rClip = getRect();
 				g.setClip(0,0,rClip.width,rClip.height);
 				Rect rObj = objView.getRect();
-				g.setColor(0,0,0);
+				boolean isColor = waba.sys.Vm.isColor();
+				if(!isColor){
+					g.setColor(0,0,0);
+					g.drawRect(rObj.x-1,rObj.y-1,rObj.width+2,rObj.height+2);
+				}else{
+					g.setColor(0,0,255);
+				}	
 				g.drawRect(rObj.x,rObj.y,rObj.width,rObj.height);
+				
+			
+			
+				g.setColor(0,0,0);
 				g.clearClip();
 			}
 		}
