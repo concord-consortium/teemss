@@ -17,11 +17,6 @@ public class DefaultFactory
     final public static int DRAWING 			= 9;
     final public static int IMAGE 				= 11;
 
-	public LabObjectFactory makeFactory(){
-		DefaultFactory factory = new DefaultFactory();
-		factory.createLabBookObjDescriptors();
-		return factory;
-	}
 	public LabObject constructObj(int objectType){
 		LabObject obj = null;
 		switch(objectType){

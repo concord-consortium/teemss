@@ -16,8 +16,16 @@ public LabObjDescriptor []labBookObjDesc;
 		return obj;
 	}
 	
-	public abstract LabObjectFactory makeFactory();
 	public abstract LabObject constructObj(int objectType);
 	public abstract void createLabBookObjDescriptors();
+	
+	public LabObjDescriptor [] getLabBookObjDesc(){
+		if(labBookObjDesc == null){
+			createLabBookObjDescriptors();
+		}
+		return labBookObjDesc;
+	}
+	
+	
 	public abstract int getFactoryType();
 }

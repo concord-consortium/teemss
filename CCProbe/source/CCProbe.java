@@ -34,7 +34,7 @@ public class CCProbe extends ExtraMainWindow
     public void onStart()
     {
 		LabBook.init();
-		LabBook.addFactory(new DataObjFactory());
+		LabBook.registerFactory(new DataObjFactory());
 
 		// Dialog.showImages = false;
 		// ImagePane.showImages = false;

@@ -13,12 +13,6 @@ public class DataObjFactory
     final public static int UCONVERTOR 			= 10;
     final public static int PROBE_DATA_SOURCE 	= 12;
 
-	public LabObjectFactory makeFactory(){
-		DataObjFactory factory = new DataObjFactory();
-		factory.createLabBookObjDescriptors();
-		return factory;
-	}
-	
     public LabObject constructObj(int objectType)
     {
 		LabObject obj = null;
@@ -40,7 +34,9 @@ public class DataObjFactory
 	public int getFactoryType(){
 		return DATAOBJ_FACTORY;
 	}
+	
 	public void createLabBookObjDescriptors(){
+		labBookObjDesc = new LabObjDescriptor[5];
 		labBookObjDesc[0] = new LabObjDescriptor("DataSet",DATA_SET);
 		labBookObjDesc[1] = new LabObjDescriptor("Graph",GRAPH);
 		labBookObjDesc[2] = new LabObjDescriptor("Data Collector",DATA_COLLECTOR);
