@@ -238,9 +238,15 @@ public class PropObject
 		}
 	}
 	
-	public boolean setVisValue(String value){
+	/*
+	 * return:
+	 * -1 means invalid value
+	 * 0 means no change
+	 * 1 means new value;
+	 */
+	public int setVisValue(String value){
 		int newIndex = -1;
-		if(value == null) return false;
+		if(value == null) return -1;
 		boolean inPossibleValue = false;
 		if(visPossibleValues == null){
 			inPossibleValue = true;
@@ -253,13 +259,16 @@ public class PropObject
 				}
 			}
 		}
-		if(inPossibleValue && 
-		   !value.equals(visValue)){
-			visValue = value;
-			visIndex = newIndex;
-			return true;
+		if(inPossibleValue){
+			if(!value.equals(visValue)){
+				visValue = value;
+				visIndex = newIndex;
+				return 1;
+			} else {
+				return 0;
+			}
 		}
-		return false;
+		return -1;
 	}
 
 	private float getFValue(String value){

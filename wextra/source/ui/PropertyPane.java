@@ -67,23 +67,35 @@ public class PropertyPane extends Container
 		Control c = (Control)po.getCookie();
 
 		if(c instanceof Edit){
-			if(po.setVisValue(((Edit)c).getText())){
+			switch(po.setVisValue(((Edit)c).getText())){
+			case -1:
+				// The new visible value was rejected
+				((Edit)c).setText(po.getVisValue());
+				break;
+			case 0:
+				// no change
+				return true;
+			case 1:
 				// at this point the container can cause an update of the pane
 				// for instance if this change affects other values
 				// the container can update those values
 				forceSetup = propContainer.visValueChanged(po);
 				return true;
-			} else {
-				// The new visible value was rejected
-				((Edit)c).setText(po.getVisValue());
-			}
+			} 
 		}else if(c instanceof Choice){
-			if(po.setVisValue(((Choice)c).getSelected())){
-			   forceSetup = propContainer.visValueChanged(po);
-			   return true;
-			} else {
+			switch(po.setVisValue(((Choice)c).getSelected())){
+			case -1:
+				// the new value was rejected
 				((Choice)c).setSelectedIndex(po.getVisValue());
-			}
+				break;
+			case 0:
+				// no change
+				return true;
+			case 1:
+				// value is valid and changed
+				forceSetup = propContainer.visValueChanged(po);
+				return true;
+			} 
 		} else if(c instanceof MultiList){
 			MultiList mList = (MultiList)c;
 			boolean [] checkedValues = mList.getCheckedValues();
