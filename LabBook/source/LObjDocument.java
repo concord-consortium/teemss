@@ -2,13 +2,12 @@ package org.concord.LabBook;
 
 import waba.util.*;
 import waba.ui.*;
-import extra.io.*;
+import org.concord.waba.extra.io.*;
 import org.concord.waba.extra.ui.*;
-import extra.ui.*;
 
 public class LObjDocument extends LabObject{
-String 					text = null;
-public LObjDocumentView view = null;
+	String 					text = null;
+	public LObjDocumentView view = null;
 
     public LObjDocument(){
 		super(DefaultFactory.DOCUMENT);

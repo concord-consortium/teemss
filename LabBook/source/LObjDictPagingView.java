@@ -4,7 +4,7 @@ import waba.ui.*;
 import waba.util.*;
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
-import extra.ui.*;
+import org.concord.waba.extra.ui.*;
 
 public class LObjDictPagingView extends LabObjectView 
     implements ViewContainer

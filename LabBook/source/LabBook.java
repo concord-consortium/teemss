@@ -2,7 +2,7 @@ package org.concord.LabBook;
 
 import waba.io.*;
 import waba.util.*;
-import extra.io.*;
+import org.concord.waba.extra.io.*;
 
 public class LabBook 
 {

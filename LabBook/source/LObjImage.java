@@ -4,9 +4,8 @@ import waba.util.*;
 import waba.ui.*;
 import waba.fx.*;
 
-import extra.io.*;
+import org.concord.waba.extra.io.*;
 import org.concord.waba.extra.ui.*;
-import extra.ui.*;
 import org.concord.waba.extra.event.*;
 //LabObject implements Storable
 public class LObjImage extends LabObject

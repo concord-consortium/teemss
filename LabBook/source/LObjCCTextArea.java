@@ -2,14 +2,13 @@ package org.concord.LabBook;
 
 import waba.util.*;
 import waba.ui.*;
-import extra.io.*;
+import org.concord.waba.extra.io.*;
 import org.concord.waba.extra.ui.*;
-import extra.ui.*;
 
 public class LObjCCTextArea extends LObjSubDict{
-public LObjCCTextAreaView view = null;
-LObjDictionary			curDict = null;
-static public	boolean editMode = false;
+	public LObjCCTextAreaView view = null;
+	LObjDictionary			curDict = null;
+	static public	boolean editMode = false;
     public LObjCCTextArea(){
 		super(DefaultFactory.CCTEXTAREA);
     }

@@ -2,11 +2,11 @@ package org.concord.LabBook;
 
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
+import org.concord.waba.extra.io.*;
 import waba.ui.*;
 import waba.fx.*;
 import waba.sys.*;
 import waba.util.Vector;
-import extra.io.*;
 
 public class CCTextArea  extends Container 
 	implements ViewContainer, DialogListener
@@ -1010,7 +1010,7 @@ public class CCTextArea  extends Container
 				objView = obj.getView(null, false, session);
 			}
 
-			extra.ui.Dimension d = objView.getPreferredSize();
+			Dimension d = objView.getPreferredSize();
 			if(d == null) return;
 			if(d.width > 0){
 				currObjPropControl.widthEdit.setText(""+d.width);

@@ -2,7 +2,7 @@ package org.concord.LabBook;
 
 import waba.ui.*;
 import org.concord.waba.extra.ui.*;
-import extra.io.*;
+import org.concord.waba.extra.io.*;
 
 public class LBCompDesc{
 public int 	lineBefore;

@@ -2,7 +2,7 @@ package org.concord.LabBook;
 
 import waba.ui.*;
 import waba.util.*;
-import extra.io.*;
+import org.concord.waba.extra.io.*;
 import org.concord.waba.extra.ui.*;
 
 public abstract class LabObject

@@ -4,24 +4,25 @@ import waba.ui.*;
 import waba.fx.*;
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
-import extra.ui.*;
 
-public class LObjDocumentView extends LabObjectView implements ActionListener, ScrollListener, TextAreaListener{
-TextArea 				tArea;
-Edit 					nameEdit;
-Label					nameLabel;
-boolean					nameEditWasAdded = false;
-boolean					doneButtonWasAdded = false;
-RelativeContainer 		edit = new RelativeContainer();
+public class LObjDocumentView extends LabObjectView 
+	implements ActionListener, ScrollListener, TextAreaListener
+{
+	TextArea 				tArea;
+	Edit 					nameEdit;
+	Label					nameLabel;
+	boolean					nameEditWasAdded = false;
+	boolean					doneButtonWasAdded = false;
+	RelativeContainer 		edit = new RelativeContainer();
 
-LObjDocument 			doc;
-Button 					doneButton;
+	LObjDocument 			doc;
+	Button 					doneButton;
 
-public boolean 			showName = true;
+	public boolean 			showName = true;
 
-Menu 					menu = null;
+	Menu 					menu = null;
 
-CCScrollBar				scrollBar;
+	CCScrollBar				scrollBar;
 
 	public LObjDocumentView(ViewContainer vc, LObjDocument d,boolean edit){
 		super(vc, (LabObject)d, null);
@@ -132,7 +133,7 @@ CCScrollBar				scrollBar;
 		tArea.addTextAreaListener(this);
 		if(doc.text != null)  tArea.setText(doc.text);
 		edit.add(tArea, 1, RelativeContainer.TOP, 
-		RelativeContainer.REST, RelativeContainer.REST);
+				 RelativeContainer.REST, RelativeContainer.REST);
 		add(edit);
 		if(doc.text != null)  tArea.setText(doc.text);
 		

@@ -2,11 +2,11 @@ package org.concord.LabBook;
 
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
+import org.concord.waba.extra.io.*;
 import waba.ui.*;
 import waba.fx.*;
 import waba.sys.*;
 import waba.util.Vector;
-import extra.io.*;
 
 public class TextObjPropertyView extends LabObjectView{
 	CCStringWrapper stringWrapper;

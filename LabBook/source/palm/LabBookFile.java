@@ -3,7 +3,7 @@ package org.concord.LabBook;
 import waba.io.*;
 import waba.util.*;
 import waba.sys.*;
-import extra.io.*;
+import org.concord.waba.extra.io.*;
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
 

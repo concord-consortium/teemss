@@ -2,9 +2,8 @@ package org.concord.LabBook;
 
 import waba.util.*;
 import waba.ui.*;
-import extra.io.*;
+import org.concord.waba.extra.io.*;
 import org.concord.waba.extra.ui.*;
-import extra.ui.*;
 import org.concord.waba.extra.event.*;
 //LabObject implements Storable
 public class LObjDrawing extends LabObject

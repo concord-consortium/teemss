@@ -1,7 +1,7 @@
 package org.concord.LabBook;
 
 import waba.util.*;
-import extra.io.*;
+import org.concord.waba.extra.io.*;
 import org.concord.waba.extra.ui.*;
 
 public class LObjDictionary extends LabObject

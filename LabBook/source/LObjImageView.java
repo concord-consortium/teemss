@@ -2,9 +2,8 @@ package org.concord.LabBook;
 
 import waba.util.*;
 import waba.ui.*;
-import extra.io.*;
+import org.concord.waba.extra.io.*;
 import org.concord.waba.extra.ui.*;
-import extra.ui.*;
 import org.concord.waba.extra.event.*;
 //LabObject implements Storable
 public class LObjImageView extends LabObjectView implements ActionListener
@@ -143,10 +142,10 @@ public class LObjImageView extends LabObjectView implements ActionListener
 		return iHeight;
 	}
 
-	private extra.ui.Dimension preferrDimension;
-	public extra.ui.Dimension getPreferredSize(){
+	private Dimension preferrDimension;
+	public Dimension getPreferredSize(){
 		if(preferrDimension == null){
-			preferrDimension = new extra.ui.Dimension(getPreferredWidth(),getPreferredHeight());
+			preferrDimension = new Dimension(getPreferredWidth(),getPreferredHeight());
 		}else{
 			preferrDimension.width = getPreferredWidth();
 			preferrDimension.height = getPreferredHeight();

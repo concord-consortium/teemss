@@ -1,6 +1,6 @@
 package org.concord.LabBook;
 
-import extra.io.*;
+import org.concord.waba.extra.io.*;
 
 public class LObjForm extends LabObject
 {

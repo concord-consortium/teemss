@@ -185,10 +185,10 @@ private Label	nameLabel;
 		return 40;
 	}
 
-	private extra.ui.Dimension preferrDimension;
-	public extra.ui.Dimension getPreferredSize(){
+	private Dimension preferrDimension;
+	public Dimension getPreferredSize(){
 		if(preferrDimension == null){
-			preferrDimension = new extra.ui.Dimension(getPreferredWidth(null),getPreferredHeight(null));
+			preferrDimension = new Dimension(getPreferredWidth(null),getPreferredHeight(null));
 		}else{
 			preferrDimension.width = getPreferredWidth(null);
 			preferrDimension.height = getPreferredHeight(null);

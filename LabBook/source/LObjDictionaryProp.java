@@ -4,8 +4,7 @@ import waba.ui.*;
 import waba.util.*;
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
-import extra.ui.*;
-import extra.util.*;
+import org.concord.waba.extra.util.*;
 
 public class LObjDictionaryProp extends LabObjectView
 {
@@ -98,7 +97,7 @@ public class LObjDictionaryProp extends LabObjectView
 		return -1;
 	}
 
-	public extra.ui.Dimension getPreferredSize(){
+	public Dimension getPreferredSize(){
 		return null;
 	}
 }

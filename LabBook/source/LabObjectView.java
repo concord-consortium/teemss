@@ -53,7 +53,7 @@ public abstract class LabObjectView extends Container
 
 	public int getPreferredHeight(){return -1;}
 
-	public extra.ui.Dimension getPreferredSize()
+	public Dimension getPreferredSize()
 	{
 		int pWidth = getPreferredWidth();
 		int pHeight = getPreferredHeight();
@@ -61,7 +61,7 @@ public abstract class LabObjectView extends Container
 		if(pWidth < 0 || pHeight < 0){
 			return null;
 		} else {
-			return new extra.ui.Dimension(getPreferredWidth(),getPreferredHeight());
+			return new Dimension(getPreferredWidth(),getPreferredHeight());
 		}
 	}
 
