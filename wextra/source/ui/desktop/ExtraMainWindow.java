@@ -206,7 +206,7 @@ public abstract class  ExtraMainWindow extends MainWindow implements ActionListe
 	if(popupDialog != null){
 	    if (type == PenEvent.PEN_DOWN){
 		Control c = findChild(x, y);
-		System.out.println(c);
+//		System.out.println(c);
 		if(!(c instanceof Choice)){
 		    if(!isControlHDialogOwned(c)){
 			Sound.beep();
