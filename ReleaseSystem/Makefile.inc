@@ -29,7 +29,7 @@ tag:
 	@echo "You must make a version or branch first for " $(MOD_NAME)
 	@exit 1
 
-$(DEP_TAGS) ../ReleaseSystem : ../%/tag:
+$(DEP_TAGS) ../ReleaseSystem/tag : ../%/tag:
 	@echo You must make a version or branch first for **$(*)**
 	@exit 1
 	
