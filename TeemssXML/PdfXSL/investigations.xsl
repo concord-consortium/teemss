@@ -77,6 +77,7 @@
            font-family and size, line-heigth etc. -->
 
        <!-- this defines a title -->
+<!--
       <fo:block font-size="18pt" 
             font-family="sans-serif" 
             line-height="24pt"
@@ -87,8 +88,125 @@
             padding-top="3pt">
 	
         <xsl:value-of select="title"/>
-
       </fo:block>
+-->
+
+<fo:block break-after="page">
+<fo:block font-size="18pt" font-weight="bold"
+     space-before="6pt" space-after="6pt"
+     text-align="center">  
+<fo:block>
+<xsl:value-of select="ancestor::unit/title"/>
+</fo:block>
+<fo:block>
+<xsl:value-of select="title"/>
+</fo:block>
+</fo:block>
+<fo:block  space-after="2em" margin-left="2em">
+<xsl:apply-templates select="question"/>
+</fo:block>
+<fo:list-block>
+<fo:list-item space-after="0.5em">
+ <fo:list-item-label start-indent="1em">
+	<fo:block>
+		&#x2022;
+	</fo:block>
+ </fo:list-item-label>
+ <fo:list-item-body  start-indent="2em">
+	<fo:block>
+Introduction
+	</fo:block>
+  </fo:list-item-body>
+</fo:list-item>			
+<fo:list-item space-after="0.5em">
+ <fo:list-item-label start-indent="1em">
+	<fo:block>
+		&#x2022;
+	</fo:block>
+ </fo:list-item-label>
+ <fo:list-item-body  start-indent="2em">
+	<fo:block>
+Thinking About the Question
+	</fo:block>
+  </fo:list-item-body>
+</fo:list-item>			
+<fo:list-item space-after="0.5em">
+ <fo:list-item-label start-indent="1em">
+	<fo:block>
+		&#x2022;
+	</fo:block>
+ </fo:list-item-label>
+ <fo:list-item-body  start-indent="2em">
+	<fo:block>
+Materials
+	</fo:block>
+  </fo:list-item-body>
+</fo:list-item>			
+<fo:list-item space-after="0.5em">
+ <fo:list-item-label start-indent="1em">
+	<fo:block>
+		&#x2022;
+	</fo:block>
+ </fo:list-item-label>
+ <fo:list-item-body  start-indent="2em">
+	<fo:block>
+Safety
+	</fo:block>
+  </fo:list-item-body>
+</fo:list-item>			
+<xsl:for-each select="trial">
+<fo:list-item space-after="0.5em">
+ <fo:list-item-label start-indent="1em">
+	<fo:block>
+		&#x2022;
+	</fo:block>
+ </fo:list-item-label>
+ <fo:list-item-body  start-indent="2em">
+	<fo:block>
+Trial <xsl:number value="position()"
+format="I"/>: <xsl:value-of select="@title"/>
+	</fo:block>
+  </fo:list-item-body>
+</fo:list-item>			
+</xsl:for-each>
+<fo:list-item space-after="0.5em">
+ <fo:list-item-label start-indent="1em">
+	<fo:block>
+		&#x2022;
+	</fo:block>
+ </fo:list-item-label>
+ <fo:list-item-body  start-indent="2em">
+	<fo:block>
+Technical Hints
+	</fo:block>
+  </fo:list-item-body>
+</fo:list-item>			
+<fo:list-item space-after="0.5em">
+ <fo:list-item-label start-indent="1em">
+	<fo:block>
+		&#x2022;
+	</fo:block>
+ </fo:list-item-label>
+ <fo:list-item-body  start-indent="2em">
+	<fo:block>
+Analysis
+	</fo:block>
+  </fo:list-item-body>
+</fo:list-item>			
+<fo:list-item space-after="0.5em">
+ <fo:list-item-label start-indent="1em">
+	<fo:block>
+		&#x2022;
+	</fo:block>
+ </fo:list-item-label>
+ <fo:list-item-body  start-indent="2em">
+	<fo:block>
+Further Investigations
+	</fo:block>
+  </fo:list-item-body>
+</fo:list-item>			
+</fo:list-block>
+</fo:block>
 
 
 <xsl:apply-templates select="question"/>
@@ -117,11 +235,6 @@
 
 <xsl:template match="question">
 	<fo:block font-size="14pt" font-family="san-serif"
-		font-weight="bold"
-		space-before="6pt" space-after="6pt">
-	Introduction
-	</fo:block>
-	<fo:block font-size="14pt" font-family="san-serif"
 		space-before="6pt" space-after="6pt">
 	Discovery Question
 	</fo:block>
@@ -136,10 +249,16 @@
         	space-after.maximum="6pt"
         	space-after.optimum="4pt">
     	<xsl:apply-templates/>
-    	</fo:block>
+    </fo:block>
 </xsl:template>
 
 <xsl:template match="intro">
+	<fo:block font-size="14pt" font-family="san-serif"
+		font-weight="bold"
+		space-before="6pt" space-after="6pt">
+	Introduction
+	</fo:block>
+	<xsl:apply-templates select="question"/>
 	<fo:block
         	text-indent="1em"
         	font-family="sans-serif" font-size="12pt"
