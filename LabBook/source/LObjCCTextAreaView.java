@@ -31,8 +31,10 @@ boolean					fileMenuWasAdded = false;
 String [] fileStrings = {"Load Note..."};
 
 Edit 					nameEdit;
+Label 					nameEditAsLabel;
 Label					nameLabel;
 boolean					nameEditWasAdded = false;
+boolean					nameEditAsLabelWasAdded = false;
 
 
 CCScrollBar				scrollBar;
@@ -178,6 +180,10 @@ CCScrollBar				scrollBar;
 		if(tArea == null) return;
 		boolean editMode = tArea.getEditMode();
 		if(insertButtonAdded != editMode){
+			if(nameEdit != null && nameEditAsLabel != null){
+				doc.name = nameEdit.getText();
+				nameEditAsLabel.setText(doc.name);
+			}
 			didLayout = false;
 			waba.fx.Rect r = getRect();
 			setRect(r.x,r.y,r.width,r.height);
@@ -234,14 +240,22 @@ CCScrollBar				scrollBar;
 
 		showDone = sDone;
 		if(nameEdit == null) nameEdit = new Edit();
+		if(nameEditAsLabel == null) nameEditAsLabel = new Label(getLabObject().name);
+		
 		nameEdit.setText(getLabObject().name);
 		if(nameLabel == null) nameLabel = new Label("Name");
-		add(nameLabel);
+		if(nameEditWasAdded) 		remove(nameEdit);
+		if(nameEditAsLabelWasAdded) remove(nameEditAsLabel);
+		nameEditWasAdded = nameEditAsLabelWasAdded = false;
 		if(getViewType() == LObjDictionary.TREE_VIEW){
-			add(nameEdit);
-			nameEditWasAdded = true;
-		}else{
-			nameEditWasAdded = false;
+			add(nameLabel);
+			if(doc.editMode){
+				add(nameEdit);
+				nameEditWasAdded = true;
+			}else{
+				add(nameEditAsLabel);
+				nameEditAsLabelWasAdded = true;
+			}
 		}
 
 		if(tArea == null){
@@ -253,6 +267,7 @@ CCScrollBar				scrollBar;
 			tArea.dict 		= doc.curDict;
 			tArea.subDictionary = doc;
 		}
+		
 		tArea.initLineDictionary();
 		tArea.addTextAreaListener(this);
 		if(insertButton == null) insertButton = new Button("Insert");
@@ -263,6 +278,7 @@ CCScrollBar				scrollBar;
 			remove(insertButton);
 			insertButtonAdded = false;
 		}
+				
 //		upButton = new TimerButton("Up");
 //		downButton = new TimerButton("Down");
 //		add(upButton);
@@ -297,7 +313,7 @@ CCScrollBar				scrollBar;
 		}
 		
 		int yStart = (needInserButton)?34:17;
-		if(!nameEditWasAdded){
+		if(!nameEditWasAdded && !nameEditAsLabelWasAdded){
 			yStart -= 16;
 		}
 		
@@ -305,7 +321,13 @@ CCScrollBar				scrollBar;
 
 		if(nameLabel != null) nameLabel.setRect(1,1,30,15);
 		int editW = (showDone)?width - 62:width - 32;
-		if(nameEdit != null) 		nameEdit.setRect(30, 1, editW, 15);
+		if(nameEdit != null){
+			if(nameEditWasAdded) 	nameEdit.setRect(30, 1, editW, 15);
+			else					nameEdit.setRect(0, 0, 0, 0);
+		}
+		if(nameEditAsLabel != null){
+			nameEditAsLabel.setRect(30, 1, editW, 15);
+		}
 
 
 
