@@ -27,10 +27,12 @@ public final static int DIG_COUNT_MODE = 3;
 public final static int INTERFACE_0 = 0;
 public final static int INTERFACE_2 = 2;
 int activeChannels = 2;
+int interfaceType = INTERFACE_0;
 
 
 protected ProbManager	pb = null;
-	protected CCInterfaceManager(){
+	protected CCInterfaceManager(int interfaceType){
+		this.interfaceType = interfaceType;
 	}
 	
 	public void setProbManager(ProbManager pb){
@@ -82,7 +84,7 @@ protected ProbManager	pb = null;
 		}
 */
 		if(im == null){
-			im = new CCInterfaceManager();
+			im = new CCInterfaceManager(interfaceType);
 		}
 		return im;
 	}
@@ -107,7 +109,7 @@ protected ProbManager	pb = null;
 	}
 
 	boolean step10bit(){
-		if(mode == INTERFACE_2) return step10bit_2();
+		if(interfaceType == INTERFACE_2) return step10bit_2();
 		if((port == null) || !port.isOpen()) return false;
 		int ret;
 		byte tmp;
@@ -198,7 +200,7 @@ protected ProbManager	pb = null;
 	}
 	
 	boolean stepGeneric(){
-		if(mode == INTERFACE_2) return stepGeneric_2();
+		if(interfaceType == INTERFACE_2) return stepGeneric_2();
 		if((port == null) || !port.isOpen()) return false;
 		int ret;
 		int offset;
@@ -338,10 +340,10 @@ protected ProbManager	pb = null;
 			Vm.sleep(150);
 		}
 		// in case the the port is left open stop it
-		if(mode == INTERFACE_2){
+		if(interfaceType == INTERFACE_2){
 			buf[0] = (byte)'9';
 			port.writeBytes(buf, 0, 1);
-		}else if(mode == INTERFACE_0){
+		}else if(interfaceType == INTERFACE_0){
 			int ret;
 			if((ret = Command((byte)'c', (byte)67)) != 1){
 				port.close();
@@ -350,7 +352,7 @@ protected ProbManager	pb = null;
 			}
 		}
 		port.setReadTimeout(0);
-		if(mode == INTERFACE_0){
+		if(interfaceType == INTERFACE_0){
 			tmp = port.readBytes(buf, 0, BUF_SIZE);//workaround 
 		}
 		return true;
@@ -392,7 +394,7 @@ protected ProbManager	pb = null;
 	}
 
 	char getStartChar(){
-		if(mode == INTERFACE_2) return getStartChar_2();
+		if(interfaceType == INTERFACE_2) return getStartChar_2();
 		if(mode == COMMAND_MODE) return 0;
 		if(mode == A2D_24_MODE) return 'd';
 		if(mode == A2D_10_MODE) return 'a';
