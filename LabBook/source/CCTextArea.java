@@ -1056,9 +1056,9 @@ public class CCTextArea  extends Container
 					}
 				}
 				LBCompDesc cntrlDesc = findComponentDesc(ev.target);
-				if(cntrlDesc != null){
-					Control cntrl = (Control)cntrlDesc.getObject();
-					if(cntrl instanceof LabObjectView){
+				if(cntrlDesc != null && !cntrlDesc.link){
+					Control cntrl = (Control)cntrlDesc.getObject();					
+					if(cntrl instanceof LabObjectView){						
 						LabObjectView object = (LabObjectView)cntrl;
 						object.setShowMenus(true);
 						currObjectViewDesc = cntrlDesc;
