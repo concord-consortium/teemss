@@ -322,6 +322,7 @@ public class LObjGraphView extends LabObjectView
 	{
 		dd.addBin(curBin);
 		numStarted++;
+		av.lgView.autoScroll = true;
 	}
 
 	public void update(Object cookie, float time){
@@ -368,7 +369,10 @@ public class LObjGraphView extends LabObjectView
 		}
 		av.update();
 
-		if(numStarted == 0) postEvent(new ControlEvent(1000, this));	
+		if(numStarted == 0){
+			av.lgView.autoScroll = false;
+			postEvent(new ControlEvent(1000, this));	
+		}
 		return curBin;
 	}
 

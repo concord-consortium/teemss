@@ -65,6 +65,11 @@ public class CCProbe extends ExtraMainWindow
 			GraphSettings.MAX_COLLECTIONS = 1;
 			lbDB = new LabBookCatalog("LabBook");
 		} else if(plat.equals("Java")){
+			/*
+			graph.Bin.START_DATA_SIZE = 1000;
+			graph.LargeFloatArray.MaxNumChunks = 1;
+			GraphSettings.MAX_COLLECTIONS = 1;
+			*/
 			lbDB = new LabBookCatalog("LabBook");
 		} else {
 			lbDB = new LabBookFile("LabBook");

@@ -130,8 +130,8 @@ public class GraphSettings
 			Bin newBin = gv.stopGraph(gvCookie, curBin, 
 									  bins.getCount() < MAX_COLLECTIONS,
 									  xaxis);
-			curBin = newBin;
 			if(newBin == null) return;
+			curBin = newBin;
 			curBin.setUnit(yUnit);
 			curBin.label = "";
 		}
@@ -257,6 +257,7 @@ public class GraphSettings
 			if(bin != null) bin.free();
 		}
 		bins = new Vector();	
+		if(curBin != null) curBin.reset();
 	}
 	
 	public String toString()
