@@ -443,6 +443,8 @@ public static QTManager qtManager = null;
 		NodeList children = element.getChildNodes();
 		if(children != null){
 			int currParagraph = 0;
+			int lastEmbeddedObjParagraph = -1;
+
 			waba.util.Vector components = new waba.util.Vector();
 			waba.util.Vector linkComponents = new waba.util.Vector();
 			for(int i = 0; i < children.getLength(); i++){
@@ -535,6 +537,10 @@ public static QTManager qtManager = null;
 							}
 							tempStr = child.getAttribute("wrapping");
 							boolean wrapping = (tempStr != null && tempStr.equals("true"));
+							if(currParagraph == lastEmbeddedObjParagraph){
+								currParagraph += makeSNParagraph(lines, 0, null, "000000", false, false);
+							}
+							lastEmbeddedObjParagraph = currParagraph;
 							LBCompDesc compDesc = new LBCompDesc(currParagraph,w, h,alignment, wrapping,link);
 							compDesc.linkColor = getIntColorFromStringColor(linkColor);
 							compDesc.setObject(embObject);
