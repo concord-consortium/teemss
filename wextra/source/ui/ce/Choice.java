@@ -1,7 +1,14 @@
 package org.concord.waba.extra.ui;
 
+import waba.util.*;
+
 public class Choice extends extra.ui.List{
 	String name = null;
+
+	public Choice(Vector options){
+		super(options);
+		initialYOffset = 15;
+	}
 
 	public Choice(String []options){
 		super(options);

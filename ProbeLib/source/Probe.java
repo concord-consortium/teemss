@@ -37,7 +37,7 @@ public DataEvent	dEvent = new DataEvent();
 public ProbEvent	pEvent = new ProbEvent();
 
 protected	int interfacePort = INTERFACE_PORT_A;
-protected	int interfaceType = CCInterfaceManager.INTERFACE_2;
+public	int interfaceType = CCInterfaceManager.INTERFACE_2;
 protected int 	activeChannels = 1;
 
 protected	int	probeType = ProbFactory.Prob_Undefine;
