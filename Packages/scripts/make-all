@@ -6,3 +6,8 @@
 ./make-pocketpc
 ./make-unix
 ./make-palmos
+cp ../../CCProbe/tag ../download/ccprobe_tag
+cp ../../CCProbe/version ../download/ccprobe_version
+cp ../../CCProbe/build ../download/ccprobe_build
+date > ../download/ccprobe_date
+grep "unit.xml" ../../TeemssXML/CVS/Entries | cut -d/ -f4 > ../download/labbook_date

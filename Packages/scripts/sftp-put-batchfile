@@ -12,5 +12,11 @@ cd ../ccprobe-unix
 put ccprobe-unix/CCProbe.tgz
 cd ../ccprobe-windows
 put ccprobe-windows/CCProbe.exe
+cd ..
+put ccprobe_tag
+put ccprobe_version
+put ccprobe_build
+put ccprobe_date
+put labbook_date
 exit
 
