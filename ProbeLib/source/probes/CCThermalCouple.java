@@ -30,6 +30,7 @@ float FC = 0.0f;
 		super(init, name, interfaceT);
 		probeType = ProbFactory.Prob_ThermalCouple;
 		activeChannels = 2;
+		defQuantityName = "Tempurature";
 
 		dDesc.setChPerSample(2);
 		dDesc.setDt(0.0f);

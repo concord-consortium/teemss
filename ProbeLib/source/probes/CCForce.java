@@ -27,7 +27,8 @@ float B = -25.31f;
 		super(init, name, interfaceT);
 		probeType = ProbFactory.Prob_Force;
 	    activeChannels = 1;
-
+		defQuantityName = "Force";
+		
 		dDesc.setChPerSample(1);
 		dDesc.setDt(0.0f);
 		dEvent.setDataDesc(dDesc);
@@ -165,8 +166,6 @@ float B = -25.31f;
 			p = calibrationDesc.getCalibrationParam(1);
 			if(p != null) p.setValue(B);
 		}
-		//		System.out.println("A "+A);
-		// System.out.println("B "+B);
 	}
 	public void calibrationDescReady(){
 		if(calibrationDesc == null) return;

@@ -30,6 +30,7 @@ public final static int		SAMPLING_10BIT_MODE = 1;
 
 		probeType = ProbFactory.Prob_RawData;
 		activeChannels = 2;
+		defQuantityName = "Voltage";
 
 		dDesc.setChPerSample(2);
 		dDesc.setIntChPerSample(2);

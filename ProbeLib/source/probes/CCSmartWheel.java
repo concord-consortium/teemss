@@ -16,7 +16,7 @@ float				koeff = 2f*Maths.PI;
 	PropObject modeProp = new PropObject("Output Mode", "Mode", PROP_MODE, wheelModes,
 										 LIN_POS_MODE_OUT);
 
-	public final static String	[]wheelModes =  {"Ang. Vel.","Lin. Vel.", "Lin. Pos."};
+	public final static String	[]wheelModes =  {"Ang. Velocity","Velocity", "Position"};
 	public final static int		ANG_MODE_OUT 		= 0;
 	public final static int		LINEAR_MODE_OUT 	= 1;
     public final static int     LIN_POS_MODE_OUT        = 2;
@@ -25,6 +25,8 @@ float				koeff = 2f*Maths.PI;
 	CCSmartWheel(boolean init, String name, int interfaceT){
 		super(init, name, interfaceT);
 		probeType = ProbFactory.Prob_SmartWheel;
+		quantityNames = wheelModes;
+		defQuantityName = wheelModes[0];
 
 		activeChannels = 1;
 		interfaceMode = CCInterfaceManager.DIG_COUNT_MODE;
@@ -45,10 +47,39 @@ float				koeff = 2f*Maths.PI;
 		}		
 	}
 	
+	DataListener veloListener = null;
+	DataListener posListener = null;
+	public DataListener setModeDataListener(DataListener l, int mode)
+	{
+		DataListener old = null;
+
+		switch(mode){
+		case 1:
+			old = veloListener;
+			veloListener = l;
+			break;
+		case 2:
+			old = posListener;
+			posListener = l;
+			break;
+		}
+		return old;
+	}
+
+	public int getQuantityUnit(int mode)
+	{
+		switch(mode){
+		case 1:
+			return CCUnit.UNIT_CODE_LINEAR_VEL;
+		case 2:
+			return CCUnit.UNIT_CODE_METER;
+		}
+		return -1;
+	}
+
 	public int getUnit()
 	{
 		int oMode = modeProp.getIndex();
-
 		switch(oMode){
 		case LINEAR_MODE_OUT:
 			unit = CCUnit.UNIT_CODE_LINEAR_VEL;
@@ -83,6 +114,8 @@ float				koeff = 2f*Maths.PI;
     float dt;
 
 	float calFactor = 1f;
+	float posCalFactor = 1f;
+	float velCalFactor = 1f;
 
     public boolean startSampling(DataEvent e){
 		dEvent.type = e.type;
@@ -101,29 +134,31 @@ float				koeff = 2f*Maths.PI;
 		dEvent.setData(wheelData);
 		dEvent.setIntData(wheelIntData);
 
-		switch(outputMode){
-		case LINEAR_MODE_OUT:
-			calFactor = (koeff/(float)nTicks/dt) * dDesc.tuneValue * radius;
-			break;
-		case LIN_POS_MODE_OUT:
-			calFactor = (koeff/(float)nTicks) * dDesc.tuneValue  * radius;
-			break;
-		default:
-			calFactor = (koeff/(float)nTicks/dt);
-			break;
+		calFactor = (koeff/(float)nTicks/dt);
+		posCalFactor = (koeff/(float)nTicks) * dDesc.tuneValue  * radius;
+		velCalFactor = (koeff/(float)nTicks/dt) * dDesc.tuneValue * radius;
+
+		// This will call notifyDataListenersEvent
+		return super.startSampling(dEvent);
+	}
+
+	public void notifyDataListenersEvent(DataEvent e)
+	{
+		if(veloListener != null){
+			veloListener.dataStreamEvent(e);
+		}
+		if(posListener != null){
+			posListener.dataStreamEvent(e);
 		}
 
-
-		return super.startSampling(dEvent);
+		super.notifyDataListenersEvent(e);
 	}
     	
 	public boolean dataArrived(DataEvent e){
 		dEvent.type = e.type;
-	    //System.out.println("wheel transform "+e);
 		float t0 = e.getTime();
 		int[] data = e.getIntData();
 		int nOffset = e.dataOffset;
-		//System.out.println("Cal Factor: " + calFactor + " firstD: " + data[nOffset]);
 		
 		int ndata = e.getNumbSamples()*dDesc.getChPerSample();
 		int  	chPerSample = dDesc.getChPerSample();
@@ -143,24 +178,35 @@ float				koeff = 2f*Maths.PI;
 		dEvent.intTime = e.intTime;
 		dEvent.numbSamples = e.numbSamples;
 		dEvent.setData(wheelData);
-		// System.out.println("rad: " + radius + " koeff: " + koeff);
-		for(int i = 0; i < ndata; i+=chPerSample){
-		    wheelIntData[i] = data[nOffset+i];
-		    switch(outputMode){
-			case LINEAR_MODE_OUT:
-				wheelData[i] = (float)wheelIntData[i]*calFactor;
-				break;
-			case LIN_POS_MODE_OUT:
-				wheelData[i] = posOffset = posOffset + (float)wheelIntData[i]*calFactor;				
-				break;
-			default:
-				wheelData[i] = (float)wheelIntData[i]*calFactor;
-				break;
-		    }
-			    
+
+		boolean ret = true;
+		if(dataListeners != null){
+			for(int i = 0; i < ndata; i+=chPerSample){
+				wheelIntData[i] = data[nOffset+i];
+				wheelData[i] = (float)wheelIntData[i]*calFactor;			    
+			}
+			ret = super.dataArrived(dEvent);
 		}
-		return super.dataArrived(dEvent);
+
+		if(veloListener != null){
+			for(int i = 0; i < ndata; i+=chPerSample){
+				wheelIntData[i] = data[nOffset+i];
+				wheelData[i] = (float)wheelIntData[i]*velCalFactor;
+			}
+			veloListener.dataReceived(dEvent);
+		}
+
+		if(posListener != null){
+			for(int i = 0; i < ndata; i+=chPerSample){
+				wheelIntData[i] = data[nOffset+i];
+				wheelData[i] = posOffset = posOffset + (float)wheelIntData[i]*posCalFactor;				
+			}
+			posListener.dataReceived(dEvent);
+		}			
+
+		return ret;
 	}
+
 	public void  calibrationDone(float []row1,float []row2,float []calibrated){
 		if(row1 == null || calibrated == null) return;
 		

@@ -11,7 +11,9 @@ public class MultiList extends Container
 	Check [] checks;
 	public int chHeight = 12;
 	public int chSpace = 3;
-   
+	boolean radio = false;
+	int curIndex = -1;
+
 	public MultiList(String [] opts)
 	{
 		options = opts;
@@ -21,6 +23,25 @@ public class MultiList extends Container
 			add(checks[i]);
 		}
 
+	}
+
+	public void setRadio(boolean r)
+	{ 
+		radio = r; 
+		curIndex = -1;
+		for(int i=0; i< checks.length; i++){
+			if(curIndex == -1){
+				if(checks[i].getChecked() == true){
+					curIndex = i;
+				}
+			} else {
+				checks[i].setChecked(false);
+			}				
+		}
+		if(curIndex == -1){
+			curIndex = 0;
+			checks[0].setChecked(true);
+		}
 	}
 
 	public int getPrefHeight()
@@ -50,8 +71,18 @@ public class MultiList extends Container
 
 	public void setCheck(int index, boolean on)
 	{
-		if(index >=0 && index < checks.length){
-			checks[index].setChecked(on);
+		if(radio && index != curIndex){
+			if(on){
+				checks[curIndex].setChecked(false);
+				if(index >=0 && index < checks.length){
+					checks[index].setChecked(true);
+				}
+				curIndex = index;
+			}			
+		} else {
+			if(index >=0 && index < checks.length){
+				checks[index].setChecked(on);
+			}
 		}
 	}
 	public boolean getCheck(int index)
@@ -69,5 +100,27 @@ public class MultiList extends Container
 			cdValues[i] = checks[i].getChecked();
 		}
 		return cdValues;
+	}
+
+	boolean recursive = false;
+	public void onEvent(Event e)
+	{
+		if(!recursive && e.target instanceof Check && 
+		   e.type == ControlEvent.PRESSED){
+			if(radio){
+				for(int i=0; i<checks.length; i++){
+					if(checks[i] == (Check)e.target){
+						recursive = true;
+						if(i != curIndex){
+							checks[curIndex].setChecked(false);
+							curIndex = i;
+						} else {
+							checks[i].setChecked(true);
+						}
+						recursive = false;
+					}
+				}
+			}
+		}
 	}
 }

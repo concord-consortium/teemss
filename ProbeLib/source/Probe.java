@@ -124,14 +124,17 @@ DataListener calibrationListener = null;
 	}
 	
 	public void addDataListener(DataListener l){
-		if(dataListeners == null) dataListeners = new waba.util.Vector();
+		if(dataListeners == null) dataListeners = new waba.util.Vector();	   
 		if(dataListeners.find(l) < 0) dataListeners.add(l);
 	}
 	public void removeDataListener(DataListener l){
 		if(dataListeners == null) return;
 		int index = dataListeners.find(l);
 		if(index >= 0) dataListeners.del(index);
+		if(dataListeners.getCount() == 0) dataListeners = null;
 	}
+
+	public DataListener setModeDataListener(DataListener l, int mode){return null;}
 
 	public void notifyDataListenersEvent(DataEvent e){
 		if(calibrationListener != null){
@@ -203,8 +206,6 @@ DataListener calibrationListener = null;
 	public int getUnit(){return unit;}
 	public boolean setUnit(int unit){this.unit = unit;return true;}
 
-	public String getLabel(){return name;}
-
 	public void writeExternal(extra.io.DataStream out){
 		out.writeInt(CALIBRATION_PROB_START);
 		out.writeBoolean(calibrationDesc != null);
@@ -239,5 +240,51 @@ DataListener calibrationListener = null;
 		readInternal(in);
 	}
 	public void calibrationDescReady(){}
-	
+
+	String [] quantityNames = null;
+	String defQuantityName;
+	public String [] getQuantityNames()
+	{
+		String [] retNames = quantityNames;
+		if(retNames == null){
+			retNames = new String [1];
+			retNames[0] = defQuantityName;
+		}
+		return retNames;
+	}	
+
+	public String getDefQuantityName()
+	{
+		return defQuantityName;
+	}
+
+	public int getQuantityId(String quantityName)
+	{
+		if(quantityNames == null){
+			return 0;
+		} else {
+			for(int i=0; i<quantityNames.length; i++){
+				if(quantityNames[i].equals(quantityName)){
+					return i;
+				}
+			}
+			return -1;
+		}
+	}	
+
+	public int getQuantityUnit(int id){return -1;}
+
+	public String getQuantityName(int id)
+	{
+		if(id == 0 && quantityNames == null){
+			return defQuantityName;
+		}
+		if(quantityNames == null){
+			return null;
+		}
+		if(id >= 0 && id < quantityNames.length){
+			return quantityNames[id];
+		}
+		return null;
+	}
 }

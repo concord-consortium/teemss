@@ -4,20 +4,39 @@ import waba.util.Vector;
 public class PropContainer
 {
 	Vector properties 			= null;
+	Vector owners = null;
 	String name;
 
-	public PropContainer(String name){
+	public PropContainer(String name)
+	{
 		setName(name);
 	}
 	
 	public void setName(String n){name = n;}
 	public String getName(){return name;}
 
-	public void addProperty(PropObject obj){
+	public void addProperty(PropObject obj)
+	{
+		addProperty(obj, null);
+	}
+
+	public void addProperty(PropObject obj, PropOwner owner)
+	{
 		if(properties == null){
 			properties = new Vector();
+			owners = new Vector();
 		}
 		properties.add(obj);
+		owners.add(owner);
+	}
+
+	public void removeProperty(PropObject obj)
+	{
+		int index = properties.find(obj);
+		if(index >= 0){
+			properties.del(index);
+			owners.del(index);
+		}
 	}
 
 	public Vector getProperties(){return properties;}
@@ -58,13 +77,6 @@ public class PropContainer
 		return null;
 	}
 
-	/*
-	public PropObject getProperty(int index){
-		if(index < 0 || index >= properties.getCount()) return null;
-		return (PropObject)properties.get(index);
-	}
-	*/
-
 	public int countProperties(){
 		return properties.getCount();
 	}
@@ -74,14 +86,6 @@ public class PropContainer
 		if(p == null) return null;
 		return p.getValue();
 	}
-
-	/*
-	public String getPropertyValue(int index){
-		PropObject p = getProperty(index);
-		if(p == null) return null;
-		return p.getValue();
-	}
-	*/
 
 	public float getPropertyValueAsFloat(String nameProperty){
 		PropObject p = getProperty(nameProperty);
@@ -126,24 +130,14 @@ public class PropContainer
 		}
 	}
 
-	protected boolean setPValue(PropObject p,String value){
-		if(p == null || value == null) return false;
-		p.setValue(value);
-		return true;
-	}
-	
-	public boolean setPropertyValue(String nameProperty,String value){
-		return setPValue(getProperty(nameProperty),value);
-	}
-
-	/*
-	public boolean setPropertyValue(int index,String value){
-		return setPValue(getProperty(index),value);
-	}
-	*/
-
 	public boolean visValueChanged(PropObject po)
-	{
+	{		
+		int index = properties.find(po);
+		if(index < 0) return false;
+
+		PropOwner pOwner = (PropOwner) owners.get(index);
+		if(pOwner != null) return pOwner.visValueChanged(po);
+
 		return false;
 	}
 

@@ -29,6 +29,7 @@ int				lightMode = HIGH_LIGHT_MODE;
 		super(init, name, interfaceT);
 		probeType = ProbFactory.Prob_Light;
 	    activeChannels = 2;
+		defQuantityName = "Intensity";
 
 		dDesc.setChPerSample(2);
 		dDesc.setIntChPerSample(2);

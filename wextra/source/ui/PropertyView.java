@@ -44,6 +44,16 @@ public class PropertyView extends Container
 		propPanes.add(pane);
 	}
 
+	public void removeContainer(PropContainer pCont)
+	{
+		for(int i=0; i<propPanes.getCount(); i++){
+			if(((PropertyPane)propPanes.get(i)).getContainer() == pCont){
+				propPanes.del(i);
+				return;
+			}
+		}
+	}
+
 	public void addPane(PropertyPane pane)
 	{
 		propPanes.add(pane);
@@ -83,20 +93,30 @@ public class PropertyView extends Container
 		add(bOk);
 	}
 
+	public void updateView()
+	{
+		setTabBar();
+		for(int i = 0; i < propPanes.getCount(); i++){
+			((PropertyPane)propPanes.get(i)).reSetup();
+		}
+		setPropertiesPane();
+	}
+
 	public void setTabBar(){
 		MyTab curTab = null;
 
+		if(tabBar != null){
+			remove(tabBar);
+			tabBar = null;
+		}
 		if(propPanes.getCount() > 1){
-			if(tabBar == null){
-				tabBar = new TabBar();
-				for(int i = 0; i < propPanes.getCount(); i++){
-					MyTab tab = new MyTab(((PropertyPane)propPanes.get(i)).getName());
-					if(i == currContainer) curTab = tab;
-					tabBar.add(tab);
-				}
-			}else{
-				remove(tabBar);
+			tabBar = new TabBar();
+			for(int i = 0; i < propPanes.getCount(); i++){
+				MyTab tab = new MyTab(((PropertyPane)propPanes.get(i)).getName());
+				if(i == currContainer) curTab = tab;
+				tabBar.add(tab);
 			}
+
 			tabBar.setRect(widthBorder+2, 0, width - 2*widthBorder - 4, 20);
 			if(curTab != null) tabBar.setActiveTab(curTab);
 			add(tabBar);

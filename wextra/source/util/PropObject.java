@@ -32,6 +32,7 @@ public class PropObject
 	String settingsButtonName;
 
 	int type = EDIT;
+	boolean radio = false;
 
 	public PropObject(extra.io.DataStream in){
 		cookie = null;
@@ -76,6 +77,9 @@ public class PropObject
 		}
 	}
 	public int getType(){return type;}
+
+	public void setRadio(boolean r){radio = r;}
+	public boolean getRadio(){return radio;}
 
 	public String getSettingsButtonName(){return settingsButtonName;}
 	public void setSettingsButtonName(String sbn){settingsButtonName = sbn;}
@@ -135,7 +139,7 @@ public class PropObject
 	{
 		if(checkedValues != null &&
 		   index >= 0 && index < checkedValues.length){
-			return checkedValues[index];
+			return visCheckedValues[index];
 		}
 		return false;
 	}

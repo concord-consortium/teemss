@@ -23,8 +23,16 @@ public class PropertyPane extends Container
 	}
 
 	public String getName(){return propContainer.getName();}
+	public PropContainer getContainer()
+	{
+		return propContainer;
+	}
 
 	public boolean isSetup(){return setup;}
+	public void reSetup()
+	{
+		setup = false;
+	}
 
 	public void setVisible(boolean flag)
 	{
@@ -64,7 +72,7 @@ public class PropertyPane extends Container
 				return true;
 			} else {
 				for(int k=0; k<checkedValues.length; k++){
-					mList.setCheck(k, po.getVisCheckedValue(k));
+					mList.setCheck(k, checkedValues[k]);
 				}
 			}
 		} else if(c instanceof Check){
@@ -220,6 +228,7 @@ public class PropertyPane extends Container
 			} else if (type == po.MULTIPLE_SEL_LIST){
 				MultiList mList = new MultiList(possibleValues);
 				poHeight = mList.getPrefHeight();
+				mList.setRadio(po.getRadio());
 				for(int j = 0; j < possibleValues.length; j++){
 					mList.setCheck(j, po.getVisCheckedValue(j));
 				}					
