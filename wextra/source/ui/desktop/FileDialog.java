@@ -6,15 +6,17 @@ public class FileDialog{
 	public final static int		FILE_LOAD = java.awt.FileDialog.LOAD;
     public final static int     FILE_SAVE = java.awt.FileDialog.SAVE;
 	java.awt.FileDialog 		fileDialog = null;
-	private FileDialog(int type,String []extensions){
+
+	private FileDialog(int type, String []extensions){
 		int tp = type;
     	fileDialog = new java.awt.FileDialog((java.awt.Frame)waba.applet.Applet.currentApplet.getParent(),
 											 null,tp);
     	MyFilter fl = new MyFilter(fileDialog,extensions);
     	fileDialog.setFilenameFilter(fl);
 	}
+
 	public static FileDialog getFileDialog(int type,String []extensions){
-		return new FileDialog(type,extensions);
+		return new FileDialog(type, extensions);
 	}
 	
 	public void show(){

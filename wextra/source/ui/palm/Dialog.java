@@ -2,6 +2,9 @@ package org.concord.waba.extra.ui;
 
 import waba.ui.*;
 import waba.util.*;
+import waba.fx.*;
+
+import org.concord.waba.extra.event.*;
 
 public class Dialog extends waba.ui.Container{
 	Popup popup=null;
@@ -57,8 +60,8 @@ public class Dialog extends waba.ui.Container{
 		repaint();
 	}
   
-	public waba.fx.Font getFont(){return font;}
-	public void addDialogListener(org.concord.waba.extra.event.DialogListener l){
+	public Font getFont(){return font;}
+	public void addDialogListener(DialogListener l){
 		if(listener == null){
 			listener = l;
 		}
@@ -105,12 +108,18 @@ public class Dialog extends waba.ui.Container{
 		d.show();
 		return d;
 	}
+
 	public static Dialog showConfirmDialog(org.concord.waba.extra.event.DialogListener l,
-										   String title,String message,String []buttonTitles,int messageType){
+										   String title,String message,String []buttonTitles,int messageType)
+	{
 		if(buttonTitles == null) return null;
+
 		Dialog d = new Dialog(title);
-		waba.fx.FontMetrics fm = d.getFontMetrics(d.getFont());
-		int messageWidth 	= fm.getTextWidth(message);
+		FontMetrics fm = d.getFontMetrics(d.getFont());
+
+		Vector lines = new Vector();
+		int messageWidth = parseMessage(message, fm, lines);
+
 		int titleWidth 		= fm.getTextWidth(title);
 		int bWidth = 0;
 		for(int i = 0; i < buttonTitles.length; i++){
@@ -118,98 +127,40 @@ public class Dialog extends waba.ui.Container{
 		}
 		int w = (messageWidth > titleWidth)?messageWidth:titleWidth;
 		if(w < bWidth) w = bWidth;
-		w += 20 + 20;//space + image
-		int bHeight = 20;
-		int mHeight = fm.getHeight();
-		int h = bHeight + 10 + (10 + mHeight);
-		d.setRect(50,50,w,h + 15);
-		waba.ui.Container cp = d.getContentPane();
-	
-		int xButtonCurr = w/2 - bWidth/2;
-		for(int i = 0; i < buttonTitles.length; i++){
-			waba.ui.Button b = new waba.ui.Button(buttonTitles[i]);
-			int bW = fm.getTextWidth(buttonTitles[i]) + 6;
-			b.setRect(xButtonCurr+3,h - 5 - bHeight,bW ,bHeight);
-			xButtonCurr += (bW + 6);
-			cp.add(b);
-		}
-		waba.ui.Label label = new waba.ui.Label(message,waba.ui.Label.CENTER);
-		label.setRect(10 + w/2 - messageWidth/2,5,messageWidth,mHeight);
-		cp.add(label);
-		String imagePath = "";
-		switch(messageType){
-		default:
-		case DEF_DIALOG:
-		case INFO_DIALOG:
-			imagePath += "InformSmall.bmp";
-			break;
-		case ERR_DIALOG:
-			imagePath += "ErrorSmall.bmp";
-			break;
-		case WARN_DIALOG:
-			imagePath += "WarnSmall.bmp";
-			break;
-		case QUEST_DIALOG:
-			imagePath += "QuestionSmall.bmp";
-			break;
-		}
 		if(showImages){
-			ImagePane ip = (ImagePane)new ImagePane(imagePath);
-			ip.setRect(d.widthBorder + 2,2,16,16);
-			cp.add(ip);
+			w += 20 + 20;//space + image
+		} else {
+			w += 20;
 		}
-		d.addDialogListener(l);
-		d.show();
-		return d;
-	}
- 
-	public static Dialog showMessageDialog(org.concord.waba.extra.event.DialogListener l,
-										   String title,String message,String buttonTitle,int messageType){
-		Dialog d = new Dialog(title);
-		waba.fx.FontMetrics fm = d.getFontMetrics(d.getFont());
-
-		// split message into lines;
-		Vector lines = new Vector();
-		char [] mChars = message.toCharArray();
-		int lineStart = 0;
-		int messageWidth = 0;
-		String newLine;
-		int newMWidth;
-		for(int i=0; i<mChars.length; i++){
-			if(mChars[i] == '|'){
-				newLine = new String(mChars, lineStart, i-lineStart);
-				newMWidth = fm.getTextWidth(newLine);
-				if(newMWidth > messageWidth) messageWidth = newMWidth;
-				lines.add(newLine);
-				lineStart = i+1;
-			}
-		}
-
-		newLine = new String(mChars, lineStart, mChars.length-lineStart);
-		newMWidth = fm.getTextWidth(newLine);
-		if(newMWidth > messageWidth) messageWidth = newMWidth;
-		lines.add(newLine);
-
-		int titleWidth 		= fm.getTextWidth(title);
-		int bWidth = fm.getTextWidth(buttonTitle) + 10;
-		int w = (messageWidth > titleWidth)?messageWidth:titleWidth;
-		if(w < bWidth) w = bWidth;
-		w += 20 + 20;//space + image
 
 		int bHeight = 15;
 		int mHeight = fm.getHeight();
 
 		int h = 15 + bHeight + 10 + (15 + mHeight*(lines.getCount() + 1));
-		d.setRect(50,50,w,h);
-		waba.ui.Container cp = d.getContentPane();
-		h -= 15;
-		waba.ui.Button b = new waba.ui.Button(buttonTitle);
-		b.setRect(w/2 - bWidth/2,h - 5 - bHeight,bWidth,bHeight);
-		cp.add(b);
-	
+		d.setRect(1,50,w,h);
+		Container cp = d.getContentPane();
+		Rect cpRect = cp.getRect();
+		h = cpRect.height;
+		w = cpRect.width;
+
+		int xButtonCurr = w/2 - bWidth/2;
+		for(int i = 0; i < buttonTitles.length; i++){
+			Button b = new Button(buttonTitles[i]);
+			int bW = fm.getTextWidth(buttonTitles[i]) + 6;
+			b.setRect(xButtonCurr+3,h - 5 - bHeight,bW ,bHeight);
+			xButtonCurr += (bW + 6);
+			cp.add(b);
+		}
+
+		int imageOffset = 0;
+		if(showImages){
+			imageOffset = 10;
+		}
 		for(int i=0; i<lines.getCount(); i++){
 			Label label = new waba.ui.Label((String)lines.get(i),Label.CENTER);
-			label.setRect(10 + w/2 - messageWidth/2,20+i*mHeight,messageWidth,mHeight);
+			label.setRect(imageOffset + w/2 - messageWidth/2,
+						  20+i*mHeight,
+						  messageWidth,mHeight);
 			cp.add(label);		
 		}
 
@@ -239,6 +190,41 @@ public class Dialog extends waba.ui.Container{
 		d.show();
 		return d;
 	}
+ 
+	static int parseMessage(String message, FontMetrics fm, Vector lines)
+	{
+		// split message into lines;
+		char [] mChars = message.toCharArray();
+		int lineStart = 0;
+		int messageWidth = 0;
+		String newLine;
+		int newMWidth;
+		for(int i=0; i<mChars.length; i++){
+			if(mChars[i] == '|'){
+				newLine = new String(mChars, lineStart, i-lineStart);
+				newMWidth = fm.getTextWidth(newLine);
+				if(newMWidth > messageWidth) messageWidth = newMWidth;
+				lines.add(newLine);
+				lineStart = i+1;
+			}
+		}
+
+		newLine = new String(mChars, lineStart, mChars.length-lineStart);
+		newMWidth = fm.getTextWidth(newLine);
+		if(newMWidth > messageWidth) messageWidth = newMWidth;
+		lines.add(newLine);
+		
+		return messageWidth;
+	}
+
+	public static Dialog showMessageDialog(DialogListener l, String title,
+										   String message,String buttonTitle,int messageType)
+	{
+		String [] buttons = {buttonTitle};
+
+		return showConfirmDialog(l, title, message, buttons, messageType);
+	}
+
 	public static Dialog showInputDialog(org.concord.waba.extra.event.DialogListener l,
 										 String title,String message,String []buttonTitles,int messageType){
 		return showInputDialog(l,title,message,buttonTitles,messageType,null,null);
