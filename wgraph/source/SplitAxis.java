@@ -482,14 +482,13 @@ public class SplitAxis extends Axis
 		String labelStr = ds.readString();
 
 		int labelUnitCode = ds.readInt();
+
 		CCUnit labelUnit = null;
 		if(labelUnitCode >= 0){
 			labelUnit = CCUnit.getUnit(labelUnitCode);
 		}
-		if(labelStr != null){
-			setAxisLabel(labelStr, labelUnit);
-		}
 
+		setAxisLabel(labelStr, labelUnit);
 		autoLabel = ds.readBoolean();
 	}
 
