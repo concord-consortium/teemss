@@ -29,6 +29,8 @@ public int unit = CCUnit.UNIT_CODE_UNKNOWN;
 
 public final static int		CALIBRATION_PROB_START 	= 10000;
 public final static int		CALIBRATION_PROB_END 		= 10001;
+public final static int		PROPERTIES_PROB_START 	= 10002;
+public final static int		PROPERTIES_PROB_END 		= 10003;
 
 public DataDesc		dDesc = new DataDesc();
 public DataEvent	dEvent = new DataEvent();
@@ -184,6 +186,21 @@ DataListener calibrationListener = null;
 			calibrationDesc.writeExternal(out);
 		}
 		out.writeInt(CALIBRATION_PROB_END);
+		out.writeInt(PROPERTIES_PROB_START);
+		out.writeBoolean(properties != null);
+		if(calibrationDesc != null){
+			for(int i = 0; i < countProperties(); i++){
+				PropObject p = properties[i];
+				out.writeBoolean(p != null);
+				if(p == null){
+					continue;
+				}
+				p.writeExternal(out);
+			}
+		}
+		out.writeInt(PROPERTIES_PROB_END);
+		
+		
 	}
 	public void readExternal(extra.io.DataStream in){
 		int temp = in.readInt();

@@ -8,6 +8,7 @@ import waba.ui.Timer;
 import org.concord.waba.extra.event.DataListener;
 import org.concord.waba.extra.event.DataEvent;
 import extra.util.DataDesc;
+import org.concord.waba.extra.probware.probs.CCProb;
 
 public class CCInterfaceManager extends Control{
 static protected CCInterfaceManager im = null;
@@ -25,6 +26,7 @@ public final static int DIG_COUNT_MODE = 3;
 
 public final static int INTERFACE_0 = 0;
 public final static int INTERFACE_2 = 2;
+int activeChannels = 2;
 
 
 protected ProbManager	pb = null;
@@ -69,6 +71,7 @@ protected ProbManager	pb = null;
 	}
 	
 	public static CCInterfaceManager getInterfaceManager(int interfaceType){
+/*
 		if(im == null){
 			im = (interfaceType == INTERFACE_2)?new CCInterfaceManager2():new CCInterfaceManager();
 		}else{
@@ -76,6 +79,10 @@ protected ProbManager	pb = null;
 			if(oldInterfaceType != interfaceType){
 				im = (interfaceType == INTERFACE_2)?new CCInterfaceManager2():new CCInterfaceManager();
 			}
+		}
+*/
+		if(im == null){
+			im = new CCInterfaceManager();
 		}
 		return im;
 	}
@@ -100,6 +107,7 @@ protected ProbManager	pb = null;
 	}
 
 	boolean step10bit(){
+		if(mode == INTERFACE_2) return step10bit_2();
 		if((port == null) || !port.isOpen()) return false;
 		int ret;
 		byte tmp;
@@ -190,6 +198,7 @@ protected ProbManager	pb = null;
 	}
 	
 	boolean stepGeneric(){
+		if(mode == INTERFACE_2) return stepGeneric_2();
 		if((port == null) || !port.isOpen()) return false;
 		int ret;
 		int offset;
@@ -321,9 +330,8 @@ protected ProbManager	pb = null;
 		// Let the device wake up a bit
 		// But try to stop it as soon as we can
 		
-	    waba.sys.Vm.sleep(1000);
-		
-	    int tmp = 0 ;
+		waba.sys.Vm.sleep(1000);
+		int tmp = 0 ;
 		buf[0] = (byte)'c';
 		for(int i=0; i<5; i++){
 			tmp = port.writeBytes(buf, 0, 1);
@@ -384,6 +392,7 @@ protected ProbManager	pb = null;
 	}
 
 	char getStartChar(){
+		if(mode == INTERFACE_2) return getStartChar_2();
 		if(mode == COMMAND_MODE) return 0;
 		if(mode == A2D_24_MODE) return 'd';
 		if(mode == A2D_10_MODE) return 'a';
@@ -420,6 +429,308 @@ protected ProbManager	pb = null;
 	    			readSize = 100;
 				break;
 		}
+	}
+	boolean stepGeneric_2(){
+		if((port == null) || !port.isOpen()) return false;
+		int ret;
+		int offset;
+		byte tmp;
+		byte pos;
+		int i,j;
+		int value;
+		int curPos;
+
+//		response = OK;
+		ret = port.readBytes(buf, bufOffset, readSize);
+		if(ret <= 0)	return false;
+
+		ret += bufOffset;	    
+		curPos = 0;
+		int endPos = ret;
+		int packEnd = 0;
+
+		curDataPos = 0;
+		dEvent.setTime(curStepTime);
+
+		boolean clearBufferOffset = true;
+		while(curPos < endPos){
+		    // Check if the buf has enough space
+		    // if not this means a partial package was read
+			if((ret - curPos) < numBytes){
+				for(j=0; j<(ret-curPos); j++) buf[j] = buf[curPos + j];
+				bufOffset = j;
+				clearBufferOffset = false;
+				break;
+			}
+		  	value = 0;
+			for(i=0; i < numBytes; i++){
+				tmp = buf[curPos++];
+				pos = (byte)(tmp & MASK);
+				if(pos != position[i]){
+					// We found a bogus char 
+					bufOffset = 0;
+					//response = ERROR;
+					//msg = "Error in serial stream:" + i + ":" + pos;
+
+					// set the buf to the next byte
+					for(j=0; j<(ret-curPos); j++) buf[j] = buf[curPos + j];
+					bufOffset = j;
+					return false;
+				}
+				value |= (tmp & (byte)~MASK) << (((numBytes-1)-i)*bitsPerByte);
+			}
+			int curChannel 			= 0;
+			boolean syncChannels 	= false;
+			if(mode == A2D_24_MODE){
+				// Ignore the change bit
+				curChannel = ((value & 0x4000000) >> 26);
+				value &= 0x3FFFFFF;
+				// Offset the value to zero
+				value = value - (int)0x2000000;
+				// Return ar reasonable resolution
+				syncChannels = true;
+			}else if(mode == A2D_10_MODE){
+				// Ignore the change bit
+				// The channel bit is reversed on the 10bit converter hence
+			    // This is wrong for the new interface.
+				// the 2 -
+				curChannel = 1 - ((value & 0x02000) >> 13);
+				value = (value & 0x03F) | ((value >> 1) & 0x03C0);
+				// Return a reasonable resolution
+				syncChannels = true;
+			}else if(mode == DIG_COUNT_MODE){
+	    			curData[0] = curStepTime;
+	   			curStepTime += timeStepSize;
+	   			valueData[curDataPos++] = value;
+			}
+			curData[curChannel+1] = (float)value * tuneValue;
+			if(syncChannels){
+				if(gotChannel0 && curChannel == 1){
+					curData[0] = curStepTime;
+					curStepTime += timeStepSize;
+					gotChannel0 = false;
+					valueData[curDataPos++] = curData[1];
+					valueData[curDataPos++] = curData[2];
+				} else {
+					gotChannel0 = (curChannel == 0);
+				}
+			}
+//		    	convertValA2D(value);
+		}
+		if(curDataPos > 0){
+			dEvent.setNumbSamples(curDataPos/dDesc.getChPerSample());
+			dEvent.setData(valueData);
+			notifyProbManager(dEvent);
+		}
+		if(clearBufferOffset) bufOffset = 0;
+		return true;
+    }
+	boolean step10bit_2(){
+		if((port == null) || !port.isOpen()) return false;
+
+		if(activeChannels == 1) return step10bitFast_2();
+
+		int ret;
+		byte tmp;
+		byte pos;
+		int i,j;
+		int value;
+		int curPos;
+		int curChannel = 0;
+
+//		response = OK;
+
+		
+		while(port != null && port.isOpen()){
+			curChannel = 0;
+			ret = port.readBytes(buf, bufOffset, readSize - bufOffset);
+			if(ret <= 0) break; // there are no bytes available
+			ret += bufOffset;	    
+			if(ret < 32){
+				bufOffset = ret;//too few?
+				break;
+			}
+			curPos = 0;
+			int endPos = ret - 1;
+
+			curDataPos = 0;
+			dEvent.setTime(curStepTime);
+			while(curPos < endPos){
+						// Check if the buf has enough space
+						// if not this means a partial package was read
+
+				value = 0;
+				tmp = buf[curPos++];
+				pos = (byte)(tmp & MASK);
+				if(pos != (byte)0x00) continue; // We found a bogus char 
+
+				value |= (tmp & (byte)0x00F) << 7;
+				tmp = buf[curPos++];
+				pos = (byte)(tmp & MASK);
+				if(pos != (byte)0x80) continue; // We found a bogus char 
+
+				value |= (tmp & (byte)0x07F);
+				// Ignore the change bit
+				// The channel bit is reversed on the 10bit converter hence
+				// the 2 -
+				// Don't know if this is true any more
+				curChannel = ((value & 0x00400) >> 10);
+				value &= 0x03FF;
+
+				// Return a reasonable resolution
+				float rValue = (float)value * tuneValue;
+
+				if(gotChannel0 && curChannel == 1){
+					curStepTime += timeStepSize;
+					gotChannel0 = false;
+					curData[curChannel + 1] = rValue;
+					curData[0] = curStepTime;
+					valueData[curDataPos++] = curData[1];
+					valueData[curDataPos++] = curData[2];
+				} else {
+					curData[1] = rValue;
+					gotChannel0 = (curChannel == 0);
+				}
+			}
+
+			dEvent.numbSamples = (curDataPos/activeChannels);
+			notifyProbManager(dEvent);
+			if((ret - curPos) > 0){
+				for(j=0; j<(ret-curPos); j++) buf[j] = buf[curPos + j];
+				bufOffset = j;
+			}
+		}
+		dEvent.setType(DataEvent.DATA_COLLECTING);
+		notifyProbManager(dEvent);
+		dEvent.setType(DataEvent.DATA_RECEIVED);
+		return false;
+    }
+	boolean step10bitFast_2(){
+
+		int ret;
+		byte tmp;
+		byte pos;
+		int i,j;
+		int value;
+		int curPos;
+		int curChannel;
+
+		while(port != null && port.isOpen()){
+		    ret = port.readBytes(buf, bufOffset, readSize - bufOffset);
+		    if(ret <= 0) break; // there are no bytes available
+		    ret += bufOffset;	    
+		    if(ret < 16){
+			bufOffset = ret;//too few?
+			break;
+		    }
+		    curPos = 0;
+		    int endPos = ret - 1;
+
+		    curDataPos = 0;
+		    dEvent.setTime(curStepTime);
+		    while(curPos < endPos){
+			// Check if the buf has enough space
+			// if not this means a partial package was read
+
+			value = 0;
+			tmp = buf[curPos++];
+			pos = (byte)(tmp & MASK);
+			if(pos != (byte)0x00) continue; // We found a bogus char 
+			
+			value |= (tmp & (byte)0x00F) << 7;
+			tmp = buf[curPos++];
+			pos = (byte)(tmp & MASK);
+			if(pos != (byte)0x80) continue; // We found a bogus char 
+
+			value |= (tmp & (byte)0x07F);
+			// Ignore the change bit
+			// The channel bit is reversed on the 10bit converter hence
+			// the 2 -
+			// Don't know if this is true any more
+			curChannel = ((value & 0x00400) >> 10);
+			value &= 0x03FF;
+
+
+			curStepTime += timeStepSize;
+			
+			// Return a reasonable resolution
+			valueData[curDataPos++] = (float)value * tuneValue;
+
+		    }
+
+		    dEvent.setNumbSamples(curDataPos/dDesc.getChPerSample());
+		    dEvent.setData(valueData);
+		    notifyProbManager(dEvent);
+		    if((ret - curPos) > 0){
+			for(j=0; j<(ret-curPos); j++) buf[j] = buf[curPos + j];
+			bufOffset = j;
+		    }
+		}
+		dEvent.setType(DataEvent.DATA_COLLECTING);
+		notifyProbManager(dEvent);
+		dEvent.setType(DataEvent.DATA_RECEIVED);
+		return false;
+	}
+	
+	char getStartChar_2(){
+		if(mode == COMMAND_MODE) return 0;
+		if(pb == null) return 0;
+
+		activeChannels = 2;
+		if(mode == DIG_COUNT_MODE){
+		    activeChannels = 1;
+		    return 'r';
+		}
+		int numbProbs = pb.getNumbProbs();
+		if(numbProbs < 1) return 0;
+		if(numbProbs == 1){
+			CCProb pr = pb.getProbByIndex(0);
+			if(pr == null) return 0;
+			int interfacePort = pr.getInterfacePort();
+			if(mode == A2D_24_MODE){
+				if(interfacePort == CCProb.INTERFACE_PORT_A){
+					return 'a';
+				}else{
+					return 'b';
+				}
+			}else if(mode == A2D_10_MODE){
+				activeChannels = pr.getActiveChannels();
+				if(activeChannels == 1){
+				    timeStepSize = timeStepSize/2;
+				    dDesc.setDt(timeStepSize);
+				    dDesc.setChPerSample(1);				    
+				    if(interfacePort == CCProb.INTERFACE_PORT_A){					
+					return 'e';
+				    }else{
+					return 'f';
+				    }
+				}else{
+				    if(interfacePort == CCProb.INTERFACE_PORT_A){
+					return 'g';
+				    }else{
+					return 'h';
+				    }
+				}
+			}
+		}else if(numbProbs == 2){
+			if(mode == A2D_24_MODE){
+				return 'd';
+			}else if(mode == A2D_10_MODE){
+				activeChannels = pb.getProbByIndex(0).getActiveChannels();
+				int activeChannels1 = pb.getProbByIndex(1).getActiveChannels();
+				if(activeChannels1 > activeChannels) activeChannels = activeChannels1;
+				if(activeChannels == 1){
+				    dDesc.setChPerSample(1);
+				    return 'i';					
+				}else if(activeChannels == 2){
+				    timeStepSize = timeStepSize*2;
+				    dDesc.setDt(timeStepSize);
+				    return 'j';
+				}
+				
+			}
+		}
+		return 0;
 	}
 	
 	public int 		numBytes = 4;

@@ -116,4 +116,12 @@ Control	valueKeeper = null;
 
 	public String getName(){ return name;}
 
+	public void writeExternal(extra.io.DataStream out){
+
+	}
+
+	public void readExternal(extra.io.DataStream in){
+
+	}
+
 }
