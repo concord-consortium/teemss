@@ -21,8 +21,13 @@ package waba.applet;
 
 import waba.ui.*;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.MouseEvent;
 
-public class WinCanvas extends java.awt.Canvas implements KeyListener 
+public class WinCanvas extends java.awt.Canvas 
+	implements KeyListener, MouseListener, MouseMotionListener
 {
 	Window win;
 
@@ -30,191 +35,65 @@ public class WinCanvas extends java.awt.Canvas implements KeyListener
 	public WinCanvas(Window win)
 	{
 		this.win = win;
+		addKeyListener(this);
+		addMouseListener(this);
+		addMouseMotionListener(this);
+	}
+
+	public int getWabaModifiers(InputEvent event)
+	{
+		int wMods = 0;
+		int jMods = event.getModifiers();
+
+		if ((jMods & InputEvent.SHIFT_MASK) > 0){
+			wMods |= IKeys.SHIFT;
+		}
+		
+		if ((jMods & InputEvent.CTRL_MASK) > 0){
+			wMods |= IKeys.CONTROL;
+		}
+		
+		if ((jMods & InputEvent.ALT_MASK) > 0){
+			wMods |= IKeys.ALT;
+		}
+
+		return wMods;
 	}
 
 	public void keyPressed(java.awt.event.KeyEvent event){
-		int id = (event.isActionKey())?java.awt.Event.KEY_ACTION:java.awt.Event.KEY_PRESS;
-		int key = (id == java.awt.Event.KEY_ACTION)?convertNewKeyToOld(event.getKeyCode()):event.getKeyChar();
-		handleKeyEvent(new java.awt.Event(event.getSource(),event.getWhen(),id,0,0,key,event.getModifiers(),null));
-	}
+		int wMods = getWabaModifiers(event);
+		if (((event.getModifiers() & InputEvent.META_MASK) > 0)){
+			wMods |= IKeys.CONTROL;//dima command macintosh
+		}
 
-	public void keyReleased(java.awt.event.KeyEvent event){
-		int id = (event.isActionKey())?java.awt.Event.KEY_ACTION_RELEASE:java.awt.Event.KEY_RELEASE;
-		int key = (id == java.awt.Event.KEY_ACTION_RELEASE)?convertNewKeyToOld(event.getKeyCode()):event.getKeyChar();
-		handleKeyEvent(new java.awt.Event(event.getSource(),event.getWhen(),id,0,0,key,event.getModifiers(),null));
-	}
-
-	private static int convertNewKeyToOld(int newkey){
-		int oldkey = newkey;
-			switch(newkey){
-				case java.awt.event.KeyEvent.VK_PAGE_UP: 	oldkey = java.awt.Event.PGUP; break;
-				case java.awt.event.KeyEvent.VK_PAGE_DOWN: 	oldkey = java.awt.Event.PGDN; break;
-				case java.awt.event.KeyEvent.VK_HOME:		oldkey = java.awt.Event.HOME; break;
-				case java.awt.event.KeyEvent.VK_END:	 	oldkey = java.awt.Event.END; break;
-				case java.awt.event.KeyEvent.VK_UP:			oldkey = java.awt.Event.UP; break;
-				case java.awt.event.KeyEvent.VK_DOWN: 		oldkey = java.awt.Event.DOWN; break;
-				case java.awt.event.KeyEvent.VK_LEFT: 		oldkey = java.awt.Event.LEFT; break;
-				case java.awt.event.KeyEvent.VK_RIGHT: 		oldkey = java.awt.Event.RIGHT; break;
-				case java.awt.event.KeyEvent.VK_INSERT: 	oldkey = java.awt.Event.INSERT; break;
-				case java.awt.event.KeyEvent.VK_ENTER:		oldkey = java.awt.Event.ENTER; break;
-				case java.awt.event.KeyEvent.VK_TAB: 		oldkey = java.awt.Event.TAB; break;
-				case java.awt.event.KeyEvent.VK_BACK_SPACE: oldkey = java.awt.Event.BACK_SPACE; break;
-				case java.awt.event.KeyEvent.VK_ESCAPE: 	oldkey = java.awt.Event.ESCAPE; break;
-				case java.awt.event.KeyEvent.VK_DELETE: 	oldkey = java.awt.Event.DELETE; break;
-				case java.awt.event.KeyEvent.VK_F6: 		oldkey = java.awt.Event.F6; break;
-				case java.awt.event.KeyEvent.VK_F7: 		oldkey = java.awt.Event.F7; break;
-			}
-			return oldkey;
-	
-	
-	} 
-
-
-	public void keyTyped(java.awt.event.KeyEvent event){}
-
-
-	public boolean handleKeyEvent(java.awt.Event event){
-		int type = 0;
 		int key = 0;
-		int x = 0;
-		int y = 0;
-		int modifiers = 0;
-		if ((event.modifiers & java.awt.Event.SHIFT_MASK) > 0){
-			System.out.println("SHIFT_MASK");
-			modifiers |= IKeys.SHIFT;
-		}
-		
-		if ((event.modifiers & java.awt.Event.CTRL_MASK) > 0){
-			System.out.println("CTRL_MASK");
-			modifiers |= IKeys.CONTROL;
-		}
-		
-		if ((event.modifiers & java.awt.Event.ALT_MASK) > 0){
-			System.out.println("ALT_MASK");
-			modifiers |= IKeys.ALT;
-		}
-		if ((event.id == java.awt.Event.KEY_PRESS) && ((event.modifiers & java.awt.Event.META_MASK) > 0)){
-			System.out.println("META_MASK");
-			modifiers |= IKeys.CONTROL;//dima command macintosh
-		}
+		//		if(event.isActionKey()){
+		if(true){
+			int action = event.getKeyCode();
 
-		boolean doPostEvent = false;
-		switch (event.id)
-			{
-			case java.awt.Event.KEY_PRESS:
-				type = KeyEvent.KEY_PRESS;
-				System.out.println("WC: key_press event.key: " + event.key);
-				key = keyValue(event.key, modifiers);
-				doPostEvent = true;
-				break;
-			case java.awt.Event.KEY_ACTION:
-				{
-					System.out.println("WC: key_action event.key: " + event.key);
-					key = actionKeyValue(event.key);
-					if (key != 0)
-						{
-							type = KeyEvent.KEY_PRESS;
-							doPostEvent = true;
-						}
-					break;
-				}
+			switch (action){
+			case java.awt.event.KeyEvent.VK_PAGE_UP:    key = IKeys.PAGE_UP; break;
+			case java.awt.event.KeyEvent.VK_PAGE_DOWN:  key = IKeys.PAGE_DOWN; break;
+			case java.awt.event.KeyEvent.VK_HOME:       key = IKeys.HOME; break;
+			case java.awt.event.KeyEvent.VK_END:        key = IKeys.END; break;
+			case java.awt.event.KeyEvent.VK_UP:         key = IKeys.UP; break;
+			case java.awt.event.KeyEvent.VK_DOWN:       key = IKeys.DOWN; break;
+			case java.awt.event.KeyEvent.VK_LEFT:       key = IKeys.LEFT; break;
+			case java.awt.event.KeyEvent.VK_RIGHT:      key = IKeys.RIGHT; break;
+			case java.awt.event.KeyEvent.VK_INSERT:     key = IKeys.INSERT; break;
+			case java.awt.event.KeyEvent.VK_ENTER:      key = IKeys.ENTER; break;
+			case java.awt.event.KeyEvent.VK_TAB:        key = IKeys.TAB; break;
+			case java.awt.event.KeyEvent.VK_BACK_SPACE: key = IKeys.BACKSPACE; break;
+			case java.awt.event.KeyEvent.VK_ESCAPE:     key = IKeys.ESCAPE; break;
+			case java.awt.event.KeyEvent.VK_DELETE:     key = IKeys.DELETE; break;
+			case java.awt.event.KeyEvent.VK_F6:         key = IKeys.MENU; break;
+			case java.awt.event.KeyEvent.VK_F7:         key = 76000; break;
+			default :
+				key = event.getKeyChar(); break;
 			}
-		if (doPostEvent)
-			{
-				int timestamp = (int)event.when;
-				synchronized(Applet.uiLock)
-					{
-						win._postEvent(type, key, x, y, modifiers, timestamp);
-					}
-			}
-		return super.handleEvent(event);
-	}
-
-
-	public boolean handleEvent(java.awt.Event event)
-	{
-		int type = 0;
-		int key = 0;
-		int x = 0;
-		int y = 0;
-		int modifiers = 0;
-		if ((event.modifiers & java.awt.Event.SHIFT_MASK) > 0){
-			System.out.println("SHIFT_MASK");
-			modifiers |= IKeys.SHIFT;
-		}
-		
-		if ((event.modifiers & java.awt.Event.CTRL_MASK) > 0){
-			System.out.println("CTRL_MASK");
-			modifiers |= IKeys.CONTROL;
-		}
-		
-		if ((event.modifiers & java.awt.Event.ALT_MASK) > 0){
-			System.out.println("ALT_MASK");
-			modifiers |= IKeys.ALT;
-		}
-		if ((event.id == java.awt.Event.KEY_PRESS) && ((event.modifiers & java.awt.Event.META_MASK) > 0)){
-			System.out.println("META_MASK");
-			modifiers |= IKeys.CONTROL;//dima command macintosh
-		}
-
-		boolean doPostEvent = false;
-		switch (event.id)
-			{
-			case java.awt.Event.MOUSE_MOVE:
-			case java.awt.Event.MOUSE_DRAG:
-				type = PenEvent.PEN_MOVE;
-				x = event.x;
-				y = event.y;
-				doPostEvent = true;
-				break;
-			case java.awt.Event.MOUSE_DOWN:
-				System.out.println("WC: MOUSE_DOWN event.key: " + event.key);
-				type = PenEvent.PEN_DOWN;
-				x = event.x;
-				y = event.y;
-				doPostEvent = true;
-				break;
-			case java.awt.Event.MOUSE_UP:
-				type = PenEvent.PEN_UP;
-				x = event.x;
-				y = event.y;
-				doPostEvent = true;
-				break;
-/*
-			case java.awt.Event.KEY_PRESS:
-				type = KeyEvent.KEY_PRESS;
-				System.out.println("WC: key_press event.key: " + event.key);
-				key = keyValue(event.key, modifiers);
-				doPostEvent = true;
-				break;
-			case java.awt.Event.KEY_ACTION:
-				{
-					System.out.println("WC: key_action event.key: " + event.key);
-					key = actionKeyValue(event.key);
-					if (key != 0)
-						{
-							type = KeyEvent.KEY_PRESS;
-							doPostEvent = true;
-						}
-					break;
-				}
-*/
-			}
-		if (doPostEvent)
-			{
-				int timestamp = (int)event.when;
-				synchronized(Applet.uiLock)
-					{
-						win._postEvent(type, key, x, y, modifiers, timestamp);
-					}
-			}
-		return super.handleEvent(event);
-	}
-
-	public static int keyValue(int key, int mod)
-	{
-		switch (key)
-			{
+		} else {
+			key = event.getKeyChar();
+			switch (key){
 			case 8:
 			case 65288:   // this is hack that works on linux (don't know why)
 				key = IKeys.BACKSPACE;
@@ -227,32 +106,36 @@ public class WinCanvas extends java.awt.Canvas implements KeyListener
 				key = IKeys.DELETE;
 				break;
 			}
-		return key;
+		}
+
+		postWabaEvent(KeyEvent.KEY_PRESS, key, 0, 0, wMods, (int)event.getWhen());
+	}
+		
+	public void keyReleased(java.awt.event.KeyEvent event){}
+
+	public void keyTyped(java.awt.event.KeyEvent event){}
+
+	public void mouseClicked(MouseEvent e){}
+	public void mouseEntered(MouseEvent e){}
+	public void mouseExited(MouseEvent e){}
+	public void mousePressed(MouseEvent e){_handleMouseEvent(e, PenEvent.PEN_DOWN);}
+	public void mouseReleased(MouseEvent e){_handleMouseEvent(e, PenEvent.PEN_UP);}
+
+	public void mouseDragged(MouseEvent e){_handleMouseEvent(e, PenEvent.PEN_MOVE);}
+	public void mouseMoved(MouseEvent e){_handleMouseEvent(e, PenEvent.PEN_MOVE);}
+
+	public void _handleMouseEvent(MouseEvent e, int wabaType)
+	{
+		int wMods = getWabaModifiers(e);		
+		postWabaEvent(wabaType, 0, e.getX(), e.getY(), wMods, (int)e.getWhen());
 	}
 
-	public static int actionKeyValue(int action)
+	public void postWabaEvent(int type, int key, int x, int y,
+							  int modifiers, int timestamp)
 	{
-		int key = 0;
-		switch (action)
-			{
-			case java.awt.Event.PGUP:       key = IKeys.PAGE_UP; break;
-			case java.awt.Event.PGDN:       key = IKeys.PAGE_DOWN; break;
-			case java.awt.Event.HOME:       key = IKeys.HOME; break;
-			case java.awt.Event.END:        key = IKeys.END; break;
-			case java.awt.Event.UP:         key = IKeys.UP; break;
-			case java.awt.Event.DOWN:       key = IKeys.DOWN; break;
-			case java.awt.Event.LEFT:       key = IKeys.LEFT; break;
-			case java.awt.Event.RIGHT:      key = IKeys.RIGHT; break;
-			case java.awt.Event.INSERT:     key = IKeys.INSERT; break;
-			case java.awt.Event.ENTER:      key = IKeys.ENTER; break;
-			case java.awt.Event.TAB:        key = IKeys.TAB; break;
-			case java.awt.Event.BACK_SPACE: key = IKeys.BACKSPACE; break;
-			case java.awt.Event.ESCAPE:     key = IKeys.ESCAPE; break;
-			case java.awt.Event.DELETE:     key = IKeys.DELETE; break;
-			case java.awt.Event.F6:     	key = IKeys.MENU; break;
-			case java.awt.Event.F7:     	key = 76000; break;
-			}
-		return key;
+		synchronized(Applet.uiLock){
+			win._postEvent(type, key, x, y, modifiers, timestamp);
+		}
 	}
 
 	public void update(java.awt.Graphics g)
@@ -268,7 +151,6 @@ public class WinCanvas extends java.awt.Canvas implements KeyListener
 		catch (NoSuchMethodError e) { r = g.getClipRect(); }
 		synchronized(Applet.uiLock)
 			{
-				System.out.println("WinC: paint");
 				win._doPaint(r.x, r.y, r.width, r.height);
 			}
 	}
