@@ -20,6 +20,7 @@ public class LObjDataControlView extends LabObjectView
     Edit nameEdit = null;
 
     int gt_height = 40;
+	int dd_height = 20;
     GraphTool gt = null;
     DigitalDisplay dd = null;
 
@@ -101,9 +102,10 @@ public class LObjDataControlView extends LabObjectView
 
 		if(gHeight <= 160){
 			gt_height = 22;
+			dd_height = 10;
 		}
          
-		gv.setRect(0, curY+gt_height+10, width, gHeight-gt_height-10);
+		gv.setRect(0, curY+gt_height+dd_height, width, gHeight-gt_height-dd_height);
 	
 		dd = new DigitalDisplay(new Font("Helvetica", 
 										 Font.BOLD, gt_height*12/20 - (gt_height-20)*8/20));
@@ -116,7 +118,7 @@ public class LObjDataControlView extends LabObjectView
 		add(gt);
 		curY += gt_height;
 
-		dd.setRect(0,curY, width, 10);
+		dd.setRect(0,curY, width, dd_height);
 		add(dd);
 	
     }

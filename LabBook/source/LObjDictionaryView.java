@@ -148,6 +148,8 @@ public class LObjDictionaryView extends LabObjectView
 				String objType = (String)e.getInfo();
 				LabObject newObj = null;
 				boolean autoEdit = false;
+				boolean autoProp = true;
+
 				if(objType.equals("Folder")){
 				    newObj = new LObjDictionary();
 				} else if(objType.equals("Notes")){
@@ -160,7 +162,7 @@ public class LObjDictionaryView extends LabObjectView
 				    LObjDataControl dc = LObjDataControl.makeNew();
 				    newObj = dc.dict;
 				    dc.dict.hideChildren = true;
-				    autoEdit = true;
+					autoProp = true;
 				} else if(objType.equals("Drawing")){
 				    newObj = new LObjDrawing();
 				    autoEdit = true;
@@ -191,7 +193,12 @@ public class LObjDictionaryView extends LabObjectView
 
 				    if(autoEdit){
 						showPage(newNode, true, false);
-				    }
+				    } else if(autoProp){
+						showPage(newNode, true, true);
+					} 
+
+					
+
 				}
 
 			}
