@@ -45,6 +45,10 @@ private waba.ui.Container		contentPane;
 		if(javaDialog != null){
 			javaDialog.show();
 			javaDialog.setResizable(false);
+			if(inpControl != null &&
+			   inpControl instanceof waba.ui.Edit){
+				getWabaWindow().setFocus(inpControl);
+			}
 		}
 
 	}
@@ -89,12 +93,12 @@ private waba.ui.Container		contentPane;
 	add(contentPane);
 	setContent();
 
-	
+/*
 	if(inpControl != null &&
 	   inpControl instanceof waba.ui.Edit){
 		getWabaWindow().setFocus(inpControl);
 	}
-	
+*/	
   }
 
 
