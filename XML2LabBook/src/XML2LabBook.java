@@ -4,6 +4,7 @@ import org.concord.LabBook.*;
 import org.concord.CCProbe.*;
 import org.concord.waba.extra.probware.probs.*;
 import waba.fx.*;
+import graph.*;
 
 import javax.xml.parsers.*;
 import org.xml.sax.*;
@@ -171,6 +172,7 @@ public static QTManager qtManager = null;
 				retBook = new LabBook();
 			}
 		}catch(Exception e){
+			e.printStackTrace();
 			retBook = null;
 		}
 		if(retBook != null){
@@ -583,6 +585,39 @@ public static QTManager qtManager = null;
 		if(graph != null){
 			graph.clear();
 			graph.initAxis();
+
+			Axis xaxis = graph.getXAxis(0);
+			float xmin = xaxis.getDispMin();
+			float xmax = xaxis.getDispMax();
+			float tempFloat = Float.NaN;
+			String xminStr = element.getAttribute("xmin");
+			if(xminStr != null && xminStr.length() > 0){
+				tempFloat = getFloatFromString(xminStr);
+				if(tempFloat != Float.NaN) xmin = tempFloat;
+			}
+			String xmaxStr = element.getAttribute("xmax");
+			if(xmaxStr != null && xmaxStr.length() > 0){
+				tempFloat = getFloatFromString(xmaxStr);
+				if(tempFloat != Float.NaN) xmax = tempFloat;
+			}
+			xaxis.setRange(xmin, xmax-xmin);
+			
+			Axis yaxis = graph.getYAxis(0);
+			float ymin = yaxis.getDispMin();
+			float ymax = yaxis.getDispMax();
+			String yminStr = element.getAttribute("ymin");
+			if(yminStr != null && yminStr.length() > 0){
+				tempFloat = getFloatFromString(yminStr);
+				if(tempFloat != Float.NaN) ymin = tempFloat;
+			}
+			String ymaxStr = element.getAttribute("ymax");
+			if(ymaxStr != null && ymaxStr.length() > 0){
+				tempFloat = getFloatFromString(ymaxStr);
+				if(tempFloat != Float.NaN) ymax = tempFloat;
+			}
+			System.out.println("XML2LabBook: setting yaxisRange: " + ymin + ", " + (ymax-ymin));
+			yaxis.setRange(ymin, ymax-ymin);					   			
+			
 			graph.addDataSource(newDS,true,0,0);
 			if(trans != null){
 				graph.addYAxis();
@@ -716,6 +751,15 @@ public static QTManager qtManager = null;
 		return color;
 	}
 	
+	public static float getFloatFromString(String str){
+		float retValue = 0;
+		try{
+			retValue = Float.parseFloat(str);
+		}catch(Exception te){
+			retValue = Float.NaN;
+		}
+		return retValue;		
+	}
 	public static int getIntFromString(String str){
 		int retValue = 0;
 		try{
