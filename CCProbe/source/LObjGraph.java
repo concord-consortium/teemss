@@ -12,25 +12,12 @@ import org.concord.waba.extra.util.*;
 import extra.util.*;
 
 public class LObjGraph extends LabObject
-	implements DialogListener
 {
-	Vector graphSettings = null;
-
     String title = null;
-
-    PropertyDialog pDialog = null;
-    PropContainer props = null;
-	PropObject propTitle;
-    PropObject propXmin;
-    PropObject propXmax;
-	PropObject propXlabel;
-    PropObject propYmin;
-    PropObject propYmax;
-	PropObject propYlabel;
-
-	GraphSettings curGS = null;
-
 	boolean autoTitle = false;
+
+	Vector graphSettings = null;
+	GraphSettings curGS = null;
 
 	LObjGraphView gv = null;
 
@@ -50,41 +37,6 @@ public class LObjGraph extends LabObject
 		return curGS;
 	}
 
-	public void setupProperties()
-	{
-		if(curGS == null) return;
-
-		props = new PropContainer();
-		props.createSubContainer("Graph");
-		props.createSubContainer("YAxis");	
-		props.createSubContainer("XAxis");
-
-		if(autoTitle)  propTitle = new PropObject("Title", "*" + title);
-		else propTitle = new PropObject("Title", title);
-		propTitle.prefWidth = 100;
-
-		propXmin = new PropObject("Min", curGS.xmin + "");
-		propXmax = new PropObject("Max", curGS.xmax + "");
-		propXlabel = new PropObject("Label", curGS.xLabel);
-		propXlabel.prefWidth = 100;
-		propYmin = new PropObject("Min", curGS.ymin + "");
-		propYmax = new PropObject("Max", curGS.ymax + "");
-
-		if(autoTitle) propYlabel = new PropObject("Label", "*" + curGS.yLabel);
-		else propYlabel = new PropObject("Label", curGS.yLabel);
-		propYlabel.prefWidth = 100;
-
-		props.addProperty(propTitle, "Graph");
-
-		props.addProperty(propXmax, "XAxis");
-		props.addProperty(propXmin, "XAxis");
-		props.addProperty(propXlabel, "XAxis");
-
-		props.addProperty(propYmax, "YAxis");
-		props.addProperty(propYmin, "YAxis");
-		props.addProperty(propYlabel, "YAxis");
-    }
-
     public void showAxisProp()
 	{
 		showAxisProp(0);
@@ -94,50 +46,17 @@ public class LObjGraph extends LabObject
     {
 		MainWindow mw = MainWindow.getMainWindow();
 		if(mw instanceof ExtraMainWindow){
-			setupProperties();
-
-			pDialog = new PropertyDialog((ExtraMainWindow)mw, this, "Properties", props, index);
-			pDialog.setRect(0,0, 140,140);
-			pDialog.show();
+			LObjGraphProp gProp = (LObjGraphProp) getPropertyView(null, null);
+			gProp.index = index;
+			ViewDialog vDialog = new ViewDialog((ExtraMainWindow)mw, null, "Properties", gProp);
+			vDialog.setRect(0,0,150,150);
+			vDialog.show();
 		}
     }
-    
-    public void dialogClosed(DialogEvent e)
-    {
-		if(!e.getActionCommand().equals("Cancel")){
-			if(curGS == null) return;
-			curGS.setXValues(propXmin.createFValue(), propXmax.createFValue());
-			curGS.setYValues(propYmin.createFValue(), propYmax.createFValue());
-			
-			curGS.setXLabel(propXlabel.getValue());
 
-			String newTitle = propTitle.getValue();
-			String newYLabel = propYlabel.getValue();
-
-			if(!autoTitle && 
-			   ((newTitle.length() > 0 && 
-				 newTitle.charAt(0) == '*') ||
-				(newYLabel.length() > 0 &&
-				 newYLabel.charAt(0) == '*'))){
-				autoTitle = true;
-				name = "..auto_title..";
-			} else if(autoTitle && 
-			   ((newTitle.length() > 0 && 
-				 newTitle.charAt(0) != '*') ||
-				(newYLabel.length() > 0 &&
-				 newYLabel.charAt(0) != '*'))){
-				autoTitle = false;
-				name = "Graph";
-			}
-
-			if(!autoTitle){
-				title = newTitle;
-				curGS.setYLabel(newYLabel);
-			}
-
-			if(gv != null) gv.updateProp();
-		}
-    }
+    public LabObjectView getPropertyView(ViewContainer vc, LObjDictionary curDict){
+		return new LObjGraphProp(vc, this, 0);
+	}
 
     public LabObjectView getView(ViewContainer vc, boolean edit, LObjDictionary curDict)
     {

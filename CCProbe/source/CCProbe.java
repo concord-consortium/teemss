@@ -241,9 +241,9 @@ public class CCProbe extends ExtraMainWindow
 			dView.insertAtSelected(newObj);
 
 			if(autoEdit){
-				dView.showPage(newObj, true, false);
+				dView.showPage(newObj, true);
 			} else if(autoProp){
-				dView.showPage(newObj, true, true);
+				dView.showProperties(newObj);
 			} 				   
 		}
 	}
