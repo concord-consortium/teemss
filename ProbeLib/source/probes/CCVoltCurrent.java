@@ -168,10 +168,13 @@ public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
 				case ENERGY_OUT:
 					float		amper = (dataEvent[nOffset+i] - zeroPointCurrent)/currentResolution;
 					float		voltage = (dataEvent[nOffset+i +1] - zeroPointVoltage)/voltageResolution;
-					dataEvent[dataIndex] = amper*voltage;
+					data[dataIndex] = amper*voltage;
+					if(data[dataIndex] < 0f){
+					    data[dataIndex] = -data[dataIndex];
+					}
 					if(outputMode == ENERGY_OUT){
-						energy 	+= dataEvent[dataIndex]*dDesc.dt; 
-						dataEvent[dataIndex] 	= energy;
+						energy 	+= data[dataIndex]*dDesc.dt; 
+						data[dataIndex] 	= energy;
 					}
 					break;
 			}
