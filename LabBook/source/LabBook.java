@@ -513,16 +513,6 @@ public class LabBook
 
 	public void export(LabObject lObj, LabBookDB db)
     {
-		if(waba.sys.Vm.getPlatform().equals("PalmOS")){
-			Catalog memoDB = new Catalog("MemoDB.memo.DATA", Catalog.READ_WRITE);
-			memoDB.addRecord(100);
-			DataStream ds = new DataStream(memoDB);
-			ds.writeCString("Hello World");
-			ds.writeCString("dlroW olleH");
-			memoDB.close();
-			return;
-		}
-
 		LabBookDB oldDb = this.db;
 
 		commit();
