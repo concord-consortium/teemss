@@ -9,8 +9,8 @@ components=$components/ccprobe-macosx
 rm -rf $complete/*
 rm -rf $download/*
 
-copy-mac-cvs-folder $doc/ccprobe-macosx $complete
-copy-mac-cvs-folder $doc/all $complete
+copymaccvsfolder $doc/ccprobe-macosx $complete
+copymaccvsfolder $doc/all $complete
 
 cp $labbook/LabBook.PDB $complete
 CpMac -r $components/* $complete

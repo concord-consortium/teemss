@@ -10,8 +10,8 @@ rm -rf $complete/*
 rm -rf $download/*
 rm -rf $tempdir/*
 
-windows-to-macos-newline  $doc/ccprobe-palmos/readme-palmos.txt $tempdir/readme-palmos.txt
-windows-to-macos-newline  $doc/all/COPYING $tempdir/COPYING
+WindowsToMacosNewline  $doc/ccprobe-palmos/readme-palmos.txt $tempdir/readme-palmos.txt
+WindowsToMacosNewline  $doc/all/COPYING $tempdir/COPYING
 SetFile -c ttxt -t TEXT $tempdir/*
 cp  $doc/all/ccprobe-ref.pdf $tempdir
 SetFile -c 'CARO' -t 'PDF ' $tempdir/ccprobe-ref.pdf
@@ -22,10 +22,13 @@ cp $labbook/LabBook.PDB $complete
 CpMac -r $components/* $complete
 cp $bin/CCProbe.prc $complete            
 
+echo 'palmos (macos)'
 echo $complete
 ls -l $complete
 
 osascript make-palmos-macos.applescript
+
+./makediskimage ../download/ccprobe-palmos/CCProbe ../complete/ccprobe-palmos/ CCProbe UDZO
 
 rm -f $download/CCProbe.sea
 
@@ -33,10 +36,14 @@ cp $doc/ccprobe-palmos/readme-palmos.txt $complete
 cp $doc/all/COPYING $complete
 cp  $doc/all/ccprobe-ref.pdf $complete
 
+echo 'palmos (windows)'
+echo $complete
+ls -l $complete
+
 osascript make-palmos-windows.applescript
 
-windows-to-unix-newline  $doc/ccprobe-palmos/readme-palmos.txt $complete/readme-palmos.txt
-windows-to-unix-newline  $doc/all/COPYING $complete/COPYING
+WindowsToUnixNewline  $doc/ccprobe-palmos/readme-palmos.txt $complete/readme-palmos.txt
+WindowsToUnixNewline  $doc/all/COPYING $complete/COPYING
 
 cd $complete/../
 tar -czvf $download/CCProbe.tgz ccprobe-palmos

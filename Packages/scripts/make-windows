@@ -10,8 +10,8 @@ components=$components/ccprobe-windows
 rm -rf $complete/*
 rm -rf $download/*
 
-copy-cvs-folder $doc/ccprobe-windows $complete
-copy-cvs-folder $doc/all $complete
+copycvsfolder $doc/ccprobe-windows $complete
+copycvsfolder $doc/all $complete
 
 cp $bin/CCProbe.jar  $complete
 cp $labbook/LabBook.PDB $complete

@@ -10,8 +10,8 @@ components=$components/ccprobe-unix
 rm -rf $complete/*
 rm -rf $download/*
 
-copy-cvs-folder $doc/ccprobe-unix $complete
-copy-cvs-folder $doc/all $complete
+copycvsfolder $doc/ccprobe-unix $complete
+copycvsfolder $doc/all $complete
 
 cp $bin/CCProbe.jar  $complete
 cp $labbook/LabBook.PDB $complete

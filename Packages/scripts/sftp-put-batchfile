@@ -3,7 +3,7 @@ lcd ../download
 cd ccprobe-macos-classic
 put ccprobe-macos-classic/CCProbe.sea.hqx
 cd ../ccprobe-macosx
-put ccprobe-macosx/CCProbe.sea.hqx
+put ccprobe-macosx/CCProbe.dmg
 cd ../ccprobe-palmos
 put ccprobe-palmos/CCProbe.exe
 put ccprobe-palmos/CCProbe.sea.hqx

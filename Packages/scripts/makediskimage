@@ -44,7 +44,7 @@ fi
 tempimage=$1_temp.dmg
 space=`du -sk $2 | cut -f1`
 #we need extra space; space is measured in MB
-space=`expr $space '*' 5 / 3000 + 1`
+space=`expr $space '*' 5 / 3000 + 2`
 
 if [ $space -lt 4 ]
   then space=4 

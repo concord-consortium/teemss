@@ -10,8 +10,8 @@ components=$components/ccprobe-pocketpc
 rm -rf $complete/*
 rm -f $download/*
 
-copy-cvs-folder $doc/ccprobe-palmos $complete
-copy-cvs-folder $doc/all $complete
+copycvsfolder $doc/ccprobe-palmos $complete
+copycvsfolder $doc/all $complete
 
 
 cp $bin/CCProbe.wrp  $complete

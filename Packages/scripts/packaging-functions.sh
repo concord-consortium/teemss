@@ -10,36 +10,36 @@ doc=../doc
 tempdir=../tempdir
 labbook=../../TeemssXML/LabBookXSL
 
-function hide-cvs
+function hidecvs
 {
     mv $1/CVS $1/.CVS
 }
 
-function show-cvs
+function showcvs
 {
     mv $1/.CVS $1/CVS
 }
 
-function copy-mac-cvs-folder
+function copymaccvsfolder
 {
-    hide-cvs $1
+    hidecvs $1
     CpMac $1/* $2
-    show-cvs $1
+    showcvs $1
 }
 
-function copy-cvs-folder
+function copycvsfolder
 {
-    hide-cvs $1
+    hidecvs $1
     cp $1/* $2
-    show-cvs $1
+    showcvs $1
 }
 
-function windows-to-unix-newline
+function WindowsToUnixNewline
 {
     tr -d '\r' <$1 >$2
 }
 
-function windows-to-macos-newline
+function WindowsToMacosNewline
 {
     tr -d '\n' <$1 >$2
 }

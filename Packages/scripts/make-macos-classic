@@ -11,8 +11,8 @@ rm -rf $complete/*
 rm -rf $download/*
 rm -rf $tempdir/*
 
-copy-mac-cvs-folder $doc/ccprobe-macos-classic $tempdir
-copy-mac-cvs-folder $doc/all $tempdir
+copymaccvsfolder $doc/ccprobe-macos-classic $tempdir
+copymaccvsfolder $doc/all $tempdir
 
 SetFile -c ttxt -t TEXT $tempdir/*
 SetFile -c 'CARO' -t 'PDF ' $tempdir/ccprobe-ref.pdf
