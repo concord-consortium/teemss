@@ -537,6 +537,17 @@ private static int inGetUInt16(byte bytes[], int off)
 	return wi;
 
 	}
+	
+	public void loadImage(int imageWidth,int imageHeight,int imageBPP,int []imageCMAP,
+									 int imageScanlen,byte []imagePixels){
+		this.imageWidth = imageWidth;
+		this.imageHeight = imageHeight;
+		this.imageBPP = imageBPP;
+		this.imageCMAP = imageCMAP;
+		this.imageScanlen = imageScanlen;
+		this.imagePixels = imagePixels;
+	}
+
 private void pixelsToRGB(int bitsPerPixel, int width, byte pixels[], int pixelOffset,
 
 	int rgb[], int rgbOffset, int cmap[])

@@ -10,7 +10,7 @@ int	paletteVersion = CC_VERSION_PALETTE;
 
 	}
 	
-	private static void createPalette(){
+	private static void createPalette(boolean web){
 		int r,g,b,i;
 		int count = 0;
 		if(colors == null || colors.length != 216){
@@ -24,14 +24,39 @@ int	paletteVersion = CC_VERSION_PALETTE;
 			}
 		}
 	}
+	private static void createPalette(){
+		createPalette(true);
+	}
 	
 	public int getPaletteVersion(){return paletteVersion;}
 	
 	public static waba.fx.Color[] getPalette(){
+		return getPalette(true);
+	}
+	public static waba.fx.Color[] getPalette(boolean web){
 		if(colors != null) return colors;
-		createPalette();
+		createPalette(web);
 		return colors;
 	}
+	
+	public static int findNearestColor(int []cmap,int r, int g, int b){
+		int index = -1;
+		if(cmap == null) return index;
+		int minOffset = 0xFFFF;
+		for(int i = 0; i < cmap.length; i++){
+			int rPal = (cmap[i] & 0xFF0000); rPal >>>= 16;
+			int gPal = (cmap[i] & 0xFF00); gPal >>>= 8;
+			int bPal = (cmap[i] & 0xFF);
+			int tOffset = (Maths.abs(rPal - r) +Maths.abs(gPal - g)+Maths.abs(bPal - b));
+			if(tOffset < minOffset){
+				index = i;
+				minOffset = tOffset;
+			}
+		}
+		return index;
+	}
+	
+	
 	
 	public static int findNearestColor(int r, int g, int b){
 		int index = -1;
