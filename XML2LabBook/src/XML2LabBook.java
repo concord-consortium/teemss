@@ -262,6 +262,7 @@ public static QTManager qtManager = null;
 		if(labBook == null) return null;
  		LObjDictionary dict = DefaultFactory.createDictionary();
 		session.storeNew(dict);
+		LabObjectPtr ptr = dict.getVisiblePtr();
 		dict.setName("Home");
 		labBook.store(dict);
 		return dict;
@@ -482,7 +483,7 @@ public static QTManager qtManager = null;
 
 	public static int CURR_PARAGRAPH = 0;
 	public static int LAST_EMBEDDED_OBJ_PARAGRAPH = 1;
-	public static void addSNSection(LObjCCTextArea superNotes, LObjCCTextAreaView view, 
+	public static void addSNSection(LObjCCTextArea superNotes,
 									Vector lines, Vector components, Vector linkComponents, 
 									int indent, int firstLineOffset, int [] snState,NodeList children)
 	{
@@ -508,7 +509,7 @@ public static QTManager qtManager = null;
 					firstLineOffset = getIntFromString(child.getAttribute("first-line-offset"));					 
 					
 					NodeList subChildren = child.getChildNodes();
-					addSNSection(superNotes, view, lines, components, linkComponents, 
+					addSNSection(superNotes, lines, components, linkComponents, 
 								 indent + size, firstLineOffset, snState, subChildren);					
 				} else if(child.getTagName().equals("BR")){
 					continue;
@@ -611,9 +612,6 @@ public static QTManager qtManager = null;
 	public static LabObject getSuperNotes(Element element, LObjCCTextArea superNotes){
 		if(labBook == null || superNotes == null) return null;
 		
-		LObjCCTextAreaView view = (LObjCCTextAreaView)superNotes.getView(null,false,null,session);
-
-		if(view == null) return null;
 		Vector lines = new Vector();
 
 		NodeList children = element.getChildNodes();
@@ -624,10 +622,10 @@ public static QTManager qtManager = null;
 
 			Vector components = new Vector();
 			Vector linkComponents = new Vector();
-			addSNSection(superNotes, view, lines, components, 
+			addSNSection(superNotes, lines, components, 
 						 linkComponents, 0, 0,
 						 snState, children);
-			view.createTArea(lines,linkComponents,components);
+			superNotes.setup(lines,linkComponents,components, session);
 		}
 
 		superNotes.store();
@@ -673,7 +671,6 @@ public static QTManager qtManager = null;
 				String tagName = ((Element)node).getTagName();
 				if(tagName.equals("DATAFOLDER")){
 					String dataFolderStr = ((Element)node).getAttribute("object");
-					System.out.println("**setting data object**");
 					if(validAttr(dataFolderStr)) {
 						graph.setDataDict((LObjDictionary)getLabBookObjectFromId(dataFolderStr));
 					}
