@@ -145,9 +145,11 @@ public class LObjDictionary extends LabObject
     {
 		Debug.println("Removing node");
 		int index = getIndex(node);
-		objects.del(index);
-		lBook.store(this);
-		// Should tell the labbook we don't care about this obj any more
+		if(index >= 0 && index < objects.getCount()){
+			objects.del(index);
+			lBook.store(this);
+			// Should tell the labbook we don't care about this obj any more
+		}
     }
 
     public void remove(int index)
