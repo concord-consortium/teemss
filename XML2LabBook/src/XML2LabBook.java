@@ -403,6 +403,28 @@ public static QTManager qtManager = null;
 		return (LObjImage)imageObject;
 	}
 	
+	public static int makeSNParagraph(waba.util.Vector lines, int nSpaces, CharacterData textNode, 
+									   String linkcolor, boolean link, boolean optional)
+	{
+		String tData = "";
+		if(textNode instanceof CharacterData){
+			tData = ((CharacterData)textNode).getData().trim();
+			if(tData.length() > 0){
+				if(nSpaces > 0){
+					for(int p=0; p < nSpaces; p++) tData = "\t"+tData;
+				}
+				tData = tData.replace('\n',' ');
+				tData = tData.replace('\r',' ');
+			}
+		}
+		if(optional && tData.equals("")) return 0;
+		
+		CCStringWrapper wrapper = CCTextArea.createCCStringWrapper(tData,linkcolor,link,null);
+		lines.add(wrapper);
+		return 1;
+	}
+
+
 	public static LabObject getSuperNotes(LabBook labBook, Element element, 
 										  LObjCCTextArea superNotes){
 		if(labBook == null || superNotes == null) return null;
@@ -418,101 +440,101 @@ public static QTManager qtManager = null;
 			waba.util.Vector components = new waba.util.Vector();
 			waba.util.Vector linkComponents = new waba.util.Vector();
 			for(int i = 0; i < children.getLength(); i++){
-				Element child = (Element)children.item(i);
-				if(child == null) continue;
-				if(child.getTagName().equals("SNPARAGRAPH")){
-					int nSpaces = getIntFromString(child.getAttribute("indent"));
-					Node textNode = child.getFirstChild();
-					String tData = "";
-					if(textNode instanceof CharacterData){
-						tData = ((CharacterData)textNode).getData().trim();
-			        	if(tData.length() > 0){
-							if(nSpaces > 0){
-								for(int p=0; p < nSpaces; p++) tData = "\t"+tData;
-							}
-							tData = tData.replace('\n',' ');
-							tData = tData.replace('\r',' ');
-			        	}
-					}
-					String linkStr = child.getAttribute("link");
-					boolean link = (linkStr == null)?false:linkStr.equals("true");
-					String idref = child.getAttribute("object");
-					if(link && idref == null) link = false;
-					if(!link && idref != null) link = true;
-					if(link){
-						Element linkElement =  (Element)currentDocument.getElementById(idref);
-						if(linkElement == null){
-							link = false;
-						}else{      
-							LabObject linkObject = createRegularObject(labBook,linkElement);
-							if(linkObject == null){
+				Node childNode = (Node)children.item(i);
+				if(childNode == null) continue;
+				if(childNode instanceof CharacterData){
+					currParagraph += makeSNParagraph(lines, 0, (CharacterData)childNode, "000000", false, true);
+					
+				} else if(childNode instanceof Element){
+					Element child = (Element)childNode;
+
+					if(child.getTagName().equals("SNPARAGRAPH")){
+						int nSpaces = getIntFromString(child.getAttribute("indent"));					 
+						Node textNode = child.getFirstChild();
+						CharacterData cdNode = null;
+						if(textNode instanceof CharacterData){
+							cdNode = (CharacterData) textNode;
+						} 
+
+						String linkStr = child.getAttribute("link");
+						boolean link = (linkStr == null)?false:linkStr.equals("true");
+						String idref = child.getAttribute("object");
+						if(link && idref == null) link = false;
+						if(!link && idref != null) link = true;
+						if(link){
+							Element linkElement =  (Element)currentDocument.getElementById(idref);
+							if(linkElement == null){
 								link = false;
-							}else{
-								linkComponents.add(linkObject);
-							}
-						}
-					}
-					CCStringWrapper wrapper = CCTextArea.createCCStringWrapper(tData,child.getAttribute("linkcolor"),link,null);
-					lines.add(wrapper);
-					currParagraph++;
-				}else if(child.getTagName().equals("EMBOBJ")){
-					String idref = child.getAttribute("object");
-					LabObject embObject = null;
-					Element embElement = null;
-					if(idref == null || idref.trim().length() < 1){
-						embElement = (Element)child.getFirstChild();
-						if(embElement != null){
-							int id = getIdentifierFromElement(embElement);
-							if(id >= 0){
-								if(superNotes.getDict() != null){
-									embObject = getLabBookObject(labBook, embElement);
-									superNotes.getDict().add(embObject);
+							}else{      
+								LabObject linkObject = createRegularObject(labBook,linkElement);
+								if(linkObject == null){
+									link = false;
+								}else{
+									linkComponents.add(linkObject);
 								}
 							}
 						}
-					}else{
-						embElement =  (Element)currentDocument.getElementById(idref);        
-						if(embElement != null) embObject = createRegularObject(labBook,embElement);
-					}
-					if(embObject != null){
-						String tempStr = child.getAttribute("link");
-						boolean link = (tempStr != null && tempStr.equals("true"));
-						String linkColor = child.getAttribute("linkcolor");
-						if(linkColor == null || linkColor.length() < 1) linkColor = "0000FF";
+						currParagraph += makeSNParagraph(lines, nSpaces, cdNode, 
+														 child.getAttribute("linkcolor"),link, false);
+					}else if(child.getTagName().equals("EMBOBJ")){
+						String idref = child.getAttribute("object");
+						LabObject embObject = null;
+						Element embElement = null;
+						if(idref == null || idref.trim().length() < 1){
+							embElement = (Element)child.getFirstChild();
+							if(embElement != null){
+								int id = getIdentifierFromElement(embElement);
+								if(id >= 0){
+									if(superNotes.getDict() != null){
+										embObject = getLabBookObject(labBook, embElement);
+										superNotes.getDict().add(embObject);
+									}
+								}
+							}
+						}else{
+							embElement =  (Element)currentDocument.getElementById(idref);        
+							if(embElement != null) embObject = createRegularObject(labBook,embElement);
+						}
+						if(embObject != null){
+							String tempStr = child.getAttribute("link");
+							boolean link = (tempStr != null && tempStr.equals("true"));
+							String linkColor = child.getAttribute("linkcolor");
+							if(linkColor == null || linkColor.length() < 1) linkColor = "0000FF";
 					
-						LabObjectView embObjView = (link)?embObject.getMinimizedView():embObject.getView(null,false,null);
-						int	prefWidth = -1;
-						int	prefHeight = -1;
-						if(embObjView != null){
-							extra.ui.Dimension dimPref = null;
-							try{
-								dimPref = embObjView.getPreferredSize();
-							}catch(Exception e){
-								dimPref = new extra.ui.Dimension((int)((double)embObject.getName().length()*5.5+0.5),12) ;
+							LabObjectView embObjView = (link)?embObject.getMinimizedView():embObject.getView(null,false,null);
+							int	prefWidth = -1;
+							int	prefHeight = -1;
+							if(embObjView != null){
+								extra.ui.Dimension dimPref = null;
+								try{
+									dimPref = embObjView.getPreferredSize();
+								}catch(Exception e){
+									dimPref = new extra.ui.Dimension((int)((double)embObject.getName().length()*5.5+0.5),12) ;
+								}
+								if(dimPref != null){
+									prefWidth = dimPref.width;
+									prefHeight = dimPref.height;
+								}
 							}
-							if(dimPref != null){
-								prefWidth = dimPref.width;
-								prefHeight = dimPref.height;
+							String widthStr = child.getAttribute("w");
+							int w = (widthStr == null || widthStr.length() < 1)?prefWidth:getIntFromString(widthStr);
+							if(w < 10) w = 10;
+							String heightStr = child.getAttribute("h");
+							int h = (heightStr == null || heightStr.length() < 1)?prefHeight:getIntFromString(heightStr);
+							if(h < 10) h = 10;
+							int alignment = LBCompDesc.ALIGNMENT_LEFT;
+							tempStr = child.getAttribute("alignment");
+							if(tempStr != null && tempStr.equals("right")){
+								alignment = LBCompDesc.ALIGNMENT_RIGHT;
 							}
-						}
-						String widthStr = child.getAttribute("w");
-						int w = (widthStr == null || widthStr.length() < 1)?prefWidth:getIntFromString(widthStr);
-						if(w < 10) w = 10;
-						String heightStr = child.getAttribute("h");
-						int h = (heightStr == null || heightStr.length() < 1)?prefHeight:getIntFromString(heightStr);
-						if(h < 10) h = 10;
-						int alignment = LBCompDesc.ALIGNMENT_LEFT;
-						tempStr = child.getAttribute("alignment");
-						if(tempStr != null && tempStr.equals("right")){
-							alignment = LBCompDesc.ALIGNMENT_RIGHT;
-						}
-						tempStr = child.getAttribute("wrapping");
-						boolean wrapping = (tempStr != null && tempStr.equals("true"));
-						LBCompDesc compDesc = new LBCompDesc(currParagraph,w, h,alignment, wrapping,link);
-						compDesc.linkColor = getIntColorFromStringColor(linkColor);
-						compDesc.setObject(embObject);
-						components.add(compDesc);
-					}					
+							tempStr = child.getAttribute("wrapping");
+							boolean wrapping = (tempStr != null && tempStr.equals("true"));
+							LBCompDesc compDesc = new LBCompDesc(currParagraph,w, h,alignment, wrapping,link);
+							compDesc.linkColor = getIntColorFromStringColor(linkColor);
+							compDesc.setObject(embObject);
+							components.add(compDesc);
+						}					
+					}
 				}
 			}
 			view.createTArea(lines,linkComponents,components);
