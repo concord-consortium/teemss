@@ -1,6 +1,7 @@
 <!-- -*- DocBook -*- -->
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
-          "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+  "../docbkx412/docbookx.dtd">
+
 <article class="techreport">
 <title>TEEMSS CCProbe Probe Kit Testing</title>
 
