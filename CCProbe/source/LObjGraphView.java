@@ -463,20 +463,21 @@ public class LObjGraphView extends LabObjectView
 				if(toolName.equals(TOOL_AUTO_ZOOM_NAME)){
 					GraphSettings gs = graph.getCurGraphSettings();
 					if(gs.calcVisibleRange()){
-						float margin = (gs.maxVisY - gs.minVisY)*0.1f;
+						int ptHeight = (int)((gs.maxVisY - gs.minVisY)*gs.yaxis.scale);
 						int count=0;
 						float ymin, ymax;
-						while(margin == 0f && count < 4){
+						while(ptHeight < 20 && count < 4){
 							ymin = gs.minVisY - (-1f)/gs.yaxis.scale;
 							ymax = gs.maxVisY + (-1f)/gs.yaxis.scale;
 							gs.yaxis.setRange(ymin, ymax-ymin);
 							av.update();
 
 							if(!gs.calcVisibleRange()) return;
-							margin = (gs.maxVisY - gs.minVisY)*0.1f;
+							ptHeight = (int)((gs.maxVisY - gs.minVisY)*gs.yaxis.scale);
 							count++;
 						}
-						if(margin < 1.0E-8f) margin = 1.0E-8f; 
+						float margin = (gs.maxVisY - gs.minVisY)*0.1f;
+						if(margin < 1.0E-8f) margin = 1.0E-8f;
 						ymin = gs.minVisY - margin;
 						ymax = gs.maxVisY + margin;
 						gs.yaxis.setRange(ymin, ymax-ymin);
