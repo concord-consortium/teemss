@@ -13,6 +13,8 @@ public class LObjDictionaryProp extends LabObjectView
 {
 	LObjDictionary dict;
     Button doneButton;
+	Label nameLabel = new Label("Name:");
+	Edit nameEdit = new Edit();
 	Label viewLabel = new Label("View:");
     Choice viewChoice = null;
 	String [] choiceNames = {"Tree", "Paging"};
@@ -42,6 +44,10 @@ public class LObjDictionaryProp extends LabObjectView
 
 		showDone = sDone;
 
+		add(nameLabel);
+		nameEdit.setText(dict.name);
+		add(nameEdit);
+
 		add(viewLabel);
 		viewChoice = new Choice(choiceNames);
 		if(dict.viewType == dict.TREE_VIEW){
@@ -62,6 +68,9 @@ public class LObjDictionaryProp extends LabObjectView
 		super.setRect(x,y,width,height);
 		if(!didLayout) layout(false);
 
+		nameLabel.setRect(3,5, 45, 15);
+		nameEdit.setRect(50, 5, 110, 15);
+
 		viewLabel.setRect(3,30, 45, 15);
 		viewChoice.setRect(50,30, 60, 15);
 
@@ -79,6 +88,8 @@ public class LObjDictionaryProp extends LabObjectView
 		} else {
 			dict.viewType = dict.PAGING_VIEW;
 		}
+		dict.name = nameEdit.getText();
+
 		super.close();
 	}
 

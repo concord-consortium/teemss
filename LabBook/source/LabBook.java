@@ -428,6 +428,9 @@ public class LabBook
 		this.db = db;
 		db.setRootDevId(lObjPtr.devId);
 		db.setRootObjId(lObjPtr.objId);
+
+
+
 		commit();
 		this.db = oldDb;	
     }
