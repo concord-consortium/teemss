@@ -6,21 +6,37 @@
 # FORKS = superwaba
 # RUN_FORK = superwaba
 # PLATFORMS = palm wince desk other
+# RUN_PLATFORM  (the directory the main class is run from)
+# WARP_PLATFOrM  (probably nothing, palm, or other)
 
 WARP_FORK= superwaba
 FORK_DIR= /home/scytacki/waba/myforks
-WABA_DIR= /home/scytacki/waba/myforks/superwaba/classes_java
-WEXTRAS_DIR= /home/scytacki/waba/myforks/superwaba/wextras/classes
+WABA_DIR= $(CURDIR)/../wabasdk/classes
+WEXTRAS_DIR= $(CURDIR)/../wextra/classes/desktop
+WABAJUMP_DIR= $(CURDIR)/../wabajump/classes
 CLASSES_DIR= classes
 BIN_DIR= bin
 JAR_NAME= $(MW_CLASS).jar
 WJUMP_DIR= wjump
+JAR_BUILD = other
+
+WABA_CLASSES- = $(WABA_DIR)
+WABA_CLASSES-other= $(WABA_DIR)
+WABA_CLASSES-palm= $(WABAJUMP_DIR)
+WABA_CLASSES-ce= $(WABA_DIR)
+
+WEXTRA_CLASSES- = $(CURDIR)/../wextra/classes/desktop
+WEXTRA_CLASSES-other= $(CURDIR)/../wextra/classes/desktop
+WEXTRA_CLASSES-palm= $(CURDIR)/../wextra/classes/palm
+WEXTRA_CLASSES-ce= $(CURDIR)/../wextra/classes/ce
 
 export PILAINC=/home/scytacki/pila
 
-CLASSPATH= $(WEXTRAS_DIR)
-COMPILE_CP= $(subst _CUR_FORK_,$(1),$(CLASSPATH):$(FORK_DIR)/_CUR_FORK_/classes_java)
-ARCHIVE_CP= $(subst _CUR_FORK_,$(1),$(CLASSPATH))
+CLASSPATH=
+PLATFORM_CP= $(subst _CUR_PLATFORM_,$(1),$(CLASSPATH))
+COMPILE_CP= $(WEXTRA_CLASSES-$(1)):$(WABA_CLASSES-$(1))
+ARCHIVE_CP= $(WEXTRA_CLASSES-$(1))
+RUN_CP= $(WEXTRA_CLASSES-$(1)):$(WABA_CLASSES-)
 
 CLIENT_IPS= $(foreach num, $(shell cat clients), 4.19.234.$(shell echo $$(($(num) + 130)))) 
 FTP_PRE=ncftpput -m -E $(IP_ADDRESS)
@@ -33,35 +49,48 @@ first: all
 
 main: $(CLASSES_DIR) $(PLATFORMS)
 ifeq ($(PLATFORMS),)
-	javac -classpath $(call COMPILE_CP,waba) -d $(CLASSES_DIR) -O $(wildcard source/*.java)
+	javac -classpath $(CLASSPATH):$(call COMPILE_CP,other) -d $(CLASSES_DIR) -g $(wildcard source/*.java)
 endif
 
 $(PLATFORMS): $(PLATFORMS:%=$(CLASSES_DIR)/%)
-	javac -classpath $(call COMPILE_CP,waba) -d $(CLASSES_DIR)/$@ -O $(wildcard source/*.java) $(wildcard source/$@/*.java)
+	javac -classpath $(call PLATFORM_CP,$(@)):$(call COMPILE_CP,$(@)) -d $(CLASSES_DIR)/$@ -O $(wildcard source/*.java) $(wildcard source/$@/*.java)
 
 $(CLASSES_DIR) $(BIN_DIR) $(PLATFORMS:%=$(CLASSES_DIR)/%) $(WJUMP_DIR):
 	-mkdir $@
 
-warp: $(BIN_DIR) main
-	cd $(CLASSES_DIR)/$(WARP_FORK); java -classpath .:$(call ARCHIVE_CP,$(WARP_FORK)):$(FORK_DIR)/$(WARP_FORK)/classes wababin.Warp c ../../$(BIN_DIR)/$(MW_CLASS) $(MW_CLASS).class
+warp: $(BIN_DIR) $(WARP_PLATFORM)
+	cd $(CLASSES_DIR)/$(WARP_PLATFORM); java \
+-classpath .:$(call PLATFORM_CP,$(WARP_PLATFORM)):$(WEXTRA_CLASSES-ce):$(WEXTRA_CLASSES-other) \
+wababin.Warp c ../../$(BIN_DIR)/$(MW_CLASS) $(MW_CLASS).class
 
 exegen: 
-	cd $(CLASSES_DIR); /home/scytacki/waba/sdk/exegen /l $(EXE_CLASS_HEAP_SIZE) /m $(EXE_OBJ_HEAP_SIZE) /s 5000 /t 50 $(MW_CLASS) $(MW_CLASS) $(MW_CLASS); mv $(MW_CLASS).lnk ../bin
+	cd $(CLASSES_DIR); java -classpath $(WEXTRAS_DIR) wababin.Exegen /l $(EXE_CLASS_HEAP_SIZE) /m $(EXE_OBJ_HEAP_SIZE) /s 5000 /t 50 $(MW_CLASS) $(MW_CLASS) $(MW_CLASS); mv $(MW_CLASS).lnk ../bin
 
-jump: classes/waba
-	javac -classpath $(CLASSES_DIR)/waba:.:$(call ARCHIVE_CP,waba):$(FORK_DIR)/wabajump/classes:$(CLASSES_DIR)/waba  -d $(CLASSES_DIR)/waba -O $(wildcard source/*.java) $(wildcard source/waba/*.java)
-	cd $(WJUMP_DIR); pilrc -R $(MW_CLASS).res $(MW_CLASS).rcp
-	cd $(WJUMP_DIR);java -classpath /home/scytacki/jump/jar/jump.jar:.:$(call ARCHIVE_CP,waba):$(FORK_DIR)/wabajump/classes:../$(CLASSES_DIR)/waba Jump -mw $(MW_CLASS) 
-	cd $(WJUMP_DIR);pila $(MW_CLASS).asm
+jump: $(CLASSES_DIR)/$(JUMP_PLATFORM)
+	cd $(WJUMP_DIR);pilrc -R $(MW_CLASS).res $(MW_CLASS).rcp
+ifeq ($(JUMP_PLATFORM),)
+	javac -classpath $(CLASSPATH):$(call ARCHIVE_CP,palm):$(WABAJUMP_DIR)  \
+-d $(CLASSES_DIR)/$(JUMP_PLATFORM) \
+-O $(wildcard source/*.java)
+	cd $(WJUMP_DIR);java -classpath /home/scytacki/jump/jar/jump.jar:.:$(CLASSPATH):$(call ARCHIVE_CP,palm):$(WABAJUMP_DIR):../$(CLASSES_DIR) \
+ 	   Jump -mw $(MW_CLASS) 
+else
+	javac -classpath $(call PLATFORM_CP,$(JUMP_PLATFORM)):$(call ARCHIVE_CP,palm):$(WABAJUMP_DIR)  \
+-d $(CLASSES_DIR)/$(JUMP_PLATFORM) \
+-O $(wildcard source/*.java) $(wildcard source/$(JUMP_PLATFORM)/*.java)
+	cd $(WJUMP_DIR);java -classpath /home/scytacki/jump/jar/jump.jar:.:$(call PLATFORM_CP,$(JUMP_PLATFORM)):$(call ARCHIVE_CP,palm):$(WABAJUMP_DIR):../$(CLASSES_DIR)/$(JUMP_PLATFORM) Jump -mw $(MW_CLASS)
+endif
+	cd $(WJUMP_DIR); pila $(MW_CLASS).asm
 	mv $(WJUMP_DIR)/$(MW_CLASS).prc $(BIN_DIR)
-	cd $(WJUMP_DIR); rm *.res *.asm *.bin
+	cd $(WJUMP_DIR);rm *.res *.asm *.bin
 
 test: 
 	echo $$PILAINC
 
 # this might need to have it's classpath twiddled with
-jar: $(BIN_DIR) main
-	cd $(CLASSES_DIR)/$(RUN_FORK); jar c0vf ../../$(BIN_DIR)/$(MW_CLASS).jar $(EXT_FILES) *.class -C $(FORK_DIR)/$(RUN_FORK)/classes_java waba/applet/*.class waba/fx/*.class waba/ui/*.class waba/io/*.class waba/sys/*.class waba/util/*.class $(JAR_EXTRAS)
+jar: $(BIN_DIR) $(JAR_BUILD)
+	cd $(CLASSES_DIR)/$(JAR_BUILD); jar c0vf ../../$(BIN_DIR)/$(MW_CLASS).jar $(EXT_FILES) *.class \
+-C $(WABA_DIR) . -C $(WEXTRA_CLASSES-) . $(JAR_EXTRAS)
 
 ftp: get-clients
 	@$(foreach IP_ADDRESS, $(CLIENT_IPS), $(FTP_COMMAND))
@@ -74,10 +103,19 @@ RUN-FORMATS = palm wince desk
 run-palm = 
 run-wince = /w 240 /h 300 /color
 run-desk =  /w 640 /h 480 /color
+run-palm-fork=palm
+run-wince-fork=ce
+run-desk-fork=other
+run-fork=other
 
 $(RUN-FORMATS:%=run-%) run:
-	cd $(CLASSES_DIR)/$(RUN_FORK); java -cp .:$(call COMPILE_CP,$(RUN_FORK)) waba.applet.Applet \
+	cd $(CLASSES_DIR)/$($(@)-fork); java -cp .:$(call PLATFORM_CP,$(RUN_PLATFORM)):$(call RUN_CP,$($(@)-fork)) waba.applet.Applet \
 $($@) $(MW_CLASS) 
+
+DEBUG_OPTS = -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=localhost:2112,server=n,suspend=y
+
+debug:
+	cd $(CLASSES_DIR)/$(RUN_PLATFORM); java -cp .:$(call RUN_CP,$(RUN_FORK)) $(DEBUG_OPTS) waba.applet.Applet $(run-desk) $(MW_CLASS)
 
 clean:
 	rm -rf $(CLASSES_DIR)/*
