@@ -15,7 +15,6 @@ public class CCInterfaceManager extends Control{
 	static protected CCInterfaceManager im = null;
 	protected  SerialPort port;
 	public int		startTimer =  0;
-	boolean  		receivedFirstBytes = false;
 	protected Timer	timer = null;
 
 	public 	waba.util.Vector 	dataListeners = new waba.util.Vector();
@@ -72,13 +71,15 @@ public class CCInterfaceManager extends Control{
 		    return;
 		}
 		startTimer = Vm.getTimeStamp();
-		receivedFirstBytes = false;
+		timeWithoutData = 0;
 		timer = addTimer(getRightMilliseconds());
 	}
 	public void stop(){
 		if(timer != null){
 			removeTimer(timer);
 			timer = null;
+			dEvent.setType(DataEvent.DATA_STOPPED);
+			pb.stopSampling(dEvent);
 		}
 		if(port != null){
 		    buf[0] = (byte)'c';
@@ -109,29 +110,50 @@ public class CCInterfaceManager extends Control{
 	}
 	//we need optimization probably: dynamically calculate getRightMilliseconds
     // This really needs to be figured out
-	public int getRightMilliseconds(){return 50;}
-	
+	public static int rightMillis = 50;
+	public int getRightMilliseconds(){return rightMillis;}
+
+	public final static int DATA_TIME_OUT = 40;
+	int timeWithoutData = 0;
 	public void onEvent(Event event){
 		if (event.type==ControlEvent.TIMER){
 		    int ret = doRightThings();
-			if(ret == OK) return;
-
-		    if(ret < 0){
-				Dialog.showMessageDialog(null, "Interface Error",
-										 "Serial Port error", 
-										 "Continue", Dialog.ERR_DIALOG);
-				stop();
-		    }  else if(ret == WARN_SERIAL_ERROR){
-				Dialog.showMessageDialog(null, "Interface Error",
-										 "Serial Read Error: possibly buffer overflow", 
-										 "Continue", Dialog.ERR_DIALOG);
-				stop();
-		    } else if(ret == WARN_WRONG_POSITION){
-				Dialog.showMessageDialog(null, "Interface Error",
-										 "Error in byte stream",
-										 "Continue", Dialog.ERR_DIALOG);
-				stop();
+			if(ret >= 0){
+				if(ret == 0){
+					// we didn't get any data.  hmm..
+					timeWithoutData++;
+					if(timeWithoutData > DATA_TIME_OUT){
+						stop();
+						Dialog.showMessageDialog(null, "Interface Error",
+												 "Serial Read Error:|" +
+												 "possibly no interface|" +
+												 "connected",
+												 "Continue", Dialog.ERR_DIALOG);
+					}
+				} else {
+					timeWithoutData = 0;
+				}
+				return;
+			} else {
+				if(ret == WARN_SERIAL_ERROR){
+					stop();
+					Dialog.showMessageDialog(null, "Interface Error",
+											 "Serial Read Error:|" +
+											 "possibly buffer overflow", 
+											 "Continue", Dialog.ERR_DIALOG);
+				} else if(ret == WARN_WRONG_POSITION){
+					stop();
+					Dialog.showMessageDialog(null, "Interface Error",
+											 "Error in byte stream",
+											 "Continue", Dialog.ERR_DIALOG);
+				} else {
+					stop();
+					Dialog.showMessageDialog(null, "Interface Error",
+											 "Serial Port error", 
+											 "Continue", Dialog.ERR_DIALOG);
+				}
 			}
+
 		}
 	}
 	
@@ -153,20 +175,17 @@ public class CCInterfaceManager extends Control{
 		int value;
 		int curPos;
 		int curChannel = 0;
+		int totalRead = 0;
 
-		//		response = OK;
-
-		
 		while(port != null && port.isOpen()){
 			curChannel = 0;
 			ret = port.readBytes(buf, bufOffset, readSize - bufOffset);
 			if(ret <= 0){
 		    	secondAttempt();
 				break; // there are no bytes available
-			}else{
-				receivedFirstBytes = true;
 			}
-			ret += bufOffset;	    
+			totalRead += ret;
+			ret += bufOffset;			
 			if(ret < 16){
 				bufOffset = ret;//too few?
 				break;
@@ -227,7 +246,7 @@ public class CCInterfaceManager extends Control{
 		dEvent.setType(DataEvent.DATA_COLLECTING);
 		pb.idle(dEvent);
 		dEvent.setType(DataEvent.DATA_RECEIVED);
-		return OK;
+		return totalRead;
     }
 	
 	int stepGeneric(){
@@ -240,22 +259,19 @@ public class CCInterfaceManager extends Control{
 		int i,j;
 		int value;
 		int curPos;
+		int totalRead = 0;
 
-		//		response = OK;
 		ret = port.readBytes(buf, bufOffset, readSize);
-		if(ret == 0){
-		    secondAttempt();
-			return OK;
-		}else{
-			receivedFirstBytes = true;
+		if(ret <= 0){
+			if(ret == 0){
+				secondAttempt();
+				return 0;
+			} else {
+				return WARN_SERIAL_ERROR;
+			}
 		}
-
-		// Should return some special case
-		if(ret < 0){
-		    //System.out.println("ret < 0");
-			return WARN_SERIAL_ERROR;
-		}
-
+		
+		totalRead += ret;
 		ret += bufOffset;	    
 		curPos = 0;
 		int endPos = ret;
@@ -340,7 +356,7 @@ public class CCInterfaceManager extends Control{
 			dEvent.setType(DataEvent.DATA_RECEIVED);
 		}
 		if(clearBufferOffset) bufOffset = 0;
-		return OK;
+		return totalRead;
     }
 
 	public void addDataListener(DataListener l){
@@ -527,19 +543,19 @@ public class CCInterfaceManager extends Control{
 		int i,j;
 		int value;
 		int curPos;
+		int totalRead = 0;
 
-		//		response = OK;
 		ret = port.readBytes(buf, bufOffset, readSize);
-		if(ret == 0){
-
-		    secondAttempt();
-
-			return OK;
-		}else{
-			receivedFirstBytes = true;
+		if(ret <= 0){
+			if(ret == 0){
+				secondAttempt();
+				return 0;
+			} else {
+				return WARN_SERIAL_ERROR;
+			}
 		}
-		if(ret < 0)  return WARN_SERIAL_ERROR;
 
+		totalRead += ret;
 		ret += bufOffset;	    
 		curPos = 0;
 		int endPos = ret;
@@ -631,7 +647,7 @@ public class CCInterfaceManager extends Control{
 
 		}
 		if(clearBufferOffset) bufOffset = 0;
-		return OK;
+		return totalRead;
     }
 	int step10bit_2(){
 		if((port == null) || !port.isOpen() || pb == null) return ERROR_PORT;
@@ -645,8 +661,8 @@ public class CCInterfaceManager extends Control{
 		int value;
 		int curPos;
 		int curChannel = 0;
+		int totalRead = 0;
 
-		//		response = OK;
 		while(port != null && port.isOpen()){
 			curChannel = 0;
 
@@ -658,9 +674,9 @@ public class CCInterfaceManager extends Control{
 			if(ret <= 0){
 		    	secondAttempt();
 				break; // there are no bytes available
-			}else{
-				receivedFirstBytes = true;
 			}
+
+			totalRead += ret;
 			ret += bufOffset;	    
 			if(ret < 32){
 				bufOffset = ret;//too few?
@@ -725,17 +741,12 @@ public class CCInterfaceManager extends Control{
 		dEvent.setType(DataEvent.DATA_COLLECTING);
 		pb.idle(dEvent);
 		dEvent.setType(DataEvent.DATA_RECEIVED);
-		return OK;
+		return totalRead;
 	}
 	void secondAttempt(){
-
-		//		if(!receivedFirstBytes && ((Vm.getTimeStamp() - startTimer) > 0)){
-		if(true){
-			byte []tempbuff = new byte[1];
-			tempbuff[0] = (byte)getStartChar();
-			int wb = port.writeBytes(tempbuff, 0, 1);
-		}
-
+		byte []tempbuff = new byte[1];
+		tempbuff[0] = (byte)getStartChar();
+		int wb = port.writeBytes(tempbuff, 0, 1);
 	}
 
 	int step10bitFast_2(){
@@ -747,6 +758,7 @@ public class CCInterfaceManager extends Control{
 		int value;
 		int curPos;
 		int curChannel;
+		int totalRead = 0;
 
 		while(port != null && port.isOpen()){
 		    dEvent.numPTimes = 0;
@@ -757,9 +769,9 @@ public class CCInterfaceManager extends Control{
 		    if(ret <= 0){
 		    	secondAttempt();
 		    	break; // there are no bytes available
-		    }else{
-		    	receivedFirstBytes = true;
 		    }
+
+			totalRead += ret;
 		    ret += bufOffset;	    
 		    if(ret < 16){
 				bufOffset = ret;//too few?
@@ -820,7 +832,7 @@ public class CCInterfaceManager extends Control{
 		dEvent.setType(DataEvent.DATA_COLLECTING);
 		pb.idle(dEvent);
 		dEvent.setType(DataEvent.DATA_RECEIVED);
-		return OK;
+		return totalRead;
 	}
 	
 	char getStartChar_2(){
@@ -896,9 +908,8 @@ public class CCInterfaceManager extends Control{
 
 	public final static int ERROR_GENERAL			= -1;
 	public final static int ERROR_PORT				= -2;
-	public final static int OK 					= 0;
-	public final static int WARN_WRONG_POSITION	= 1;
-	public final static int WARN_SERIAL_ERROR	= 2;
+	public final static int WARN_WRONG_POSITION	= -3;
+	public final static int WARN_SERIAL_ERROR	= -4;
 
 	public final static int NUMB_CHANNELS = 2;
 	int				[]curData = new int[1+NUMB_CHANNELS];

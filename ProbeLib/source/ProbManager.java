@@ -120,6 +120,13 @@ protected CCProb[]				probsArray = null;
 		return null;
 	}
 	
+	public boolean stopSampling(DataEvent e){
+	    for(int i = 0; i < getNumbProbs(); i++){
+			probsArray[i].stopSampling(e);//need offset important, but not relevant right now
+	    }
+	    return true;
+	}
+
 	public boolean idle(DataEvent e){
 	    for(int i = 0; i < getNumbProbs(); i++){
 			probsArray[i].idle(e);//need offset important, but not relevant right now

@@ -18,7 +18,7 @@ float				koeff = 2f*Maths.PI;
 										 LIN_POS_MODE_OUT);
 	*/
 
-	public final static String	[]wheelModes =  {"Ang. Velocity","Velocity", "Position"};
+	public final static String	[]wheelModes =  {"Position", "Velocity", "Ang. Velocity"};
 	public final static int		ANG_MODE_OUT 		= 0;
 	public final static int		LINEAR_MODE_OUT 	= 1;
     public final static int     LIN_POS_MODE_OUT        = 2;
@@ -139,9 +139,9 @@ float				koeff = 2f*Maths.PI;
 		dEvent.setData(wheelData);
 		dEvent.setIntData(wheelIntData);
 
-		calFactor = (koeff/(float)nTicks/dt);
-		posCalFactor = (koeff/(float)nTicks) * dDesc.tuneValue  * radius;
-		velCalFactor = (koeff/(float)nTicks/dt) * dDesc.tuneValue * radius;
+		calFactor = -(koeff/(float)nTicks/dt);
+		posCalFactor = -(koeff/(float)nTicks) * dDesc.tuneValue  * radius;
+		velCalFactor = -(koeff/(float)nTicks/dt) * dDesc.tuneValue * radius;
 
 		// This will call notifyDataListenersEvent
 		return super.startSampling(dEvent);

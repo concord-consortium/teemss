@@ -3,6 +3,7 @@ import org.concord.waba.extra.event.DataListener;
 import org.concord.waba.extra.event.DataEvent;
 import extra.util.DataDesc;
 import org.concord.waba.extra.probware.*;
+import org.concord.waba.extra.event.*;
 import extra.util.*;
 
 public class CCForce extends CCProb{
@@ -40,13 +41,27 @@ float B = -25.31f;
 		addProperty(rangeProp);
 		addProperty(speedProp);
 
-		if(init){		
+		if(init){	
 			calibrationDesc = new CalibrationDesc();
 			calibrationDesc.addCalibrationParam(new CalibrationParam(0,A));
 			calibrationDesc.addCalibrationParam(new CalibrationParam(1,B));
 		}
 		unit = CCUnit.UNIT_CODE_NEWTON;		
 	}
+
+	boolean zeroing = false;
+	int zeroCount = 0;
+	float zeroSum = 0f;
+	int zeroOrigSpeed = 0;
+	public void startZero()
+	{
+		zeroing = true;
+		zeroCount = 0;
+		zeroSum = 0f;
+		zeroOrigSpeed = speedProp.getIndex();
+		speedProp.setIndex(0);
+	}
+
 	public void setDataDescParam(int chPerSample,float dt){
 		dDesc.setDt(dt);
 		dDesc.setChPerSample(chPerSample);
@@ -111,14 +126,42 @@ float B = -25.31f;
 		channelOffset = curChannel;
 		if(curChannel > activeChannels - 1) channelOffset = activeChannels - 1;
 
-		return super.startSampling(dEvent);
+		if(!zeroing) return super.startSampling(dEvent);
+		return true;
     }
+
+	public final static int ZEROING_DONE = 0;
+	public final static int ZEROING_NUM_POINTS = 4;
+
+	public boolean idle(DataEvent e){
+		if(!zeroing) return super.idle(e);
+		return true;
+	}
 
 	public boolean dataArrived(DataEvent e){
 		dEvent.type = e.type;
 		dEvent.intTime = e.intTime;
 		float v = dDesc.tuneValue;
-		if(calibrationListener != null){
+		if(zeroing){
+			int ndata = dEvent.numbSamples*e.dataDesc.chPerSample;
+			int dOff = e.dataOffset;
+			int data [] = e.intData;
+			for(int i = 0; i < ndata; i+= chPerSample){
+				zeroSum += (float)(data[dOff + i+channelOffset]);
+				zeroCount++;
+				if(zeroCount > ZEROING_NUM_POINTS){
+					notifyProbListeners(new ProbEvent(this, ZEROING_DONE, null));
+					B = -A*v*(zeroSum/(float)zeroCount);
+					if(calibrationDesc != null){
+						CalibrationParam p = calibrationDesc.getCalibrationParam(1);
+						if(p != null) p.setValue(B);
+					}
+					speedProp.setIndex(zeroOrigSpeed);
+					zeroing = false;
+				}
+			}
+			return true;
+		} else if(calibrationListener != null){
 			dEvent.numbSamples = 1;
 			forceData[0] = A*e.intData[e.dataOffset+channelOffset]*v+B;
 			if(activeChannels == 2){

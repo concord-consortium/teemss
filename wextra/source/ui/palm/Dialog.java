@@ -2,6 +2,9 @@
 package org.concord.waba.extra.ui;
 
 
+import waba.ui.*;
+import waba.util.*;
+
 public class Dialog extends waba.ui.Container{
   extra.ui.Popup popup=null;
   boolean wasDown = false;
@@ -166,7 +169,29 @@ private waba.ui.Container		contentPane;
 										 String title,String message,String buttonTitle,int messageType){
   	Dialog d = new Dialog(title);
   	waba.fx.FontMetrics fm = d.getFontMetrics(d.getFont());
-	int messageWidth 	= fm.getTextWidth(message);
+
+	// split message into lines;
+	Vector lines = new Vector();
+	char [] mChars = message.toCharArray();
+	int lineStart = 0;
+	int messageWidth = 0;
+	String newLine;
+	int newMWidth;
+	for(int i=0; i<mChars.length; i++){
+		if(mChars[i] == '|'){
+			newLine = new String(mChars, lineStart, i-lineStart);
+			newMWidth = fm.getTextWidth(newLine);
+			if(newMWidth > messageWidth) messageWidth = newMWidth;
+			lines.add(newLine);
+			lineStart = i+1;
+		}
+	}
+
+	newLine = new String(mChars, lineStart, mChars.length-lineStart);
+	newMWidth = fm.getTextWidth(newLine);
+	if(newMWidth > messageWidth) messageWidth = newMWidth;
+	lines.add(newLine);
+
 	int titleWidth 		= fm.getTextWidth(title);
 	int bWidth = fm.getTextWidth(buttonTitle) + 10;
 	int w = (messageWidth > titleWidth)?messageWidth:titleWidth;
@@ -175,16 +200,21 @@ private waba.ui.Container		contentPane;
 
 	int bHeight = 15;
 	int mHeight = fm.getHeight();
-	int h = 15 + bHeight + 10 + (15 + 2*mHeight);
+
+	int h = 15 + bHeight + 10 + (15 + mHeight*(lines.getCount() + 1));
 	d.setRect(50,50,w,h);
 	waba.ui.Container cp = d.getContentPane();
 	h -= 15;
 	waba.ui.Button b = new waba.ui.Button(buttonTitle);
 	b.setRect(w/2 - bWidth/2,h - 5 - bHeight,bWidth,bHeight);
 	cp.add(b);
-	waba.ui.Label label = new waba.ui.Label(message,waba.ui.Label.CENTER);
-	label.setRect(10 + w/2 - messageWidth/2,20,messageWidth,mHeight);
-	cp.add(label);
+	
+	for(int i=0; i<lines.getCount(); i++){
+		Label label = new waba.ui.Label((String)lines.get(i),Label.CENTER);
+		label.setRect(10 + w/2 - messageWidth/2,20+i*mHeight,messageWidth,mHeight);
+		cp.add(label);		
+	}
+
 	String imagePath = "";
 	switch(messageType){
 		default:

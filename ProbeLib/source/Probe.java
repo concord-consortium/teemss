@@ -167,6 +167,13 @@ DataListener calibrationListener = null;
 		return true;
 	}
 
+	public boolean stopSampling(DataEvent e){
+		if(calibrationListener == null){
+			notifyDataListenersEvent(e);
+		}
+		return true;
+	}
+
 	public boolean dataArrived(DataEvent e){
 		notifyDataListenersReceived(e);
 		return true;
