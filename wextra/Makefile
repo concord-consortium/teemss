@@ -2,7 +2,7 @@ SRC_DIRS = source/ui source/ui/_plat_ source/util source/io source/event icons s
 SKIP_FILES = 
 
 PLATFORMS = ce desktop palm
-CLASSPATH += $(foreach jar, $(wildcard ../jars/*),:$(jar))
+CLASSPATH += :$(shell for jar in $(wildcard ../jars/*); do echo -n $$jar:; done)
 
 main:
 	$(foreach PLAT, $(PLATFORMS), $(MAKE) PLATFORM=$(PLAT) classes/$(PLAT);)
