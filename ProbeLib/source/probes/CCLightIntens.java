@@ -113,14 +113,13 @@ public static String [] modelNames = {"High Range", "Low range"};
 			}
 			dEvent.setNumbSamples(1);
 		}else{
-			float t0 = e.getTime();
-			int ndata = e.getNumbSamples()*dDesc.getChPerSample();
-			dtChannel = dDesc.getDt() / (float)dDesc.getChPerSample();
-			int  	chPerSample = dDesc.getChPerSample();
+			int  	chPerSample = e.dataDesc.getChPerSample();
+			int ndata = e.getNumbSamples()*chPerSample;
+			dtChannel = e.dataDesc.getDt() / (float)chPerSample;
 			if(ndata < chPerSample) return false;
 			int dataIndex = 0;	
+			dEvent.time = e.time;
 			for(int i = 0; i < ndata; i+=chPerSample){
-				dEvent.setTime(t0 + dtChannel*(float)i);
 				if(lightMode == HIGH_LIGHT_MODE){
 					lightData[dataIndex++] = AHigh*data[nOffset+i]+BHigh;
 				}else{

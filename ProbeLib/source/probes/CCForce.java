@@ -7,7 +7,6 @@ import extra.util.*;
 
 public class CCForce extends CCProb{
 float  			[]forceData = new float[CCInterfaceManager.BUF_SIZE/2];
-float  			dtChannel = 0.0f;
 public final static String [] portNames = {"A", "B"};
 public final static String [] numbChannels = {"1", "2"};
 public final static String [] channelNames = {"0", "1"};
@@ -48,7 +47,6 @@ float B = -25.31f;
 	public void setDataDescParam(int chPerSample,float dt){
 		dDesc.setDt(dt);
 		dDesc.setChPerSample(chPerSample);
-		dtChannel = dt / (float)chPerSample;
 	}
 	protected boolean setPValue(PropObject p,String value){
 		if(p == null || value == null) return false;
@@ -116,6 +114,7 @@ float B = -25.31f;
 			else
 				forceData[2]  = 0f;
 		}else{
+			dEvent.time = e.time;
 			dEvent.numbSamples = e.numbSamples;
 			int ndata = dEvent.numbSamples*dDesc.chPerSample;
 			int dOff = e.dataOffset;

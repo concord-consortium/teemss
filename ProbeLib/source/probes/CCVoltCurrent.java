@@ -151,9 +151,9 @@ public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
 		}
 		dEvent.setNumbSamples(1);
 	}else{
-		int  	chPerSample = e.dataDesc.getChPerSample();
+		int  	chPerSample = e.dataDesc.chPerSample;
 		int	dataIndex = 0;
-		dEvent.setTime(t0);
+		dEvent.time = e.time;
 		for(int i = 0; i < ndata; i+=chPerSample){
 			switch(outputMode){
 				case CURRENT_OUT:

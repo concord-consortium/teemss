@@ -138,7 +138,7 @@ int					outputMode = DEFAULT_MODE_OUT;
 		    return true;
 		}
 
-		dEvent.setTime(t0);
+		dEvent.time = e.time;
 		dEvent.numbSamples = e.numbSamples;
 		dEvent.setData(wheelData);
 		// System.out.println("rad: " + radius + " koeff: " + koeff);
