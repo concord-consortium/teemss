@@ -397,7 +397,7 @@ public class LObjDictionaryView extends LabObjectView
 			treeModel.removeNodeFromParent(curNode, parent);
 		} else if(fName.equals("Copy")){
 			if(yieldID == 0){
-				showWaitDialog("Copying selected");
+				showWaitDialog("Please wait...| Copying object");
 				yield(fName, 1);
 			} else {
 				LabObjectPtr curPtr = DictTreeNode.getPtr(curNode);
@@ -412,7 +412,8 @@ public class LObjDictionaryView extends LabObjectView
 			}
 		} else if(fName.equals("Paste")){
 			if(clipboardNode != null){
-				insertAtSelected(clipboardNode);		    
+				insertAtSelected(clipboardNode);
+				clipboardNode = null;
 			}
 		} else if(fName.equals("Properties...")){
 			if(curNode == null || curNode.toString().equals("..empty..")) return;
@@ -440,7 +441,7 @@ public class LObjDictionaryView extends LabObjectView
 			if(parent == null) return;
 
 			if(yieldID == 0){
-				showWaitDialog("Preparing to beam selected");
+				showWaitDialog("Please wait...| Preparing to beam object");
 				yield(fName, 1);
 				return;
 			} else {
@@ -465,7 +466,7 @@ public class LObjDictionaryView extends LabObjectView
 			}
 		} else if(fName.equals("Receive")){
 			if(yieldID == 0){
-				showWaitDialog("Importing received beam");
+				showWaitDialog("Please Wait...| Importing received beam");
 				yield(fName, 1);
 				return;
 			} else {				
