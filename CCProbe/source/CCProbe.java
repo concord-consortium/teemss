@@ -359,9 +359,6 @@ public class CCProbe extends MainView
 											 "Please Wait... saving the LabBook",
 											 "Cancel", Dialog.INFO_DIALOG);
 
-				// This is dangerous but I don't see another way to do it
-				labBookFile.delete();
-
 				LabObjectPtr rootPtr = labBook.getRoot();
 				mainSession = rootPtr.getSession();
 
@@ -375,6 +372,9 @@ public class CCProbe extends MainView
 					LabBookDB tmpDB = null;
 					File tmpLabBookFile = null;
 					if(labBook.getDB() instanceof LabBookCatalog){
+						// This is dangerous but I don't see another way to do it
+						labBookFile.delete();
+
 						origLabBookFile = new File("LabBook.PDB", File.DONT_OPEN);
 						if(origLabBookFile.exists()){
 							origLabBookFile.rename("_tmp_LabBook.PDB");
@@ -393,6 +393,12 @@ public class CCProbe extends MainView
 					labBook.export(loDict, tmpDB);
 					tmpDB.save();
 					tmpDB.close();
+
+
+					if(labBook.getDB() instanceof LabBookFile){
+						// This is dangerous but I don't see another way to do it
+						labBookFile.delete();
+					}
 
 					tmpLabBookFile.rename(labBookFile.getPath());
 					if(origLabBookFile != null){
