@@ -296,6 +296,7 @@ public final static int	yTextBegin = 2;
 			components[nComponents] = obj;
 			components[nComponents].setObject(view);
 			components[nComponents].lineBefore = getLineIndex(curState.cursorRow + firstLine);
+			
 			if(subDictionary != null) subDictionary.setObj(labObject,nComponents);
 			view.layout(false);
 			add(view);
@@ -601,6 +602,8 @@ public final static int	yTextBegin = 2;
 					if(lines != null && line < lines.getCount()){
 //						yTop += (lines[line - 1].endRow - firstLine)*getItemHeight();
 						yTop += (((CCStringWrapper)lines.get(line - 1)).endRow - firstLine)*getItemHeight();
+					}else if(lines != null && line >= lines.getCount()){
+						yTop += (((CCStringWrapper)lines.get(lines.getCount() - 1)).endRow - firstLine)*getItemHeight();
 					}
 				}else if(line == 0){
 					yTop -= firstLine*getItemHeight();
@@ -1096,10 +1099,11 @@ public final static int	yTextBegin = 2;
 	public int getLineIndex(int row){
 		int retValue = 0;
 		if(lines == null || lines.getCount() < 1){
-			return retValue;
+			return 0;
 		}
+		retValue = lines.getCount();
 		if(row >= getRowsNumber()){
-			return lines.getCount();
+			return retValue;
 		}
 		int ind = 0;
 		for(int i = 0; i < lines.getCount(); i++){
