@@ -75,9 +75,12 @@ CCProb probe = null;
 		pb.addProbManagerListener(this);
 //		probe = ProbFactory.createProb(ProbFactory.Prob_ThermalCouple,CCProb.INTERFACE_PORT_A);
 //		probe.setPropertyValue(1,CCThermalCouple.tempModes[CCThermalCouple.FAHRENHEIT_TEMP_OUT]);
-		probe = ProbFactory.createProb(ProbFactory.Prob_SmartWheel,CCProb.INTERFACE_PORT_A);
-		probe.setPropertyValue(1,CCSmartWheel.wheelModes[CCSmartWheel.ANG_MODE_OUT]);
+//		probe = ProbFactory.createProb(ProbFactory.Prob_SmartWheel,CCProb.INTERFACE_PORT_A);
+//		probe.setPropertyValue(1,CCSmartWheel.wheelModes[CCSmartWheel.ANG_MODE_OUT]);
 //		probe = ProbFactory.createProb(ProbFactory.Prob_Force,CCProb.INTERFACE_PORT_A);
+
+		probe = ProbFactory.createProb(ProbFactory.Prob_RawData,CCProb.INTERFACE_PORT_A);
+		
 		pb.registerProb(probe);
 		pb.addDataListenerToProb(probe.getName(),this);
 		
