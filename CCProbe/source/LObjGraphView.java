@@ -42,7 +42,7 @@ public class LObjGraphView extends LabObjectView
     Button doneButton = null;
     Label titleLabel = null;
 
-    Menu menu = new Menu("Graph");
+    Menu menu = new Menu("Edit");
 	int curViewIndex = 1;
 
     TimeBin timeBin = new TimeBin();
@@ -64,7 +64,7 @@ public class LObjGraphView extends LabObjectView
 
 		dataDict = curDict;
 
-		menu.add("Properties..");
+		menu.add("Graph Properties..");
 		menu.addActionListener(this);
 
 		graph = g;
@@ -119,8 +119,8 @@ public class LObjGraphView extends LabObjectView
 		Debug.println("Got action: " + e.getActionCommand());
 
 		if(e.getSource() == menu){
-			if(e.getActionCommand().equals("Properties..")){
-				graph.showAxisProp();
+			if(e.getActionCommand().equals("Graph Properties..")){
+				graph.showProp();
 			}
 		} else {
 			if(e.getActionCommand().equals("Save Data..")){
