@@ -41,8 +41,8 @@ build-local:
 build-tag:
 	rm $(basename $(VERSION_TEMPLATE))
 	cvs update $(basename $(VERSION_TEMPLATE))
-	$(MAKE) cvs-diff
-	$(call MAKE_DEP, cvs-diff)
+	@$(MAKE) --no-print-directory cvs-diff
+	@$(call MAKE_DEP, cvs-diff)
 	$(MAKE) update-build
 	$(call MAKE_DEP, )
 	$(MAKE) 
