@@ -146,7 +146,6 @@ public boolean removeTimer(Timer timer)
  */
 public void onExit()
 	{
-	    Graphics.restoreState();
 	}
 
 /**
@@ -156,7 +155,6 @@ public void onExit()
  */
 public void onStart()
 	{
-	    Graphics.saveState();
 	}
 
 /**

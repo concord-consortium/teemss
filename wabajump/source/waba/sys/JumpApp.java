@@ -203,6 +203,7 @@ public class JumpApp
 
   public void start()
   {
+	  waba.fx.Graphics.saveState();
     mainWindow.onStart();
     mainWindow._doPaint(0,0,160,160);
     Event e = new Event();
@@ -230,6 +231,7 @@ public class JumpApp
       timerCheck();
     }
     mainWindow.onExit();
+    waba.fx.Graphics.restoreState();
     if (err.value==0)
       return;
   }

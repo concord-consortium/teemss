@@ -52,7 +52,10 @@ public class Image implements ISurface
 			height = -1;
 			winHandle = -1;
 		}
-
+		int iOldWinHandle=Palm.WinSetDrawWindow(winHandle);
+		Palm.WinPalette(RGBColor.winPaletteSet, 0, Graphics.getPalette().length, 
+						(Object)Graphics.getPalette());
+		Palm.WinSetDrawWindow(iOldWinHandle);
 	}
 
     public Image(String dummy)
@@ -79,6 +82,9 @@ public class Image implements ISurface
 			Palm.MemHandleUnlock(iHandle);
 		}
 		Palm.DmReleaseResource(iHandle);
+
+		Palm.WinPalette(RGBColor.winPaletteSet, 0, Graphics.getPalette().length, 
+						(Object)Graphics.getPalette());
 
 		Palm.WinSetDrawWindow(iOldWinHandle);
 	}
@@ -267,27 +273,62 @@ public class Image implements ISurface
 
 			for(i=0; i < newMapLength ; i++){
 				curCol = colorMap[i];
-				palmColor.r = (byte)((curCol >> 16) & 0xFF);
-				palmColor.g = (byte)((curCol >> 8) & 0xFF);
-				palmColor.b = (byte)(curCol & 0xFF);
-	    
-				newColMap[i] = Palm.WinRGBToIndex(palmColor);
+				newColMap[i] = Graphics.getColorIndex((curCol >> 16) & 0xFF,
+													  (curCol >> 8) & 0xFF,
+													  curCol & 0xFF);
 			}
 
+			int memHandle = Palm.MemHandleNew(16 + pixels.length);
+			int memPtr = Palm.MemHandleLock(memHandle);
+
+			// Int16    width
+			Palm.nativeSetShort(memPtr, (short)bytesPerRow);
+			// Int16      height;
+			Palm.nativeSetShort(memPtr+2, (short)numRows);
+			// UInt16      rowBytes
+			Palm.nativeSetShort(memPtr+4, (short)bytesPerRow);
+			// BitmapFlagsType flags
+			// All flags are false
+			Palm.nativeSetShort(memPtr+6, (short)0);
+			// UInt8    pixelSize
+			// 8 bits per pixel
+			Palm.nativeSetByte(memPtr+8, (byte)8);
+			// UInt8    version
+			Palm.nativeSetByte(memPtr+9, (byte)2);
+			// UInt16 nextDepthOffset;
+			Palm.nativeSetShort(memPtr+10, (short)0);
+			// UInt8    transparentIndex
+			Palm.nativeSetByte(memPtr+12, (byte)0);
+			// UInt8    compressionType
+			Palm.nativeSetByte(memPtr+13, (byte)0);
+			// UInt16 reserved; 
+			Palm.nativeSetShort(memPtr+14, (short)0);
+
+			for(i=0; i < pixels.length; i++){
+				byte newColor = newColMap[pixels[i] & 0xFF];
+				Palm.nativeSetByte(memPtr+16+i, newColor);
+			}
+			
+			Palm.WinDrawBitmap(memPtr, 0, y);
+			Palm.MemHandleUnlock(memHandle);
+			Palm.MemHandleFree(memHandle);
+
+			/*
 			for(i=y; i < endRow; i++){
 				pixPtr = 0;
 				while(pixPtr < filledBytes){
-					colorIndex = pixels[lineOffset + pixPtr] & 0xFF; 
+					colorIndex = pixels[lineOffset + pixPtr] & 0xFF;
+					
 					Palm.WinSetForeColor(newColMap[colorIndex]);
 					Palm.WinDrawLine(pixPtr,i,pixPtr,i);
 					pixPtr++;
 				}
 				lineOffset += bytesPerRow;		
 			}
+			*/
 			break;
 		}
 	}
-
 
 	/**
 	 * Sets the image width and height to 0 and frees any systems resources

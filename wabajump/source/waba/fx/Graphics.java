@@ -141,6 +141,13 @@ public class Graphics
 		*/
 	}
 
+	private static int [] paletteInts = new int [217];
+	static int [] getPalette()
+	{
+		return paletteInts;
+
+	}
+
     public Graphics(ISurface surface, int cacheSize)
     {
 		this(surface);
@@ -173,6 +180,7 @@ public class Graphics
 			g.curCol = 0;
 			g.col = BLACK;
 			g.clip = null;
+			g.setColor(0,0,0);
 		} else {
 			g = new Graphics(surface);
 		}
@@ -333,6 +341,21 @@ public class Graphics
 		iMWinHandle =  Palm.WinGetDisplayWindow(); //assuming this is the right window.. could be bad
 		Palm.WinGetClip(mwOldClip);
 
+		int r,g,b,i;
+		paletteInts[0] = 0xFFFFFF;
+		int count = 1;
+		for(r = 0; r <=255; r += 51){
+			for(g = 0; g <=255; g += 51){
+				for(b = 0; b <=255; b += 51){
+					paletteInts[count] = count << 24 | r << 16 | g << 8 | b;
+					count++;
+				}
+			}
+		}		
+
+		Palm.WinSetDrawWindow(iMWinHandle);
+		Palm.WinPalette(RGBColor.winPaletteSet, 0, paletteInts.length, 
+						(Object)paletteInts);
     }
 
 
@@ -659,6 +682,11 @@ public class Graphics
     private int numColsCached = 0;
     private int curCol = 0;
 
+	static byte getColorIndex(int r, int g, int b)
+	{
+		return (byte)(r/51 * 36 + g/51 * 6 + b/51 + 1);
+	}
+
 	/**
 	 * Sets the current color for drawing operations.
 	 * @param r the red value (0..255)
@@ -671,7 +699,7 @@ public class Graphics
 		if(this != drawWinGraphics) setDrawWindow();
 
 		if (r==255 && g==255 && b==255){
-			col=WHITE;			
+			col=WHITE;
 			return;
 		}
 		else
@@ -681,6 +709,7 @@ public class Graphics
 		if (isColor) { // handles color methods for all other colors
 			int i;
        
+			/*
 			// first get the color and see if it is cached, and use the cached color
 			int reqColor = (r << 16) | (g << 8) | b;
 			for(i=0; i < numColsCached; i++){
@@ -697,13 +726,17 @@ public class Graphics
 			curColor.g = (byte)g;
 			curColor.b = (byte)b;
 			curColorIndex = Palm.WinRGBToIndex(curColor);
-			Palm.WinSetForeColor(curColorIndex);
+			*/
 
+			curColorIndex = (byte)(r/51 * 36 + g/51 * 6 + b/51 + 1);
+			Palm.WinSetForeColor(curColorIndex);
+			/*
 			// now cache the color
 			colCache[curCol] = reqColor;
 			colCacheI[curCol] = curColorIndex;
 			curCol = (curCol + 1) % CACHE_SIZE;
 			if(numColsCached < CACHE_SIZE) numColsCached++;
+			*/
 		} // handling setting the colors and managing our color cache
 	}
 
