@@ -20,6 +20,7 @@ package graph;
 import waba.fx.*;
 
 public class Annotation
+    implements DecoratedValue
 {
     public static final int width = 10;
     public static final int height = 10;
@@ -44,6 +45,21 @@ public class Annotation
 	label = l;
 	value = v;
 	xaxis = xa;
+    }
+
+    public String getLabel()
+    {
+	return label;
+    }
+
+    public float getValue()
+    {
+	return value;
+    }
+
+    public Color getColor()
+    {
+	return null;
     }
 
     /*

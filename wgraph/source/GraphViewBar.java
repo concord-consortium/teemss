@@ -82,7 +82,7 @@ public class GraphViewBar extends GraphView
     }
 
     boolean barDown, yAxisDown;
-    Bar selBar = null;
+    Object selBar = null;
     int downX, downY, dragX, dragY;
 
     public void onEvent(Event e)
@@ -102,7 +102,7 @@ public class GraphViewBar extends GraphView
 		    if(pe.y < bGraph.yOriginOff && pe.x < bGraph.xOriginOff){
 			yAxisDown = true;		
 		    } else {
-			Bar oldBar = selBar;
+			Object oldBar = selBar;
 			selBar = null;
 
 			for(i=0; i<bGraph.barSet.nBars; i++){
@@ -111,7 +111,7 @@ public class GraphViewBar extends GraphView
 			       (pe.x > bGraph.barSet.barPos[i] && pe.x < 
 				(bGraph.barSet.barPos[i] + bGraph.barSet.barWidth))){
 				bGraph.barSet.barSel[i] = true;
-				selBar = (Bar)bGraph.bars.get(i);
+				selBar = bGraph.bars.get(i);
 				barDown = true;
 			    }
 			}
@@ -164,27 +164,6 @@ public class GraphViewBar extends GraphView
 	}
 
     }
-
-    /*
-    public void setupBarGraph()
-    {
-	int i;
-
-	bGraph.removeAllBins();
-	selBarIndex = -1;
-	Object [] annotObjs = lGraph.annots.toObjectArray();
-	Annotation a;
-	for(i=0; i<annotObjs.length; i++){
-	    a = (Annotation)annotObjs[i];
-	    a.bin = bGraph.addBin(0, a.label);
-	    bGraph.addPoint(a.bin, 1, a.value);
-	}
-	curBarBin = bGraph.addBin(0, "Probe");
-	bGraph.addPoint(curBarBin, 1, curY);
-    }
-    */
-
-
 
 }
 

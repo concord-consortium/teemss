@@ -505,6 +505,8 @@ public class LineGraph extends Graph2D
 	curBin.yaxis = yaxis;
 	curBin.color = lineColors[activeBins.getCount()];
 	curBin.minX = 0f;
+	
+	curBin.label = label;
 
 	// This is a hack
 	curBin.minY = -100f;
@@ -848,14 +850,4 @@ public class LineGraph extends Graph2D
     }
 
 }
-
-
-
-
-
-
-
-
-
-
 

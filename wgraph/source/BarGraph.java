@@ -41,7 +41,7 @@ public class BarGraph extends Graph2D
     int xOriginOff, yOriginOff;
     int dwWidth, dwHeight;
 
-
+    float [] curValues;
 
     public BarGraph(int w, int h)
     {
@@ -87,85 +87,61 @@ public class BarGraph extends Graph2D
 	yaxis.setScale((yaxis.dispLen - yaxis.axisDir)/range);
     }
 
-    public Object addBin(int location, String label)
+    public boolean addBar(int location, DecoratedValue dv)
     {
-	Object [] objArray;
-	Bar bar = new Bar();
-	float oldValues [];
 	int i;
-
-	bar.index = numBars;
-	bar.label = label;
+	DecoratedValue curBar = null;
 
 	numBars++;
-	// need to update list of probes
-	// need to check that location is valid
-	bars.insert(location, bar);
+	
+	bars.insert(location, dv);
 
-	// need to add a new bar to the graph
 	barSet = new BarSet(yaxis, numBars, BarSet.BOTTOM);
 
-	objArray = bars.toObjectArray();
-	for(i=0; i < numBars; i++){
-	    barSet.labels[i].setText(((Bar)objArray[i]).label);
-	    ((Bar)objArray[i]).index = i;
-	}
-
-	oldValues = curValues;
 	curValues = new float[numBars];
-	if(oldValues != null){
-	    for(i = 0; i<location; i++){
-		curValues[i] = oldValues[i];
-	    }
-	    curValues[i++] = (float)0;
-	    for(; i < numBars; i++){
-		curValues[i] = oldValues[i-1];
-	    }
+	for(i=0; i < numBars; i++){
+	    curBar = (DecoratedValue)bars.get(i);
+	    barSet.labels[i].setText(curBar.getLabel());
+	    curValues[i] = curBar.getValue();
 	}
 
-	bar.barGraph = this;
-	return bar;
+	return true;
     }
 
-    public void removeAllBins()
+    public void removeAllBars()
     {
 	bars = new Vector();
+	curValues = null;
 	barSet = new BarSet(yaxis, 1, BarSet.BOTTOM);
 	numBars = 0;
 	redraw = true;
     }
 
-    public boolean removeBin(Object id)
+    public boolean removeBar(DecoratedValue dv)
     {
-	Object [] objArray;
+	DecoratedValue curBar = null;
 	int i;
-	
-	int index = ((Bar)id).index;
-	if(index == -1){
-	    return false;
-	}
+
+	int index = bars.find(dv);
+	if(index < 0) return false;
 
 	numBars--;
 	bars.del(index);
-	// need to add a new bar to the graph
-	// need to reset labels as well
+
 	if(numBars == 0){
 	    barSet = new BarSet(yaxis, 1, BarSet.BOTTOM);
+	    curValues = null;
 	} else {
+	    curValues = new float[numBars];
 	    barSet = new BarSet(yaxis, numBars, BarSet.BOTTOM);
-	    objArray = bars.toObjectArray();
+	    
 	    for(i=0; i < numBars; i++){
-		barSet.labels[i].setText(((Bar)objArray[i]).label);
-		((Bar)objArray[i]).index = i;
+		curBar = (DecoratedValue)bars.get(i);
+		barSet.labels[i].setText(curBar.getLabel());
+		curValues[i] = curBar.getValue();
 	    }
 
 	}
-
-	for(i = index; i < numBars; i++){
-	    curValues[i] = curValues[i+1];
-	}
-
-	redraw = true;
 
 	return true;
     }
@@ -189,29 +165,27 @@ public class BarGraph extends Graph2D
 	barSet.draw(g,xOriginOff+1,yOriginOff,
 		   dwWidth, dwHeight);
 	
-	needUpdate = true;
 	plot(g);
 
 	redraw = false;
     }
 
-    float [] curValues;
-    boolean needUpdate = true;
-
     public int plot(Graphics g)
     {
 	float x = 0;
-	float []y;
-	Object [] objArray;
 	int i;
-	String label;
+	DecoratedValue curBar = null;
 
-
-	if(g != null && numBars > 0 && needUpdate){
+	if(g != null && numBars > 0){
 	    // Plot data
+	    for(i=0; i < numBars; i++){
+		curBar = (DecoratedValue)bars.get(i);
+		barSet.labels[i].setText(curBar.getLabel());
+		curValues[i] = curBar.getValue();
+	    }
+
 	    g.setColor(0,0,0);
 	    barSet.addColorPoint(g, x, curValues);
-	    needUpdate = false;
 	}
 	
 	return 0;
@@ -219,31 +193,7 @@ public class BarGraph extends Graph2D
 
     public void reset()
     {
-	needUpdate = true;
 	barSet.reset();
-    }
-
-    public boolean addPoint(float x, float values[])
-    {
-	curValues[0] = 0;
-	for(int i=0; i<values.length; i++){
-	    if(curValues[i] != values [i]){
-		needUpdate = true;		
-		curValues[i] = values[i];
-	    }
-	}
-	return true;
-    }
-
-    public boolean addPoint(Object binID, float x, float value)
-    {
-	int index = ((Bar)binID).index;
-	if(curValues[index] != value){
-	    curValues[index] = value;
-	    needUpdate = true;
-	}
-
-	return true;
     }
 
 }

@@ -22,8 +22,10 @@ import waba.fx.*;
 import waba.io.*;
 import waba.sys.*;
 import waba.util.*;
+import org.concord.waba.extra.event.*;
 
 public class Bin
+    implements DecoratedValue
 {
     public static int START_DATA_SIZE = 10000;
 
@@ -48,6 +50,8 @@ public class Bin
     LineGraph graph;
     int [] color = {255,0,0};
 
+    String label;
+
     public Bin(LineGraph g)
     {
 	// We store three ints for each point
@@ -59,6 +63,28 @@ public class Bin
 
 	graph = g;
 	reset();
+    }
+
+    public String getLabel()
+    {
+	return label;
+    }
+
+    public float getValue()
+    {
+	if(numValues == 0) return 0f;
+	return values[(numValues-1)*2 + 1] + refY;
+    }
+
+    public Color getColor()
+    {
+	return null;
+    }
+
+    public float getCurX()
+    {
+	if(numValues == 0) return 0f;
+	return values[(numValues-1)*2];
     }
 
     public void recalc()
@@ -251,19 +277,26 @@ public class Bin
 	return true;
     }
 
-    public boolean addPoints(int num, int dOff, int size, float [] data, float sTime, float dT)
+    float dT = 0f;
+    int sampSize = 1;
+
+    public boolean dataReceived(DataEvent dataEvent)
     {
 	int offset = numValues*2;
 	int i;
 	float x, value;
-	int endPos = num*size;
-	float curX = sTime;
+	float [] data = dataEvent.data;
 
 	if(offset == 0){
-	    refY = data[dOff];
+	    dT = dataEvent.getDataDesc().getDt();
+	    sampSize = dataEvent.getDataDesc().getChPerSample();
+	    refY = data[dataEvent.dataOffset];
 	}
 
-	for(i=0; i<endPos; i+=size){
+	int endPos = dataEvent.numbData*sampSize;
+	float curX = dataEvent.time;
+
+	for(i=0; i<endPos; i+=sampSize){
 	    offset= numValues*2;
 
 	    // should check the current config
@@ -294,19 +327,19 @@ public class Bin
 	update();
 
 	return true;
-    }
 
+    }
 
     void reset()
     {
 	int i;
 
 	minX = minY = 1;
-	maxX = maxY = -1;
+	maxY = -1;
+	maxX = 0f;
 
 	for(i=0; i<100; i++){
 	    minX *= (float)10;
-	    maxX *= (float)10;
 	    minY *= (float)10;
 	    maxY *= (float)10;
 	}
@@ -330,6 +363,24 @@ public class Bin
 
 	return false;
     }
+
+    public int getValues(int start, float [] values, int off, int count)
+    {
+	int i;
+	
+	if(off + count > values.length) count = values.length - off;
+
+	if(count + start > numValues) count = numValues - start;
+
+	if(count < 0) return -1;
+
+	for(i = 0; i < count; i++){
+	    values[i+off] = this.values[start*2 + i*2];
+	}
+
+	return count;
+    }
+	    
 }
 
 

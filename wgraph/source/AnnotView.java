@@ -27,6 +27,9 @@ public class AnnotView extends Container implements PropObject
     public GraphView curView = null;
     public GraphViewLine lgView = null;
     GraphViewBar bgView = null;
+    
+    BarGraph bGraph;
+    LineGraph lGraph;
 
     Bin lgBins [] = new Bin [1];
     Object bgBins [] = new Object [1];
@@ -52,9 +55,9 @@ public class AnnotView extends Container implements PropObject
 	bgView = new GraphViewBar(w, h - buttonSpace);	
 	lgView.setPos(0,0);
 	bgView.setPos(0,0);
-	
-	lgBins [0] = lgView.lGraph.addBin(0, "Temp", false);
-	bgBins [0] = bgView.bGraph.addBin(0, "Probe");
+
+	lGraph = lgView.lGraph;
+	bGraph = bgView.bGraph;
 	
 	add(curView);
 
@@ -71,6 +74,13 @@ public class AnnotView extends Container implements PropObject
 	annotPage.addEdit("Label", 30);
 	annotPage.addEdit("Notes", 60);
 
+    }
+
+    public Bin getBin()
+    {
+	lgBins[0] = lgView.lGraph.addBin(0, "Probe", false);
+	bGraph.addBar(0, lgBins[0]);
+	return lgBins[0];
     }
 
     public float getXmin()
@@ -97,7 +107,7 @@ public class AnnotView extends Container implements PropObject
 	lgView.lGraph.setYRange(minY, maxY - minY);
 	lgView.lGraph.setXRange(0, minX, maxX - minX);
 
-	bgView.bGraph.setYRange(minY, maxY - minY);
+	bGraph.setYRange(minY, maxY - minY);
 	
 	this.minX = minX;
 	this.maxX = maxX;
@@ -115,7 +125,9 @@ public class AnnotView extends Container implements PropObject
 	    if(bgView.selBar == null)
 		return;
 
-	    Annotation a = (Annotation)lgView.lGraph.annots.get(bgView.selBar.index);
+	    if(!(bgView.selBar instanceof Annotation)) return;
+
+	    Annotation a = (Annotation)bgView.selBar;
 	    if(a == null)
 		return;
 
@@ -141,23 +153,35 @@ public class AnnotView extends Container implements PropObject
     public void reset()
     {
 	lgView.lGraph.reset();
-	bgView.bGraph.removeAllBins();
+	bGraph.removeAllBars();
 	lgView.curChar = 'A';
 
-	bgBins [0] = bgView.bGraph.addBin(0, "Probe");
-	bgView.bGraph.addPoint(bgBins[0], 1, curY);
-
-	lastX = (float)0;
+	if(lgBins[0] != null){
+	    bGraph.addBar(0, lgBins[0]);
+	}
 
 	// repaint
 	repaint();
     }
 
-    public void pause()
+    public Bin pause()
     {
-	lgBins[0] = lgView.lGraph.addBin(0, "Temp", true);
-	lastX = (float)0.0;
+	// Watch out here because we need to fix this bin in the 
+	// bar graph on start we'll need to save a pointer to this 
+	// old bin
+       
+	
+	Annotation a = lGraph.addAnnot("" + lgView.curChar, lgBins[0].getCurX());
+	if(a != null){
+	    lgView.curChar++;
+	    bGraph.addBar(bGraph.numBars - 1, a);
+	}
+	bGraph.removeBar(lgBins[0]);
+	lgBins[0] = lGraph.addBin(0, "Probe", true);
+	bGraph.addBar(bGraph.numBars, lgBins[0]);
 	curView.draw();
+
+	return lgBins[0];
     }
 
     boolean barDown = false;
@@ -173,14 +197,15 @@ public class AnnotView extends Container implements PropObject
 		if(curView == lgView){
 		    lgView.mode = lgView.ANNOT_MODE;
 		} else {
-		    a = lgView.lGraph.addAnnot("" + lgView.curChar, lastX);
-		    // Add bar to bargraph
-		    if(a != null){
-			a.bin = bgView.bGraph.addBin(bgView.bGraph.numBars - 1, "" + lgView.curChar);
-			bgView.bGraph.addPoint(a.bin, 1, a.value);
-			lgView.curChar++;
+		    if(lgBins[0] != null){
+			a = lGraph.addAnnot("" + lgView.curChar, lgBins[0].getCurX());
+			// Add bar to bargraph
+			if(a != null){
+			    bGraph.addBar(bGraph.numBars - 1, a);
+			    lgView.curChar++;
 
-			repaint();
+			    repaint();
+			}
 		    }
 		}	    
 	    } else if(e.target == viewButton){
@@ -188,8 +213,8 @@ public class AnnotView extends Container implements PropObject
 		    viewButton.setText("View Line");
 
 		    // copy settings from lineView to barview
-		    bgView.bGraph.yaxis.setDispMin(lgView.lGraph.yaxis.dispMin);
-		    bgView.bGraph.yaxis.setScale(lgView.lGraph.yaxis.scale);
+		    bGraph.yaxis.setDispMin(lgView.lGraph.yaxis.dispMin);
+		    bGraph.yaxis.setScale(lgView.lGraph.yaxis.scale);
 		    
 		    remove(curView);
 		    curView = bgView;
@@ -210,26 +235,22 @@ public class AnnotView extends Container implements PropObject
 		if(bgView.selBar == null)
 		    return;
 
-		a = (Annotation)bgView.selBar.ptr;
-		lgView.lGraph.annots.del(lgView.lGraph.annots.find(a));
-		bgView.selBar = null;
+		if(bgView.selBar instanceof Annotation){
+		    a = (Annotation)bgView.selBar;
+		    lgView.lGraph.annots.del(lgView.lGraph.annots.find(a));
+		    bgView.selBar = null;
 
-		bgView.bGraph.removeBin(a.bin);
-		repaint();
+		    bGraph.removeBar(a);
+		    repaint();
+		}
 	    }
 
 	} else if(e.type == 1000 && e.target == bgView) {
 	    // Bar down event 
 
-	    if(bgView.selBar != null && bgView.selBar.index == (bgView.bGraph.numBars - 1)){
-		bgView.bGraph.barSet.barSel[bgView.bGraph.numBars - 1] = false;
-		bgView.selBar = null;
-		
-		repaint();
-	    } else {
-		timer = addTimer(750);
-		barDown = true;
-	    }
+	    timer = addTimer(750);
+	    barDown = true;
+
 	} else if(e.type == 1001 && e.target == bgView) {
 	    // Bar up event
 	    barDown = false;
@@ -244,88 +265,23 @@ public class AnnotView extends Container implements PropObject
 	    if(a == null) return;
 
 	    // Add bar to bargraph
-	    a.bin = bgView.bGraph.addBin(bgView.bGraph.numBars - 1, a.label);
-	    bgView.bGraph.addPoint(a.bin, 1, a.value);
-	    ((Bar)a.bin).ptr = a;
+	    bGraph.addBar(bGraph.numBars - 1, a);
 	} else if(e.type == 1003 && e.target == lgView) {
 	    // Annotation moved event
-	    if((a = lgView.selAnnot ) != null){
-		bgView.bGraph.addPoint(a.bin, 1, a.value);
-	    }
+	    // This should now be taken care of automagically :)
 
 	} else if(e.type == ControlEvent.TIMER && e.target == this){
 	    if(timer != null){
 		removeTimer(timer);
 		timer = null;
 	    }
-	    if(barDown)
+	    if(barDown &&
+	       (bgView.selBar instanceof Annotation)){
 	       annotPage.showProp();
-
+	    }
 	    barDown = false;
 	}
 
-    }
-
-    float lastX = 0f;
-    float curY = (float)0;
-
-    public boolean addPoint(int bin, float x, float y)
-    {	
-	if(bin == 0){
-	    curY = y;
-	    lastX = x;
-	}
-
-	bgView.bGraph.addPoint(bgBins[bin], x, y);
-	if(!lgBins[bin].addPoint(x,y)){
-	    // If it returned false then we are out of space
-	    lgBins[bin] = lgView.lGraph.addBin(0, "Temp", true);
-	    return false;
-	}
-
-	return true;
-    }
-
-    public boolean addPoints(int bin, int num, float [] data)
-    {
-	int lastPos = (num -1)*2;
-
-	if(bin == 0){
-	    curY = data[lastPos + 1];
-	    lastX = data[lastPos];
-	}
-
-	bgView.bGraph.addPoint(bgBins[bin], data[lastPos], data[lastPos+1]);
-	
-	if(!lgBins[bin].addPoints(num, data)){
-	    // If it returned false then we are out of space
-	    lgBins[bin] = lgView.lGraph.addBin(0, "Temp", true);
-	    return false;
-	}
-
-	return true;
-	
-    }
-
-    public boolean addPoints(int bin, int num, int dOff, int size, float [] data, float sTime, float dT)
-    {
-	int lastPos = (num -1)*size + dOff;
-
-	if(bin == 0){
-	    curY = data[lastPos];
-	    lastX = sTime + dT*(num-1);
-	}
-
-	bgView.bGraph.addPoint(bgBins[bin], lastX, curY);
-	
-	if(!lgBins[bin].addPoints(num, dOff, size, data, sTime, dT)){
-	    // If it returned false then we are out of space
-	    lgBins[bin] = lgView.lGraph.addBin(0, "Temp", true);
-	    return false;
-	}
-
-	return true;
-	
     }
 
 

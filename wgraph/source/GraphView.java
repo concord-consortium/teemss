@@ -55,14 +55,9 @@ public abstract class GraphView extends Container implements PropObject
 
     public void draw()
     {
-	myG = createGraphics();
-	if(myG != null){
-	    graph.draw(bufG);
-	    myG.copyRect(buffer, 0, 0, width, height, 0, 0); 	    
-	    drawn = true;
-	}
+	drawn = false;
+	plot();
     }
-
 
     public void setPos(int x, int y)
     {

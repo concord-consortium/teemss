@@ -124,8 +124,9 @@ public class GraphViewLine extends GraphView
 	int myScrollStep = (int)(lGraph.dwWidth * scrollStepSize);
 
 
-	if(bin.maxX > (lGraph.xaxis.dispMin + (float)lGraph.xaxis.dispLen / lGraph.xScale ) ||
-	   lGraph.xaxis.drawnX == -1){
+	if((bin.numValues > 0) && 
+	   (bin.maxX > (lGraph.xaxis.dispMin + (float)lGraph.xaxis.dispLen / lGraph.xScale ) ||
+	   lGraph.xaxis.drawnX == -1)){
 	    // scroll
 	    range = lGraph.xRange;
 	    scrollEnd = bin.maxX - range * scrollFract;
@@ -139,28 +140,14 @@ public class GraphViewLine extends GraphView
 		  (lGraph.xaxis.drawnX > (lGraph.xOriginOff + 4)) ||
 		  (lGraph.xaxis.drawnX == -1)){
 		lGraph.scroll(myScrollStep, 0);
-		draw();
+		drawn = false;
+		super.plot();
 	    }
-	} else {
+	} else {	    
 	    super.plot();
 	}
     }
-
-
-    public boolean addPoint(Bin bin, float x, float y, boolean plot)
-    {	    
-	// Plot data
-	if(!bin.addPoint(x, y)){
-	    return false;
-	}
-
-	if(plot) plot();
-        	    
-	return true;
-    }
-
     
-
     int downX, downY, dragX, dragY;
     boolean xAxisDown, yAxisDown, graphDown, barDown, annotDown;
     Timer timer = null;
