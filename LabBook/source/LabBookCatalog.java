@@ -274,7 +274,7 @@ public class LabBookCatalog
 		int objPos = objIndex.length - 3;
 
 		if(!cat.setRecordPos(0)) return false;
-		cat.resizeRecord(cat.getRecordSize() + 20);
+		cat.resizeRecord(cat.getRecordSize() + 12);
 
 		cat.skipBytes(4);
 		ds.writeInt(nextObjId);
