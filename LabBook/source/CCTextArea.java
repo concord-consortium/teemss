@@ -158,6 +158,8 @@ LObjDictionary		objDictionary = null;
 
 private final static EmptyLabObject emptyObject = new EmptyLabObject();
 
+private CCStringWrapper textWasChoosen = null;
+
 	public CCTextArea(LObjCCTextAreaView owner,MainView mainView,LObjDictionary dict,LObjSubDict subDictionary){
 		super();
 		this.mainView = mainView;
@@ -499,6 +501,7 @@ private final static EmptyLabObject emptyObject = new EmptyLabObject();
     }
 
 	public void close(){
+		textWasChoosen = null;
 		if(labBookDialog != null){
 			labBookDialog.hide();
 			labBookDialog = null;
@@ -991,6 +994,7 @@ private final static EmptyLabObject emptyObject = new EmptyLabObject();
 	//				currObjectViewDesc = null;
 				}
 			}else if(components != null){
+				textWasChoosen = null;
 				if(currObjectViewDesc != null){
 					if(currObjectViewDesc.getObject() instanceof LabObjectView){
 						((LabObjectView)currObjectViewDesc.getObject()).setShowMenus(false);
@@ -1046,6 +1050,7 @@ private final static EmptyLabObject emptyObject = new EmptyLabObject();
 	}
 	public void lostFocus(){
 		removeCursor();
+		textWasChoosen = null;
 	}
 	
 	LBCompDesc findComponentDesc(Object o){
@@ -1086,6 +1091,8 @@ private final static EmptyLabObject emptyObject = new EmptyLabObject();
 			return;
 		}
 		if(currObjPropDialog == null && currObjectViewDesc != null){
+			Sound.beep();
+/*
 			Control cntrl = (Control)currObjectViewDesc.getObject();
 			if(cntrl instanceof LabObjectView){
 				LabObjectView object = (LabObjectView)cntrl;
@@ -1098,6 +1105,19 @@ private final static EmptyLabObject emptyObject = new EmptyLabObject();
 				}
 				repaint();
 			}
+*/
+		}else if(currObjPropDialog == null && objDictionary != null && 
+		             textWasChoosen != null && textWasChoosen.link && 
+		             textWasChoosen.indexInDict >= 0){
+			TreeNode node = objDictionary.getChildAt(textWasChoosen.indexInDict);
+			if(node == null) return;
+			LabObject linkObj = objDictionary.getObj(node);
+			if(linkObj == null) return;
+
+			LabObjectView realView = linkObj.getView(this,false);
+			if(owner != null){
+				owner.addChoosenLabObjView(realView);
+			}
 		}
 	}
 	
@@ -1106,13 +1126,24 @@ private final static EmptyLabObject emptyObject = new EmptyLabObject();
 			Sound.beep();
 			return;
 		}
-		if(currObjPropDialog == null && currObjectViewDesc != null){
+		if(currObjPropDialog == null){
 			openCompProp(currObjectViewDesc);
 		}
 	}
 
 	void openCompProp(LBCompDesc compDesc){
-		if(compDesc == null) return;
+		if(compDesc == null){
+			if(textWasChoosen != null){
+				MainWindow mw = MainWindow.getMainWindow();
+				if((mw instanceof ExtraMainWindow)){
+					TextObjPropertyView tPropView = new TextObjPropertyView((ExtraMainWindow)mw,(LObjDictionary)LabObject.lBook.load(LabObject.lBook.getRoot()), null,textWasChoosen);
+					ViewDialog dialog = new ViewDialog((ExtraMainWindow)mw, this,"Properties",tPropView);
+					dialog.setRect(0,0,150,150);
+					dialog.show();		
+				}
+			}
+			return;
+		}
 		LabObjectView objView = (LabObjectView)compDesc.getObject();
 		if(objView == null) return;
 		String name = objView.getLabObject().name;
@@ -1333,6 +1364,7 @@ private final static EmptyLabObject emptyObject = new EmptyLabObject();
 	public void onPenEvent(PenEvent ev){
 		if(ev.type == PenEvent.PEN_DOWN){
 			LBCompDesc compDesc = findComponentDesc(ev.target);
+			textWasChoosen = null;
 			if(compDesc == null && currObjectViewDesc != null){
 				currObjectViewDesc = null;
 				repaint();
@@ -1348,8 +1380,11 @@ private final static EmptyLabObject emptyObject = new EmptyLabObject();
 				row = 1;
 			}else if(lineIndex >= 0 && lineIndex < lines.getCount()){
 				CCStringWrapper sw = (CCStringWrapper)lines.get(lineIndex);
-				
-				if(getEditMode()){
+
+				if(getEditMode() && sw != null){
+					textWasChoosen = sw;
+					repaint();
+/*
 					MainWindow mw = MainWindow.getMainWindow();
 					if((mw instanceof ExtraMainWindow)){
 						TextObjPropertyView tPropView = new TextObjPropertyView((ExtraMainWindow)mw,(LObjDictionary)LabObject.lBook.load(LabObject.lBook.getRoot()), null,sw);
@@ -1357,6 +1392,7 @@ private final static EmptyLabObject emptyObject = new EmptyLabObject();
 						dialog.setRect(0,0,150,150);
 						dialog.show();		
 					}
+*/
 				}else{
 					if(sw.link && objDictionary != null && sw.indexInDict >= 0){
 						TreeNode node = objDictionary.getChildAt(sw.indexInDict);
@@ -1449,23 +1485,43 @@ private final static EmptyLabObject emptyObject = new EmptyLabObject();
 	}
 	public void paintChildren(Graphics g, int x, int y, int width, int height){
 		super.paintChildren(g,x,y,width,height);
-		if(getEditMode() && g != null && currObjectViewDesc != null){
-			if(currObjectViewDesc.getObject() instanceof LabObjectView){
-				LabObjectView objView = (LabObjectView)currObjectViewDesc.getObject();
+		if(getEditMode() && g != null){
+			if(currObjectViewDesc != null){
+				if(currObjectViewDesc.getObject() instanceof LabObjectView){
+					LabObjectView objView = (LabObjectView)currObjectViewDesc.getObject();
+					Rect rClip = getRect();
+					g.setClip(0,0,rClip.width,rClip.height);
+					Rect rObj = objView.getRect();
+					boolean isColor = waba.sys.Vm.isColor();
+					if(!isColor){
+						g.setColor(0,0,0);
+						g.drawRect(rObj.x-1,rObj.y-1,rObj.width+2,rObj.height+2);
+					}else{
+						g.setColor(0,0,255);
+					}	
+					g.drawRect(rObj.x,rObj.y,rObj.width,rObj.height);
+					
+				
+				
+					g.setColor(0,0,0);
+					g.clearClip();
+				}
+			}else if(textWasChoosen != null){
 				Rect rClip = getRect();
 				g.setClip(0,0,rClip.width,rClip.height);
-				Rect rObj = objView.getRect();
 				boolean isColor = waba.sys.Vm.isColor();
+				
+				int yText = yTextBegin + (textWasChoosen.beginRow - firstLine)*getItemHeight();
+				int hText = (textWasChoosen.endRow - textWasChoosen.beginRow)*getItemHeight();
+				Rect rText = new Rect(textWasChoosen.beginPos,yText,textWasChoosen.endPos - textWasChoosen.beginPos,hText);
 				if(!isColor){
 					g.setColor(0,0,0);
-					g.drawRect(rObj.x-1,rObj.y-1,rObj.width+2,rObj.height+2);
+					g.drawRect(rText.x-1,rText.y-1,rText.width+2,rText.height+2);
 				}else{
 					g.setColor(0,0,255);
-				}	
-				g.drawRect(rObj.x,rObj.y,rObj.width,rObj.height);
-				
-			
-			
+				}
+				g.drawRect(rText.x,rText.y,rText.width,rText.height);
+					
 				g.setColor(0,0,0);
 				g.clearClip();
 			}
