@@ -18,7 +18,6 @@ public class CCProbeTest extends ExtraMainWindow
     LabObjectView lObjView = null;
     int myHeight;
 	Vector fileMenuStrings = new Vector();
-
     int newIndex = 0;
 
     LObjDictionary loDict = null;
