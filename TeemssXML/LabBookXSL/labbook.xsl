@@ -131,11 +131,28 @@
 </xsl:template>
 
 <xsl:template match="item">
-  <SNPARAGRAPH>
-    - <xsl:value-of select="normalize-space(.)"/>
-  </SNPARAGRAPH>
-  <SNPARAGRAPH/>
+  <INDENT size="1" first-line-offset="-1">
+    <xsl:text>- </xsl:text>
+    <xsl:apply-templates mode="item"/>
+    <BR/>
+    <SNPARAGRAPH/>
+  </INDENT>
 </xsl:template>
+
+<xsl:template match="p" mode="item">
+  <SNPARAGRAPH/>
+  <BR/>
+  <xsl:value-of select="(.)"/>
+  <BR/>
+</xsl:template>
+
+<!-- <xsl:template match="text()[normalize-space(.)!='']" mode="item"> -->
+
+<xsl:template match="text" mode="item">
+  <xsl:value-of select="(.)"/>
+</xsl:template>
+
+
 
 <xsl:template match="hints">
   <SUPERNOTES ID="{../@name}-hints" name="Technical Hints">
