@@ -14,6 +14,7 @@ export PILAINC= $(CURDIR)/../wj_tools
 
 define POST_BUILD_CMDS
 cd $(BIN_DIR); cp *.jar *.prc *.lnk *.wrp /home/ftp/pub/ccprobeware/bin
+cp tag /home/ftp/pub/ccprobeware/bin/Version.tag
 endef
 
 WABA_DIR= $(CURDIR)/../wabasdk/classes
