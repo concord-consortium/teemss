@@ -15,7 +15,7 @@ CCTextArea 				tArea;
 Container 				edit = new Container();
 
 LObjCCTextArea 			doc;
-Button 					doneButton,doneOutButton;
+Button 					doneButton;
 Button 					insertButton;
 //TimerButton 			upButton;
 //TimerButton 			downButton;
@@ -24,7 +24,6 @@ Button 					insertButton;
 Menu 					menu = null;
 Menu 					menuEdit = null;
 
-LabObjectView			addedLabObjectView		= null;
 
 
 String [] fileStrings = {"Load Note..."};
@@ -59,6 +58,8 @@ CCScrollBar				scrollBar;
 			// If we are embedded this will be a problem
 			getMainView().closeTopWindowView();
 			if(showMenus) addMenus();
+			lObjView.didLayout = false;
+			lObjView.layout(false);
 			lObjView = null;
 		}
 	}
@@ -94,6 +95,9 @@ CCScrollBar				scrollBar;
 		if(vc != null) vc.getMainView().addMenu(this, menuEdit);
 		if(menu == null){
 			menu = new Menu("Object");
+			menu.add("Object's Propertry...");
+			menu.add("Open Object");
+			menu.add("-");
 			menu.add("Insert Object...");
 			menu.add("-");
 			menu.add("Delete Current Object...");
@@ -129,7 +133,12 @@ CCScrollBar				scrollBar;
 			showProperties();
 		}else if(e.getActionCommand().equals("Insert Empty Line")){
 			if(tArea != null) tArea.insertEmptyLine();
+		}else if(e.getActionCommand().equals("Object's Propertry...")){
+			if(tArea != null) tArea.openCurrentObjectPropertiesDialog();
+		}else if(e.getActionCommand().equals("Open Object")){
+			if(tArea != null) tArea.openCurrentObject();
 		}
+
     }
 
 
@@ -180,26 +189,6 @@ CCScrollBar				scrollBar;
 		view.setContainer(this);
 		getMainView().showFullWindowView(view);
 
-		/*
-		if(tArea != null){
-			remove(edit);
-			remove(insertButton);
-//			remove(upButton);
-//			remove(downButton);
-			if(showDone) remove(doneButton);
-			add(view);
-//			view.didLayout = false;
-			view.layout(true);
-			view.setEmbeddedState(false);
-			view.setRect(0,0,width,height);
-			if(doneOutButton == null){
-				doneOutButton = new Button("Done");
-			}
-			add(doneOutButton);
-			doneOutButton.setRect(width-31,height-15,30,15);
-			addedLabObjectView = view;
-		}
-		*/
 	}
 
 	public void layout(boolean sDone){
@@ -297,24 +286,6 @@ CCScrollBar				scrollBar;
 		}
 	}
 	public void onEvent(Event e){
-		if(e.type == ControlEvent.PRESSED && (addedLabObjectView != null)){
-			if(e.target == doneOutButton){
-				addedLabObjectView.setEmbeddedState(true);
-				addedLabObjectView.setShowMenus(false);
-				remove(addedLabObjectView);
-				remove(doneOutButton);
-				add(edit);
-				add(insertButton);
-//				add(upButton);
-//				add(downButton);
-				if(showDone) add(doneButton);
-				tArea.layoutComponents();
-				tArea.setText(tArea.getText());
-				addedLabObjectView = null;
-				tArea.restoreCursor(true);
-				return;
-			} 
-		}
 	
 /*
 		if(e instanceof ControlEvent && e.type == ControlEvent.TIMER){

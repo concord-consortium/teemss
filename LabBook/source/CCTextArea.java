@@ -871,6 +871,30 @@ public final static int	yTextBegin = 2;
 	}
 	
 	
+	public void openCurrentObject(){
+		if(currObjPropDialog == null && currObjectViewDesc != null){
+			Control cntrl = (Control)currObjectViewDesc.getObject();
+			if(cntrl instanceof LabObjectView){
+				LabObjectView object = (LabObjectView)cntrl;
+				object.setShowMenus(false);
+				removeCursor();
+				LabObject lobj = object.getLabObject();
+				LabObjectView realView = lobj.getView(this,false);
+				if(realView != null) realView.setShowMenus(true);
+				if(owner != null){
+					owner.addChoosenLabObjView(realView);
+				}
+				repaint();
+			}
+		}
+	}
+	
+	public void openCurrentObjectPropertiesDialog(){
+		if(currObjPropDialog == null && currObjectViewDesc != null){
+			openCompProp(currObjectViewDesc);
+		}
+	}
+
 	void openCompProp(LBCompDesc compDesc){
 		if(compDesc == null) return;
 		LabObjectView objView = (LabObjectView)compDesc.getObject();
@@ -1087,9 +1111,9 @@ public final static int	yTextBegin = 2;
 				repaint();
 			}
 			if(getPropertyMode()){
-				if(compDesc != null){
+/*				if(compDesc != null){
 					openCompProp(compDesc);
-				}
+				}*/
 				return;
 			}
 			if(compDesc != null) return;
