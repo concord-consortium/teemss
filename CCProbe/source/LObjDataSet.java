@@ -167,7 +167,9 @@ public class LObjDataSet extends LObjSubDict
 
 			numChunks = ds.readInt();
 			needReadChunks = true;
-			unit = CCUnit.getUnit(ds.readInt());
+			int uCode = ds.readInt();
+			if(uCode == -1) unit = null;
+			else unit = CCUnit.getUnit(uCode);
 
 		} else if(majorType == 1 || majorType == 2){
 			DataDesc dataDesc;
@@ -223,7 +225,8 @@ public class LObjDataSet extends LObjSubDict
 				ds.writeByte(0);
 			}
 			ds.writeInt(numChunks);
-			ds.writeInt(unit.code);
+			if(unit == null) ds.writeInt(-1);
+			else ds.writeInt(unit.code);
 			
 			// probably want to write unit index here
 

@@ -238,8 +238,6 @@ public class LObjGraphView extends LabObjectView
     {
 		MainWindow mw = MainWindow.getMainWindow();
 		if(mw instanceof ExtraMainWindow){
-			updateAv2Graph();
-
 			if(autoTitle) propTitle.setValue("*" + graph.title);
 			else propTitle.setValue(graph.title);
 
@@ -354,7 +352,6 @@ public class LObjGraphView extends LabObjectView
 		} else {
 			if(e.getActionCommand().equals("Save Data..")){
 				LObjDataSet dSet = LObjDataSet.makeNewDataSet();
-				updateAv2Graph();
 				LObjGraph dsGraph = (LObjGraph)graph.copy();
 				dsGraph.name = "Graph";
 				dSet.setDataViewer(dsGraph);
@@ -633,6 +630,8 @@ public class LObjGraphView extends LabObjectView
 			showAxisProp(2);
 		} else if(e.type == 1005){
 			showAxisProp(1);
+		} else if(e.type == 1006){
+			updateAv2Graph();
 		} else if(e.target == viewChoice){
 			if(e.type == ControlEvent.PRESSED){
 				int index = viewChoice.getSelectedIndex();
@@ -660,9 +659,23 @@ public class LObjGraphView extends LabObjectView
 					break;
 				case 2:
 					if(av.lGraph.calcVisibleRange()){
-						graph.ymin = av.lGraph.minVisY;
-						graph.ymax = av.lGraph.maxVisY;
+						float margin = (av.lGraph.maxVisY - av.lGraph.minVisY)*0.1f;
+						int count=0;
+						while(margin == 0f && count < 4){
+							graph.ymin = av.lGraph.minVisY - (-1f)/av.lGraph.yaxis.scale;
+							graph.ymax = av.lGraph.maxVisY + (-1f)/av.lGraph.yaxis.scale;
+							updateProp();
+							av.curView.draw();
+							av.update();
+							if(!av.lGraph.calcVisibleRange()) return;
+							margin = (av.lGraph.maxVisY - av.lGraph.minVisY)*0.1f;
+							count++;
+						}
+						if(margin < 1.0E-8f) margin = 1.0E-8f; 
+						graph.ymin = av.lGraph.minVisY - margin;
+						graph.ymax = av.lGraph.maxVisY + margin;
 						updateProp();
+						repaint();
 					}
 					break;
 				case 3:
