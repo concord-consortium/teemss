@@ -19,10 +19,24 @@ public class CCVoltCurrent extends Probe
 	PropObject speedProp = new PropObject("Speed", "Speed", PROP_SPEED, speedNames);
 	PropObject versionProp = new PropObject("Version", "Version", PROP_VERSION, versionNames);
 
-	float					zeroPointCurrent				= 1257f;//	
-	float					zeroPointVoltage				= 1257f;//	
-	float					currentResolution		= 271f; //       mV(reading)/A
-	float					voltageResolution		= 38f; //     mV(reading)/(true)V
+	/*
+	    Voltage=(input(mV)-offset(mV))/sensitivity(mV/Volt)
+		                    max	    min	    standard	maximum	
+	    offset	sensitivity	range	range	deviation	deviation	range
+		1252.7	63.13	    19.76	-19.84	4.5%	     7.4%	    "+/- 20V"
+
+		Current=(input(mV)-offset(mV))/sensitivity(mV/Amp)
+		                    max	    min	    standard	maximum	    maximum
+		offset	sensitivity	range	range	deviation	deviation	range
+		1247.1	620.95	    2.02	-2.01	4.1%	    10.2%       "+/- 2A"
+	 */
+
+	float					zeroPointCurrent				= 125f;//	
+	float					zeroPointVoltage				= 1247.1f;//	
+	//	float					currentResolution		= 271f; //       mV(reading)/A
+	//  float					voltageResolution		= 38f; //     mV(reading)/(true)V
+	float					currentResolution		= 620.95f; //       mV(reading)/A
+	float					voltageResolution		= 63.13f; //     mV(reading)/(true)V
 
 	int					outputMode 			= VOLTAGE_OUT;
 	public static String [] modeNames = {"Current", "Voltage","Power","Energy"};
