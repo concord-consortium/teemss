@@ -42,37 +42,34 @@ import palmos.*;
 
 public class Graphics
 {
-	private static final int BLACK=0;
-	private static final int WHITE=1;
-
-	private static Rect rect;
+    private static int iMWinHandle;
+	private static Graphics mainGraphics = null;
+    static Graphics drawWinGraphics = null;
+    private int iWinHandle = 0;
 	private ISurface surface;
-	private Rect clip=null;
+
+    private static Rectangle mwOldClip = new Rectangle();
+    private Rectangle oOldClip = new Rectangle();
+	private Rectangle clip=null;
 	private int tx=0;
 	private int ty=0;
-	private int col=BLACK;
+
 	private int drawOp;
 	private Font font=waba.ui.MainWindow.defaultFont;
-	//   private boolean flgHasClip=false;
-	//   private int iWinHandle=0;
-	//   private int iOldWinHandle=0;
-	//   private Rectangle oOldClip=new Rectangle();
 
-	private void getFocus()
-	{
-		Palm.WinSetDrawWindow(surface.getWinHandle());
-	}
+	// color management
+	private static final int BLACK=0;
+	private static final int WHITE=1;
+	private int col=BLACK;
+	private static boolean isColor = true;  // set if the device is color
+	/* Variable to deal with color management */
+    private static RGBColor curColor = new RGBColor(0,0,0,0);
+    private byte blackIndex;
+    private byte curColorIndex = 0;
 
 	/**
-	 * Utility method for filling the parameters of a rectangle.  The returned
-	 * Rectangle should not be kept as it will be reused.
+	 * Utility method for filling the parameters of a rectangle.
 	 */
-	private static Rect getRect(int x,int y,int width,int height)
-	{
-		rect=new Rect(x,y,width,height);
-		return rect;
-	}
-
 	private static Rectangle getRectangle(int x,int y,int width,int height)
 	{
 		Rectangle oRectangle=new Rectangle();
@@ -83,40 +80,17 @@ public class Graphics
 
 		return oRectangle;
 	}
-    /*
-	  private void drawStart(Rectangle oOldClip, int iOldWinHandle)
-	  {
-      int iWinHandle=0;
 
-      if(this.surface instanceof waba.fx.Image){
-	  iOldWinHandle=Palm.WinGetDrawWindow();
-	  iWinHandle=this.surface.getWinHandle();
-	  Palm.WinSetDrawWindow(iWinHandle);
-      }
-      else{
-	  iWinHandle=Palm.WinGetDrawWindow();
-	  iOldWinHandle=0;
-      }
+	Rectangle copyRectangle(Rectangle orig)
+	{
+		Rectangle copyRect =new Rectangle();
+		copyRect.topLeft_x=orig.topLeft_x;
+		copyRect.topLeft_y=orig.topLeft_y;
+		copyRect.extent_x=orig.extent_x;
+		copyRect.extent_y=orig.extent_y;
 
-      if(flgHasClip){
-	  Palm.WinGetClip(oOldClip);
-	  Rectangle oRectangle=getRectangle(clip.x, clip.y, clip.width, clip.height);
-	  Palm.WinClipRectangle(oRectangle);
-	  Palm.WinSetClip(oRectangle);
-      }
-	  }
-    */
-	/*
-	  private void drawStop(Rectangle oOldClip, int iOldWinHandle)
-	  {
-      if(flgHasClip){
-	  Palm.WinSetClip(oOldClip);
-      }
-      if(iOldWinHandle!=0){
-	  Palm.WinSetDrawWindow(iOldWinHandle);
-      }
-	  }
-	*/
+		return copyRect;
+	}
 
 	/**
 	 * The constant for a draw operation that draws the source over
@@ -155,7 +129,7 @@ public class Graphics
 	public Graphics(ISurface surface)
 	{
 		this.surface = surface;
-		myWinHandle=surface.getWinHandle();
+		iWinHandle=surface.getWinHandle();
 
 		setColor(0,0,0);
 
@@ -170,7 +144,7 @@ public class Graphics
     public Graphics(ISurface surface, int cacheSize)
     {
 		this(surface);
-	       
+
 		CACHE_SIZE = cacheSize;
 
 		colCache = new int [CACHE_SIZE];
@@ -178,9 +152,11 @@ public class Graphics
     }
 
 
-	/** I'll use this to save createdGraphics so I don't have to
-		make new ones all the time so these are the graphics that
-		are available to be used by createGraphics **/
+	/**
+	 *  This function attempts to reuse freed Graphics objects.  This
+	 *  can really speed up the code.  This function is meant to only
+	 *  be called by createGraphics.  
+	 */
 	private static waba.util.Vector savedGraphics = new waba.util.Vector(10);
 	public static Graphics getGraphics(ISurface surface)
 	{
@@ -191,7 +167,11 @@ public class Graphics
 			savedGraphics.del(numSavedGraphics - 1);
 			g.translateZero();
 			g.surface = surface;
-			g.myWinHandle = surface.getWinHandle();
+			g.iWinHandle = surface.getWinHandle();
+			// These were added at 1.8
+			g.numColsCached = 0;
+			g.curCol = 0;
+			g.col = BLACK;
 			g.clip = null;
 		} else {
 			g = new Graphics(surface);
@@ -199,7 +179,12 @@ public class Graphics
 		return g;
 	}
 
-	private static Graphics mainGraphics = null;
+	/**
+	 * This returns the MainWindow Graphics.  This function should be
+	 * used to create the mainWindow Graphics.  This adds protection
+	 * from freeing the MainWindow Graphics.  (if your MainWindow
+	 * caches the graphics, freeing is bad)
+	 */
 	public static Graphics getMainGraphics(waba.ui.Window win)
 	{
 		mainGraphics = new Graphics(win);
@@ -209,7 +194,8 @@ public class Graphics
 
 	/**
 	 * Clears the current clipping rectangle. This allows drawing to occur
-	 * anywhere on the current surface.
+	 * anywhere on the current surface.  However it tries to preserve the
+	 * clip that was on the draw window before we changed this clip.
 	 */
 	public void clearClip()
 	{
@@ -243,14 +229,18 @@ public class Graphics
 	public void copyRect(ISurface src, int x, int y,
 						 int width, int height, int dstX, int dstY)
 	{
-		if(this != drawWinGraphics){
-			setDrawWindow();
-		}
+		if(this != drawWinGraphics) setDrawWindow();
      
+		byte oldColIndex = curColorIndex;
+		setColor(0,0,0);
+
 		Rectangle rect=getRectangle(x,y,width,height);
 		//here implement drawOp
 		//here test to see if dstX and dstY need tx and ty added
-		Palm.WinCopyRectangle(src.getWinHandle(), surface.getWinHandle(), rect, dstX+tx, dstY+ty, 0);
+		Palm.WinCopyRectangle(src.getWinHandle(), iWinHandle, rect, dstX+tx, dstY+ty, 0);
+
+		curColorIndex = oldColIndex;
+		Palm.WinSetForeColor(curColorIndex);
 
 	}
 
@@ -262,7 +252,9 @@ public class Graphics
 	 * system resources allocated will be freed when the object is garbage
 	 * collected. However, if a program uses many graphics objects, free()
 	 * should be called whenever one is no longer needed to prevent allocating
-	 * too many system resources before garbage collection can occur.
+	 * too many system resources before garbage collection can occur.<br>
+	 * Also this can speed up the function Control.createGraphics().  
+	 * createGraphics reuses these freed Graphics objects.
 	 */
     public void free() {//should this free an associated image?
 		// Don't free the mainWindow graphics
@@ -312,44 +304,35 @@ public class Graphics
      */
 	public void drawCursor(int x, int y, int width, int height)
 	{
-		if(this != drawWinGraphics){
-			setDrawWindow();
-		}
-
+		if(this != drawWinGraphics) setDrawWindow();
 
 		int dstX = x+tx;
 		int dstY = y+ty;
+		// I don't set the color here because what if the user wants the 
+		// cursor to be red, blue, green...
+
 		Rectangle rect=getRectangle(0,0,width,height);
 		ShortHolder err=new ShortHolder((short)0);
-		if (cursorImage==0||cursorImageWidth!=width||cursorImageHeight!=height)
-			{
-				if (cursorImage!=0)
-					Palm.WinDeleteWindow(cursorImage,false);
-				cursorImage = Palm.WinCreateOffscreenWindow(width,height,0,err);
-				cursorImageWidth=width;
-				cursorImageHeight=height;
-			}
+		if (cursorImage==0||cursorImageWidth!=width||cursorImageHeight!=height){
+			if (cursorImage!=0)
+				Palm.WinDeleteWindow(cursorImage,false);
+			cursorImage = Palm.WinCreateOffscreenWindow(width,height,0,err);
+			cursorImageWidth=width;
+			cursorImageHeight=height;
+		}
 		if (err.value!=0)
 			return;
 		int oldDraw=Palm.WinSetDrawWindow(cursorImage);
 		Palm.WinDrawRectangle(rect, 0);
 		Palm.WinSetDrawWindow(oldDraw);
-		Palm.WinCopyRectangle(cursorImage, surface.getWinHandle(), rect, dstX, dstY, 3 );
-
-		// Just for safety
-		setDrawWindow();
+		Palm.WinCopyRectangle(cursorImage, iWinHandle, rect, dstX, dstY, 3 );
 	}
-
-    private Rectangle oOldClip = new Rectangle();
-    private static int iMWinHandle;
-    private static Rectangle mwOldClip = new Rectangle();
-    static Graphics drawWinGraphics = null;
-    private int myWinHandle;
 
     public static void saveState()
     {
 		iMWinHandle =  Palm.WinGetDisplayWindow(); //assuming this is the right window.. could be bad
 		Palm.WinGetClip(mwOldClip);
+
     }
 
 
@@ -382,10 +365,10 @@ public class Graphics
 			Palm.WinSetClip(drawWinGraphics.oOldClip);
 		}
 		drawWinGraphics = this;
-		Palm.WinSetDrawWindow(myWinHandle);
+		Palm.WinSetDrawWindow(iWinHandle);
 		Palm.WinGetClip(oOldClip);
 		setClip();
-		Palm.WinSetForeColor(curColIndex);
+		Palm.WinSetForeColor(curColorIndex);
     }
 
 	/**
@@ -394,15 +377,11 @@ public class Graphics
 	 */
 	public void drawLine(int x1, int y1, int x2, int y2)
 	{
-		if(this != drawWinGraphics){
-			setDrawWindow();
-		}
-
+		if(this != drawWinGraphics) setDrawWindow();
 		if (col==BLACK)
 			Palm.WinDrawLine(x1+tx,y1+ty,x2+tx,y2+ty);
 		else
-			Palm.WinEraseLine(x1+tx,y1+ty,x2+tx,y2+ty);
-       
+			Palm.WinEraseLine(x1+tx,y1+ty,x2+tx,y2+ty);       
 	}
     /*
 	  public void drawPath(int points[], int start, int count)
@@ -448,18 +427,24 @@ public class Graphics
 	public void drawRect(int x, int y, int width, int height)
 	{
 		// NOTE: only valid for drawing rects with width >=1, height >= 1
+		x += tx;
+		y += ty;
+
 		int x2 = x + width - 1;
 		int y2 = y + height - 1;
-		drawLine(x, y, x2 - 1, y);
-		drawLine(x2, y, x2, y2 - 1);
-		drawLine(x2, y2, x + 1, y2);
-		drawLine(x, y2, x, y + 1);
+		if(this != drawWinGraphics) setDrawWindow();
+		if (col==BLACK){
+			Palm.WinDrawLine(x, y, x2 - 1, y);
+			Palm.WinDrawLine(x2, y, x2, y2 - 1);
+			Palm.WinDrawLine(x2, y2, x + 1, y2);
+			Palm.WinDrawLine(x, y2, x, y + 1);
+		} else {
+			Palm.WinEraseLine(x, y, x2 - 1, y);
+			Palm.WinEraseLine(x2, y, x2, y2 - 1);
+			Palm.WinEraseLine(x2, y2, x + 1, y2);
+			Palm.WinEraseLine(x, y2, x, y + 1);
+		}
   	}
-
-	public String toString()
-	{
-		return "Graphics("+tx+","+ty+")"; //here
-	}
 
 	/**
 	 * Draws a dotted line at the given coordinates. Dotted lines must
@@ -467,30 +452,47 @@ public class Graphics
 	 */
 	public void drawDots(int x1, int y1, int x2, int y2)
 	{
-		if (x1 == x2)
-			{
-				// vertical
-				if (y1 > y2)
-					{
-						int y = y1;
-						y1 = y2;
-						y2 = y;
-					}
-				for (; y1 <= y2; y1 += 2)
-					drawLine(x1,y1,x1,y1);
+		if(this != drawWinGraphics) setDrawWindow();
+		x1 += tx;
+		y1 += ty;
+		x2 += tx;
+		y2 += ty;
+		if (x1 == x2){
+			// vertical
+			if (y1 > y2){
+				int y = y1;
+				y1 = y2;
+				y2 = y;
 			}
-		else if (y1 == y2)
-			{
+
+			if (col==BLACK){
+				for (; y1 <= y2; y1 += 2){
+					Palm.WinDrawLine(x1, y1, x1, y1);
+				}
+				
+			} else {
+				for (; y1 <= y2; y1 += 2){
+					Palm.WinEraseLine(x1, y1, x1, y1);
+				}
+			}
+		} else if (y1 == y2) {
 				// horitzontal
-				if (x1 > x2)
-					{
-						int x = x1;
-						x1 = x2;
-						x2 = x;
-					}
-				for (; x1 <= x2; x1 += 2)
-					drawLine(x1,y1,x1,y1);
+				if (x1 > x2){
+					int x = x1;
+					x1 = x2;
+					x2 = x;
+				}
+				
+			if (col==BLACK){
+				for (; x1 <= x2; x1 += 2){
+					Palm.WinDrawLine(x1, y1, x1, y1);
+				}
+			} else {
+				for (; x1 <= x2; x1 += 2){
+					Palm.WinEraseLine(x1, y1, x1, y1);
+				}
 			}
+		}
 	}
 
 	/**
@@ -506,9 +508,16 @@ public class Graphics
 		if (count < 3)
 			return;
 		int i = 0;
-		for (; i < count - 1; i++)
-			drawLine(x[i], y[i], x[i + 1], y[i + 1]);
-		drawLine(x[i], y[i], x[0], y[0]);
+		if(this != drawWinGraphics) setDrawWindow();
+		if (col==BLACK){
+			for (; i < count - 1; i++)
+				Palm.WinDrawLine(x[i]+tx, y[i]+ty, x[i + 1]+tx, y[i + 1]+ty);
+			Palm.WinDrawLine(x[i]+tx, y[i]+ty, x[0]+tx, y[0]+ty);
+		} else {
+			for (; i < count - 1; i++)
+				Palm.WinEraseLine(x[i]+tx, y[i]+ty, x[i + 1]+tx, y[i + 1]+ty);
+			Palm.WinEraseLine(x[i]+tx, y[i]+ty, x[0]+tx, y[0]+ty);
+		}
 	}
 
 	/**
@@ -535,10 +544,10 @@ public class Graphics
 	 */
 	public void drawText(String s, int x, int y)
 	{
-		if(this != drawWinGraphics){
-			setDrawWindow();
-		}
+		if(this != drawWinGraphics) setDrawWindow();
 
+		// WinDrawChars doesn't seem to like null strings.  I think it can
+		// handle 0 length strings, but why push it.
 		if(s == null || s.length() == 0) return; 
 		//font.select();
 		Palm.FntSetFont(this.font.getStyle());
@@ -547,7 +556,6 @@ public class Graphics
 			Palm.WinDrawChars(s,s.length(),tx+x,ty+y); //here
 		else
 			Palm.WinEraseChars(s,s.length(),tx+x,ty+y); //here
-
 	}
 
 	/**
@@ -555,43 +563,67 @@ public class Graphics
 	 */
 	public void fillRect(int x, int y, int width, int height)
 	{
-
-		if(this != drawWinGraphics){
-			setDrawWindow();
-		}
-
+		if(this != drawWinGraphics) setDrawWindow();
 		Rectangle oRect=getRectangle(x+tx,y+ty,width,height);
 		if (col==BLACK)
 			Palm.WinDrawRectangle(oRect,0);
 		else
 			Palm.WinEraseRectangle(oRect,0);
-
 	}
 
 	/**
 	 * Sets a clipping rectangle. Anything drawn outside of the rectangular
 	 * area specified will be clipped. Setting a clip overrides any previous clip.
+	 * However setting the clip does not override the OS clip.  (or at least its
+	 * not supposed to)
 	 */
 	public void setClip(int x, int y, int width, int height)
 	{
 		//      String sDebug="setClip " + x + "," + y + "," + width + "," + height;
 		//      debug(sDebug);
 
-		clip=new Rect(x+tx,y+ty,width,height);
+		clip= getRectangle(x+tx,y+ty,width,height);
 		if(this != drawWinGraphics){
+			// This will set the clip and the current draw window
 			setDrawWindow();
 		} else {
+			// The draw window is already set so we only need to reset the clip
 			setClip();
 		}
 	}
 
+	/**
+	 * This sets the palm draw window clip to be the intersection of the graphics 
+	 * clip and the clip of the drawWindow.  (usually set by PalmOS)
+	 *
+	 * 1) it sets the clip of the draw window to be what it was the last time
+	 *     this graphics was made the draw window
+	 * 2) it copies the existing clip of the Graphics 
+	 * 3) it uses ClipRectangle to get the instersection of the Graphics clip 
+	 *      and the clip of the draw window
+	 * 4) it sets the clip of the draw window to this intersection
+	 *
+	 * The first step probably isn't necessary because before the draw window
+	 * changed to another draw window the original clip is installed. (see 
+	 * setDrawWindow())
+	 * Step two is necessary, incase the clip of the drawWindow is temporarilly
+	 * smaller than the clip of the Graphics.  If the drawWindow clip increases
+	 * at some point in the future, the "real" Graphics clip needs to be preserved.
+	 * I believe step three takes care of cases where the drawWindow is obscured by 
+	 * popup windows.  (Beam receive message, appointment alert...)
+	 *
+	 * I'm not totally sure about any of this, (because I can't look at the source
+	 * code for PalmOS), I can only make informed guesses based on the documentation.
+	 * If you know one of my guesses is wrong, or you have different guesses 
+	 * please let me(scott@concord.org) know.
+	 */
     private void setClip()
     {
 		if(clip != null){
 			Palm.WinSetClip(oOldClip);
-			Rectangle oRectangle=getRectangle(clip.x, clip.y, clip.width, clip.height);
-			Palm.WinClipRectangle(oRectangle);
-			Palm.WinSetClip(oRectangle);
+			Rectangle clipCopy=copyRectangle(clip);
+			Palm.WinClipRectangle(clipCopy);
+			Palm.WinSetClip(clipCopy);
 		}
     }
 
@@ -610,13 +642,22 @@ public class Graphics
 			return null;
 		}
 		else{
-			r.x = clip.x-tx;
-			r.y = clip.y-ty;
-			r.width=clip.width;
-			r.height=clip.height;
+			r.x = clip.topLeft_x - tx;
+			r.y = clip.topLeft_y - ty;
+			r.width=clip.extent_x;
+			r.height=clip.extent_y;
 			return r;
 		}
 	}
+
+	// variables for color cache management
+	// The cache size isn't static because it can be different in different
+	// instances of Graphics (see Graphics(surface, int))
+    private int CACHE_SIZE = 16; // 16 colors
+    private int [] colCache = new int [CACHE_SIZE];
+    private byte [] colCacheI = new byte [CACHE_SIZE];
+    private int numColsCached = 0;
+    private int curCol = 0;
 
 	/**
 	 * Sets the current color for drawing operations.
@@ -624,56 +665,46 @@ public class Graphics
 	 * @param g the green value (0..255)
 	 * @param b the blue value (0..255)
 	 */
-    static RGBColor curColor = new RGBColor(0,0,0,0);
-    int CACHE_SIZE = 16;
-    int [] colCache = new int [CACHE_SIZE];
-    byte [] colCacheI = new byte [CACHE_SIZE];
-    int numColsCached = 0;
-    int curCol = 0;
-    static int blackIndex;
-    byte curColIndex = 0;
 
 	public void setColor(int r, int g, int b)
 	{
-       
-		if(this != drawWinGraphics){
-			setDrawWindow();
-		}
+		if(this != drawWinGraphics) setDrawWindow();
 
-		if (r==255&&g==255&&b==255){
-			col=WHITE;
+		if (r==255 && g==255 && b==255){
+			col=WHITE;			
 			return;
 		}
 		else
 			col=BLACK;
        
 
-		int i;
-		byte closeIndex;
+		if (isColor) { // handles color methods for all other colors
+			int i;
        
-		int reqColor = (r << 16) | (g << 8) | b;
-		for(i=0; i < numColsCached; i++){
-			if(colCache[i] == reqColor){
-				Palm.WinSetForeColor(colCacheI[i]);
-				curColIndex = colCacheI[i];
-				return;
+			// first get the color and see if it is cached, and use the cached color
+			int reqColor = (r << 16) | (g << 8) | b;
+			for(i=0; i < numColsCached; i++){
+				if(colCache[i] == reqColor){
+					Palm.WinSetForeColor(colCacheI[i]);
+					curColorIndex = colCacheI[i];
+					return;
+				}
 			}
-		}
        
 
-		curColor.r = (byte)r;
-		curColor.g = (byte)g;
-		curColor.b = (byte)b;
+			// new color, set it and cache it
+			curColor.r = (byte)r;
+			curColor.g = (byte)g;
+			curColor.b = (byte)b;
+			curColorIndex = Palm.WinRGBToIndex(curColor);
+			Palm.WinSetForeColor(curColorIndex);
 
-		closeIndex = Palm.WinRGBToIndex(curColor);
-		Palm.WinSetForeColor(closeIndex);
-		curColIndex = closeIndex;
-
-		colCache[curCol] = reqColor;
-		colCacheI[curCol] = closeIndex;
-		curCol = (curCol + 1) % CACHE_SIZE;
-		if(numColsCached < CACHE_SIZE) numColsCached++;
-
+			// now cache the color
+			colCache[curCol] = reqColor;
+			colCacheI[curCol] = curColorIndex;
+			curCol = (curCol + 1) % CACHE_SIZE;
+			if(numColsCached < CACHE_SIZE) numColsCached++;
+		} // handling setting the colors and managing our color cache
 	}
 
 	/**
@@ -745,4 +776,16 @@ public class Graphics
 		Palm.WinDrawChars(sDisplay,sDisplay.length(),80,0);
 		waba.sys.Vm.sleep(500);
 	}
+
+	/**
+	* Return a String with the current translation coordiantes
+	*<br>
+	* Useful for debugging.
+	*
+	*/
+	public String toString()
+	{
+		return "Graphics("+tx+","+ty+")"; //here
+	}
+
 }
