@@ -7,14 +7,14 @@ components="/Users/stephen/cvsroot/releases/components/ccprobe-macos-classic"
 doc="/Users/stephen/cvsroot/releases/doc"
 labbook="/Users/stephen/cvsroot/Xml/LabBookXSL"
 
-rm -f $destination/*
-rm -f $download/*
+rm -rf $destination/*
+rm -rf $download/*
 
 cp $bin/CCProbe.jar  $destination
 cp $doc/ccprobe-macos-classic/* $destination
 cp $doc/all/* $destination
 cp $labbook/LabBook.PDB $destination
-cp $components/* $destination
+/Developer/Tools/CpMac $components/CCProbe $components/CCProbe.properties $destination
 
 echo $destination
 ls -l $destination

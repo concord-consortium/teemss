@@ -15,7 +15,7 @@ cp $bin/CCProbe.lnk  $destination
 cp $doc/ccprobe-pocketpc/* $destination
 cp $doc/all/* $destination
 cp $labbook/LabBook.PDB $destination
-cp $components/* $destination
+cp -r $components/* $destination
 
 echo $destination
 ls -l $destination

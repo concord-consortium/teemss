@@ -1,0 +1,3 @@
+#! /bin/sh
+sftp -b sftp-put-batchfile stephen@concord.org
+

@@ -10,11 +10,11 @@ labbook="/Users/stephen/cvsroot/Xml/LabBookXSL"
 rm -rf $destination/*
 rm -rf $download/*
 
-cp $bin/CCProbe.jar  $destination
 cp $doc/ccprobe-macosx/* $destination
 cp $doc/all/* $destination
 cp $labbook/LabBook.PDB $destination
-cp $components/* $destination
+/Developer/Tools/CpMac -r $components/* $destination
+cp $bin/CCProbe.jar  $destination/CCProbe.app/Contents/Resources/Java/            
 
 echo $destination
 ls -l $destination
