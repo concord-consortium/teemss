@@ -5,8 +5,10 @@ public class DefaultFactory
 {
 	final public static int DEFAULT_FACTORY 	= 0x0001;
 
-/*
-*/
+	public DefaultFactory()
+	{
+		super(DEFAULT_FACTORY);
+	}
 
     final public static int UNDEFINED 			=0;
     final public static int DICTIONARY 			=1;
@@ -17,7 +19,8 @@ public class DefaultFactory
     final public static int DRAWING 			= 9;
     final public static int IMAGE 				= 11;
 
-	public LabObject constructObj(int objectType){
+	public LabObject constructObj(int objectType)
+    {
 		LabObject obj = null;
 		switch(objectType){
 			case DICTIONARY:
@@ -44,9 +47,7 @@ public class DefaultFactory
 		}
 		return obj;
 	}
-	public int getFactoryType(){
-		return DEFAULT_FACTORY;
-	}
+
 	public void createLabBookObjDescriptors(){
 		labBookObjDesc = new LabObjDescriptor[8];
 		labBookObjDesc[0] = new LabObjDescriptor("Folder",DICTIONARY);
@@ -58,4 +59,29 @@ public class DefaultFactory
 		labBookObjDesc[7] = new LabObjDescriptor("Image",IMAGE);
 	}
 
+	public static LabObject create(int objectType)
+	{
+		if(me == null) return null;
+		return me.makeNewObj(objectType);
+	}
+
+	public static LObjDictionary createDictionary()
+	{
+		return (LObjDictionary)create(DICTIONARY);
+	}
+
+	public static LObjQuestion createQuestion()
+	{
+		return (LObjQuestion) create(QUESTION);
+	}
+
+	public static LObjOutputSet createOutputSet()
+	{
+		return (LObjOutputSet) create(OUTPUT_SET);
+	}
+
+	public static LObjDocument createDocument()
+	{
+		return (LObjDocument) create(DOCUMENT);
+	}
 }

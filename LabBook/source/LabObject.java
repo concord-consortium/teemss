@@ -10,6 +10,7 @@ public abstract class LabObject
     public String name = null;
     public LabObjectPtr ptr;
     int objectType = -1;
+	public LabObjectFactory factory;
     public static LabBook lBook;
 
 	public LabObject(int type)

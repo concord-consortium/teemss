@@ -351,7 +351,7 @@ public class LObjDictionary extends LabObject
     public LabObject copy()
     {
 		Debug.println("Copying a dictionary");
-		LObjDictionary me = new LObjDictionary();
+		LObjDictionary me = DefaultFactory.createDictionary();
 		if(hasMainObject){
 			Debug.println("  adding mainObject");
 			LObjSubDict oldMO = getMainObj();

@@ -24,23 +24,20 @@ public class LObjQuestion extends LObjSubDict
 		super(DefaultFactory.QUESTION);
     }
 
-    public static LObjDictionary makeNewQuestionSet()
+    public static LObjOutputSet makeNewQuestionSet()
     {
-		LObjQuestion me = new LObjQuestion();
-		LObjDictionary dict = new LObjDictionary();
-		dict.setMainObj(me);
-		dict.name = "Question_dict";
+		LObjOutputSet output = DefaultFactory.createOutputSet();
 
-		LObjOutputSet output = LObjOutputSet.makeNew();
-
-		LObjDictionary qsDict = new LObjDictionary();
+		LObjDictionary qsDict = DefaultFactory.createDictionary();
 		qsDict.name = "Questions";
 		qsDict.viewType = qsDict.PAGING_VIEW;
 		output.setMainObject((LabObject)qsDict);
-		me.setOutputSet(output);
-		qsDict.setObjTemplate(me.dict);
 
-		return me.outputSet.dict;
+		LObjQuestion me = DefaultFactory.createQuestion();
+		me.setOutputSet(output);
+		qsDict.setObjTemplate(me);
+
+		return output;
     }
 
     public LabObjectView getView(ViewContainer vc, boolean edit, LObjDictionary curDict)
@@ -116,7 +113,7 @@ public class LObjQuestion extends LObjSubDict
     {
 		if(questionText == null){
 			// Need
-			questionText = new LObjDocument();
+			questionText = DefaultFactory.createDocument();
 			questionText.name = "Text";
 			setObj(questionText, 1);
 		}
@@ -125,7 +122,7 @@ public class LObjQuestion extends LObjSubDict
     
     public LabObject copy()
     {
-		LObjQuestion me = new LObjQuestion();
+		LObjQuestion me = DefaultFactory.createQuestion();
 		me.outputSet = outputSet;	
 		return me;
     }

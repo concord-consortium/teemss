@@ -27,60 +27,55 @@ public class LObjOutputSet extends LObjSubDict
 
     public void setOutputDict(LObjDictionary outDict)
     {
-	outputDict = outDict;
-	setObj(outDict, 2);
+		outputDict = outDict;
+		setObj(outDict, 2);
     }
 
-    public static LObjOutputSet makeNew()
-    {
-	LObjOutputSet me = new LObjOutputSet();
-	LObjDictionary dict = new LObjDictionary();
-	dict.setMainObj(me);
-	dict.name = "OutputSet";
-	me.name = "OutputSet_obj";
-	dict.hideChildren = true;
-	return me;
+	public void init()
+	{
+		super.init();
+		name = "OutputSet";
     }
+
     public LObjOutputSet(boolean dud){
-	this();
-	
+		this();	
     }
 
     public void setMainObject(LabObject obj)
     {
-	mainObject = obj;
-	setObj(obj, 1);
+		mainObject = obj;
+		setObj(obj, 1);
     }
 
     public void setCurOutput(LabObject obj)
     {
-	curOutput = obj;
-	setObj(obj, 0);
+		curOutput = obj;
+		setObj(obj, 0);
     }
 
     public void newCurOutput(LabObject obj)
     {
-	curOutput = obj;
-	setObj(obj, 0);
-	if(outputDict != null){
-	    outputDict.add(obj);
-	}
+		curOutput = obj;
+		setObj(obj, 0);
+		if(outputDict != null){
+			outputDict.add(obj);
+		}
     }
 
     public LabObjectView getView(ViewContainer vc, boolean edit, LObjDictionary curDict)
     {
-	if(mainObject == null) return null;
+		if(mainObject == null) return null;
 
-	if(outputDict == null ||
-	   outputDict.getChildCount() == 0 ||
-	   edit || 
-	   skipChoice){
-	    skipChoice = false;
-	    mObjCont = vc;
-	    return mainObject.getView(this, edit);
-	}
+		if(outputDict == null ||
+		   outputDict.getChildCount() == 0 ||
+		   edit || 
+		   skipChoice){
+			skipChoice = false;
+			mObjCont = vc;
+			return mainObject.getView(this, edit);
+		}
 
-	return new LObjOutputSetChoice(vc, this);
+		return new LObjOutputSetChoice(vc, this);
 		
     }
 
@@ -92,29 +87,29 @@ public class LObjOutputSet extends LObjSubDict
 
     public void done(LabObjectView source)
     {
-	// popup save output menu
-	mObjCont.done(source);
+		// popup save output menu
+		mObjCont.done(source);
     }
     
     public void reload(LabObjectView source){mObjCont.reload(source);}
 
     public void writeExternal(DataStream out)
     {
-	super.writeExternal(out);
+		super.writeExternal(out);
 	
     }
 
     public void readExternal(DataStream in)
     {
-	super.readExternal(in);
+		super.readExternal(in);
     }
 
     public void setDict(LObjDictionary dict)
     {
-	super.setDict(dict);
-	curOutput = getObj(0);
-	mainObject = getObj(1);
-	outputDict = (LObjDictionary)getObj(2);
+		super.setDict(dict);
+		curOutput = getObj(0);
+		mainObject = getObj(1);
+		outputDict = (LObjDictionary)getObj(2);
     }
 
 }

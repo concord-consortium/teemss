@@ -95,11 +95,16 @@ public class LabBook
 
 	public static LabObject makeNewObj(int type)
 	{
+		return makeNewObj(type, true);
+	}
+
+	public static LabObject makeNewObj(int type, boolean init)
+	{
 		if(objFactories == null) return null;
 		LabObject newObj = null;
 		for(int i=0;i<objFactories.length; i++){
 			LabObjectFactory objFact = objFactories[i];
-			newObj = objFact.makeNewObj(type);
+			newObj = objFact.makeNewObj(type, init);
 			if(newObj != null) break;
 		}
 
@@ -383,7 +388,7 @@ public class LabBook
 		// We need a way to instanciate object.
 		// We could have a list of objects and every new lab object will
 		// need to be added to this list.
-		lObj = makeNewObj(objectType);
+		lObj = makeNewObj(objectType, false);
 		if(lObj == null){
 			Debug.println("error: objectType: " + objectType + " devId: " + lObjPtr.devId +
 						  " objId: " + lObjPtr.objId);

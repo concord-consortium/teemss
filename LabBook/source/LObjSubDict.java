@@ -17,17 +17,12 @@ public abstract class LObjSubDict extends LabObject
 	 */
     public void init(){
     	super.init();
-    	initSubDict();
-    }
-    
-    public void initSubDict()
-    {
-		dict = new LObjDictionary();
+		dict = DefaultFactory.createDictionary();
 		dict.setMainObj(this);
 		dict.hideChildren = true;
 		dict.store();
     }
-
+    
     public void setDict(LObjDictionary d){
 		dict = d;
     }
