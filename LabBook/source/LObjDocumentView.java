@@ -74,6 +74,8 @@ public class LObjDocumentView extends LabObjectView
 	    doc.name = nameEdit.getText();
 	}
 	doc.text = tArea.getText();
+	
+	super.close();
     }
 
     public void onEvent(Event e)

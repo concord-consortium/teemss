@@ -15,8 +15,8 @@ public class LObjDataControl extends LObjSubDict
     public static LObjDataControl makeNew()
     {
 	LObjDataControl me = new LObjDataControl();
-	me.dict = new LObjDictionary();
-	me.dict.setMainObj(me);
+	LObjDictionary dict = new LObjDictionary();
+	dict.setMainObj(me);
 	LObjGraph graph = new LObjGraph();
 	graph.name = "Graph";
 	me.setGraph(graph);
@@ -37,22 +37,17 @@ public class LObjDataControl extends LObjSubDict
 	setObj(g, 0);
     }
 
-    public void setDataDict(LObjDictionary d)
-    {
-	setObj(d, 1);
-    }
-
     public LObjDataControl()
     {
 	objectType = DATA_CONTROL;
     }
 
-    public LabObjectView getView(LObjViewContainer vc, boolean edit)
+    public LabObjectView getView(LObjViewContainer vc, boolean edit, LObjDictionary curDict)
     {
 	if(edit){
-	    return new LObjDataControlEditView(vc, this);
+	    return new LObjDataControlEditView(vc, this, curDict);
 	} else {
-	    return new LObjDataControlView(vc, this);
+	    return new LObjDataControlView(vc, this, curDict);
 	}
     }
 

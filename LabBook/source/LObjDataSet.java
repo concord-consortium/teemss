@@ -35,11 +35,11 @@ public class LObjDataSet extends LObjSubDict
     public static LObjDataSet makeNewDataSet()
     {
 	LObjDataSet me = new LObjDataSet();
-	me.dict = new LObjDictionary();
-	me.dict.setMainObj(me);
-	me.dict.name = "DataSet";
+	LObjDictionary dict = new LObjDictionary();
+	dict.setMainObj(me);
+	dict.name = "DataSet";
 	me.name = "DataSetHeader";
-	me.dict.hideChildren = true;
+	dict.hideChildren = true;
 	return me;	
     }
 
@@ -65,7 +65,7 @@ public class LObjDataSet extends LObjSubDict
 
     public boolean needReadChunks = false;
 
-    public LabObjectView getView(LObjViewContainer vc, boolean edit)
+    public LabObjectView getView(LObjViewContainer vc, boolean edit, LObjDictionary curDict)
     {
 	if(hasDataView){
 	    LObjGraph dataView = (LObjGraph)getObj(0);

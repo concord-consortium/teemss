@@ -25,6 +25,9 @@ public class LabBookFile implements LabBookDB
 
     int curDevId;
     int nextObjId;
+    int rootDevId;
+    int rootObjId;
+
 
     static public void writeString(DataStream ds, String s)
     {
@@ -127,6 +130,8 @@ public class LabBookFile implements LabBookDB
 	} else {
 	    curDevId = ds.readInt();
 	    nextObjId = ds.readInt();
+	    rootDevId = ds.readInt();
+	    rootObjId = ds.readInt();
 	}
 
 	if(!readIndex()){
@@ -161,6 +166,12 @@ public class LabBookFile implements LabBookDB
     {
 	return nextObjId++;
     }
+
+    public int getRootDevId(){return rootDevId;}
+    public int getRootObjId(){return rootObjId;}
+
+    public void setRootDevId(int id){ rootDevId = id;}
+    public void setRootObjId(int id){ rootObjId = id;}
 
     public boolean save()
     {

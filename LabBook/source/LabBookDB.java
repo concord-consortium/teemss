@@ -16,5 +16,10 @@ public interface LabBookDB
     public int getDevId();
     
     public int getNewObjId();
-       
+
+    public int getRootDevId();
+    public int getRootObjId();
+
+    public void setRootDevId(int id);
+    public void setRootObjId(int id);
 }

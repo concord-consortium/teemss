@@ -24,16 +24,12 @@ public class CCProbe extends ExtraMainWindow
 
     public void onStart()
     {
-	Dialog.showImages = false;
-	ImagePane.showImages = false;
+	// Dialog.showImages = false;
+	// ImagePane.showImages = false;
 
 	graph.Bin.START_DATA_SIZE = 25000;
 	graph.LargeFloatArray.MaxNumChunks = 25;
 
-	if(waba.sys.Vm.getPlatform().equals("PalmOS")){
-	    graph.Bin.START_DATA_SIZE = 4000;
-	    graph.LargeFloatArray.MaxNumChunks = 4;
-	}
 	menuBar = new MenuBar();
 
 	// Notice the width and height will change here
@@ -53,7 +49,15 @@ public class CCProbe extends ExtraMainWindow
 
 	add(me);
 
-	LabBookDB lbDB = new LabBookFile("LabBook");
+	LabBookDB lbDB;
+	if(waba.sys.Vm.getPlatform().equals("PalmOS")){
+	    graph.Bin.START_DATA_SIZE = 4000;
+	    graph.LargeFloatArray.MaxNumChunks = 4;
+	    lbDB = new LabBookCatalog("LabBook");
+	} else {
+	    lbDB = new LabBookFile("LabBook");
+	}
+
 	if(lbDB.getError()){
 	    // Error;
 	    exit(0);

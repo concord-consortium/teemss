@@ -20,7 +20,10 @@ public abstract class LabObjectView extends Container
 
     public abstract void layout(boolean sDone);
 
-    public abstract void close();
+    public void close()
+    {
+	lObj.store();
+    }
 
     public LabObject getLabObject()
     {

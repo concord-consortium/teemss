@@ -17,7 +17,7 @@ public LObjUConvertorView view = null;
 		objectType = UCONVERTOR;
 
     }
-    public LabObjectView getView(LObjViewContainer vc, boolean edit)
+    public LabObjectView getView(LObjViewContainer vc, boolean edit, LObjDictionary curDict)
     {
     	
     	if(view == null){

@@ -16,7 +16,7 @@ public LObjDrawingView view = null;
 	objectType = DRAWING;
 
     }
-    public LabObjectView getView(LObjViewContainer vc, boolean edit)
+    public LabObjectView getView(LObjViewContainer vc, boolean edit, LObjDictionary curDict)
     {
     	
     	if(view == null){
@@ -110,6 +110,7 @@ class LObjDrawingView extends LabObjectView
     public void close()
     {
     	scribble.close();
+	super.close();
     }
 
     public void onEvent(Event e)

@@ -28,7 +28,7 @@ public class LObjQuestionEditView extends LabObjectView
     {
 	super(vc);
 	quest = lq;
-	lObj = (LabObject)lObj;
+	lObj = (LabObject)quest;
 	typeChoice.setSelectedIndex(quest.questionType);
 	if(quest.options != null){
 	    options = quest.options.getView(null, true);
@@ -150,6 +150,7 @@ public class LObjQuestionEditView extends LabObjectView
 	    quest.dict.name = nameEdit.getText();
 	}
 	doc.close();
+	super.close();
     }
 
 }

@@ -27,9 +27,9 @@ public class LObjQuestion extends LObjSubDict
     public static LObjDictionary makeNewQuestionSet()
     {
 	LObjQuestion me = new LObjQuestion();
-	me.dict = new LObjDictionary();
-	me.dict.setMainObj(me);
-	me.dict.name = "Question_dict";
+	LObjDictionary dict = new LObjDictionary();
+	dict.setMainObj(me);
+	dict.name = "Question_dict";
 
 	LObjOutputSet output = LObjOutputSet.makeNew();
 
@@ -43,8 +43,15 @@ public class LObjQuestion extends LObjSubDict
 	return me.outputSet.dict;
     }
 
-    public LabObjectView getView(LObjViewContainer vc, boolean edit)
+    public LabObjectView getView(LObjViewContainer vc, boolean edit, LObjDictionary curDict)
     {
+	outputSet = (LObjOutputSet)getObj(0);
+	questionText = (LObjDocument)getObj(1);
+
+	if(questionType == MULTIPLE_CHOICE){
+	    options = (LObjDictionary)getObj(2);
+	}	
+
 	if(edit){
 	    return new LObjQuestionEditView(vc, this);
 	} else {
@@ -71,12 +78,6 @@ public class LObjQuestion extends LObjSubDict
 	super.readExternal(in);
 	questionType = in.readInt();
 
-	outputSet = (LObjOutputSet)getObj(0);
-	questionText = (LObjDocument)getObj(1);
-
-	if(questionType == MULTIPLE_CHOICE){
-	    options = (LObjDictionary)getObj(2);
-	}	
     }
 
     public void setDict(LObjDictionary d)
@@ -88,7 +89,7 @@ public class LObjQuestion extends LObjSubDict
 	    setObj(outputSet, 0);
 	} 
 	if(questionText != null) setObj(questionText, 1);
-	if(options != null) setObj(outputSet, 2);
+	if(options != null) setObj(options, 2);
     }
 
     public void setOutputSet(LObjOutputSet os)

@@ -13,6 +13,7 @@ public class LObjDataControlView extends LabObjectView
 {
     LObjDataControl dc;
     LObjGraphView gv;
+    LObjDictionary dataDict = null;
 
     Label nameLabel = null;
     Edit nameEdit = null;
@@ -24,7 +25,8 @@ public class LObjDataControlView extends LabObjectView
 
     Menu menu = new Menu("Probe");
 
-    public LObjDataControlView(LObjViewContainer vc, LObjDataControl dc)
+    public LObjDataControlView(LObjViewContainer vc, LObjDataControl dc, 
+			       LObjDictionary curDict)
     {
 	super(vc);
 
@@ -39,6 +41,7 @@ public class LObjDataControlView extends LabObjectView
 
 	this.dc = dc;
 	lObj = dc;
+	dataDict = curDict;
     }
 
     public void dialogClosed(DialogEvent e)
@@ -132,7 +135,6 @@ public class LObjDataControlView extends LabObjectView
 		}
 		LObjGraph graph = (LObjGraph)dc.getObj(0);
 		dSet.dict.name = graph.name;
-		LObjDictionary dataDict = (LObjDictionary)dc.getObj(1);
 		if(dataDict != null){
 		    dataDict.add(dSet.dict);
 		    dSet.writeChunks();
@@ -161,11 +163,10 @@ public class LObjDataControlView extends LabObjectView
 		}
 		dProf.name = "Profile";
 		
-		LObjDictionary dataDict = (LObjDictionary)dc.getObj(1);
 		if(dataDict != null){
 		    dataDict.add(dProf);
-		    dc.lBook.store(dProf);
-		    dc.lBook.store(dataDict);
+		    dataDict.store();
+		    dProf.store();
 		} 
 		
 	    }
@@ -181,7 +182,7 @@ public class LObjDataControlView extends LabObjectView
 	}
 
 	gt.onExit();
-
+	super.close();
     }
 
     public void onEvent(Event e)

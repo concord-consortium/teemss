@@ -39,6 +39,7 @@ public class LabBook
     int objIndex [];
 
     static LabObjectPtr nullLObjPtr = new LabObjectPtr(-1,-1,null);
+    LabObjectPtr rootPtr = null;
 
     LabBookDB db;
 
@@ -51,7 +52,12 @@ public class LabBook
     {
 	this.db = db;
 	curDeviceId = db.getDevId();
+	rootPtr = new LabObjectPtr(db.getRootDevId(), db.getRootObjId(), null);
+    }
 
+    public LabObjectPtr getRoot()
+    {
+	return rootPtr;
     }
 
     // add this object to list to be stored
@@ -62,8 +68,6 @@ public class LabBook
 
     Vector toBeStored = new Vector();
     Vector alreadyStored = null;
-
-
     public LabObjectPtr store(LabObject lObj)
     {
 	LabObjectPtr lObjPtr;
@@ -213,8 +217,7 @@ public class LabBook
 
 	for(i=0; i<numLoaded; i++){
 	    curObjPtr = (LabObjectPtr)loaded.get(i);
-	    if(curObjPtr.devId == lObj.ptr.devId && 
-	       curObjPtr.objId == lObj.ptr.objId){
+	    if(curObjPtr.equals(lObj.ptr)){
 		break;
 	    }
 	}
@@ -284,8 +287,7 @@ public class LabBook
 
 	for(i=0; i<numLoaded; i++){
 	    curObjPtr = (LabObjectPtr)loaded.get(i);
-	    if(curObjPtr.devId == lObjPtr.devId && 
-	       curObjPtr.objId == lObjPtr.objId){
+	    if(curObjPtr.equals(lObjPtr)){
 		lObjPtr.obj = curObjPtr.obj;
 		return curObjPtr.obj;
 	    }
@@ -326,6 +328,54 @@ public class LabBook
 
 	return lObj;
     }
+
+    public void export(LabObjectPtr lObjPtr, DataStream ds)
+    {
+
+    }
+
+    public void export(LabObjectPtr lObjPtr, Vector ptrs, Vector bufs)
+    {
+	BufferStream bsIn = new BufferStream();
+	DataStream dsIn = new DataStream(bsIn);
+
+	byte [] curObjBuf = db.readObjectBytes(lObjPtr.devId, lObjPtr.objId);
+	ptrs.add(lObjPtr);
+	bufs.add(curObjBuf);
+
+	// set bufferStream buffer
+	// read buffer by
+	bsIn.setBuffer(curObjBuf);
+
+	int objectType = dsIn.readInt();
+	LabObject lObj = null;
+
+	// We need a way to instanciate object.
+	// We could have a list of objects and every new lab object will
+	// need to be added to this list.
+	lObj = LabObject.getNewObject(objectType);
+	if(lObj == null){
+	    Debug.println("error: objectType: " + objectType + " devId: " + lObjPtr.devId +
+			       " objId: " + lObjPtr.objId);
+	    return;
+	}
+	lObj.ptr = lObjPtr;
+	lObjPtr.obj = lObj;
+	
+	if(lObj instanceof LObjDictionary){
+	    lObj.readExternal(dsIn);
+	    LObjDictionary dict = (LObjDictionary)lObj;
+	    for(int i=0; i<dict.getChildCount(); i++){
+		export((LabObjectPtr)dict.objects.get(i), ptrs, bufs);
+	    }
+	}
+    }
+
+    public LabObjectPtr importPtr(DataStream ds)
+    {
+	return null;
+    }
+    
 
     public boolean close()
     {

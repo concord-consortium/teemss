@@ -5,6 +5,7 @@ import extra.io.*;
 import org.concord.waba.extra.ui.*;
 
 public class LObjDictionary extends LabObject
+ implements TreeNode
 {
     public final static int TREE_VIEW = 0;
     public final static int PAGING_VIEW = 1;
@@ -23,12 +24,12 @@ public class LObjDictionary extends LabObject
 
     }
 
-    public LabObjectView getView(LObjViewContainer vc, boolean edit)
+    public LabObjectView getView(LObjViewContainer vc, boolean edit, LObjDictionary curDict)
     {
 	if(hasMainObject){
 	    LObjSubDict mo = getMainObj();
 	    if(mo != null){
-		return mo.getView(vc, edit);
+		return mo.getView(vc, edit, curDict);
 	    } else return null;
 	}
 
@@ -43,7 +44,7 @@ public class LObjDictionary extends LabObject
     public LObjSubDict getMainObj()
     {
 	if(hasMainObject & objects.getCount() > 0){
-	    return (LObjSubDict)(lBook.load((LabObjectPtr)(objects.get(0))));
+	    return (LObjSubDict)(getObj((LabObjectPtr)(objects.get(0))));
 	}
 
 	return null;
@@ -57,6 +58,7 @@ public class LObjDictionary extends LabObject
 	    objects.insert(0, lBook.store(mainObj));
 	} 
 
+	mainObj.setDict(this);
 	hasMainObject = true;
 	objTemplateIndex = 1;
 	
@@ -77,7 +79,7 @@ public class LObjDictionary extends LabObject
     public LabObject getObjTemplate()
     {
 	if(hasObjTemplate){
-	    return lBook.load((LabObjectPtr)(objects.get(0)));
+	    return getObj((LabObjectPtr)(objects.get(0)));
 	}
 
 	return null;
@@ -86,23 +88,30 @@ public class LObjDictionary extends LabObject
     public void add(LabObject lObj)
     {
 	objects.add(lBook.store(lObj));
+	lBook.store(this);
     }
 
     public void insert(LabObjectPtr lObj, int index)
     {
 	objects.insert(index, lObj);
+	lBook.store(this);
+    }
+
+    public void insert(LabObject node, int index)
+    {
+	objects.insert(index, lBook.store(node));
+	lBook.store(this);
     }
 
     public void insert(TreeNode node, int index)
     {
-	if(node instanceof LabObject){
-	    objects.insert(index, lBook.store((LabObject)node));
+	if(node instanceof LObjDictionary){
+	    insert((LabObject)node, index);
 	} else if(node instanceof LabObjectPtr){
-	    objects.insert(index, node);
+	    insert((LabObjectPtr)node, index);
 	} else {
 	    Debug.println("Weirdness is happening");
 	}
-	
     }
 
     public void remove(TreeNode node)
@@ -110,7 +119,7 @@ public class LObjDictionary extends LabObject
 	Debug.println("Removing node");
 	int index = getIndex(node);
 	objects.del(index);
-
+	lBook.store(this);
 	// Should tell the labbook we don't care about this obj any more
     }
 
@@ -119,6 +128,7 @@ public class LObjDictionary extends LabObject
 	if(index < 0 || index >= objects.getCount()) return;
 	
 	objects.del(index);
+	lBook.store(this);
     }
 
     public int getChildCount()
@@ -144,7 +154,7 @@ public class LObjDictionary extends LabObject
 	for(i=0; i<size; i++){
 	    LabObjectPtr ptr = LabObjectPtr.readExternal(ds);
 	    objects.add(ptr);
-	    Debug.println(" Reading: " + ptr.devId + ", " + ptr.objId);
+	    Debug.println(" Reading: " + ptr.debug());
 	}
 
     }
@@ -165,7 +175,7 @@ public class LObjDictionary extends LabObject
 	for(i=0; i<size; i++){
 	    LabObjectPtr ptr = (LabObjectPtr)objects.get(i);
 	    ptr.writeExternal(ds);
-	    Debug.println(" Writing: " + ptr.devId + ", " + ptr.objId);
+	    Debug.println(" Writing: " + ptr.debug());
 	}
     }
 
@@ -173,14 +183,20 @@ public class LObjDictionary extends LabObject
     {
 	if(index < 0 || index >= objects.getCount()) return null;
 
-	return (lBook.load((LabObjectPtr)(objects.get(index))));
+	LabObjectPtr ptr = (LabObjectPtr)(objects.get(index));
+	LabObject obj = lBook.load(ptr);
+	if(obj instanceof LObjDictionary){ 
+	    return (TreeNode)obj;
+	} else {
+	    return ptr;
+	}
     }
 
     public static TreeNode getNode(LabObject obj)
     {
 
 	if(obj instanceof LObjDictionary){
-	    return obj;
+	    return (TreeNode)obj;
 	} else {
 	    LabObjectPtr ptr = lBook.store(obj);
 	    ptr.name = obj.name;
@@ -213,7 +229,12 @@ public class LObjDictionary extends LabObject
 	    LabObjectPtr ptr = ((LabObjectPtr)objects.get(i));
 	    LabObject obj = lBook.load(ptr);
 	    if(obj instanceof LObjDictionary){
-		children[i] = obj;
+		children[i] = (TreeNode)obj;
+	    } else if(obj instanceof LObjSubDict &&
+		  hasMainObject){
+		((LObjSubDict)obj).setDict(this);
+		ptr.name = "..main_obj..";
+		children[i] = ptr;
 	    } else {
 		if(obj == null){
 		    Debug.println("childArray: Null Object");
@@ -225,6 +246,21 @@ public class LObjDictionary extends LabObject
 	    }
 	}
 	return children;
+     }
+
+    public LabObject getObj(TreeNode node)
+    {
+	if(node instanceof LabObject){
+	    return (LabObject)node;
+	} else if(node instanceof LabObjectPtr){
+	    LabObject obj = lBook.load((LabObjectPtr)node);
+	    if(hasMainObject &&
+	       ((LabObjectPtr)(objects.get(0))).equals(node)){
+		((LObjSubDict)obj).setDict(this);
+	    }
+	    return obj;
+	}
+	return null;
     }
 
     /*
@@ -249,8 +285,8 @@ public class LObjDictionary extends LabObject
 	Debug.println("getIndex searching " + numObjs + " objects");
 	for(int i=0; i<numObjs; i++){
 	    curPtr = (LabObjectPtr)objects.get(i);
-	    Debug.println(" Checking node: dId: " + curPtr.devId + " oId: " + curPtr.objId);
-	    if(ptr.devId == curPtr.devId && ptr.objId == curPtr.objId){
+	    Debug.println(" Checking node: " + curPtr.debug());
+	    if(ptr.equals(curPtr)){
 		return i;
 	    } 
 	}
@@ -268,10 +304,20 @@ public class LObjDictionary extends LabObject
 	    LObjSubDict newMO = (LObjSubDict)oldMO.copy();
 	    // the order of the mainObj and setDict seems to matter???
 	    me.setMainObj(newMO);
-	    newMO.setDict(me);
 	    
 	}
 	me.viewType = viewType;
 	return me;
     }
+
+    public TreeNode [] parentArray(){return null;}
+
+    public void addParent(TreeNode parent){}
+
+    public String toString()
+    {
+	if(name == null) return "..Null..";
+	return name;
+    }
+
 }

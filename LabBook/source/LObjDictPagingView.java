@@ -182,29 +182,24 @@ public class LObjDictPagingView extends LabObjectView
 
 	TreeNode curNode = childArray[index];
 	LabObject obj = null;
-	if(curNode instanceof LabObjectPtr){
-	    if(index == 0 &&
-	       curNode.toString().equals("..empty..")){
-		if(dict.hasObjTemplate){
-		    obj = dict.getObjTemplate().copy();
-		} else {
-		    obj = LabObject.getNewObject(defaultNewObjectType);
-		}
-
-		obj.name = "New" + newIndex;
-		newIndex++;
-		dict.insert(obj, 0);
-		childArray = dict.childArray();
+	if(index == 0 &&
+	   curNode.toString().equals("..empty..")){
+	    if(dict.hasObjTemplate){
+		obj = dict.getObjTemplate().copy();
 	    } else {
-		obj = dict.lBook.load((LabObjectPtr)curNode);
-		if(obj == null) Debug.println("showPage: object not in database: dI " +
-						   ((LabObjectPtr)curNode).devId + 
-						   " oI " + ((LabObjectPtr)curNode).objId);
+		obj = LabObject.getNewObject(defaultNewObjectType);
 	    }
-	} else if(curNode instanceof LObjDictionary){	
-	    obj = (LabObject)curNode;
-	}
-
+	    
+	    obj.name = "New" + newIndex;
+	    newIndex++;
+	    dict.insert(obj, 0);
+	    childArray = dict.childArray();
+	} else {
+	    obj = dict.getObj(curNode);
+	    if(obj == null) Debug.println("showPage: object not in database: " +
+					  ((LabObjectPtr)curNode).debug());
+	    
+	} 
 
 	if(obj == null) return;
        	if(obj == curObj) return;
@@ -240,6 +235,7 @@ public class LObjDictPagingView extends LabObjectView
 	    lObjView.close();
 	}
 
+	super.close();
 	// Commit ???
 	// Store ??
     }

@@ -4,16 +4,21 @@ import extra.io.*;
 
 public abstract class LObjSubDict extends LabObject
 {
-    LObjDictionary dict;
+    LObjDictionary dict = null;
 
     public void setDict(LObjDictionary d){
 	dict = d;
     }
 
+    public void store()
+    {
+	if(dict != null) dict.store();
+	super.store();
+    }
+
     public void writeExternal(DataStream out)
     {
 	super.writeExternal(out);
-	lBook.store(dict).writeExternal(out);
     }
 
 
@@ -22,7 +27,6 @@ public abstract class LObjSubDict extends LabObject
     public void readExternal(DataStream in)
     {
 	super.readExternal(in);
-	dict = ((LObjDictionary)lBook.load(LabObjectPtr.readExternal(in)));
     }
 
     public void setObj(LabObject obj, int id)
@@ -44,9 +48,13 @@ public abstract class LObjSubDict extends LabObject
 
     public LabObject getObj(int id)
     {
+	if(dict == null){
+	    return null;
+	}
+
 	// This assumes the dictionary doesn't have a template
 	id++;
-	LabObject obj = (LabObject)dict.getChildAt(id);
+	LabObject obj = dict.getObj(dict.getChildAt(id));
 	if(obj == null) Debug.println("Got null obj from subDict");
 
 	return obj;

@@ -34,11 +34,11 @@ public class LObjOutputSet extends LObjSubDict
     public static LObjOutputSet makeNew()
     {
 	LObjOutputSet me = new LObjOutputSet();
-	me.dict = new LObjDictionary();
-	me.dict.setMainObj(me);
-	me.dict.name = "";
+	LObjDictionary dict = new LObjDictionary();
+	dict.setMainObj(me);
+	dict.name = "OutputSet";
 	me.name = "OutputSet_obj";
-	me.dict.hideChildren = true;
+	dict.hideChildren = true;
 	return me;
     }
     public LObjOutputSet(boolean dud){
@@ -67,7 +67,7 @@ public class LObjOutputSet extends LObjSubDict
 	}
     }
 
-    public LabObjectView getView(LObjViewContainer vc, boolean edit)
+    public LabObjectView getView(LObjViewContainer vc, boolean edit, LObjDictionary curDict)
     {
 	if(mainObject == null) return null;
 
@@ -107,6 +107,11 @@ public class LObjOutputSet extends LObjSubDict
     public void readExternal(DataStream in)
     {
 	super.readExternal(in);
+    }
+
+    public void setDict(LObjDictionary dict)
+    {
+	super.setDict(dict);
 	curOutput = getObj(0);
 	mainObject = getObj(1);
 	outputDict = (LObjDictionary)getObj(2);

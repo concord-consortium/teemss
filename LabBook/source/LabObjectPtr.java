@@ -69,4 +69,19 @@ public class LabObjectPtr implements TreeNode
 
     public String toString(){return name;}
 
+    public String debug(){return "devId " + devId + " objId " + objId;};
+
+    public boolean equals(TreeNode node){
+	if(node == this) return true;
+	if(node != null &&
+	   node instanceof LabObjectPtr){
+	    LabObjectPtr ptr = (LabObjectPtr)node;
+	    return devId == ptr.devId &&
+		    objId == ptr.objId;
+
+	}
+
+	return false;
+    }
+	  
 }

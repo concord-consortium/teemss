@@ -116,10 +116,12 @@ public class LObjGraphView extends LabObjectView
 	graph.ymax = av.getYmax();
 	graph.xmin = av.getXmin();
 	graph.xmax = av.getXmax();
-	graph.lBook.store(graph);
+	graph.store();
 	if(container != null){
 	    container.delMenu(this,menu);
 	}
+
+	super.close();
     }
 
     public void onEvent(Event e)

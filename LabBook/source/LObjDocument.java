@@ -21,7 +21,7 @@ public class LObjDocument extends LabObject
 	text = t;
     }
 
-    public LabObjectView getView(LObjViewContainer vc, boolean edit)
+    public LabObjectView getView(LObjViewContainer vc, boolean edit, LObjDictionary curDict)
     {
 	return new LObjDocumentView(vc, this);
     }

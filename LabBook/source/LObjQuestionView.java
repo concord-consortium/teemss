@@ -19,7 +19,7 @@ public class LObjQuestionView extends LabObjectView
     {
 	super(vc);
 	quest = lq;
-	lObj = (LabObject)lObj;
+	lObj = (LabObject)quest;
 	Debug.println("Opening QV for: " + lq.name);
     }
 
@@ -49,7 +49,8 @@ public class LObjQuestionView extends LabObjectView
 	    int index = ((LObjDictionary)(quest.outputSet.mainObject)).getIndex(quest.dict);
 	    Debug.println("Setting answer for " + quest.dict.name +  " #" + index + " in dict: " + 
 			       (LObjDictionary)(quest.outputSet.mainObject));
-	    answer = (LabObject)(((LObjDictionary)(quest.outputSet.curOutput)).getChildAt(index));
+	    LObjDictionary dict = (LObjDictionary)(quest.outputSet.curOutput);
+	    answer = dict.getObj((dict.getChildAt(index)));
 	    Debug.println(" Got answer: " + answer);
 	}
 
@@ -89,11 +90,10 @@ public class LObjQuestionView extends LabObjectView
 		for(int i=0; i<choices.length; i++){
 		    radios[i] = new Radio("");
 		    add(radios[i]);
-		    if(choices[i] instanceof LObjDictionary){
-			obj = (LabObject)choices[i];
-		    } else if(choices[i] instanceof LabObjectPtr){
-			obj = quest.lBook.load((LabObjectPtr)choices[i]);
-		    }
+		    obj = quest.options.getObj(choices[i]);
+
+		    // if(obj == null)  should check here or throw error
+
 		    options[i] = obj.getView(null, false);
 		    if(options[i] instanceof LObjDocumentView) ((LObjDocumentView)options[i]).showName = false;
 		    options[i].layout(false);
@@ -104,10 +104,7 @@ public class LObjQuestionView extends LabObjectView
 				choices[i] == answers[j]) ||
 			       (choices[i] instanceof LabObjectPtr &&
 				answers[j] instanceof LabObjectPtr &&
-				((LabObjectPtr)choices[i]).devId ==
-				((LabObjectPtr)answers[j]).devId &&
-				((LabObjectPtr)choices[i]).objId ==
-				((LabObjectPtr)answers[j]).objId)){
+				((LabObjectPtr)choices[i]).equals(((LabObjectPtr)answers[j])))){
 				radios[i].setChecked(true);
 				break;
 			    }
@@ -241,6 +238,7 @@ public class LObjQuestionView extends LabObjectView
 	    break;
 	}
 
+	super.close();
     }
 
 }

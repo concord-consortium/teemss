@@ -144,11 +144,6 @@ public class LObjDictionaryView extends LabObjectView
 		    LObjDataControl dc = LObjDataControl.makeNew();
 		    newObj = dc.dict;
 		    dc.dict.hideChildren = true;
-		    if(treeControl.getSelected() == null){
-			dc.setDataDict((LObjDictionary)treeModel.getRoot());
-		    } else {
-			dc.setDataDict((LObjDictionary)treeControl.getSelectedParent());
-		    }
 		    autoEdit = true;
 		} else if(objType.equals("Drawing")){
 		    newObj = new LObjDrawing();
@@ -193,18 +188,12 @@ public class LObjDictionaryView extends LabObjectView
 		    return;
 		}
 
-		if(selObj instanceof LabObject){
-		    ((LabObject)selObj).name = (String)e.getInfo();
-		    treeControl.repaint();
-		    dict.lBook.store(((LabObject)selObj));
-		    // repaint??
-		} else if(selObj instanceof LabObjectPtr){
-		    LabObject obj = dict.lBook.load((LabObjectPtr)selObj);
-		    if(obj != null){
-			obj.name = (String)e.getInfo();
-			dict.lBook.store(obj);
-		    }
+		LabObject obj = dict.getObj(selObj);
+		if(obj != null){
+		    obj.name = (String)e.getInfo();
+		    obj.store();
 		}
+
 		treeControl.reparse();
 		treeControl.repaint();
 	    }
@@ -218,9 +207,7 @@ public class LObjDictionaryView extends LabObjectView
 
 	if(e.getSource() == lObjView){
 	    if(e.getActionCommand().equals("Done")){
-		lObjView.close();
-		remove(lObjView);
-		add(me);
+		done(lObjView);
 	    }
 	} else if(e.getSource() == viewMenu){
 	    if(e.getActionCommand().equals("Paging View")){
@@ -257,25 +244,15 @@ public class LObjDictionaryView extends LabObjectView
     {
 	LabObject obj = null;
 	
-	if(curNode instanceof LabObjectPtr){
-	    obj = dict.lBook.load((LabObjectPtr)curNode);
-	    if(obj == null) Debug.println("showPage: object not in database: dI " +
-					       ((LabObjectPtr)curNode).devId + 
-					       " oI " + ((LabObjectPtr)curNode).objId);
-	} else if(curNode instanceof LObjDictionary){	
-	    obj = (LabObject)curNode;
-	}
-
-	if(obj == null){
-	    Debug.println("Weirdness in showPage");
-	    return;
-	}
+	obj = dict.getObj(curNode);
+	if(obj == null) Debug.println("showPage: object not in database: " +
+				      ((LabObjectPtr)curNode).debug());
 
 	delMenu(this, viewMenu);
 	delMenu(this, editMenu);
 
 	editStatus = edit;
-	lObjView = obj.getView(this, edit);
+	lObjView = obj.getView(this, edit, (LObjDictionary)treeControl.getSelectedParent());
 
 	if(lObjView == null){
 	    addMenu(this, editMenu);
@@ -283,7 +260,7 @@ public class LObjDictionaryView extends LabObjectView
 	    return;
 	}
 
-	dict.lBook.store(dict);
+	dict.store();
 
 	remove(me);
         lObjView.layout(true);
@@ -306,7 +283,12 @@ public class LObjDictionaryView extends LabObjectView
     {
 	if(source == lObjView){
 	    lObjView.close();
-	    dict.lBook.store(lObjView.lObj);
+	    
+
+	    // I'm trying to have all objects be responsible for 
+	    // their own storing now.
+	    // dict.lBook.store(lObjView.lObj);
+
 	    // I might want to do a commit here lets try it....
 	    // of course if we are embedded this might be a problem
 	    if(!dict.lBook.commit()){
@@ -331,7 +313,7 @@ public class LObjDictionaryView extends LabObjectView
 	    lObjView.close();
 	    remove(lObjView);
 	    
-	    lObjView = obj.getView(this, editStatus);
+	    lObjView = obj.getView(this, editStatus, (LObjDictionary)treeControl.getSelectedParent());
 	    lObjView.layout(true);
 	    lObjView.setRect(x,y,width,height);
 	    add(lObjView);
@@ -350,7 +332,8 @@ public class LObjDictionaryView extends LabObjectView
 	    container.delMenu(this,editMenu);
 	    container.delMenu(this,viewMenu);
 	}
-
+	
+	super.close();
 	// Commit ???
 	// Store ??
     }

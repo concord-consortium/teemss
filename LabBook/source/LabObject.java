@@ -4,7 +4,7 @@ import waba.ui.*;
 import extra.io.*;
 import org.concord.waba.extra.ui.*;
 
-public abstract class LabObject implements TreeNode
+public abstract class LabObject
 {
     final public static int DICTIONARY =1;
     final public static int FORM = 2;
@@ -77,37 +77,29 @@ public abstract class LabObject implements TreeNode
 
     }
 
-    public TreeNode [] childArray()
+    public boolean equals(TreeNode node)
     {
+	if(node == this) return true;
+	if(node instanceof LabObject){	    
+	    LabObject obj = (LabObject)node;
+	    return obj.ptr != null && ptr != null &&
+		ptr.equals(obj.ptr);
+	}
+
+	return false;
+    }
+	  
+    public LabObjectView getView(LObjViewContainer vc, boolean edit)    
+    {
+	return getView(vc, edit, null);
+    }
+
+    public LabObjectView getView(LObjViewContainer vc, boolean edit, 
+				 LObjDictionary curDict){
 	return null;
     }
 
-    public TreeNode [] parentArray(){return null;}
-
-    public int getIndex(TreeNode node){return -1;}
-
-    public TreeNode getChildAt(int index){return null;}
-
-    public boolean isLeaf(){return true;}
-
-    public void insert(TreeNode child, int index){}
-
-    public void addParent(TreeNode parent){}
-
-    public void remove(int index){}
-
-    public void remove(TreeNode node){}
-
-    public int getChildCount(){return 0;}
-
-    public String toString()
-    {
-	if(name == null) return "..Null..";
-
-	return name;
-    }
-
-    public LabObjectView getView(LObjViewContainer vc, boolean edit){return null;}
-
     public LabObject copy(){return null;}
+
+    public void store(){lBook.store(this);}
 }

@@ -15,7 +15,8 @@ public class LObjDataControlEditView extends LabObjectView
     Edit nameEdit = null;
     Label nameLabel = null;
 
-    public LObjDataControlEditView(LObjViewContainer vc, LObjDataControl d)
+    public LObjDataControlEditView(LObjViewContainer vc, LObjDataControl d,
+				   LObjDictionary curDict)
     {
 	super(vc);
 
@@ -72,7 +73,7 @@ public class LObjDataControlEditView extends LabObjectView
 	if(nameEdit.getText() != "" && nameEdit.getText() != null){
 	    dc.dict.name = nameEdit.getText();
 	}
-	dc.lBook.store(dc);
+	super.close();
     }
 
     public void onEvent(Event e)
