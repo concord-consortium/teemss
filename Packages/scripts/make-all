@@ -1,8 +1,0 @@
-#! /bin/sh
-
-./make-macos-classic
-./make-macosx
-./make-windows
-./make-pocketpc
-./make-unix
-./make-palmos
