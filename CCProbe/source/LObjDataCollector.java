@@ -97,4 +97,6 @@ public class LObjDataCollector extends LObjSubDict
 		super.writeExternal(ds);
 		ds.writeInt(numDataSources);
     }
+    
+    public int getInterfaceID(){return interfaceId;}
 }
