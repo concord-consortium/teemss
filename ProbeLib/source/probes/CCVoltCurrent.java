@@ -24,19 +24,22 @@ public class CCVoltCurrent extends Probe
 		                    max	    min	    standard	maximum	
 	    offset	sensitivity	range	range	deviation	deviation	range
 		1252.7	63.13	    19.76	-19.84	4.5%	     7.4%	    "+/- 20V"
+	*/
+	float					zeroPointVoltage		= 1252.7f;//	
+	float					voltageResolution		= 63.13f; //     mV(reading)/(true)V
 
+	/*
 		Current=(input(mV)-offset(mV))/sensitivity(mV/Amp)
 		                    max	    min	    standard	maximum	    maximum
 		offset	sensitivity	range	range	deviation	deviation	range
 		1247.1	620.95	    2.02	-2.01	4.1%	    10.2%       "+/- 2A"
 	 */
+	float					zeroPointCurrent  = 1247.1f; //	
+	float					currentResolution = 620.95f; //       mV(reading)/A
 
-	float					zeroPointCurrent				= 1252.7f;//	
-	float					zeroPointVoltage				= 1247.1f;//	
+    // old values
 	//	float					currentResolution		= 271f; //       mV(reading)/A
 	//  float					voltageResolution		= 38f; //     mV(reading)/(true)V
-	float					currentResolution		= 620.95f; //       mV(reading)/A
-	float					voltageResolution		= 63.13f; //     mV(reading)/(true)V
 
 	int					outputMode 			= VOLTAGE_OUT;
 	public static String [] modeNames = {"Current", "Voltage","Power","Energy"};
