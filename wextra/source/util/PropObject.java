@@ -99,7 +99,7 @@ public class PropObject
 	{
 		visPossibleValues = values;
 		visCheckedValues = new boolean [values.length];
-		visIndex = 0;
+		setVisIndex(0);
 	}
 
 	public void setCheckedValue(int index, boolean on)
@@ -167,7 +167,7 @@ public class PropObject
 
 	public void apply()
 	{
-		// set the visible value to the actuall one
+		// set the visible value to the actual one
 		if(value != null) value = new String(visValue);
 		if(type == CHOICE || type == CHOICE_SETTINGS){
 			index = visIndex;
@@ -238,6 +238,16 @@ public class PropObject
 		}
 	}
 	
+	public void setVisIndex(int i)
+	{
+		if((type == CHOICE || type == CHOICE_SETTINGS) &&
+		   i >= 0 && visPossibleValues != null &&
+		   i < visPossibleValues.length){
+			visIndex = i;
+			visValue = visPossibleValues[i];
+		}
+	}
+
 	/*
 	 * return:
 	 * -1 means invalid value
