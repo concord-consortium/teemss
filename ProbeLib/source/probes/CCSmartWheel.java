@@ -114,7 +114,7 @@ int					outputMode = DEFAULT_MODE_OUT;
 		int nOffset = e.dataOffset;
 		float calibrated;
 		float calFactor = koeff/(float)nTicks/dt;
-		System.out.println("Cal Factor: " + calFactor + " firstD: " + data[nOffset]);
+		//System.out.println("Cal Factor: " + calFactor + " firstD: " + data[nOffset]);
 		
 
 		int ndata = e.getNumbSamples()*dDesc.getChPerSample();

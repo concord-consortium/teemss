@@ -321,10 +321,9 @@ protected ProbManager	pb = null;
 		// Let the device wake up a bit
 		// But try to stop it as soon as we can
 		
-		try{
-			Thread.sleep(1000);
-		}catch(Exception e){}
-		int tmp = 0 ;
+	    waba.sys.Vm.sleep(1000);
+		
+	    int tmp = 0 ;
 		buf[0] = (byte)'c';
 		for(int i=0; i<5; i++){
 			tmp = port.writeBytes(buf, 0, 1);
