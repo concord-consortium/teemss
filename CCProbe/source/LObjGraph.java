@@ -18,6 +18,8 @@ public class LObjGraph extends LObjSubDict
 
 	Vector graphSettings = null;
 	//	GraphSettings curGS = null;
+	Vector xAxisVector = new Vector();
+	Vector yAxisVector = new Vector();
 
 	int numDataSources = 0;
 	int curGSIndex = -1;
@@ -44,12 +46,14 @@ public class LObjGraph extends LObjSubDict
 		}
     }
 
-	public void clearDataSources()
+	public void clear()
 	{
 		// need to clear the object that are stored in this one
 		// ick.
 		numDataSources = 0;		
 		graphSettings = null;
+		xAxisVector = new Vector();
+		yAxisVector = new Vector();
 	}
 
 	public boolean getVisible(int index)
@@ -67,6 +71,59 @@ public class LObjGraph extends LObjSubDict
 			GraphSettings gs = (GraphSettings)graphSettings.get(index);
 			gs.setVisible(val);
 		}
+	}
+
+    static float XMIN = 0f, XMAX = 100f;
+    static float YMIN = -20f, YMAX = 50f;
+
+	public void initAxis()
+	{
+		SplitAxis xaxis = new SplitAxis(Axis.BOTTOM);
+		ColorAxis yaxis = new ColorAxis(Axis.LEFT);
+		yaxis.setMaxDigits(6);
+		
+		xAxisVector.add(xaxis);
+		yAxisVector.add(yaxis);
+
+		xaxis.init();
+		xaxis.setRange(XMIN, XMAX-XMIN);
+		xaxis.free();
+
+		yaxis.init();
+		yaxis.setRange(YMIN, YMAX-YMIN);	
+		yaxis.free();
+
+	}
+
+	public void addYAxis()
+	{
+		ColorAxis yaxis = new ColorAxis(Axis.LEFT);
+		yaxis.setMaxDigits(6);
+		
+		yAxisVector.add(yaxis);
+	}
+
+	public void addXAxis()
+	{
+		SplitAxis xaxis = new SplitAxis(Axis.BOTTOM);
+		
+		xAxisVector.add(xaxis);
+	}
+
+	public Axis getXAxis(int i)
+	{
+		if(i<0 || i>= xAxisVector.getCount()){
+			return null;
+		}
+		else return (Axis)xAxisVector.get(i);
+	}
+
+	public Axis getYAxis(int i)
+	{
+		if(i<0 || i>= yAxisVector.getCount()){
+			return null;
+		}
+		else return (Axis)yAxisVector.get(i);
 	}
 
 	public void addDataSource(DataSource ds)
@@ -89,13 +146,18 @@ public class LObjGraph extends LObjSubDict
 
 		if(newSettings){
 			GraphSettings gs = new GraphSettings(this, numDataSources);
-			gs.setXUnit(CCUnit.getUnit(CCUnit.UNIT_CODE_S));
-			gs.setXLabel("Time");
-			if(ds instanceof DataSource){
-				gs.setYLabel(ds.getLabel());
-				gs.setYUnit(ds.getUnit());
-				title = ds.getSummary();
+			Axis xaxis = getXAxis(linkX);
+			if(xaxis != null){
+				xaxis.setAxisLabel("Time", CCUnit.getUnit(CCUnit.UNIT_CODE_S));
 			}
+			
+			Axis yaxis = getYAxis(linkY);
+			if(yaxis != null){
+				//			if(ds instanceof DataSource){
+				yaxis.setAxisLabel(ds.getLabel(), ds.getUnit());
+			}
+			title = ds.getSummary();
+
 			gs.linkX = linkX;
 			gs.linkY = linkY;
 			graphSettings.add(gs);
@@ -159,8 +221,23 @@ public class LObjGraph extends LObjSubDict
 		title = ds.readString();
 		numDataSources = ds.readInt();
 		if(numDataSources <= 0) return;
-
 		curGSIndex = ds.readInt();
+		int numXAxis = ds.readInt();
+		int numYAxis = ds.readInt();
+
+		xAxisVector = new Vector(numXAxis+1);
+		for(int i=0; i<numXAxis; i++){
+			SplitAxis ax = new SplitAxis(Axis.BOTTOM);
+			ax.readExternal(ds);
+			xAxisVector.add(ax);
+		}
+
+		yAxisVector = new Vector(numYAxis+1);
+		for(int i=0; i<numYAxis; i++){
+			ColorAxis ax = new ColorAxis(Axis.LEFT);
+			ax.readExternal(ds);
+			yAxisVector.add(ax);
+		}
 
 		graphSettings = new Vector(numDataSources);
 		for(int i=0; i<numDataSources; i++){
@@ -190,8 +267,19 @@ public class LObjGraph extends LObjSubDict
 		} else {
 			ds.writeInt(numDataSources);
 		}
-		
 		ds.writeInt(curGSIndex);
+		ds.writeInt(xAxisVector.getCount());
+		ds.writeInt(yAxisVector.getCount());
+
+		for(int i=0; i<xAxisVector.getCount(); i++){
+			SplitAxis ax = (SplitAxis)xAxisVector.get(i);
+			ax.writeExternal(ds);
+		}
+
+		for(int i=0; i<yAxisVector.getCount(); i++){
+			ColorAxis ax = (ColorAxis)yAxisVector.get(i);
+			ax.writeExternal(ds);
+		}
 
 		for(int i=0; i<graphSettings.getCount(); i++){
 			GraphSettings gs = (GraphSettings)graphSettings.get(i);
@@ -206,13 +294,16 @@ public class LObjGraph extends LObjSubDict
 			LObjGraph g = DataObjFactory.createGraph();
 			
 			g.title = title.toString();
+
+			/*
 			g.graphSettings = new Vector(graphSettings.getCount());
 		
 			GraphSettings gs = (GraphSettings)graphSettings.get(gsIndex);
 			g.graphSettings.add(gs.copy(g));
 			g.curGSIndex = 0;
 			g.numDataSources = 0;
-			
+			*/
+
 			return g;
 		}
 
@@ -259,6 +350,17 @@ public class LObjGraph extends LObjSubDict
 			GraphSettings gs = (GraphSettings)graphSettings.get(i);
 			if(gs != null) gs.close();
 		}
+
+		for(int i=0; i<xAxisVector.getCount(); i++){
+			Axis ax = (Axis)xAxisVector.get(i);
+			ax.free();
+		}
+
+		for(int i=0; i<yAxisVector.getCount(); i++){
+			Axis ax = (Axis)yAxisVector.get(i);
+			ax.free();
+		}
+
 	}
 
 	public void saveAllAnnots()
@@ -288,7 +390,22 @@ public class LObjGraph extends LObjSubDict
 			if(dataDict != null){
 				dataDict.add(dSet);				
 				dSet.store();
-				dsGraph.addDataSource(dSet, false, -1, -1);
+				SplitAxis xaxis = new SplitAxis(Axis.BOTTOM);
+				ColorAxis yaxis = new ColorAxis(Axis.LEFT);
+				yaxis.setMaxDigits(6);
+		
+				dsGraph.xAxisVector.add(xaxis);
+				dsGraph.yAxisVector.add(yaxis);
+
+				xaxis.init();
+				xaxis.setRange(curGS.getXMin(), curGS.getXMax()-curGS.getXMin());
+				xaxis.free();
+
+				yaxis.init();
+				yaxis.setRange(curGS.getYMin(), curGS.getYMax()-curGS.getYMin());
+				yaxis.free();
+
+				dsGraph.addDataSource(dSet, true, 0, 0);
 				dsGraph.store();
 			} else {
 				// for now it is an error

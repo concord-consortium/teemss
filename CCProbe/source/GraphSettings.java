@@ -17,9 +17,6 @@ import org.concord.LabBook.*;
 public class GraphSettings
     implements DataListener, LabObjListener, ActionListener
 {
-    float xmin = 0f, xmax = 100f;
-    float ymin = -20f, ymax = 50f;
-
     String description = null;
     String xLabel = null;
     String yLabel = null;
@@ -31,7 +28,6 @@ public class GraphSettings
 	int linkX = -1;
 	int linkY = -1;
 
-	Object gvCookie;
 	LObjGraphView gv=null;
 
     Vector bins = new Vector();
@@ -52,22 +48,19 @@ public class GraphSettings
 		dsIndex = dataSourceIndex;
 	}
 
-	public void init(LObjGraphView gv, Object cookie,
-					 SplitAxis xAx, ColorAxis yAx)
+	public void init(LObjGraphView gv)
 	{
-		gvCookie = cookie;
 		this.gv = gv;
-		xaxis = xAx;
-		yaxis = yAx;
+		xaxis = (SplitAxis)graph.getXAxis(linkX);
+		yaxis = (ColorAxis)graph.getYAxis(linkY);
 
 		if(xaxis == null || yaxis == null){
 			return;
 		}
-		xaxis.setAxisLabel(xLabel, xUnit);
-		yaxis.setAxisLabel(yLabel, yUnit);
 
-		xaxis.setRange(xmin, xmax-xmin);
-		yaxis.setRange(ymin, ymax-ymin);		
+		yaxis.setMaxDigits(6);
+		yaxis.init();
+		xaxis.init();
 
 		if(graph != null && ds == null && dsIndex >= 0){
 			ds = graph.getDataSource(dsIndex);
@@ -82,6 +75,7 @@ public class GraphSettings
 		
 		ds.addDataListener(this);
 
+		// Is this necessary???
 		setYUnit(ds.getUnit());
 		if(graph != null && 
 		   graph.autoTitle){
@@ -129,16 +123,12 @@ public class GraphSettings
 
 	public void setXValues(float min, float max)
 	{
-		xmin = min;
-		xmax = max;
-		if(xaxis != null) xaxis.setRange(xmin, xmax-xmin);
+		if(xaxis != null) xaxis.setRange(min, max-min);
 	}
 
 	public void setYValues(float min, float max)
 	{
-		ymin = min;
-		ymax = max;
-		if(yaxis != null) yaxis.setRange(ymin, ymax-ymin);
+		if(yaxis != null) yaxis.setRange(min, max-min);
 	}
 
 	public void setXLabel(String label)
@@ -184,16 +174,19 @@ public class GraphSettings
 		}
 	}
 
-	public void updateGS()
+	public String getYLabel()
 	{
-		if(xaxis == null || yaxis == null){
-			return;
-		}
-		ymin = yaxis.dispMin;
-		ymax = yaxis.getDispMax();
-		xmin = xaxis.dispMin;
-		xmax = xaxis.getDispMax();
+		if(graph.autoTitle) return "*" + yaxis.getLabel();
+		else return yaxis.getLabel();
 	}
+
+	public float getYMin(){return yaxis.dispMin;}
+	public float getYMax(){return yaxis.getDispMax();}
+
+	public String getXLabel(){ return xaxis.getLabel();}
+	// This needs to be fixed
+	public float getXMin(){return xaxis.getDispMin();}
+	public float getXMax(){return xaxis.getDispMax();}
 
 	// The last x axis should always be empty
 	// when this function is called
@@ -223,7 +216,7 @@ public class GraphSettings
 			// this should be taken care of by DataSources
 			curBin.description = "";
 
-			gv.startGraph(gvCookie, curBin);
+			gv.startGraph(curBin);
 
 			started = true;
 			ds.startDataDelivery();
@@ -249,7 +242,7 @@ public class GraphSettings
 			// remove this bin because it hasn't been used yet
 			bins.del(bins.getCount() - 1);
 		} 
-		gv.stopGraph(gvCookie, curBin);
+		gv.stopGraph(curBin);
 	}
 
 	public void clear()
@@ -259,7 +252,7 @@ public class GraphSettings
 		if(started){
 			started = false;
 			ds.stopDataDelivery();
-			gv.stopGraph(gvCookie, curBin);
+			gv.stopGraph(curBin);
 		}
 
 		// do this for safety incase it isn't done
@@ -280,7 +273,6 @@ public class GraphSettings
 		}
 		bins = new Vector();
 		annots = new Vector();
-		updateGS();
 	}
 	
 
@@ -296,7 +288,7 @@ public class GraphSettings
 			//			startGraph();
 			return;
 		case DataEvent.DATA_COLLECTING:
-			if(gv != null) gv.update(gvCookie, dataEvent.getTime());
+			if(gv != null) gv.update(dataEvent.getTime());
 			break;
 		case DataEvent.DATA_STOPPED:
 			if(started) stopDataDelivery(false);
@@ -366,7 +358,7 @@ public class GraphSettings
 	public void saveData(LObjDataSet dSet)
 	{
 		dSet.setUnit(yUnit);
-		dSet.setLabel(yLabel);
+		dSet.setLabel(yaxis.getLabel());
 		
 		for(int i=0; i<bins.getCount(); i++){
 			dSet.addBin((Bin)bins.get(i));
@@ -447,49 +439,25 @@ public class GraphSettings
 
 	public String toString()
 	{
-		return super.toString() + " xmin: " + xmin + " xmax: " + xmax + " xLabel: " + xLabel +
-			" ymin: " + ymin + " ymax: " + ymax + " yLabel: " + yLabel;		
+		return super.toString();		
 	}
 
 	public void readExternal(DataStream ds)
 	{
 		dsIndex = ds.readInt();
-		xmin = ds.readFloat();
-		xmax = ds.readFloat();
-		ymin = ds.readFloat();
-		ymax = ds.readFloat();
 		description = ds.readString();
-		xLabel = ds.readString();
-		yLabel = ds.readString();		
-		int code;
-		code = ds.readInt();
-		if(code == -1) xUnit = null;
-		else xUnit = CCUnit.getUnit(code);
-		code = ds.readInt();
-		if(code == -1) yUnit = null;
-		else yUnit = CCUnit.getUnit(code);
 		visible = ds.readBoolean();
-		linkX = ds.readByte();
-		linkY = ds.readByte();
+		linkX = ds.readInt();
+		linkY = ds.readInt();
 	}
 
     public void writeExternal(DataStream ds)
     {
 		ds.writeInt(dsIndex);
-		ds.writeFloat(xmin);
-		ds.writeFloat(xmax);
-		ds.writeFloat(ymin);
-		ds.writeFloat(ymax);
 		ds.writeString(description);
-		ds.writeString(xLabel);
-		ds.writeString(yLabel);
-		if(xUnit == null) ds.writeInt(-1);
-		else ds.writeInt(xUnit.code);
-		if(yUnit == null) ds.writeInt(-1);
-		else ds.writeInt(yUnit.code);
 		ds.writeBoolean(visible);
-		ds.writeByte(linkX);
-		ds.writeByte(linkY);
+		ds.writeInt(linkX);
+		ds.writeInt(linkY);
     }
 
 	// Note: we aren't copying the dsIndex
@@ -497,10 +465,6 @@ public class GraphSettings
 	{
 		GraphSettings g = new GraphSettings(newGraph, -1);
 
-		g.xmin = xmin;
-		g.ymin = ymin;
-		g.xmax = xmax;
-		g.ymax = ymax;
 		g.description = description.toString();
 		g.xLabel = xLabel;
 		g.yLabel = yLabel;

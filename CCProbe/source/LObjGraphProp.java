@@ -70,7 +70,6 @@ public class LObjGraphProp extends LabObjectView
 	public void setupProperties()
 	{
 		GraphSettings curGS = graph.getCurGraphSettings();
-		curGS.updateGS();
 		if(curGS == null) return;
 
 		if(propsGraph == null){
@@ -106,18 +105,19 @@ public class LObjGraphProp extends LabObjectView
 			propsGraph.addProperty(propDataSources);
 			propsGraph.addProperty(propVisibleSources);
 			
-			propXmin = new PropObject("Min", curGS.xmin + "");
-			propXmax = new PropObject("Max", curGS.xmax + "");
-			propXlabel = new PropObject("Label", curGS.xLabel);
+			propXmin = new PropObject("Min", curGS.getXMin() + "");
+			propXmax = new PropObject("Max", curGS.getXMax() + "");
+			propXlabel = new PropObject("Label", curGS.getXLabel());
 			propXlabel.prefWidth = 100;
 			propsXAxis.addProperty(propXmax);
 			propsXAxis.addProperty(propXmin);
 			propsXAxis.addProperty(propXlabel);
 
-			propYmin = new PropObject("Min", curGS.ymin + "");
-			propYmax = new PropObject("Max", curGS.ymax + "");
-			if(graph.autoTitle) propYlabel = new PropObject("Label", "*" + curGS.yLabel);
-			else propYlabel = new PropObject("Label", curGS.yLabel);
+			propYmin = new PropObject("Min", curGS.getYMin() + "");
+			propYmax = new PropObject("Max", curGS.getYMax() + "");
+
+			propYlabel = new PropObject("Label", curGS.getYLabel());
+
 			propYlabel.prefWidth = 100;
 			propsYAxis.addProperty(propYmax);
 			propsYAxis.addProperty(propYmin);
@@ -132,14 +132,13 @@ public class LObjGraphProp extends LabObjectView
 				propVisibleSources.setCheckedValue(i, graph.getVisible(i));
 			}
 
-			propXmin.setValue(curGS.xmin + "");
-			propXmax.setValue(curGS.xmax + "");
-			propXlabel.setValue(curGS.xLabel);
+			propXmin.setValue(curGS.getXMin() + "");
+			propXmax.setValue(curGS.getXMax() + "");
+			propXlabel.setValue(curGS.getXLabel());
 
-			propYmin.setValue(curGS.ymin + "");
-			propYmax.setValue(curGS.ymax + "");
-			if(graph.autoTitle) propYlabel.setValue("*" + curGS.yLabel);
-			else propYlabel.setValue(curGS.yLabel);
+			propYmin.setValue(curGS.getYMin() + "");
+			propYmax.setValue(curGS.getYMax() + "");
+			propYlabel.setValue("*" + curGS.getYLabel());
 		}
 	}
 

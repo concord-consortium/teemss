@@ -32,8 +32,6 @@ public class LObjGraphView extends LabObjectView
     LObjGraph graph;
     AnnotView av = null;
 
-	Vector axisVector = new Vector();
-
 	Choice viewChoice = null;
 	LineGraphMode lgm = null;
 	Button addMark = null;
@@ -80,7 +78,7 @@ public class LObjGraphView extends LabObjectView
 	{
 		if(e.getType() == 0){
 			if(e.getObject() == graph){
-				av.update();
+				if(av != null) av.update();
 			}
 		} else {
 			// curGS change
@@ -211,8 +209,6 @@ public class LObjGraphView extends LabObjectView
 		}
 
 	}
-	SplitAxis xaxis = null;
-	ColorAxis yaxis = null;
 	
     public void setRect(int x, int y, int width, int height)
     {
@@ -255,23 +251,32 @@ public class LObjGraphView extends LabObjectView
 		}
 
 
-		if(av != null){ remove(av); }
+		if(av != null){ 
+			remove(av); 
+			av.free();
+			av = null;
+		}
 	
 		if(graph.graphSettings == null){
 			return;
 		}
 		
 		// This is just a hack
-		xaxis = new SplitAxis(Axis.BOTTOM);
-		yaxis = new ColorAxis(Axis.LEFT);
-		yaxis.setMaxDigits(6);
-		axisVector.add(xaxis);
-		axisVector.add(yaxis);
-
-		// This is just a hack
 		if(gHeight < 1) gHeight = 1;
 			
-		av = new AnnotView(width, gHeight, xaxis, yaxis);
+		GraphSettings gs = (GraphSettings)graph.graphSettings.get(0);
+		gs.init(this);
+
+		for(int i=1; i<graph.graphSettings.getCount(); i++){
+			gs = (GraphSettings)graph.graphSettings.get(i);
+
+			// av.setAxis(xaxis, yaxis);
+
+			gs.init(this);
+		}
+
+		gs = graph.getCurGraphSettings();
+		av = new AnnotView(width, gHeight, gs.xaxis, gs.yaxis);
 		av.setPos(0,curY);
 		curY += gHeight;
 
@@ -280,33 +285,6 @@ public class LObjGraphView extends LabObjectView
 			curY += 12;
 		}
 
-		GraphSettings gs = (GraphSettings)graph.graphSettings.get(0);
-		gs.init(this, (Object)av, xaxis, yaxis);
-
-		for(int i=1; i<graph.graphSettings.getCount(); i++){
-			gs = (GraphSettings)graph.graphSettings.get(i);
-			if(gs.linkX >= 0 && gs.linkX < graph.graphSettings.getCount()){
-				xaxis = ((GraphSettings) graph.graphSettings.get(gs.linkX)).xaxis;
-			} else {				 
-				xaxis = new SplitAxis(Axis.BOTTOM);
-				axisVector.add(xaxis);
-			}
-
-			if(gs.linkY >= 0 && gs.linkY < graph.graphSettings.getCount()){
-				yaxis = ((GraphSettings) graph.graphSettings.get(gs.linkY)).yaxis;
-			} else {				 
-				yaxis = new ColorAxis(Axis.LEFT);
-				yaxis.setMaxDigits(6);
-				axisVector.add(yaxis);
-			}
-
-			av.setAxis(xaxis, yaxis);
-
-			gs.init(this, (Object)av, xaxis, yaxis);
-		}
-
-		gs = graph.getCurGraphSettings();
-		av.setAxis(gs.xaxis, gs.yaxis);
 		add(av);
 
 		if(instant){
@@ -332,11 +310,6 @@ public class LObjGraphView extends LabObjectView
 		graph.closeAll();
 		graph.saveAllAnnots();
 		
-		for(int i=0; i<axisVector.getCount(); i++){
-			Axis ax = (Axis)axisVector.get(i);
-			if(ax != null) ax.free();
-		}
-
 		graph.delLabObjListener(this);
 		graph.store();
 		super.close();
@@ -354,7 +327,7 @@ public class LObjGraphView extends LabObjectView
 	}
 
 	int numStarted = 0;
-	public void startGraph(Object cookie, Bin curBin)
+	public void startGraph(Bin curBin)
 	{
 		av.addBin(curBin);
 		dd.addBin(curBin);
@@ -362,7 +335,7 @@ public class LObjGraphView extends LabObjectView
 		av.lgView.autoScroll = true;
 	}
 
-	public void update(Object cookie, float time){
+	public void update(float time){
 		av.update();			
 		timeBin.setValue(time);
 		dd.update();
@@ -371,7 +344,7 @@ public class LObjGraphView extends LabObjectView
 	// Right this requires the caller to call repaint()
 
 	// This is a mess
-	public void stopGraph(Object cookie, Bin curBin) 
+	public void stopGraph(Bin curBin) 
 	{
 		numStarted--;
 
@@ -453,8 +426,6 @@ public class LObjGraphView extends LabObjectView
 		} else if(e.type == 1006){
 			// really this shouldn't be necessay
 			// the graph settings can listen to the axis
-			GraphSettings curGS = graph.getCurGraphSettings();
-			curGS.updateGS();
 		} else if(e.type == 1007){
 			// Annotation has been held down
 			// we should popup the property dialog for the Annotation

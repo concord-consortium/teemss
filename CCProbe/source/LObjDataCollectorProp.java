@@ -101,10 +101,12 @@ public class LObjDataCollectorProp extends LabObjectView
 
 		dc.setDataSources(dataSources);
 
-		graph.clearDataSources();
-		graph.addDataSource(newDS);
+		graph.clear();
+		graph.initAxis();
+		graph.addDataSource(newDS,true,0,0);
 		if(trans != null){
-			graph.addDataSource(trans, true, 0, -1);
+			graph.addYAxis();
+			graph.addDataSource(trans, true, 0, 1);
 		}
 
 		graph.store();
