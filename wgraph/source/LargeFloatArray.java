@@ -18,33 +18,33 @@ public class LargeFloatArray
 
     public LargeFloatArray()
     {
-	int i;
+		int i;
 
-	chunks.add(new float [ChunkSize]);
-	min = 1;
-	max = -1;
+		chunks.add(new float [ChunkSize]);
+		min = 1;
+		max = -1;
 
-	for(i=0; i<100; i++){
-	    min *= (float)10;
-	    max *= (float)10;
-	}
+		for(i=0; i<100; i++){
+			min *= (float)10;
+			max *= (float)10;
+		}
 
     }
 
     public void clear()
     {
-	chunks = new Vector();
-	chunks.add(new float [ChunkSize]);
-	curChunk = 0;
-	curIndex = 0;
+		chunks = new Vector();
+		chunks.add(new float [ChunkSize]);
+		curChunk = 0;
+		curIndex = 0;
 
-	min = 1;
-	max = -1;
+		min = 1;
+		max = -1;
 
-	for(int i=0; i<100; i++){
-	    min *= (float)10;
-	    max *= (float)10;
-	}
+		for(int i=0; i<100; i++){
+			min *= (float)10;
+			max *= (float)10;
+		}
     }
 
     public void free()
@@ -54,77 +54,77 @@ public class LargeFloatArray
 
     public float getFloat(int index)
     {
-	int chunkPos = index/ChunkSize;
-	float [] data = (float [])chunks.get(chunkPos);
-	return data[index % ChunkSize];
+		int chunkPos = index/ChunkSize;
+		float [] data = (float [])chunks.get(chunkPos);
+		return data[index % ChunkSize];
     }
 
     public float [] getFloats(int start, int length)
     {
-	float [] ret = new float [length];
+		float [] ret = new float [length];
 
-	for(int i=0; i<length; i++){
-	    ret[i] = getFloat(i+start);
-	}
-	return ret;
+		for(int i=0; i<length; i++){
+			ret[i] = getFloat(i+start);
+		}
+		return ret;
     }
 
     public boolean addFloat(float val)
     {
-	if(isFull) return false;
+		if(isFull) return false;
 
-	float [] data = (float [])chunks.get(curChunk);
-	data[curIndex] = val - ref;
+		float [] data = (float [])chunks.get(curChunk);
+		data[curIndex] = val - ref;
 
-	if(max < val) max = val;
-	if(min > val) min = val;
+		if(max < val) max = val;
+		if(min > val) min = val;
 
-	curIndex++;
-	if(curIndex >= ChunkSize){
-	    curChunk++;
-	    curIndex = 0;
-	    if(curChunk >= MaxNumChunks){
-		isFull = true;		
-		return false;
-	    }
-	    chunks.add(new float [ChunkSize]);
-	}
-	return true;
+		curIndex++;
+		if(curIndex >= ChunkSize){
+			curChunk++;
+			curIndex = 0;
+			if(curChunk >= MaxNumChunks){
+				isFull = true;		
+				return false;
+			}
+			chunks.add(new float [ChunkSize]);
+		}
+		return true;
     }
 
     public boolean addFloats(float [] vals, int start, int step, int count)
     {
-	float val;
+		float val;
 
-	if(isFull) return false;
+		if(isFull) return false;
 
-	float [] data = (float [])chunks.get(curChunk);
+		float [] data = (float [])chunks.get(curChunk);
 
-	for(int i=start; i<count*step; i+=step){
-	    val = vals[i];
-	    data[curIndex] = val - ref;
+		for(int i=start; i<count*step; i+=step){
+			val = vals[i];
+			data[curIndex] = val - ref;
 	    
-	    if(max < val) max = val;
-	    if(min > val) min = val;
+			if(max < val) max = val;
+			if(min > val) min = val;
 
-	    curIndex++;
-	    if(curIndex >= ChunkSize){
-		curChunk++;
-		curIndex = 0;
-		if(curChunk >= MaxNumChunks){
-		    isFull = true;		
-		    return false;
+			curIndex++;
+			if(curIndex >= ChunkSize){
+				curChunk++;
+				curIndex = 0;
+				if(curChunk >= MaxNumChunks){
+					isFull = true;		
+					return false;
+				}
+				data = new float [ChunkSize];
+				chunks.add(data);
+			}
 		}
-		data = new float [ChunkSize];
-		chunks.add(data);
-	    }
-	}
 
-	return true;
+		return true;
     }
 
     public int getCount()
     {
-	return curChunk*ChunkSize + curIndex;
+		return curChunk*ChunkSize + curIndex;
     }
 }

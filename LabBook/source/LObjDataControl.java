@@ -14,43 +14,40 @@ public class LObjDataControl extends LObjSubDict
     
     public static LObjDataControl makeNew()
     {
-	LObjDataControl me = new LObjDataControl();
-	LObjDictionary dict = new LObjDictionary();
-	dict.setMainObj(me);
-	LObjGraph graph = new LObjGraph();
-	graph.name = "Graph";
-	me.setGraph(graph);
-	return me;
+		LObjDataControl me = new LObjDataControl();
+		LObjDictionary dict = new LObjDictionary();
+		dict.setMainObj(me);
+		LObjGraph graph = new LObjGraph();
+		graph.name = "Graph";
+		me.setGraph(graph);
+		return me;
     }
 
     public CCProb getProbe()
     {
-	if(curProbe == null){
-	    curProbe = ProbFactory.createProb(probeId, portId);
-	}
-	return curProbe;
+		if(curProbe == null){
+			curProbe = ProbFactory.createProb(probeId, portId);
+		}
+		return curProbe;
     }
 
     public void setGraph(LObjGraph g)
     {
-	//	graph = g;
-	setObj(g, 0);
+		//	graph = g;
+		setObj(g, 0);
     }
+	public LObjGraph getGraph()
+	{
+		return (LObjGraph)getObj(0);
+	}
 
     public LObjDataControl()
     {
-	objectType = DATA_CONTROL;
+		objectType = DATA_CONTROL;
     }
 
     public LabObjectView getView(LObjViewContainer vc, boolean edit, LObjDictionary curDict)
     {
-/*
-		if(edit){
-		    return new LObjDataControlEditView(vc, this, curDict);
-		} else {
-		    return new LObjDataControlView(vc, this, curDict);
-		}
-*/
 		return new LObjDataControlView(vc, this, curDict);
     }
     public LabObjectView getPropertyView(LObjViewContainer vc, LObjDictionary curDict){
@@ -58,27 +55,27 @@ public class LObjDataControl extends LObjSubDict
 	}
     public void readExternal(DataStream ds)
     {
-	super.readExternal(ds);
-	probeId = ds.readInt();
-	portId = ds.readInt();
-	curProbe = ProbFactory.createProb(probeId, portId);
-	curProbe.readExternal(ds);
-	//	graph = (LObjGraph)getObj(0);
+		super.readExternal(ds);
+		probeId = ds.readInt();
+		portId = ds.readInt();
+		curProbe = ProbFactory.createProb(probeId, portId);
+		curProbe.readExternal(ds);
+		//	graph = (LObjGraph)getObj(0);
     }
 
     public void writeExternal(DataStream ds)
     {
-	super.writeExternal(ds);
-	ds.writeInt(probeId);
-	ds.writeInt(portId);
-	getProbe().writeExternal(ds);
+		super.writeExternal(ds);
+		ds.writeInt(probeId);
+		ds.writeInt(portId);
+		getProbe().writeExternal(ds);
     }
 
     /*
-    public void setDict(LObjDictionary d)
-    {
-	super.setDict(d);
-	if(graph != null) setObj(graph, 0);
-    }
+	  public void setDict(LObjDictionary d)
+	  {
+	  super.setDict(d);
+	  if(graph != null) setObj(graph, 0);
+	  }
     */
 }

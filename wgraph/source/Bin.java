@@ -35,8 +35,6 @@ public class Bin
     int lastPlottedPoint;
     int c;
     int collection;
-    int lastPlottedY;
-    int lastPlottedX;
     int curX;
     int sumY;
     int numXs;
@@ -52,6 +50,8 @@ public class Bin
     public LargeFloatArray lfArray = new LargeFloatArray();
     public String description = null;
     public Time time = null;
+	float curXscale, curYscale;
+
 
     public Bin(int xIndex)
     {
@@ -98,34 +98,46 @@ public class Bin
 		return lfArray.getCount();
     }
 
+	int remainder;
+	int remainderSum;
+
     public void recalc(float xscale, float yscale)
+    {
+		curXscale = xscale;
+		curYscale = yscale;
+
+		lastCalcValue = 1;
+
+		update();
+    }
+
+    int lastCalcValue = 0;
+
+    public boolean update()
     {
 		int i;
 		int numValues = lfArray.getCount();
 		int newX, newY;
-		int curPtPos = 0;
 		int avgY;
-		float xMult = dT*xscale;
-		int remainder = (int)(xMult*numValues);
-		int remainderSum = 0;
 
-		numPoints = 0;
-		numXs = 0;
-	
-		if(numValues < 2){
-			return;
+		if(numValues < 2 ||
+		   numValues - lastCalcValue < 1){
+			return false;
+		} else if(lastCalcValue == 1){
+			// we've got points for the first time
+			// reset again
+			resetPts();
 		}
 
-		i=0;
-		curX = 0;
-	
-		minPtY = maxPtY = sumY = (int)(lfArray.getFloat(0)* yscale);
-		i++;
-		numXs = 1;
+		int curPtPos;
 
+		curPtPos = (numPoints-1)*3;
+
+		i=lastCalcValue;
+	
 		remainderSum += remainder;
-		newX = curX + remainderSum/numValues;
-		newY = (int)(lfArray.getFloat(i) * yscale);
+		newX = curX + remainderSum/denom;
+		newY = (int)(lfArray.getFloat(i) * curYscale);
 		i++;		
 
 		while(true){
@@ -136,8 +148,8 @@ public class Bin
 				else if(newY < minPtY) minPtY = newY;
 
 				remainderSum += remainder;
-				newX = curX + remainderSum/numValues;
-				newY = (int)(lfArray.getFloat(i) * yscale);
+				newX = curX + remainderSum/denom;
+				newY = (int)(lfArray.getFloat(i) * curYscale);
 				i++;		
 
 			}
@@ -147,65 +159,56 @@ public class Bin
 			points[curPtPos++] = (maxPtY - avgY) << 16 | (avgY - minPtY);
 			if(i >= numValues) break;
 			curX = newX;
-			remainderSum = remainderSum % numValues;
+			remainderSum = remainderSum % denom;
 			numXs = 0;
-			sumY = 0;
 			maxPtY = minPtY = newY;
+			sumY = 0;
 		}
 
-		numPoints = curPtPos / 3;
-		lastCalcValue = i-1;
-    }
+		if(curX != newX){
+			// This means we have a newX 
+			// so what is curX
+			// it is the old x.
+			// if we don't change it then we need to 
+			// reparse the newX point
+			// however we should change it 
+			curX = newX;
+			remainderSum = remainderSum % denom;
+			minPtY = maxPtY = sumY = newY;
+			numXs = 1;
 
-    int lastCalcValue = 0;
+			// We increase the i to move the lastCalcVal next
+			i++;
 
-    public boolean update(float xscale, float yscale)
-    {
-		int i;
-		int numValues = lfArray.getCount();
-		int newX, newY;
-		int curPtPos = (numPoints-1)*3;
-		int avgY;
-		float xMult = dT*xscale;
-
-		if(numPoints < 1){
-			recalc(xscale, yscale);
-			return true;
-		}
-
-		if(numValues - lastCalcValue < 1){
-			return false;
-		}
-
-		i=lastCalcValue;
-
-	
-		newX = (int)((float)i * xMult);
-		newY = (int)(lfArray.getFloat(i) * yscale);
-		i++;		
-
-		while(true){
-			while(newX == curX && i < numValues){
-				sumY += newY;
-				numXs++;
-				if(newY > maxPtY) maxPtY = newY;
-				else if(newY < minPtY) minPtY = newY;
-
-				newX = (int)((float)i * xMult);
-				newY = (int)(lfArray.getFloat(i) * yscale);
-				i++;		
-
-			}
+			// This is just an estimate
+			// so we need to set the curPtPos to 
+			// check this point the next time
 			points[curPtPos++] = curX;
 			avgY = sumY / numXs;
 			points[curPtPos++] = avgY;
 			points[curPtPos++] = (maxPtY - avgY) << 16 | (avgY - minPtY);
-			if(i >= numValues) break;
-			curX = newX;
-			numXs = 0;
-			sumY = 0;
-			maxPtY = minPtY = newY;
+		} else {
+			// They match so we should update the sums and xs
+
+			sumY += newY;
+			numXs++;
+			if(newY > maxPtY) maxPtY = newY;
+			else if(newY < minPtY) minPtY = newY;
+
+			i++;
+
+			// update the points.
+			curPtPos-=3;
+			points[curPtPos++] = curX;
+			avgY = sumY / numXs;
+			points[curPtPos++] = avgY;
+			points[curPtPos++] = (maxPtY - avgY) << 16 | (avgY - minPtY);
+
 		}
+		// else the curX == newX so 
+		// we should be ok
+
+
 
 		numPoints = curPtPos / 3;
 		lastCalcValue = i-1;
@@ -240,6 +243,21 @@ public class Bin
 		return ret;
     }
 
+	int denom = 0;
+
+	void resetPts()
+	{
+		denom = (int) (1000f/curXscale/dT);
+		remainder = (int)(dT*curXscale*denom);
+		remainderSum = 0;
+		numXs = 0;
+		curX = 0;
+		minPtY = maxPtY = sumY = (int)(lfArray.getFloat(0)* curYscale);
+		lastCalcValue = 1;
+		numXs = 1;
+		numPoints = 1;
+	}
+
     void reset()
     {
 		int i;
@@ -256,9 +274,9 @@ public class Bin
 			maxY *= (float)10;
 		}
 
-		numPoints = 0;
 		lastPlottedPoint = -1;
-		lastCalcValue = 0;
+
+		resetPts();
     }
 
     public boolean getValue(float time, float [] value)

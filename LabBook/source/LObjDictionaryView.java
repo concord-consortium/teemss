@@ -37,62 +37,62 @@ public class LObjDictionaryView extends LabObjectView
 
     public LObjDictionaryView(LObjViewContainer vc, LObjDictionary d)
     {
-	super(vc);
-	dict = d;
-	lObj =dict;
-	add(me);
-	editMenu.add("Rename...");
-	editMenu.add("Cut");
-	editMenu.add("Paste");
-	editMenu.add("Import");
-	editMenu.add("Export");
-	editMenu.add("Properties...");
-	editMenu.add("Toggle hidden");
-	viewMenu.add("Paging View");
-	editMenu.addActionListener(this);
-	viewMenu.addActionListener(this);
+		super(vc);
+		dict = d;
+		lObj =dict;
+		add(me);
+		editMenu.add("Rename...");
+		editMenu.add("Cut");
+		editMenu.add("Paste");
+		editMenu.add("Import");
+		editMenu.add("Export");
+		editMenu.add("Properties...");
+		editMenu.add("Toggle hidden");
+		viewMenu.add("Paging View");
+		editMenu.addActionListener(this);
+		viewMenu.addActionListener(this);
 
-	if(vc != null){
-	    vc.addMenu(this, editMenu);
-	    vc.addMenu(this, viewMenu);
-	}
+		if(vc != null){
+			vc.addMenu(this, editMenu);
+			vc.addMenu(this, viewMenu);
+		}
    	
-	creationProps.addProperty(newObjType, "Sub");
+		creationProps.addProperty(newObjType, "Sub");
     }
 
     public void layout(boolean sDone)
     {
-	if(didLayout) return;
-	didLayout = true;
+		if(didLayout) return;
+		didLayout = true;
 
-	showDone = sDone;
+		showDone = sDone;
 
-	treeModel = new TreeModel(dict);
-	treeControl = new TreeControl(treeModel);
-	treeControl.showRoot(false);
-	me.add(treeControl);
+		treeModel = new TreeModel(dict);
+		treeControl = new TreeControl(treeModel);
+		treeControl.showRoot(false);
+		me.add(treeControl);
 
-	if(showDone){
-	    buttons = new GridContainer(4,1);
-	    buttons.add(doneButton, 3, 0);
-	} else {
-	    buttons = new GridContainer(3,1);
-	}
-	buttons.add(newButton, 0, 0);
-	buttons.add(openButton, 1, 0);
-	buttons.add(delButton, 2, 0);
-	me.add(buttons);
+		if(showDone){
+			buttons = new GridContainer(4,1);
+			buttons.add(doneButton, 3, 0);
+		} else {
+			buttons = new GridContainer(3,1);
+		}
+		buttons.add(newButton, 0, 0);
+		buttons.add(openButton, 1, 0);
+		buttons.add(delButton, 2, 0);
+		me.add(buttons);
     }
 
     public void setRect(int x, int y, int width, int height)
     {
-	super.setRect(x,y,width,height);
-	if(!didLayout) layout(false);
+		super.setRect(x,y,width,height);
+		if(!didLayout) layout(false);
 	
-	me.setRect(0,0, width, height);
-	treeControl.setRect(1,1,width-2, height-22);
-	Debug.println("Setting grid size: " + width + " " + height);
-	buttons.setRect(0,height-20,width,20);
+		me.setRect(0,0, width, height);
+		treeControl.setRect(1,1,width-2, height-22);
+		Debug.println("Setting grid size: " + width + " " + height);
+		buttons.setRect(0,height-20,width,20);
     }
 
     Dialog newDialog = null;
@@ -128,92 +128,92 @@ public class LObjDictionaryView extends LabObjectView
 
     public void insertAtSelected(TreeNode node)
     {
-	TreeNode curNode = treeControl.getSelected();
-	TreeNode parent = treeControl.getSelectedParent();
-	if(curNode == null){
-	    treeModel.insertNodeInto(node, treeModel.getRoot(), treeModel.getRoot().getChildCount());
-	} else {
-	    treeModel.insertNodeInto(node, parent, parent.getIndex(curNode)+1);
-	}
-	dict.lBook.commit();
+		TreeNode curNode = treeControl.getSelected();
+		TreeNode parent = treeControl.getSelectedParent();
+		if(curNode == null){
+			treeModel.insertNodeInto(node, treeModel.getRoot(), treeModel.getRoot().getChildCount());
+		} else {
+			treeModel.insertNodeInto(node, parent, parent.getIndex(curNode)+1);
+		}
+		dict.lBook.commit();
     }
 
     Dialog rnDialog = null;
 
     public void dialogClosed(DialogEvent e)
     {
-	String command = e.getActionCommand();
-	if(e.getSource() == newDialog){
-	    if(command.equals("Create")){
-		String objType = (String)e.getInfo();
-		LabObject newObj = null;
-		boolean autoEdit = false;
-		if(objType.equals("Folder")){
-		    newObj = new LObjDictionary();
-		} else if(objType.equals("Notes")){
-		    newObj = new LObjDocument();
-		    autoEdit = true;
-		} else if(objType.equals("Questions")){
-		    newObj = LObjQuestion.makeNewQuestionSet();
-		    autoEdit = true;
-		} else if(objType.equals("Data Collector")){	       
-		    LObjDataControl dc = LObjDataControl.makeNew();
-		    newObj = dc.dict;
-		    dc.dict.hideChildren = true;
-		    autoEdit = true;
-		} else if(objType.equals("Drawing")){
-		    newObj = new LObjDrawing();
-		    autoEdit = true;
-		} else if(objType.equals("UnitConvertor")){
-		    newObj = new LObjUConvertor();
-		    autoEdit = true;
-		} else if(objType.equals("Image")){
-		    newObj = new LObjImage();
-		    autoEdit = true;
-		} else if(objType.equals("DataSource")){
-		    newObj = new LObjDataSource();
-		    autoEdit = true;
-		}
-		if(newObj != null){
-		    if(newIndex == 0){
-			newObj.name = objType;		    
-		    } else {
-			newObj.name = objType + " " + newIndex;		    
-		    }
-		    newIndex++;
-		    TreeNode newNode = dict.getNode(newObj);
-		    insertAtSelected(newNode);
+		String command = e.getActionCommand();
+		if(e.getSource() == newDialog){
+			if(command.equals("Create")){
+				String objType = (String)e.getInfo();
+				LabObject newObj = null;
+				boolean autoEdit = false;
+				if(objType.equals("Folder")){
+					newObj = new LObjDictionary();
+				} else if(objType.equals("Notes")){
+					newObj = new LObjDocument();
+					autoEdit = true;
+				} else if(objType.equals("Questions")){
+					newObj = LObjQuestion.makeNewQuestionSet();
+					autoEdit = true;
+				} else if(objType.equals("Data Collector")){	       
+					LObjDataControl dc = LObjDataControl.makeNew();
+					newObj = dc.dict;
+					dc.dict.hideChildren = true;
+					autoEdit = true;
+				} else if(objType.equals("Drawing")){
+					newObj = new LObjDrawing();
+					autoEdit = true;
+				} else if(objType.equals("UnitConvertor")){
+					newObj = new LObjUConvertor();
+					autoEdit = true;
+				} else if(objType.equals("Image")){
+					newObj = new LObjImage();
+					autoEdit = true;
+				} else if(objType.equals("DataSource")){
+					newObj = new LObjDataSource();
+					autoEdit = true;
+				}
+				if(newObj != null){
+					if(newIndex == 0){
+						newObj.name = objType;		    
+					} else {
+						newObj.name = objType + " " + newIndex;		    
+					}
+					newIndex++;
+					TreeNode newNode = dict.getNode(newObj);
+					insertAtSelected(newNode);
 
-		    if(autoEdit){
-				showPage(newNode, true, false);
-		    }
-		}
+					if(autoEdit){
+						showPage(newNode, true, false);
+					}
+				}
 
-	    }
-	} else if(e.getSource() == rnDialog){
-	    if(command.equals("Ok")){
-		// This is a bug
+			}
+		} else if(e.getSource() == rnDialog){
+			if(command.equals("Ok")){
+				// This is a bug
 	       
-		TreeNode selObj = treeControl.getSelected();
-		if(selObj == null){
-		    dict.name = (String)e.getInfo();
-		    return;
-		}
+				TreeNode selObj = treeControl.getSelected();
+				if(selObj == null){
+					dict.name = (String)e.getInfo();
+					return;
+				}
 
-		LabObject obj = dict.getObj(selObj);
-		if(obj != null){
-		    obj.name = (String)e.getInfo();
-		    obj.store();
-		    if(!dict.lBook.commit()){
-			// error (what to do)
-			return;
-		    }
-		}
+				LabObject obj = dict.getObj(selObj);
+				if(obj != null){
+					obj.name = (String)e.getInfo();
+					obj.store();
+					if(!dict.lBook.commit()){
+						// error (what to do)
+						return;
+					}
+				}
 
-		treeControl.reparse();
-		treeControl.repaint();
-	    }
-	}		   
+				treeControl.reparse();
+				treeControl.repaint();
+			}
+		}		   
     }
 
     TreeNode clipboardNode = null;
@@ -336,71 +336,71 @@ public class LObjDictionaryView extends LabObjectView
 
     public void addMenu(LabObjectView source, org.concord.waba.extra.ui.Menu menu)
     {
-	if(container != null) container.addMenu(this, menu);
+		if(container != null) container.addMenu(this, menu);
     }
     
     public void delMenu(LabObjectView source, org.concord.waba.extra.ui.Menu menu)
     {
-	if(container != null) container.delMenu(this, menu);
+		if(container != null) container.delMenu(this, menu);
     }
 
     public void done(LabObjectView source)
     {
-	if(source == lObjView){
-	    lObjView.close();
+		if(source == lObjView){
+			lObjView.close();
 	    
 
-	    // I'm trying to have all objects be responsible for 
-	    // their own storing now.
-	    // dict.lBook.store(lObjView.lObj);
+			// I'm trying to have all objects be responsible for 
+			// their own storing now.
+			// dict.lBook.store(lObjView.lObj);
 
-	    // I might want to do a commit here lets try it....
-	    // of course if we are embedded this might be a problem
-	    if(!dict.lBook.commit()){
-		// error (what to do)
-		return;
-	    }
+			// I might want to do a commit here lets try it....
+			// of course if we are embedded this might be a problem
+			if(!dict.lBook.commit()){
+				// error (what to do)
+				return;
+			}
 
-	    remove(lObjView);
-	    treeControl.reparse();
-	    add(me);
-	    addMenu(this, editMenu);
-	    addMenu(this, viewMenu);
-	    lObjView = null;
-	}
-	//	System.gc();
+			remove(lObjView);
+			treeControl.reparse();
+			add(me);
+			addMenu(this, editMenu);
+			addMenu(this, viewMenu);
+			lObjView = null;
+		}
+		//	System.gc();
     }
 
     public void reload(LabObjectView source)
     {
-	if(source == lObjView){
-	    LabObject obj = source.getLabObject();
-	    lObjView.close();
-	    remove(lObjView);
+		if(source == lObjView){
+			LabObject obj = source.getLabObject();
+			lObjView.close();
+			remove(lObjView);
 	    
-	    lObjView = obj.getView(this, editStatus, (LObjDictionary)treeControl.getSelectedParent());
-	    lObjView.layout(true);
-	    lObjView.setRect(x,y,width,height);
-	    add(lObjView);
-	}
+			lObjView = obj.getView(this, editStatus, (LObjDictionary)treeControl.getSelectedParent());
+			lObjView.layout(true);
+			lObjView.setRect(x,y,width,height);
+			add(lObjView);
+		}
     }
 
     public LObjDictionary getDict()
     {
-	return dict;
+		return dict;
     }
 
     public void close()
     {
 	
-	if(container != null){
-	    container.delMenu(this,editMenu);
-	    container.delMenu(this,viewMenu);
-	}
+		if(container != null){
+			container.delMenu(this,editMenu);
+			container.delMenu(this,viewMenu);
+		}
 	
-	super.close();
-	// Commit ???
-	// Store ??
+		super.close();
+		// Commit ???
+		// Store ??
     }
 
 }
