@@ -429,12 +429,18 @@ public class LObjGraphView extends LabObjectView
 			}
 				
 			dd.update();
+		} else if(e.type == 1002){
+			// annotation added event
+			av.setViewMode('D');
+			lgm.setSelectedIndex(0);
 		} else if(e.type == 1003){
 			// annotation dragged event
 			dd.update();
 		} else if(e.type == 1004){
+			// yaxis blob clicked
 			graph.showAxisProp(2);
 		} else if(e.type == 1005){
+			// xaxis blob clicked
 			graph.showAxisProp(1);
 		}else if(e.target == viewChoice){
 			if(e.type == ControlEvent.PRESSED){
@@ -481,6 +487,8 @@ public class LObjGraphView extends LabObjectView
 					}
 				} else if(toolName.equals(TOOL_ZOOM_SELECT_NAME)){
 					av.lgView.zoomSelect();
+					av.setViewMode('D');
+					lgm.setSelectedIndex(0);
 				} else if(toolName.equals(TOOL_DEL_MARK_NAME)){
 					av.delAnnot(av.getSelectedAnnot());
 				} else if(toolName.equals(TOOL_ANNOT_MARK_NAME)){
