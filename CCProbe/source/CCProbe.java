@@ -20,12 +20,13 @@ public class CCProbe extends MainView implements CCApplHandlerListener
 							   "Drawing","UnitConvertor","Image"};
 
 	int		[]creationID = {0x00010100};
+	
+	private boolean	handlersWasRegistered = false;
 
     public void onStart()
     {
 		super.onStart();
-    	CCApplHandler applHandler = CCApplHandlerFactory.getCCApplHandler();
-    	if(applHandler != null) applHandler.registerHandlers(this);
+		registerHandlers();
     	
 		LObjDictionary loDict = null;
 
@@ -153,13 +154,22 @@ public class CCProbe extends MainView implements CCApplHandlerListener
 		return createNames;
 	}
 
+	public void registerHandlers(){
+		if(!handlersWasRegistered){
+    		System.out.println("handlersWasRegistered");
+    		handlersWasRegistered = true;
+    		CCApplHandler applHandler = CCApplHandlerFactory.getCCApplHandler();
+    		if(applHandler != null) applHandler.registerHandlers(this);
+    	}
+	}
+
 	public void createObj(String objType, LObjDictionaryView dView)
 	{
 		LabObject newObj = null;
 //		boolean autoEdit = false;
 		boolean autoEdit = true;
 		boolean autoProp = true;
-
+		
 		for(int f = 0; f < LabBook.objFactories.length; f++){
 			if(LabBook.objFactories[f] == null) continue;
 			LabObjDescriptor []desc = LabBook.objFactories[f].getLabBookObjDesc();

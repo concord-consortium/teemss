@@ -6,12 +6,12 @@ import com.apple.mrj.MRJPrefsHandler;
 import com.apple.mrj.MRJAboutHandler;
 
 
-public class CCMacApplHandler implements CCApplHandler, MRJQuitHandler, MRJPrefsHandler, MRJAboutHandler
+public class CCMacApplHandler implements CCApplHandler, MRJQuitHandler, MRJAboutHandler/*, MRJPrefstHandler*/
 {
 CCApplHandlerListener	listener;
 	public void registerHandlers(CCApplHandlerListener	listener){
     	MRJApplicationUtils.registerQuitHandler(this);
-    	MRJApplicationUtils.registerPrefsHandler(this);
+//    	MRJApplicationUtils.registerPrefsHandler(this);
     	MRJApplicationUtils.registerAboutHandler(this);
     	addCCApplHandlerListener(listener);
 	}
