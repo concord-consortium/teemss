@@ -7,7 +7,7 @@ import org.concord.ProbeLib.probes.*;
 import org.concord.waba.extra.util.*;
 import waba.fx.*;
 import waba.util.*;
-import graph.*;
+import org.concord.waba.graph.*;
 
 import javax.xml.parsers.*;
 import org.xml.sax.*;
