@@ -107,16 +107,13 @@ protected ProbManager	pb = null;
 //		response = OK;
 
 		
-		while(true){
+		while(port != null && port.isOpen()){
 			curChannel = 0;
 			ret = port.readBytes(buf, bufOffset, readSize - bufOffset);
 			if(ret <= 0) break; // there are no bytes available
 			ret += bufOffset;	    
 			if(ret < 16){
 				bufOffset = ret;//too few?
-				dEvent.setType(DataEvent.DATA_COLLECTING);
-				notifyProbManager(dEvent);
-				dEvent.setType(DataEvent.DATA_RECEIVED);
 				break;
 			}
 			curPos = 0;
@@ -168,6 +165,9 @@ protected ProbManager	pb = null;
 				bufOffset = j;
 			}
 		}
+		dEvent.setType(DataEvent.DATA_COLLECTING);
+		notifyProbManager(dEvent);
+		dEvent.setType(DataEvent.DATA_RECEIVED);
 		return false;
     }
 	
