@@ -58,7 +58,7 @@ public class LObjDictPagingView extends LabObjectView
 	add(nextButton);
 	add(backButton);
 	add(statusLabel);
-	add(delButton);
+	if(editStatus) add(delButton);
 	
 	showObject();
     }
@@ -71,7 +71,7 @@ public class LObjDictPagingView extends LabObjectView
 	backButton.setRect(0, height-15, 15, 15);
 	statusLabel.setRect(15, height-15, 40, 15);
 	nextButton.setRect(55, height-15, 15, 15);
-	delButton.setRect(100, height-15, 25, 15);
+	if(editStatus) delButton.setRect(100, height-15, 25, 15);
 	if(showDone){
 	    doneButton.setRect(130, height-15, 30, 15);
 	}

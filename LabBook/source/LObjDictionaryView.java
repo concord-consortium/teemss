@@ -28,7 +28,7 @@ public class LObjDictionaryView extends LabObjectView
 
     PropContainer creationProps = new PropContainer();
     PropContainer subCreateProps = creationProps.createSubContainer("Sub");
-    String [] creationTypes = {"Dictionary", "Document", "Questions", "Data Collector"};
+    String [] creationTypes = {"Dictionary", "Document", "Questions", "Data Collector", "Drawing"};
     PropObject newObjType = new PropObject("Type", creationTypes);
 
     boolean editStatus = false;
@@ -98,7 +98,6 @@ public class LObjDictionaryView extends LabObjectView
 
 	    LabObject newObj;
 	    if(e.target == newButton){
-		if(treeControl.getSelected() == null) return;
 		String [] buttons = {"Cancel", "Create"};
 		newDialog = Dialog.showInputDialog(this, "Create", "Create a new Object",
 						      buttons,Dialog.CHOICE_INP_DIALOG, creationTypes);
@@ -141,14 +140,20 @@ public class LObjDictionaryView extends LabObjectView
 		} else if(objType.equals("Data Collector")){	       
 		    LObjDataControl dc = LObjDataControl.makeNew();
 		    newObj = (LabObject)dc.dict;
+		    dc.dict.hideChildren = true;
+		} else if(objType.equals("Drawing")){
+		    newObj = (LabObject)new LObjDrawing();
 		}
 		if(newObj != null){
 		    TreeNode curNode = treeControl.getSelected();
 		    TreeNode parent = treeControl.getSelectedParent();
-		    if(curNode == null) return;
 		    newObj.name = "New" + newIndex;
 		    newIndex++;
-		    treeModel.insertNodeInto((TreeNode)newObj, parent, parent.getIndex(curNode)+1);
+		    if(curNode == null){
+			treeModel.insertNodeInto((TreeNode)newObj, treeModel.getRoot(), treeModel.getRoot().getChildCount());
+		    } else {
+			treeModel.insertNodeInto((TreeNode)newObj, parent, parent.getIndex(curNode)+1);
+		    }
 		}
 	    }
 	} else if(e.getSource() == rnDialog){

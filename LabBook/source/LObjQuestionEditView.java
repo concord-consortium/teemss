@@ -19,6 +19,8 @@ public class LObjQuestionEditView extends LabObjectView
     Label typeLabel = new Label("Type");
 
     LabObjectView options = null;
+    int optionsY = 0;
+    int optionsH = 10;
 
     public LObjQuestionEditView(LObjViewContainer vc, LObjQuestion lq)
     {
@@ -41,7 +43,7 @@ public class LObjQuestionEditView extends LabObjectView
 		    optionsDict.viewType = LObjDictionary.PAGING_VIEW;
 		    options = optionsDict.getView(null, true);
 		    options.layout(false);
-		    options.setRect(1, (height - 16)/2 + 40, 140, 100);		    
+		    options.setRect(1, optionsY, 140, optionsH);		    
 		    add(options);
 		}
 	    } else {
@@ -102,21 +104,35 @@ public class LObjQuestionEditView extends LabObjectView
 
     public void setRect(int x, int y, int width, int height)
     {
+	int curY = 1;
 	super.setRect(x,y,width,height);
 	if(!didLayout) layout(false);
 
-	doc.setRect(1, 16, width - 200, (height - 16)/2);
-
-	typeLabel.setRect(1, (height - 16)/2 + 20, 40, 15);
-	typeChoice.setRect(41, (height - 16)/2 + 20, 100, 15);
-
-	if(options != null){
-	    options.setRect(1, (height - 16)/2 + 40, 140, 100);
-	}
-
 	if(showDone){
-	    doneButton.setRect(width-30,height-15,30,15);
+	    doneButton.setRect(width-30,1,30,15);
 	}
+
+	if(showDone || showName){
+	    height -=16;
+	    curY = 16;
+	}
+	
+
+	doc.setRect(1, curY, (width > 400)?400:width, (height - 16)/2);
+	curY += (height - 16)/2;
+	height -= (height - 16)/2;
+
+	typeLabel.setRect(1, curY, 40, 15);
+	typeChoice.setRect(41, curY, 100, 15);
+	curY += 16;
+	height -= 16;
+
+	optionsY = curY;
+	optionsH = ((height - 1) > 100)?100:(height - 1);
+	if(options != null){
+	    options.setRect(1, curY, 150, optionsH);
+	}
+
     }
 
     public void close()

@@ -107,6 +107,7 @@ public class LObjQuestionView extends LabObjectView
 	    } else {		
 		essay = ((new LObjDocument()).getView(null, true));
 	    }
+	    ((LObjDocumentView)essay).showName = false;
 	    add(essay);
 	    break;
 	}
@@ -176,7 +177,8 @@ public class LObjQuestionView extends LabObjectView
 
 	if(quest.outputSet.curOutput == null){
 	    tmp = new LObjDictionary();
-	    tmp.name = "ans";
+	    tmp.name = "Answers" + (quest.outputSet.outputDict.getChildCount() + 1);
+	    tmp.hideChildren = true;
 	    quest.outputSet.newCurOutput(tmp);
 	}
 

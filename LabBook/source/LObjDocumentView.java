@@ -30,6 +30,7 @@ public class LObjDocumentView extends LabObjectView
 	showDone = sDone;
 
 	if(showName){
+	    if(doc.name == null) doc.name = "";
 	    nameEdit = new Edit();
 	    nameEdit.setText(doc.name);
 	    edit.add(new Label("Name"), 1, 1, 30, 15);

@@ -83,7 +83,7 @@ public class LabBookFile implements LabBookDB
 	return nextObjId++;
     }
 
-    public boolean close()
+    public boolean save()
     {
 	int curObjFilePos = 0;
 	int curIndexPos = 0;
@@ -120,6 +120,13 @@ public class LabBookFile implements LabBookDB
 	return true;
     }
     
+    public void close()
+    {
+	if(file != null){
+	    file.close();
+	}
+    }
+
     /*
      * The ObjectIndex format is:
      * [ length ]
@@ -207,6 +214,8 @@ public class LabBookFile implements LabBookDB
 	int numObj = objects.getCount();
 	int i;
 	FileObject fObj;
+
+	System.out.println(" Saving " + count + " bytes to fObj");
 	
 	// Find the object
 	for(i=0; i<numObj; i++){

@@ -1,7 +1,9 @@
 public interface LabBookDB 
 {
-    public boolean close();
+    public boolean save();
     
+    public void close();
+
     public boolean getError();
  
     public byte [] readObjectBytes(int devId, int objId);

@@ -12,9 +12,10 @@ public abstract class LabObject implements TreeNode
     final public static int DOCUMENT = 6;
     final public static int OUTPUT_SET = 7;
     final public static int QUESTION = 8;
+    final public static int DRAWING = 9;
 
     public static String [] typeNames = {
-	"Zero", "Dict", "Form", "DataSet", "Graph", "DataControl", "Doc", "OutputSet", "Quest",};
+	"Zero", "Dict", "Form", "DataSet", "Graph", "DataControl", "Doc", "OutputSet", "Quest","Drawing"};
 
     public static LabObject getNewObject(int objectType)
     {
@@ -35,6 +36,8 @@ public abstract class LabObject implements TreeNode
 	    return (LabObject)new LObjOutputSet();
 	case QUESTION:
 	    return (LabObject)new LObjQuestion();
+	case DRAWING:
+	    return (LabObject)new LObjDrawing();
 	}
 
 	return null;
@@ -86,6 +89,8 @@ public abstract class LabObject implements TreeNode
     public void remove(int index){}
 
     public void remove(TreeNode node){}
+
+    public int getChildCount(){return 0;}
 
     public String toString()
     {

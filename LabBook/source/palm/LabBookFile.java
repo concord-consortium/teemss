@@ -2,6 +2,8 @@ import waba.io.*;
 import waba.util.*;
 import waba.sys.*;
 import extra.io.*;
+import org.concord.waba.extra.ui.*;
+import org.concord.waba.extra.event.*;
 
 class FileObject 
 {
@@ -10,7 +12,8 @@ class FileObject
     byte [] buffer;
 }
 
-public class LabBookFile implements LabBookDB
+public class LabBookFile 
+    implements LabBookDB, DialogListener
 {
     DataStream ds;
 
@@ -57,6 +60,7 @@ public class LabBookFile implements LabBookDB
 	ds = new DataStream(cat);
 	if(!readIndex()){
 	    // Failed
+	    openErr("1");
 	    error = true;
 	    return;
 	}
@@ -75,7 +79,9 @@ public class LabBookFile implements LabBookDB
 	    filePos = objIndex[curPos++];
 
 	    if(!cat.setRecordPos(filePos)){
-		error = true; return;
+		error = true; 
+		openErr("load:" + curPos + ":" + filePos + ":" + fObj.devId + ":" + fObj.objId);
+		return;
 	    }
 	    objSize = ds.readInt();
 	    fObj.buffer = new byte [objSize];
@@ -97,7 +103,42 @@ public class LabBookFile implements LabBookDB
 	return nextObjId++;
     }
 
-    public boolean close()
+    String [] errButtons = {"Bummer"};
+    Dialog errDialog = null;
+    public void showError(String msg)
+    {
+	errDialog = Dialog.showInputDialog(this, "Error saving LbBk", msg, errButtons, Dialog.EDIT_INP_DIALOG);
+    }
+
+    public void dialogClosed(DialogEvent e)
+    {
+	String command = e.getActionCommand();
+	if(e.getSource() == errDialog){
+	    if(command.equals(errButtons[0])){
+	    }
+	}
+    }
+
+    public void openErr(String msg)
+    {
+	showError("LbDB open: " + msg);
+	if(cat != null){
+	    cat.close();
+	    cat = null;
+	}
+    }
+
+    public boolean closeErr(String msg)
+    {
+	showError("LbDB close: " + msg);
+	if(cat != null){
+	    cat.close();
+	    cat = null;
+	}
+	return false;
+    }
+
+    public boolean save()
     {
 	int curObjFilePos = 0;
 	int curIndexPos = 0;
@@ -111,16 +152,16 @@ public class LabBookFile implements LabBookDB
 	if(cat.getRecordCount() < 1){
 	    cat.addRecord(indexSize);
 	} else {	
-	    if(!cat.setRecordPos(0)) return false;
-	    if(!cat.resizeRecord(indexSize)) return false;
-	    if(!cat.setRecordPos(0)) return false;
+	    if(!cat.setRecordPos(0)) return closeErr("1" + ":" + indexSize);
+	    if(!cat.resizeRecord(indexSize)) return  closeErr("2" + ":" + indexSize + ":" + cat.getError());
+	    if(!cat.setRecordPos(0)) return  closeErr("3" + ":" + indexSize);
 	}
 
 
 	ds.writeInt(curDevId);
 	ds.writeInt(nextObjId);
-
 	ds.writeInt(numObj);
+
 	for(i=0; i<numObj; i++){
 	    fObj = (FileObject)objects.get(i);
 	    ds.writeInt(fObj.devId);
@@ -138,9 +179,9 @@ public class LabBookFile implements LabBookDB
 	    if(cat.getRecordCount() <= i+1){
 		cat.addRecord(objSize);
 	    } else {		
-		if(!cat.setRecordPos(i+1)) return false;
-		if(!cat.resizeRecord(objSize)) return false;
-		if(!cat.setRecordPos(i+1)) return false;
+		if(!cat.setRecordPos(i+1)) return closeErr("4:" + i + ":" + numObj + ":" + objSize);
+		if(!cat.resizeRecord(objSize)) return closeErr("5:" + i + ":" + numObj + ":" + objSize + ":" + cat.getError());
+		if(!cat.setRecordPos(i+1)) return closeErr("6:" + i + ":" + numObj + ":" + objSize);
 	    }
 	    
 	    ds.writeInt(fObj.buffer.length);
@@ -149,13 +190,18 @@ public class LabBookFile implements LabBookDB
 	}
 
 	cat.setRecordPos(-1);
-	cat.close();
-	cat = null;
 
 	return true;
 
     }
     
+    public void close()
+    {
+	if(cat != null){	    
+	    cat.close();
+	}
+    }
+
     /*
      * The ObjectIndex format is:
      * [ length ]

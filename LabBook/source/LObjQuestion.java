@@ -29,7 +29,6 @@ public class LObjQuestion extends LObjSubDict
 	me.dict.mainObject = me;
 
 	LObjOutputSet output = LObjOutputSet.makeNew();
-	output.name = "OutputSet_obj";
 
 	LObjDictionary qsDict = new LObjDictionary();
 	qsDict.name = "Questions";

@@ -77,6 +77,7 @@ public class LObjDictionary extends LabObject
 	objects = new Vector();
 	int i;
 	super.readExternal(ds);
+	hideChildren = (ds.readByte() == 0?false:true);
 	viewType = ds.readInt();
 
 	int size = ds.readInt();
@@ -97,6 +98,7 @@ public class LObjDictionary extends LabObject
 	int i;
 	int size = objects.getCount();
 	super.writeExternal(ds);
+	ds.writeByte(hideChildren?1:0);
 	ds.writeInt(viewType);
 
 	ds.writeInt(size);

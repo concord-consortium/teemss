@@ -34,6 +34,8 @@ public class LObjOutputSet extends LObjSubDict
 	LObjOutputSet me = new LObjOutputSet();
 	me.dict = new LObjDictionary();
 	me.dict.mainObject = me;
+	me.name = "OutputSet_obj";
+	me.dict.hideChildren = true;
 	return me;
     }
     public LObjOutputSet(boolean dud){

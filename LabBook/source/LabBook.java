@@ -59,6 +59,9 @@ public class LabBook
     // curDeviceId and nextObjectId
 
     Vector toBeStored = new Vector();
+    Vector alreadyStored = null;
+
+
     public LabObjectPtr store(LabObject lObj)
     {
 	LabObjectPtr lObjPtr;
@@ -77,11 +80,34 @@ public class LabBook
 	    lObj.ptr = lObjPtr;
 	}
 
-	int numObj = toBeStored.getCount();
-	for(int i=0; i<numObj; i++){
-	    if((LabObjectPtr)(toBeStored.get(i)) == lObjPtr){
+	int i;
+	Object [] curObjArr;
+	if(alreadyStored != null){
+	    curObjArr = alreadyStored.toObjectArray();
+	    for(i=0; i< curObjArr.length; i++){
+		if(curObjArr[i] == lObjPtr){
+		    // this ptr has already been stored.
+		    break;
+		}
+	    }
+
+	    if(i != curObjArr.length){
+		// This object has already been written out
 		return lObjPtr;
 	    }
+	}
+
+	curObjArr = toBeStored.toObjectArray();
+	for(i=0; i< curObjArr.length; i++){
+	    if(curObjArr[i] == lObjPtr){
+		// this ptr will be stored.
+		break;
+	    }
+	}
+
+	if(i != curObjArr.length){
+	    // This object is slated to be written out
+	    return lObjPtr;
 	}
 
 	toBeStored.add(lObjPtr);
@@ -121,48 +147,41 @@ public class LabBook
 
     public void commit()
     {
-	Vector alreadyStored = new Vector();
-
-	int origNumObj = 0;
 	Object [] curObjArr;
-	int numObj = toBeStored.getCount();
-	int numStored = 0;
-	int objType = -1;
 	int i,j;
 	LabObjectPtr curObjPtr;
 	byte [] outBuf;
 
-	while(numObj > origNumObj){
-	    origNumObj = numObj;
-	    curObjArr = toBeStored.toObjectArray();
+	alreadyStored = new Vector();
 
-	    for(i=0; i< numObj; i++){
-		numStored = alreadyStored.getCount();
-		for(j=0; j<numStored; j++){
-		    if(curObjArr[i] == alreadyStored.get(j)){
-			break;
-		    }
-		}
-		if(j == numStored){
-		    // Need to write this object
-		    // this means allocating BufferStream 
-		    // and then sending buffer to LabBookDB
-		    // and writting the object type id to the file
-		    
-		    curObjPtr = (LabObjectPtr)curObjArr[i];
-		    dsOut.writeInt(curObjPtr.obj.objectType);
-		    curObjPtr.obj.writeExternal(dsOut);
-		    outBuf = bsOut.getBuffer();
-		    db.writeObjectBytes(curObjPtr.devId, curObjPtr.objId, 
-					outBuf, 0, outBuf.length);
+	while(toBeStored.getCount() > 0){
+	    curObjArr = alreadyStored.toObjectArray();
 
-		    bsOut.setBuffer(null);
-		    alreadyStored.add(curObjArr[i]);
+	    curObjPtr = (LabObjectPtr)toBeStored.get(0);
+
+	    for(i=0; i< curObjArr.length; i++){
+		if(curObjArr[i] == curObjPtr){
+		    // this ptr has already been stored.
+		    toBeStored.del(0);
+		    break;
 		}
 	    }
+	    if(i == curObjArr.length){
+		// This object hasn't been stored yet.
+		alreadyStored.add(curObjPtr);
+		toBeStored.del(0);
 
-	    numObj = toBeStored.getCount();
-	}
+		dsOut.writeInt(curObjPtr.obj.objectType);
+
+		// This might call store which will change the toBeStored vector
+		curObjPtr.obj.writeExternal(dsOut);
+		outBuf = bsOut.getBuffer();
+		db.writeObjectBytes(curObjPtr.devId, curObjPtr.objId, 
+				    outBuf, 0, outBuf.length);
+
+		bsOut.setBuffer(null);
+	    }
+	}	       
 
 	toBeStored = new Vector();
 	loaded = new Vector();
@@ -239,6 +258,10 @@ public class LabBook
 
     public boolean close()
     {
-	return db.close();
+	boolean ret = db.save();
+
+	db.close();
+
+	return ret;
     }
 }
