@@ -20,7 +20,7 @@ public class Choice extends extra.ui.List{
 	  }
 	public void onPaint(waba.fx.Graphics g)
 	{
-		if(getFontMetrics() == null) calcSizes();
+		if(fm == null) calcSizes();
 		if (!isPopup()){
 			int width = this.width;
 			int height = this.height;
@@ -86,7 +86,8 @@ public class Choice extends extra.ui.List{
 		g.setColor(0, 0, 0);
 		g.drawText(getSelected(),4,3);
  	}
-	  public void doPopup(){
+
+	public void doPopup(){
 		waba.ui.Control c = getParent();
 		waba.ui.Window w = null;
 		while(c != null){
@@ -96,8 +97,9 @@ public class Choice extends extra.ui.List{
 			}
 			c = c.getParent();
 		}
-	      popup=new extra.ui.Popup(this,w);
-	       popup.popup(x,y,width,textHeight*numDisplayed+3+initialYOffset);
-	  }
+	    
+		popup=new extra.ui.Popup(this,w);
+		popup.popup(x,y,expandedWidth+10,textHeight*numDisplayed+3+initialYOffset);
+	}
 
 }

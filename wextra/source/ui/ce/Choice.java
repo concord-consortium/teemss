@@ -21,7 +21,7 @@ public class Choice extends extra.ui.List{
 	  }
 	public void onPaint(waba.fx.Graphics g)
 	{
-		if(getFontMetrics() == null) calcSizes();
+		if(fm == null) calcSizes();
 		if (!isPopup()){
 			int width = this.width;
 			int height = this.height;
@@ -87,9 +87,5 @@ public class Choice extends extra.ui.List{
 		g.setColor(0, 0, 0);
 		g.drawText(getSelected(),4,3);
  	}
-	  public void doPopup(){
-	       popup=new extra.ui.Popup(this);
-	       popup.popup(x,y,width,textHeight*numDisplayed+3+initialYOffset);
-	  }
 
 }

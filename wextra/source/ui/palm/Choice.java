@@ -9,19 +9,24 @@ public class Choice extends extra.ui.List{
 		super();
 		initialYOffset = 15;
 	}
-	
-	  public void onEvent(waba.ui.Event event){
-    		if (event instanceof waba.ui.PenEvent){
-     			 	int px=((waba.ui.PenEvent)event).x;
-      				int py=((waba.ui.PenEvent)event).y;
-      				if(px < 0 || px > width) return;
-      				if(py < 0 || py > height) return;
+
+	/*	
+	public void onEvent(waba.ui.Event event)
+	{
+		if (event instanceof waba.ui.PenEvent){
+			int px=((waba.ui.PenEvent)event).x;
+			int py=((waba.ui.PenEvent)event).y;
+			if(px < 0 || px > width) return;
+			if(py < 0 || py > height) return;
 	  	}
 	  	super.onEvent(event);
-	  }
+	}
+	*/
+
+	/*
 	public void onPaint(waba.fx.Graphics g)
 	{
-		if(getFontMetrics() == null) calcSizes();
+		if(fm == null) calcSizes();
 		if (!isPopup()){
 			int width = this.width;
 			int height = this.height;
@@ -87,9 +92,6 @@ public class Choice extends extra.ui.List{
 		g.setColor(0, 0, 0);
 		g.drawText(getSelected(),4,3);
  	}
-	  public void doPopup(){
-	       popup=new extra.ui.Popup(this);
-	       popup.popup(x,y,width,textHeight*numDisplayed+3+initialYOffset);
-	  }
 
+	*/
 }
