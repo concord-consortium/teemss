@@ -468,7 +468,7 @@ public static void toPDB(java.io.OutputStream outStream, Vector records, String 
    // copies the db name to inside the array <name>
    byte []bn = dbName.getBytes();
    for (int i =0; i < name.length; i++)
-      name[i] = (i < bn.length)?bn[i]:0;
+      name[i] = (i < bn.length)?bn[i]:(byte)0;
 
    short numRecords = (short)records.size();
    java.io.DataOutputStream os = new java.io.DataOutputStream(outStream);

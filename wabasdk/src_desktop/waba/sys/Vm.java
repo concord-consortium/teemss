@@ -511,7 +511,11 @@ public static java.io.OutputStream openOutputStream(String path)
 	      } 
 	      catch (java.net.UnknownServiceException u) // try another way
 		  {
-		      stream = new java.io.FileOutputStream(path); 
+		      try{
+			  stream = new java.io.FileOutputStream(path); 
+		      } catch (Exception e){
+			  System.out.println("error in Vm.openOutputStream:"+e.getClass()+" "+e.getMessage());
+		      }
 		  }
 	   }
 	}
