@@ -24,10 +24,10 @@ float DC = 10f;
 float EC = -50f;
 float FC = 0.0f;
 	private boolean fromConstructor = true;
-	protected CCThermalCouple(){
+	CCThermalCouple(){
 		this("unknown");
 	}
-	protected CCThermalCouple(String name){
+	CCThermalCouple(String name){
 		setName(name);
 		dDesc.setChPerSample(2);
 		dDesc.setDt(0.0f);

@@ -1,8 +1,9 @@
 package org.concord.waba.extra.probware.probs;
 
-import org.concord.waba.extra.event.DataListener;
-import org.concord.waba.extra.event.DataEvent;
+import org.concord.waba.extra.event.*;
 import org.concord.waba.extra.probware.*;
+import org.concord.waba.extra.ui.ExtraMainWindow;
+import org.concord.waba.extra.ui.CalibrationDialog;
 import extra.util.*;
 
 public abstract class CCProb implements Transform{
@@ -67,14 +68,6 @@ DataListener calibrationListener = null;
 	public void setName(String name){this.name = name;}
 	public String getName(){return name;}
 	
-	public static CCProb getCCThermalCoupleProb(String name){
-		return new CCThermalCouple(name);
-	}
-	
-	public static CCProb getCCLightIntensityProb(String name){
-		return new CCLightIntens(name);
-	}
-	
 	public PropObject getProperty(String nameProperty){
 		if(nameProperty == null) return null;
 		if(countProperties() < 1) return null;
@@ -129,4 +122,9 @@ DataListener calibrationListener = null;
 	
 	public void  calibrationDone(float []row1,float []row2,float []calibrated){}
 	
+	public void calibrateMe(ExtraMainWindow owner,DialogListener l){
+		CalibrationDialog cDialog = new CalibrationDialog(owner,l,"Calibration: "+getName(),this);
+		cDialog.setRect(100,100,160,160);
+		cDialog.show();
+	}
 }

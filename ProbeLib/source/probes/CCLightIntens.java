@@ -10,10 +10,10 @@ public DataDesc	dDesc = new DataDesc();
 public DataEvent	dEvent = new DataEvent();
 float  			[]lightData = new float[1];
 float  			dtChannel = 0.0f;
-	protected CCLightIntens(){
+	CCLightIntens(){
 		this("unknown");
 	}
-	protected CCLightIntens(String name){
+	CCLightIntens(String name){
 		setName(name);
 		dDesc.setChPerSample(2);
 		dDesc.setDt(0.0f);
