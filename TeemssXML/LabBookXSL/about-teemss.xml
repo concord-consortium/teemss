@@ -1,5 +1,31 @@
 
-<!--  file: datacollectors.xml, Data Collectors include folder -->
+<!--  file: about-teemss.xml, TEEMSS project include folder -->
+
+<FOLDER ID="about-teemss-folder" name="About TEEMSS">
+
+<SUPERNOTES ID="about-teemss" name="About TEEMSS">
+  <EMBOBJ object="teemss_titlebar.bmp"/>
+  <SNPARAGRAPH linkcolor="0000FF">
+    TEEMSS Project
+  </SNPARAGRAPH>
+  <SNPARAGRAPH/>
+  <SNPARAGRAPH>
+    http://concord.org/teemss
+  </SNPARAGRAPH>
+</SUPERNOTES>
+
+<SUPERNOTES ID="labbook-version" name="About This LabBook">
+  <EMBOBJ object="teemss_titlebar.bmp"/>
+  <SNPARAGRAPH linkcolor="0000FF">
+     This is v1.0b1 of the TEEMSS project LabBook, date: Feb 2, 2002.
+  </SNPARAGRAPH>
+</SUPERNOTES>
+
+<FOLDER ID="folder-teemss-images" name="Images" view="paging">
+  <IMAGE ID="teemss_titlebar.bmp" name="teemss_titlebar.bmp"
+  url="../misc-images/teemss_titlebar.bmp"/>
+</FOLDER>
+
 
     <FOLDER ID="dc-folder" name="TEEMSS Data Collectors">
 
@@ -287,3 +313,4 @@
       </DATACOLLECTOR>
 
   </FOLDER>
+</FOLDER>

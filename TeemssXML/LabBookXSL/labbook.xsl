@@ -19,15 +19,9 @@
   <LABBOOK>
     <FOLDER ID="folder-ccprobe1" name="CCProbe">
       <xsl:copy-of select="document('ccprobe.xml')"/>
-      <xsl:copy-of select="document('datacollectors.xml')"/>
-      <SUPERNOTES ID="labbook-version" name="About This LabBook">
-        <EMBOBJ object="teemss_titlebar.bmp"/>
-	<SNPARAGRAPH linkcolor="0000FF">
-          This v1.0b1 of the TEEMSS project LabBook, date: Feb 2, 2002.
-       </SNPARAGRAPH>
-      </SUPERNOTES>
     </FOLDER>
     <FOLDER ID="{title}" name="{title}">
+      <xsl:copy-of select="document('about-teemss.xml')"/>
       <xsl:apply-templates select="unit"/>
     </FOLDER>
     <FOLDER ID="saved-datasets" name="Saved Datasets">
