@@ -1,16 +1,18 @@
 package org.concord.waba.extra.probware;
-import org.concord.waba.extra.event.DataEvent;
-import org.concord.waba.extra.event.DataListener;
+import org.concord.waba.extra.event.*;
 import org.concord.waba.extra.probware.probs.CCProb;
 import extra.util.*;
 
 public class ProbManager implements Transform{
 public static ProbManager pb = null;
 CCInterfaceManager im;
-protected 	waba.util.Vector 	probs = null;
+protected 	waba.util.Vector 	probs 	= null;
+protected 	waba.util.Vector 	listeners 	= null;
+protected 	static ProbManagerEvent   pmEvent = new ProbManagerEvent();
 	protected ProbManager(){
 		im = CCInterfaceManager.getInterfaceManager();
 		im.setProbManager(this);
+		pmEvent.setProbManager(this);
 	}
 	public static ProbManager getProbManager(){
 		if(pb == null){
@@ -19,10 +21,36 @@ protected 	waba.util.Vector 	probs = null;
 		return pb;
 	}
 	
+	protected void notifyListeners(int type,Object info){
+		if(listeners == null) return;
+		pmEvent.setType(type);
+		pmEvent.setInfo(info);
+		boolean registration = ((type == ProbManagerEvent.PM_REGISTERED) || (type == ProbManagerEvent.PM_UNREGISTERED));
+		for(int i = 0; i < listeners.getCount(); i++){
+			ProbManagerListener l = (ProbManagerListener)listeners.get(i);
+			if(l == null) continue;
+			if(registration){
+				l.pmRegistration(pmEvent);
+			}else{
+				l.pmActionPerformed(pmEvent);
+			}
+		}
+	}
+	
+	public void addProbManagerListener(ProbManagerListener l){
+		if(listeners == null) listeners = new waba.util.Vector();
+		if(listeners.find(l) < 0) listeners.add(l);
+	}
+	public void removeProbManagerListener(ProbManagerListener l){
+		int index = listeners.find(l);
+		if(index >= 0) listeners.del(index);
+	}
+	
 	public void registerProb(CCProb prob){
 		if(probs == null) probs = new waba.util.Vector();
 		if(probs.find(prob) < 0){
 			probs.add(prob);
+			notifyListeners(ProbManagerEvent.PM_REGISTERED,prob);
 		}
 		syncModeWithProb();
 	}
@@ -30,6 +58,7 @@ protected 	waba.util.Vector 	probs = null;
 		int index = probs.find(prob);
 		if(index >= 0){
 			probs.del(index);
+			notifyListeners(ProbManagerEvent.PM_UNREGISTERED,prob);
 		}
 	}
 	
@@ -96,10 +125,12 @@ protected 	waba.util.Vector 	probs = null;
 	}
 	public void start(){
 		if(im == null) return;
+		notifyListeners(ProbManagerEvent.PM_START,null);
 		im.start();
 	}
 	public void stop(){
 		if(im == null) return;
 		im.stop();
+		notifyListeners(ProbManagerEvent.PM_STOP,null);
 	}
 }
