@@ -81,7 +81,7 @@ public class CCRawData extends Probe
 		int modeIndex = sampProp.getIndex();
 		if(modeIndex == 0){
 			// A2D 24 mode  +/- 0.00015 milliVolts 
-			return -7;
+			return -5;
 		} else { 
 			// A2D 10 mode +/- 3 milliVolts
 			return -3;
