@@ -250,7 +250,9 @@ public class BigNumber extends Control implements PreferredSize
 
   }
 
-  
+  public Dimension getPreferredSize(){
+  	return new Dimension(getPreferredWidth(null),getPreferredHeight(null));
+  }
 
   public void onPaint(Graphics g)
 

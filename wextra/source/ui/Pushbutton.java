@@ -392,6 +392,11 @@ public class Pushbutton extends Control implements PreferredSize
 
   }
 
+  public Dimension getPreferredSize(){
+    FontMetrics fm=getFontMetrics(MainWindow.defaultFont);
+    if(fm == null) return null;
+	return new Dimension(getPreferredWidth(fm),getPreferredHeight(fm));
+  }
   
 
   /**

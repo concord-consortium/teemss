@@ -300,6 +300,11 @@ public class PopupMenu extends Control implements extra.ui.PreferredSize
 
   }
 
+  public extra.ui.Dimension getPreferredSize(){
+	if (fm==null) fm=getFontMetrics(MainWindow.defaultFont);
+    if(fm == null) return null;
+	return new extra.ui.Dimension(getPreferredWidth(fm),getPreferredHeight(fm));
+  }
 
 
   public boolean calcSizes()

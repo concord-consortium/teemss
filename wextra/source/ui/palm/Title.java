@@ -121,6 +121,11 @@ public class Title extends Control implements PreferredSize
     return fm.getHeight()+4;
 
   }
+  public extra.ui.Dimension getPreferredSize(){
+    FontMetrics fm=getFontMetrics(MainWindow.defaultFont);
+    if(fm == null) return null;
+	return new extra.ui.Dimension(getPreferredWidth(fm),getPreferredHeight(fm));
+  }
 
   
 

@@ -147,6 +147,12 @@ public class List extends Control implements PreferredSize
 		return fm.getHeight();
 	}
 
+	public Dimension getPreferredSize(){
+		if(fm==null) fm=getFontMetrics(MainWindow.defaultFont);
+		if(fm == null) return null;
+		return new Dimension(getPreferredWidth(fm),getPreferredHeight(fm));
+	}
+
 	public boolean calcSizes()
 	{
 		if (fm==null)
