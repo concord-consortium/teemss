@@ -188,7 +188,7 @@ DataListener calibrationListener = null;
 		out.writeInt(CALIBRATION_PROB_END);
 		out.writeInt(PROPERTIES_PROB_START);
 		out.writeBoolean(properties != null);
-		if(calibrationDesc != null){
+		if(properties != null){
 			out.writeInt(countProperties());
 			for(int i = 0; i < countProperties(); i++){
 				PropObject p = properties[i];
@@ -220,6 +220,8 @@ DataListener calibrationListener = null;
 			properties = new PropObject[temp];
 			for(int i = 0; i < temp; i++){
 				if(in.readBoolean()) properties[i] = new PropObject(in);
+				setPropertyValue(i,properties[i].getValue());
+
 			}
 		}
 		temp = in.readInt();//PROPERTIES_PROB_END

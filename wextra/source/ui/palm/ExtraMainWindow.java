@@ -402,6 +402,7 @@ public boolean isControlHDialogOwned(Control c){
   {
 
 	if(popupDialog != null){
+	    // What the hell is this doing???????????????
 		if (type == PenEvent.PEN_DOWN){
 			Control c = findChild(x, y);
 			if(c instanceof Dialog){
@@ -414,6 +415,11 @@ public boolean isControlHDialogOwned(Control c){
 				}
 			}
 		}
+		if (menubar!=null&&type == KeyEvent.KEY_PRESS&&key==IKeys.MENU){
+		    Sound.beep();
+		    return;
+		}
+		    
 	}
 		if (menubar!=null&&type == KeyEvent.KEY_PRESS&&key==IKeys.MENU)
 

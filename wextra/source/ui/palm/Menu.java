@@ -701,12 +701,13 @@ public class Menu extends Control
                 if (!((String)options.get(oldselected)).equals("-"))
 
                 {
-
                     postEvent(new ControlEvent(ControlEvent.PRESSED,this));
 
-                    this.hide();
 
+                    this.hide();
 					menubar.hide();     
+
+
 
 					if(listener != null){
 

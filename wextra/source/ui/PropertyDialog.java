@@ -11,7 +11,10 @@ int			currContainer = 0;
 waba.ui.Button bClose = null;
 waba.ui.Button bCancel = null;
 waba.ui.Button bApply = null;
+TabBar 	 tabBar = null;
+
 waba.ui.Label  contName = null;
+
 Container []propertiesPanes =null;
 Container   currentPane =null;
 int 	bHeight = 20;
@@ -35,25 +38,34 @@ ExtraMainWindow owner = null;
 		int bWidthClose	= fm.getTextWidth("Close") + 5;
 		int bWidthCancel 	= fm.getTextWidth("Cancel") + 5;
 		int bWidthApply 	= fm.getTextWidth("Apply") + 5;
-		bClose = new waba.ui.Button("Close");
+		if(bClose == null) 	bClose = new Button("Close");
+		else 				getContentPane().remove(bClose);
 		bClose.setRect(contentRect.width/2 + 5 + bWidthApply/2,contentRect.height - 5 - bHeight,bWidthClose,bHeight);
 		getContentPane().add(bClose);
-		bCancel = new waba.ui.Button("Cancel");
+		if(bCancel == null) bCancel = new waba.ui.Button("Cancel");
+		else getContentPane().remove(bCancel);
 		bCancel.setRect(contentRect.width/2 - 5 - bWidthApply/2 - bWidthCancel,contentRect.height - 5 - bHeight,bWidthCancel,bHeight);
 		getContentPane().add(bCancel);
-		bApply = new waba.ui.Button("Apply");
+		if(bApply == null) bApply = new waba.ui.Button("Apply");
+		else getContentPane().remove(bApply);
 		bApply.setRect(contentRect.width/2 - bWidthApply/2 ,contentRect.height - 5 - bHeight,bWidthApply,bHeight);
 		getContentPane().add(bApply);
 	}
+
 	public void setTabBar(){
-		TabBar tabBar = new TabBar();
-		for(int i = 0; i < nContainers; i++){
-			MyTab tab = new MyTab(propContainer.getPropertiesContainerName(i));
-			tabBar.add(tab);
+		if(tabBar == null){
+			tabBar = new TabBar();
+			for(int i = 0; i < nContainers; i++){
+				MyTab tab = new MyTab(propContainer.getPropertiesContainerName(i));
+				tabBar.add(tab);
+			}
+		}else{
+			getContentPane().remove(tabBar);
 		}
 		tabBar.setRect(widthBorder+2, 0, width - 2*widthBorder - 4, 20);
 		getContentPane().add(tabBar);
 	}
+
 	public void setContent(){
 		setButtons();
 		setTabBar();
@@ -72,8 +84,7 @@ ExtraMainWindow owner = null;
 		int nProperties = prop.getCount();
  		if(propertiesPanes[currContainer] == null){
 			propertiesPanes[currContainer] = new Container();
-		}
-
+		
 			int pHeight = contentRect.height - (25 + bHeight);
 			int pWidth = contentRect.width - 2*widthBorder;
 			propertiesPanes[currContainer].setRect(widthBorder,20, pWidth ,pHeight);
@@ -112,7 +123,7 @@ ExtraMainWindow owner = null;
 				propertiesPanes[currContainer].add(lName);
 				propertiesPanes[currContainer].add(c);
 			}
-		
+		}
 		getContentPane().add(propertiesPanes[currContainer]);
 		currentPane = propertiesPanes[currContainer];
  	}

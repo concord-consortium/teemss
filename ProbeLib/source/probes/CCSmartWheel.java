@@ -16,7 +16,7 @@ public final static String	[]wheelModes =  {defaultModeName,"Ang. Vel.","Lin. Ve
 public final static int		ANG_MODE_OUT 		= 1;
 public final static int		LINEAR_MODE_OUT 	= 2;
     public final static int     LIN_POS_MODE_OUT        = 3;
-public final static int		DEFAULT_MODE_OUT   = ANG_MODE_OUT;
+public final static int		DEFAULT_MODE_OUT   = LIN_POS_MODE_OUT;
 int					outputMode = DEFAULT_MODE_OUT;
 	private boolean fromConstructor = true;
 	CCSmartWheel(){
@@ -35,10 +35,11 @@ int					outputMode = DEFAULT_MODE_OUT;
 		properties[0] = new PropObject(samplingModeString,samplingModes); 
 		properties[1] = new PropObject(wheelModeString,wheelModes); 
 		setPropertyValue(0,samplingModes[CCProb.SAMPLING_DIG_MODE]);
-		setPropertyValue(1,wheelModes[ANG_MODE_OUT]);
+		setPropertyValue(1,wheelModes[LIN_POS_MODE_OUT]);
 		
-		calibrationDesc = new CalibrationDesc();
+		/*		calibrationDesc = new CalibrationDesc();
 		calibrationDesc.addCalibrationParam(new CalibrationParam(0,radius));
+		*/
 		unit = CCUnit.UNIT_CODE_ANG_VEL;
 		outputMode = DEFAULT_MODE_OUT;
 		fromConstructor = false;
@@ -62,15 +63,15 @@ int					outputMode = DEFAULT_MODE_OUT;
 				}
 			}
 			switch(outputMode){
-				case LINEAR_MODE_OUT:
-					unit = CCUnit.UNIT_CODE_LINEAR_VEL;
-					break;
-				default:
-				case ANG_MODE_OUT:
-					unit = CCUnit.UNIT_CODE_ANG_VEL;
-					break;
+			case LINEAR_MODE_OUT:
+			    unit = CCUnit.UNIT_CODE_LINEAR_VEL;
+			    break;
 			case LIN_POS_MODE_OUT:
 			    unit = CCUnit.UNIT_CODE_METER;
+			    break;
+			default:
+			case ANG_MODE_OUT:
+			    unit = CCUnit.UNIT_CODE_ANG_VEL;
 			    break;
 			}
 		}
@@ -102,6 +103,7 @@ int					outputMode = DEFAULT_MODE_OUT;
 		dtChannel = dDesc.getDt() / (float)dDesc.getChPerSample();
 		posOffset = 0f;
 		dt = dDesc.getDt();
+		dEvent.setData(wheelData);
 		notifyDataListeners(dEvent);
 		return true;
     	}
@@ -138,6 +140,8 @@ int					outputMode = DEFAULT_MODE_OUT;
 
 		dEvent.setTime(t0);
 		dEvent.numbSamples = e.numbSamples;
+		dEvent.setData(wheelData);
+		// System.out.println("rad: " + radius + " koeff: " + koeff);
 		for(int i = 0; i < ndata; i+=chPerSample){
 		    calibrated = data[nOffset+i]*calFactor;
 		    switch(outputMode){
@@ -158,12 +162,14 @@ int					outputMode = DEFAULT_MODE_OUT;
 	}
 	public void  calibrationDone(float []row1,float []row2,float []calibrated){
 		if(row1 == null || calibrated == null) return;
+		
 		if(Maths.abs(row1[0]) < 1e-5) return;//zero
 		radius = calibrated[0] / koeff / koeff / nTicks/ row1[0] / dDesc.getDt();
 		if(calibrationDesc != null){
 			CalibrationParam p = calibrationDesc.getCalibrationParam(0);
 			if(p != null) p.setValue(radius);
 		}
+		
 	}
 	public void calibrationDescReady(){
 		if(calibrationDesc == null) return;

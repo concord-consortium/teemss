@@ -102,8 +102,13 @@ protected ProbManager	pb = null;
 	
 	public void onEvent(Event event){
     		if (event.type==ControlEvent.TIMER){
-		    if(doRightThings() < 0){
+		    int ret = doRightThings();
+		    if(ret < 0){
 			Dialog.showMessageDialog(null, "Interface Error","Error in interface step ", 
+						 "Bummer", Dialog.ERR_DIALOG);
+			stop();
+		    }  else if(ret == WARN_SPEC_CONDITIONS){
+			Dialog.showMessageDialog(null, "Interface Error","Error 2 in interface step ", 
 						 "Bummer", Dialog.ERR_DIALOG);
 			stop();
 		    }
@@ -229,7 +234,7 @@ protected ProbManager	pb = null;
 
 		// Should return some special case
 		if(ret < 0){
-			System.out.println("ret < 0");
+		    //			System.out.println("ret < 0");
 			return WARN_SPEC_CONDITIONS;
 		}
 
@@ -450,7 +455,11 @@ protected ProbManager	pb = null;
 	   			bitsPerByte = 7;
 				MASK = (byte)(0x0FF << bitsPerByte);
 	    			timeStepSize = (float)0.005;
-	    			tuneValue = 3.22f;
+				if(interfaceType == INTERFACE_2){
+				    tuneValue = 2.441406f;
+				} else {
+				    tuneValue = 3.22f;
+				}
 				break;
 			case DIG_COUNT_MODE:
 	    			numBytes = 1;

@@ -145,7 +145,14 @@ public class MenuBar extends Control
 	int mIndex = menus.find(menu);
 	if(mIndex < 0 || mIndex >= menus.getCount()) return;
 
-	menus.del(mIndex);
+	if(popup == null){
+	    menus.del(mIndex);
+	} else {
+	    hide();
+	    Menu oldMenu = getSelected();
+	    menus.del(mIndex);	    
+	    show(menus.find(oldMenu));
+	}
 
     }
 
@@ -371,6 +378,7 @@ public class MenuBar extends Control
         popup=null;
 
     }
+    numDisplayed = 0;
 
   }
 

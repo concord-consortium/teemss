@@ -23,7 +23,7 @@ float					voltageResolution		= 0.650f/20; //     mV(reading)/(true)V
 
 int					outputMode 			= VOLTAGE_OUT;
     String [] portNames = {"A", "B"};
-public static String [] modelNames = {"Current", "Voltage","Watt","Joul"};
+public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
    
    
    
@@ -139,7 +139,7 @@ public static String [] modelNames = {"Current", "Voltage","Watt","Joul"};
 		int  	chPerSample = e.dataDesc.getChPerSample();
 		for(int i = 0; i < ndata; i+=chPerSample){
 			dEvent.setTime(t0 + dtChannel*(float)i);
-			System.out.println("amper "+dataEvent[nOffset+i]+" voltage "+dataEvent[nOffset+i+1]);
+			// System.out.println("amper "+dataEvent[nOffset+i]+" voltage "+dataEvent[nOffset+i+1]);
 			switch(outputMode){
 				case CURRENT_OUT:
 					data[0] = (dataEvent[nOffset+i] - zeroPointCurrent)/currentResolution;
@@ -147,7 +147,7 @@ public static String [] modelNames = {"Current", "Voltage","Watt","Joul"};
 					break;
 				case VOLTAGE_OUT:
 					data[0] = (dataEvent[nOffset+i +1] - zeroPointVoltage)/voltageResolution;
-					System.out.println("voltage "+data[0]);
+					// System.out.println("voltage "+data[0]);
 					break;
 				case WATT_OUT:
 				case ENERGY_OUT:

@@ -147,6 +147,7 @@ protected 	static ProbManagerEvent   pmEvent = new ProbManagerEvent();
 			if(value == null) continue;
 			if(modeValue == null){
 				modeValue = value;
+
 			}else{
 				if(!modeValue.equals(value)){
 					isTheSame = false;
