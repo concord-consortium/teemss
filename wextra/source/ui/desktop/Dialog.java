@@ -107,7 +107,7 @@ private waba.ui.Container		contentPane;
  	waba.fx.FontMetrics fm = d.getFontMetrics(d.getFont());
 	int bHeight = 15;
 	int h = bHeight + 5;//depend on platform for ce/palm should be 15 + bHeight + 10
-	int maxWith = 140;
+	int maxWith = 100;
 	String	bstring = "Done";
 	int mHeight = fm.getHeight();
 	if(messages != null){

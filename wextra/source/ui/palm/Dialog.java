@@ -70,7 +70,7 @@ private waba.ui.Container		contentPane;
   	waba.fx.FontMetrics fm = d.getFontMetrics(d.getFont());
 	int bHeight = 15;
 	int h = bHeight + 20;
-	int maxWith = 140;
+	int maxWith = 10;
 	String	bstring = "Done";
 	int mHeight = fm.getHeight();
 	if(messages != null){
