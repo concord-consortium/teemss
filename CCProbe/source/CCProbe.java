@@ -114,10 +114,9 @@ public class CCProbe extends MainView
 		view.setShowMenus(true);
 		me.add(view);
 		lObjView = view;
-		if(loDict != null){
-			newIndex = loDict.getChildCount();
-		}
+		newIndex = loDict.getChildCount();
 
+		((LObjDictionaryView)view).checkForBeam();
     }
 
 	public String [] getCreateNames()
