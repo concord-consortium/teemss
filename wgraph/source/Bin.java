@@ -617,6 +617,61 @@ public class Bin
 
 		lastDrawnPoint = numPoints - 1;
 	}
+
+	public float maxVisY = 0f;
+	public float minVisY = 0f;
+    public boolean calcVisibleRange()
+    {
+		int i;
+		int lastOffset;
+		int curX, lastX, curMinY, curMaxY;
+		int minY, maxY;
+
+	    maxVisY = (float)-(0x7FFFFFF);
+		minVisY = (float)(0x7FFFFFF);
+
+		if(xaxis.drawnX == -1 || numPoints <= 1) return false;
+
+		lastOffset = numPoints*2;
+	    
+		minY = (0x7FFFFFF);
+		maxY = -(0x7FFFFFF);
+
+		lastX = 0;
+	    int ptRemainderSum = 0;
+		int xOffset = (int)((xaxis.dispMin - refX) * xaxis.scale);		
+		for(i=0; i<lastOffset;){
+			while(ptRemainderSum/denom == 0){
+				ptRemainderSum += remainder;
+			}
+			
+			curX = lastX + ptRemainderSum/denom;
+			curMinY = points[i] - (points[i+1] & 0xFFFF);					
+			curMaxY = points[i] + (points[i+1] >> 16);
+			i+=2;
+		
+			if(curX > (xOffset - 1) && curX <= (xOffset + xaxis.dispLen)){
+				if(curMaxY > maxY) maxY = curMaxY;
+				if(curMinY < minY) minY = curMinY;
+			}		
+
+			lastX = curX;			
+			ptRemainderSum %= denom;
+		}	    
+			
+		minVisY = ((float)minY / yaxis.scale + refY);
+		maxVisY = ((float)maxY / yaxis.scale + refY);
+		float temp;
+		if(minVisY > maxVisY){
+			temp = minVisY;
+			minVisY = maxVisY;
+			maxVisY = temp;
+		}
+
+		return true;
+    }
+
+
 }
 
 
