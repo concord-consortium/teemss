@@ -23,6 +23,7 @@ import waba.io.*;
 import waba.sys.*;
 import waba.util.*;
 import org.concord.waba.extra.event.*;
+import org.concord.waba.extra.util.*;
 import extra.util.*;
 
 public class Bin
@@ -52,6 +53,7 @@ public class Bin
     public Time time = null;
 	float curXscale, curYscale;
 
+	CCUnit unit;
 
     public Bin(int xIndex)
     {
@@ -86,6 +88,16 @@ public class Bin
     {
 		return null;
     }
+
+	public CCUnit getUnit()
+	{
+		return unit;
+	}
+
+	public void setUnit(CCUnit u)
+	{
+		unit = u;
+	}
 
     public float getCurX()
     {

@@ -18,6 +18,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 package graph;
 
 import waba.fx.*;
+import org.concord.waba.extra.util.*;
+import extra.util.*;
+
 
 public class Annotation
     implements DecoratedValue
@@ -38,6 +41,8 @@ public class Annotation
 
     public Axis xaxis;
     public Object bin;
+
+	CCUnit unit;
 
     public Annotation(String l, float t, float v, Axis xa)
     {
@@ -67,6 +72,10 @@ public class Annotation
 	return time;
     }
 
+	public CCUnit getUnit()
+	{
+		return unit;
+	}
 
     /*
      * Give the top left corner of where to draw

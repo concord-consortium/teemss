@@ -20,14 +20,14 @@ package graph;
 import waba.util.*;
 import waba.fx.*;
 import waba.ui.*;
+import org.concord.waba.extra.util.*;
+import extra.util.*;
 
 public interface DecoratedValue 
 {
     public String getLabel();
-
     public float getValue();
-
     public Color getColor();
-
     public float getTime();
+	public CCUnit getUnit();
 }
