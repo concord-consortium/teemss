@@ -203,6 +203,12 @@ public class TreeControl extends Container implements TreeModelListener
 			if(line == null) return;
 			int lineOff = line.depth*indentSize;
 			if(pe.x >= lineOff && pe.x < lineOff + indentSize){
+				Graphics g = createGraphics();
+				if(!line.node.isLeaf()){
+					drawDownTwist(g, (line.depth)* indentSize + 1, (lineIndex-firstLine)*textHeight+1, 
+							  line.expanded);
+				}
+				g.free();
 				if(line.expanded) collapse(lineIndex, lines);
 				else expand(lineIndex, lines);
 				repaint();
@@ -259,8 +265,24 @@ public class TreeControl extends Container implements TreeModelListener
 	public void onKeyEvent(KeyEvent e){
 	}
 
-    int [] coord1 = {1,8,5};
-    int [] coord2 = {1,1,8};
+	
+    static int [] coord1 = {1,7,4};
+    static int [] coord2 = {1,1,8};
+    void drawDownTwist(Graphics g, int x ,int y, boolean expanded)
+    {
+		g.translate(x,y);		
+		g.setColor(0,0,0);
+		g.fillRect(0,0,9,9);
+		g.setColor(255,255,255);
+		if(expanded){
+			g.fillPolygon(coord1, coord2, 3);
+		} else {
+			g.fillPolygon(coord2, coord1, 3);
+		}
+		g.setColor(0,0,0);
+		g.translate(-x,-y);
+    }
+
     void drawTwist(Graphics g, int x ,int y, boolean expanded)
     {
 		g.translate(x,y);
