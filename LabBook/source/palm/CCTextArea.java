@@ -156,6 +156,9 @@ public final static int	yTextBegin = 2;
 		this.owner = owner;
 	}
 	
+	public void returnFromFolder(){
+		owner.container.reload(owner);
+	}
 	
 	public void addTextAreaListener(TextAreaListener l){
 		if(listeners == null){
@@ -214,6 +217,17 @@ public final static int	yTextBegin = 2;
 	}
 	
 	public void showFullWindowView(LabObjectView view){
+    	if(mainView != null){
+			if(currObjectViewDesc != null){
+				Object o = currObjectViewDesc.getObject();
+				if(o != null && o instanceof LabObjectView){
+					LabObjectView ov = (LabObjectView)o;
+					ov.setShowMenus(false);
+				}
+			}
+			owner.setShowMenus(false);
+    		mainView.showFullWindowView(view);
+    	}
 	}
 
 	static boolean propertyMode = false;
@@ -342,6 +356,8 @@ public final static int	yTextBegin = 2;
 			labBookDialog.hide();
 			labBookDialog = null;
 		}
+		
+		
     }
 
     public void reload(LabObjectView source){

@@ -271,6 +271,7 @@ class LObjImageView extends LabObjectView implements ActionListener
 			openFileDialog();
 		}
     }
+    
     public void openFileDialog(){
     	String []extensions = {".bmp",".BMP"};
     	FileDialog fd = FileDialog.getFileDialog(FileDialog.FILE_LOAD,extensions);

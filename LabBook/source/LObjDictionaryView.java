@@ -39,6 +39,7 @@ public class LObjDictionaryView extends LabObjectView
 
 
 	CCScrollBar				scrollBar;
+	waba.util.Vector 		pathTree;
 
     public LObjDictionaryView(ViewContainer vc, LObjDictionary d)
     {
@@ -159,18 +160,33 @@ public class LObjDictionaryView extends LabObjectView
 		    }else if(e.target == folderChoice){
 		    	if(pathTree != null){
 		    		int sel = folderChoice.getSelectedIndex();
-		    		if(sel < 0 || sel >= pathTree.getCount() - 1) return;
+		    		if(sel < 0 || sel > pathTree.getCount() - 1) return;
 		    		TreeNode node = (TreeNode)pathTree.get(sel);
-		    		int numbToDelete =  pathTree.getCount() - sel - 1;
+		    		int numbToDelete =  sel;
 		    		if(numbToDelete > 0){
-		    			int ind = pathTree.getCount() - 1;
 		    			for(int i = 0; i < numbToDelete; i++){
-		    				pathTree.del(ind);
-		    				ind--;
+		    				pathTree.del(0);
 		    			}
-		    			
 		    		}
-		    		if(node != null){
+		    		LabObject obj = dict.getObj(node);
+					redefineFolderChoiceMenu();
+					if(obj instanceof LObjDictionary){
+						LObjDictionary d = (LObjDictionary)obj;
+						if(d.viewType == LObjDictionary.TREE_VIEW){
+							dict = d;
+							me.remove(treeControl);
+							treeModel = new TreeModel(dict);
+							treeControl = new TreeControl(treeModel);
+							treeControl.addTreeControlListener(this);
+							treeControl.showRoot(false);
+							me.add(treeControl);
+							waba.fx.Rect r = getRect();
+							setRect(r.x,r.y,r.width,r.height);
+						}else{
+							showPage(node,false);
+						}
+
+					}else if(node != null){
 						showPage(node, false);		
 		    		}
 		    	}
@@ -392,7 +408,6 @@ public class LObjDictionaryView extends LabObjectView
 			}
 		}
     }
-	static waba.util.Vector pathTree;
 
     public void showPage(TreeNode curNode, boolean edit)
     {
@@ -406,45 +421,53 @@ public class LObjDictionaryView extends LabObjectView
 			TreeLine selLine = treeControl.getSelectedLine();
 			
 			
-			waba.util.Vector tempVector = new waba.util.Vector();
+			int currIndex = 0;
+			if(pathTree.getCount() > 0) pathTree.del(0);
 			while(selLine != null){
 				TreeNode node = selLine.getNode();
-				if(node != null) tempVector.add(node);
+				if(node != null){
+					pathTree.insert(currIndex++,node);
+				}
 				selLine = selLine.getLineParent();
 			}
-			
-			if(pathTree.getCount() > 0){
-				pathTree.del(pathTree.getCount() - 1);
-			}
-			
-			if(tempVector.getCount() > 0){
-				for(int i = tempVector.getCount() - 1; i >=0; i--){
-					pathTree.add(tempVector.get(i));
-				}
-			}
-			pathTree.add(curNode);
-			tempVector = null;
-			
-			
-			folderChoice.clear();
+			pathTree.insert(0,curNode);
+			redefineFolderChoiceMenu();
+//			folderChoice.repaint();
+			LObjDictionary d = (LObjDictionary)obj;
+			if(d.viewType == LObjDictionary.TREE_VIEW){
+				dict = d;
+				me.remove(treeControl);
+				treeModel = new TreeModel(dict);
+				treeControl = new TreeControl(treeModel);
+				treeControl.addTreeControlListener(this);
+				treeControl.showRoot(false);
+				me.add(treeControl);
+				waba.fx.Rect r = getRect();
+				setRect(r.x,r.y,r.width,r.height);
 
-			
-/*
-			System.out.println("-------BEGIN---------");
-			for(int n = 0; n < pathTree.getCount(); n++){
-				folderChoice.add(pathTree.get(n).toString());
-				System.out.println(pathTree.get(n));
+			}else{
+				showPage(obj,edit);
 			}
-			System.out.println("-------END---------");
-*/
-			folderChoice.calcSizes();
-			folderChoice.repaint();
-			
+			return;
 		}
 		
 		if(obj == null) Debug.println("showPage: object not in database: " +
 					      ((LabObjectPtr)curNode).debug());
 		showPage(obj,edit);
+	}
+
+
+	public void redefineFolderChoiceMenu(){
+		if(folderChoice != null) me.remove(folderChoice);
+		folderChoice = new Choice();
+		if(pathTree == null){
+			folderChoice.add("Root");
+		}else{
+			for(int n = 0; n < pathTree.getCount(); n++){
+				folderChoice.add(pathTree.get(n).toString());
+			}
+		}
+		me.add(folderChoice);
 	}
 
 	ViewDialog propDialog = null;
@@ -542,13 +565,22 @@ public class LObjDictionaryView extends LabObjectView
 			treeControl.reparse();
 			if(showMenus) addMenus();
 			lObjView = null;
+/*
 			pathTree = null;
+			
 			folderChoice.clear();
 			folderChoice.add("Root");
 			folderChoice.calcSizes();
 			folderChoice.repaint();
+*/
 		}
-		//	System.gc();
+		if(getEmbeddedState()){
+			Object o = getParent();
+			if(o != null && o instanceof CCTextArea){
+//				close();
+				((CCTextArea)o).returnFromFolder();
+			}
+		}
     }
 
     public void reload(LabObjectView source)

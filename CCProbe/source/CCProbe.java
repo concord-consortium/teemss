@@ -347,12 +347,16 @@ public class CCProbe extends ExtraMainWindow
 
 		if(view == null){
 			// the curFullView must not be null
-			remove(curFullView);
-			curFullView = null;
+			if(curFullView != null){
+				remove(curFullView);
+				curFullView = null;
+			}
 			add(me);
 		} else {
 			if(curFullView == null) remove(me);
-			else remove(curFullView);
+			else{
+				remove(curFullView);
+			}
 
 			view.layout(true);
 			view.setRect(0,0,width,myHeight);
