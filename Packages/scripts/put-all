@@ -1,5 +1,4 @@
 #! /bin/sh
 sftp -b sftp-put-batchfile stephen@concord.org
-cd ../../TeemssXML/LabBookXSL/
-sftp -b sftp-put-batchfile stephen@concord.org
+
 

@@ -19,7 +19,9 @@ cp $bin/CCProbe.jar  $complete/CCProbe.app/Contents/Resources/Java/
 echo $complete
 ls -l $complete
 
-osascript make-macosx.applescript
+# osascript make-macosx.applescript
+
+./makediskimage ../download/ccprobe-macosx/CCProbe ../complete/ccprobe-macosx/ CCProbe UDZO
 
 rm -f $download/CCProbe.sea
 

@@ -18,5 +18,9 @@ put ccprobe_version
 put ccprobe_build
 put ccprobe_date
 put labbook_date
+cd /home/ftp/pub/ccprobeware/labbooks
+put ../../TeemssXML/LabBookXSL/LabBook.PDB
+put ../../TeemssXML/LabBookXSL/LabBook
+cd ../bin
+put ../../CCProbe/bin/*
 exit
-
