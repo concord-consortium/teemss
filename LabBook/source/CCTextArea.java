@@ -339,6 +339,26 @@ private CCStringWrapper textWasChosen = null;
 		}
     }
     
+    public void addObject(LBCompDesc objDesc){
+			Object o = objDesc.getObject();
+			if((o instanceof LObjCCTextArea) || (o instanceof LObjCCTextAreaView)){
+				return;
+			}
+			if(o == null || !(o instanceof LabObject)) return;
+			LabObject labObject = (LabObject)o;
+			int nComponents = (components == null)?0:components.length;
+			LBCompDesc []newComponents = new LBCompDesc[nComponents+1];
+			if(components != null){
+				waba.sys.Vm.copyArray(components,0,newComponents,0,nComponents);
+			}
+			components = newComponents;
+			LabObjectView view = (objDesc.link)?labObject.getMinimizedView():labObject.getView(this,false);
+			view.setEmbeddedState(true);
+			components[nComponents] = objDesc;
+			components[nComponents].setObject(view);
+			setObj(labObject,nComponents);
+    }
+    
     public void initLineDictionary(){
     	if(subDictionary == null) return;
 
@@ -664,17 +684,31 @@ private CCStringWrapper textWasChosen = null;
 
 	}
 
-	public void setup(waba.util.Vector linesVector){
+	public void setup(waba.util.Vector linesVector,waba.util.Vector linkComponents,waba.util.Vector embedComponents){
 		if(linesVector == null) return;
+		int i;
 		textWasChosen = null;
 		String str = "";
-		for(int i = 0; i < linesVector.getCount(); i++){
+		int linkObjectIndex = 0;
+		initLineDictionary();
+		for(i = 0; i < linesVector.getCount(); i++){
 			CCStringWrapper wrapper = (CCStringWrapper)linesVector.get(i);
 			wrapper.owner = this;
 			str += (wrapper.getStr() + "\n");
+			if(wrapper.link && linkComponents != null){
+				LabObject lObject = (LabObject)linkComponents.get(linkObjectIndex);
+				if(lObject != null){
+					objDictionary.add(lObject);
+					wrapper.indexInDict = (linkObjectIndex++);
+				}
+			}
 		}
 		setText(str,false);//temporary
 		lines = linesVector;
+		if(embedComponents == null || embedComponents.getCount() < 1) return;
+		for(i = 0; i < embedComponents.getCount(); i++){
+			addObject((LBCompDesc)embedComponents.get(i));
+		}
 	}
 
 	public void insertText(String iStr){

@@ -192,13 +192,13 @@ CCScrollBar				scrollBar;
     	}
     }
 
-	public void createTArea(waba.util.Vector lines){
+	public void createTArea(waba.util.Vector lines,waba.util.Vector linkComponents,waba.util.Vector components){
 		if(tArea != null && tAreaWasAdded){
 			if(edit != null) edit.remove(tArea);
 			tAreaWasAdded = false;
 		}
 		tArea = new CCTextArea(this,null,doc.curDict,doc);
-		tArea.setup(lines);		
+		tArea.setup(lines, linkComponents, components);		
 		if(edit != null){
 			edit.add(tArea);
 			tAreaWasAdded = true;
