@@ -197,6 +197,10 @@ public class LabBookCatalog extends LabBookDB
 		for(int j = 0; j < numChunks; j++){
 			curChunkRecIds = new short [objIndexChunkSize];
 			objIndexVec.add(curChunkRecIds);
+			
+			for(int i=0; i < objIndexChunkSize; i++){
+				curChunkRecIds[i] = -1;
+			}
 		}
 
 		/**
@@ -266,6 +270,7 @@ public class LabBookCatalog extends LabBookDB
 		}
 
 		short [] curChunkRecIds = (short [])objIndexVec.get(objChunk);
+
 		return curChunkRecIds[objId % objIndexChunkSize ];
 	}
 
@@ -331,7 +336,7 @@ public class LabBookCatalog extends LabBookDB
 		cat.setRecordPos(-1);
 
 		objIndexLen++;	
-		
+
 		return newRecPos;
 	}
 
