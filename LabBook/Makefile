@@ -1,7 +1,7 @@
 
 MODULE = LabBook
 
-DEP_NAMES = wabasdk wextra wgraph
+DEP_NAMES = wabajump wabasdk wextra wgraph
 
 FORKS= waba superwaba
 
