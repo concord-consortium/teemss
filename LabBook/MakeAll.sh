@@ -23,6 +23,8 @@ echo "-------------------------"
 cd ../LabBook
 rm -f -R classes
 rm -f bin/CCProbe.*
+rm -f wjump/CCProbe.asm
+rm -f wjump/*.bin
 echo "BUILDING PALM"
 make jump
 echo "BUILDING CE"
