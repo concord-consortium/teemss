@@ -167,7 +167,6 @@ public class CCVoltCurrent extends CCProb{
 			}
 		}
 		*/
-		speedProp.setVisPossibleValues(speedNames);
 
 		return true;
 	}
