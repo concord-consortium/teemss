@@ -7,3 +7,5 @@ $(filter-out $(SKIP_FILES), $(wildcard $(SRC_DIRS:%=src_desktop/%/*.java)))
 
 classes:
 	mkdir classes
+
+include ../ReleaseSystem/Makefile.inc
