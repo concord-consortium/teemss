@@ -121,11 +121,35 @@ a
 </xsl:template>
 
 <xsl:template match="instruction/title"/>
-
 <xsl:template match="step">
 <li><p>
 <xsl:apply-templates/>
 </p></li>
+</xsl:template>
+
+<xsl:template match="equation">
+<ul>
+<xsl:apply-templates/>
+</ul>
+</xsl:template>
+
+<xsl:template match="table">
+<table border="1">
+<xsl:apply-templates select="th"/>
+<xsl:copy-of select="tr"/>
+</table>
+</xsl:template>
+
+<xsl:template match="th">
+<tr>
+<xsl:for-each select="td">
+<td><b><xsl:apply-templates/></b></td>
+</xsl:for-each>
+</tr>
+</xsl:template>
+
+<xsl:template match="ul">
+<xsl:copy-of select="."/>
 </xsl:template>
 
 <xsl:template name="navigation">
@@ -139,5 +163,8 @@ a
 <td><a href="{../@name}{$next-link}.html">next</a></td>
 </tr></table>
 </xsl:template>
+
+
+
 
 </xsl:stylesheet>
