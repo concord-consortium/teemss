@@ -450,7 +450,7 @@ public boolean isControlHDialogOwned(Control c){
     {
 
       super._doPaint(x,y,width,height);
-
+      needsPaint = false;
       return;
 
     }
