@@ -44,7 +44,6 @@ public class ViewDialog extends Dialog
 	{
 		if(source != null) source.close();
 		hide();
-		if(owner != null) owner.setDialog(null);
 		if(listener != null) listener.dialogClosed(new DialogEvent(this,null,null,null,0));
 	}
 

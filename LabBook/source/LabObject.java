@@ -43,15 +43,16 @@ public abstract class LabObject
 
     public boolean equals(TreeNode node)
     {
-	if(node == this) return true;
-	if(node instanceof LabObject){	    
-	    LabObject obj = (LabObject)node;
-	    return obj.ptr != null && ptr != null &&
-		ptr.equals(obj.ptr);
-	}
-
-	return false;
+		if(node == this) return true;
+		if(node instanceof LabObject){	    
+			LabObject obj = (LabObject)node;
+			return obj.ptr != null && ptr != null &&
+				ptr.equals(obj.ptr);
+		}
+		
+		return false;
     }
+
     public LabObjectView getView(ViewContainer vc, boolean edit, 
 				 				 LObjDictionary curDict, boolean embeddedState){
 		LabObjectView view = getView(vc,edit,curDict);

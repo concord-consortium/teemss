@@ -351,7 +351,7 @@ public class LObjDictionaryView extends LabObjectView
 				String [] buttons = {"Cancel", "Ok"};
 				if(selObj != null){
 				    if(selObj.toString().equals("..empty..")) return;
-				    rnDialog = Dialog.showInputDialog(this, "Rename Object", "Old Name was " + selObj.toString(),
+				    rnDialog = Dialog.showInputDialog(this, "Rename Object", "New Name:                ",
 								      buttons,Dialog.EDIT_INP_DIALOG,null,selObj.toString());
 				} else {
 					waba.fx.Sound.beep();
