@@ -172,7 +172,7 @@ public class LObjDataCollectorView extends LabObjectView
 		if(rootSources != null && rootSources.getCount() > 0 &&
 		   rootSources.get(0) instanceof LObjProbeDataSource){
 			LObjProbeDataSource pds = (LObjProbeDataSource)rootSources.get(0);
-			if(pds.getName() == "Force"){
+			if(pds.getName().equals("Force")){
 				gv.addTool(this, "Zero Force Probe");				
 			}
 		}

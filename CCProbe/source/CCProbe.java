@@ -1,5 +1,6 @@
 import waba.ui.*;
 import waba.util.*;
+import waba.fx.*;
 
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
