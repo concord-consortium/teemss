@@ -240,6 +240,9 @@ public mytestJava()
 
     
 
+   	public void actionPerformed(org.concord.waba.extra.event.ActionEvent e){
+    }
+    
     public void actionPerformed(java.awt.event.ActionEvent e){
 
 		if(e.getSource() == myEMenu2 || e.getSource() == myEMenu){
