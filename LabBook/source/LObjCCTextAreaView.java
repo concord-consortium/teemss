@@ -464,13 +464,16 @@ CCScrollBar				scrollBar;
 
 
 	public int getViewType(){
+		return (showDone)?LObjDictionary.TREE_VIEW:LObjDictionary.PAGING_VIEW;
+/*
 		int retValue = LObjDictionary.TREE_VIEW;
 		LabObject labObj =  getLabObject();
 		if(!(labObj instanceof LObjCCTextArea)) return retValue;
-//		PAGING_VIEW
 		LObjCCTextArea objTextArea = (LObjCCTextArea)labObj;
 		if(objTextArea.curDict == null) return retValue;
-		return objTextArea.curDict.viewType;
+		retValue = objTextArea.curDict.viewType;
+		return retValue;
+*/
 	}	
 
 }
