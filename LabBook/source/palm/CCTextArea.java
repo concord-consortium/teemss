@@ -496,9 +496,11 @@ public final static int	yTextBegin = 2;
 		int lineIndex = getLineIndex(curState.cursorRow + firstLine);
 		int oldLines = (lines == null)?0:lines.getCount();
 		String str = "";
+		if(lines != null){
 		for(int i = 0; i < lines.getCount(); i++){
 			if(i == lineIndex) str += iStr;
 			str += (((CCStringWrapper)lines.get(i)).getStr() + "\n");
+		}
 		}
 		setText(str);//temporary
 /*
