@@ -81,21 +81,28 @@ float B = -25.31f;
 	}
 
 	int chPerSample = 2;
+	int channelOffset = 0;
     	public boolean idle(DataEvent e){
 		dEvent.type = e.type;
-		if(calibrationListener != null){
-			dEvent.type = DataEvent.DATA_RECEIVED;
-			notifyDataListeners(dEvent);
-		} else {
-			notifyDataListeners(dEvent);
+		if(calibrationListener == null){
+//			notifyDataListeners(dEvent);
 		}
 	    	return true;
 	}
     	public boolean startSampling(DataEvent e){
 		dEvent.type = e.type;
 		dDesc.setDt(e.getDataDesc().getDt());
-		dDesc.setChPerSample(e.getDataDesc().getChPerSample());
-		chPerSample = dDesc.chPerSample;
+		chPerSample = e.getDataDesc().getChPerSample();
+		if(calibrationListener != null){
+			if(activeChannels == 2)
+				dDesc.setChPerSample(3);
+			else
+				dDesc.setChPerSample(2);
+		}else{
+			dDesc.setChPerSample(1);
+		}
+		channelOffset = curChannel;
+		if(curChannel > activeChannels - 1) channelOffset = activeChannels - 1;
 		if(calibrationListener == null){
 			notifyDataListeners(e);
 		}
@@ -107,23 +114,26 @@ float B = -25.31f;
 		dEvent.time = e.time;
 		if(calibrationListener != null){
 			dEvent.numbSamples = 1;
-			forceData[0] = A*e.data[e.dataOffset]+B;
-			forceData[1] = e.data[e.dataOffset];
-			if(activeChannels == 2)
+			forceData[0] = A*e.data[e.dataOffset+channelOffset]+B;
+			if(activeChannels == 2){
+				forceData[1] = e.data[e.dataOffset];
 				forceData[2] = e.data[e.dataOffset+1];
-			else
+			}else{
+				forceData[1] = e.data[e.dataOffset+channelOffset];
 				forceData[2]  = 0f;
+			}
 		}else{
 			dEvent.time = e.time;
 			dEvent.numbSamples = e.numbSamples;
-			int ndata = dEvent.numbSamples*dDesc.chPerSample;
+			int ndata = dEvent.numbSamples*e.dataDesc.chPerSample;
 			int dOff = e.dataOffset;
 			float data [] = e.data;
+			int currPos = 0;
 			for(int i = 0; i < ndata; i+= chPerSample){
-				forceData[i] = A*data[dOff + i]+B;
+				forceData[currPos++] = A*data[dOff + i+channelOffset]+B;
 			}
-			notifyDataListeners(dEvent);
 		}
+		notifyDataListeners(dEvent);
 		return true;
 	}
 	public void  calibrationDone(float []row1,float []row2,float []calibrated){
