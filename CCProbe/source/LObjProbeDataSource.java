@@ -282,7 +282,7 @@ CCUnit		currentUnit = null;
 		return me;
 	}
 
-	public DataSource getQuantityDataSource(String qName)
+	public DataSource getQuantityDataSource(String qName, LabBookSession session)
 	{
 		if(qName.equals(getQuantityMeasured(null))){
 			return this;
@@ -292,6 +292,7 @@ CCUnit		currentUnit = null;
 
 			LObjIntProbeTrans trans = 
 				(LObjIntProbeTrans)DataObjFactory.create(DataObjFactory.INT_PROBE_TRANS);
+			session.storeNew(trans);
 			trans.setDataSource(this);
 			trans.setType(quantId);
 			return trans;

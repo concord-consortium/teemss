@@ -35,8 +35,8 @@ public class LabBookSession
 
 	public void storeNew(LabObject lObj)
 	{
-		lObj.store();
-		lObj.incRefCount();
+		labBook.registerNew(lObj);
+		lObj.firstStore(this);
 		labObjects.add(lObj);
 	}
 
@@ -46,6 +46,8 @@ public class LabBookSession
 	// dictionaries and things.
 	public LabObject load(LabObjectPtr lObjPtr)
 	{
+		if(lObjPtr == null) return null;
+
 		LabObject newObj = labBook.load(lObjPtr);
 		int index = labObjects.find(newObj);
 		if(index >= 0) {
@@ -56,7 +58,7 @@ public class LabBookSession
 		} else if(newObj != null){
 			labObjects.add(newObj);
 		}
-		// if(newObj == null) (new RuntimeException("null loaded obj")).printStackTrace();
+
 		return newObj;
 	}
 
@@ -98,6 +100,11 @@ public class LabBookSession
 	{
 		int index = labObjects.find(obj);
 		if(index < 0) return -1;
+
+		if(obj instanceof LObjSubDict &&
+		   ((LObjSubDict)obj).getDict() != null){
+			release(((LObjSubDict)obj).getDict());
+		}
 
 		int refCount = obj.release();
 		if(refCount == 0){

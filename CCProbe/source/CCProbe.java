@@ -45,8 +45,6 @@ public class CCProbe extends ExtraMainWindow
 	
     int newIndex = 0;
 
-    LObjDictionary loDict = null;
-
     String aboutTitle = "About CCProbe";
 	String [] fileStrings;
 	Vector fileListeners = new Vector();
@@ -57,6 +55,8 @@ public class CCProbe extends ExtraMainWindow
 	int		[]creationID = {0x00010100};
     public void onStart()
     {
+		LObjDictionary loDict = null;
+
 		LabBook.init();
 		LabBook.registerFactory(new DataObjFactory());
 
@@ -139,6 +139,7 @@ public class CCProbe extends ExtraMainWindow
 		if(loDict == null){
 			loDict = DefaultFactory.createDictionary();
 			loDict.setName("Home");
+			mainSession.storeNew(loDict);
 			labBook.store(loDict);
 
 		}
@@ -289,7 +290,7 @@ public class CCProbe extends ExtraMainWindow
 			// newObj.store();
 			
 			if(autoEdit){
-				dView.showPage(newObj, true);
+				dView.openSelected(true);
 			} else if(autoProp){
 				dView.showProperties(newObj);
 			} 
@@ -353,7 +354,6 @@ public class CCProbe extends ExtraMainWindow
 			if(command.equals("Exit")){
 				Debug.println("commiting");
 				lObjView.close();
-				labBook.store(loDict);
 				if(!labBook.commit() ||
 				   !labBook.close()){
 					//error
@@ -378,7 +378,7 @@ public class CCProbe extends ExtraMainWindow
 			if(curFullView != null){
 				curFullView.close();
 			}
-			labBook.store(loDict);
+			lObjView.close();
 			labBook.commit();
 			labBook.close();
 		}
@@ -396,6 +396,7 @@ public class CCProbe extends ExtraMainWindow
 			if(!(topWin instanceof PtrWindow)) return;
 
 			remove(curFullView);
+			setFocus(null);
 
 			fullViews.del(fullViews.getCount()-1);			
 
@@ -406,14 +407,11 @@ public class CCProbe extends ExtraMainWindow
 				PtrWindow pWin = (PtrWindow)newTopWin;
 				LabObjectPtr ptr = pWin.ptr;
 					
-				// the curWinSession should be not null
-				//				if(curWinSession != null) throw new RuntimeException("non null cur Win");
 				curWinSession = labBook.getSession();
 				LabObject lObj = curWinSession.load((LabObjectPtr)pWin.ptr);					
 
 				LabObjectView view = lObj.getView(this, pWin.edit, pWin.dict, curWinSession);
-				// if(view == null) throw new RuntimeException("");
-			
+
 				view.layout(true);
 				view.setRect(0,0,width,myHeight);
 				curFullView = view;
@@ -424,54 +422,73 @@ public class CCProbe extends ExtraMainWindow
 				curFullView = null;
 				lObjView.setShowMenus(true);
 				add(me);
+				if(lObjView instanceof LObjDictionaryView){
+					((LObjDictionaryView)lObjView).updateWindow();
+				}
 			}
 
 
 		}
 	}
 
+	/*
+	 *  This function requires a special LabObject
+	 *  if the labObject has been loaded by the caller
+	 *  the caller needs to not release the objects session
+	 *
+	 *  However once the the View of this object is closed the
+	 *  the object will be in a weird state, because it might have
+	 *  loaded objects in the View's session.  So the object should
+	 *  probably just be released before this is called.  But it is
+	 *  trick releasing the object because it might have references
+	 *  in the callers session.  Ugh..
+	 *
+	 *  if the caller comes from a previous showFullWindowObj 
+	 *  this will be taken care of automatically
+	 */
 	Vector fullViews = new Vector();
-	public void showFullWindowObj(boolean edit, LObjDictionary dict,  LabObject obj,
-								  LabBookSession createdSession)
+	public void showFullWindowObj(boolean edit, LObjDictionary dict,  LabObjectPtr ptr)
 	{
-		if(obj == null) return; //throw new RuntimeException("");
-		if(obj.ptr == null) return; //throw new RuntimeException("");
+		LabObject obj;
 
 		LabBookSession newSession = labBook.getSession();
+		LabObjectPtr dictPtr = null;
+		if(dict != null) dictPtr = dict.getVisiblePtr();
 
 		if(curFullView == null){
+			// This was called by a window or timer that isn't managed
+			// by us 
 			lObjView.setShowMenus(false);
 			remove(me);
-			if(createdSession != null){
-				// We need to release this object from it's
-				// old session so it gets cleaned up if this window is 
-				// closed
-				newSession.load(obj.ptr);
-				createdSession.release(obj);
-			}
 		} else {
 			curFullView.setShowMenus(false);
-			if(curFullView.getContainer() != this) return; //throw new RuntimeException("error");
+			if(curFullView.getContainer() != this) return; //throw new RuntimeException("error")
 
 			// close the view
 			curFullView.close();
 				
-			// release it's session
 			if(curWinSession != null){
-				if(curWinSession.contains(obj)){
-					// add this object to the new session
-					// because the oldWin will probably release it
-					newSession.load(obj.ptr);
-				}
+				// we need to release it's session
+				// first we save the objects pointer
+				// incase this object is owned by the session
+				// (it ought to be)
+
 				curWinSession.release();
+
 			}
 			remove(curFullView);			
 		}
 
+		// we load the object into our session so the caller can
+		// release their session.
+		obj = newSession.load(ptr);
+
 		curWinSession = newSession;
+
+		dict = (LObjDictionary)curWinSession.load(dictPtr);
+
 		LabObjectView view = obj.getView(this, edit, dict, curWinSession);
-		if(view == null) return; //throw new RuntimeException("");
-			
+
 		view.layout(true);
 		view.setRect(0,0,width,myHeight);
 		view.setShowMenus(true);
@@ -479,6 +496,6 @@ public class CCProbe extends ExtraMainWindow
 		curFullView = view;
 		
 		
-		fullViews.add(new PtrWindow(obj.ptr, dict, edit));		
+		fullViews.add(new PtrWindow(obj.getVisiblePtr(), dict, edit));		
 	}
 }

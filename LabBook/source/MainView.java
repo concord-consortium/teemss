@@ -17,8 +17,7 @@ public interface MainView
 
 	public void createObj(String name, LObjDictionaryView dView);
 
-	public void showFullWindowObj(boolean edit, LObjDictionary dict,  LabObject obj,
-								  LabBookSession session);
+	public void showFullWindowObj(boolean edit, LObjDictionary dict,  LabObjectPtr ptr);
 
 	public void closeTopWindowView();
 }

@@ -15,18 +15,20 @@ public class LObjDataCollector extends LObjSubDict
 		super(DataObjFactory.DATA_COLLECTOR);
     }
 
-    public void init(){
-    	super.init();
+	public void firstStore(LabBookSession session)
+	{
+		super.firstStore(session);
 		LObjGraph graph = DataObjFactory.createGraph();
 		graph.setName("..auto_title..");
-		graph.store();
+		session.storeNew(graph);
 		setGraph(graph);
-    }
-    
+	}
+
     public void setGraph(LObjGraph g)
     {
 		setObj(g, 0);
     }
+
 	public LObjGraph getGraph(LabBookSession session)
 	{
 		return (LObjGraph)getObj(0, session);

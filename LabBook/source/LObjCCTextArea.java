@@ -26,7 +26,7 @@ static public	boolean editMode = false;
 			if(view.getSession() != null){
 				// This is very dangerous if he is keeping things around.
 				// We really need to completely loose the reference to this object 
-				// every time
+				// every time				
 				view.getSession().release();
 			}
 			view.setSession(session);

@@ -9,7 +9,7 @@ public class LabObjectPtr implements TreeNode
     int devId;
     int objId;
     String name;
-    int objType;
+    int objType = -1;
 
     LabObject obj = null;
 

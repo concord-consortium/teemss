@@ -17,6 +17,7 @@ public class LObjDictionaryView extends LabObjectView
     int newIndex = 0;
 
     LObjDictionary dict;
+	LabObjectPtr dictPtr;
  //   GridContainer buttons = null; 
     Container buttons = null; 
  
@@ -44,6 +45,8 @@ public class LObjDictionaryView extends LabObjectView
     {
 		super(vc, (LabObject)d, session);
 		dict = d;
+
+		dictPtr = dict.getVisiblePtr();
 
 		add(me);
 		editMenu.add("Cut");
@@ -214,13 +217,18 @@ public class LObjDictionaryView extends LabObjectView
 		treeModel.removeNodeFromParent(curNode, parent);
 	}
 
-	public void openSelected()
+	public void openSelected(boolean edit)
 	{
 		TreeNode curNode;
 
 		curNode = treeControl.getSelected();
 		if(curNode == null || curNode.toString().equals("..empty..")) return;
-		showPage(curNode, false);		
+		showPage(curNode, edit);		
+	}
+
+	public void openSelected()
+	{
+		openSelected(false);
 	}
 
 	public LabObjectPtr insertAtSelected(LabObject obj)
@@ -443,9 +451,23 @@ public class LObjDictionaryView extends LabObjectView
 			return;
 		}
 		
-		if(obj == null) Debug.println("showPage: object not in database: " +
-					      ((LabObjectPtr)curNode).debug());
-		showPage(obj,edit);
+		DictTreeNode parent = (DictTreeNode)treeControl.getSelectedParent();
+		if(parent == null) parent = rootNode;
+
+		getMainView().showFullWindowObj(edit, parent.getDict(), rootNode.getPtr(curNode));	
+		session.release();
+	}
+
+	public void updateWindow()
+	{
+		// release everything
+		session.release();
+
+		// reload our main dictionary
+		dict = (LObjDictionary)session.load(dictPtr);
+		setLabObject((LabObject)dict);
+
+		// we should refresh the display
 	}
 
 	public void redefineFolderChoiceMenu(){
@@ -475,19 +497,6 @@ public class LObjDictionaryView extends LabObjectView
 		vDialog.setRect(0,0,150,150);
 		vDialog.show();		
 	}
-
-	public void showPage(LabObject obj, boolean edit)
-	{
-		editStatus = edit;
-		DictTreeNode parent = (DictTreeNode)treeControl.getSelectedParent();
-		if(parent == null) parent = rootNode;
-
-		if(obj == null) return; // throw new RuntimeException("null obj");
-
-		dict.store();
-
-		getMainView().showFullWindowObj(edit, parent.getDict(), obj, session);
-    }
 
 	boolean addedMenus = false;
 	public void setShowMenus(boolean state)

@@ -417,13 +417,13 @@ public class GraphSettings
 		}
 	}
 
-	public void saveData(LObjDataSet dSet)
+	public void saveData(LObjDataSet dSet, LabBookSession session)
 	{
 		dSet.setUnit(yUnit);
 		dSet.setLabel(yaxis.getLabel());
 		
 		for(int i=0; i<bins.getCount(); i++){
-			dSet.addBin((Bin)bins.get(i));
+			dSet.addBin((Bin)bins.get(i), session);
 		}
 	}
 	

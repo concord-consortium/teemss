@@ -416,7 +416,7 @@ public class LObjGraph extends LObjSubDict
 		dSet.clearAnnots(session);
 		GraphSettings curGS = getCurGraphSettings();
 		if(curGS != null){
-			curGS.saveData(dSet);
+			curGS.saveData(dSet, session);
 			Vector annots = curGS.getAnnots();
 			dSet.addAnnots(annots, session);
 			

@@ -90,7 +90,6 @@ public class LabBook
 		}
 		newFactories[nFactories] = objFact;	
 		objFactories = newFactories;
-
 	}
 
 	public static LabObject makeNewObj(int type)
@@ -111,6 +110,20 @@ public class LabBook
 		return newObj;
 	}
 
+	public LabObjectPtr getNullObjPtr(){ return nullLObjPtr; }
+
+	public LabObjectPtr registerNew(LabObject lObj)
+	{
+		Debug.println("Creating new ptr");
+		LabObjectPtr lObjPtr = new LabObjectPtr(curDeviceId, db.getNewObjId(),
+								   lObj);
+		lObj.ptr = lObjPtr;
+
+		lObj.incRefCount();
+		loaded.add(lObjPtr);
+		return lObjPtr;
+	}
+
     // add this object to list to be stored
     // and return its pointer.
     // if it has a pointer thats easy
@@ -122,22 +135,27 @@ public class LabBook
     public LabObjectPtr store(LabObject lObj)
     {
 		LabObjectPtr lObjPtr;
-	
-		if(lObj == null) return nullLObjPtr;
-
-		// Need to check if this object has already been stored
-		if(lObj.ptr != null){
-			lObjPtr = lObj.ptr;
-			// Should be check to see if this pointer already exist in store
-			// list??
-		} else {
-			Debug.println("Creating new ptr");
-			lObjPtr = new LabObjectPtr(curDeviceId, db.getNewObjId(),
-									   lObj);
-			lObj.ptr = lObjPtr;
-		}
-
 		int i;
+	
+		lObjPtr = lObj.ptr;
+		
+		// if there is a null excpetion here it is because the object has been released
+		// you can't store a released object 
+		lObj = lObjPtr.obj;
+
+		/*
+		// double check to see if this object is in loaded
+		// if not there is bug
+		int numLoaded = loaded.getCount();
+		LabObjectPtr curObjPtr;
+		for(i=0; i<numLoaded; i++){
+			curObjPtr = (LabObjectPtr)loaded.get(i);
+			if(curObjPtr.equals(lObjPtr)) break;
+		}
+		if(i == numLoaded) throw new RuntimeException("stored object not valid");
+		*/
+
+		// Should check to see if this pointer already exist in store
 		Object [] curObjArr;
 		if(alreadyStored != null){
 			curObjArr = alreadyStored.toObjectArray();
@@ -154,6 +172,7 @@ public class LabBook
 			}
 		}
 
+		// Need to check if this object has already been stored
 		curObjArr = toBeStored.toObjectArray();
 		for(i=0; i< curObjArr.length; i++){
 			if(curObjArr[i] == lObjPtr){
@@ -163,26 +182,12 @@ public class LabBook
 		}
 
 		if(i != curObjArr.length){
-			// This object is slated to be written out
+			// This object is already slated to be written out
 			return lObjPtr;
 		}
 
 		toBeStored.add(lObjPtr);
 
-		// see if this object is already in loaded
-		// if not add it
-		int numLoaded = loaded.getCount();
-		LabObjectPtr curObjPtr;
-
-		// if this is true we have major problems
-		// if(lObjPtr.devId == -1 && lObjPtr.objId == -1) return null;
-		for(i=0; i<numLoaded; i++){
-			curObjPtr = (LabObjectPtr)loaded.get(i);
-			if(curObjPtr.equals(lObjPtr)){
-				return lObjPtr;
-			}
-		}
-		loaded.add(lObjPtr);
 		return lObjPtr;
     }
 

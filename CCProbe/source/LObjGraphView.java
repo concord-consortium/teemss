@@ -340,8 +340,10 @@ public class LObjGraphView extends LabObjectView
 		graph.delLabObjListener(this);
 		graph.store();
 
-		dd.free();
-		dd = null;
+		if(dd != null){
+			dd.free();
+			dd = null;
+		}
 		super.close();
     }
 

@@ -169,7 +169,7 @@ public class LObjDictPagingView extends LabObjectView
 				showObject();
 			} else if(e.target == doneButton){
 				if(container != null){
-					container.done(this);
+					container.done(this);					
 				}
 			} else if(e.target == objectChoice){
 				int newIndex = objectChoice.getSelectedIndex();

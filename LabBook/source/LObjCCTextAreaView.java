@@ -225,9 +225,9 @@ CCScrollBar				scrollBar;
 		return null;
 	}
 
-	public void gotoChoosenLabObject(LabObject obj)
+	public void gotoChoosenLabObject(LabObjectPtr ptr)
 	{
-		getMainView().showFullWindowObj(false, localDict, obj, session);
+		getMainView().showFullWindowObj(false, localDict, ptr);
 	}
 
 	public void layout(boolean sDone){

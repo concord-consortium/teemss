@@ -6,7 +6,6 @@ import org.concord.waba.extra.ui.*;
 public class DictTreeNode
 	implements TreeNode
 {
-	LObjDictionary dict;
 	LabObjectPtr ptr;
 	LabBookSession session;
 	LabBook lBook;
@@ -14,20 +13,13 @@ public class DictTreeNode
 	public DictTreeNode(LObjDictionary dict, LabBookSession session,
 						LabBook lBook)
 	{
-		this.dict = dict;
+		ptr = dict.getVisiblePtr(); 
 		this.session = session;
 		this.lBook = lBook;
-		ptr = dict.ptr; 
 	}
 
 	public LObjDictionary getDict(){
-		if(dict.ptr == null && ptr != null){
-			// some how this dictionary was released
-			// load it again
-			dict = (LObjDictionary)session.load(ptr);
-		}
-
-		return dict;
+		return (LObjDictionary)session.load(ptr);
 	}
 
 	public LabObjectPtr getPtr()
@@ -35,7 +27,7 @@ public class DictTreeNode
 		return ptr;
 	}
 		
-	public LabObjectPtr getPtr(TreeNode node)
+	public static LabObjectPtr getPtr(TreeNode node)
 	{
 		if(node instanceof DictTreeNode){
 			return ((DictTreeNode)node).getPtr();
@@ -57,18 +49,6 @@ public class DictTreeNode
 			return newDict;
 		} else if(node instanceof LabObjectPtr){
 			LabObject obj = session.load((LabObjectPtr)node);
-
-			/*
-			 * this is pointless in this context
-			 * however if someone unhides folders and then
-			 * opens a object inside they will probably get
-			 * errors.
-			if(hasMainObject &&
-			   obj instanceof LObjSubDict &&
-			   ((LabObjectPtr)(objects.get(0))).equals(node)){
-				((LObjSubDict)obj).setDict(this);
-			}
-			*/
 			return obj;
 		}
 		return null;
@@ -96,6 +76,8 @@ public class DictTreeNode
     public static LabObjectPtr emptyChild = new LabObjectPtr("..empty..");
     public TreeNode [] childArray()
 	{
+		LObjDictionary dict = getDict();
+
 		LabObjectPtr [] ptrs = dict.childArray();
 		TreeNode [] nodes;
 		if(ptrs == null || ptrs.length == 0){
@@ -128,6 +110,8 @@ public class DictTreeNode
 
     public TreeNode getChildAt(int index)
 	{
+		LObjDictionary dict = getDict();
+
 		LabObjectPtr ptr = dict.getChildAt(index);
 
 		if(ptr.objType == DefaultFactory.DICTIONARY){
@@ -144,25 +128,34 @@ public class DictTreeNode
 
     public int getIndex(TreeNode node)
 	{
+		LObjDictionary dict = getDict();
+
 		LabObjectPtr ptr = getPtr(node);
 		return dict.getIndex(ptr);
 	}
 
     public boolean isLeaf()
     {
+		LObjDictionary dict = getDict();
+
 		return (dict.hideChildren && dict.globalHide);
     }
 
     public int getChildCount()
 	{
+		LObjDictionary dict = getDict();
+
 		return dict.getChildCount();
 	}
 
     public void insert(TreeNode node, int index)
     {
+		LObjDictionary dict = getDict();
+
 		if(node instanceof DictTreeNode){
 			dict.insert(((DictTreeNode)node).getDict(), index);
 		} else if(node instanceof LabObjectPtr){
+			LabObjectPtr lObjPtr = (LabObjectPtr)node;
 			dict.insert((LabObjectPtr)node, index);
 		} else {
 			Debug.println("Weirdness is happening");
@@ -173,18 +166,24 @@ public class DictTreeNode
 
     public void remove(TreeNode node)
     {
+		LObjDictionary dict = getDict();
+
 		LabObjectPtr ptr = getPtr(node);
 		dict.remove(ptr);
     }
 
     public void remove(int index)
     {
+		LObjDictionary dict = getDict();
+
 		LabObjectPtr ptr = getPtr(getChildAt(index));
 		dict.remove(ptr);
     }
 
     public String toString()
     {
+		LObjDictionary dict = getDict();
+
 		if(dict.getName() == null) return "..null_name..";
 		return dict.getName();
 		

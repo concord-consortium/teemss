@@ -401,6 +401,7 @@ public class CCTextArea  extends Container
 				objDictionary = (LObjDictionary)zeroObject;
 			}else{
 				objDictionary = DefaultFactory.createDictionary();
+				session.storeNew(objDictionary);
 				if(objDictionary == null) return;
 				if(subDictionary.getNumObjs() > 0){
 					for(int i = subDictionary.getNumObjs(); i >= 0; i--){
@@ -1160,7 +1161,7 @@ public class CCTextArea  extends Container
 								object.setShowMenus(false);
 								LabObject lobj = object.getLabObject();
 								if(owner != null){
-									owner.gotoChoosenLabObject(lobj);
+									owner.gotoChoosenLabObject(lobj.getVisiblePtr());
 								}
 							}
 						}
@@ -1238,10 +1239,8 @@ public class CCTextArea  extends Container
 
 			LabObjectPtr ptr = objDictionary.getChildAt(sw.indexInDict);
 			if(ptr == null) return;
-			LabObject linkObj = session.getObj(ptr);
-			if(linkObj == null) return;
 			if(owner != null){
-				owner.gotoChoosenLabObject(linkObj);
+				owner.gotoChoosenLabObject(ptr);
 			}
 		}
 	}

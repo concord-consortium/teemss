@@ -66,12 +66,16 @@ public class LObjDictionary extends LabObject
     
     public void setMainObj(LObjSubDict mainObj)
     {
+		// Assertion to check for "invaild call to setMainObj"
+		LabObject assertion = mainObj.ptr.obj;
+
 		if(hasMainObject){	    
-			objects.set(0, lBook.store(mainObj));
+			objects.set(0, mainObj.ptr);
 		} else {
-			objects.insert(0, lBook.store(mainObj));
+			objects.insert(0, mainObj.ptr);
 		} 
 
+		// this probably isn't necessary
 		mainObj.setDict(this);
 		hasMainObject = true;
 		objTemplateIndex = 1;
@@ -101,38 +105,27 @@ public class LObjDictionary extends LabObject
     
     public void add(LabObject lObj)
     {
-		insert(lObj, objects.getCount());
+		LabObjectPtr lObjPtr;
+		if(lObj == null) lObjPtr = lBook.getNullObjPtr();
+		else lObjPtr = lObj.getVisiblePtr();
+		insert(lObjPtr, objects.getCount());
     }
 
     public void insert(LabObjectPtr lObjPtr, int index)
     {
-		LabObject newObj = lBook.load(lObjPtr);
-		if(newObj instanceof LObjDictionary){
-			objects.insert(index, lObjPtr);
-		} else if(newObj instanceof LObjSubDict){
-			LObjSubDict newSD = (LObjSubDict)newObj;
-			if(newSD.dict == null){
-				// we might just have to create the dictionary here.
-				// but theorectially this shouldn't happen.
-				// but maybe the user doesn't want a dictionary 
-				// for this sub dict (see LObjDataSet)
-				// so in this case just insert the subdict
-				objects.insert(index, lObjPtr);
-			} else {
-				objects.insert(index, lBook.store(newSD.dict));
-			}
-		} else {
-			objects.insert(index, lObjPtr);
-		}
-		lBook.store(this);
+		// assertion to check for invalid "null pointer insertion"
+		LabObject assertion = lObjPtr.obj;
 
-		// We don't hand this object back so release our copy of it
-		if(newObj != null) newObj.release();
+		objects.insert(index, lObjPtr);
+		lBook.store(this);
     }
 
-    public void insert(LabObject node, int index)
+    public void insert(LabObject lObj, int index)
     {
-		insert(lBook.store(node), index);
+		LabObjectPtr lObjPtr;
+		if(lObj == null) lObjPtr = lBook.getNullObjPtr();
+		else lObjPtr = lObj.getVisiblePtr();
+		insert(lObjPtr, index);
     }
 
 	public void removeAll()

@@ -59,30 +59,33 @@ public class LObjDataSet extends LObjSubDict
 		setName("DataSet");
 	}
 	
-	public LObjDataSet makeSubChunk(Bin b, int xIndex)
+	public LObjDataSet makeSubChunk(Bin b, int xIndex, LabBookSession sess)
 	{
 		LObjDataSet sub = (LObjDataSet)factory.makeNewObj(DataObjFactory.DATA_SET, false);
 		if(sub == null) return null;
 		sub.myBin = b;
 		sub.label = label;
 		sub.chunkIndex = xIndex;
+		sess.storeNew(sub);
 		return sub;
 	}
 
-    public int addBin(Bin b)
+    public int addBin(Bin b, LabBookSession session)
     {
 		int numBinChunks = b.numDataChunks();
-		LObjDataSet first = makeSubChunk(b, 0);
+		LObjDataSet first = makeSubChunk(b, 0, session);
 		first.numBinChunks = numBinChunks;
 		setObj(first, numSubObjs++);
 		first.storeNow();
+		session.release(first);
 		first.chunkIndex = -1;
 		numChunks++;
 
 		for(int i=1; i<numBinChunks; i++){
-			LObjDataSet curChunk = makeSubChunk(b, i);
+			LObjDataSet curChunk = makeSubChunk(b, i, session);
 			setObj(curChunk, numSubObjs++);
 			curChunk.storeNow();
+			session.release(curChunk);
 			curChunk.chunkIndex = -1;
 			numChunks++;
 		}
@@ -112,6 +115,7 @@ public class LObjDataSet extends LObjSubDict
 		LObjDictionary dict;
 		if(obj == null){
 			dict = DefaultFactory.createDictionary();
+			session.storeNew(dict);
 			setObj(dict,1);
 			return dict;
 		} else if(obj instanceof LObjDictionary){
@@ -433,6 +437,8 @@ public class LObjDataSet extends LObjSubDict
 				buffer[bufPos] = (byte)(bits & 0xFF);
 				bufPos += 7;
 			}
+			dEvent.data = null;
+			data = null;
 			ds.writeBytes(buffer, 0, dEvent.numbSamples*4);
 		   
 			if(myBin != null){

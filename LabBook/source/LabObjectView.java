@@ -40,10 +40,8 @@ public abstract class LabObjectView extends Container
 		if(session != null) session = null;
     }
 
-    public LabObject getLabObject()
-    {
-		return lObj;
-    }
+    public LabObject getLabObject(){ return lObj; }
+	public void setLabObject(LabObject obj){ lObj = obj; }
 
     public String getTitle()
     {

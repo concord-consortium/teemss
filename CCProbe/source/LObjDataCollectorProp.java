@@ -156,6 +156,7 @@ public class LObjDataCollectorProp extends LabObjectView
 				Vector dataSources = new Vector(1);
 				LObjProbeDataSource probeDS = 
 					LObjProbeDataSource.getProbeDataSource(probeType.getValue());
+				session.storeNew(probeDS);
 				if(dsProps == null){
 					dataSources.add(probeDS);
 				} else {
@@ -166,7 +167,8 @@ public class LObjDataCollectorProp extends LabObjectView
 						String [] quantNames = quantProp.getPossibleValues();
 						for(int i=0; i<quantNames.length; i++){
 							if(quantProp.getCheckedValue(i)){
-								DataSource newDS = probeDS.getQuantityDataSource(quantNames[i]);
+								DataSource newDS = 
+									probeDS.getQuantityDataSource(quantNames[i], session);
 								dataSources.add(newDS);
 							}
 						}

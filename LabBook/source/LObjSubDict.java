@@ -13,21 +13,48 @@ public abstract class LObjSubDict extends LabObject
 
 	/*
 	 * Only call this the first time the sub object is instantiated
-	 * if it is instanciated from the file 
+	 * This should no be called when the object is de-serialized
 	 */
     public void init(){
     	super.init();
 		dict = DefaultFactory.createDictionary();
-		dict.setMainObj(this);
 		dict.hideChildren = true;
-		dict.store();
     }
+
+	/*
+	 * This is a bit tricky this is called the first time the object
+	 * is stored in the labBook this is the first time the object
+	 * has a valid pointer
+	 */
+	public void firstStore(LabBookSession session)
+	{
+		if(dict !=  null){
+			session.storeNew(dict);
+			dict.setMainObj(this);
+		}
+	}
     
 	LObjDictionary getDict(){return dict;}
-
     void setDict(LObjDictionary d){
 		dict = d;
     }
+
+	public LabObjectPtr getVisiblePtr()
+	{ 
+		LabObjectPtr ptr;
+		if(dict != null){
+			ptr = dict.getVisiblePtr();
+			return ptr;
+		} else {
+			ptr =  super.getVisiblePtr(); 
+			return ptr;
+		}
+	}
+
+	public LabObjectView getMinimizedView()
+	{
+		return new LObjMinimizedView(this);
+	}
 
     public LabObjectView getPropertyView(ViewContainer vc,LObjDictionary curDict,
 										 LabBookSession session){
@@ -80,14 +107,10 @@ public abstract class LObjSubDict extends LabObject
 
     public LabObject getObj(int id, LabBookSession s)
     {
-		if(dict == null){
-			return null;
-		}
-
-		if(s == null){
-			return null;
-			//			throw new RuntimeException("null session in getObj");
-		}
+		// we should never be calling this if the dict 
+		// or session so we won't check and if there is a 
+		// a null exception then you know you need to fix it
+		// if(dict == null || s == null) return null;
 
 		// This assumes the dictionary doesn't have a template
 		id++;

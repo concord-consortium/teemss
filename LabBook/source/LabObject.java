@@ -8,7 +8,7 @@ import org.concord.waba.extra.ui.*;
 public abstract class LabObject
 {
     private String name = null;
-    public LabObjectPtr ptr;
+    LabObjectPtr ptr;
     int objectType = -1;
 	public LabObjectFactory factory;
     public static LabBook lBook;
@@ -18,6 +18,8 @@ public abstract class LabObject
 	{
 		objectType = type;
 	}
+
+	public LabObjectPtr getVisiblePtr(){ return ptr; }
 
 	public String getName(){ return name; }
 	public void setName(String name){ this.name = name; }
@@ -79,7 +81,20 @@ public abstract class LabObject
 
     public LabObject copy(){return null;}
 
-    public void store(){lBook.store(this);}
+	/*
+	 * This is a bit tricky this is called the first time the object
+	 * is stored in the labBook this is the first time the object
+	 * has a valid pointer
+	 */
+	public void firstStore(LabBookSession session)
+	{
+		lBook.store(this);
+	}
+
+    public void store()
+	{
+		lBook.store(this);
+	}
 
 	public void storeNow()
 	{
