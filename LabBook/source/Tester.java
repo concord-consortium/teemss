@@ -41,6 +41,8 @@ public class Tester extends ExtraMainWindow
 	if(loDict == null){
 	    loDict = new LObjDictionary();
 	    loDict.name = "Root";
+	    labBook.store(loDict);
+
 	}
 	LObjDictionaryView view = (LObjDictionaryView)loDict.getView(true);
 	view.setRect(x,y,width,height);
@@ -90,8 +92,6 @@ public class Tester extends ExtraMainWindow
 		java.awt.Window awtWindow = (java.awt.Window)getAWTCanvas().getParent().getParent();
 		java.awt.Insets insets 	= awtWindow.getInsets();
 		System.out.println(insets);
-		System.out.println("storing");
-		labBook.store(loDict);
 
 		System.out.println("commiting");
 		labBook.commit();

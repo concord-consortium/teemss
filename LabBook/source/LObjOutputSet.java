@@ -10,7 +10,7 @@ public class LObjOutputSet extends LObjSubDict
     LabObject mainObject = null;
     LObjDictionary outputDict = null;
     
-    public boolean showChoice = true;
+    public boolean skipChoice = false;
 
     /*
      * need to figure out object loading and storing :(
@@ -63,22 +63,20 @@ public class LObjOutputSet extends LObjSubDict
     {
 	if(mainObject == null) return null;
 
-	if(outputDict == null){
+	if(outputDict == null ||
+	   outputDict.getChildCount() == 0 ||
+	   edit || 
+	   skipChoice){
+	    skipChoice = false;
 	    return mainObject.getView(edit);
 	}
 
-	if(!edit && showChoice){
-	    return new LObjOutputSetChoice(this);
-	}
-	
-	showChoice = true;
-	return mainObject.getView(edit);
-	
+	return new LObjOutputSetChoice(this);
+		
     }
 
     public void writeExternal(DataStream out)
     {
-	System.out.println("Writing OutputSet");
 	super.writeExternal(out);
 	
     }

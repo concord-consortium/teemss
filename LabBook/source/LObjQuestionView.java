@@ -175,7 +175,7 @@ public class LObjQuestionView extends LabObjectView
 	if(quest.outputSet.curOutput == null){
 	    tmp = new LObjDictionary();
 	    tmp.name = "ans";
-	    quest.outputSet.setCurOutput(tmp);
+	    quest.outputSet.newCurOutput(tmp);
 	}
 
 	switch(quest.questionType){

@@ -10,12 +10,14 @@ public abstract class LObjSubDict extends LabObject
 
     public void writeExternal(DataStream out)
     {
+	super.writeExternal(out);
 	lBook.store(dict).writeExternal(out);
     }
 
     public void readExternal(DataStream in)
     {
-	dict = (LObjDictionary)lBook.load(LabObjectPtr.readExternal(in));
+	super.readExternal(in);
+	dict = ((LObjDictionary)lBook.load(LabObjectPtr.readExternal(in)));
     }
 
     public void setObj(LabObject obj, int id)
@@ -26,6 +28,7 @@ public abstract class LObjSubDict extends LabObject
 	    }
 	    dict.insert(obj, id);
 	} else {
+	    System.out.println("Removing #" + id + " from dict: " + dict.name);
 	    dict.remove(id);
 	    dict.insert(obj, id);
 	}
@@ -34,7 +37,10 @@ public abstract class LObjSubDict extends LabObject
 
     public LabObject getObj(int id)
     {
-	return (LabObject)dict.getChildAt(id);
+	LabObject obj = (LabObject)dict.getChildAt(id);
+	if(obj == null) System.out.println("Got null obj from subDict");
+
+	return obj;
     }
 
 }

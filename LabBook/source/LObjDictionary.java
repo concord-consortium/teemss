@@ -45,7 +45,8 @@ public class LObjDictionary extends LabObject
 
     public void insert(TreeNode node, int index)
     {
-	if(!(node instanceof LabObject)) return;
+	if(node != null && 
+	   !(node instanceof LabObject)) return;
 	
 	insert(lBook.store((LabObject)node), index);
     }
@@ -73,43 +74,38 @@ public class LObjDictionary extends LabObject
     {
 	objects = new Vector();
 	int i;
-	name = ds.readString();
-	if(name.equals("_null_name_")) name = null;
+	super.readExternal(ds);
 	viewType = ds.readInt();
-	mainObject = (LObjSubDict)lBook.load(LabObjectPtr.readExternal(ds));
 
 	int size = ds.readInt();
 	
-	System.out.println("Reading " + name + " dict: " + size);
 	for(i=0; i<size; i++){
 	    LabObjectPtr ptr = LabObjectPtr.readExternal(ds);
 	    objects.add(ptr);
-	    System.out.println("Reading: " + ptr.devId + ", " + ptr.objId);
+	    System.out.println(" Reading: " + ptr.devId + ", " + ptr.objId);
 	}
-	      
+
+	LabObjectPtr mObjPtr = LabObjectPtr.readExternal(ds);
+	mainObject = (LObjSubDict)lBook.load(mObjPtr);	 
+	newObjectTemplate = lBook.load(LabObjectPtr.readExternal(ds));
     }
 
     public void writeExternal(DataStream ds)
     {
 	int i;
 	int size = objects.getCount();
-	if(name == null){
-	    ds.writeString("_null_name_");
-	    System.out.println("Writing noname dict: " + size);
-	} else {
-	    System.out.println("Writing " + name + " dict: " + size);
-	    ds.writeString(name);
-	}
+	super.writeExternal(ds);
 	ds.writeInt(viewType);
-	lBook.store(mainObject).writeExternal(ds);
 
 	ds.writeInt(size);
 	for(i=0; i<size; i++){
 	    LabObjectPtr ptr = (LabObjectPtr)objects.get(i);
 	    ptr.writeExternal(ds);
-	    System.out.println("Writing: " + ptr.devId + ", " + ptr.objId);
+	    System.out.println(" Writing: " + ptr.devId + ", " + ptr.objId);
 	}
 
+	lBook.store(mainObject).writeExternal(ds);
+	lBook.store(newObjectTemplate).writeExternal(ds);
 
     }
 

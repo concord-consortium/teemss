@@ -189,6 +189,7 @@ public class LabBook
     // object is already in the hashtable so it won't be "loaded" again.
 
     Vector loaded = new Vector();
+
     public LabObject load(LabObjectPtr lObjPtr)
     {
 	int i;
@@ -204,6 +205,7 @@ public class LabBook
 		return curObjPtr.obj;
 	    }
 	}
+
 
 	BufferStream bsIn = new BufferStream();
 	DataStream dsIn = new DataStream(bsIn);
@@ -229,7 +231,7 @@ public class LabBook
 	// loaded array so we don't load it again
 	lObjPtr.obj = lObj;
 	loaded.add(lObjPtr);
-	
+		    
 	lObj.readExternal(dsIn);
 
 	return lObj;

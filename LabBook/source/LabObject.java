@@ -13,6 +13,9 @@ public abstract class LabObject implements TreeNode
     final public static int OUTPUT_SET = 7;
     final public static int QUESTION = 8;
 
+    public static String [] typeNames = {
+	"Zero", "Dict", "Form", "DataSet", "Graph", "DataControl", "Doc", "OutputSet", "Quest",};
+
     public static LabObject getNewObject(int objectType)
     {
 	switch(objectType){
@@ -43,9 +46,25 @@ public abstract class LabObject implements TreeNode
     int objectType = -1;
     public static LabBook lBook;
 
-    abstract public void readExternal(DataStream in);
+    public void readExternal(DataStream in)
+    {
+	name = in.readString();
+	if(name.equals("_null_name_")) name = null;
+	System.out.println("Reading " + name + " " + typeNames[objectType]);
 
-    abstract public void writeExternal(DataStream out);
+    }
+
+    public void writeExternal(DataStream out)
+    {
+	if(name == null){
+	    out.writeString("_null_name_");
+	    System.out.println("Writing noname " + typeNames[objectType]);
+	} else {
+	    System.out.println("Writing " + name + " " + typeNames[objectType]);
+	    out.writeString(name);
+	}
+
+    }
 
     public TreeNode [] childArray()
     {

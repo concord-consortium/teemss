@@ -29,6 +29,7 @@ public class LObjQuestion extends LObjSubDict
 	me.dict.mainObject = me;
 
 	LObjOutputSet output = LObjOutputSet.makeNew();
+	output.name = "OutputSet_obj";
 
 	LObjDictionary qsDict = new LObjDictionary();
 	qsDict.name = "Questions";
@@ -50,7 +51,7 @@ public class LObjQuestion extends LObjSubDict
     }
 
     public void writeExternal(DataStream out)
-    {
+    {	
 	super.writeExternal(out);
 	out.writeInt(questionType);
 	
@@ -67,18 +68,22 @@ public class LObjQuestion extends LObjSubDict
 	super.readExternal(in);
 	questionType = in.readInt();
 
-	outputSet = (LObjOutputSet)dict.getChildAt(0);
-	questionText = (LObjDocument)dict.getChildAt(1);
+	outputSet = (LObjOutputSet)getObj(0);
+	questionText = (LObjDocument)getObj(1);
 
 	if(questionType == MULTIPLE_CHOICE){
-	    options = (LObjDictionary)dict.getChildAt(2);
+	    options = (LObjDictionary)getObj(2);
 	}	
     }
 
     public void setDict(LObjDictionary d)
     {
+	System.out.println("Setting quest dict");
 	super.setDict(d);
-	if(outputSet != null) setObj(outputSet, 0);
+	if(outputSet != null){
+	    System.out.println(" Set non-null outputSet");
+	    setObj(outputSet, 0);
+	} 
 	if(questionText != null) setObj(questionText, 1);
 	if(options != null) setObj(outputSet, 2);
     }

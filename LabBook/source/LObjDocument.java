@@ -26,11 +26,22 @@ public class LObjDocument extends LabObject
 
     public void writeExternal(DataStream out)
     {
+	if(name == null){
+	    out.writeString("_null_name_");
+	    System.out.println("Writing noname doc");
+	} else {
+	    System.out.println("Writing " + name + " doc");
+	    out.writeString(name);
+	}
 	out.writeString(text);
     }
 
     public void readExternal(DataStream in)
     {
+	name = in.readString();
+	if(name.equals("_null_name_")) name = null;
+	System.out.println("Reading " + name + " doc");
+	
 	text = in.readString();
     }
 }

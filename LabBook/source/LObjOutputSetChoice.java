@@ -63,8 +63,8 @@ public class LObjOutputSetChoice extends LabObjectView
 
 	    LabObject newObj;
 	    if(e.target == newButton){
-		output.showChoice = false;
-		output.curOutput = null;
+		output.skipChoice = true;
+		output.setCurOutput(null);
 		// reload ...
 		if(container != null){
 		    container.reload(this);
@@ -72,8 +72,8 @@ public class LObjOutputSetChoice extends LabObjectView
 	    }else if(e.target == openButton){
 		curNode = treeControl.getSelected();
 		if(curNode == null) return;
-		output.curOutput = (LabObject)curNode;
-		output.showChoice = false;
+		output.setCurOutput((LabObject)curNode);
+		output.skipChoice = true;
 		// reload...
 		if(container != null){
 		    container.reload(this);
