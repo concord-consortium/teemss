@@ -9,4 +9,7 @@ classes: $(wildcard $(SRC_DIRS:%=src_desktop/%/*.java))
 -d classes $(filter-out $(SKIP_FILES), $?)
 	touch classes
 
+clean:
+	rm -rf classes
+
 include ../ReleaseSystem/Makefile.inc

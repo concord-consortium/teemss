@@ -21,5 +21,8 @@ $(PLATFORMS:%=classes/%/icons):
 	mkdir -p $@
 	cp cc_extra/icons/*.bmp $@
 
+clean:
+	rm -rf classes
+
 include ../ReleaseSystem/Makefile.inc
 
