@@ -207,12 +207,26 @@
 </xsl:template>
 
 <xsl:template match="instruction">
-  <xsl:if test="position()=3">---aircart-insert-part2---</xsl:if>
-  <xsl:if test="position()=5">---aircart-insert-part3---</xsl:if>
-  <xsl:if test="position()=7">---aircart-insert-part4---</xsl:if>
+  <xsl:if test="position()=2">---aircart-insert-part2---</xsl:if>
+  <xsl:if test="position()=3">---aircart-insert-part3---</xsl:if>
+  <xsl:if test="position()=4">---aircart-insert-part4---</xsl:if>
+  <xsl:if test="position()=5">---aircart-insert-part5---</xsl:if>
+  <xsl:if test="position()=6">---aircart-insert-part6---</xsl:if>
+  <xsl:if test="position()=7">---aircart-insert-part7---</xsl:if>
+  <xsl:if test="position()=8">---aircart-insert-part8---</xsl:if>
+  <xsl:if test="position()=9">---aircart-insert-part9---</xsl:if>
   <SNPARAGRAPH linkcolor="0000FF"><xsl:value-of select="@title"/></SNPARAGRAPH>
   <SNPARAGRAPH/>
-  <xsl:apply-templates select="steps" mode="investigate"/>
+  <xsl:for-each select="*|text()">
+    <xsl:choose>
+      <xsl:when test="name()='steps'">
+        <xsl:apply-templates select="." mode="investigate"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:apply-templates select="."/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:for-each>
 </xsl:template>
 
 <xsl:template match="steps">
@@ -336,7 +350,7 @@
     </xsl:attribute>
     <xsl:attribute name="name">
 
-      <xsl:value-of select="name(ancestor::*[../../investigation])"/> <xsl:number value="position()"/><xsl:text> </xsl:text><xsl:value-of select="@type"/><xsl:text> </xsl:text><xsl:value-of select="@title"/>
+      <xsl:value-of select="name(ancestor::*[../../investigation])"/><xsl:text> </xsl:text><xsl:number value="position()"/><xsl:text> </xsl:text><xsl:value-of select="@type"/><xsl:text> </xsl:text><xsl:value-of select="@title"/>
 
     </xsl:attribute>
     <EMBOBJ object="teemss_titlebar.bmp"/>
