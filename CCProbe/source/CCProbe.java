@@ -115,16 +115,21 @@ public class CCProbe extends ExtraMainWindow
 		file.add(aboutTitle);
 		if(!plat.equals("PalmOS")){
 			file.add("-");
+			if(plat.equals("Java")){
+				file.add("Serial Port Setup..");
+			}
 			file.add("Exit");
-			fileStrings = new String [3];
+			fileStrings = new String [4];
 			fileStrings[0] = aboutTitle;
 			fileStrings[1] = "-";
-			fileStrings[2] = "Exit";
+			fileStrings[2] = "Serial Port Setup..";
+			fileStrings[3] = "Exit";
 		} else {
 			fileStrings = new String [1];
 			fileStrings[0] = aboutTitle;			
 		}
 		
+
 		file.addActionListener(this);
 		menuBar.add(file);
 
@@ -365,6 +370,8 @@ public class CCProbe extends ExtraMainWindow
 				}
 			}else if(command.equals(aboutTitle)){
 				Dialog.showAboutDialog(aboutTitle,AboutMessages.getMessage());
+			} else if(command.equals("Serial Port Setup..")){
+				DataExport.showSerialDialog();
 			} else {
 				for(int i=0; i<fileListeners.getCount(); i++){
 					((ActionListener)fileListeners.get(i)).actionPerformed(e);

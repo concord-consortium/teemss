@@ -7,6 +7,12 @@ import extra.io.*;
 
 public class DataExport 
 {
+	static public void showSerialDialog()
+	{
+		waba.io.impl.SerialManager.checkAvailableSerialPorts();
+		waba.io.impl.SerialManager.showSetupDialog();
+	}
+
     static public void writeString(DataStream ds, String s)
     {
 		ds.writeFixedString(s, s.length());
