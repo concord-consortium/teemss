@@ -70,7 +70,7 @@ MINOR2_VER =  $(subst .,,$(suffix $(VERSION_EXP)))
 
 update-build:
 	@expr $(BUILD_EXP) + 1 > new_build
-	sed -e s/_BUILD_VER_/'cat new_build'/ -e s/_MAJOR_VER_/$(MAJOR_VER)/ \
+	sed -e s/_BUILD_VER_/`cat new_build`/ -e s/_MAJOR_VER_/$(MAJOR_VER)/ \
 -e s/_MINOR1_VER_/$(MINOR1_VER)/ -e s/_MINOR2_VER_/$(MINOR2_VER)/ \
 < $(VERSION_TEMPLATE) > $(basename $(VERSION_TEMPLATE))
 
