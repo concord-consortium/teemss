@@ -192,6 +192,8 @@ protected ProbManager	pb = null;
 			if((ret - curPos) > 0){
 				for(j=0; j<(ret-curPos); j++) buf[j] = buf[curPos + j];
 				bufOffset = j;
+			} else {
+			    bufOffset = 0;
 			}
 		}
 		// Should have a special error condition
@@ -603,19 +605,15 @@ protected ProbManager	pb = null;
 				if(pos != (byte)0x00){
 					continue; // We found a bogus char 
 				}
-
 				value |= (tmp & (byte)0x00F) << 7;
+
 				tmp = buf[curPos++];
 				pos = (byte)(tmp & MASK);
 				if(pos != (byte)0x80){
 					continue; // We found a bogus char 
 				}
-
 				value |= (tmp & (byte)0x07F);
-				// Ignore the change bit
-				// The channel bit is reversed on the 10bit converter hence
-				// the 2 -
-				// Don't know if this is true any more
+
 				curChannel = ((value & 0x00400) >> 10);
 				value &= 0x03FF;
 
@@ -630,7 +628,7 @@ protected ProbManager	pb = null;
 				   if(gotChannel0) curDataCh0 = (float)value * tuneValue;
 				}
 			}
-
+			
 			dEvent.numbSamples = (curDataPos/activeChannels);
 			curStepTime += dEvent.numbSamples*timeStepSize;
 			pb.dataArrived(dEvent);
@@ -638,9 +636,9 @@ protected ProbManager	pb = null;
 			if((ret - curPos) > 0){
 				for(j=0; j<(ret-curPos); j++) buf[j] = buf[curPos + j];
 				bufOffset = j;
+			} else {
+			    bufOffset = 0;
 			}
-
-
 		}
 		// Should have a special error condition
 		if(ret < 0) return WARN_SPEC_CONDITIONS;
@@ -709,6 +707,8 @@ protected ProbManager	pb = null;
 		    if((ret - curPos) > 0){
 			for(j=0; j<(ret-curPos); j++) buf[j] = buf[curPos + j];
 			bufOffset = j;
+		    } else {
+			    bufOffset = 0;
 		    }
 		}
 		// Should have a special error condition
