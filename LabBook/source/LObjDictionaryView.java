@@ -217,9 +217,9 @@ public class LObjDictionaryView extends LabObjectView
 	} else if(e.getSource() == editMenu){	    
 	    if(e.getActionCommand().equals("Rename...")){
 		TreeNode selObj = treeControl.getSelected();
-		if(selObj.toString().equals("..empty..")) return;
 		String [] buttons = {"Cancel", "Ok"};
 		if(selObj != null){
+		    if(selObj.toString().equals("..empty..")) return;
 		    rnDialog = Dialog.showInputDialog(this, "Rename Object", "Old Name was " + selObj.toString(),
 						      buttons,Dialog.EDIT_INP_DIALOG);
 		} else {
