@@ -43,16 +43,11 @@ private waba.ui.Container		contentPane;
   public void setRect(int x,int y,int width,int height){
     super.setRect(x,y,width,height);
     if(contentPane == null){
-  		contentPane = new waba.ui.Container();
-    }else{
-    	remove(contentPane);
+	contentPane = new waba.ui.Container();
+	 add(contentPane);
     }
-//    contentPane.setRect(0,0,width,height);
-
-	java.awt.Window awtWindow = (java.awt.Window)getAWTCanvas().getParent();
-
     contentPane.setRect(0,0,width,height);
-    add(contentPane);
+    setContent();
   }
 
     public boolean contains(int x, int y){
@@ -121,17 +116,19 @@ private waba.ui.Container		contentPane;
 	int mHeight = fm.getHeight();
 	int h = bHeight + 10 + (10 + mHeight);
 	d.setRect(50,50,w,h);
+	waba.ui.Container cp = d.getContentPane();
+	
 	int xButtonCurr = w/2 - bWidth/2;
 	for(int i = 0; i < buttonTitles.length; i++){
 		waba.ui.Button b = new waba.ui.Button(buttonTitles[i]);
 		int bW = fm.getTextWidth(buttonTitles[i]) + 6;
 		b.setRect(xButtonCurr+3,h - 5 - bHeight,bW ,bHeight);
 		xButtonCurr += (bW + 6);
-		d.add(b);
+		cp.add(b);
 	}
 	waba.ui.Label label = new waba.ui.Label(message,waba.ui.Label.CENTER);
 	label.setRect(10 + w/2 - messageWidth/2,5,messageWidth,mHeight);
-	d.add(label);
+	cp.add(label);
 	String imagePath = "cc_extra/icons/";
 	switch(messageType){
 		default:
@@ -151,7 +148,7 @@ private waba.ui.Container		contentPane;
 	}
 	ImagePane ip = new ImagePane(imagePath);
 	ip.setRect(d.widthBorder + 2,2,16,16);
-	d.add(ip);
+	cp.add(ip);
 	d.addDialogListener(l);
 	d.show();
   }
@@ -169,13 +166,14 @@ private waba.ui.Container		contentPane;
 	int mHeight = fm.getHeight();
 	int h = bHeight + 10 + (10 + mHeight);
 	d.setRect(50,50,w,h);
-//	d.setRect(0,0,w,h);
+	waba.ui.Container cp = d.getContentPane();
+	
 	waba.ui.Button b = new waba.ui.Button(buttonTitle);
 	b.setRect(w/2 - bWidth/2,h - 5 - bHeight,bWidth,bHeight);
-	d.add(b);
+	cp.add(b);
 	waba.ui.Label label = new waba.ui.Label(message,waba.ui.Label.CENTER);
 	label.setRect(10 + w/2 - messageWidth/2,5,messageWidth,mHeight);
-	d.add(label);
+	cp.add(label);
 	String imagePath = "cc_extra/icons/";
 	switch(messageType){
 		default:
@@ -195,7 +193,7 @@ private waba.ui.Container		contentPane;
 	}
 	ImagePane ip = new ImagePane(imagePath);
 	ip.setRect(d.widthBorder + 2,2,16,16);
-	d.add(ip);
+	cp.add(ip);
 	d.addDialogListener(l);
 	d.show();
   }
