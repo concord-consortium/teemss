@@ -112,7 +112,7 @@ public static final int	version = 11;
 
 
 //CCStringWrapper		[] lines;
-Vector				lines = null;
+public Vector		lines = null;
 FontMetrics 		fm = null;
 int 				insetLeft = 5;
 int 				insetRight = 10;
@@ -387,7 +387,8 @@ private CCStringWrapper textWasChosen = null;
     
     public void writeExternal(DataStream out){
     	out.writeString(getText());
-    	out.writeBoolean(components != null);
+ //   	out.writeBoolean(components != null);
+    	out.writeBoolean(true);//!!!!!!!!!!!!!!!!!!!!!!!
     	if(components == null){
     		out.writeInt(-1);
     	}else{
@@ -427,7 +428,8 @@ private CCStringWrapper textWasChosen = null;
     }
 
     public void readExternal(DataStream in){
-		setText(in.readString(),false);
+    	String inStr = in.readString();
+		setText(inStr,false);
 		boolean wasComponents = in.readBoolean();
 		if(!wasComponents) return;
 		int nComp = in.readInt();
@@ -471,7 +473,6 @@ private CCStringWrapper textWasChosen = null;
 				}
 			}
 		}
-		
 		if(!wasComponents) return;
 
 		components = new LBCompDesc[nComp];
@@ -667,11 +668,13 @@ private CCStringWrapper textWasChosen = null;
 		if(linesVector == null) return;
 		textWasChosen = null;
 		String str = "";
-		for(int i = 0; i < lines.getCount(); i++){
-			str += (((CCStringWrapper)lines.get(i)).getStr() + "\n");
+		for(int i = 0; i < linesVector.getCount(); i++){
+			CCStringWrapper wrapper = (CCStringWrapper)linesVector.get(i);
+			wrapper.owner = this;
+			str += (wrapper.getStr() + "\n");
 		}
-		setText(str);//temporary
-		restoreTextProperty(linesVector);
+		setText(str,false);//temporary
+		lines = linesVector;
 	}
 
 	public void insertText(String iStr){

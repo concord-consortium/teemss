@@ -18,7 +18,6 @@ static public	boolean editMode = false;
 	}
 
     public LabObjectView getView(ViewContainer vc, boolean edit, LObjDictionary curDict){
-    
     	this.curDict = curDict;
  		if(view == null){ 
  			view = new LObjCCTextAreaView(vc, this, edit);

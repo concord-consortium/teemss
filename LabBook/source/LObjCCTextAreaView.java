@@ -10,7 +10,7 @@ public class LObjCCTextAreaView extends LabObjectView
 	implements ActionListener,DialogListener, ScrollListener, TextAreaListener,
 	ViewContainer
 {
-CCTextArea 				tArea;
+public CCTextArea 				tArea;
 boolean					tAreaWasAdded = false;
 //RelativeContainer 		edit = new RelativeContainer();
 Container 				edit = new Container();
