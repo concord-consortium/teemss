@@ -4,7 +4,7 @@ all: classes
 
 classes: $(wildcard $(SRC_DIR:%=src_desktop/%/*.java))
 	[ -d classes ] || mkdir classes
-	javac -classpath classes:$(CLASSPATH):../wj_tools/jump.jar -d classes $?)
+	javac -classpath classes:$(CLASSPATH):../wj_tools/jump.jar -d classes $?
 	touch classes
 
 include ../ReleaseSystem/Makefile.inc
