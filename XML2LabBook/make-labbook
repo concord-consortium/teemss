@@ -15,7 +15,7 @@ scriptdir=`dirname $0`
 #fi
 workingcopy=$scriptdir/..
 
-my_classpath=$workingcopy/wextra/classes/desktop:$workingcopy/wabasdk/classes:$workingcopy/wgraph/classes/other:$workingcopy/LabBook/classes/other:$workingcopy/ProbeLib/classes/other:$workingcopy/CCProbe/classes/other:$workingcopy/XML2LabBook/classes/other:$workingcopy/XML2LabBook/jars/QTManager.jar
+my_classpath=$workingcopy/wextra/classes/desktop:$workingcopy/wabasdk/classes:$workingcopy/wgraph/classes/other:$workingcopy/LabBook/classes/other:$workingcopy/ProbeLib/classes/other:$workingcopy/CCProbe/classes/other:$workingcopy/XML2LabBook/classes/other:$workingcopy/XML2LabBook/jars/QTManager.jar:$workingcopy/XML2LabBook/jars/xalan.jar:$workingcopy/XML2LabBook/jars/crimson.jar
 
 java  -cp $my_classpath  xml2labbook.XML2LabBook $1 $2
 
