@@ -27,17 +27,17 @@ public class LObjGraph extends LObjSubDict
 		super(DataObjFactory.GRAPH);
 	}
 
-    public void showProp()
+    public void showProp(LabBookSession session)
 	{
-		showAxisProp(0);
+		showAxisProp(0, session);
 	}
 
-    public void showAxisProp(int index)
+    public void showAxisProp(int index, LabBookSession session)
     {
 		MainWindow mw = MainWindow.getMainWindow();
 		if(mw instanceof ExtraMainWindow){
 			LObjGraphProp gProp = 
-				(LObjGraphProp) getPropertyView(null, null, null);
+				(LObjGraphProp) getPropertyView(null, null, session);
 			gProp.index = index;
 			ViewDialog vDialog = 
 				new ViewDialog((ExtraMainWindow)mw, null, "Properties", gProp);
@@ -214,7 +214,7 @@ public class LObjGraph extends LObjSubDict
 			LabObject obj = getObj(index, session);
 			if(obj instanceof DataSource){
 				return (DataSource)obj;
-			}
+			} 
 		}
 		return null;
 	}

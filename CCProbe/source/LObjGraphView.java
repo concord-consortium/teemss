@@ -147,7 +147,7 @@ public class LObjGraphView extends LabObjectView
 
 		if(e.getSource() == menu){
 			if(e.getActionCommand().equals("Graph Properties..")){
-				graph.showProp();
+				graph.showProp(session);
 			}
 		} else {
 			if(e.getActionCommand().equals("Save Data..")){
@@ -431,10 +431,10 @@ public class LObjGraphView extends LabObjectView
 			dd.update();
 		} else if(e.type == 1004){
 			// yaxis blob clicked
-			graph.showAxisProp(2);
+			graph.showAxisProp(2, session);
 		} else if(e.type == 1005){
 			// xaxis blob clicked
-			graph.showAxisProp(1);
+			graph.showAxisProp(1, session);
 		}else if(e.target == viewChoice){
 			if(e.type == ControlEvent.PRESSED){
 				int index = viewChoice.getSelectedIndex();

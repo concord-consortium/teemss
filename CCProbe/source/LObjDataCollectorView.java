@@ -241,7 +241,7 @@ public class LObjDataCollectorView extends LabObjectView
 
 				Debug.println("Callllll");
 			} else if(e.getActionCommand().equals("Graph Properties..")){
-				graph.showProp();
+				graph.showProp(session);
 			} else if(e.getActionCommand().equals("Save Profile...")){
 				/*
 				LObjDocument dProf = DefaultFactory.createDocument();
@@ -309,7 +309,7 @@ public class LObjDataCollectorView extends LabObjectView
 			}
 		} else if(e.target == title2Label && 
 				  e.type == PenEvent.PEN_DOWN){
-			graph.showProp();
+			graph.showProp(session);
 		}
     }
 

@@ -420,9 +420,21 @@ public class LObjDataSet extends LObjSubDict
 			int endPos = dEvent.dataOffset + dEvent.numbSamples*sampSize;
 			float [] data = dEvent.data;
 	    
+			byte [] buffer = new byte [dEvent.numbSamples*4];
+			int bufPos = 3;
 			for(int i=dEvent.dataOffset; i<endPos; i+=sampSize){
-				ds.writeFloat(data[i]);
-			}	
+				int bits = waba.sys.Convert.toIntBitwise(data[i]);
+				buffer[bufPos--] = (byte)(bits & 0xFF);
+				bits>>=8;
+				buffer[bufPos--] = (byte)(bits & 0xFF);
+				bits>>=8;
+				buffer[bufPos--] = (byte)(bits & 0xFF);
+				bits>>=8;
+				buffer[bufPos] = (byte)(bits & 0xFF);
+				bufPos += 7;
+			}
+			ds.writeBytes(buffer, 0, dEvent.numbSamples*4);
+		   
 			if(myBin != null){
 				dEvent = null;
 			}
