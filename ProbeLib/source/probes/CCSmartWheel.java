@@ -149,7 +149,7 @@ int					outputMode = DEFAULT_MODE_OUT;
 			wheelData[i] = calibrated * radius;
 			break;
 		    case LIN_POS_MODE_OUT:
-			wheelData[i] = posOffset = posOffset + calibrated * radius;
+			wheelData[i] = posOffset = posOffset + calibrated * radius*dt;
 			break;
 		    default:
 			wheelData[i] = calibrated;
