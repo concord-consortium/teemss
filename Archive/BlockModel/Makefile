@@ -1,6 +1,6 @@
 
 MODULE = BlockModel
-DEP_NAMES = wgraph
+DEP_NAMES = wgraph ProbeSystem
 
 include ../ReleaseSystem/waba.inc
 
