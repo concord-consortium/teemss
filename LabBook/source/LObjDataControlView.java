@@ -48,18 +48,7 @@ public class LObjDataControlView extends LabObjectView
     public void dialogClosed(DialogEvent e)
     {
 		Debug.println("Got closed");
-		dc.portId = dc.getProbe().getInterfacePort();
-		LObjGraph graph = (LObjGraph)dc.getObj(0);
-		CCProb p = dc.getProbe();
-		graph.name = p.getName() + "(";
-		PropObject [] props = p.getProperties();
-		int i;
-		for(i=0; i < props.length-1; i++){
-			graph.name += props[i].getName() + "- " + props[i].getValue() + "; ";
-		}
-		graph.name += props[i].getName() + "- " + props[i].getValue() + ")";
 
-		gt.setTitle(graph.name, null);
 	
     }
 
@@ -112,6 +101,7 @@ public class LObjDataControlView extends LabObjectView
 		gt = new GraphTool(graph.name , "", gv.av, dc, dd, width, gt_height);
 	
 		gt.setPos(0, curY);
+		gt.setTitle1(dc.name);
 
 		gv.setGraphTool(gt);
 

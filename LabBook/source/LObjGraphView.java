@@ -6,6 +6,8 @@ import waba.util.*;
 import org.concord.waba.extra.event.*;
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.util.*;
+import org.concord.waba.extra.probware.*;
+import org.concord.waba.extra.probware.probs.*;
 import extra.util.*;
 
 public class LObjGraphView extends LabObjectView
@@ -31,12 +33,15 @@ public class LObjGraphView extends LabObjectView
 
     PropertyDialog pDialog = null;
     PropContainer props = null;
+	PropObject propTitle;
     PropObject propXmin;
     PropObject propXmax;
 	PropObject propXlabel;
     PropObject propYmin;
     PropObject propYmax;
 	PropObject propYlabel;
+
+	boolean autoTitle = false;
 
     public LObjGraphView(LObjViewContainer vc, LObjGraph g)
     {
@@ -53,8 +58,11 @@ public class LObjGraphView extends LabObjectView
 		lObj = g;	
 
 		props = new PropContainer();
+		props.createSubContainer("Graph");
 		props.createSubContainer("Y Axis");	
 		props.createSubContainer("X Axis");
+
+		propTitle = new PropObject("Title", graph.title);
 
 		propXmin = new PropObject("Min", graph.xmin + "");
 		propXmax = new PropObject("Max", graph.xmax + "");
@@ -62,6 +70,8 @@ public class LObjGraphView extends LabObjectView
 		propYmin = new PropObject("Min", graph.ymin + "");
 		propYmax = new PropObject("Max", graph.ymax + "");
 		propYlabel = new PropObject("Label", graph.yLabel);
+
+		props.addProperty(propTitle, "Graph");
 
 		props.addProperty(propXmax, "X Axis");
 		props.addProperty(propXmin, "X Axis");
@@ -85,6 +95,31 @@ public class LObjGraphView extends LabObjectView
 			graph.xLabel = propXlabel.getValue();
 			av.setYLabel(graph.yLabel, graph.yUnit);
 			av.setXLabel(graph.xLabel, graph.xUnit);
+
+			String newTitle = propTitle.getValue();
+			if(newTitle.charAt(0) == '*' && gTool != null){
+				autoTitle = true;
+			} else {
+				autoTitle = false;
+			}
+
+			if(autoTitle && gTool != null){
+		
+				gTool.dc.portId = gTool.dc.getProbe().getInterfacePort();
+				CCProb p = gTool.dc.getProbe();
+				graph.title = p.getName() + "(";
+				PropObject [] props = p.getProperties();
+				int i;
+				for(i=0; i < props.length-1; i++){
+					graph.title += props[i].getName() + "- " + props[i].getValue() + "; ";
+				}
+				graph.title += props[i].getName() + "- " + props[i].getValue() + ")";
+				propTitle.setValue("*" + graph.title);
+			} else {
+				graph.title = newTitle;
+			}
+
+			if(gTool != null) gTool.setTitle2(graph.title);
 		}
 
 		if(e.getActionCommand().equals("Close")){
@@ -100,6 +135,9 @@ public class LObjGraphView extends LabObjectView
 			graph.ymax = av.getYmax();
 			graph.xmin = av.getXmin();
 			graph.xmax = av.getXmax();
+
+			if(autoTitle) propTitle.setValue("*" + graph.title);
+			else propTitle.setValue(graph.title);
 
 			propXmin.setValue("" + graph.xmin);
 			propXmax.setValue("" + graph.xmax);
@@ -146,7 +184,7 @@ public class LObjGraphView extends LabObjectView
 	public void setTitle(String title)
 	{
 		if(graph != null){
-			graph.name = title;
+			graph.title = title;
 		}
 
 		if(titleLabel != null){
@@ -157,6 +195,7 @@ public class LObjGraphView extends LabObjectView
 	public void setGraphTool(GraphTool gt)
 	{
 		gTool = gt;
+		gTool.setTitle2(graph.title);
 	}
 
     public void layout(boolean sDone)

@@ -161,10 +161,14 @@ public class GraphTool extends Container
 		mw = MainWindow.getMainWindow();
     }
 
-	public void setTitle(String t1, String t2)
+	public void setTitle1(String t1)
 	{
 		if(t1 == null) t1 = "";
 		title1Label.setText(t1);
+	}
+
+	public void setTitle2(String t2)
+	{
 		if(t2 == null) t2 = "";
 		title2Label.setText(t2);
 	}

@@ -5,7 +5,7 @@ import extra.io.*;
 import org.concord.waba.extra.ui.*;
 
 public class LObjDictionary extends LabObject
- implements TreeNode
+	implements TreeNode
 {
     public final static int TREE_VIEW = 0;
     public final static int PAGING_VIEW = 1;
