@@ -20,6 +20,8 @@ public class CCProbe extends ExtraMainWindow
 
     LObjDictionary loDict = null;
 
+    String aboutTitle = "About CCProbe";
+
     public void onStart()
     {
 	Dialog.showImages = false;
@@ -39,7 +41,10 @@ public class CCProbe extends ExtraMainWindow
 	waba.fx.Rect myRect = content.getRect();
 	myHeight = myRect.height;
 
+	
 	file = new Menu("File");
+	file.add(aboutTitle);
+	file.add("-");
 	file.add("Exit");
 	file.addActionListener(this);
 	menuBar.add(file);
@@ -120,8 +125,10 @@ public class CCProbe extends ExtraMainWindow
 		    labBook = null;
 		    exit(0);
 		}
+	    }else if(command.equals(aboutTitle)){
+		Dialog.showAboutDialog(aboutTitle,AboutMessages.messages);
 	    }
-	} 
+	}
     }
 
     public void onExit(int code)

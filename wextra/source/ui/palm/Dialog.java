@@ -65,6 +65,42 @@ private waba.ui.Container		contentPane;
 			listener = null;
 		}
 	}
+  public static Dialog showAboutDialog(String title,String messages[]){
+  	Dialog d = new Dialog(title);
+  	waba.fx.FontMetrics fm = d.getFontMetrics(d.getFont());
+	int bHeight = 15;
+	int h = bHeight + 20;
+	int maxWith = 150;
+	String	bstring = "Done";
+	int mHeight = fm.getHeight();
+	if(messages != null){
+		for(int i = 0; i < messages.length; i++){
+			if(maxWith < (fm.getTextWidth(messages[i]) + 12)){
+				maxWith = fm.getTextWidth(messages[i]) + 12;
+			}
+			 h += (2+mHeight);
+		}
+	}
+	int w = maxWith;
+	d.setRect(0,0,w,h);
+	waba.ui.Container cp = d.getContentPane();
+	waba.ui.Button b = new waba.ui.Button(bstring);
+	cp.add(b);
+	int bW = fm.getTextWidth(bstring) + 6;
+	b.setRect(w/2 - bW/2,h - 19 - bHeight,bW ,bHeight);
+	if(messages != null){
+		int yLabel = 2;
+		for(int i = 0; i < messages.length; i++){
+			waba.ui.Label label = new waba.ui.Label(messages[i],waba.ui.Label.CENTER);
+			int messageWidth 	= fm.getTextWidth(messages[i]);
+			cp.add(label);
+			label.setRect(w/2 - messageWidth/2,yLabel,messageWidth,mHeight);
+			yLabel += (2 + mHeight);
+		}
+	}
+	d.show();
+	return d;
+  }
   public static Dialog showConfirmDialog(org.concord.waba.extra.event.DialogListener l,String title,String message,String []buttonTitles,int messageType){
   	if(buttonTitles == null) return null;
   	Dialog d = new Dialog(title);
