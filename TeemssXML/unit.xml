@@ -184,7 +184,8 @@
       the area you selected.<shared-image name="17_th_zoomed"
       screenshot="true" /></step></steps></instruction><instruction
       title="default axes">To return to the original axis settings, tap
-      Default Axes in the Tools list.<shared-image name="32_th_defaultaxes" /></instruction><instruction
+      Default Axes in the Tools list.<shared-image name="32_th_defaultaxes" screenshot="true"/> 
+      </instruction><instruction
       title="Changing graph properties "><steps><step>To change graph
       properties, tap the Palm menu icon at the bottom left corner, then the
       Edit menu item. Tap Graph Properties. <shared-image
