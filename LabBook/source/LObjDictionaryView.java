@@ -9,6 +9,7 @@ import extra.ui.*;
 public class LObjDictionaryView extends LabObjectView 
     implements ActionListener, ViewContainer, DialogListener
 {
+	public		boolean viewFromExternal = false;
     TreeControl treeControl;
     TreeModel treeModel;
     RelativeContainer me = new RelativeContainer();
@@ -76,9 +77,11 @@ public class LObjDictionaryView extends LabObjectView
 		} else {
 			buttons = new GridContainer(3,1);
 		}
-		buttons.add(newButton, 0, 0);
-		buttons.add(openButton, 1, 0);
-		buttons.add(delButton, 2, 0);
+		if(!viewFromExternal){
+			buttons.add(newButton, 0, 0);
+			buttons.add(openButton, 1, 0);
+			buttons.add(delButton, 2, 0);
+		}
 		me.add(buttons);
     }
 
@@ -114,7 +117,7 @@ public class LObjDictionaryView extends LabObjectView
 				}
 		    }	    
 		} else if(e.type == TreeControl.DOUBLE_CLICK){
-			openSelected();
+			if(!viewFromExternal) openSelected();
 		}
     }
 
