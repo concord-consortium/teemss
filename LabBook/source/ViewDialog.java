@@ -71,5 +71,5 @@ public class ViewDialog extends Dialog
 	public String [] getCreateNames(){return null;}
 	public void createObj(String name, LObjDictionaryView dView){}
 	public void showFullWindowView(LabObjectView view){}
-	public void closeFullWindowView(){}
+	public void closeTopWindowView(){}
 }
