@@ -57,19 +57,19 @@ public class JGraphics extends Graphics
 	super((ISurface)MainWindow.getMainWindow());
 
 	MainWindow mw = MainWindow.getMainWindow();
-	isurf = (ISurface)mw;
+	isurf = mw;
 	control = c;
 	int x, y;
 	Rect r = c.getRect();
 	x = r.x;
 	y = r.y;
-	c = (Control)(c.getParent());
+	c = c.getParent();
 	while(c != null && 
-	      c != (Control)mw){
+	      c != mw){
 	    r = c.getRect();
 	    x += r.x;
 	    y += r.y;
-	    c = (Control)(c.getParent());
+	    c = c.getParent();
 	}
 	translate(x,y);
     }
@@ -82,13 +82,13 @@ public class JGraphics extends Graphics
 	Rect r = c.getRect();
 	x = r.x;
 	y = r.y;
-	c = (Control)(c.getParent());
+	c = c.getParent();
 	while(c != null && 
-	      c != (Control)mw){
+	      c != mw){
 	    r = c.getRect();
 	    x += r.x;
 	    y += r.y;
-	    c = (Control)(c.getParent());
+	    c = c.getParent();
 	}
 	
 	if(c != mw) return null;
