@@ -5,3 +5,5 @@ all: classes
 
 classes: 
 	mkdir classes
+
+include ../ReleaseSystem/Makefile.inc
