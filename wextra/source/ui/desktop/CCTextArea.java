@@ -248,7 +248,7 @@ int insetRight = 10;
 		Rect r = owner.getRect();
 		beginPos 	= r.x + insetLeft;
 		endPos 		= r.x + r.width - insetRight;
-		setStr(str,beginRow);
+		setStr(str,beginRow);		
 	}
 	String getStr(){return str;}
 	void setStr(String str,int beginRow){

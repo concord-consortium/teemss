@@ -65,10 +65,11 @@ Menu 					menu = null;
 		} 
 //		tArea = new TextArea();
 		tArea = new CCTextArea();
-		if(doc.text != null)  tArea.setText(doc.text);
+//		if(doc.text != null)  tArea.setText(doc.text);
 		edit.add(tArea, 1, RelativeContainer.BELOW, 
 		RelativeContainer.REST, RelativeContainer.REST);
 		add(edit);
+		if(doc.text != null)  tArea.setText(doc.text);
 		if(showDone){
 			doneButton = new Button("Done");
 			add(doneButton);
@@ -90,6 +91,7 @@ Menu 					menu = null;
 		} else {
 			edit.setRect(0,0,width,height);
 		}
+		tArea.setText(tArea.getText());
 	}
 
 	public void close(){
