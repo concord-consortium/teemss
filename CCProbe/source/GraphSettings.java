@@ -1,10 +1,21 @@
 package org.concord.CCProbe;
 
+import waba.ui.*;
+import waba.util.*;
+import waba.fx.*;
+import waba.sys.*;
 import extra.util.*;
 import extra.io.*;
 import graph.*;
+import org.concord.waba.extra.event.*;
+import org.concord.waba.extra.ui.*;
+import org.concord.waba.extra.util.*;
+import org.concord.waba.extra.probware.*;
+import org.concord.waba.extra.probware.probs.*;
+import org.concord.LabBook.*;
 
 public class GraphSettings
+    implements DataListener
 {
     float xmin = 0f, xmax = 100f;
     float ymin = -20f, ymax = 50f;
@@ -14,6 +25,35 @@ public class GraphSettings
     String yLabel = null;
 	CCUnit xUnit = null;
 	CCUnit yUnit = null;
+
+	SplitAxis xaxis=null;
+	ColorAxis yaxis=null;
+
+	Object gvCookie;
+	LObjGraphView gv=null;
+
+    Vector bins = new Vector();
+	Bin curBin = null;
+
+	public void init(LObjGraphView gv, Object cookie, Bin bin, 
+					 SplitAxis xAx, ColorAxis yAx)
+	{
+		curBin = bin;
+		gvCookie = cookie;
+		this.gv = gv;
+		xaxis = xAx;
+		yaxis = yAx;
+
+		if(xaxis == null || yaxis == null){
+			return;
+		}
+		xaxis.setAxisLabel(xLabel, xUnit);
+		yaxis.setAxisLabel(yLabel, yUnit);
+
+		xaxis.setRange(xmin, xmax);
+		yaxis.setRange(ymin, ymax);		
+
+	}
 
 	public void setXValues(float min, float max)
 	{
@@ -48,20 +88,113 @@ public class GraphSettings
 	}
 
 
-	public void updateAv(AnnotView av, Bin curBin)
+	public void updateAv()
 	{
-		av.setYLabel(yLabel, yUnit);
-		av.setXLabel(xLabel, xUnit);		
-		av.setRange(xmin, xmax, ymin, ymax);
-		curBin.setUnit(yUnit);
+		if(xaxis == null || yaxis == null){
+			return;
+		}
+		xaxis.setAxisLabel(xLabel, xUnit);
+		yaxis.setAxisLabel(yLabel, yUnit);
+
+		xaxis.setRange(xmin, xmax);
+		yaxis.setRange(ymin, ymax);
+
+		if(curBin != null) curBin.setUnit(yUnit);
 	}
 
-	public void updateGS(AnnotView av)
+	public void updateGS()
 	{
-		ymin = av.getYmin();
-		ymax = av.getYmax();
-		xmin = av.getXmin();
-		xmax = av.getXmax();		
+		if(xaxis == null || yaxis == null){
+			return;
+		}
+		ymin = yaxis.dispMin;
+		ymax = yaxis.getDispMax();
+		xmin = xaxis.dispMin;
+		xmax = xaxis.getDispMax();
+	}
+
+	public void startGraph(){
+		if(bins.getCount() == 0 && curBin != null){
+			bins.add(curBin);
+			curBin.time = new Time();
+
+			// Don't quite know what to do here
+			// this should be taken care of by DataSources
+			curBin.description = "";
+
+			if(gv != null) gv.startGraph(gvCookie, curBin);
+		}
+	}
+
+    int numVals = 0;
+
+    //    int [] [] pTimes = new int [1000][];
+    int [] [] pTimes = null;
+
+	public void dataStreamEvent(DataEvent dataEvent)
+	{
+		switch(dataEvent.type){
+		case DataEvent.DATA_READY_TO_START:
+			startGraph();
+			return;
+		case DataEvent.DATA_COLLECTING:
+			if(gv != null) gv.update(gvCookie, dataEvent.getTime());
+			break;
+		case DataEvent.DATA_STOPPED:
+			stopGraph();
+			break;
+		}
+	}
+
+	public void stopGraph()
+	{
+		if(gv != null){
+			Bin newBin = gv.stopGraph(gvCookie, curBin);
+			if(newBin == null) return;
+			curBin = newBin;
+			curBin.setUnit(yUnit);
+			curBin.label = "";
+		}
+	}
+
+    public void dataReceived(DataEvent dataEvent)
+    {
+		if(curBin == null) System.out.println("GS: null bin why?");
+		if(!curBin.dataReceived(dataEvent)){
+			stopGraph();
+			// av.curView.draw();
+			return;		
+		}
+    }
+
+
+	public void saveData(LObjDataSet dSet)
+	{
+		dSet.setUnit(yUnit);
+		dSet.setLabel(yLabel);
+		
+		for(int i=0; i<bins.getCount(); i++){
+			dSet.addBin((Bin)bins.get(i));				   
+		}
+	}
+	
+	public Bin getBin()
+	{
+		if(bins != null ||
+		   bins.getCount() > 0){
+			return ((Bin)bins.get(0));
+		}
+		return null;
+	}
+    
+	public void clear()
+	{
+		bins = new Vector();	
+	}
+	
+	public String toString()
+	{
+		return "xLabel: " + xLabel;		
 	}
 
 	public void readExternal(DataStream ds)

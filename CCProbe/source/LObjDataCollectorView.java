@@ -167,6 +167,7 @@ public class LObjDataCollectorView extends LabObjectView
 
 				Debug.println("Callllll");
 			} else if(e.getActionCommand().equals("Save Profile...")){
+				/*
 				LObjDocument dProf = DefaultFactory.createDocument();
 				String text = "";
 				for(int i=0; i < gv.curPtime; i++){
@@ -183,7 +184,7 @@ public class LObjDataCollectorView extends LabObjectView
 					dataDict.store();
 					dProf.store();
 				} 
-		
+				*/
 			}
 		} 
     }

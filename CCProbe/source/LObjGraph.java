@@ -158,7 +158,7 @@ public class LObjGraph extends LabObject
 		if(autoTitle) name = "..auto_title..";
 
 		if(curDS != null){
-			curDS.removeDataListener(gv);
+			curDS.removeDataListener(curGS);
 		}
 
 		gv = null;
@@ -215,7 +215,7 @@ public class LObjGraph extends LabObject
 		return g;
 	}
 
-	public void updateAv(AnnotView av, Bin curBin, boolean draw)
+	public void updateAv(AnnotView av, boolean draw)
 	{
 		if(curGS == null) return;
 
@@ -227,7 +227,7 @@ public class LObjGraph extends LabObject
 			}
 		}
 
-		curGS.updateAv(av, curBin);
+		curGS.updateAv();
 
 		if(draw){
 			av.curView.draw();
@@ -235,9 +235,9 @@ public class LObjGraph extends LabObject
 		}
 	}
 
-	void updateGraph(AnnotView av)
+	void updateGraph()
 	{
-		curGS.updateGS(av);
+		curGS.updateGS();
 	}
 
 	public void startDataDelivery()
@@ -250,7 +250,7 @@ public class LObjGraph extends LabObject
 	{
 		// need to pass in object at this point to identify which 
 		// data source is which
-		if(gv != null) ds.addDataListener(gv);
+		if(curGS != null) ds.addDataListener(curGS);
 
 		curDS = ds;
 		if(curDS != null && curGS != null){			
