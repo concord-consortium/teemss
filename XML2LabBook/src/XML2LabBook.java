@@ -233,8 +233,7 @@ public static QTManager qtManager = null;
 			System.out.println("*********Can't find object ref: " + idref + "*************");
 			return null;
 		}
-		LabObject labObject = getLabBookObject(linkElement);		
-		System.out.println("Linking Existing object ref: " + idref);
+		LabObject labObject = getLabBookObject(linkElement);
 		return labObject;
 	}
 
@@ -294,7 +293,7 @@ public static QTManager qtManager = null;
 		String ID = element.getAttribute("ID");
 		if(validAttr(ID) &&
 		   docObjects.containsKey(ID)){
-			System.out.println("Object already loaded ref: " + ID);
+			System.out.println("Linking existing object ref: " + ID);
 			return (LabObject)docObjects.get(ID);
 		}
 
