@@ -76,6 +76,7 @@ public class RXTXSerialPortImpl implements ISerialPort
     if (!isOpen)
       return false;
     sPort.close();
+    isOpen = false;
     return true;
   }
 

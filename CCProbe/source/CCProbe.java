@@ -302,8 +302,8 @@ public class CCProbe extends MainView
 			labBook.commit();
 			labBook.close();
 			labBook = null;
-			exit(0);
 		}
+		exit(0);
 	}
 
 	public void handleAbout(){
