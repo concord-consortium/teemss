@@ -906,7 +906,9 @@ public static QTManager qtManager = null;
 			   imageURL.endsWith(".jpeg") || imageURL.endsWith(".JPEG")){
 				exportImage(imageURL,image);
 			}else{
-				image.loadImage(imageURL);
+				if(!image.loadImage(imageURL)){
+					System.out.println("*** can't load file: " + imageURL + "***"); 
+				}
 			}
 		}
 		
@@ -1074,6 +1076,7 @@ public static QTManager qtManager = null;
 				return;
 			}
 		}catch(Exception e){
+			System.out.println("***error opening file: " + str + "***");
 		}
 		return;
 	}
