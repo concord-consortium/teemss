@@ -29,7 +29,7 @@ JAR_NAME= $(MW_CLASS).jar
 WJUMP_DIR= jump-resources
 JAR_BUILD = other
 
-WABA_CLASSES- = $(WABA_DIR)
+WABA_CLASSES- = $(WABA_DIR):$(CURDIR)/../wabasdk/jars/serialImpl.jar
 WABA_CLASSES-other= $(WABA_DIR)
 WABA_CLASSES-palm= $(WABAJUMP_DIR)
 WABA_CLASSES-ce= $(WABA_DIR)
@@ -130,6 +130,12 @@ $(BIN_DIR)/$(MW_CLASS).jar: $(BIN_DIR) $(CLASSES_DIR)/$(JAR_BUILD)
 	cd $(CLASSES_DIR)/$(JAR_BUILD); jar c0vf ../../$(BIN_DIR)/$(MW_CLASS).jar $(EXT_FILES) *.class \
 -C $(WABA_DIR) waba/ -C $(WEXTRA_CLASSES-) org/ -C $(WEXTRA_CLASSES-) extra/ \
 $(JAR_LIST)
+ifeq ($(shell [ -f $(WABA_DIR)/../jars/serialImpl.jar ] || echo false),)
+	mkdir __tmpjar__
+	cd __tmpjar__; jar xvf $(WABA_DIR)/../jars/serialImpl.jar
+	jar u0vf $(BIN_DIR)/$(MW_CLASS).jar -C __tmpjar__ waba/
+	rm -rf __tmpjar__
+endif
 
 ftp-web: get-clients
 	mkdir -p __tmp__/$(BIN_DIR)
