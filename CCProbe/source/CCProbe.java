@@ -342,6 +342,7 @@ public class CCProbe extends ExtraMainWindow
 	 */
 	public void showFullWindowView(LabObjectView view)
 	{
+
 		if(view == curFullView){
 			// the view isn't being changed
 			return;
