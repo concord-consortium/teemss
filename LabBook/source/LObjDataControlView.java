@@ -29,6 +29,7 @@ public class LObjDataControlView extends LabObjectView
 
 	pMenu.add("Properties...");
 	pMenu.add("Save Data...");
+	pMenu.add("Save Profile...");
 	pMenu.addActionListener(this);
 	gMenu.add("Change Axis...");
 	gMenu.addActionListener(this);
@@ -116,6 +117,24 @@ public class LObjDataControlView extends LabObjectView
 		    // for now it is an error
 		    // latter it should ask the user for the name
 		}
+	    } else if(e.getActionCommand().equals("Save Profile...")){
+		LObjDocument dProf = new LObjDocument();
+		dProf.text = "";
+		for(int i=0; i < gt.curPtime; i++){
+		    for(int j=0; j < gt.pTimes[i].length; j++){
+			dProf.text += gt.pTimes[i][j] + " ";		
+		    }
+		    dProf.text += "\n";
+		}
+		dProf.name = "Profile";
+		
+		LObjDictionary dataDict = (LObjDictionary)dc.getObj(1);
+		if(dataDict != null){
+		    dataDict.add(dProf);
+		    dc.lBook.store(dProf);
+		    dc.lBook.store(dataDict);
+		} 
+		
 	    }
 	} else if(e.getSource() == gMenu){
 	    if(e.getActionCommand().equals("Change Axis...")){

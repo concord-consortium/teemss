@@ -19,7 +19,7 @@ public class LabBookFile
 {
     DataStream ds;
 
-    int [] objIndex;
+    int [] objIndex = null;
 
     Vector objects = new Vector();
 
@@ -66,33 +66,7 @@ public class LabBookFile
 	    error = true;
 	    return;
 	}
-
 	
-
-	int curPos = 0;
-	FileObject fObj = null;
-	int filePos;
-	int objSize = 0;
-
-	while(curPos < objIndex.length){
-	    fObj = new FileObject();
-	    fObj.devId = objIndex[curPos++];
-	    fObj.objId = objIndex[curPos++];
-	    filePos = objIndex[curPos++];
-
-	    if(!cat.setRecordPos(filePos)){
-		error = true; 
-		openErr("load:" + curPos + ":" + filePos + ":" + fObj.devId + ":" + fObj.objId);
-		return;
-	    }
-	    objSize = ds.readInt();
-	    fObj.buffer = new byte [objSize];
-	    cat.readBytes(fObj.buffer, 0, objSize);
-	    cat.setRecordPos(-1);
-
-	    objects.add(fObj);
-	}
-
     }
 
     public int getDevId()
@@ -142,58 +116,13 @@ public class LabBookFile
 
     public boolean save()
     {
-	int curObjFilePos = 0;
-	int curIndexPos = 0;
-	int numObj = objects.getCount();
-	FileObject fObj;
-	int i;
-
-	if(cat == null) return true;
-
-	int indexSize = 12 + 12*numObj;
-	if(cat.getRecordCount() < 1){
-	    cat.addRecord(indexSize);
-	} else {	
-	    if(!cat.setRecordPos(0)) return closeErr("1" + ":" + indexSize);
-	    if(cat.getRecordSize() != indexSize){
-		if(!cat.resizeRecord(indexSize)) return  closeErr("2" + ":" + indexSize + ":" + cat.getError());
-		if(!cat.setRecordPos(0)) return  closeErr("3" + ":" + indexSize);
-	    }
+	if(cat.getRecordCount() == 0 ||
+	   !cat.setRecordPos(0)) {
+	    return false;
 	}
-
-
-	ds.writeInt(curDevId);
+    
+	cat.skipBytes(4);
 	ds.writeInt(nextObjId);
-	ds.writeInt(numObj);
-
-	for(i=0; i<numObj; i++){
-	    fObj = (FileObject)objects.get(i);
-	    ds.writeInt(fObj.devId);
-	    ds.writeInt(fObj.objId);
-	    ds.writeInt(i+1);
-	}
-
-	cat.setRecordPos(-1);
-
-	int objSize = 0;
-	for(i=0; i<numObj; i++){	    
-	    fObj = (FileObject)objects.get(i);
-	    objSize = fObj.buffer.length + 4;
-
-	    if(cat.getRecordCount() <= i+1){
-		cat.addRecord(objSize);
-	    } else {		
-		if(!cat.setRecordPos(i+1)) return closeErr("4:" + i + ":" + numObj + ":" + objSize);
-		if(cat.getRecordSize () != objSize){
-		    if(!cat.resizeRecord(objSize)) return closeErr("5:" + i + ":" + numObj + ":" + objSize + ":" + cat.getError());
-		    if(!cat.setRecordPos(i+1)) return closeErr("6:" + i + ":" + numObj + ":" + objSize);
-		}
-	    }
-	    
-	    ds.writeInt(fObj.buffer.length);
-	    cat.writeBytes(fObj.buffer, 0, fObj.buffer.length);
-
-	}
 
 	cat.setRecordPos(-1);
 
@@ -257,18 +186,29 @@ public class LabBookFile
     // and find object bytes
     public byte [] readObjectBytes(int devId, int objId)
     {
-	int numObj = objects.getCount();
 	int i;
-	FileObject fObj;
+	int objSize = 0;
+	byte [] buffer = null;
 
-	for(i=0; i<numObj; i++){
-	    fObj = (FileObject)objects.get(i);
-	    if(fObj.devId == devId && fObj.objId == objId){
-		return fObj.buffer;
+	if(objIndex == null) return null;
+
+	for(i=0; i < objIndex.length; i+=3){
+	    if(objIndex[i] == devId &&
+	       objIndex[i+1] == objId){
+		if(!cat.setRecordPos(objIndex[i+2])){
+		    error = true; 
+		    openErr("read:" + i);
+		    return null;
+		}
+
+		objSize = cat.getRecordSize();
+		buffer = new byte [objSize];
+		cat.readBytes(buffer, 0, objSize);
+		cat.setRecordPos(-1);		
 	    }
 	}
 	
-	return null;
+	return buffer;
     }
 
     // check if this object already exists
@@ -282,29 +222,69 @@ public class LabBookFile
     public boolean writeObjectBytes(int devId, int objId, byte [] buffer, int start,
 			     int count)
     {
-	int numObj = objects.getCount();
 	int i;
-	FileObject fObj;
-	
-	// Find the object
-	for(i=0; i<numObj; i++){
-	    fObj = (FileObject)objects.get(i);
-	    if(fObj.devId == devId && fObj.objId == objId){
-		fObj.buffer = new byte [count];
-		Vm.copyArray(buffer, start, fObj.buffer, 0, count);
-		return true;
+
+	if(objIndex != null){
+	    for(i=0; i < objIndex.length; i+=3){
+		if(objIndex[i] == devId &&
+		   objIndex[i+1] == objId){
+		    if(!cat.setRecordPos(objIndex[i+2])){
+			error = true; 
+			openErr("write:" + i);
+			return false;
+		    }
+
+		    if(cat.getRecordSize() != count){
+			if(!cat.resizeRecord(count)) return closeErr("5:" + cat.getError());
+			if(!cat.setRecordPos(i+1)) return closeErr("6:" + cat.getError());
+		    }
+
+		    cat.writeBytes(buffer, start, count);	
+		    cat.setRecordPos(-1);
+		    return true;
+		}	    
 	    }
+
+	    int [] newObjIndex = new int [objIndex.length + 3];
+	    Vm.copyArray(objIndex, 0, newObjIndex, 0, objIndex.length);
+	    objIndex = newObjIndex;
+
+	} else {
+	    objIndex = new int [3];
+	    
+	    cat.addRecord(12);
+	    ds.writeInt(curDevId);
+	    ds.writeInt(nextObjId);
+	    ds.writeInt(0);
 	}
-	
-	fObj = new FileObject();
-	fObj.devId = devId;
-	fObj.objId = objId;
-	fObj.buffer = new byte [count];
-	Vm.copyArray(buffer, start, fObj.buffer, 0, count);
-	objects.add(fObj);
-	return true;
+
+	int newRecPos = cat.addRecord(count);
+	if(newRecPos < 0){
+	    return false;
+	}
+	    
+	cat.writeBytes(buffer, start, count);
+	cat.setRecordPos(-1);
+
+	int objPos = objIndex.length - 3;
+
+	if(!cat.setRecordPos(0)) return false;
+	cat.resizeRecord(cat.getRecordSize() + 12);
+
+	cat.skipBytes(8);
+	ds.writeInt(objIndex.length / 3);
+	cat.skipBytes(objPos*4);
+
+	ds.writeInt(devId);
+	ds.writeInt(objId);
+	ds.writeInt(newRecPos);
+
+	objIndex[objPos] = devId;
+	objIndex[objPos+1] = objId;
+	objIndex[objPos+2] = newRecPos;
+
+	cat.setRecordPos(-1);
+	return true;       
     }
-
-    
-
+  
 }

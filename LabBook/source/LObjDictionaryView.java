@@ -278,6 +278,9 @@ public class LObjDictionaryView extends LabObjectView
 	    addMenu(this, viewMenu);
 	    return;
 	}
+
+	dict.lBook.store(dict);
+
 	remove(me);
         lObjView.layout(true);
 	lObjView.setRect(x,y,width,height);

@@ -59,6 +59,8 @@ public class GraphTool extends Container
 
     boolean slowUpdate = false;
 
+    int [] [] pTimes = new int [1000][];
+
     public GraphTool(AnnotView av, LObjDataControl dc, String units, int w, int h) 
     {
 	convertor.maxDigits = 2;
@@ -139,6 +141,8 @@ public class GraphTool extends Container
     float val= 0f;
     float time = 0f;
 
+    int numVals = 0;
+
     public void dataReceived(DataEvent dataEvent)
     {
 	if(dataEvent.type == DataEvent.DATA_READY_TO_START){
@@ -147,27 +151,44 @@ public class GraphTool extends Container
 	    } else {
 		slowUpdate = false;
 	    }
+	    numVals = 0;
+	    curPtime = 0;
 	    return;
 	}
 
 	if(slowUpdate){
 	    if(dataEvent.type == DataEvent.DATA_RECEIVED){
 		if(lg.active){
+		    int startPTime = Vm.getTimeStamp();
 		    if(!curBin.dataReceived(dataEvent)){
 			stop();
 			lg.curView.draw();
 			return;		
 		    }
-		}		    
-		    val = dataEvent.data[dataEvent.dataOffset];
-		    time = dataEvent.time;		
-	    } else {	     
+		    dataEvent.pTimes[dataEvent.numPTimes++] = Vm.getTimeStamp() - startPTime;		   
+		    savePTimes(dataEvent);
+		}	
+		numVals += dataEvent.numbSamples;
+
+		val = dataEvent.data[dataEvent.dataOffset];
+		time = dataEvent.time;		
+	    } else {
+		int startPTime = Vm.getTimeStamp();
+
 		if(lg.active){
 		    lg.update();
 		} else {
 		    curVal.setText(val +"");
 		    curTime.setText(time + "s");
 		}
+		pTimes [curPtime] = new int [4];
+		pTimes[curPtime][0] = 1;
+		pTimes[curPtime][1] = startPTime;
+		pTimes[curPtime][2] = numVals;
+		pTimes[curPtime][3] = (Vm.getTimeStamp() - startPTime);
+		
+		numVals = 0;
+		curPtime++;
 	    }
 	} else {
 	    //	    System.out.println("Data: " + dataEvent.data[0]);
@@ -182,6 +203,19 @@ public class GraphTool extends Container
 	    curVal.setText(dataEvent.data[dataEvent.dataOffset] + "");
 	    curTime.setText(dataEvent.time + "s");
 	}
+    }
+    
+    public String pTimeText = ""; 
+    int curPtime = 0;
+
+    public void savePTimes(DataEvent dEvent)
+    {
+	pTimes [curPtime] = new int [dEvent.numPTimes + 1];
+	pTimes [curPtime][0] = 0;
+	for(int i=0; i< dEvent.numPTimes; i++){
+	    pTimes [curPtime][i+1] = dEvent.pTimes[i];
+	}
+	curPtime++;
     }
 
     public void showAxisProp()
@@ -223,7 +257,7 @@ public class GraphTool extends Container
 	modControl[1].setSelected(true);    
 	repaint();
     }
-
+    
     public void onEvent(Event e)
     {
 	float newVal;
@@ -240,6 +274,7 @@ public class GraphTool extends Container
 		slowUpdate = false;
 
 		bytesRead.setText((byte)'C' + "");
+		pTimeText = "";
 		pm.start();
 
 	    } else if(target == modControl[1] && modControl[1].isSelected()){
