@@ -11,10 +11,12 @@ TextArea 				tArea;
 Edit 					nameEdit;
 Label					nameLabel;
 boolean					nameEditWasAdded = false;
+boolean					buttonsWasAdded = false;
 RelativeContainer 		edit = new RelativeContainer();
 
 LObjDocument 			doc;
 Button 					doneButton;
+Button 					upButton,downButton;
 
 public boolean 			showName = true;
 
@@ -49,18 +51,28 @@ Menu 					menu = null;
 			if(nameEdit != null){
 				if(tArea != null) edit.remove(tArea);
 				if(getEmbeddedState()){
+					if(buttonsWasAdded){
+						remove(upButton);
+						remove(downButton);
+					}
 					if(nameEditWasAdded){
 						edit.remove(nameEdit);
 						edit.remove(nameLabel);
 						if(tArea != null) edit.add(tArea, 1, RelativeContainer.TOP,RelativeContainer.REST, RelativeContainer.REST);
 					}
 					nameEditWasAdded = false;
+					buttonsWasAdded = false;
 				}else{
+					if(!buttonsWasAdded){
+						add(upButton);
+						add(downButton);
+					}
 					if(!nameEditWasAdded){
 						edit.add(nameLabel, 1, 1, 30, 15);
 						edit.add(nameEdit, 30, 1, 50, 15);
 						if(tArea != null) edit.add(tArea, 1, RelativeContainer.BELOW,RelativeContainer.REST, RelativeContainer.REST);
 					}
+					buttonsWasAdded = true;
 					nameEditWasAdded = true;
 				}
 			}
@@ -85,6 +97,8 @@ Menu 					menu = null;
 		if(didLayout) return;
 		didLayout = true;
 		showDone = sDone;
+		if(upButton == null) 	upButton 	= new Button("Up");
+		if(downButton == null) 	downButton 	= new Button("Down");
 
 
 		if(showName){
@@ -100,6 +114,13 @@ Menu 					menu = null;
 				nameEditWasAdded = true;
 			}
 		} 
+		if(getEmbeddedState()){
+			buttonsWasAdded = false;
+		}else{
+			add(upButton);
+			add(downButton);
+			buttonsWasAdded = true;
+		}
 
 		if(tArea == null) tArea = new TextArea();
 		if(doc.text != null)  tArea.setText(doc.text);
@@ -107,6 +128,7 @@ Menu 					menu = null;
 		RelativeContainer.REST, RelativeContainer.REST);
 		add(edit);
 		if(doc.text != null)  tArea.setText(doc.text);
+		
 		if(showDone){
 			doneButton = new Button("Done");
 			add(doneButton);
@@ -125,7 +147,12 @@ Menu 					menu = null;
 			edit.setRect(0,0,width,height-15);
 			doneButton.setRect(width-30,height-15,30,15);
 		} else {
-			edit.setRect(0,0,width,height);
+			if(getEmbeddedState()) edit.setRect(0,0,width,height);
+			else				   edit.setRect(0,0,width,height-15);
+		}
+		if(!getEmbeddedState()){
+			if(upButton != null)    upButton.setRect(1,height-15,30,15);
+			if(downButton != null)  downButton.setRect(35,height-15,30,15);
 		}
 	}
 
@@ -144,6 +171,10 @@ Menu 					menu = null;
 			if(container != null){
 				container.done(this);
 			}	    
+		}else if(e.target == upButton && e.type == ControlEvent.PRESSED){
+			if(tArea != null) tArea.scrollUp();
+		}else if(e.target == downButton && e.type == ControlEvent.PRESSED){
+			if(tArea != null) tArea.scrollDown();
 		}
 	}
     public void openFileDialog(){
