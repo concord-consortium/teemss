@@ -98,10 +98,52 @@ public class GraphViewLine extends GraphView
 				drawn = false;
 				super.plot();
 			}
-		} else {	    
-			super.plot();
+		} else {	  
+			myG = createGraphics();
+			if(myG == null) return;
+
+			if(!drawn || graph.redraw){
+				graph.draw(bufG);
+				myG.copyRect(buffer, 0, 0, width, height, 0, 0);
+				if(mode == ZOOM_MODE && selection){
+					drawSelector(myG);
+				}
+				drawn = true;
+			} else {
+				graph.plot(myG);
+			}  
 		}
     }
+
+	int selectLeftX, selectRightX;
+	int selectTopY, selectBotY;
+	boolean selection = false;
+
+	public void drawSelector(Graphics g)
+	{
+		g.drawDots(selectLeftX, selectTopY, selectRightX, selectTopY);
+		g.drawDots(selectLeftX, selectTopY, selectLeftX, selectBotY);
+		g.drawDots(selectLeftX, selectBotY, selectRightX, selectBotY);
+		g.drawDots(selectRightX, selectTopY, selectRightX, selectBotY);
+	}
+
+	public void zoomSelect()
+	{
+		if(!selection) return;
+
+		// This is dependent on axis directions
+		lGraph.scroll(selectLeftX - lGraph.xOriginOff, selectBotY - lGraph.yOriginOff);
+		draw();
+
+		float yChange = (float)(lGraph.dwHeight)/(float)(selectBotY - selectTopY);
+		lGraph.setYscale(lGraph.yaxis.scale * yChange);
+
+		float xChange = (float)(lGraph.dwWidth)/(float)(selectRightX - selectLeftX);
+		lGraph.setXscale(lGraph.xScale * xChange);
+		
+		selection = false;
+		draw();
+	}
     
     int downX, downY, dragX, dragY;
     boolean xAxisDown, yAxisDown, graphDown, barDown, annotDown;
@@ -125,11 +167,19 @@ public class GraphViewLine extends GraphView
 					xAxisDown = yAxisDown = graphDown = annotDown = false;
 					Object obj = lGraph.getObjAtPoint(pe.x, pe.y);
 					if(obj == lGraph.xaxis){
+						Axis axisBlob = lGraph.getAxisBlobAtPoint(lGraph.xaxis, pe.x, pe.y);
+						if(axisBlob != null){
+							postEvent(new ControlEvent(1004, this));
+						}
 						xAxisDown = true;
 						if(pe.x < lGraph.xOriginOff + lGraph.dwWidth/20){
 							pe.x = lGraph.xOriginOff + lGraph.dwWidth/20;
 						}
 					} else if(obj == lGraph.yaxis) {
+						Axis axisBlob = lGraph.getAxisBlobAtPoint(lGraph.yaxis, pe.x, pe.y);
+						if(axisBlob != null){
+							postEvent(new ControlEvent(1005, this));
+						}
 						yAxisDown = true;
 						if(pe.y > lGraph.yOriginOff - lGraph.dwHeight/20){
 							pe.y = lGraph.yOriginOff - lGraph.dwHeight/20;
@@ -141,7 +191,8 @@ public class GraphViewLine extends GraphView
 							selAnnot = null;
 						}
 
-						if(mode == ANNOT_MODE){
+						switch(mode){
+						case ANNOT_MODE:
 							curAnnot = lGraph.addAnnot("" + curChar, pe.x);
 							curChar++;
 							if(curAnnot != null){
@@ -151,10 +202,18 @@ public class GraphViewLine extends GraphView
 								postEvent(new ControlEvent(1003, this));								
 							}
 							draw();
-						} else {
+							break;
+						case DRAG_MODE:
 							selAnnot = null;
 							graphDown = true;
 							if(oldAnnot != null) postEvent(new ControlEvent(1003, this));								
+							break;
+						case ZOOM_MODE:
+							selection = true;
+							graphDown = true;
+							selectLeftX = selectRightX = pe.x;
+							selectTopY = selectBotY = pe.y;
+							break;
 						}
 					} else {
 						// This should be the annotion section
@@ -192,8 +251,34 @@ public class GraphViewLine extends GraphView
 						dragY += moveY;
 
 					if(graphDown){
-						lGraph.scroll(-moveX, -moveY);
-						draw();
+						switch(mode){
+						case ANNOT_MODE:
+						case DRAG_MODE:
+							lGraph.scroll(-moveX, -moveY);
+							draw();
+							break;
+						case ZOOM_MODE:
+							if(lGraph == lGraph.getObjAtPoint(pe.x, pe.y)){
+								selectRightX = pe.x;
+								selectBotY = pe.y;
+							}
+
+							if(e.type == PenEvent.PEN_UP){
+								int temp;
+								if(selectRightX < selectLeftX){
+									temp = selectRightX;
+									selectRightX = selectLeftX;
+									selectLeftX = temp;
+								}
+								if(selectBotY < selectTopY){
+									temp = selectBotY;
+									selectBotY = selectTopY;
+									selectTopY = temp;
+								}
+							}
+							draw();
+							break;
+						}
 					} else if(annotDown){
 						if(selAnnot != null){
 							Axis xa = selAnnot.xaxis;

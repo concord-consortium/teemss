@@ -137,11 +137,11 @@ public class LineGraph extends Graph2D
 
 		reset();
 
-		graphLayout[0][0] = graphLayout[1][0] = graphLayout[2][0] = annotSection;
-		graphLayout[0][1] = yaxis;
+		graphLayout[1][0] = graphLayout[2][0] = annotSection;
+		graphLayout[0][1] = graphLayout[0][0] = yaxis;
 		graphLayout[1][1] = this;
-		graphLayout[1][2] = xaxis;
-		graphLayout[2][1] = graphLayout[0][2] = graphLayout[2][2] = null;
+		graphLayout[1][2] = graphLayout[2][2] = xaxis;
+		graphLayout[2][1] = graphLayout[0][2] = null;
 
     }
 
@@ -172,9 +172,19 @@ public class LineGraph extends Graph2D
 		xLabelUnit = unit;
 	}
 
-    // need to find correct axis
-    public Annotation addAnnot(String label, int pos)
-    {
+	public float getYValue(int pos)
+	{
+		if(pos*yaxis.axisDir > yaxis.drawnY*yaxis.axisDir &&
+		   pos*yaxis.axisDir < yaxis.axisDir*(yaxis.drawnY + yaxis.axisDir +
+											  yaxis.dispLen)){
+			return Maths.NaN;
+		}
+
+		return (pos - yaxis.drawnY) / yaxis.scale + yaxis.dispMin;
+	}
+
+	public float getXValue(int pos, Axis [] ax)
+	{
 		Bin bin;
 		Axis xa;
 		float time;
@@ -191,7 +201,23 @@ public class LineGraph extends Graph2D
 		}
 		if(i != numXaxis){
 			time = (pos - xa.drawnX) / xa.scale + xa.dispMin;
-			return addAnnot(label, time, xa);
+			ax[0] = xa;
+			return time;
+		}
+
+		ax[0] = null;
+		return Maths.NaN;
+	}
+
+    // need to find correct axis
+    public Annotation addAnnot(String label, int pos)
+    {
+		Axis [] aPtr = new Axis [1];
+
+		float time = getXValue(pos, aPtr);
+
+		if(aPtr[0] != null){
+			return addAnnot(label, time, aPtr[0]);
 		}
 
 		return null;
@@ -376,6 +402,59 @@ public class LineGraph extends Graph2D
 		return 0;
     }
 
+	public float maxVisY;
+	public float minVisY;
+
+    public boolean calcVisibleRange()
+    {
+		int i,j,k;
+		int lastOffset, lastPlottedOffset;
+		int [] binPoints;
+		int curX, curMinY, curMaxY;
+		int minY, maxY;
+		Bin bin;
+		Axis xa;
+		boolean setRanges = false;
+
+	    maxVisY = (float)-(0x7FFFFFF);
+		minVisY = (float)(0x7FFFFFF);
+
+		for(k=0; k<numBins; k++){
+			bin = binArray[k];
+			//	    System.out.println("Getting axis " + bin.xaIndex + " for bin " + k);
+			xa = xaxisArray[bin.xaIndex];
+
+			if(xa.drawnX == -1 || bin.numPoints <= 1) continue;
+	    
+			
+			binPoints = bin.points;
+			lastOffset = bin.numPoints*3;
+	    
+			minY = (0x7FFFFFF);
+			maxY = -(0x7FFFFFF);
+
+			int xOffset = (int)((xa.dispMin - bin.refX) * xa.scale);
+		
+			for(i=0; i<lastOffset;){
+				curX = binPoints[i++];
+				curMinY = binPoints[i++] - (binPoints[i] & 0xFFFF);					
+				curMaxY = binPoints[i-1] + (binPoints[i] >> 16);
+				i++;
+		
+				if(curX > (xOffset - 1) && curX <= (xOffset + xa.dispLen)){
+					if(curMaxY > maxY) maxY = curMaxY;
+					if(curMinY < minY) minY = curMinY;
+				}		
+			}	    
+			
+			if(((float)minY / xa.scale + bin.refY) < minVisY) minVisY = ((float)minY / xa.scale + bin.refY);
+			if(((float)maxY / xa.scale + bin.refY) < maxVisY) maxVisY = ((float)maxY / xa.scale + bin.refY);
+			setRanges = true;
+		}		
+
+		
+		return setRanges;
+    }
 
     // return the maximum x offset plotted
     public int plot(Graphics g)
@@ -807,8 +886,11 @@ public class LineGraph extends Graph2D
 			} else {
 				// This axis ends before the end of the visible area so draw an end line
 				xa.dispLen = axisLen;
+				
+				/*
 				g.drawLine(xaxisOffset + curStartPos - xaxisStartPos + axisLen + 1, yOriginOff, 
 						   xaxisOffset + curStartPos - xaxisStartPos + axisLen + 1, yOriginOff - dwHeight);
+				*/
 			}
 	    
 			xa.draw(g, xaxisOffset + (curStartPos - xaxisStartPos), yOriginOff);
@@ -1028,16 +1110,47 @@ public class LineGraph extends Graph2D
 		int xPos, yPos;
 		Object obj = null;
 
-		if(x < dwX) xPos = 0;
+		if(x <= dwX) xPos = 0;
 		else if(x < (dwX  + dwWidth)) xPos = 1;
 		else xPos = 2;
 
-		if(y < dwY) yPos = 0;
+		if(y <= dwY) yPos = 0;
 		else if(y < (dwY + dwHeight)) yPos = 1;
 		else yPos = 2;
 
 		return graphLayout[xPos][yPos];
     }
+
+	Axis getAxisBlobAtPoint(Axis curAxis, int x, int y)
+	{
+
+		// use axis.dispLen
+		if(curAxis == yaxis){
+			if(x >= (xOriginOff - curAxis.majTicSize) &&
+			   x <= xOriginOff &&
+			   y >= (yOriginOff + curAxis.dispLen + curAxis.axisDir) &&
+			   y <= (yOriginOff + curAxis.dispLen + curAxis.axisDir - curAxis.axisDir*curAxis.majTicSize)){
+				return yaxis;
+			}
+			return null;
+		} 
+
+		Axis xa = null;
+		if(curAxis == xaxis){
+			for(int i=0;i<numXaxis;i++){
+				xa = xaxisArray[i];
+				if(xa.drawnX == -1) continue;
+				if(x <= (xa.drawnX + xa.dispLen + xa.axisDir) &&
+				   x >= (xa.drawnX + xa.dispLen + xa.axisDir - xa.axisDir*xa.majTicSize) &&
+				   y >= yOriginOff &&
+				   y <= (yOriginOff + xa.majTicSize - xa.ticDir)){
+					return xa;
+				}
+			}
+			return null;
+		}
+		return null;
+	}
 
     /*
      *  We need to check the bounds or only take
