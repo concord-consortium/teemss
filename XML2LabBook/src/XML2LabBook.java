@@ -209,6 +209,33 @@ public static QTManager qtManager = null;
 		return labObject;
 	}
 
+	public static boolean validAttr(String value){
+		if(value == null || value.length() == 0) return false;
+		return true;
+	}
+
+	public static LabObject getLabBookObjectFromId(String idref){
+		if(!validAttr(idref)){ 
+			System.out.println(" empty object reference");
+			return null;
+		}
+
+		LabObject labObject = null;
+		if(docObjects.containsKey(idref)){
+			labObject = (LabObject)docObjects.get(idref);
+		} else {
+			Element linkElement =  (Element)currentDocument.getElementById(idref);
+			if(linkElement == null){
+				System.out.println("Can't find object ref: " + idref);
+				return null;
+			}
+			labObject = createRegularObject(linkElement);
+			docObjects.put(idref, labObject);
+		}
+		System.out.println("Linking Existing object ref: " + idref);
+		return labObject;
+	}
+
 	public static int getIdentifierFromElement(Element element){
 		int retValue = -1;
 		String elName = element.getTagName();
@@ -277,12 +304,7 @@ public static QTManager qtManager = null;
 				}
 			}else if(id == OBJREF_TAG){
 				String idref = element.getAttribute("ref");
-				if(docObjects.containsKey(idref)){
-					labObject = (LabObject)docObjects.get(idref);
-					System.out.println("Linking Existing object ref: " + idref);
-				} else {
-					System.out.println("Can't find object link ref: " + idref);
-				}
+				labObject = getLabBookObjectFromId(idref);
 			} else {
 				System.out.println("Adding Object to LabBook " + element.getTagName() + 
 								   " ID = "+element.getAttribute("ID"));
@@ -473,19 +495,14 @@ public static QTManager qtManager = null;
 						String linkStr = child.getAttribute("link");
 						boolean link = (linkStr == null)?false:linkStr.equals("true");
 						String idref = child.getAttribute("object");
-						if(link && idref == null) link = false;
-						if(!link && idref != null) link = true;
+
 						if(link){
-							Element linkElement =  (Element)currentDocument.getElementById(idref);
-							if(linkElement == null){
+							LabObject linkObject = getLabBookObjectFromId(idref);
+							if(linkObject == null){
+								System.out.println(" link not valid in snparagraph: " + i);
 								link = false;
-							}else{      
-								LabObject linkObject = createRegularObject(linkElement);
-								if(linkObject == null){
-									link = false;
-								}else{
-									linkComponents.add(linkObject);
-								}
+							}else{
+								linkComponents.add(linkObject);
 							}
 						}
 						currParagraph += makeSNParagraph(lines, nSpaces, cdNode, 
@@ -504,8 +521,7 @@ public static QTManager qtManager = null;
 								}
 							}
 						}else{
-							embElement =  (Element)currentDocument.getElementById(idref);        
-							if(embElement != null) embObject = createRegularObject(embElement);
+							embObject = getLabBookObjectFromId(idref);
 						}
 						if(embObject != null){
 							String tempStr = child.getAttribute("link");
@@ -658,12 +674,7 @@ public static QTManager qtManager = null;
 
 		LabObject dsObj = null;
 		String dsRefStr = element.getAttribute("datasource");
-		if(dsRefStr != null && dsRefStr.length() > 0){
-			dsObj = (LabObject)docObjects.get(dsRefStr);
-			if(dsObj == null){
-				System.err.println("X2L: can't find datasource: " + dsRefStr);
-			}
-		}
+		if(validAttr(dsRefStr)) dsObj = getLabBookObjectFromId(dsRefStr);
 
 		if(dsObj == null){
 			NodeList nodeList = element.getChildNodes();
@@ -764,12 +775,7 @@ public static QTManager qtManager = null;
 
 		LabObject probeObj = null;
 		String probeRefStr = element.getAttribute("probe");
-		if(probeRefStr != null && probeRefStr.length() > 0){
-			probeObj = (LabObject)docObjects.get(probeRefStr);
-			if(probeObj == null){
-				System.err.println("X2L: can't find probe: " + probeRefStr);
-			}
-		}
+		if(validAttr(probeRefStr)) probeObj = getLabBookObjectFromId(probeRefStr);
 
 		if(probeObj == null){
 			NodeList nodeList = element.getChildNodes();
