@@ -6,7 +6,7 @@
 
 <xsl:output method="xml" indent="yes"
   doctype-public="-//Concord.ORG//DTD LabBook Description//EN" 
-  doctype-system="../../DTD/labbook.dtd"/>
+  doctype-system="../../XML2LabBook/labbook.dtd"/>
 
 <xsl:strip-space elements="*"/>
 
