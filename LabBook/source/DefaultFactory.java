@@ -57,4 +57,5 @@ public class DefaultFactory
 		labBookObjDesc[5] = new LabObjDescriptor("Drawing",DRAWING);
 		labBookObjDesc[7] = new LabObjDescriptor("Image",IMAGE);
 	}
+
 }
