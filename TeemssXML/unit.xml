@@ -962,7 +962,9 @@
             to Technical Hints to see how to connect the cables.</step>
           <step>Start the software. Observe the position versus time
             graph as you roll the SmartWheel back and forth along the
-            masking tape line on the floor.  <ext-image name="02_swOnWand"/>
+            masking tape line on the floor.  
+            <datacollector-link type="dc-smartwheel-pos1"/>
+            <ext-image name="02_swOnWand"/>
           </step>
           <step>With your team member, take turns practicing making the
             following motions until you have all four motions on the
@@ -1032,7 +1034,9 @@
             graph as you make the following motions on the same graph.
             Practice until you have all four motions on the same graph,
             one after the other. Observe how the acrobat responded
-            during each motion.<steps>
+            during each motion.
+            <datacollector-link type="dc-smartwheel-pos1"/>
+            <steps>
               <step>pulling the cart forward at a constant velocity</step>
               <step>pulling the cart at a slow constant velocity, then a
                 faster constant velocity, then coasting</step>
@@ -1104,7 +1108,9 @@
             the position versus time graph as you roll the cart down the
             ramp. Be sure to drape the wire to the SmartWheel so that
             the cart rolls freely. Observe how the acrobat responded
-            during the motion.  </step>
+            during the motion.  
+            <datacollector-link type="dc-smartwheel-pos2"/>
+          </step>
           <step>Save your data to the handheld.<ext-image name="04_tr2"/>
           </step>
           <query-response layout="paragraph" title="slowdown" type="describe">
@@ -1472,7 +1478,9 @@
             along with it, keeping the wire floppy.  <ext-image name="07_pr"/>
           </step>
           <step>Start the software and observe the position versus time
-            graph. </step>
+            graph. 
+            <datacollector-link type="dc-smartwheel-pos2"/>
+          </step>
           <step>Start the propeller, holding on to the cart. Let the
             cart go and let it run for as far as you have space. Be sure
             to keep the wire floppy, so that it doesn&apos;t pull or
@@ -1513,7 +1521,9 @@
           <step>Start the software to measure velocity. Make the
             following measurements one after another with the graph
             running. You will then have all of your data on one graph,
-            and you can analyze it.  <steps>
+            and you can analyze it.  
+            <datacollector-link type="dc-smartwheel-vel1"/>
+            <steps>
               <step>With no weight on the sled, give the cart a gentle
                 push so that it rolls to a stop after about 2m.  </step>
               <step>Start the motor and let the cart go for about 2m.</step>
@@ -2868,7 +2878,9 @@
             <query-description>Start the software and observe the
               temperature versus time graph as you test your two choices
               of water. Stop the software. Be sure the two samples are
-              at least 10 degrees Celsius different from each other.</query-description>
+              at least 10 degrees Celsius different from each other.
+              <datacollector-link type="dc-temperature1"/>
+           </query-description>
             <querys>
               <query drawing-response="false" note-response="true">What
                 are the two temperatures?  </query>
@@ -2924,7 +2936,9 @@
             probe. The sensitive part is just the very tip, where two
             wires are welded together.</step>
           <step>Start the temperature graph and run through this series
-            of measurements so that you get all of your data on one graph.</step>
+            of measurements so that you get all of your data on one graph.
+              <datacollector-link type="dc-temperature1"/>
+          </step>
           <step>Measure the air temperature.</step>
           <step>Use water from a non-room temperature source. It should
             be at least 10 degrees Celsius different from room
@@ -2983,7 +2997,9 @@
           </query-response>
           <step>Start the temperature graph and run through the complete
             series of measurements so that you obtain all of your data
-            on one graph.  </step>
+            on one graph.  
+              <datacollector-link type="dc-temperature2"/>
+          </step>
           <step>Measure the air temperature. Place the Temperature probe
             into the center of the clay ball.  </step>
           <step>Place the clay ball and Temperature probe in the

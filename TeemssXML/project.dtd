@@ -22,7 +22,7 @@
   type    (predict | describe | explain)  "explain"
   layout  (paragraph | list)              "paragraph">
 
-<!ELEMENT query-description (#PCDATA)>
+<!ELEMENT query-description (#PCDATA | datacollector-link)*>
 <!ELEMENT querys (query+)>
 <!ELEMENT query (#PCDATA)*>
 <!ATTLIST query
@@ -32,19 +32,12 @@
 
 <!ELEMENT datacollector-link EMPTY>
 <!ATTLIST datacollector-link
-  type  (dc-force-200 |
-         dc-force-20 |
-         dc-force-2 |
-         dc-smartwheel-pos |
-         dc-smartwheel-vel |
-         dc-temperature1 |
+  type  (dc-temperature1 |
          dc-temperature2 |
-         dc-light-4000 |
-         dc-light-125000 |
-         voltage-current-v |
-         voltage-current-a |
-         voltage-current-w |
-         voltage-current-j)     #REQUIRED>
+         dc-force-20 |
+         dc-smartwheel-pos1 |
+         dc-smartwheel-pos2 |
+         dc-smartwheel-vel1)     #REQUIRED>
 
 <!ELEMENT teacher-notes (teacher-intro, teacher-discuss, teacher-background, teacher-timeline)>
 <!ELEMENT teacher-intro (summary, skills)>

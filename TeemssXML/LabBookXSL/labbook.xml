@@ -7,9 +7,65 @@
 <SNPARAGRAPH linkcolor="0000FF">
           About CCProbe
        </SNPARAGRAPH>
+<SNPARAGRAPH>
+CCProbe is an open-source application that is scriptable,
+configurable, and supports probe-based visualization, analysis, and
+calibration components. CCProbe also includes components for folders,
+text, drawings, and images, which can be integrated with the probeware
+to create curricular activities and a lab book portfolio in which work
+can be saved and shared.  CCProbe has been specifically designed to
+run well on handheld computers such as those running PalmOS or
+Microsoft PocketPC. Written in Waba, an open source subset of Java
+specifically designed for Handheld computers CCProbe is licensed under
+the GPL and it runs on PalmOS, WinCE, PocketPC, Windows, MacOS, and
+Unix.
+       </SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>
-          About CCProbe
+The Concord Consortium is a tax-exempt non-profit education research
+and development organization. The appearance of new, emerging
+technologies has the potential to ignite explosive strides in learning
+capacity and curriculum development. Harnessing these technological
+resources can result in a powerful extension of educational resources
+to all people, regardless of their circumstances. The Concord
+Consortium is committed to leading this drive forward by developing
+and using the best in educational technology. 
+       </SNPARAGRAPH>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>
+Several projects at the Concord Consortium are are collaborating to
+create a open source suite of scriptable and configurable sensor and
+model-based visualization and analysis applications that will work on
+many types of computers from handheld systems to desktops. The current
+projects contributing to the development of CCProbeware are:
+       </SNPARAGRAPH>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>
+*Data and Models 
+       </SNPARAGRAPH>
+<SNPARAGRAPH>
+*Electronic Guidebook (Exploratorium) 
+       </SNPARAGRAPH>
+<SNPARAGRAPH>
+*TEEMS (Technology Enhanced Elementary and Middle School Science) 
+       </SNPARAGRAPH>
+<SNPARAGRAPH>
+*Modeling across the Curriculum 
+       </SNPARAGRAPH>
+<SNPARAGRAPH>
+Find out more about the Concord Consortium here:
+       </SNPARAGRAPH>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>
+http://concord.org
+       </SNPARAGRAPH>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>
+Find out more about the CCProbe here:
+       </SNPARAGRAPH>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>
+http://concord.org/ccprobeware
        </SNPARAGRAPH>
 </SUPERNOTES>
 <SUPERNOTES ID="ccprobe-credits" name="CCProbe Credits">
@@ -283,7 +339,7 @@
 </FOLDER>
 </FOLDER>
 <FOLDER name="TEEMSS" ID="TEEMSS">
-<FOLDER name="Motions and Forces" ID="Motions_and_Forces">
+<FOLDER name="Motions and Forces Instructional Unit" ID="Motions_and_Forces">
 <FOLDER view="paging" name="Air Cart" ID="Air_Cart">
 <SUPERNOTES name="Introduction" ID="Air_Cart-intro">
 <SNPARAGRAPH linkcolor="0000FF">Air Cart Introduction
@@ -307,9 +363,7 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH linkcolor="000F0F">What happens to a vehicle when there's very little friction?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>Have you ever wondered why cars stay on the road when they round a corner? Why is it more difficult to round those corners when the road is wet or covered with ice? Besides the banking of the road (which we will learn about later), the tires provide a frictional surface against the surface of the road. The ideal car provides friction when you need it (turning and braking) but has little when you don't want it (speeding along in a straight line).</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>It's not that easy to make a vehicle move with almost no friction. But that's the goal of this investigation. We want a cart that's almost friction free so that we can study the forces on moving objects without being confused by the forces due to friction. If a frictionless cart, for example, is pushed across the floor, how far do you think the cart will go? In your group, predict and explain how different forces will affect the motion of a frictionless cart. Write in Notes on your handheld computer your ideas about what might explain your prediction(s). Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
+<SNPARAGRAPH>Have you ever wondered why cars stay on the road when they round a corner? Why is it more difficult to round those corners when the road is wet or covered with ice? Besides the banking of the road, the tires provide a frictional surface against the surface of the road. The ideal car provides friction when you need it (turning and braking) but has little when you don't want it (speeding along in a straight line).</SNPARAGRAPH>
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Materials" ID="Air_Cart-materials">
@@ -353,7 +407,7 @@
 <SNPARAGRAPH>
         - handheld computer</SNPARAGRAPH>
 <SNPARAGRAPH>
-        - CC Lab Book software</SNPARAGRAPH>
+        - CC LabBook software</SNPARAGRAPH>
 <SNPARAGRAPH>
         - hot-melt (or cold-melt) glue gun and glue sticks</SNPARAGRAPH>
 <SNPARAGRAPH>
@@ -432,7 +486,7 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. Make holes where the marks are, using a pencil or pen point. Enlarge the holes from both sides, until the screws fit snugly into them. The screws are provided with the SmartWheel.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>3. Put the screws through the cardboard from the other side, and screw them into the arm of the SmartWheel. Tighten them until the heads squeeze the cardboard a little bit. A paper clip will work as a screwdriver.</SNPARAGRAPH>
+<SNPARAGRAPH>3. Put the screws first through the cardboard from the other side, and then screw them into the arm of the SmartWheel. Tighten them until the heads squeeze the cardboard a little bit. A paper clip will work as a screwdriver.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>4. Now the SmartWheel is in place. It can be taken on and off. You will need to do this for the Tracker Investigation.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -541,7 +595,7 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH indent="2">a. Cut a piece of cardboard about 1m long and at least 30cm wide.</SNPARAGRAPH>
 <SNPARAGRAPH indent="2">b. Mark two lines 5cm from each side of the cardboard.</SNPARAGRAPH>
-<SNPARAGRAPH indent="2">c. Along the two lines, fold the cardboard into a "U" to make the edges stiff and keep the cartfrom running off the edge.</SNPARAGRAPH>
+<SNPARAGRAPH indent="2">c. Along the two lines, fold the cardboard into a "U" to make the edges stiff and keep the cart from running off the edge.</SNPARAGRAPH>
 <SNPARAGRAPH indent="2">d. Then the cardboard ramp rests easily on a flat surface.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ>
@@ -566,24 +620,28 @@
 <SNPARAGRAPH/>
 <EMBOBJ>
 <IMAGE ID="Image_30" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Air_Cart/11a_rampSideView/PALM_TINY_11a_rampSideView.bmp"/>
-</EMBOBJ>
-<SNPARAGRAPH>3. Experiment with different slopes and distances up the ramp. How does each affect how far the cart will roll? What arrangement is the best for testing the friction of the cart? Write in Notes on your handheld computer your thoughts about the best arrangement of your ramp.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
+</EMBOBJ>Experiment with different slopes and
+              distances up the ramp. How
+                do slope and distance affect how far the cart will roll? What
+                arrangement is the best for testing the friction of the
+                cart? Write your thoughts in Notes on your
+              handheld computer. <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Air_Cart_trial_III" name="Trial III">
 <SNPARAGRAPH linkcolor="0000FF">Performing a coasting test</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. Propose a way to test the relative friction of the carts, without using the motor and fan. You can use the ramp, however. HINT: Decide on a distance, a way to start together, and a way to compare your cart with at least three other carts. Should they all race together on separate ramps, or race one by one and compare them? Do they get more than one run?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. Do you think this is a fair test of the friction of the cart? Explain your prediction in Notes on your handheld computer. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>3. Race your air cart with at least three other carts by rolling them down the ramp. Observe the motion of the acrobat during the race.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<EMBOBJ object="dc-smartwheel-pos" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>4. What is your measure of friction? Which one has the least friction? Explain your thoughts and observations in Notes on your handheld computer. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
+<SNPARAGRAPH/>Propose a way to test the relative
+              friction of the carts, without using the motor and fan.
+              You can use the ramp, however. HINT: Decide on a distance,
+              a way to start together, and a way to compare your cart
+              with at least three other carts. Should they all race together on
+                separate ramps, or race one by one and compare them?Do
+                they get more than one run?Do
+                you think this is a fair test of the friction of the
+                cart?  Race your air cart with at least three
+              other carts by rolling them down the ramp. Observe the
+              motion of the acrobat during the race.  What
+                is your measure of friction?Which
+                one has the least friction?<SNPARAGRAPH/>
 <EMBOBJ>
 <IMAGE ID="Image_31" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Air_Cart/12_rampRace/PALM_TINY_12_rampRace.bmp"/>
 </EMBOBJ>
@@ -593,24 +651,27 @@
 <SNPARAGRAPH linkcolor="0000FF">Air Cart Technical Hints
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>
-        - Opening and using CC software</SNPARAGRAPH>
 </SUPERNOTES>
 <SUPERNOTES name="Analysis" ID="Air_Cart-analysis">
 <SNPARAGRAPH linkcolor="0000FF">Air Cart Analysis
     </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. Rank your cart and at least two others in order of how they did on the friction test. What differences in the carts might account for this?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. When your cart is moving, it has energy of motion. What factors do you think affect its energy? When your cart slows down and stops, where does the energy go? What about when it hits something?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>3. What happened to the motion of the acrobat when the cart slowed down? What about when the cart hit something?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>4. In summary, how does a vehicle behave when there's very little friction? Does it take a lot of force to get it going? To keep it going?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>5. What are the sources of friction for these carts? Do you think air resistance plays a role? How could you find out?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-</SUPERNOTES>
+<SNPARAGRAPH/>Rank your cart and at least two others in
+              order of how they did on the friction test. What
+                differences in the carts might account for the results? When your cart is moving, it has energy
+              of motion. What
+                factors do you think affect its energy?When
+                your cart slows down and stops, where does the energy go?When
+                your cart slows down and stops, where does the energy go?What
+                happened to the motion of the acrobat when the cart
+                slowed down? What
+                about when the cart hit something? What
+                are the sources of friction for these carts? Do
+                you think air resistance plays a role? How
+                could you find out? How
+                does a vehicle behave when there is very little
+                friction? Does
+                it take a lot of force to get it going?To
+                keep it going? </SUPERNOTES>
 </FOLDER>
 <FOLDER view="paging" name="Tracker" ID="Tracker">
 <SUPERNOTES name="Introduction" ID="Tracker-intro">
@@ -623,7 +684,7 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH linkcolor="000F0F">What does a graph of the motion of a low-friction cart look like?</SNPARAGRAPH>
 <EMBOBJ>
-<IMAGE ID="Image_37" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Tracker/smallSmartCart/PALM_TINY_smallSmartCart.bmp"/>
+<IMAGE ID="Image_36" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Tracker/smallSmartCart/PALM_TINY_smallSmartCart.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>In this activity you will explore the relationship between the movement of a cart and the shapes of the resulting position and velocity graphs.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -635,8 +696,6 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH linkcolor="000F0F">What does a graph of the motion of a low-friction cart look like?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>The following position versus time graph of a cart was made with a SmartWheel. Discuss the motion shown with your group. Did the cart appear to change velocity at anytime? Draw the graph in Notes on your handheld computer and label parts of the graph that you understand or have questions about.</SNPARAGRAPH>
-<SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Materials" ID="Tracker-materials">
 <SNPARAGRAPH linkcolor="0000FF">Tracker Materials
@@ -647,11 +706,11 @@
 <SNPARAGRAPH>
         - meter stick</SNPARAGRAPH>
 <SNPARAGRAPH>
-        - tape</SNPARAGRAPH>
+        - masking tape</SNPARAGRAPH>
 <SNPARAGRAPH>
         - CC SmartWheel probe installed on air cart</SNPARAGRAPH>
 <SNPARAGRAPH>
-        - CC Lab Book software</SNPARAGRAPH>
+        - CC LabBook software</SNPARAGRAPH>
 <SNPARAGRAPH>
         - handheld computer</SNPARAGRAPH>
 <SNPARAGRAPH>
@@ -676,33 +735,37 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_39" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Tracker/01a_swTaped2/PALM_TINY_01a_swTaped2.bmp"/>
+<IMAGE ID="Image_38" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Tracker/01a_swTaped2/PALM_TINY_01a_swTaped2.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>2. Connect the SmartWheel to your handheld computer. Refer to Technical Hints to see how to connect the cables.</SNPARAGRAPH>
+<SNPARAGRAPH>2. Place a piece of masking tape on the floor to make a straight line at least 3m long. You will use this line when navigating your SmartWheel.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>3. Start the software and observe the position versus time graph as you roll the SmartWheel along the floor. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
+<SNPARAGRAPH>3. Connect the SmartWheel to your handheld computer. Refer to Technical Hints to see how to connect the cables.</SNPARAGRAPH>
 <SNPARAGRAPH/>
+<SNPARAGRAPH>4. Start the software. Observe the position versus time graph as you roll the SmartWheel back and forth along the masking tape line on the floor.</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ object="dc-smartwheel-pos1" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_40" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Tracker/02_swOnWand/PALM_TINY_02_swOnWand.bmp"/>
+<IMAGE ID="Image_39" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Tracker/02_swOnWand/PALM_TINY_02_swOnWand.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>4. With your team member, take turns making the following motions on the same graph.</SNPARAGRAPH>
+<SNPARAGRAPH>5. With your team member, take turns practicing making the following motions until you have all four motions on the same graph, one after the other.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH indent="2">a. walking forward at a constant velocity</SNPARAGRAPH>
 <SNPARAGRAPH indent="2">b. walking forward, then backward, at constant velocity</SNPARAGRAPH>
 <SNPARAGRAPH indent="2">c. walking forward slowly, then quickly, then stopping</SNPARAGRAPH>
 <SNPARAGRAPH indent="2">d. gradually speeding up, then gradually slowing down</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>5. Save your data to the handheld computer.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>6. Describe the portions of the graph for each set of movements in Notes on your handheld computer.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
+<SNPARAGRAPH>6. Save your data to the handheld computer.</SNPARAGRAPH>
+<SNPARAGRAPH/>Draw and describe the graph for each set
+              of movements in Notes on your handheld computer.  walking forward at a constant velocitywalking forward, then backward, at
+                constant velocitywalking forward slowly, then
+                quickly, then stoppinggradually speeding up, then
+                gradually slowing down<SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Tracker_trial_II" name="Trial II">
 <SNPARAGRAPH linkcolor="0000FF">Rolling cart</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>1. Reattach the SmartWheel to your cart.</SNPARAGRAPH>
+<SNPARAGRAPH>1. Reattach the SmartWheel to your cart. Refer to Technical Hints to see how to attach the SmartWheel to the air cart.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. Connect the SmartWheel to your handheld computer. Refer to Technical Hints to see how to connect the cables.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -710,86 +773,86 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_41" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Tracker/03A_tr/PALM_TINY_03A_tr.bmp"/>
+<IMAGE ID="Image_40" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Tracker/03A_tr/PALM_TINY_03A_tr.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>4. Practice pulling the cart while draping the connecting cable above the cart so that it doesn't pull the cart one way or the other. One person will need to walk alongside the cart while carrying the handheld computer and keeping the wire from obstructing the movement of the cart.</SNPARAGRAPH>
+<SNPARAGRAPH>4. Practice pulling the cart while draping the connecting cable above the cart so that it doesn't pull the cart one way or the other. One person will need to walk alongside the cart while carrying the handheld computer and keeping the wire from obstructing the movement of the cart as it moves in a straight line.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_42" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Tracker/03b_tr/PALM_TINY_03b_tr.bmp"/>
-</EMBOBJ>
-<SNPARAGRAPH>5. Predict the resulting graphs for each of the following motions in Notes on your handheld computer. Observe how the acrobat responded during each motion.</SNPARAGRAPH>
+<IMAGE ID="Image_41" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Tracker/03b_tr/PALM_TINY_03b_tr.bmp"/>
+</EMBOBJ>Predict the resulting graphs for each of
+              the following motions in Notes on your handheld computer. pulling the cart forward at a
+                constant velocitypulling the cart at a slow
+                constant velocity, then a faster constant velocity, then coastinggradually speeding up the cart,
+                then coastingpulling the cart, then letting it
+                bounce off a wall <SNPARAGRAPH>6. Start the software and observe the position versus time graph as you make the following motions on the same graph. Practice until you have all four motions on the same graph, one after the other. Observe how the acrobat responded during each motion.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>6. Start the software and observe the position versus time graph as you make the following motions on the same graph. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
-<SNPARAGRAPH/>
+<EMBOBJ object="dc-smartwheel-pos1" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH indent="2">a. pulling the cart forward at a constant velocity</SNPARAGRAPH>
 <SNPARAGRAPH indent="2">b. pulling the cart at a slow constant velocity, then a faster constant velocity, then coasting</SNPARAGRAPH>
 <SNPARAGRAPH indent="2">c. gradually speeding up the cart, then coasting</SNPARAGRAPH>
 <SNPARAGRAPH indent="2">d. pulling the cart, then letting it bounce off a wall</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>7. Save your data to the handheld computer.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>8. Discuss the following questions with your group and write down some of your ideas in Notes on your handheld computer. What do the graphs show you about the motion of the cart? How did the acrobat respond during the constant motion and the changing motion?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
+<SNPARAGRAPH/>Draw and describe a graph for each set of
+              movements in Notes on your handheld computer.pulling the cart forward at a
+                constant velocitypulling the cart at a slow constant
+                velocity, then a faster constant velocity, then coastinggradually speeding up the cart,
+                then coastingpulling the cart, then letting it
+                bounce off a wall Discuss the following questions with your
+              group. What
+                do the graphs show you about the motion of the cart?How
+                did the acrobat respond during the constant motion and
+                the changing motion? Write your ideas in Notes on your
+              handheld computer. <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Tracker_trial_III" name="Trial III">
 <SNPARAGRAPH linkcolor="0000FF">Rolling to a stop</SNPARAGRAPH>
+<SNPARAGRAPH/>Using the ramp to initiate motion of the
+              cart, design a method to slow down the cart and bring it
+              to a stop in exactly 5 seconds as it rolls across a rug or
+              another rough surface. Share your method with other
+              members of your group.  What
+                is your method? Explain your design in Notes on your
+              handheld computer.  What
+                will the position versus time graph look like? Sketch the graph in Notes on your
+              handheld computer.<SNPARAGRAPH>3. Connect the SmartWheel to your handheld computer. Refer to Technical Hints to see how to connect the cables.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>1. Using the ramp to initiate motion of the cart, design a method to slow down the cart and bring it to a stop in exactly 5 seconds as it rolls across a rug or another rough surface. Explain your design in Notes on your handheld computer.</SNPARAGRAPH>
+<SNPARAGRAPH>4. Now try your method out. Start the software and observe the position versus time graph as you roll the cart down the ramp. Be sure to drape the wire to the SmartWheel so that the cart rolls freely. Observe how the acrobat responded during the motion.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>2. In Notes on your handheld computer, predict and sketch the resulting position versus time graph. Share your method with other members of your group.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>3. Connect the SmartWheel to your handheld computer. Refer to Technical Hints to see how to connect the cables.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>4. Now try your method out. Start the software and observe the position versus time graph as you roll the cart down the ramp. Refer to Technical Hints to see how to use the software. Be sure to drape the wire to the SmartWheel so that the cart rolls freely. Observe how the acrobat responded during the motion.</SNPARAGRAPH>
-<SNPARAGRAPH/>
+<EMBOBJ object="dc-smartwheel-pos2" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH>5. Save your data to the handheld.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_43" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Tracker/04_tr2/PALM_TINY_04_tr2.bmp"/>
-</EMBOBJ>
-<SNPARAGRAPH>6. By looking at your position versus time graph, how do you know that your cart slowed down? Did it slow down at the same rate for the entire 5 seconds? If not, when and why did the rate change? Explain your reasoning in Notes on your handheld computer.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
+<IMAGE ID="Image_42" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Tracker/04_tr2/PALM_TINY_04_tr2.bmp"/>
+</EMBOBJ>Look at your position versus time graph. How
+                do you know that your cart slowed down?Did
+                it slow down at the same rate for the entire 5 seconds?If
+                not, when and why did the rate change? Explain your reasoning in Notes on your
+              handheld computer. <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Technical Hints" ID="Tracker-hints">
 <SNPARAGRAPH linkcolor="0000FF">Tracker Technical Hints
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>
-        - Connecting cables from the SmartWheel to the handheld computer</SNPARAGRAPH>
-<SNPARAGRAPH>
-        - Attaching SmartWheel to air cart</SNPARAGRAPH>
-<SNPARAGRAPH>
-        - Using the CC Lab Book software</SNPARAGRAPH>
-<SNPARAGRAPH>
-        - Opening saved data in the CC Lab Book software  </SNPARAGRAPH>
 </SUPERNOTES>
 <SUPERNOTES name="Analysis" ID="Tracker-analysis">
 <SNPARAGRAPH linkcolor="0000FF">Tracker Analysis
     </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. What does the steepness of the position versus time graph tell you about the velocity of the cart? How can you tell from the graph whether the cart is going forward or backward?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. What is the shape of the distance versus time graphs of a cart as it moves at:</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH indent="2">a. constant velocity?</SNPARAGRAPH>
-<SNPARAGRAPH indent="2">b. decreasing velocity?</SNPARAGRAPH>
-<SNPARAGRAPH indent="2">c. increasing velocity?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>3. Explain the differences of movement of the acrobat during Trial II and Trial III. What happened to either make it move or keep it still during each motion?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>4. Display each graph as a velocity versus time graph. See Technical Hints on how to switch between position and velocity graphs. How are the position and velocity graphs related for each trial? What is the shape of the velocity versus time graph of a cart as it moves at:</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH indent="2">a. constant velocity?</SNPARAGRAPH>
-<SNPARAGRAPH indent="2">b. decreasing velocity?</SNPARAGRAPH>
-<SNPARAGRAPH indent="2">c. increasing velocity?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>5. Do you think that if you knew the position of the cart at every moment, you could know its velocity as well?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-</SUPERNOTES>
+<SNPARAGRAPH/>What
+                does the steepness of the position versus time graph
+                tell you about the velocity of the cart?How
+                can you tell from the graph whether the cart is going
+                forward or backward?What is the shape of the distance versus
+              time graphs of a cart as it moves at:  constant velocity?decreasing velocity?increasing velocity?How
+                did the acrobat move during Trial II and Trial III? What
+                happened to either make it move or keep it still during
+                each motion of the cart?How
+                would you calculate velocity from the position versus
+                time graph? Do
+                you think that if you knew the position of the cart at
+                every moment, you could know its velocity as well? </SUPERNOTES>
 </FOLDER>
 <FOLDER view="paging" name="Propeller" ID="Propeller">
 <SUPERNOTES name="Introduction" ID="Propeller-intro">
@@ -802,7 +865,7 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH linkcolor="000F0F">What are the effects of friction on the motion of the propeller-driven cart?</SNPARAGRAPH>
 <EMBOBJ>
-<IMAGE ID="Image_45" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/propellerCartRev/PALM_TINY_propellerCartRev.bmp"/>
+<IMAGE ID="Image_43" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/propellerCartRev/PALM_TINY_propellerCartRev.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>In this activity you will investigate how friction and the driving force of a propeller mounted on an air cart oppose one another.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -814,8 +877,6 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH linkcolor="000F0F">What are the effects of friction on the motion of the propeller-driven cart?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>Picture a propeller or fan blowing air. What is accelerating the air? How does the accelerating air from the propeller relate to your description of the forces found during a sneeze in space? Will your almost frictionless cart move when the propeller is turned on? Will it still move when you add more friction? Write (or draw) in Notes on your handheld computer the forces that you think will make the cart move.</SNPARAGRAPH>
-<SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Materials" ID="Propeller-materials">
 <SNPARAGRAPH linkcolor="0000FF">Propeller Materials
@@ -826,7 +887,7 @@
 <SNPARAGRAPH>
         - handheld computer</SNPARAGRAPH>
 <SNPARAGRAPH>
-        - CC Lab Book software</SNPARAGRAPH>
+        - CC LabBook software</SNPARAGRAPH>
 <SNPARAGRAPH>
         - constructed air cart (see Investigation: Air Cart)</SNPARAGRAPH>
 <SNPARAGRAPH>
@@ -859,33 +920,36 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_46" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/02_pr/PALM_TINY_02_pr.bmp"/>
+<IMAGE ID="Image_44" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/02_pr/PALM_TINY_02_pr.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>2. Press the propeller onto the shaft of the motor. The white dab of paint should face toward the motor.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_47" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/01a_pr/PALM_TINY_01a_pr.bmp"/>
-</EMBOBJ>
-<SNPARAGRAPH>3. Turn the propeller with your finger. Looking at its shape, can you tell which way the air will blow? How do you know? How would you explain it to another person? Record your explanation in Notes on your handheld computer.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>4. Now test your prediction. Choose the direction the propeller should turn to make the air blow away from the cart. While holding onto your cart, connect the battery wires to the motor. You can use the springiness of the wires to hold them lightly in place.</SNPARAGRAPH>
+<IMAGE ID="Image_45" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/01a_pr/PALM_TINY_01a_pr.bmp"/>
+</EMBOBJ>Turn the propeller with your finger. Look
+              at its shape. How
+                can you tell which way the air will blow?Record your explanation in Notes on your
+              handheld computer.<SNPARAGRAPH>4. Now test your prediction. Choose the direction the propeller should turn to make the air blow away from the cart. While holding onto your cart, connect the battery wires to the motor. You can use the springiness of the wires to hold them lightly in place.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_48" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/03a_motorWire/PALM_TINY_03a_motorWire.bmp"/>
+<IMAGE ID="Image_46" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/03a_motorWire/PALM_TINY_03a_motorWire.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>If the propeller doesn't blow away from the cart, reverse the wires.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_49" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/03b_motorWire/PALM_TINY_03b_motorWire.bmp"/>
-</EMBOBJ>
-<SNPARAGRAPH>5. Was your prediction correct?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>6. While still holding onto your cart, carefully hold your other hand in front of and behind the propeller while it is on. Do you feel air moving in both locations or only in one? Is this the same as what you predicted? In Notes on your handheld computer, record the difference you observe and why you think it's that way.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
+<IMAGE ID="Image_47" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/03b_motorWire_rev/PALM_TINY_03b_motorWire_rev.bmp"/>
+</EMBOBJ>Was
+                your prediction correct? If not, write a better
+                explanation. Write in Notes on your handheld computer. While still holding onto your cart,
+              carefully hold your other hand in front of and behind the
+              propeller while it is on. Do you feel air moving in both
+              locations or only in one? Is this the same as what you predicted?What
+                is the difference you observe and why do you think
+                it's that way?Record your answer in Notes on your
+              handheld computer. <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Propeller_trial_II" name="Trial II">
 <SNPARAGRAPH linkcolor="0000FF">Measuring the motion of a propeller-driven cart</SNPARAGRAPH>
@@ -896,19 +960,18 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_50" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/07_pr/PALM_TINY_07_pr.bmp"/>
+<IMAGE ID="Image_48" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/07_pr/PALM_TINY_07_pr.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>3. Start the software and observe the position versus time graph. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
+<SNPARAGRAPH>3. Start the software and observe the position versus time graph.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>4. Start the propeller, holding on to the cart. Let the cart go and let it run for as far as you have space. Be sure to keep the wire floppy, so that it doesn't pull or push on the cart.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>5. What is the shape of the position graph? Is it a straight line? Why do you think it's this shape? What do you think it would look like if your cart could keep going farther? Explain your reasoning in Notes on your handheld computer.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>6. Try several times until you get a really good graph, then save your data to the handheld computer.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>7. Change the software to show a velocity versus time graph. Refer to Technical Hints on how to switch from position to velocity graphs. How is this different from the position graph? Is the velocity constant? How do you know? What do you think it would look like if your cart could keep going farther? Explain your reasoning in Notes on your handheld computer.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
+<EMBOBJ object="dc-smartwheel-pos2" link="true" linkcolor="FF0000"/>
+<SNPARAGRAPH>4. Start the propeller, holding on to the cart. Let the cart go and let it run for as far as you have space. Be sure to keep the wire floppy, so that it doesn't pull or push on the cart. Try several times until you get a really good graph, then save your data to the handheld computer.</SNPARAGRAPH>
+<SNPARAGRAPH/>What
+                is the shape of the position graph? Is it a straight
+                line? Why
+                do you think it has this shape?What
+                would it look like if your cart could keep going farther?Explain your reasoning in Notes on your
+              handheld computer. <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Propeller_trial_III" name="Trial III">
 <SNPARAGRAPH linkcolor="0000FF">Adding a friction sled to a propeller-driven cart</SNPARAGRAPH>
@@ -917,24 +980,25 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_51" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/01b_pr/PALM_TINY_01b_pr.bmp"/>
+<IMAGE ID="Image_49" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/01b_pr/PALM_TINY_01b_pr.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>2. Build a sled to drag behind the cart. Fold up one end of a file card. Make a loop of thread about 20cm long and tape one end of it to the file card.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_52" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/08_pr/PALM_TINY_08_pr.bmp"/>
+<IMAGE ID="Image_50" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/08_pr/PALM_TINY_08_pr.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>3. Hook the loop over the bumper. Use clay to add weight to the sled.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_53" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/09_pr/PALM_TINY_09_pr.bmp"/>
+<IMAGE ID="Image_51" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Propeller/09_pr/PALM_TINY_09_pr.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>4. Connect the SmartWheel to your handheld computer. Refer to Technical Hints to see how to connect the SmartWheel.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>5. Start the software to measure velocity. Refer to Technical Hints to see how to use the software. Make the following measurements one after another with the graph running. You will then have all of your data on one graph, and you can analyze it.</SNPARAGRAPH>
+<SNPARAGRAPH>5. Start the software to measure velocity. Make the following measurements one after another with the graph running. You will then have all of your data on one graph, and you can analyze it.</SNPARAGRAPH>
 <SNPARAGRAPH/>
+<EMBOBJ object="dc-smartwheel-vel1" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH indent="2">a. With no weight on the sled, give the cart a gentle push so that it rolls to a stop after about 2m.</SNPARAGRAPH>
 <SNPARAGRAPH indent="2">b. Start the motor and let the cart go for about 2m.</SNPARAGRAPH>
 <SNPARAGRAPH indent="2">c. Put some clay on the sled and hook it onto the bumper. Give the cart a push so that it rolls to a stop after about 2m.</SNPARAGRAPH>
@@ -950,43 +1014,33 @@
 <SNPARAGRAPH linkcolor="0000FF">Propeller Technical Hints
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>
-        - Connecting the Force probe</SNPARAGRAPH>
-<SNPARAGRAPH>
-        - Using the CC Lab Book software for the Force Probe</SNPARAGRAPH>
-<SNPARAGRAPH>
-        - Calibrating the Force probe </SNPARAGRAPH>
-<SNPARAGRAPH>
-        - Connecting the SmartWheel </SNPARAGRAPH>
-<SNPARAGRAPH>
-        - Using the CC Lab Book software for the SmartWheel </SNPARAGRAPH>
-<SNPARAGRAPH>
-        - Opening saved data in the CC Lab Book software</SNPARAGRAPH>
 </SUPERNOTES>
 <SUPERNOTES name="Analysis" ID="Propeller-analysis">
 <SNPARAGRAPH linkcolor="0000FF">Propeller Analysis
     </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. How does a propeller create a force that pushes on a cart?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. Would a propeller work in outer space, where there's no air? If not, how could you make something move in outer space?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>3. Look at your position versus time and velocity versus time graphs in Trial II. Explain the differences between the position graph and the velocity graph. How are they different from graphs where the cart is moving at a constant velocity?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>4. Look at your velocity versus time graph in Trial III. For each case, describe the graph and what you think is causing it to have that shape.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH indent="2">a. no friction, push cart</SNPARAGRAPH>
-<SNPARAGRAPH indent="2">b. no friction, propeller</SNPARAGRAPH>
-<SNPARAGRAPH indent="2">c. some friction, push cart</SNPARAGRAPH>
-<SNPARAGRAPH indent="2">d. some friction, propeller</SNPARAGRAPH>
-<SNPARAGRAPH indent="2">e. more friction, push cart</SNPARAGRAPH>
-<SNPARAGRAPH indent="2">f. more friction, propeller</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>5. Do you think the graphs are evidence that friction exerts a force like the propeller, but in the opposite direction?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>6. The rate of change of velocity is the slope of the velocity versus time graph. Do your graphs give evidence that this slope is proportional to the net force on the cart? Does this confirm Newton's Second Law?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-</SUPERNOTES>
+<SNPARAGRAPH/>How
+                does a propeller create a force that pushes on a cart? Would
+                a propeller work in outer space, where there's no
+                air? If
+                not, how could you make something move in outer space?  Look at your position versus time graph
+              in Trial II. Is
+                the velocity of the cart constant?How
+                can you tell? Look at your velocity versus time graph
+              in Trial III. For each case, describe the graph and then
+              write why you think it has that shape.no
+                friction, push cartno
+                friction, propeller  some
+                friction, push cartsome
+                friction, propeller  more
+                friction, push cartmore
+                friction, propellerDo
+                you think the graphs are evidence that friction exerts a
+                force like the propeller, but in the opposite direction?The rate of change of velocity is the
+              slope of the velocity versus time graph. What
+                is happening to the cart when the slope of the velocity
+                graph is not zero? What
+                is done to the cart to increase or decrease its rate of
+                change of velocity?  </SUPERNOTES>
 </FOLDER>
 <FOLDER view="paging" name="Collision I" ID="Collision_I">
 <SUPERNOTES name="Introduction" ID="Collision_I-intro">
@@ -999,7 +1053,7 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH linkcolor="000F0F">What happens when two objects collide?</SNPARAGRAPH>
 <EMBOBJ>
-<IMAGE ID="Image_56" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/wallCollision/PALM_TINY_wallCollision.bmp"/>
+<IMAGE ID="Image_52" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/wallCollision/PALM_TINY_wallCollision.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>In this activity you will investigate what happens during a collision of a cart with a wall.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1010,8 +1064,6 @@
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH linkcolor="000F0F">What happens when two objects collide?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>In this activity you will use the Force probe to actually measure what happens during a collision. How big are the forces? How long do they last? What features of the colliding objects make the forces bigger or smaller? In your group, explain how you would increase or decrease the forces during a collision. Write or draw in Notes on your handheld computer your ideas about how to do this.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Materials" ID="Collision_I-materials">
@@ -1025,7 +1077,7 @@
 <SNPARAGRAPH>
         - handheld computer</SNPARAGRAPH>
 <SNPARAGRAPH>
-        - CC Lab Book software</SNPARAGRAPH>
+        - CC LabBook software</SNPARAGRAPH>
 <SNPARAGRAPH>
         - long rubber band or several cut rubber bands and joined together (so when they are cut and joined it has a length of 1/2m)</SNPARAGRAPH>
 <SNPARAGRAPH>
@@ -1049,156 +1101,135 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. The Force probe can be used to measure the force of the Earth's gravity on masses. In other words, the Force probe can be used to measure the weight of masses. Connect the Force probe to your handheld computer. Refer to Technical Hints to see how to connect the cables.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>2. Start the software. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
+<SNPARAGRAPH>2. Start the software.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>3. Hold the Force probe so that you can hang things from the smaller eye bolt at the end of the arm. Calibrate the force probe to zero in this position. Refer to Technical Hints to see how to calibrate the Force probe.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
-<EMBOBJ>
-<IMAGE ID="Image_57" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/01a_c1/PALM_TINY_01a_c1.bmp"/>
-</EMBOBJ>
-<SNPARAGRAPH>4. Try weighing something light, such as a paper clip hooked to a pen. Expand the force scale so that you can see the change in weight. Refer to Technical Hints to see how to use the software. What is the smallest weight that you can measure?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>5. Weigh something heavy, like a book. Note that the units are in newtons, not kilograms. What is the difference? Explain your reasoning in Notes on your handheld computer.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>6. Use a paper clip to make a hook so that you can hang the cart from the Force probe. It can be hooked to the bumper, around the propeller, or through the cardboard.</SNPARAGRAPH>
+<SNPARAGRAPH>3. Hold the Force probe so that you can hang things from the smaller eye bolt at the end of the arm. Set the force probe to zero in this position. Refer to Technical Hints to see how to set the Force probe to zero.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_58" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/01b_c1/PALM_TINY_01b_c1.bmp"/>
+<IMAGE ID="Image_53" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/01a_c1/PALM_TINY_01a_c1.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>7. Start recording with the software for force. Hang the cart from the Force probe for 10 seconds. Remove it and check that the force goes back to zero. Stop recording data.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>8. Pick an average value for the weight of the cart and write it down in Notes on your handheld computer. How steady was your reading? How much did it vary and why?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>9. If you hang the cart with a rubber band and weigh it, will it be the same? Try it.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>10. What variations do you get? Can you get a steady reading? Explain your reasoning in Notes on your handheld computer.</SNPARAGRAPH>
+<SNPARAGRAPH>4. Try weighing something light, such as a paper clip hooked to a pen. Expand the force scale so that you can see the change in weight. What is the smallest weight that you can measure?</SNPARAGRAPH>
+<SNPARAGRAPH/>Weigh something heavy, like a book. Note
+              that the units are in newtons, not kilograms. What
+                is the difference between newtons and kilograms?Explain your reasoning in Notes on your
+              handheld computer. <SNPARAGRAPH>6. Use a paper clip to make a hook so that you can hang the cart from the Force probe. It can be hooked to the bumper, around the propeller, or through the cardboard.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_59" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/01c_c1/PALM_TINY_01c_c1.bmp"/>
+<IMAGE ID="Image_54" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/01b_c1/PALM_TINY_01b_c1.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>11. Calculate the mass, in kilograms, of your cart.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>The conversion is mass (kg) = weight (newtons) / 9.8</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>12. Compare this mass to the masses of the other carts.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
+<SNPARAGRAPH>7. Start recording with the software for force. Hang the cart from the Force probe for 10 seconds. Remove it and check that the force goes back to zero. Stop recording and save your data.</SNPARAGRAPH>
+<SNPARAGRAPH/>What
+                was the average value for the weight of the cart?How
+                steady was your reading? How
+                much did it vary and why?If
+                you hang the cart with a rubber band and weigh it, will
+                it be the same? Try it.  What
+                variations do you get? Can
+                you get a steady reading?Calculate the mass, in kilograms, of your
+              cart. The conversion is mass (kg) = weight (newtons) / 9.8  What
+                are the weight and the mass? Record your answers on Notes in your
+              handheld computer. How
+                does this mass compare to the masses of the other carts.<SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Collision_I_trial_II" name="Trial II">
 <SNPARAGRAPH linkcolor="0000FF">Colliding a cart with a wall</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>1. Place the Force probe on its side wedged in a pile of books so that it is at the same height as the bumper of your cart. It could also be clamped to a ring stand. Have someone hold the Force probe down firmly during the experiment. Unscrew and set aside the larger eye bolt if it's in the way.</SNPARAGRAPH>
+<SNPARAGRAPH>1. Place the Force probe on its side wedged in a pile of books so that it is at the same height as the bumper of your cart. It could also be clamped to a ring stand. Have someone hold the Force probe down firmly during the experiment. Unscrew and set aside the larger eyebolt if it's in the way.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_60" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/05a_cartPush/PALM_TINY_05a_cartPush.bmp"/>
+<IMAGE ID="Image_56" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/05a_cartPush/PALM_TINY_05a_cartPush.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>2. Make sure the motor and propeller are set for pushing the cart. The white dot on the propeller should be toward the motor.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_61" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/01a_pr/PALM_TINY_01a_pr.bmp"/>
+<IMAGE ID="Image_57" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/01a_pr/PALM_TINY_01a_pr.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>3. Connect the Force probe to your handheld computer. Refer to Technical Hints to see how to connect the cables.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>4. Set up the Force probe in fast mode (at least 400 times per second). Refer to Technical Hints to see how to adjust the rate of collection.</SNPARAGRAPH>
+<SNPARAGRAPH>4. Start the software.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>5. Calibrate the force probe to zero in this position. Refer to Technical Hints to see how to calibrate the Force probe.</SNPARAGRAPH>
+<SNPARAGRAPH>5. Set the force probe to zero in this position. Refer to Technical Hints to see how to set the Force probe to zero.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>6. Line up the cart bumper with the Force probe, then roll the cart back about 50cm. Mark the distance so that you can start the cart in the same place every time.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_62" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/02_c1/PALM_TINY_02_c1.bmp"/>
+<IMAGE ID="Image_58" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/02_c1/PALM_TINY_02_c1.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>7. Start the propeller motor.</SNPARAGRAPH>
+<SNPARAGRAPH>7. Start the propeller motor. Use the springiness of the wires to hold them lightly in place.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>8. Start recording the force, then let the cart go. Refer to Technical Hints to see how to use the software. Make sure it bumps directly into the small eye bolt. Observe the behavior of the acrobat during the collision.</SNPARAGRAPH>
+<SNPARAGRAPH>8. Start recording the force, then let the cart go. Make sure it bumps directly into the small eyebolt. Observe the behavior of the acrobat during the collision.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>9. Stop recording immediately after a good collision and save your data to the handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>10. Examine the graph. You will need to expand the time scale to see what the force looks like during the collision, since it happens in such a short time. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>11. Answer the following in Notes on your handheld computer:</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH indent="2">a. What is the shape of the graph?</SNPARAGRAPH>
-<SNPARAGRAPH indent="2">b. How long did the collision take?</SNPARAGRAPH>
-<SNPARAGRAPH indent="2">c. What was the maximum force?</SNPARAGRAPH>
-<SNPARAGRAPH indent="2">d. What did the acrobat do during the collision?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
+<SNPARAGRAPH>10. Examine the graph. Zoom in on your collision until it fills most of your screen.</SNPARAGRAPH>
+<SNPARAGRAPH/>Answer the following in Notes on your
+              handheld computer:What
+                is the shape of the graph? How
+                long did the collision take?What
+                was the maximum force?  What
+                did the acrobat do during the collision?<SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Collision_I_trial_III" name="Trial III">
 <SNPARAGRAPH linkcolor="0000FF">Adding a bungee cord</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. This time you will try a "reverse" collision. You will measure the force on a bungee cord attached to the air cart when it stretches and bounces back. Connect the Force probe to your handheld computer. Refer to Technical Hints to see how to connect the cables.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>2. Place the Force probe on its side wedged in a pile of books so that it is at the same height as the bumper of your cart. It could also be clamped to a ring stand. Have someone hold the Force probe down firmly during the experiment. Unscrew and set aside the larger eye bolt if it's in the way.</SNPARAGRAPH>
+<SNPARAGRAPH>2. Place the Force probe on its side wedged in a pile of books so that it is at the same height as the bumper of your cart. It could also be clamped to a ring stand. Have someone hold the Force probe down firmly during the experiment. Unscrew and set aside the larger eyebolt if it's in the way.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_63" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/05a_cartPush/PALM_TINY_05a_cartPush.bmp"/>
+<IMAGE ID="Image_59" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/05a_cartPush/PALM_TINY_05a_cartPush.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>3. Set up the Force probe in fast mode (at least 400 times per second). Refer to Technical Hints to see how to adjust the rate of collection.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>4. Cut a long rubber band to make a bungee cord. Attach one end to the Force probe and the other end to the cart. Use several rubber bands if needed so that the cord is about 1/2m long.</SNPARAGRAPH>
+<SNPARAGRAPH>3. Cut a long rubber band to make a bungee cord. Attach one end to the Force probe and the other end to the cart. Use several rubber bands if needed so that the cord is about 1/2m long.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_64" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/03_c1/PALM_TINY_03_c1.bmp"/>
+<IMAGE ID="Image_60" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/03_c1/PALM_TINY_03_c1.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>5. Line up the cart with the Force probe, with the rubber band lying loosely between them. Hook things together with paper clips.</SNPARAGRAPH>
+<SNPARAGRAPH>4. Line up the cart with the Force probe, with the rubber band lying loosely between them. Hook things together with paper clips.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_65" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/04_c1/PALM_TINY_04_c1.bmp"/>
+<IMAGE ID="Image_61" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_I/04_c1/PALM_TINY_04_c1.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>6. Start recording the force. Refer to Technical Hints to see how to use the software. Give the cart a push so that it stretches the bungee cord and then bounces back. Catch it before it hits the Force probe. Stop recording. Observe the behavior of the acrobat.</SNPARAGRAPH>
+<SNPARAGRAPH>5. Start the software. Start recording the force. Give the cart a push so that it stretches the bungee cord and then bounces back. Catch it before it hits the Force probe. Stop recording. Observe the behavior of the acrobat.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>7. Try this several times, and after a good bounce save your data to the handheld computer.</SNPARAGRAPH>
+<SNPARAGRAPH>6. Try this several times, and after a good bounce save your data to the handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>8. Examine the graph. You will need to expand the time scale to see what the force looks like during the collision, since it happens in such a short time. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>9. Answer the following in Notes on your handheld computer:</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH indent="2">a. What is the shape of the plot?</SNPARAGRAPH>
-<SNPARAGRAPH indent="2">b. How long did the collision take?</SNPARAGRAPH>
-<SNPARAGRAPH indent="2">c. What was the maximum force?</SNPARAGRAPH>
-<SNPARAGRAPH indent="2">d. What did the acrobat do during the collision?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
+<SNPARAGRAPH>7. Examine the graph. Zoom in on your collision until it fills most of your screen.</SNPARAGRAPH>
+<SNPARAGRAPH/>Answer the following in Notes on your
+              handheld computer:What
+                is the shape of the plot? How
+                long did the collision take? What
+                was the maximum force? What
+                did the acrobat do during the collision?<SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Technical Hints" ID="Collision_I-hints">
 <SNPARAGRAPH linkcolor="0000FF">Collision I Technical Hints
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>
-        - Connecting the Force probe</SNPARAGRAPH>
-<SNPARAGRAPH>
-        - Using the CC Lab Book software for the Force Probe</SNPARAGRAPH>
-<SNPARAGRAPH>
-        - Calibrating the Force probe </SNPARAGRAPH>
-<SNPARAGRAPH>
-        - Opening saved data in the CC Lab Book software</SNPARAGRAPH>
 </SUPERNOTES>
 <SUPERNOTES name="Analysis" ID="Collision_I-analysis">
 <SNPARAGRAPH linkcolor="0000FF">Collision I Analysis
     </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. What comparisons can you make between the bumper event and the rubber band event? How long did each collision take? What was the shape of the graph? What was the maximum force?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. What is the relationship between the behavior of the acrobat and the shape and size of the force graph?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>3. Why do you think the forces were different in the two cases?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>4. If you were riding on the cart, which collision would you prefer, a collision with a wall or a collision using a bungee cord? Why?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>5. How could you decrease the maximum force when the cart hits the Force probe? Explain why your idea would work.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-</SUPERNOTES>
+<SNPARAGRAPH/>Compare the bumper event and the rubber
+              band event. How
+                long did each collision take?What
+                was the maximum force? What
+                was the shape of the graph?What
+                is the relationship between the behavior of the acrobat
+                and the shape and size of the force graph?  Why
+                do you think the forces were different for the bumper
+                versus the bungee cord?  Consider riding on the cart. Which
+                collision would you prefer, a collision with a wall or a
+                collision using a bungee cord? Why?How
+                could you decrease the maximum force when the cart hits
+                the Force probe?Explain why your idea would work. </SUPERNOTES>
 </FOLDER>
 <FOLDER view="paging" name="Collision II" ID="Collision_II">
 <SUPERNOTES name="Introduction" ID="Collision_II-intro">
@@ -1211,7 +1242,7 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH linkcolor="000F0F">When two objects hit, is the force on one the same as the force on the other?</SNPARAGRAPH>
 <EMBOBJ>
-<IMAGE ID="Image_69" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/2cartCollision/PALM_TINY_2cartCollision.bmp"/>
+<IMAGE ID="Image_62" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/2cartCollision/PALM_TINY_2cartCollision.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>In this activity you will investigate what happens during a collision between two carts.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1222,8 +1253,6 @@
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH linkcolor="000F0F">When two objects hit, is the force on one the same as the force on the other?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>In your group, predict and explain what happens when two objects with different masses, like a heavy and a light ball, collide. What happens when a heavy truck and a small car collide? Is the force on each one the same? What is theresulting motion of each object? Write or draw in Notes on your handheld computer your ideas about what might explain your predictions.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Materials" ID="Collision_II-materials">
@@ -1237,7 +1266,7 @@
 <SNPARAGRAPH>
         - handheld computer</SNPARAGRAPH>
 <SNPARAGRAPH>
-        - CC Lab Book software</SNPARAGRAPH>
+        - CC LabBook software</SNPARAGRAPH>
 <SNPARAGRAPH>
         - 2 - long rubber bands (so they have a length of about 30cm when cut)</SNPARAGRAPH>
 <SNPARAGRAPH>
@@ -1262,27 +1291,29 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. Cut two rubber bands and tie them together to make a bungee cord about 30 cm long.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>2. Attach one end of the bungee to one Force probe, and the other end to the other Force probe. Use the small eye bolt to attach the rubber bands.</SNPARAGRAPH>
+<SNPARAGRAPH>2. Team up so that each group has two Force probes. Attach one end of the bungee to one Force probe, and the other end to the other Force probe. Use the small eyebolt to attach the rubber bands.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_70" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/01a_c2/PALM_TINY_01a_c2.bmp"/>
+<IMAGE ID="Image_63" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/01a_c2/PALM_TINY_01a_c2.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>3. Connect the Force probe to your handheld computer. Refer to Technical Hints to see how to connect the cables.</SNPARAGRAPH>
+<SNPARAGRAPH>3. Connect each Force probe to its own handheld computer. Refer to Technical Hints to see how to connect the cables.</SNPARAGRAPH>
+<SNPARAGRAPH/>Each team member will pull on one of the
+              Force probes, much like a tug-of-war. When
+                do you think the two force graphs will be the same?When
+                do you think the two force graphs will be different? Record your prediction in Notes on the
+              handheld computer. <SNPARAGRAPH>5. Start the software for each Force probe.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>4. Start the software for the Force probe. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>5. Calibrate the force probe to zero. Refer to Technical Hints to see how to calibrate the Force probe.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>6. Each team member will pull on one of the Force probes, much like a tug-of-war. When do you think the two force graphs will be the same, and when will they be different? Record your prediction in Notes on the handheld computer.</SNPARAGRAPH>
+<SNPARAGRAPH>6. Set the force probe to zero. Refer to Technical Hints to see how to set the Force probe to zero.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>7. Start recording. Vary the amount of pulling, who pulls first, and who doesn't move.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>8. Save your data to the handheld computer.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>9. Compare the graphs from the two force probes. What can you conclude? Was your prediction correct? Record your thoughts in Notes on your handheld computer.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
+<SNPARAGRAPH/>Compare the graphs from the two force
+              probes. What
+                can you conclude?Was
+                your prediction correct? Record your thoughts in Notes on your
+              handheld computer.<SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Collision_II_trial_II" name="Trial II">
 <SNPARAGRAPH linkcolor="0000FF">Forces on colliding carts</SNPARAGRAPH>
@@ -1293,105 +1324,107 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_71" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/02a_c2/PALM_TINY_02a_c2.bmp"/>
+<IMAGE ID="Image_64" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/02a_c2/PALM_TINY_02a_c2.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>3. Punch two holes in the cardboard with your pen or pencil. Enlarge them from both sides so that a screw will just fit through.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_72" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/02b_c2/PALM_TINY_02b_c2.bmp"/>
+<IMAGE ID="Image_65" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/02b_c2/PALM_TINY_02b_c2.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>4. Put the two screws through the cardboard from the underside, and screw them into the Force probe plate. Tighten them until the heads squeeze the cardboard a little bit. A paper clip will work as a screwdriver.</SNPARAGRAPH>
+<SNPARAGRAPH>4. Put the two screws first through the cardboard from the underside, and then screw them into the Force probe plate. Tighten them until the heads squeeze the cardboard a little bit. A paper clip will work as a screwdriver.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_73" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/02c_c2/PALM_TINY_02c_c2.bmp"/>
+<IMAGE ID="Image_66" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/02c_c2/PALM_TINY_02c_c2.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>5. Screw the larger eye bolt and set it aside. Glue the bumper on the smaller eye bolt.</SNPARAGRAPH>
+<SNPARAGRAPH>5. Unscrew the larger eyebolt and set it aside. Glue the bumper on the smaller eyebolt.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_74" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/02d_c2/PALM_TINY_02d_c2.bmp"/>
+<IMAGE ID="Image_67" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/02d_c2/PALM_TINY_02d_c2.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>6. Weigh both carts by hanging them from the small eye bolt. Calibrate the force probe to zero. Refer to Technical Hints to see how to calibrate the Force probe.</SNPARAGRAPH>
+<SNPARAGRAPH>6. Connect the Force probe to your handheld computer. Refer to Technical Hints to see how to connect the cables.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_75" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/03a_c2/PALM_TINY_03a_c2.bmp"/>
-</EMBOBJ>
-<SNPARAGRAPH>7. Make the carts equal in mass by adding some clay to one of them if needed.</SNPARAGRAPH>
+<IMAGE ID="Image_68" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/03a_c2/PALM_TINY_03a_c2.bmp"/>
+</EMBOBJ>Predict what the force graphs will look
+              like if you roll the two carts toward each other.What
+                if they have about the same velocity? What
+                if you roll one cart toward the other which is not
+                moving? Record (or draw) your predictions in
+              Notes on the handheld computer.<SNPARAGRAPH>8. Start the software. Set the force probe to zero. Refer to Technical Hints to see how to set the Force probe to zero. Weigh each cart by hanging it from the small eyebolt.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>8. Predict what the force graphs will look like if you roll the two carts toward each other at about the same velocity. What if you roll one cart toward the other which is not moving? Record your predictions in Notes on the handheld computer.</SNPARAGRAPH>
+<SNPARAGRAPH>9. Make the carts equal in mass by adding some clay to one of them if needed.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>9. Each team should start the software for the Force probe. Set the force to fast mode (at least 400 times per second). Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>10. With the carts horizontal, calibrate the Force probe to zero. Refer to Technical Hints to see how to calibrate the Force probe.</SNPARAGRAPH>
+<SNPARAGRAPH>10. With the carts horizontal, set each Force probe to zero. Refer to Technical Hints to see how to set the Force probe to zero.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_76" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/04a_c2/PALM_TINY_04a_c2.bmp"/>
+<IMAGE ID="Image_69" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/04a_c2/PALM_TINY_04a_c2.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>11. Start recording. Push the carts toward each other at about the same velocity, and let them bounce back.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>12. Try this again several times. When you get a good run, save your data to the handheld.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>13. Look at the force graphs for both teams. Were they the same for both carts? How long did the collision take? What was the maximum force? Record your observations in Notes on your handheld computer.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
+<SNPARAGRAPH/>Look at the force graphs for both teams. Were
+                they the same for both carts?How
+                long did the collision take? What
+                was the maximum force? Record your observations in Notes on your
+              handheld computer. <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Collision_II_trial_III" name="Trial III">
 <SNPARAGRAPH linkcolor="0000FF">Velocities of colliding carts</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>1. Each team should connect the SmartWheel to their handheld computer. Refer to Technical Hints to see how to connect the SmartWheel.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. Predict what the velocity graphs will look like if one cart is stationary and you roll the other cart against it. What will be the velocity for each cart before and after the collision? What will the velocity graph do just at the moment of collision? Record your predictions in Notes on the handheld computer.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>3. Start the software to record a velocity versus time graph. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
+<SNPARAGRAPH/>Predict what the velocity graphs will
+              look like if one cart is stationary and you roll the other
+              cart against it.What
+                will be the velocity for each cart before and after the
+                collision? What
+                will the velocity graph do just at the moment of collision?Draw your predictions in Notes on the
+              handheld computer. <SNPARAGRAPH>3. Start the software to record a velocity versus time graph.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>4. Start recording. Push one cart toward the other and let them bounce. Be sure the bumpers are lined up.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_77" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/04a_c2/PALM_TINY_04a_c2.bmp"/>
+<IMAGE ID="Image_70" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Collision_II/04b_c2/PALM_TINY_04b_c2.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>5. Try this again several times. When you get a good run, save your data to the handheld.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>6. Look at the velocity graphs for both teams. Were they what you predicted? How much did each cart 's velocity change? How did the initial velocity of one cart compare with the final velocity of the other? How long did the collision take? Record your thoughts in Notes on your handheld computer.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
+<SNPARAGRAPH/>Look at the velocity graphs for both
+              teams. Were
+                they what you predicted? How
+                did the initial velocity of one cart compare with the
+                final velocity of the other?Draw
+                the velocity graph for each cart, and write in the
+                velocity values. Record your drawings and thoughts in
+              Notes on your handheld computer. <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Technical Hints" ID="Collision_II-hints">
 <SNPARAGRAPH linkcolor="0000FF">Collision II Technical Hints
     </SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>
-        - Connecting the Force probe</SNPARAGRAPH>
-<SNPARAGRAPH>
-        - Using the CC Lab Book software for the Force Probe</SNPARAGRAPH>
-<SNPARAGRAPH>
-        - Calibrating the Force probe</SNPARAGRAPH>
-<SNPARAGRAPH>
-        - Connecting cables from the SmartWheel to the handheld computer</SNPARAGRAPH>
-<SNPARAGRAPH>
-        - Using CC Lab Book software for the SmartWheel</SNPARAGRAPH>
-<SNPARAGRAPH>
-        - Opening saved data in the CC Lab Book software</SNPARAGRAPH>
 </SUPERNOTES>
 <SUPERNOTES name="Analysis" ID="Collision_II-analysis">
 <SNPARAGRAPH linkcolor="0000FF">Collision II Analysis
     </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. Trials I and II are examples of Newton 's famous assertion that "for every action, there is an equal and opposite reaction." Does it seem to be true in both cases? Is the result surprising?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. If you were pushing on each other with Force probes instead of pulling, would they still read the same?"</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>3. If one of the Force probes were attached to a wall and you were pulling on the other one, would they read the same force?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>4. If a light cart hit a heavy cart at rest, what would you say now about the force on each one and their speeds after the collision?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>5. Newton's Second Law asserts that a force is needed to change the velocity of an object. The greater the force, the more quickly the velocity changes. Do your trials support this theory?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-</SUPERNOTES>
+<SNPARAGRAPH/>Trials I and II are examples of Newton
+              's famous assertion that "for every action,
+              there is an equal and opposite reaction." Does
+                it seem to be true in both cases?Is
+                the result surprising?  If
+                you were pushing on each other with Force probes instead
+                of pulling, would they still read the same?"  If
+                one of the Force probes were attached to a wall and you
+                were pulling on the other one, would they read the same
+                force?   If a
+                light cart hit a heavy cart at rest, what would you say
+                now about the force on each one and their speeds after
+                the collision?Newton's Second Law asserts that a
+              force is needed to change the velocity of an object. The
+              greater the force, the more quickly the velocity changes. Describe an experiment to test this
+                theory. </SUPERNOTES>
 </FOLDER>
 <FOLDER name="Responses" ID="Motions_and_Forces-response">
 <FOLDER view="paging" name="Air Cart Responses" ID="Air_Cart-response">
@@ -1458,7 +1491,7 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH linkcolor="000F0F">What happens when two objects at different temperatures are left in contact with each other?</SNPARAGRAPH>
 <EMBOBJ>
-<IMAGE ID="Image_80" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/bathtub/PALM_TINY_bathtub.bmp"/>
+<IMAGE ID="Image_71" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/bathtub/PALM_TINY_bathtub.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>In this activity you will investigate how to alter heat flow.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1470,8 +1503,6 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH linkcolor="000F0F">What happens when two objects at different temperatures are left in contact with each other?</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>Sometimes we prefer uniform temperatures (a non-drafty room) and sometimes we prefer contrast (hot syrup on ice cream). Can you think of other times when you want uniform or non-uniform temperatures? Which condition (uniform or non-uniform) is easier to keep for the longest period of time? Describe these situations in Notes on your handheld computer and explain how the energy flow changes over time.</SNPARAGRAPH>
-<SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Materials" ID="Heat_Flow-materials">
 <SNPARAGRAPH linkcolor="0000FF">Heat Flow Materials
@@ -1482,7 +1513,7 @@
 <SNPARAGRAPH>
         - handheld computer</SNPARAGRAPH>
 <SNPARAGRAPH>
-        - CC Lab Book software</SNPARAGRAPH>
+        - CC LabBook software</SNPARAGRAPH>
 <SNPARAGRAPH>
         - Styrofoam cup</SNPARAGRAPH>
 <SNPARAGRAPH>
@@ -1505,13 +1536,13 @@
 <SUPERNOTES ID="Heat_Flow_trial_I" name="Trial I">
 <SNPARAGRAPH linkcolor="0000FF">Mixing the bath water just right</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>1. When you mix water at two temperatures (one is too hot and the other too cold) to make a bath that's just right for bathing, how much of each is needed? Set up the Temperature probe with your handheld. Refer to Technical Hints to see how to set up the Temperature probe. The sensitive part is just the very tip, where two wires are welded together.</SNPARAGRAPH>
+<SNPARAGRAPH>1. When you mix water at two temperatures (one is too hot and the other too cold) to make a bath that's just right for bathing, how much of each is needed? Connect the Temperature probe with your handheld. Refer to Technical Hints to see how to connect the Temperature probe. The sensitive part is just the very tip, where two wires are welded together.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_81" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/01_hf/PALM_TINY_01_hf.bmp"/>
+<IMAGE ID="Image_72" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/01_hf/PALM_TINY_01_hf.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>2. What will happen when you touch the end of the probe? What happens when you put the probe in water? Record your thoughts in Notes on your handheld computer.</SNPARAGRAPH>
+<SNPARAGRAPH>2. What will happen when you touch the end of the probe and then let go? What happens when you put the probe in water? Record your thoughts in Notes on your handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>3. For heat to flow from one thing to another, they need have different temperatures. In this trial you need to have two samples of water at different temperatures. You can do this by selecting two of the following:</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1519,27 +1550,30 @@
 <SNPARAGRAPH indent="2">b. cold tap water</SNPARAGRAPH>
 <SNPARAGRAPH indent="2">c. room temperature water</SNPARAGRAPH>
 <SNPARAGRAPH indent="2">d. warm tap water</SNPARAGRAPH>
+<SNPARAGRAPH/>Start the software and observe the
+              temperature versus time graph as you test your two choices
+              of water. Stop the software. Be sure the two samples are
+              at least 10 degrees Celsius different from each other.
+              What
+                are the two temperatures?  Before mixing the two samples of
+                water together, predict the final temperature. <SNPARAGRAPH>6. Make the temperature measurements one after another with the graph running. You will then have all of your data on one graph, and you can analyze it.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>4. Start the software and observe the temperature versus time graph as you test your two choices of water. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
+<SNPARAGRAPH>7. Restart the graph and retest the temperature of each sample of water.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="dc-temperature1" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>5. Clear the graph and start again. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>6. Make the following measurements one after another with the graph running. You will then have all of your data on one graph, and you can analyze it. Before mixing the two samples of water together, predict the final temperature in Notes on your handheld computer.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>7. Restart the graph and test the temperature of each sample of water. Be sure the two samples are at least 10 degrees Celsius different from each other.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>8. Fill the film canister with one of the samples of water and pour it into the styrofoam cup. Quickly place the Temperature probe in the stryofoam cup. Fill the canister with the second sample and slowly add it to the Styrofoam cup. Watch the graph.</SNPARAGRAPH>
+<SNPARAGRAPH>8. Fill the film canister with one of the samples of water and pour it into the styrofoam cup. Quickly place the Temperature probe in the stryofoam cup. Fill the canister with the second sample and slowly add it to the Styrofoam cup. Observe the graph.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>9. Stop when you think the temperature has come to a relatively stable temperature (equilibrium). Save your data to the handheld.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_82" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/02_hf/PALM_TINY_02_hf.bmp"/>
-</EMBOBJ>
-<SNPARAGRAPH>10. How many seconds did it take? How good was your prediction? Would this be a good temperature for your bath water? If not, what could you do to change the final temperature of the mixture? Record your reasoning in Notes on your handheld computer.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
+<IMAGE ID="Image_73" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/02_hf/PALM_TINY_02_hf.bmp"/>
+</EMBOBJ>How
+                many seconds did it take? How
+                good was your prediction? Would
+                this be a good temperature for your bath water?If
+                not, how could you change the final temperature of the
+                mixture? Record your reasoning in Notes on your
+              handheld computer.     <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Heat_Flow_trial_II" name="Trial II">
 <SNPARAGRAPH linkcolor="0000FF">Reaching equilibrium in temperature</SNPARAGRAPH>
@@ -1548,72 +1582,72 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_83" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/03_hf/PALM_TINY_03_hf.bmp"/>
+<IMAGE ID="Image_74" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/03_hf/PALM_TINY_03_hf.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>2. Set up the Temperature probe with your handheld. Refer to Technical Hints to see how set up the Temperature probe. The sensitive part is just the very tip, where two wires are welded together.</SNPARAGRAPH>
+<SNPARAGRAPH>2. Connect the Temperature probe with your handheld. Refer to Technical Hints to see how to connect the Temperature probe. The sensitive part is just the very tip, where two wires are welded together.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>3. Start the temperature graph and run through this series of measurements so that you get all of your data on one graph. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
+<SNPARAGRAPH>3. Start the temperature graph and run through this series of measurements so that you get all of your data on one graph.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<EMBOBJ object="dc-temperature2" link="true" linkcolor="FF0000"/>
+<EMBOBJ object="dc-temperature1" link="true" linkcolor="FF0000"/>
 <SNPARAGRAPH>4. Measure the air temperature.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>5. Use water from a non-room temperature source. It should be at least 10 degrees Celsius different from room temperature. Place two film canisters of the water into the styrofoam cup so that the clay will be fully immersed. Measure the water temperature with the Temperature probe.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_84" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/04_hf2/PALM_TINY_04_hf2.bmp"/>
+<IMAGE ID="Image_75" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/04_hf2/PALM_TINY_04_hf2.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>6. Stick the probe into the center of the clay ball while the probe is still running.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>7. Is it about room temperature? If not, why not? Record your thoughts in Notes on your handheld computer.</SNPARAGRAPH>
+<SNPARAGRAPH>7. With the probe in the clay ball, immerse it in the water. Watch the graph. Run it until you think it has come to relatively stable temperature (equilibrium).</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_85" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/05a_hf/PALM_TINY_05a_hf.bmp"/>
+<IMAGE ID="Image_76" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/05a_hf/PALM_TINY_05a_hf.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>8. With the probe in the clay ball, immerse it in the water. Watch the graph. Run it until you think it has come to relatively stable temperature (equilibrium).</SNPARAGRAPH>
+<SNPARAGRAPH>8. Pull the Temperature probe out of the clay ball and measure the temperature of the water. Save your data to the handheld.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_86" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/05b_hf/PALM_TINY_05b_hf.bmp"/>
-</EMBOBJ>
-<SNPARAGRAPH>9. While you're waiting, predict in Notes on your handheld computer what you think the final temperature will be. How can you tell when equilibrium has been reached? How many seconds did it take?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>10. Save your data to thehandheld.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>11. What is the final temperature of the combination of water and clay? How many degrees did the clay change? How many degrees did the water change? Record your answers in Notes on your handheld computer.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
+<IMAGE ID="Image_77" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/05b_hf/PALM_TINY_05b_hf.bmp"/>
+</EMBOBJ>What
+                is the final temperature of the combination of water and
+                clay? How
+                many degrees did the clay change? How
+                many degrees did the water change?How
+                did you decide when equilibrium was reached? How
+                many seconds did it take? Record your answers in Notes on your
+              handheld computer. <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES ID="Heat_Flow_trial_III" name="Trial III">
 <SNPARAGRAPH linkcolor="0000FF">Using insulation to prevent heat flow</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>1. Set up the Temperature probe with your handheld. Refer to Technical Hints to see how set up the Temperature probe. The sensitive part is just the very tip, where two wires are welded together.</SNPARAGRAPH>
+<SNPARAGRAPH>1. Connect the Temperature probe with your handheld. Refer to Technical Hints to see how to connect the Temperature probe. The sensitive part is just the very tip, where two wires are welded together.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>2. Start the temperature graph and run through this series of measurements so that you obtain all of your data on one graph. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
+<SNPARAGRAPH>2. Make a small ball of clay, about the size of a large (shooter) marble.</SNPARAGRAPH>
+<SNPARAGRAPH/>Design an insulation to keep the clay at
+              this temperature. You can use any available materials. Record why you think your design is
+                good in Notes on your handheld computer. <SNPARAGRAPH>4. Start the temperature graph and run through the complete series of measurements so that you obtain all of your data on one graph.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ object="dc-temperature2" link="true" linkcolor="FF0000"/>
-<SNPARAGRAPH>3. Measure the air temperature.</SNPARAGRAPH>
+<SNPARAGRAPH>5. Measure the air temperature. Place the Temperature probe into the center of the clay ball.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>4. Make a small ball of clay, about the size of a large shooter marble. Stick the Temperature probe into the center of the clay ball.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>5. Place the clay ball and Temperature probe in the Stryfoam cup that contains water. Any amount of water will do that's NOT at room temperature. Let it come to a relatively stable temperature (equilibrium). It can be either colder or warmer than room temperature.</SNPARAGRAPH>
+<SNPARAGRAPH>6. Place the clay ball and Temperature probe in the Stryfoam cup that contains water. Any amount of water will do that's NOT at room temperature. Let it come to a relatively stable temperature (equilibrium). It can be either colder or warmer than room temperature.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_87" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/05c_hf/PALM_TINY_05c_hf.bmp"/>
+<IMAGE ID="Image_78" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/05c_hf/PALM_TINY_05c_hf.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>6. Design an insulation to keep the clay at this temperature. You can use any available materials. Record why you think your design is good in Notes on your handheld computer.</SNPARAGRAPH>
-<SNPARAGRAPH/>
 <SNPARAGRAPH>7. Leaving the temperature probe in the clay, pull the clay out of the water and quickly dry it off. Quickly wrap the clay and temperature probe in your insulation system.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_88" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/06_hf/PALM_TINY_06_hf.bmp"/>
-</EMBOBJ>
-<SNPARAGRAPH>8. Monitor the temperature of the clay. How long does it take to reach equilibrium? Is that better or worse than you thought it would be? Record your observations in Notes on your handheld computer.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH/>
+<IMAGE ID="Image_79" name="PALM_TINY_.bmp" url="../images/Energy/Heat_Flow/06_hf/PALM_TINY_06_hf.bmp"/>
+</EMBOBJ>Monitor the temperature of the clay until
+              it's near to equilibrium. Save your data to the handheld.How
+                long does it take to reach equilibrium?Is
+                the time greater or less than you thought it would be? Record your observations in Notes on your
+              handheld computer. <SNPARAGRAPH/>
 </SUPERNOTES>
 <SUPERNOTES name="Technical Hints" ID="Heat_Flow-hints">
 <SNPARAGRAPH linkcolor="0000FF">Heat Flow Technical Hints
@@ -1627,18 +1661,23 @@
 <SUPERNOTES name="Analysis" ID="Heat_Flow-analysis">
 <SNPARAGRAPH linkcolor="0000FF">Heat Flow Analysis
     </SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>1. While mixing water at two temperatures, did the result match your prediction? If they differed, why? Derive a formula for the final temperature of the mixed water when you use equal amounts of different temperatures of water.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>2. Which exchanged heat faster, the water mixed together or the clay in the water? Why?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>3. Describe the shape of the graph of the clay temperature as it approaches the temperature of the water. Why do you think it has that shape?</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>4. Do you think the shape of the clay makes a difference? Give examples of shapes besides a ball and how they would behave differently.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-<SNPARAGRAPH>5. How did your method of insulation compare to other methods used in your group? Explain why the differences occurred.</SNPARAGRAPH>
-<SNPARAGRAPH/>
-</SUPERNOTES>
+<SNPARAGRAPH/>While
+                mixing water at two temperatures, did the result match
+                your prediction?If
+                they differed, why? Derive a formula for the final
+                temperature when you mix equal amounts of different
+                temperatures of water. Which
+                exchanged heat faster, the water mixed together or the
+                clay in the water? Why?Draw
+                the resulting graph of the clay temperature as it
+                approaches the temperature of the water. Why
+                do you think it has that shape? Do
+                you think the shape of the clay makes a difference in
+                the results? Give
+                examples of other shapes besides a ball that you could
+                use and how they would behave differently. How
+                did your method of insulation compare to methods used by
+                others? Explain why the differences occurred.</SUPERNOTES>
 </FOLDER>
 <FOLDER view="paging" name="Potential and Kinetic Energy " ID="Potential_Kinetic_Energy">
 <SUPERNOTES name="Introduction" ID="Potential_Kinetic_Energy-intro">
@@ -1651,7 +1690,7 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH linkcolor="000F0F">When you roll a cart up and down a ramp, it changes velocity. If the total amount of energy is always the same, how does it change form?</SNPARAGRAPH>
 <EMBOBJ>
-<IMAGE ID="Image_90" name="PALM_TINY_.bmp" url="../images/Energy/Potential_Kinetic_Energy/cartOnRamp/PALM_TINY_cartOnRamp.bmp"/>
+<IMAGE ID="Image_80" name="PALM_TINY_.bmp" url="../images/Energy/Potential_Kinetic_Energy/cartOnRamp/PALM_TINY_cartOnRamp.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>In this activity you will relate the movement and energy of a cart as it rolls up and down a ramp.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1702,7 +1741,7 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_91" name="PALM_TINY_.bmp" url="../images/Energy/Potential_Kinetic_Energy/01_pk/PALM_TINY_01_pk.bmp"/>
+<IMAGE ID="Image_81" name="PALM_TINY_.bmp" url="../images/Energy/Potential_Kinetic_Energy/01_pk/PALM_TINY_01_pk.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>2. Connect the SmartWheel to your handheld computer. Refer to Technical Hints to see how to connect the SmartWheel.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1712,7 +1751,7 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_92" name="PALM_TINY_.bmp" url="../images/Energy/Potential_Kinetic_Energy/02_pk/PALM_TINY_02_pk.bmp"/>
+<IMAGE ID="Image_82" name="PALM_TINY_.bmp" url="../images/Energy/Potential_Kinetic_Energy/02_pk/PALM_TINY_02_pk.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>5. Stop the software immediately after a good roll and save your data to the handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1729,7 +1768,7 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_93" name="PALM_TINY_.bmp" url="../images/Energy/Potential_Kinetic_Energy/03_pk/PALM_TINY_03_pk.bmp"/>
+<IMAGE ID="Image_83" name="PALM_TINY_.bmp" url="../images/Energy/Potential_Kinetic_Energy/03_pk/PALM_TINY_03_pk.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>3. Start the software to read a velocity versus time graph. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1737,7 +1776,7 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH>5. Stop the software immediately after a good roll and save your data to the handheld.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>6. What is the greatest velocity of the cart? Where does this occur? When the cart is rolling, it has what'scalled kinetic energy, or energy of motion. Yet when the cart started, it had no kinetic energy because it was not moving. So where did the energy come from? Explain your reasoning in Notes on your handheld computer.</SNPARAGRAPH>
+<SNPARAGRAPH>6. What is the greatest velocity of the cart? Where does this occur? When the cart is rolling, it has what's called kinetic energy, or energy of motion. Yet when the cart started, it had no kinetic energy because it was not moving. So where did the energy come from? Explain your reasoning in Notes on your handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 </SUPERNOTES>
@@ -1750,7 +1789,7 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_94" name="PALM_TINY_.bmp" url="../images/Energy/Potential_Kinetic_Energy/04_pk/PALM_TINY_04_pk.bmp"/>
+<IMAGE ID="Image_84" name="PALM_TINY_.bmp" url="../images/Energy/Potential_Kinetic_Energy/04_pk/PALM_TINY_04_pk.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>3. Start the software to read a velocity versus time graph. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1802,7 +1841,7 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH linkcolor="000F0F">Can electricity be used to heat things?</SNPARAGRAPH>
 <EMBOBJ>
-<IMAGE ID="Image_101" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/lightningBolt/PALM_TINY_lightningBolt.bmp"/>
+<IMAGE ID="Image_85" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/lightningBolt/PALM_TINY_lightningBolt.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>In this activity you will investigate heating with electrical devices.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1862,13 +1901,13 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_103" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/02_he/PALM_TINY_02_he.bmp"/>
+<IMAGE ID="Image_87" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/02_he/PALM_TINY_02_he.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>3. Remove the heat cell from its insulation. Attach the two leads of the Genecon to wires extending from the heat cell. Also connect the voltage leads and the current leads of Voltage/Current probe to the heat cell. Don 't put the heat cell in the insulation yet.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_104" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/03_he/PALM_TINY_03_he.bmp"/>
+<IMAGE ID="Image_88" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/03_he/PALM_TINY_03_he.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>4. Start the software to record power. This measures the electrical power, in watts, that you are supplying to the heat cell with the Genecon. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1882,19 +1921,19 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_105" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/04a_he/PALM_TINY_04a_he.bmp"/>
+<IMAGE ID="Image_89" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/04a_he/PALM_TINY_04a_he.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>9. Set the heat cell in the insulation and close up the box with a rubber band.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_106" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/04b_he/PALM_TINY_04b_he.bmp"/>
+<IMAGE ID="Image_90" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/04b_he/PALM_TINY_04b_he.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>10. Attach the two Genecon leads to the wires extending from the heat cell.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_107" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/04c_he/PALM_TINY_04c_he.bmp"/>
+<IMAGE ID="Image_91" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/04c_he/PALM_TINY_04c_he.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>11. Start the software for the Temperature probe. Refer to Technical Hints to see how to use the software. Start recording temperature.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1923,19 +1962,19 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_108" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/02_he/PALM_TINY_02_he.bmp"/>
+<IMAGE ID="Image_92" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/02_he/PALM_TINY_02_he.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>3. Insert the tip of the Temperature probe into the small hole in one end of the heat cell. Put on the insulation cover and close the box with a rubber band.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_109" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/04a_he/PALM_TINY_04a_he.bmp"/>
+<IMAGE ID="Image_93" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/04a_he/PALM_TINY_04a_he.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>4. Use a 2-AA battery pack, which will supply somewhat less than 3 volts, to warm the heat cell. You can use the battery pack on the air cart for this. Attach one of the battery leads, but not the other, to the heat cell.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_110" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/05b_he2/PALM_TINY_05b_he2.bmp"/>
+<IMAGE ID="Image_94" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/05b_he2/PALM_TINY_05b_he2.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>5. Start the software for the Temperature probe. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1943,7 +1982,7 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_111" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/05c_he/PALM_TINY_05c_he.bmp"/>
+<IMAGE ID="Image_95" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/05c_he/PALM_TINY_05c_he.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>7. Heat the cell for 60 seconds, then disconnect one battery lead. Let the graph run another 60 seconds so that you can watch the cooling of the heat cell.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1964,18 +2003,18 @@
 <SUPERNOTES ID="Heating_With_Electricity_trial_III" name="Trial III">
 <SNPARAGRAPH linkcolor="0000FF">Heating with a light bulb</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>1. Let's find out how a mini light bulb compares to a heat cell as an electrical heatingdevice. Connect the Temperature probe to your handheld computer. Refer to Technical Hints to connect the Temperature probe.</SNPARAGRAPH>
+<SNPARAGRAPH>1. Let's find out how a mini light bulb compares to a heat cell as an electrical heating device. Connect the Temperature probe to your handheld computer. Refer to Technical Hints to connect the Temperature probe.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. Divide the student research teams into two groups. Half the teams will surround the mini light with clear tape, and the other half will surround it with aluminum foil.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_112" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/06a_he/PALM_TINY_06a_he.bmp"/>
+<IMAGE ID="Image_96" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/06a_he/PALM_TINY_06a_he.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH indent="2">a. Tape teams: Hold the tip of the Temperature probe against the mini light with a short piece of clear tape that goes right around the bulb.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_113" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/06b_he/PALM_TINY_06b_he.bmp"/>
+<IMAGE ID="Image_97" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/06b_he/PALM_TINY_06b_he.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH indent="2">b. Foil teams: Wrap the mini light with a small piece of aluminum foil that goes all the way around it. Hold the foil in place with a short piece of clear tape. Slide the tip of the Temperature probe in between the bulb and the aluminum foil.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1983,7 +2022,7 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_114" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/06c_he/PALM_TINY_06c_he.bmp"/>
+<IMAGE ID="Image_98" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/06c_he/PALM_TINY_06c_he.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>4. Start the software to record temperature. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1991,7 +2030,7 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_115" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/06d_he/PALM_TINY_06d_he.bmp"/>
+<IMAGE ID="Image_99" name="PALM_TINY_.bmp" url="../images/Energy/Heating_With_Electricity/06d_he/PALM_TINY_06d_he.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>6. Monitor the temperature plot. Let it run for 30 seconds, then disconnect the second lead and let it run for another 30 seconds. Stop recording.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -2052,7 +2091,7 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH linkcolor="000F0F">Can all forms of energy be transformed from one form to another?</SNPARAGRAPH>
 <EMBOBJ>
-<IMAGE ID="Image_125" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/singleNRG/PALM_TINY_singleNRG.bmp"/>
+<IMAGE ID="Image_109" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/singleNRG/PALM_TINY_singleNRG.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>In this activity you will investigate the benefits of changing one form of energy into another form of energy.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -2116,7 +2155,7 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_126" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/01b_st/PALM_TINY_01b_st.bmp"/>
+<IMAGE ID="Image_110" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/01b_st/PALM_TINY_01b_st.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>2. Connect the Voltage/Current probe to your handheld computer. Refer to Technical Hints to connect the Voltage/Current probe.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -2128,7 +2167,7 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_127" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/01c_st/PALM_TINY_01c_st.bmp"/>
+<IMAGE ID="Image_111" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/01c_st/PALM_TINY_01c_st.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>6. Re-attach the capacitor to the Genecon without cranking it. What happens? What simple energy transformation has taken place?</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -2145,25 +2184,25 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_128" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/02a_st2/PALM_TINY_02a_st2.bmp"/>
+<IMAGE ID="Image_112" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/02a_st2/PALM_TINY_02a_st2.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>2. Connect the charged-up capacitor to power your air cart. Coil up the extra wire so that it doesn't rub against the wheels. How far can you make it go?</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_129" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/03_st/PALM_TINY_03_st.bmp"/>
+<IMAGE ID="Image_113" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/03_st/PALM_TINY_03_st.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>3. Another possible way to use the energy from the capacitor is to warm up the heat cell. Place the tip of the Temperature probe in the small hole in one end of the heat cell.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_130" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/04a_he/PALM_TINY_04a_he.bmp"/>
+<IMAGE ID="Image_114" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/04a_he/PALM_TINY_04a_he.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>4. Close the heat cell in its insulating box by wrapping it with a rubber band and connecting the two clip leads to the metal wires that are sticking out.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_131" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/04b_st/PALM_TINY_04b_st.bmp"/>
+<IMAGE ID="Image_115" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/04b_st/PALM_TINY_04b_st.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>5. Connect the Temperature probe to your handheld computer. Refer to Technical Hints to connect the Temperature probe.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -2175,7 +2214,7 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_132" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/04c_st/PALM_TINY_04c_st.bmp"/>
+<IMAGE ID="Image_116" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/04c_st/PALM_TINY_04c_st.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>9. Expand the graph until you can read the temperature change. Refer to Technical Hints to see how to use the software. Continue testing until you get a good temperature graph.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -2194,7 +2233,7 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_133" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/05a_st/PALM_TINY_05a_st.bmp"/>
+<IMAGE ID="Image_117" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/05a_st/PALM_TINY_05a_st.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>2. Connect the Temperature probe to your handheld computer. Refer to Technical Hints to connect the Temperature probe.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -2204,7 +2243,7 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_134" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/05b_st/PALM_TINY_05b_st.bmp"/>
+<IMAGE ID="Image_118" name="PALM_TINY_.bmp" url="../images/Energy/Single_Transformations/05b_st/PALM_TINY_05b_st.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>5. Monitor the temperature with the Temperature probe. Do not heat the cell above 50 degrees Celsius. The aluminum could be too hot to touch safely.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -2255,7 +2294,7 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH linkcolor="000F0F">What energy transformations are used in everyday devices?</SNPARAGRAPH>
 <EMBOBJ>
-<IMAGE ID="Image_140" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/multipleNRG/PALM_TINY_multipleNRG.bmp"/>
+<IMAGE ID="Image_124" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/multipleNRG/PALM_TINY_multipleNRG.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>In this activity you investigate energy being transformed through several steps to obtain a useful form.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -2334,7 +2373,7 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_141" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/01_mt/PALM_TINY_01_mt.bmp"/>
+<IMAGE ID="Image_125" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/01_mt/PALM_TINY_01_mt.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>4. The maximum voltage is about 2V of the solar cell. Can you get it to read this high? Record your observations in Notes on your handheld.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -2342,13 +2381,13 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_142" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/02a_mt/PALM_TINY_02a_mt.bmp"/>
+<IMAGE ID="Image_126" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/02a_mt/PALM_TINY_02a_mt.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>6. Mount them on a cart at an angle so that they face toward bright sunlight. Clip the leads to the motor.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_143" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/02_mt/PALM_TINY_02_mt.bmp"/>
+<IMAGE ID="Image_127" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/02_mt/PALM_TINY_02_mt.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>7. Is there enough power to drive the air cart? What are the energy transformations happening when the sunlight hits the solar cell connected to the motor on your cart? How efficient do you think each step is? Record your thoughts in Notes on your handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -2361,7 +2400,7 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_144" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/05_mt/PALM_TINY_05_mt.bmp"/>
+<IMAGE ID="Image_128" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/05_mt/PALM_TINY_05_mt.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>2. Does the amount of light vary according to how hard you crank? Record your observations in Notes on your handheld.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -2375,13 +2414,13 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_145" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/06a_mt/PALM_TINY_06a_mt.bmp"/>
+<IMAGE ID="Image_129" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/06a_mt/PALM_TINY_06a_mt.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>7. Cover the opening with aluminum foil to block as much outside light as you can.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_146" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/06b_mt/PALM_TINY_06b_mt.bmp"/>
+<IMAGE ID="Image_130" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/06b_mt/PALM_TINY_06b_mt.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>8. Restart the software to read light. Gradually increase the rate of cranking the Genecon. Do not crank too fast, or the light will burn out! See if you can establish a relationship between how fast you crank and how much light is produced. Can you crank so slowly that no light is produced?</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -2402,7 +2441,7 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_147" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/07_mt/PALM_TINY_07_mt.bmp"/>
+<IMAGE ID="Image_131" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/07_mt/PALM_TINY_07_mt.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>4. Start the software to read energy. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -2410,33 +2449,33 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_148" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/08a_mt/PALM_TINY_08a_mt.bmp"/>
+<IMAGE ID="Image_132" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/08a_mt/PALM_TINY_08a_mt.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>6. Now attach a pulley to one of the Genecons. Leave the wires hooked up. Remove one handle. The pulley comes with a piece of plastic tubing (bushing). Fit the tubing on the Genecon shaft and slide the pulley tightly over the shaft.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_149" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/08c_mt/PALM_TINY_08c_mt.bmp"/>
+<IMAGE ID="Image_133" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/08c_mt/PALM_TINY_08c_mt.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>7. Cut about 2m of thread or string. Tie one end through the hole in the side of the pulley.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_150" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/08d_mt/PALM_TINY_08d_mt.bmp"/>
+<IMAGE ID="Image_134" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/08d_mt/PALM_TINY_08d_mt.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>8. Wind up the string onto the pulley. Attach a hanging weight. You can use a 50g mass from your kit or a heavier one of your own. A paper clip works as a hook. It has a mass of about 0.3g.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_151" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/09a_mt/PALM_TINY_09a_mt.bmp"/>
+<IMAGE ID="Image_135" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/09a_mt/PALM_TINY_09a_mt.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>9. Hold the Genecon with its shaft horizontal and the string hanging down from the pulley. Its leads should still be hooked to the other Genecon, with the Voltage/Current leads in place.</SNPARAGRAPH>
+<SNPARAGRAPH>9. Hold the Genecon with its shaft horizontal and the string hanging down from the pulley. Its leads should still be hooked to the other Genecon, with the Voltage/Currentleads in place.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>10. Restart the software to read energy.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 <EMBOBJ>
-<IMAGE ID="Image_152" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/09b_mt/PALM_TINY_09b_mt.bmp"/>
+<IMAGE ID="Image_136" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/09b_mt/PALM_TINY_09b_mt.bmp"/>
 </EMBOBJ>
 <SNPARAGRAPH>11. Crank the other Genecon to lift the weight. Can you also lower the weight? If the weight is heavy enough, will it fall by itself? Try different things, like raising and lowering slowly and quickly. Record the order in which you did things so that you can relate them to your graph in Notes on your handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -2533,156 +2572,98 @@
 </FOLDER>
 <!--  Data Collectors include folder -->
 <FOLDER ID="dc-folder" name="TEEMSS Data Collectors" view="paging">
-<DATACOLLECTOR ID="dc-force-200" name="Force - 200 N">
-<PROBE ID="probe4" probe="Force"/>
-<GRAPH>
-<XAXIS min="0" max="30"/>
-<YAXIS min="-200" max="200"/>
-<LINE xaxis="0" yaxis="0" datasource="probe4"/>
-</GRAPH>
-</DATACOLLECTOR>
-<DATACOLLECTOR ID="dc-force-20" name="Force - 20 N">
-<PROBE ID="probe5" probe="Force"/>
-<GRAPH>
-<XAXIS min="0" max="30"/>
-<YAXIS min="-20" max="20"/>
-<LINE xaxis="0" yaxis="0" datasource="probe5"/>
-</GRAPH>
-</DATACOLLECTOR>
-<DATACOLLECTOR ID="dc-force-2" name="Force - 2 N">
-<PROBE ID="probe6" probe="Force"/>
-<GRAPH>
-<XAXIS min="0" max="30"/>
-<YAXIS min="-2" max="2"/>
-<LINE xaxis="0" yaxis="0" datasource="probe6"/>
-</GRAPH>
-</DATACOLLECTOR>
-<DATACOLLECTOR ID="dc-smartwheel-pos" name="SmartWheel - Position">
-<PROBE ID="probe7" probe="SmartWheel"/>
-<INTPROBETRANS ID="p7-position" quantity="Position" probe="probe7"/>
-<INTPROBETRANS ID="p7-velocity" quantity="Velocity" probe="probe7"/>
-<GRAPH>
-<XAXIS min="0" max="30"/>
-<YAXIS min="-3" max="3"/>
-<YAXIS min="-5" max="5"/>
-<YAXIS min="-3" max="3"/>
-<LINE xaxis="0" yaxis="0" datasource="p7-position"/>
-<LINE xaxis="0" yaxis="1" datasource="p7-velocity"/>
-<LINE xaxis="0" yaxis="2" datasource="probe7"/>
-</GRAPH>
-</DATACOLLECTOR>
-<DATACOLLECTOR ID="dc-smartwheel-vel" name="SmartWheel - Velocity">
-<PROBE ID="probe8" probe="SmartWheel"/>
-<INTPROBETRANS ID="p8-position" quantity="Position" probe="probe8"/>
-<INTPROBETRANS ID="p8-velocity" quantity="Velocity" probe="probe8"/>
-<GRAPH>
-<XAXIS min="0" max="30"/>
-<YAXIS min="-5" max="5"/>
-<YAXIS min="-3" max="3"/>
-<YAXIS min="-3" max="3"/>
-<LINE xaxis="0" yaxis="0" datasource="p8-velocity"/>
-<LINE xaxis="0" yaxis="1" datasource="p8-position"/>
-<LINE xaxis="0" yaxis="2" datasource="probe8"/>
-</GRAPH>
-</DATACOLLECTOR>
 <DATACOLLECTOR ID="dc-temperature1" name="Temperature Data Collector">
-<PROBE ID="temperature1-probe" probe="Temperature"/>
-<GRAPH>
+<PROBE ID="dc-temp1" probe="Temperature">
+<PROP name="Port" value="A"/>
+<PROP name="Mode" value="C"/>
+</PROBE>
+<GRAPH current-line="0" title="graph subtitle goes here">
 <XAXIS min="0" max="60"/>
 <YAXIS min="10" max="40"/>
-<LINE xaxis="0" yaxis="0" datasource="temperature1-probe"/>
+<LINE xaxis="0" yaxis="0" datasource="dc-temp1"/>
 </GRAPH>
 </DATACOLLECTOR>
 <DATACOLLECTOR ID="dc-temperature2" name="Temperature Data Collector">
-<PROBE ID="temperature2-probe" probe="Temperature"/>
-<GRAPH>
+<PROBE ID="dc-temp2" probe="Temperature">
+<PROP name="Port" value="A"/>
+<PROP name="Mode" value="C"/>
+</PROBE>
+<GRAPH current-line="0" title="graph subtitle goes here">
 <XAXIS min="0" max="120"/>
 <YAXIS min="10" max="40"/>
-<LINE xaxis="0" yaxis="0" datasource="temperature2-probe"/>
+<LINE xaxis="0" yaxis="0" datasource="dc-temp2"/>
 </GRAPH>
 </DATACOLLECTOR>
-<DATACOLLECTOR ID="dc-light-4000" name="Light Data Collector - 4000 Lux">
-<PROBE ID="probe2" probe="Light"/>
-<GRAPH>
+<DATACOLLECTOR ID="dc-light-4000" name="Light - 4000 Lux">
+<PROBE ID="dc-light" probe="Light">
+<PROP name="Port" value="A"/>
+<PROP name="Range" value="Dim Light"/>
+<PROP name="Speed" value="200 per second"/>
+</PROBE>
+<GRAPH current-line="0" title="graph subtitle goes here">
 <XAXIS min="0" max="60"/>
 <YAXIS min="0" max="4000"/>
-<LINE xaxis="0" yaxis="0" datasource="probe2"/>
+<LINE xaxis="0" yaxis="0" datasource="dc-light"/>
 </GRAPH>
 </DATACOLLECTOR>
-<DATACOLLECTOR ID="dc-light-125000" name="Light Data Collector - 125000 Lux">
-<PROBE ID="probe3" probe="Light"/>
-<GRAPH>
+<DATACOLLECTOR ID="dc-light-125000" name="Light - 125000 Lux">
+<PROBE ID="dc-light3" probe="Light">
+<PROP name="Port" value="A"/>
+<PROP name="Range" value="Bright Light"/>
+<PROP name="Speed" value="3 per second"/>
+</PROBE>
+<GRAPH current-line="0" title="graph subtitle goes here">
 <XAXIS min="0" max="60"/>
 <YAXIS min="0" max="125000"/>
-<LINE xaxis="0" yaxis="0" datasource="probe3"/>
+<LINE xaxis="0" yaxis="0" datasource="dc-light3"/>
 </GRAPH>
 </DATACOLLECTOR>
-<DATACOLLECTOR ID="voltage-current-v" name="Voltage Data Collector">
-<PROBE ID="probe9" probe="VoltageCurrent"/>
-<INTPROBETRANS ID="p9-energy" quantity="Energy" probe="probe9"/>
-<INTPROBETRANS ID="p9-power" quantity="Power" probe="probe9"/>
-<INTPROBETRANS ID="p9-voltage" quantity="Voltage" probe="probe9"/>
-<GRAPH>
-<XAXIS min="0" max="60"/>
-<YAXIS min="-10" max="10"/>
-<YAXIS min="-0.2" max="0.2"/>
-<YAXIS min="0" max="2"/>
-<YAXIS min="0" max="20"/>
-<LINE xaxis="0" yaxis="0" datasource="p9-voltage"/>
-<LINE xaxis="0" yaxis="1" datasource="probe9"/>
-<LINE xaxis="0" yaxis="2" datasource="p9-power"/>
-<LINE xaxis="0" yaxis="3" datasource="p9-energy"/>
+<DATACOLLECTOR ID="dc-force-20" name="Force - 20 N">
+<PROBE ID="dc-probe5" probe="Force">
+<PROP name="Mode" value="End of Arm"/>
+<PROP name="Range" value="+/- 20N"/>
+<PROP name="Speed" value="3 per second"/>
+</PROBE>
+<GRAPH current-line="0" title="graph subtitle goes here">
+<XAXIS min="0" max="20"/>
+<YAXIS min="-0.1" max="0.6"/>
+<LINE xaxis="0" yaxis="0" datasource="dc-probe5"/>
 </GRAPH>
 </DATACOLLECTOR>
-<DATACOLLECTOR ID="voltage-current-a" name="Current Data Collector">
-<PROBE ID="probe10" probe="VoltageCurrent"/>
-<INTPROBETRANS ID="p10-energy" quantity="Energy" probe="probe10"/>
-<INTPROBETRANS ID="p10-power" quantity="Power" probe="probe10"/>
-<INTPROBETRANS ID="p10-voltage" quantity="Voltage" probe="probe10"/>
-<GRAPH>
-<XAXIS min="0" max="60"/>
-<YAXIS min="-0.2" max="0.2"/>
-<YAXIS min="0" max="2"/>
-<YAXIS min="0" max="20"/>
-<YAXIS min="-10" max="10"/>
-<LINE xaxis="0" yaxis="3" datasource="probe10"/>
-<LINE xaxis="0" yaxis="0" datasource="p10-power"/>
-<LINE xaxis="0" yaxis="1" datasource="p10-energy"/>
-<LINE xaxis="0" yaxis="2" datasource="p10-voltage"/>
+<DATACOLLECTOR ID="dc-smartwheel-pos1" name="SmartWheel Data Collector - Pos">
+<PROBE ID="dc-sw-pos1" probe="SmartWheel">
+<PROP name="Port" value="A"/>
+</PROBE>
+<GRAPH current-line="0" title="graph subtitle goes here">
+<XAXIS min="0" max="40"/>
+<YAXIS min="-0.5" max="6"/>
+<LINE xaxis="0" yaxis="0">
+<INTPROBETRANS quantity="Position" probe="dc-sw-pos1"/>
+</LINE>
 </GRAPH>
 </DATACOLLECTOR>
-<DATACOLLECTOR ID="voltage-current-w" name="Watts Data Collector">
-<PROBE ID="probe11" probe="VoltageCurrent"/>
-<INTPROBETRANS ID="p11-energy" quantity="Energy" probe="probe11"/>
-<INTPROBETRANS ID="p11-power" quantity="Power" probe="probe11"/>
-<INTPROBETRANS ID="p11-voltage" quantity="Voltage" probe="probe11"/>
-<GRAPH>
-<XAXIS min="0" max="60"/>
-<YAXIS min="0" max="2"/>
-<YAXIS min="0" max="20"/>
-<YAXIS min="-10" max="10"/>
-<YAXIS min="-0.2" max="0.2"/>
-<LINE xaxis="0" yaxis="0" datasource="p11-power"/>
-<LINE xaxis="0" yaxis="1" datasource="p11-energy"/>
-<LINE xaxis="0" yaxis="2" datasource="p11-voltage"/>
-<LINE xaxis="0" yaxis="3" datasource="probe11"/>
+<DATACOLLECTOR ID="dc-smartwheel-pos2" name="SmartWheel Data Collector - Pos">
+<PROBE ID="dc-sw-pos2" probe="SmartWheel">
+<PROP name="Port" value="A"/>
+</PROBE>
+<GRAPH current-line="0" title="graph subtitle goes here">
+<XAXIS min="0" max="10"/>
+<YAXIS min="-0.5" max="6"/>
+<LINE xaxis="0" yaxis="0">
+<INTPROBETRANS quantity="Position" probe="dc-sw-pos2"/>
+</LINE>
 </GRAPH>
 </DATACOLLECTOR>
-<DATACOLLECTOR ID="voltage-current-j" name="Joules Data Collector">
-<PROBE ID="probe12" probe="VoltageCurrent"/>
-<INTPROBETRANS ID="p12-energy" quantity="Energy" probe="probe12"/>
-<INTPROBETRANS ID="p12-power" quantity="Power" probe="probe12"/>
-<INTPROBETRANS ID="p12-voltage" quantity="Voltage" probe="probe12"/>
-<GRAPH>
-<XAXIS min="0" max="60"/>
-<YAXIS min="-0.2" max="0.2"/>
-<YAXIS min="0" max="20"/>
-<YAXIS min="0" max="2"/>
-<YAXIS min="-10" max="10"/>
-<LINE xaxis="0" yaxis="0" datasource="probe12"/>
-<LINE xaxis="0" yaxis="1" datasource="p12-energy"/>
-<LINE xaxis="0" yaxis="2" datasource="p12-power"/>
-<LINE xaxis="0" yaxis="3" datasource="p12-voltage"/>
+<DATACOLLECTOR ID="dc-smartwheel-vel1" name="SmartWheel Data Collector - Vel">
+<PROBE ID="dc-sw-vel1" probe="SmartWheel">
+<PROP name="Port" value="A"/>
+</PROBE>
+<GRAPH current-line="0" title="graph subtitle goes here">
+<XAXIS min="0" max="20"/>
+<YAXIS min="-1" max="1"/>
+<LINE xaxis="0" yaxis="0">
+<INTPROBETRANS quantity="Velocity" probe="dc-sw-vel1"/>
+</LINE>
 </GRAPH>
 </DATACOLLECTOR>
 </FOLDER>
