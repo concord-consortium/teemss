@@ -1485,11 +1485,16 @@
         <item>tape</item>
 
         <item>clay</item>
+
+        <item>safety goggles</item>
       </materials>
 
       <safety>
         <item>The fan that is mounted on the air cart can hurt fingers when it
         is powered by the battery, so watch out for your fingers!</item>
+
+        <item>Wear safety goggles when using the propeller with the air cart.
+        </item>
       </safety>
 
       <trial title="Adding a propeller to a cart"><steps><step>Use scissors to
@@ -1893,6 +1898,8 @@
         <item>constructed air cart (see Investigation: Air Cart)</item>
 
         <item>books or (optional) a ring stand</item>
+
+        <item>Safety goggles</item>
       </materials>
 
       <safety>
@@ -1901,6 +1908,9 @@
 
         <item>The fan that is mounted on the air cart can hurt fingers when it
         is powered by the battery, so watch out for your fingers!</item>
+
+        <item>Wear safety goggles when using the propeller with the air cart.
+        </item>
       </safety>
 
       <trial title="Weighing the cart with the Force probe"><steps><step>The
