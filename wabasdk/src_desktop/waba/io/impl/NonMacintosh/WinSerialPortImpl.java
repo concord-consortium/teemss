@@ -43,7 +43,8 @@ public class WinSerialPortImpl implements ISerialPort
 	    }
 	    catch(Exception e)
 	    {
-	      System.out.println("Open Error: "+e);
+	      System.out.println("Serial Port Open Error: "+e);
+		  e.printStackTrace();
 	    }
 	
 	}
@@ -102,7 +103,8 @@ public class WinSerialPortImpl implements ISerialPort
     }
     catch(Exception e)
     {
-      System.out.println("Read error! "+e);
+      System.out.println("Serial Port Read error! "+e);
+	  e.printStackTrace();
       return -1;
     }
   }
@@ -118,7 +120,8 @@ public class WinSerialPortImpl implements ISerialPort
     }
     catch(Exception e)
     {
-      System.out.println("Write error! "+e);
+      System.out.println("Serial Port Write error! "+e);
+	  e.printStackTrace();
       return -1;
     }
   }
