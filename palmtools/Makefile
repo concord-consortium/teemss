@@ -4,7 +4,7 @@ bin:
 	mkdir bin
 
 bin/pila: pila/pila bin
-	cp pila/pila bin
+	[ -f pila/pila ] && cp pila/pila bin
 
 bin/pilrc: pilrc-2.8p6/pilrc bin
 	cp pilrc-2.8p6/pilrc bin
