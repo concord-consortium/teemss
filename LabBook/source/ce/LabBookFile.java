@@ -14,8 +14,7 @@ class FileObject
 
 public class LabBookFile implements LabBookDB
 {
-    File file;
-    DataStream ds;
+	String fileName = null;
 
     int objIndexStart = 16;
     int [] objIndex;
@@ -26,6 +25,7 @@ public class LabBookFile implements LabBookDB
     int nextObjId;
     int rootDevId;
     int rootObjId;
+	
 
 
     static public void writeString(DataStream ds, String s)
@@ -37,7 +37,8 @@ public class LabBookFile implements LabBookDB
     {
 		boolean newDB = false;
 
-		file = new File(name, File.DONT_OPEN);
+		fileName = name;
+		File file = new File(name, File.DONT_OPEN);
 		if(file.exists()){
 			file.close();
 			file = new File(name, File.READ_WRITE);
@@ -49,7 +50,7 @@ public class LabBookFile implements LabBookDB
 			newDB = true;
 		}
 
-		ds = new DataStream(file);
+		DataStream ds = new DataStream(file);
 
 		if(newDB){
 			curDevId = 0;
@@ -64,7 +65,7 @@ public class LabBookFile implements LabBookDB
 			rootObjId = ds.readInt();
 		}
 
-		if(!readIndex()){
+		if(!readIndex(file, ds)){
 			// Failed
 			Debug.println("Error Reading index");
 		}
@@ -85,6 +86,7 @@ public class LabBookFile implements LabBookDB
 			file.readBytes(fObj.buffer, 0, objSize);
 			objects.add(fObj);
 		}
+		file.close();
     }
 
     public int getDevId()
@@ -112,14 +114,15 @@ public class LabBookFile implements LabBookDB
 	
 		Debug.println("About to write " + numObj);
 
+		File file = new File(fileName, File.READ_WRITE);
+		DataStream ds = new DataStream(file);
+
 		file.seek(0);
 		ds.writeInt(curDevId);
 		ds.writeInt(nextObjId);
 		ds.writeInt(rootDevId);
 		ds.writeInt(rootObjId);
 	
-	
-
 		file.seek(objIndexStart);
 		ds.writeInt(numObj);
 		ds.writeInt(numObj);
@@ -138,17 +141,18 @@ public class LabBookFile implements LabBookDB
 			file.writeBytes(fObj.buffer, 0, fObj.buffer.length);
 			curObjFilePos += 4 + fObj.buffer.length;
 		}
+
 		file.seek(curIndexPos);
 		ds.writeInt(-1);
+
+		file.close();
 
 		return true;
     }
     
     public void close()
     {
-		if(file != null){
-			file.close();
-		}
+
     }
 
     /*
@@ -171,7 +175,7 @@ public class LabBookFile implements LabBookDB
      * ...
      * [ <-1> ]
      */
-    public boolean readIndex()
+    public boolean readIndex(File file, DataStream ds)
     {
 		file.seek(objIndexStart);
 		int length = ds.readInt();

@@ -250,6 +250,8 @@ public class LabBook
 		loaded = new Vector();
 		alreadyStored = null;
 
+		db.save();
+
 		return true;
     }
 
