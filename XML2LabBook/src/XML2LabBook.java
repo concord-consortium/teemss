@@ -216,7 +216,7 @@ public static QTManager qtManager = null;
 
 	public static LabObject getLabBookObjectFromId(String idref){
 		if(!validAttr(idref)){ 
-			System.out.println(" empty object reference");
+			System.out.println("*******empty object reference*************");
 			return null;
 		}
 
@@ -226,7 +226,7 @@ public static QTManager qtManager = null;
 		} else {
 			Element linkElement =  (Element)currentDocument.getElementById(idref);
 			if(linkElement == null){
-				System.out.println("Can't find object ref: " + idref);
+				System.out.println("*********Can't find object ref: " + idref + "*************);
 				return null;
 			}
 			labObject = createRegularObject(linkElement);
