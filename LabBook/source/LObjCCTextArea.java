@@ -26,6 +26,9 @@ LObjDictionary			curDict = null;
     	}
 		return view;
     }
+    public LabObjectView getPropertyView(ViewContainer vc, LObjDictionary curDict){
+ 		return new LObjCCTextAreaPropView(vc, this);
+    }
 
     public void writeExternal(DataStream out){
 		super.writeExternal(out);

@@ -10,16 +10,8 @@ import extra.io.*;
 
 
 class CCTextAreaChooser extends LabBookChooser{
-Choice	alignmentChoice;
-Check	wrapCheck,linkCheck;
-Edit	widthEdit,heightEdit;
-Label	alignmentLabel,wrapLabel,widthLabel,heightLabel;
+EmbedObjectPropertyControl		objProperty;
 
-static boolean lastAlighnLeft 	= true;
-static boolean lastWrap 		= true;
-static boolean lastLink 		= false;
-static int		lastW			= 10;
-static int		lastH			= 10;
 
 	public CCTextAreaChooser(LObjDictionary dict,ViewContainer viewContainer,DialogListener l){
 		super(dict,viewContainer,l);
@@ -38,88 +30,14 @@ static int		lastH			= 10;
 				view.layout(false);
 				getContentPane().add(view);
 			}
-			view.setRect(0,0,r.width,r.height - 30);
+			view.setRect(0,0,r.width,r.height - 35);
 		}
-		
-		
-		int xStart = 2;
-		int cLength = (fm == null)?40:(2 + fm.getTextWidth("Align"));
-		if(alignmentLabel == null){
-			alignmentLabel = new Label("Align");
-			getContentPane().add(alignmentLabel);
+		if(objProperty == null){
+			objProperty = new EmbedObjectPropertyControl(null);
+			objProperty.layout(false);
+			getContentPane().add(objProperty);
+			objProperty.setRect(0,r.height - 80, r.width, 37);
 		}
-		
-		alignmentLabel.setRect(xStart,r.height - 50, cLength, 15);
-		if(alignmentChoice == null){
-			String choices[] = {"Left","Right"};
-			alignmentChoice = new Choice(choices);
-			getContentPane().add(alignmentChoice);
-			if(lastAlighnLeft){
-				alignmentChoice.setSelectedIndex("Left");
-			}else{
-				alignmentChoice.setSelectedIndex("Right");
-			}
-		}
-		
-		xStart += (cLength);
-		cLength = 40;
-		alignmentChoice.setRect(xStart,r.height - 50, cLength, 15);
-		
-		
-		if(wrapCheck == null){
-			wrapCheck = new Check("Wrap");
-			getContentPane().add(wrapCheck);
-			wrapCheck.setChecked(lastWrap);
-		}
-		xStart += (5+cLength);
-		cLength = 40;
-		wrapCheck.setRect(xStart,r.height - 50, cLength, 15);
-
-
-		if(linkCheck == null){
-			linkCheck = new Check("Link ");
-			getContentPane().add(linkCheck);
-			linkCheck.setChecked(lastLink);
-			
-		}
-		xStart += (5+cLength);
-		linkCheck.setRect(xStart,r.height - 50, cLength, 15);
-
-		
-		if(widthLabel == null){
-			widthLabel = new Label("Width");
-			getContentPane().add(widthLabel);
-		}
-		xStart = 2;
-		cLength = (fm == null)?30:(2 + fm.getTextWidth("Width"));
-		widthLabel.setRect(xStart,r.height - 35, cLength, 15);
-
-		if(widthEdit == null){
-			widthEdit = new Edit();
-			widthEdit.setText(""+lastW);
-			getContentPane().add(widthEdit);
-		}
-		xStart += (cLength);
-		cLength = 30;
-		widthEdit.setRect(xStart,r.height - 35, cLength, 15);
-		
-		
-		if(heightLabel == null){
-			heightLabel = new Label("Height");
-			getContentPane().add(heightLabel);
-		}
-		xStart += (cLength);
-		cLength = (fm == null)?30:(2 + fm.getTextWidth("Height"));
-		heightLabel.setRect(xStart,r.height - 35, cLength, 15);
-
-		if(heightEdit == null){
-			heightEdit = new Edit();
-			heightEdit.setText(""+lastH);
-			getContentPane().add(heightEdit);
-		}
-		xStart += (cLength);
-		cLength = 30;
-		heightEdit.setRect(xStart,r.height - 35, cLength, 15);
 		
 		if(choiceButton == null){
 			choiceButton = new Button("Choose");
@@ -152,29 +70,29 @@ static int		lastH			= 10;
 			doNotify = true;
 		}
 		if(doNotify){
-			if(obj != null && listener != null){
-				boolean wrap = wrapCheck.getChecked();
-				lastWrap = wrap;
+			if(obj != null && listener != null && objProperty != null){
+				boolean wrap = objProperty.wrapCheck.getChecked();
+				objProperty.lastWrap = wrap;
 				int alighn = LBCompDesc.ALIGNMENT_LEFT;
-				if(alignmentChoice != null){
-					lastAlighnLeft = true;
-					if(alignmentChoice.getSelected().equals("Right")){
-						lastAlighnLeft = false;
+				if(objProperty.alignmentChoice != null){
+					objProperty.lastAlighnLeft = true;
+					if(objProperty.alignmentChoice.getSelected().equals("Right")){
+						objProperty.lastAlighnLeft = false;
 						alighn = LBCompDesc.ALIGNMENT_RIGHT;
 					}
 				}
 				int wc = 10;
-				if(widthEdit != null){
-					wc = Convert.toInt(widthEdit.getText());
+				if(objProperty.widthEdit != null){
+					wc = Convert.toInt(objProperty.widthEdit.getText());
 				}
-				lastW = wc;
+				objProperty.lastW = wc;
 				int hc = 10;
-				if(heightEdit != null){
-					hc = Convert.toInt(heightEdit.getText());
+				if(objProperty.heightEdit != null){
+					hc = Convert.toInt(objProperty.heightEdit.getText());
 				}
-				lastH = hc;
-	 	  		LBCompDesc cdesc = new LBCompDesc(0,wc,hc,alighn,wrap,linkCheck.getChecked());
-	 	  		lastLink = linkCheck.getChecked();
+				objProperty.lastH = hc;
+	 	  		LBCompDesc cdesc = new LBCompDesc(0,wc,hc,alighn,wrap,objProperty.linkCheck.getChecked());
+	 	  		objProperty.lastLink = objProperty.linkCheck.getChecked();
 	 	  		cdesc.setObject(obj);
 				listener.dialogClosed(new DialogEvent(this,null,null,cdesc,DialogEvent.OBJECT));
 			}
@@ -212,6 +130,12 @@ LObjCCTextAreaView		owner;
 String				text;
 
 boolean		needNotifyAboutMenu = true;
+
+
+EmbedObjectPropertyControl currObjPropControl;
+
+ViewDialog 				currObjPropDialog = null;
+
 	public CCTextArea(LObjCCTextAreaView owner,MainView mainView,LObjDictionary dict,LObjSubDict subDictionary){
 		super();
 		this.mainView = mainView;
@@ -256,8 +180,51 @@ boolean		needNotifyAboutMenu = true;
 	public void showFullWindowView(LabObjectView view){
 	}
 
+	static boolean propertyMode = false;
+
+
+	public void setPropertyMode(boolean propertyMode){this.propertyMode = propertyMode;}
+	public boolean getPropertyMode(){return propertyMode;}
 
     public void dialogClosed(DialogEvent e){
+    
+    	if(e.getSource() == currObjPropDialog){
+    		if(currObjectViewDesc != null){
+ 
+ 
+ 				boolean wrap = currObjPropControl.wrapCheck.getChecked();
+				EmbedObjectPropertyControl.lastWrap = wrap;
+				int alighn = LBCompDesc.ALIGNMENT_LEFT;
+				if(currObjPropControl.alignmentChoice != null){
+					EmbedObjectPropertyControl.lastAlighnLeft = true;
+					if(currObjPropControl.alignmentChoice.getSelected().equals("Right")){
+						EmbedObjectPropertyControl.lastAlighnLeft = false;
+					}
+				}
+				EmbedObjectPropertyControl.lastW = 10;
+				if(currObjPropControl.widthEdit != null){
+					EmbedObjectPropertyControl.lastW = Convert.toInt(currObjPropControl.widthEdit.getText());
+				}
+				EmbedObjectPropertyControl.lastH = 10;
+				if(currObjPropControl.heightEdit != null){
+					EmbedObjectPropertyControl.lastH = Convert.toInt(currObjPropControl.heightEdit.getText());
+				}
+	 	  		EmbedObjectPropertyControl.lastLink = currObjPropControl.linkCheck.getChecked();
+    			currObjectViewDesc.alignment 	= (EmbedObjectPropertyControl.lastAlighnLeft)?
+    											   LBCompDesc.ALIGNMENT_LEFT:LBCompDesc.ALIGNMENT_RIGHT;
+    			currObjectViewDesc.wrapping 	= EmbedObjectPropertyControl.lastWrap;
+    			currObjectViewDesc.link 		= EmbedObjectPropertyControl.lastLink;
+    			currObjectViewDesc.w 			= EmbedObjectPropertyControl.lastW;
+    			currObjectViewDesc.h 			= EmbedObjectPropertyControl.lastH;
+ 				layoutComponents();
+				setText(getText());
+				if(owner != null) owner.repaint();
+   			}
+    		currObjPropDialog = null;
+    		return;
+    	}
+    
+    
 		if(e.getInfoType() != DialogEvent.OBJECT || e.getInfo() == null) return;
 		if(!(e.getInfo() instanceof LBCompDesc)) return;
 		LBCompDesc obj = (LBCompDesc)e.getInfo();
@@ -281,7 +248,6 @@ boolean		needNotifyAboutMenu = true;
 		add(view);
 		layoutComponents();
 		setText(getText());
-		if(owner != null) owner.numbObjectChanged();
     }
     public void writeExternal(DataStream out){
     	out.writeString(getText());
@@ -484,7 +450,6 @@ boolean		needNotifyAboutMenu = true;
 				}
 			}
 			if(needNotifyAboutMenu){
-				if(owner != null) owner.numbObjectChanged();
 				needNotifyAboutMenu = false;
 			}
 		}
@@ -613,10 +578,12 @@ boolean		needNotifyAboutMenu = true;
 						object.setShowMenus(true);
 						currObjectViewDesc = cntrlDesc;
 						removeCursor();
-						if(cntrlDesc.link){
-							object.setShowMenus(true);
-							if(owner != null){
-								owner.addChoosenLabObjView(object);
+						if(!getPropertyMode()){
+							if(cntrlDesc.link){
+								object.setShowMenus(true);
+								if(owner != null){
+									owner.addChoosenLabObjView(object);
+								}
 							}
 						}
 					}
@@ -650,6 +617,46 @@ boolean		needNotifyAboutMenu = true;
 			if(components[i].getObject() == view) return components[i];
 		}
 		return null;
+	}
+
+	LBCompDesc findComponent(PenEvent e){
+		if(components == null || components.length < 1) return null;
+		for(int i = 0; i < components.length; i++){
+			if(components[i] == null) continue;
+			Object o = components[i].getObject();
+			if(o == null) continue;
+			if(o instanceof LabObjectView){
+				LabObjectView view = (LabObjectView)o;
+				Rect r = view.getRect();
+				if(r == null) continue;
+				if(e.x <  r.x) continue;
+				if(e.y <  r.y) continue;
+				if(e.x >  r.x+r.width) continue;
+				if(e.y >  r.y+r.height) continue;
+				return components[i];
+			}
+		}
+		return null;
+	}
+	
+	
+	void openCompProp(LBCompDesc compDesc){
+		if(currObjPropControl == null){
+			currObjPropControl = new EmbedObjectPropertyControl(null);
+			currObjPropControl.layout(true);
+		}
+		if(currObjPropControl != null){
+			EmbedObjectPropertyControl.lastAlighnLeft 	= (compDesc.alignment == LBCompDesc.ALIGNMENT_LEFT);
+			EmbedObjectPropertyControl.lastWrap 		= compDesc.wrapping;
+			EmbedObjectPropertyControl.lastLink 		= compDesc.link;
+			EmbedObjectPropertyControl.lastW			= compDesc.w;
+			EmbedObjectPropertyControl.lastH			= compDesc.h;
+			MainWindow mw = MainWindow.getMainWindow();
+			if(!(mw instanceof ExtraMainWindow)) return;
+			currObjPropDialog = new ViewDialog((ExtraMainWindow)mw, this, "Properties", currObjPropControl);
+			currObjPropDialog.setRect(0,0,150,150);
+			currObjPropDialog.show();		
+		}
 	}
 	
 	public static LabObjectView getParentLabObjectView(Object o){
@@ -809,6 +816,13 @@ boolean		needNotifyAboutMenu = true;
 	
 	public void onPenEvent(PenEvent ev){
 		if(ev.type == PenEvent.PEN_DOWN){
+			if(getPropertyMode()){
+				LBCompDesc compDesc = findComponent(ev);
+				if(compDesc != null){
+					openCompProp(compDesc);
+				}
+				return;
+			}
 			int x = 0;
 			int h = getItemHeight();
 			int row = 1 + firstLine + (ev.y / h);

@@ -40,9 +40,9 @@ public class ViewDialog extends Dialog
 
     public void done(LabObjectView source)
 	{
-		source.close();
+		if(source != null) source.close();
 		hide();
-		owner.setDialog(null);
+		if(owner != null) owner.setDialog(null);
 		if(listener != null) listener.dialogClosed(new DialogEvent(this,null,null,null,0));
 	}
 

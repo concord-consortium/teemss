@@ -30,7 +30,7 @@ public abstract class LabObjectView extends Container
 
     public void close()
     {
-		lObj.store();
+		if(lObj != null) lObj.store();
 		setShowMenus(false);
     }
 
