@@ -134,12 +134,12 @@ get-clients:
 	@echo "Enter the ipaq numbers:"
 	@read; echo $$REPLY > clients
 
-RUN-FORMATS = palm ce other
+RUN-FORMATS = palm wince other
 run-palm = 
-run-ce = /w 240 /h 300 /color
+run-wince = /w 240 /h 300 /color
 run-other =  /w 640 /h 480 /color
 run-palm-fork=palm
-run-ce-fork=ce
+run-wince-fork=ce
 ifeq ($(PLATFORMS),)
 run-other-fork=
 else 
