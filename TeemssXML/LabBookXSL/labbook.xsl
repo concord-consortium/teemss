@@ -4,7 +4,6 @@
     xmlns:redirect="org.apache.xalan.xslt.extensions.Redirect"
     extension-element-prefixes="redirect">
 
-
 <xsl:output method="xml" indent="yes"
   doctype-public="-//Concord.ORG//DTD LabBook Description//EN" 
   doctype-system="../../DTD/labbook.dtd"/>
@@ -461,166 +460,6 @@
   count="query-response[generate-id(ancestor::*[../../investigation]) = $section_id]"/>
 </xsl:template>
 
-<!--
-
-<xsl:template match="datacollector-link">
-  <xsl:call-template name="{@type}">
-    <xsl:with-param name="sequencenumber">
-      <xsl:number level="any"/>
-    </xsl:with-param>
-  </xsl:call-template>
-</xsl:template>
-
-
-  <xsl:variable name="type">
-    <xsl:value-of select="@type"/>
-  </xsl:variable>
-
-  <xsl:choose>
-    <xsl:when test="$type='dc-temperature1'"/>
-      <xsl:call-template name="dc-temperature1">
-        <xsl:with-param name="sequencenumber">
-          <xsl:number level="any"/>
-        </xsl:with-param>
-      </xsl:call-template>
-    </xsl:when>
-    <xsl:when test="$type='dc-temperature2'"/>
-      <xsl:call-template name="dc-temperature2">
-        <xsl:with-param name="sequencenumber">
-          <xsl:number level="any"/>
-        </xsl:with-param>
-      </xsl:call-template>
-    </xsl:when>
-    <xsl:when test="$type='dc-temperature3'"/>
-      <xsl:call-template name="dc-temperature3">
-        <xsl:with-param name="sequencenumber">
-          <xsl:number level="any"/>
-        </xsl:with-param>
-      </xsl:call-template>
-    </xsl:when>
-    <xsl:when test="$type='dc-temperature4'"/>
-      <xsl:call-template name="dc-temperature4">
-        <xsl:with-param name="sequencenumber">
-          <xsl:number level="any"/>
-        </xsl:with-param>
-      </xsl:call-template>
-    </xsl:when>
-    <xsl:when test="$type='dc-temperature5'"/>
-      <xsl:call-template name="dc-temperature5">
-        <xsl:with-param name="sequencenumber">
-          <xsl:number level="any"/>
-        </xsl:with-param>
-      </xsl:call-template>
-    </xsl:when>
-    <xsl:when test="$type='dc-temperature6'"/>
-      <xsl:call-template name="dc-temperature6">
-        <xsl:with-param name="sequencenumber">
-          <xsl:number level="any"/>
-        </xsl:with-param>
-      </xsl:call-template>
-    </xsl:when>
-    <xsl:when test="$type='dc-voltage-current-voltage'"/>
-      <xsl:call-template name="dc-voltage-current-voltage">
-        <xsl:with-param name="sequencenumber">
-          <xsl:number level="any"/>
-        </xsl:with-param>
-      </xsl:call-template>
-    </xsl:when>
-    <xsl:when test="$type='dc-voltage-current-power'"/>
-      <xsl:call-template name="dc-voltage-current-power">
-        <xsl:with-param name="sequencenumber">
-          <xsl:number level="any"/>
-        </xsl:with-param>
-      </xsl:call-template>
-    </xsl:when>
-    <xsl:when test="$type='dc-voltage-current-energy'"/>
-      <xsl:call-template name="dc-voltage-current-energy">
-        <xsl:with-param name="sequencenumber">
-          <xsl:number level="any"/>
-        </xsl:with-param>
-      </xsl:call-template>
-    </xsl:when>
-    <xsl:when test="$type='dc-light-4000'"/>
-      <xsl:call-template name="dc-light-4000">
-        <xsl:with-param name="sequencenumber">
-          <xsl:number level="any"/>
-        </xsl:with-param>
-      </xsl:call-template>
-    </xsl:when>
-    <xsl:when test="$type='dc-light-100000'"/>
-      <xsl:call-template name="dc-light-100000">
-        <xsl:with-param name="sequencenumber">
-          <xsl:number level="any"/>
-        </xsl:with-param>
-      </xsl:call-template>
-    </xsl:when>
-    <xsl:when test="$type='dc-force1'"/>
-      <xsl:call-template name="dc-force1">
-        <xsl:with-param name="sequencenumber">
-          <xsl:number level="any"/>
-        </xsl:with-param>
-      </xsl:call-template>
-    </xsl:when>
-    <xsl:when test="$type='dc-force2'"/>
-      <xsl:call-template name="dc-force2">
-        <xsl:with-param name="sequencenumber">
-          <xsl:number level="any"/>
-        </xsl:with-param>
-      </xsl:call-template>
-    </xsl:when>
-    <xsl:when test="$type='dc-force3'"/>
-      <xsl:call-template name="dc-force3">
-        <xsl:with-param name="sequencenumber">
-          <xsl:number level="any"/>
-        </xsl:with-param>
-      </xsl:call-template>
-    </xsl:when>
-    <xsl:when test="$type='dc-force4'"/>
-      <xsl:call-template name="dc-force4">
-        <xsl:with-param name="sequencenumber">
-          <xsl:number level="any"/>
-        </xsl:with-param>
-      </xsl:call-template>
-    </xsl:when>
-    <xsl:when test="$type='dc-smartwheel-pos1'"/>
-      <xsl:call-template name="dc-smartwheel-pos1">
-        <xsl:with-param name="sequencenumber">
-          <xsl:number level="any"/>
-        </xsl:with-param>
-      </xsl:call-template>
-    </xsl:when>
-    <xsl:when test="$type='dc-smartwheel-pos2'"/>
-      <xsl:call-template name="dc-smartwheel-pos2">
-        <xsl:with-param name="sequencenumber">
-          <xsl:number level="any"/>
-        </xsl:with-param>
-      </xsl:call-template>
-    </xsl:when>
-    <xsl:when test="$type='dc-smartwheel-vel1'"/>
-      <xsl:call-template name="dc-smartwheel-vel1">
-        <xsl:with-param name="sequencenumber">
-          <xsl:number level="any"/>
-        </xsl:with-param>
-      </xsl:call-template>
-    </xsl:when>
-    <xsl:when test="$type='dc-smartwheel-vel2'"/>
-      <xsl:call-template name="dc-smartwheel-vel2">
-        <xsl:with-param name="sequencenumber">
-          <xsl:number level="any"/>
-        </xsl:with-param>
-      </xsl:call-template>
-    </xsl:when>
-    <xsl:when test="$type='dc-smartwheel-vel3'"/>
-      <xsl:call-template name="dc-smartwheel-vel3">
-        <xsl:with-param name="sequencenumber">
-          <xsl:number level="any"/>
-        </xsl:with-param>
-      </xsl:call-template>
-    </xsl:when>
-  </xsl:xhoose>
-</xsl:template>
--->
-
 <xsl:template match="ext-image-sequence">
   <xsl:apply-templates/>
 </xsl:template>
@@ -658,6 +497,55 @@
   <SNPARAGRAPH/>
 </xsl:template>
 
+<!-- 
+
+<xsl:template match="datacollector-link">
+  <xsl:variable name="type"><xsl:value-of select="@type"/>
+  </xsl:variable>
+  <EMBOBJ link="true" linkcolor="FF0000">
+temp dc-link type: <xsl:value-of select="$type"/>
+  <xsl:apply-templates select="document('datacollectors.xml')">
+     <xsl:with-param name="type"><xsl:value-of select="$type"/>
+	 </xsl:with-param>
+     <xsl:with-param name="sequencenumber"><xsl:number level="any"/>
+     </xsl:with-param>
+   </xsl:apply-templates>
+   </EMBOBJ>
+</xsl:template>
+
+<xsl:template match="datacollector-list">
+  <xsl:param name="type"/>
+  <xsl:param name="sequencenumber"/>
+temp dc-list type: <xsl:value-of select="$type"/>
+temp dc-list sq: <xsl:value-of select="$sequencenumber"/>
+  <xsl:apply-templates select="DATACOLLECTOR[@name=$type]">
+    <xsl:with-param name="sequencenumber"><xsl:value-of select="$sequencenumber"/>
+    </xsl:with-param>
+  </xsl:apply-templates>
+</xsl:template>
+
+<xsl:template match="DATACOLLECTOR">
+	<xsl:param name="sequencenumber"/>
+  <DATACOLLECTOR name="@name" ID="{@ID}-{$sequencenumber}">
+     <xsl:apply-templates>
+       <xsl:with-param name="sequencenumber"><xsl:value-of select="$sequencenumber"/>
+       </xsl:with-param>
+     </xsl:apply-templates>
+  </DATACOLLECTOR>
+</xsl:template>
+
+<xsl:template match="PROBE">
+   <xsl:param name="sequencenumber"/>
+  <PROBE ID="{@ID}-{$sequencenumber}">
+    <xsl:copy-of select="*"/>
+  </PROBE>
+</xsl:template>
+
+<xsl:template match="GRAPH">
+  <xsl:copy-of select="."/>
+</xsl:template>   
+
+-->
 
 <xsl:template match="datacollector-link[@type='dc-temperature1']">
   <xsl:variable name="sequencenumber">
@@ -1116,7 +1004,7 @@
 </xsl:template>
 
 
-<xsl:template match="datacollector-link[@type='voltage-current-power']">
+<xsl:template match="datacollector-link[@type='dc-voltage-current-power']">
   <xsl:variable name="sequencenumber">
     <xsl:number level="any"/>
   </xsl:variable>
@@ -1326,7 +1214,7 @@
 
 
 
-<xsl:template match="datacollector-link[@type='light-4000']">
+<xsl:template match="datacollector-link[@type='dc-light-4000']">
   <xsl:variable name="sequencenumber">
     <xsl:number level="any"/>
   </xsl:variable>
@@ -1388,7 +1276,7 @@
   </xsl:element>
 </xsl:template>
 
-<xsl:template match="datacollector-link[@type='light-100000']">
+<xsl:template match="datacollector-link[@type='dc-light-100000']">
   <xsl:variable name="sequencenumber">
     <xsl:number level="any"/>
   </xsl:variable>
@@ -1450,7 +1338,7 @@
   </xsl:element>
 </xsl:template>
 
-<xsl:template match="datacollector-link[@type='force1']">
+<xsl:template match="datacollector-link[@type='dc-force1']">
   <xsl:variable name="sequencenumber">
     <xsl:number level="any"/>
   </xsl:variable>
@@ -1513,7 +1401,7 @@
 </xsl:template>
 
 
-<xsl:template match="datacollector-link[@type='force2']">
+<xsl:template match="datacollector-link[@type='dc-force2']">
   <xsl:variable name="sequencenumber">
     <xsl:number level="any"/>
   </xsl:variable>
@@ -1575,17 +1463,7 @@
   </xsl:element>
 </xsl:template>
 
-
-
-
-
-
-
-
-
-
-
-<xsl:template match="datacollector-link[@type='force3']">
+<xsl:template match="datacollector-link[@type='dc-force3']">
   <xsl:variable name="sequencenumber">
     <xsl:number level="any"/>
   </xsl:variable>
@@ -1647,17 +1525,7 @@
   </xsl:element>
 </xsl:template>
 
-
-
-
-
-
-
-
-
-
-
-<xsl:template match="datacollector-link[@type='force4']">
+<xsl:template match="datacollector-link[@type='dc-force4']">
   <xsl:variable name="sequencenumber">
     <xsl:number level="any"/>
   </xsl:variable>
@@ -1719,12 +1587,7 @@
   </xsl:element>
 </xsl:template>
 
-
-
-
-
-
-<xsl:template match="datacollector-link[@type='smartwheel-pos1']">
+<xsl:template match="datacollector-link[@type='dc-smartwheel-pos1']">
   <xsl:variable name="sequencenumber">
     <xsl:number level="any"/>
   </xsl:variable>
@@ -1785,7 +1648,7 @@
 
 
 
-<xsl:template match="datacollector-link[@type='smartwheel-pos2']">
+<xsl:template match="datacollector-link[@type='dc-smartwheel-pos2']">
   <xsl:variable name="sequencenumber">
     <xsl:number level="any"/>
   </xsl:variable>
@@ -1842,7 +1705,7 @@
   </xsl:element>
 </xsl:template>
 
-<xsl:template match="datacollector-link[@type='smartwheel-vel1']">
+<xsl:template match="datacollector-link[@type='dc-smartwheel-vel1']">
   <xsl:variable name="sequencenumber">
     <xsl:number level="any"/>
   </xsl:variable>
@@ -2012,11 +1875,6 @@
     </xsl:element>
   </xsl:element>
 </xsl:template>
-
-
-
-
-
 
 </xsl:stylesheet>
 
