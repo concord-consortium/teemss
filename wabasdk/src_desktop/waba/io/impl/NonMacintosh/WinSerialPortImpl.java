@@ -25,7 +25,7 @@ public class WinSerialPortImpl implements ISerialPort
 				sPortDesc = SerialManager.getAssignedPort();
 			}
 		}
-		if(sPort == null){
+		if(sPortDesc == null){
 			portName = "COM"+(number+1);
 		}else{
 			portName = sPortDesc.name;
