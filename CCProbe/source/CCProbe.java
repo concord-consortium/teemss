@@ -281,9 +281,10 @@ public class CCProbe extends MainView
 		Debug.println("closing");
 		if(curFullView != null){
 			curFullView.close();
-			curFullView = null;
-		} else {
+			curFullView = lObjView = null;
+		} else if(lObjView != null){
 			lObjView.close();
+			lObjView = null;
 		}
 
 		if(labBook != null){
