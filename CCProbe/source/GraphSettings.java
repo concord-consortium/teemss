@@ -165,6 +165,17 @@ public class GraphSettings
 		if(xaxis != null) xaxis.setAxisLabel(xLabel, xUnit);
 	}
 
+	boolean visible = true;
+	public boolean getVisible()
+	{
+		return visible;
+	}
+
+	public void setVisible(boolean val)
+	{
+		visible = val;
+	}
+
 	public void updateGS()
 	{
 		if(xaxis == null || yaxis == null){
@@ -446,6 +457,7 @@ public class GraphSettings
 		code = ds.readInt();
 		if(code == -1) yUnit = null;
 		else yUnit = CCUnit.getUnit(code);
+		visible = ds.readBoolean();
 	}
 
     public void writeExternal(DataStream ds)
@@ -462,6 +474,7 @@ public class GraphSettings
 		else ds.writeInt(xUnit.code);
 		if(yUnit == null) ds.writeInt(-1);
 		else ds.writeInt(yUnit.code);
+		ds.writeBoolean(visible);
     }
 
 	// Note: we aren't copying the dsIndex
@@ -478,7 +491,7 @@ public class GraphSettings
 		g.yLabel = yLabel;
 		g.xUnit = xUnit;
 		g.yUnit = yUnit;		
-
+		
 		return g;
 	}
 }

@@ -89,6 +89,10 @@ public class LObjGraphProp extends LabObjectView
 		propVisibleSources = new PropObject("Visible", dsStrings);
 		propVisibleSources.prefWidth = 120;
 		propVisibleSources.setType(PropObject.MULTIPLE_SEL_LIST);
+		for(int i=0; i<dsStrings.length; i++){
+			propVisibleSources.setCheckedValue(i, graph.getVisible(i));
+		}
+
 		props.addProperty(propTitle, "Graph");
 		props.addProperty(propDataSources, "Graph");
 		props.addProperty(propVisibleSources, "Graph");
@@ -124,6 +128,10 @@ public class LObjGraphProp extends LabObjectView
 
 			String newTitle = propTitle.getValue();
 			String newYLabel = propYlabel.getValue();
+			String [] dsNames = propVisibleSources.getPossibleValues();
+			for(int i=0; i<dsNames.length; i++){
+				graph.setVisible(i, propVisibleSources.getCheckedValue(i));
+			}
 
 			if(!graph.autoTitle && 
 			   ((newTitle.length() > 0 && 

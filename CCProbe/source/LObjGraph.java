@@ -51,6 +51,23 @@ public class LObjGraph extends LObjSubDict
 		numDataSources = 0;		
 	}
 
+	public boolean getVisible(int index)
+	{
+		if(index >= 0 && index < graphSettings.getCount()){
+			GraphSettings gs = (GraphSettings)graphSettings.get(index);
+			return gs.getVisible();
+		}
+		return false;
+	}
+
+	public void setVisible(int index, boolean val)
+	{
+		if(index >= 0 && index < graphSettings.getCount()){
+			GraphSettings gs = (GraphSettings)graphSettings.get(index);
+			gs.setVisible(val);
+		}
+	}
+
 	public void addDataSource(DataSource ds)
 	{
 		addDataSource(ds, true);
