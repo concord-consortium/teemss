@@ -1,6 +1,9 @@
 #! /bin/bash
 
-projectroot=~/cvsroot
+if [ $projectroot ]
+then echo "using \$projectroot: " $projectroot
+else echo "please set \$projectroot" ; break
+fi
 
 java -cp $projectroot/wextra/classes/desktop:$projectroot/wabasdk/classes:$projectroot/wgraph/classes/other:$projectroot/LabBook/classes/other:$projectroot/CCProbe/classes/other:$projectroot/XML2LabBook/jars/QTJava.zip:$projectroot/XML2LabBook/classes/other xml2labbook.XML2LabBook labbook.xml 
 
