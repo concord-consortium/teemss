@@ -57,7 +57,7 @@ public class CCInterfaceManager extends Control{
 		dEvent.setDataDesc(dDesc);
 		char startC = getStartChar();
 		dEvent.setTuneValue(tuneValue);
-				
+
 		/*if(mode == A2D_10_MODE)  */dEvent.setIntData(valueData);
 		
 		dEvent.setType(DataEvent.DATA_READY_TO_START);

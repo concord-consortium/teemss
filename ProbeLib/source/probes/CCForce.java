@@ -141,23 +141,29 @@ int  			[]forceIntData = new int[CCInterfaceManager.BUF_SIZE];
 	public boolean dataArrived(DataEvent e){
 		dEvent.type = e.type;
 		dEvent.intTime = e.intTime;
-		float v = dDesc.tuneValue;
+		float v = e.getDataDesc().tuneValue;
 		if(zeroing){
-			int ndata = dEvent.numbSamples*e.dataDesc.chPerSample;
+			int ndata = e.numbSamples*e.dataDesc.chPerSample;
 			int dOff = e.dataOffset;
 			int data [] = e.intData;
+
+			// notice there is a hack in here to skip the first point
+			// it seems to be screwed up some how
 			for(int i = 0; i < ndata; i+= chPerSample){
-				zeroSum += (float)(data[dOff + i+channelOffset]);
+				if(zeroCount > 0){
+					zeroSum += (float)(data[dOff + i+channelOffset]);
+				}
 				zeroCount++;
-				if(zeroCount > ZEROING_NUM_POINTS){
+				if(zeroCount > ZEROING_NUM_POINTS + 1){
 					notifyProbListeners(new ProbEvent(this, ZEROING_DONE, null));
-					B = -A*v*(zeroSum/(float)zeroCount);
+					B = -A*v*(zeroSum/(float)(zeroCount-1));
 					if(calibrationDesc != null){
 						CalibrationParam p = calibrationDesc.getCalibrationParam(1);
 						if(p != null) p.setValue(B);
 					}
 					speedProp.setIndex(zeroOrigSpeed);
 					zeroing = false;
+					break;
 				}
 			}
 			return true;
