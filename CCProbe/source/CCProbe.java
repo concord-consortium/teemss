@@ -77,10 +77,13 @@ public class CCProbe extends MainView
 		String [] fileStrings;
 		if(!plat.equals("PalmOS")){
 			int i=0;
-			fileStrings = new String [4];
-			fileStrings[i++] = aboutTitle;
 			if(plat.equals("Java")){
+				fileStrings = new String [4];
+				fileStrings[i++] = aboutTitle;
 				fileStrings[i++] = "Serial Port Setup..";
+			} else {
+				fileStrings = new String [3];
+				fileStrings[i++] = aboutTitle;
 			}
 			fileStrings[i++] = "-";
 			fileStrings[i++] = "Exit";
@@ -272,12 +275,16 @@ public class CCProbe extends MainView
 
 	public void handleQuit(){
 		Debug.println("commiting");
-		if(curFullView != null) curFullView.close();
-		else lObjView.close();
-		if(!labBook.commit() ||
-		   !labBook.close()){
-			//error
-		} else {
+		if(curFullView != null){
+			curFullView.close();
+			curFullView = null;
+		} else if(lObjView != null) {
+			lObjView.close();
+		}
+
+		if(labBook != null){
+			labBook.commit();
+			labBook.close();
 			labBook = null;
 			exit(0);
 		}
