@@ -456,7 +456,9 @@ public class LObjGraph extends LObjSubDict
 				// latter it should ask the user for the name
 			}
 		}
-
+		session.release(dsGraph);
+		
+		int ref = session.release(dSet);
 	}
 
 	public void exportCurData(LabBookSession session)

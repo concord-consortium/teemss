@@ -76,16 +76,16 @@ public class LObjDataSet extends LObjSubDict
 		LObjDataSet first = makeSubChunk(b, 0, session);
 		first.numBinChunks = numBinChunks;
 		setObj(first, numSubObjs++);
-		first.storeNow();
-		session.release(first);
+		first.store();
+		int ref = session.release(first);
 		first.chunkIndex = -1;
 		numChunks++;
 
 		for(int i=1; i<numBinChunks; i++){
 			LObjDataSet curChunk = makeSubChunk(b, i, session);
 			setObj(curChunk, numSubObjs++);
-			curChunk.storeNow();
-			session.release(curChunk);
+			curChunk.store();
+			ref = session.release(curChunk);
 			curChunk.chunkIndex = -1;
 			numChunks++;
 		}
@@ -426,8 +426,9 @@ public class LObjDataSet extends LObjSubDict
 	    
 			byte [] buffer = new byte [dEvent.numbSamples*4];
 			int bufPos = 3;
+			float refVal = dEvent.refVal;
 			for(int i=dEvent.dataOffset; i<endPos; i+=sampSize){
-				int bits = waba.sys.Convert.toIntBitwise(data[i]);
+				int bits = waba.sys.Convert.toIntBitwise(data[i]+refVal);
 				buffer[bufPos--] = (byte)(bits & 0xFF);
 				bits>>=8;
 				buffer[bufPos--] = (byte)(bits & 0xFF);
