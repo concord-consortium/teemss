@@ -96,6 +96,7 @@ public class BarGraph extends Graph2D
 	
 	bars.insert(location, dv);
 
+	if(barSet != null) barSet.free();
 	barSet = new BarSet(yaxis, numBars, BarSet.BOTTOM);
 
 	curValues = new float[numBars];

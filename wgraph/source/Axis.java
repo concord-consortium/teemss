@@ -231,7 +231,7 @@ public class Axis
 	    exponent++;
 	}
 
-	if(exponent < labelExpMin || exponent > labelExpMax){
+	if(exponent < labelExpMin || exponent >= labelExpMax){
 	    labelExp = exponent;
 	    majTicStep = exp10(labelTicStep, exponent);
 	} else {
