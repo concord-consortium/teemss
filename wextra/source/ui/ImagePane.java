@@ -1,5 +1,5 @@
 package org.concord.waba.extra.ui;
-public class ImagePane extends waba.ui.Control{
+public class ImagePane extends waba.ui.Control implements extra.ui.PreferredSize{
 String imagePath = null;
 waba.fx.Image wImage = null;
 boolean		freeOnPaint = false;
@@ -33,6 +33,25 @@ boolean		freeOnPaint = false;
     public void setRect(int x,int y){
     	setRect(x,y,getImage().getWidth(),getImage().getHeight());
     }
+  	public int getPreferredWidth(waba.fx.FontMetrics fm){
+  		return (wImage == null)?10:wImage.getWidth()+2;
+  	}
+
+  	public int getPreferredHeight(waba.fx.FontMetrics fm){
+  		return (wImage == null)?10:wImage.getHeight()+2;
+  	}
+  
+	private extra.ui.Dimension preferrDimension;
+	public extra.ui.Dimension getPreferredSize(){
+		if(preferrDimension == null){
+			preferrDimension = new extra.ui.Dimension(getPreferredWidth(null),getPreferredHeight(null));
+		}else{
+			preferrDimension.width = getPreferredWidth(null);
+			preferrDimension.height = getPreferredHeight(null);
+		}
+		return preferrDimension;
+	}
+
     public waba.fx.Image getWabaImage(){
 		return wImage;
     }

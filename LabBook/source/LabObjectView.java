@@ -4,7 +4,7 @@ import waba.ui.*;
 import org.concord.waba.extra.event.*;
 import org.concord.waba.extra.ui.*;
 
-public abstract class LabObjectView extends Container
+public abstract class LabObjectView extends Container implements extra.ui.PreferredSize
 {
     protected boolean showDone = false;
     protected boolean didLayout = false;
@@ -72,4 +72,7 @@ public abstract class LabObjectView extends Container
 		this.embeddedState = embeddedState;
 	}
 	public boolean getEmbeddedState(){return embeddedState;}
+	
+
+	
 }

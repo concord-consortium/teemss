@@ -96,4 +96,15 @@ public class LObjOutputSetChoice extends LabObjectView
 
     public void close(){}
 
+	public int getPreferredWidth(waba.fx.FontMetrics fm){
+		return -1;
+	}
+
+	public int getPreferredHeight(waba.fx.FontMetrics fm){
+		return -1;
+	}
+
+	public extra.ui.Dimension getPreferredSize(){
+		return null;
+	}
 }

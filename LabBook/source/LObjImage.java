@@ -57,6 +57,7 @@ class LObjImageView extends LabObjectView implements ActionListener
 	ImagePane	imagePane = null;
 //	private 	byte []bytes = null;
 	
+	
 	private int			imageBPP 					= -1;
 	private int			[]imageCMAP					= null;
 	private int			imageScanlen 				= -1;
@@ -179,6 +180,26 @@ class LObjImageView extends LabObjectView implements ActionListener
 			doneButton.setRect(width/2 - 20, height - 17, 40, 15);
 		}
 
+	}
+	public int getPreferredWidth(waba.fx.FontMetrics fm){
+		if(imagePane == null) return 10;
+		return imagePane.getPreferredWidth(fm);
+	}
+
+	public int getPreferredHeight(waba.fx.FontMetrics fm){
+		if(imagePane == null) return 10;
+		return imagePane.getPreferredHeight(fm);
+	}
+
+	private extra.ui.Dimension preferrDimension;
+	public extra.ui.Dimension getPreferredSize(){
+		if(preferrDimension == null){
+			preferrDimension = new extra.ui.Dimension(getPreferredWidth(null),getPreferredHeight(null));
+		}else{
+			preferrDimension.width = getPreferredWidth(null);
+			preferrDimension.height = getPreferredHeight(null);
+		}
+		return preferrDimension;
 	}
 
     public void close(){

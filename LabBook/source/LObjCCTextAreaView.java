@@ -290,4 +290,22 @@ String [] fileStrings = {"Load Note..."};
     	tArea.setText(new String(chars,0,chars.length));
     	
     }
+	public int getPreferredWidth(waba.fx.FontMetrics fm){
+		return 100;
+	}
+
+	public int getPreferredHeight(waba.fx.FontMetrics fm){
+		return 100;
+	}
+
+	private extra.ui.Dimension preferrDimension;
+	public extra.ui.Dimension getPreferredSize(){
+		if(preferrDimension == null){
+			preferrDimension = new extra.ui.Dimension(getPreferredWidth(null),getPreferredHeight(null));
+		}else{
+			preferrDimension.width = getPreferredWidth(null);
+			preferrDimension.height = getPreferredHeight(null);
+		}
+		return preferrDimension;
+	}
 }
