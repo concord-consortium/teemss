@@ -177,7 +177,8 @@ public class CCForce extends Probe
     }
 
 	public final static int ZEROING_DONE = 0;
-	public final static int ZEROING_NUM_POINTS = 4;
+	public final static int ZEROING_END_POINT = 8;
+	public final static int ZEROING_START_POINT = 4;
 
 	public boolean idle(DataEvent e){
 		if(!zeroing) return super.idle(e);
@@ -196,13 +197,13 @@ public class CCForce extends Probe
 			// notice there is a hack in here to skip the first point
 			// it seems to be screwed up some how
 			for(int i = 0; i < ndata; i+= chPerSample){
-				if(zeroCount > 0){
+				if(zeroCount >= ZEROING_START_POINT){
 					zeroSum += (float)(data[dOff + i+channelOffset]);
 				}
 				zeroCount++;
-				if(zeroCount > ZEROING_NUM_POINTS + 1){
+				if(zeroCount > ZEROING_END_POINT){
 					notifyProbListeners(new ProbEvent(this, ZEROING_DONE, null));
-					curB = -curA*v*(zeroSum/(float)(zeroCount-1));
+					curB = -curA*v*(zeroSum/(float)(zeroCount-ZEROING_START_POINT));
 					if(calibrationDesc != null){
 						// need to find the which calibration this is;
 						CalibrationParam p = calibrationDesc.getCalibrationParam(calDescIndex + 1);
