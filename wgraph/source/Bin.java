@@ -73,6 +73,12 @@ public class Bin
 		reset();
     }
 
+	public void free()
+	{
+		xaxis.removeActionListener(this);
+		yaxis.removeActionListener(this);
+	}
+
 	public void actionPerformed(ActionEvent e)
 	{
 		if(e.type == Axis.SCALE_CHANGE) needRecalc = true;
