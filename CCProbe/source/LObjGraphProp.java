@@ -90,8 +90,6 @@ public class LObjGraphProp extends LabObjectView
 			propTitle = new PropObject("Title", "Title", id++, graph.getTitleNoSummary());
 			propTitle.prefWidth = 120;
 
-			if(propDataSources != null) propsGraph.addProperty(propDataSources);
-			if(propVisibleSources != null) propsGraph.addProperty(propVisibleSources);
 			propsGraph.addProperty(propTitle);
 			
 			String summary = graph.getSummary();
@@ -120,6 +118,8 @@ public class LObjGraphProp extends LabObjectView
 					propVisibleSources.setCheckedValue(i, graph.getVisible(i));
 				}
 			}
+			if(propDataSources != null) propsGraph.addProperty(propDataSources);
+			if(propVisibleSources != null) propsGraph.addProperty(propVisibleSources);
 			
 		} else {
 			propTitle.setValue(graph.getTitleNoSummary());
