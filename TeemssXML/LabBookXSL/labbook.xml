@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE LABBOOK PUBLIC "-//Concord.ORG//DTD LabBook Description//EN" "../../DTD/labbook.dtd">
 <LABBOOK>
+<FOLDER name="CCProbe" ID="folder-ccprobe1">
 <FOLDER ID="folder-ccprobe" name="CCProbe">
 <FOLDER ID="folder-ccprobe-info" name="CCProbe Info" view="paging">
 <SUPERNOTES ID="about-ccprobe" name="About CCProbe">
@@ -347,6 +348,152 @@ projects contributing to the development of CCProbeware are:
 <FOLDER ID="folder-images" name="Images" view="paging">
 <IMAGE ID="ccprobe_titlebar_154.bmp" name="ccprobe_titlebar_154.bmp" url="../misc-images/ccprobe_titlebar_154.bmp"/>
 <IMAGE ID="teemss_titlebar.bmp" name="teemss_titlebar.bmp" url="../misc-images/teemss_titlebar.bmp"/>
+</FOLDER>
+</FOLDER>
+<!--  Data Collectors include folder -->
+<FOLDER ID="dc-folder" name="TEEMSS Data Collectors" view="paging">
+<DATACOLLECTOR ID="dc-temperature1" name="Temperature Data Collector">
+<PROBE ID="dc-temp1" probe="Temperature">
+<PROP name="Port" value="A"/>
+<PROP name="Mode" value="C"/>
+</PROBE>
+<GRAPH current-line="0" title="graph subtitle goes here">
+<XAXIS min="0" max="60"/>
+<YAXIS min="10" max="40"/>
+<LINE xaxis="0" yaxis="0" datasource="dc-temp1"/>
+</GRAPH>
+</DATACOLLECTOR>
+<DATACOLLECTOR ID="dc-temperature2" name="Temperature Data Collector">
+<PROBE ID="dc-temp2" probe="Temperature">
+<PROP name="Port" value="A"/>
+<PROP name="Mode" value="C"/>
+</PROBE>
+<GRAPH current-line="0" title="graph subtitle goes here">
+<XAXIS min="0" max="120"/>
+<YAXIS min="10" max="40"/>
+<LINE xaxis="0" yaxis="0" datasource="dc-temp2"/>
+</GRAPH>
+</DATACOLLECTOR>
+<DATACOLLECTOR ID="dc-light-4000" name="Light - 4000 Lux">
+<PROBE ID="dc-light" probe="Light">
+<PROP name="Port" value="A"/>
+<PROP name="Range" value="Dim Light"/>
+<PROP name="Speed" value="200 per second"/>
+</PROBE>
+<GRAPH current-line="0" title="graph subtitle goes here">
+<XAXIS min="0" max="60"/>
+<YAXIS min="0" max="4000"/>
+<LINE xaxis="0" yaxis="0" datasource="dc-light"/>
+</GRAPH>
+</DATACOLLECTOR>
+<DATACOLLECTOR ID="dc-light-125000" name="Light - 125000 Lux">
+<PROBE ID="dc-light3" probe="Light">
+<PROP name="Port" value="A"/>
+<PROP name="Range" value="Bright Light"/>
+<PROP name="Speed" value="3 per second"/>
+</PROBE>
+<GRAPH current-line="0" title="graph subtitle goes here">
+<XAXIS min="0" max="60"/>
+<YAXIS min="0" max="125000"/>
+<LINE xaxis="0" yaxis="0" datasource="dc-light3"/>
+</GRAPH>
+</DATACOLLECTOR>
+<DATACOLLECTOR ID="dc-force1" name="Force Probe">
+<PROBE ID="dc-f1" probe="Force">
+<PROP name="Mode" value="End of Arm"/>
+<PROP name="Range" value="+/- 20N"/>
+<PROP name="Speed" value="3 per second"/>
+</PROBE>
+<GRAPH current-line="0" title="graph subtitle goes here">
+<XAXIS min="0" max="20"/>
+<YAXIS min="-0.1" max="0.6"/>
+<LINE xaxis="0" yaxis="0" datasource="dc-f1"/>
+</GRAPH>
+</DATACOLLECTOR>
+<DATACOLLECTOR ID="dc-force2" name="Force Probe">
+<PROBE ID="dc-f2" probe="Force">
+<PROP name="Mode" value="End of Arm"/>
+<PROP name="Range" value="+/- 20N"/>
+<PROP name="Speed" value="400 per second"/>
+</PROBE>
+<GRAPH current-line="0" title="graph subtitle goes here">
+<XAXIS min="0" max="10"/>
+<YAXIS min="-20" max="0"/>
+<LINE xaxis="0" yaxis="0" datasource="dc-f2"/>
+</GRAPH>
+</DATACOLLECTOR>
+<DATACOLLECTOR ID="dc-force3" name="Force Probe">
+<PROBE ID="dc-f3" probe="Force">
+<PROP name="Mode" value="End of Arm"/>
+<PROP name="Range" value="+/- 20N"/>
+<PROP name="Speed" value="400 per second"/>
+</PROBE>
+<GRAPH current-line="0" title="graph subtitle goes here">
+<XAXIS min="0" max="10"/>
+<YAXIS min="0" max="4"/>
+<LINE xaxis="0" yaxis="0" datasource="dc-f3"/>
+</GRAPH>
+</DATACOLLECTOR>
+<DATACOLLECTOR ID="dc-force4" name="Force Probe">
+<PROBE ID="dc-f4" probe="Force">
+<PROP name="Mode" value="End of Arm"/>
+<PROP name="Range" value="+/- 20N"/>
+<PROP name="Speed" value="400 per second"/>
+</PROBE>
+<GRAPH current-line="0" title="graph subtitle goes here">
+<XAXIS min="0" max="10"/>
+<YAXIS min="-20" max="1"/>
+<LINE xaxis="0" yaxis="0" datasource="dc-f4"/>
+</GRAPH>
+</DATACOLLECTOR>
+<DATACOLLECTOR ID="dc-smartwheel-pos1" name="SmartWheel Data Collector - Pos">
+<PROBE ID="dc-sw-pos1" probe="SmartWheel">
+<PROP name="Port" value="A"/>
+</PROBE>
+<GRAPH current-line="0" title="graph subtitle goes here">
+<XAXIS min="0" max="40"/>
+<YAXIS min="-0.5" max="6"/>
+<LINE xaxis="0" yaxis="0">
+<INTPROBETRANS quantity="Position" probe="dc-sw-pos1"/>
+</LINE>
+</GRAPH>
+</DATACOLLECTOR>
+<DATACOLLECTOR ID="dc-smartwheel-pos2" name="SmartWheel Data Collector - Pos">
+<PROBE ID="dc-sw-pos2" probe="SmartWheel">
+<PROP name="Port" value="A"/>
+</PROBE>
+<GRAPH current-line="0" title="graph subtitle goes here">
+<XAXIS min="0" max="10"/>
+<YAXIS min="-0.5" max="6"/>
+<LINE xaxis="0" yaxis="0">
+<INTPROBETRANS quantity="Position" probe="dc-sw-pos2"/>
+</LINE>
+</GRAPH>
+</DATACOLLECTOR>
+<DATACOLLECTOR ID="dc-smartwheel-vel1" name="SmartWheel Velocity">
+<PROBE ID="dc-sw-vel1" probe="SmartWheel">
+<PROP name="Port" value="A"/>
+</PROBE>
+<GRAPH current-line="0" title="graph subtitle goes here">
+<XAXIS min="0" max="20"/>
+<YAXIS min="-1" max="1"/>
+<LINE xaxis="0" yaxis="0">
+<INTPROBETRANS quantity="Velocity" probe="dc-sw-vel1"/>
+</LINE>
+</GRAPH>
+</DATACOLLECTOR>
+<DATACOLLECTOR ID="dc-smartwheel-vel2" name="SmartWheel Velocity">
+<PROBE ID="dc-sw-vel2" probe="SmartWheel">
+<PROP name="Port" value="A"/>
+</PROBE>
+<GRAPH current-line="0" title="graph subtitle goes here">
+<XAXIS min="0" max="10"/>
+<YAXIS min="-1" max="1"/>
+<LINE xaxis="0" yaxis="0">
+<INTPROBETRANS quantity="Velocity" probe="dc-sw-vel2"/>
+</LINE>
+</GRAPH>
+</DATACOLLECTOR>
 </FOLDER>
 </FOLDER>
 <FOLDER name="TEEMSS" ID="TEEMSS">
@@ -2267,7 +2414,7 @@ projects contributing to the development of CCProbeware are:
 <SNPARAGRAPH/>
 <SNPARAGRAPH>17. Take the heat cell out of its insulating box, cool it with tapwater, and dry it off.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>18. The heat cell is made so that it takes exactly 10 joules of energy to heat it one degree Celsius. How many joules did your 30 seconds of fast cranking produce? What about the 30 seconds of slow cranking? How many joules did the cell lose in 60 seconds as it cooled? Record your answers in Noteson your handheld computer.</SNPARAGRAPH>
+<SNPARAGRAPH>18. The heat cell is made so that it takes exactly 10 joules of energy to heat it one degree Celsius. How many joules did your 30 seconds of fast cranking produce? What about the 30 seconds of slow cranking? How many joules did the cell lose in 60 seconds as it cooled? Record your answers in Notes on your handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH/>
 </SUPERNOTES>
@@ -2811,7 +2958,7 @@ projects contributing to the development of CCProbeware are:
 <EMBOBJ>
 <IMAGE ID="Image_135" name="PALM_TINY_.bmp" url="../images/Energy/Multiple_Transformations/09a_mt/PALM_TINY_09a_mt.bmp"/>
 </EMBOBJ>
-<SNPARAGRAPH>9. Hold the Genecon with its shaft horizontal and the string hanging down from the pulley. Its leads should still be hooked to the otherGenecon, with the Voltage/Current leads in place.</SNPARAGRAPH>
+<SNPARAGRAPH>9. Hold the Genecon with its shaft horizontal and the string hanging down from the pulley. Its leads should still be hooked to the other Genecon, with the Voltage/Current leads in place.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>10. Restart the software to read energy.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -2939,151 +3086,6 @@ projects contributing to the development of CCProbeware are:
 <FOLDER ID="Multiple_Transformations_analysis_response" name="Analysis Responses"/>
 </FOLDER>
 </FOLDER>
-</FOLDER>
-<!--  Data Collectors include folder -->
-<FOLDER ID="dc-folder" name="TEEMSS Data Collectors" view="paging">
-<DATACOLLECTOR ID="dc-temperature1" name="Temperature Data Collector">
-<PROBE ID="dc-temp1" probe="Temperature">
-<PROP name="Port" value="A"/>
-<PROP name="Mode" value="C"/>
-</PROBE>
-<GRAPH current-line="0" title="graph subtitle goes here">
-<XAXIS min="0" max="60"/>
-<YAXIS min="10" max="40"/>
-<LINE xaxis="0" yaxis="0" datasource="dc-temp1"/>
-</GRAPH>
-</DATACOLLECTOR>
-<DATACOLLECTOR ID="dc-temperature2" name="Temperature Data Collector">
-<PROBE ID="dc-temp2" probe="Temperature">
-<PROP name="Port" value="A"/>
-<PROP name="Mode" value="C"/>
-</PROBE>
-<GRAPH current-line="0" title="graph subtitle goes here">
-<XAXIS min="0" max="120"/>
-<YAXIS min="10" max="40"/>
-<LINE xaxis="0" yaxis="0" datasource="dc-temp2"/>
-</GRAPH>
-</DATACOLLECTOR>
-<DATACOLLECTOR ID="dc-light-4000" name="Light - 4000 Lux">
-<PROBE ID="dc-light" probe="Light">
-<PROP name="Port" value="A"/>
-<PROP name="Range" value="Dim Light"/>
-<PROP name="Speed" value="200 per second"/>
-</PROBE>
-<GRAPH current-line="0" title="graph subtitle goes here">
-<XAXIS min="0" max="60"/>
-<YAXIS min="0" max="4000"/>
-<LINE xaxis="0" yaxis="0" datasource="dc-light"/>
-</GRAPH>
-</DATACOLLECTOR>
-<DATACOLLECTOR ID="dc-light-125000" name="Light - 125000 Lux">
-<PROBE ID="dc-light3" probe="Light">
-<PROP name="Port" value="A"/>
-<PROP name="Range" value="Bright Light"/>
-<PROP name="Speed" value="3 per second"/>
-</PROBE>
-<GRAPH current-line="0" title="graph subtitle goes here">
-<XAXIS min="0" max="60"/>
-<YAXIS min="0" max="125000"/>
-<LINE xaxis="0" yaxis="0" datasource="dc-light3"/>
-</GRAPH>
-</DATACOLLECTOR>
-<DATACOLLECTOR ID="dc-force1" name="Force Probe">
-<PROBE ID="dc-f1" probe="Force">
-<PROP name="Mode" value="End of Arm"/>
-<PROP name="Range" value="+/- 20N"/>
-<PROP name="Speed" value="3 per second"/>
-</PROBE>
-<GRAPH current-line="0" title="graph subtitle goes here">
-<XAXIS min="0" max="20"/>
-<YAXIS min="-0.1" max="0.6"/>
-<LINE xaxis="0" yaxis="0" datasource="dc-f1"/>
-</GRAPH>
-</DATACOLLECTOR>
-<DATACOLLECTOR ID="dc-force2" name="Force Probe">
-<PROBE ID="dc-f2" probe="Force">
-<PROP name="Mode" value="End of Arm"/>
-<PROP name="Range" value="+/- 20N"/>
-<PROP name="Speed" value="400 per second"/>
-</PROBE>
-<GRAPH current-line="0" title="graph subtitle goes here">
-<XAXIS min="0" max="10"/>
-<YAXIS min="-20" max="0"/>
-<LINE xaxis="0" yaxis="0" datasource="dc-f2"/>
-</GRAPH>
-</DATACOLLECTOR>
-<DATACOLLECTOR ID="dc-force3" name="Force Probe">
-<PROBE ID="dc-f3" probe="Force">
-<PROP name="Mode" value="End of Arm"/>
-<PROP name="Range" value="+/- 20N"/>
-<PROP name="Speed" value="400 per second"/>
-</PROBE>
-<GRAPH current-line="0" title="graph subtitle goes here">
-<XAXIS min="0" max="10"/>
-<YAXIS min="0" max="4"/>
-<LINE xaxis="0" yaxis="0" datasource="dc-f3"/>
-</GRAPH>
-</DATACOLLECTOR>
-<DATACOLLECTOR ID="dc-force4" name="Force Probe">
-<PROBE ID="dc-f4" probe="Force">
-<PROP name="Mode" value="End of Arm"/>
-<PROP name="Range" value="+/- 20N"/>
-<PROP name="Speed" value="400 per second"/>
-</PROBE>
-<GRAPH current-line="0" title="graph subtitle goes here">
-<XAXIS min="0" max="10"/>
-<YAXIS min="-20" max="1"/>
-<LINE xaxis="0" yaxis="0" datasource="dc-f4"/>
-</GRAPH>
-</DATACOLLECTOR>
-<DATACOLLECTOR ID="dc-smartwheel-pos1" name="SmartWheel Data Collector - Pos">
-<PROBE ID="dc-sw-pos1" probe="SmartWheel">
-<PROP name="Port" value="A"/>
-</PROBE>
-<GRAPH current-line="0" title="graph subtitle goes here">
-<XAXIS min="0" max="40"/>
-<YAXIS min="-0.5" max="6"/>
-<LINE xaxis="0" yaxis="0">
-<INTPROBETRANS quantity="Position" probe="dc-sw-pos1"/>
-</LINE>
-</GRAPH>
-</DATACOLLECTOR>
-<DATACOLLECTOR ID="dc-smartwheel-pos2" name="SmartWheel Data Collector - Pos">
-<PROBE ID="dc-sw-pos2" probe="SmartWheel">
-<PROP name="Port" value="A"/>
-</PROBE>
-<GRAPH current-line="0" title="graph subtitle goes here">
-<XAXIS min="0" max="10"/>
-<YAXIS min="-0.5" max="6"/>
-<LINE xaxis="0" yaxis="0">
-<INTPROBETRANS quantity="Position" probe="dc-sw-pos2"/>
-</LINE>
-</GRAPH>
-</DATACOLLECTOR>
-<DATACOLLECTOR ID="dc-smartwheel-vel1" name="SmartWheel Velocity">
-<PROBE ID="dc-sw-vel1" probe="SmartWheel">
-<PROP name="Port" value="A"/>
-</PROBE>
-<GRAPH current-line="0" title="graph subtitle goes here">
-<XAXIS min="0" max="20"/>
-<YAXIS min="-1" max="1"/>
-<LINE xaxis="0" yaxis="0">
-<INTPROBETRANS quantity="Velocity" probe="dc-sw-vel1"/>
-</LINE>
-</GRAPH>
-</DATACOLLECTOR>
-<DATACOLLECTOR ID="dc-smartwheel-vel2" name="SmartWheel Velocity">
-<PROBE ID="dc-sw-vel2" probe="SmartWheel">
-<PROP name="Port" value="A"/>
-</PROBE>
-<GRAPH current-line="0" title="graph subtitle goes here">
-<XAXIS min="0" max="10"/>
-<YAXIS min="-1" max="1"/>
-<LINE xaxis="0" yaxis="0">
-<INTPROBETRANS quantity="Velocity" probe="dc-sw-vel2"/>
-</LINE>
-</GRAPH>
-</DATACOLLECTOR>
 </FOLDER>
 </FOLDER>
 </LABBOOK>

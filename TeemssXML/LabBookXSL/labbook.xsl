@@ -17,10 +17,12 @@
 
 <xsl:template match="project">
   <LABBOOK>
-    <xsl:copy-of select="document('ccprobe.xml')"/>
+    <FOLDER ID="folder-ccprobe1" name="CCProbe">
+      <xsl:copy-of select="document('ccprobe.xml')"/>
+      <xsl:copy-of select="document('datacollectors.xml')"/>
+    </FOLDER>
     <FOLDER ID="{title}" name="{title}">
       <xsl:apply-templates select="unit"/>
-      <xsl:copy-of select="document('datacollectors.xml')"/>
     </FOLDER>
   </LABBOOK>
 </xsl:template>
