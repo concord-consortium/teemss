@@ -52,7 +52,7 @@ public class CCInterfaceManager extends Control{
 				return 3.22f;
 			}
 		}
-		return 0f;
+		return 1f;
 	}
 
 
