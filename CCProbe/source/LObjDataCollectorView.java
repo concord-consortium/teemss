@@ -13,7 +13,8 @@ import org.concord.waba.extra.probware.*;
 import org.concord.LabBook.*;
 	
 public class LObjDataCollectorView extends LabObjectView
-    implements ActionListener, ViewContainer, LabObjListener
+    implements ActionListener, ViewContainer, LabObjListener,
+			   GraphTool
 {
     LObjDataCollector dc;
     LObjGraphView gv;
@@ -130,6 +131,19 @@ public class LObjDataCollectorView extends LabObjectView
 		stopping = false;
     }
 
+	public void graphToolAction(String tool)
+	{
+		if(tool.equals("Zero Force Probe")){
+			if(rootSources != null && rootSources.getCount() > 0 &&
+			   rootSources.get(0) instanceof LObjProbeDataSource){
+				LObjProbeDataSource pds = (LObjProbeDataSource)rootSources.get(0);
+				if(pds.name == "Force"){
+					pds.zeroForce();
+				}
+			}
+		}
+	}
+
     public void layout(boolean sDone)
     {
 		if(didLayout) return;
@@ -144,6 +158,14 @@ public class LObjDataCollectorView extends LabObjectView
 
 		gv = (LObjGraphView)graph.getView(this, false, dataDict);
 		gv.showTitle(false);
+
+		if(rootSources != null && rootSources.getCount() > 0 &&
+		   rootSources.get(0) instanceof LObjProbeDataSource){
+			LObjProbeDataSource pds = (LObjProbeDataSource)rootSources.get(0);
+			if(pds.name == "Force"){
+				gv.addTool(this, "Zero Force Probe");				
+			}
+		}
 
 		gv.layout(false);
 

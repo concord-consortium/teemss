@@ -151,6 +151,16 @@ CCUnit		currentUnit = null;
 		if(probe != null) probe.setCalibrationListener(null);
 	}
 
+	public void zeroForce()
+	{
+		if(probe instanceof CCForce){
+			CCForce fProbe = (CCForce)probe;
+			
+			fProbe.startZero();
+			startDataDelivery();
+		}
+	}
+
 	public CCProb 	getProbe(){return probe;}
 	public void		setProbe(CCProb probe){
 		unRegisterProbeWithPM();
@@ -213,7 +223,14 @@ CCUnit		currentUnit = null;
 		}
 	}
 	
-    public void probChanged(ProbEvent e){
+    public void probChanged(ProbEvent e)
+	{
+		if(e.getProb() instanceof CCForce &&
+		   e.getType() == CCForce.ZEROING_DONE){
+			stopDataDelivery();
+			store();
+		}
+
     	notifyProbListeners(e);
     }
 

@@ -63,6 +63,9 @@ public class LObjGraphView extends LabObjectView
 	public static String TOOL_AUTO_ZOOM_NAME = "Auto Resize";
 	public static String TOOL_ANNOT_MARK_NAME = "Annotate Mark";
 
+	private Vector externalToolNames = null;
+	private Vector externalToolListeners = null;
+
 	GraphSettings curGS = null;
 
     public LObjGraphView(ViewContainer vc, LObjGraph g, LObjDictionary curDict)
@@ -80,6 +83,21 @@ public class LObjGraphView extends LabObjectView
 		graph.addLabObjListener(this);
 
     }
+
+	public void addTool(GraphTool listener, String name)
+	{
+		if(externalToolNames == null){
+			externalToolNames = new Vector();
+			externalToolListeners = new Vector();
+		}
+
+		externalToolNames.add(name);
+		externalToolListeners.add(listener);
+
+		if(toolsChoice != null){
+			toolsChoice.add(name);
+		}
+	}
 
 	public void labObjChanged(LabObjEvent e)
 	{
@@ -191,6 +209,10 @@ public class LObjGraphView extends LabObjectView
 		String [] toolsChoices = {TOOL_ZOOM_SELECT_NAME, TOOL_ANNOT_MARK_NAME, TOOL_DEL_MARK_NAME, 
 								  "Toggle Scrolling", TOOL_AUTO_ZOOM_NAME, };
 		toolsChoice = new Choice(toolsChoices);
+		for(int i=0; i<externalToolNames.getCount(); i++){
+			toolsChoice.add((String)externalToolNames.get(i));
+		}
+
 		toolsChoice.setName("Tools");
 		add(toolsChoice);
 		
@@ -465,6 +487,14 @@ public class LObjGraphView extends LabObjectView
 					GraphSettings gs = graph.getCurGraphSettings();
 					LObjAnnotation lObjA = gs.findAnnot(a);
 					lObjA.showPropDialog(this);
+				} else {
+					for(int i=0; i<externalToolNames.getCount(); i++){
+						if(((String)externalToolNames.get(i)).equals(toolName)){
+							if(externalToolListeners.get(i) instanceof GraphTool){
+								((GraphTool)externalToolListeners.get(i)).graphToolAction(toolName);
+							}
+						}
+					}
 				}
 			}
 		}else if(e.target == clear &&

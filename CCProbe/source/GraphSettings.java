@@ -319,7 +319,7 @@ public class GraphSettings
 			if(gv != null) gv.update(dataEvent.getTime());
 			break;
 		case DataEvent.DATA_STOPPED:
-			if(started) stopDataDelivery(false);
+			if(started) stopDataDelivery(true);
 			break;
 		}
 	}

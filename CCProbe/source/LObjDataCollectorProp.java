@@ -59,13 +59,8 @@ public class LObjDataCollectorProp extends LabObjectView
 		String [] quantityNames = probeDS.getQuantityNames();
 		if(quantityNames == null || quantityNames.length <= 1) return;
 		
-		dsProps = new PropContainer("Outputs");
-		PropObject quantityProp = new PropObject("", "DS", 0, quantityNames);
-		probeQuantities[probeType.getIndex()] = quantityProp;
-		
-		quantityProp.setType(PropObject.MULTIPLE_SEL_LIST);
-		quantityProp.setRadio(false);
-		dsProps.addProperty(quantityProp);
+		setupOutputPane(quantityNames);
+		propView.updateView();
     }
     
 	public void layout(boolean sDone)
@@ -117,23 +112,31 @@ public class LObjDataCollectorProp extends LabObjectView
 						propView.updateView();
 					}
 				} else {
-					if(dsProps == null){
-						dsProps = new PropContainer("Outputs");
-						propView.addContainer(dsProps);
-					} else {
-						PropObject oldQuantProp = dsProps.findProperty(0);
-						dsProps.removeProperty(oldQuantProp);
-					}
-					PropObject quantityProp = new PropObject("", "DS", 0, quantityNames);
-					quantityProp.setType(PropObject.MULTIPLE_SEL_LIST);
-					quantityProp.setRadio(false);
-					probeQuantities[probeType.getVisIndex()] = quantityProp;
-					dsProps.addProperty(quantityProp);
+					setupOutputPane(quantityNames);
 					propView.updateView();
 				}
 			}
 		}
 		return true;
+	}
+
+	private void setupOutputPane(String [] quantityNames)
+	{
+		if(dsProps == null){
+			dsProps = new PropContainer("Outputs");
+			propView.addContainer(dsProps);
+		} else {
+			PropObject oldQuantProp = dsProps.findProperty(0);
+			dsProps.removeProperty(oldQuantProp);
+		}
+		PropObject quantityProp = new PropObject("", "DS", 0, quantityNames);
+		quantityProp.setType(PropObject.MULTIPLE_SEL_LIST);
+		quantityProp.setRadio(false);
+		probeQuantities[probeType.getVisIndex()] = quantityProp;
+		for(int i=0; i<quantityNames.length; i++){
+			quantityProp.setCheckedValue(i, true);
+		}
+		dsProps.addProperty(quantityProp);
 	}
 
 	public void actionPerformed(ActionEvent e)
