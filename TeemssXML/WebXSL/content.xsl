@@ -95,8 +95,25 @@
 </p></li>
 </xsl:template>
 
+<xsl:template name="level_label">
+<xsl:variable name="depth">
+<xsl:value-of select="count(ancestor::steps | ancestor::instructions)"/>
+</xsl:variable>
+<xsl:choose>
+<xsl:when test="$depth ='0'">
+1
+</xsl:when>
+<xsl:when test="$depth ='1'">
+a
+</xsl:when>
+</xsl:choose>
+</xsl:template>
+
 <xsl:template match="steps">
-<ol TYPE="a" START="1">
+<xsl:variable name="type_label">
+<xsl:call-template name="level_label"/>
+</xsl:variable>
+<ol TYPE="{$type_label}" START="1">
 <xsl:apply-templates select="step"/>
 </ol>
 </xsl:template>
