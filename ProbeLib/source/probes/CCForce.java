@@ -12,13 +12,36 @@ public class CCForce extends Probe
 
 	public final static String [] modeNames = {"End of Arm", "Middle of Arm"};
 	public final static String [] range1Names = {"+/- 2N", "+/- 20N"};
-	public final static String [] range2Names = {"+/- 20N", "+/- 200N"};
+	public final static String [] range2Names = {"+/- 200N"};
 	public final static String [] speed1Names = {3 + speedUnit, 200 + speedUnit, 400 + speedUnit};
 	public final static String [] speed2Names = {3 + speedUnit, 200 + speedUnit};
 
 	public int curChannel = 1;
-	float	A = 0.01734f;
-	float B = -25.31f;
+	/*
+	  Newtons f(mV input){ return (input - offset) / sensitivity; }
+	                        max	    max	    standard	maximum		
+      offset	sensitivity	range	range	deviation	deviation		
+      1317.2	-49.133	    26.8	-24.1	5.9%	    10.7%	x1 - end of beam	
+      1317.2	-4.735	    278	    -250	22.8%	    29.7%	x1 - middle of beam	
+      1845.2	-471.735	3.9	    -1.4	22.2%	    27.4%	x10 - end of beam	
+
+	  old values
+	  float	A = 0.01734f;
+	  float B = -25.31f;
+	 */
+
+	// f(input) = A*input + B;
+	// A = 1/sensitivity
+	// B = -(offset/sensitivity)
+	float end_x1_A     = 1f/-49.133f;
+	float end_x1_B     = 1317.2f/49.133f;
+	float middle_x1_A  = 1f/-4.735f;
+	float middle_x1_B  = 1317.2f/4.735f;
+	float end_x10_A    = 1f/-471.735f;
+	float end_x10_B    = 1845.2f/471.735f;
+
+	float curA, curB;
+	int calDescIndex;
 
 	PropObject modeProp = new PropObject("Mode", "Mode", PROP_MODE, modeNames);
 	PropObject rangeProp = new PropObject("Range", "Range", PROP_RANGE, range1Names, 1);
@@ -43,8 +66,12 @@ public class CCForce extends Probe
 
 		if(init){	
 			calibrationDesc = new CalibrationDesc();
-			calibrationDesc.addCalibrationParam(new CalibrationParam(0,A));
-			calibrationDesc.addCalibrationParam(new CalibrationParam(1,B));
+			calibrationDesc.addCalibrationParam(new CalibrationParam(0,end_x1_A));
+			calibrationDesc.addCalibrationParam(new CalibrationParam(1,end_x1_B));
+			calibrationDesc.addCalibrationParam(new CalibrationParam(2,middle_x1_A));
+			calibrationDesc.addCalibrationParam(new CalibrationParam(3,middle_x1_B));
+			calibrationDesc.addCalibrationParam(new CalibrationParam(4,end_x10_A));
+			calibrationDesc.addCalibrationParam(new CalibrationParam(5,end_x10_B));
 		}
 		unit = CCUnit.UNIT_CODE_NEWTON;		
 	}
@@ -126,6 +153,25 @@ public class CCForce extends Probe
 		channelOffset = curChannel;
 		if(curChannel > activeChannels - 1) channelOffset = activeChannels - 1;
 
+		int rangeIndex = rangeProp.getIndex();
+		int modeIndex = speedProp.getIndex();
+		
+		if(modeIndex == 0){
+			if(rangeIndex == 1){
+				curA = end_x1_A;
+				curB = end_x1_B;
+				calDescIndex = 0;
+			} else {
+				curA = end_x10_A;
+				curA = end_x10_B;
+				calDescIndex = 4;
+			}
+		} else {
+			curA = middle_x1_A;
+			curB = middle_x1_B;
+			calDescIndex = 2;
+		}
+
 		if(!zeroing) return super.startSampling(dEvent);
 		return true;
     }
@@ -156,10 +202,11 @@ public class CCForce extends Probe
 				zeroCount++;
 				if(zeroCount > ZEROING_NUM_POINTS + 1){
 					notifyProbListeners(new ProbEvent(this, ZEROING_DONE, null));
-					B = -A*v*(zeroSum/(float)(zeroCount-1));
+					curB = -curA*v*(zeroSum/(float)(zeroCount-1));
 					if(calibrationDesc != null){
-						CalibrationParam p = calibrationDesc.getCalibrationParam(1);
-						if(p != null) p.setValue(B);
+						// need to find the which calibration this is;
+						CalibrationParam p = calibrationDesc.getCalibrationParam(calDescIndex + 1);
+						if(p != null) p.setValue(curB);
 					}
 					speedProp.setIndex(zeroOrigSpeed);
 					zeroing = false;
@@ -169,7 +216,7 @@ public class CCForce extends Probe
 			return true;
 		} else if(calibrationListener != null){
 			dEvent.numbSamples = 1;
-			forceData[0] = A*e.intData[e.dataOffset+channelOffset]*v+B;
+			forceData[0] = curA*e.intData[e.dataOffset+channelOffset]*v+curB;
 			if(activeChannels == 2){
 				forceData[1] = e.intData[e.dataOffset]*v;
 				forceData[2] = e.intData[e.dataOffset+1]*v;
@@ -186,9 +233,10 @@ public class CCForce extends Probe
 			int dOff = e.dataOffset;
 			int data [] = e.intData;
 			int currPos = 0;
+			float mult = curA*v;
 			for(int i = 0; i < ndata; i+= chPerSample){
 				forceIntData[currPos] = data[dOff + i+channelOffset];
-				forceData[currPos] = A*forceIntData[currPos]*v+B;
+				forceData[currPos] = mult*forceIntData[currPos]+curB;
 				currPos++;
 			}
 		}
@@ -207,22 +255,40 @@ public class CCForce extends Probe
 		}
 		float y1 = calibrated[0];
 		float y2 = calibrated[1];
-		A = (y2 - y1)/(x2 - x1);
-		B = y2 - A*x2;
+		curA = (y2 - y1)/(x2 - x1);
+		curB = y2 - curA*x2;
 		if(calibrationDesc != null){
-			CalibrationParam p = calibrationDesc.getCalibrationParam(0);
-			if(p != null) p.setValue(A);
-			p = calibrationDesc.getCalibrationParam(1);
-			if(p != null) p.setValue(B);
+			CalibrationParam p = calibrationDesc.getCalibrationParam(calDescIndex);
+			if(p != null) p.setValue(curA);
+			p = calibrationDesc.getCalibrationParam(calDescIndex+1);
+			if(p != null) p.setValue(curB);
 		}
 	}
 	public void calibrationDescReady(){
 		if(calibrationDesc == null) return;
+
 		CalibrationParam p = calibrationDesc.getCalibrationParam(0);
 		if(p == null || !p.isValid()) return;
-		A = p.getValue();
+		end_x1_A = p.getValue();
+
 		p = calibrationDesc.getCalibrationParam(1);
 		if(p == null || !p.isValid()) return;
-		B = p.getValue();
+		end_x1_B = p.getValue();
+
+		p = calibrationDesc.getCalibrationParam(2);
+		if(p == null || !p.isValid()) return;
+		middle_x1_A = p.getValue();
+
+		p = calibrationDesc.getCalibrationParam(3);
+		if(p == null || !p.isValid()) return;
+		middle_x1_B = p.getValue();
+
+		p = calibrationDesc.getCalibrationParam(4);
+		if(p == null || !p.isValid()) return;
+		end_x10_A = p.getValue();
+
+		p = calibrationDesc.getCalibrationParam(5);
+		if(p == null || !p.isValid()) return;
+		end_x10_B = p.getValue();
 	}
 }
