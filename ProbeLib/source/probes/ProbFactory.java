@@ -7,8 +7,9 @@ public final static int Prob_Light 			= 1;
 public final static int Prob_SmartWheel		= 2;
 public final static int Prob_RawData        		= 3;
 public final static int Prob_Force        		= 4;
+public final static int Prob_VoltCurrent    		= 5;
 
-    public static String [] probeNames = {"Temperature", "Light", "SmartWheel", "RawData","Force"};
+    public static String [] probeNames = {"Temperature", "Light", "SmartWheel", "RawData","Force","Voltage/Current"};
 
 	public static CCProb createProb(int probIndex,int interfacePort){
 		CCProb newProb = null;
@@ -27,6 +28,9 @@ public final static int Prob_Force        		= 4;
 				break;
 			case Prob_Force:
 			   	newProb = new CCForce(probeNames[Prob_Force]);
+				break;
+			case Prob_VoltCurrent:
+			   	newProb = new CCVoltCurrent(probeNames[Prob_VoltCurrent]);
 				break;
 		}
 		if(newProb != null){
