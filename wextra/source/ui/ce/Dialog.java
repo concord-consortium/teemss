@@ -34,12 +34,14 @@ private waba.ui.Container		contentPane;
   
   public void setRect(int x,int y,int width,int height){
     super.setRect(x,y,width,height);
+    boolean doSetContent = false;
     if(contentPane == null){
-  	contentPane = new waba.ui.Container();
+  		contentPane = new waba.ui.Container();
     	add(contentPane);
+    	doSetContent = true;
     }
     contentPane.setRect(0,15,width,height-15);
-    setContent();
+    if(doSetContent) setContent();
   }
 
 	public void setContent(){}

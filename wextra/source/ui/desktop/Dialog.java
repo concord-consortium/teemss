@@ -42,12 +42,14 @@ private waba.ui.Container		contentPane;
   
   public void setRect(int x,int y,int width,int height){
     super.setRect(x,y,width,height);
+    boolean doSetContent = false;
     if(contentPane == null){
-	contentPane = new waba.ui.Container();
-	 add(contentPane);
+		contentPane = new waba.ui.Container();
+	 	add(contentPane);
+    	doSetContent = true;
     }
     contentPane.setRect(0,0,width,height);
-    setContent();
+    if(doSetContent) setContent();
   }
 
     public boolean contains(int x, int y){
@@ -56,6 +58,7 @@ private waba.ui.Container		contentPane;
 
   public void wasAWTAddNotify(){
   	super.wasAWTAddNotify();
+  	boolean doSetContent = false;
 	java.awt.Window awtWindow = (java.awt.Window)getAWTCanvas().getParent();
   	java.awt.Insets insets 	= awtWindow.getInsets();
   	java.awt.Dimension d 	= awtWindow.getSize();

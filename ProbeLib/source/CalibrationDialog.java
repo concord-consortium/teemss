@@ -12,6 +12,7 @@ CCButton bClose = null;
 CCButton bApply = null;
 CCButton bStart = null;
 CCButton bStop = null;
+TabBar 	 tabBar = null;
 
 waba.ui.Label  contName = null;
 Container []propertiesPanes =null;
@@ -60,19 +61,25 @@ DeviationControl	devControl;
 		waba.fx.FontMetrics fm = getFontMetrics(getFont());
 		int bWidthClose	= fm.getTextWidth("Close") + 5;
 		int bWidthApply	= fm.getTextWidth("Apply") + 5;
-		bClose = new CCButton("Close");
+		if(bClose == null) 	bClose = new CCButton("Close");
+		else 				getContentPane().remove(bClose);
 		bClose.setRect(contentRect.width/2 - 5 - bWidthClose,contentRect.height - 5 - bHeight,bWidthClose,bHeight);
 		getContentPane().add(bClose);
-		bApply = new CCButton("Apply");
+		if(bApply == null) bApply = new CCButton("Apply");
+		else 				getContentPane().remove(bApply);
 		bApply.setRect(contentRect.width/2 + 5 ,contentRect.height - 5 - bHeight,bWidthApply,bHeight);
 		getContentPane().add(bApply);
 		bApply.setEnabled(false);
 	}
 	public void setTabBar(){
-		TabBar tabBar = new TabBar();
-		for(int i = 0; i < nContainers; i++){
-			MyTab tab = new MyTab(nameTabs[i]);
-			tabBar.add(tab);
+		if(tabBar == null){
+			tabBar = new TabBar();
+			for(int i = 0; i < nContainers; i++){
+				MyTab tab = new MyTab(nameTabs[i]);
+				tabBar.add(tab);
+			}
+		}else{
+			getContentPane().remove(tabBar);
 		}
 		tabBar.setRect(widthBorder+2, 0, width - 2*widthBorder - 4, 20);
 		getContentPane().add(tabBar);
@@ -139,7 +146,7 @@ DeviationControl	devControl;
  		if(propertiesPanes[currContainer] == null){
 			propertiesPanes[currContainer] = new Container();
  		}
-		int pHeight = contentRect.height - (25 + bHeight);
+		int pHeight = contentRect.height - (25 + bHeight) - 20;
 		int pWidth = contentRect.width - 2*widthBorder;
 		propertiesPanes[currContainer].setRect(widthBorder,20, pWidth ,pHeight);
 		currentPane = propertiesPanes[currContainer];
@@ -314,6 +321,7 @@ DeviationControl	devControl;
 		}
 		if (event.type == waba.ui.ControlEvent.PRESSED){
 			if(event.target instanceof MyTab){
+				System.out.println("MYTAB");
 				String contName = ((MyTab)event.target).getText();
 		    		int index = -1;
 				for(int i = 0; i < nContainers; i++){
