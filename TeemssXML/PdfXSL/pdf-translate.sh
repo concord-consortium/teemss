@@ -1,9 +1,9 @@
 #! /bin/bash
 
-CLASSPATH=../jars/bsf.jar:../jars/js.jar:../jars/xalan.jar:../jars/xerces.jar
 
-for XSL_FILE in investigations.xsl
+for FO_FILE in `cd ../pdf; ls *.fo`
  do
-echo translating $XSL_FILE
-java -cp $CLASSPATH org.apache.xalan.xslt.Process -in ../unit.xml -xsl $XSL_FILE
+echo foping $FO_FILE
+cd ../fop/Fop-0.20.1/; ./fop.sh -fo ../../pdf/$FO_FILE -pdf \
+../../pdf/`echo $FO_FILE | sed -e 's/.fo/.pdf/g'`
 done

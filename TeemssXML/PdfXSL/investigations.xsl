@@ -97,6 +97,7 @@
 <xsl:apply-templates select="materials"/>
 <xsl:apply-templates select="safety"/>
 <xsl:apply-templates select="trial"/>
+<xsl:apply-templates select="hints"/>
 <xsl:apply-templates select="analysis"/>
 <xsl:apply-templates select="further"/>
 
@@ -390,6 +391,58 @@
   	</xsl:choose>
 </xsl:template>
 
+<xsl:template match="hints">
+	<fo:block font-size="14pt" font-family="san-serif"
+		font-weight="bold" color="black"
+		space-before="6pt" space-after="6pt">
+	Technical Hints
+	</fo:block>
+	<fo:block>
+		<xsl:apply-templates/>
+	</fo:block>
+</xsl:template>
+
+
+<xsl:key name="tech-hint-def" match="tech-hint" use="@name"/>
+
+
+<xsl:template match="tech-hint-ref">
+	<xsl:apply-templates select="key('tech-hint-def', @ref)"/>
+</xsl:template>
+
+<xsl:template match="tech-hint">
+	<fo:block font-size="14pt" font-family="san-serif"
+		font-weight="bold" color="black"
+		space-before="6pt" space-after="6pt" text-align="center">
+	<xsl:value-of select="title"/>
+	</fo:block>
+	<fo:block
+        	text-indent="1em"
+        	font-family="sans-serif" font-size="12pt"
+        	space-before.minimum="2pt"
+        	space-before.maximum="6pt"
+        	space-before.optimum="4pt"
+        	space-after.minimum="2pt"
+        	space-after.maximum="6pt"
+        	space-after.optimum="4pt" break-after="page">
+    	<xsl:apply-templates/>
+    	</fo:block>
+</xsl:template>
+
+<xsl:template match="tech-hint-body">
+	<fo:block
+        	text-indent="1em"
+        	font-family="sans-serif" font-size="12pt"
+        	space-before.minimum="2pt"
+        	space-before.maximum="6pt"
+        	space-before.optimum="4pt"
+        	space-after.minimum="2pt"
+        	space-after.maximum="6pt"
+        	space-after.optimum="4pt">
+    	<xsl:apply-templates/>
+    	</fo:block>
+</xsl:template>
+
 
 <xsl:template match="p">
 	<fo:block
@@ -431,17 +484,29 @@
 </lxslt:component>
 
 
-<!-- the code that will give "fop" the correct
-	path to the image is:
+<xsl:template match="shared-image">
+	<xsl:choose>
+  		<xsl:when test="@screenshot='true'">
+			<fo:block text-align="center" border="solid 0.5pt black" margin-left="2in"
+				padding-start="0.2in" margin-right="2in">
+			<fo:external-graphic  width="3in"	
+			src="file:/images/Technical_Hints/screenshots/{@name}/RAW_{@name}.tif"/>
+			</fo:block>
+		</xsl:when>
+		<xsl:otherwise>
+			<fo:block text-align="center" border="solid 0.5pt black" margin-left="2in"
+				padding-start="0.2in" margin-right="2in">
+			<fo:external-graphic height="2.658in" width="3in"	
+			src="file:/images/Technical_Hints/pictures/{@name}/RAW_{@name}.tif"/>
+			</fo:block>
+		</xsl:otherwise> 
+	</xsl:choose> 
+      </xsl:template>
 
-images/{cc-ext:getImageDir(concat(string(ancestor::unit/@name),'/',
-string(ancestor::investigation/@name)), string(@name))}/RAW_{@name}.tif
-
--->
 
 <xsl:template match="ext-image">
 	<fo:block text-align="center" border="solid 0.5pt black" margin-left="2in"
-	padding-start="0.2in" margin-right="2in">
+		padding-start="0.2in" margin-right="2in">
 
 	<fo:external-graphic  height="2.658in" width="3in"
 		src="file:images/{ancestor::unit/@name}/{ancestor::investigation/@name}/{@name}/RAW_{@name}.tif"/>
