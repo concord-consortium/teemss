@@ -500,6 +500,7 @@ private static int inGetUInt16(byte bytes[], int off)
 	
 	waba.fx.Image wi = new waba.fx.Image(width,height);
 	
+
 	if(bpp == 8){
 		int []pCol	= CCPalette.getPaletteAsInt();
 		if(pCol != null){
@@ -520,6 +521,7 @@ private static int inGetUInt16(byte bytes[], int off)
 			cmap = pCol;
 		}
 	}	
+
 	imageHeight = height;
 	imageBPP	= bpp;
 	imageCMAP	= cmap;

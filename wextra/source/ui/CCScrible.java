@@ -237,7 +237,18 @@ boolean embeddedState = false;
 			out.writeBoolean(false);
 		}else{
 			out.writeBoolean(true);
-			pathList.writeExternal(out);
+			CCDrawPath currPath = pathList;
+			while(currPath != null){
+				out.writeInt(CCDrawPath.BEGIN_PATH_ITEM);
+				currPath.writeExternal(out);
+				currPath = currPath.next;
+				if(currPath != null){
+					out.writeInt(CCDrawPath.END_PATH_ITEM);
+				}else{
+					out.writeInt(CCDrawPath.END_PATH_LIST);
+				}
+			}
+//			pathList.writeExternal(out);
 		}
 		out.writeInt(DATA_PEN);
 		if(pen == null){
@@ -250,8 +261,24 @@ boolean embeddedState = false;
 	public void readExternal(extra.io.DataStream in){
 		int temp = in.readInt();
 		if(temp != DATA_PATH) return;
+		pathList = null;
 		if(in.readBoolean()){
-			pathList = new CCDrawPath(in);
+			boolean doExit = false;
+			CCDrawPath	tempPath = null;
+			while(!doExit){
+				temp = in.readInt();
+				if(temp != CCDrawPath.BEGIN_PATH_ITEM) return;
+				if(tempPath == null){
+					tempPath = new CCDrawPath(in);
+				}else{
+					tempPath.next = new CCDrawPath(in);
+					tempPath = tempPath.next;
+				}
+				if(pathList == null) pathList = tempPath;
+				temp = in.readInt();			
+				doExit = (temp != CCDrawPath.END_PATH_ITEM);
+			}
+//			pathList = new CCDrawPath(in);
 		}
 		CCDrawPath path = pathList;
 		while(path != null){
@@ -529,8 +556,8 @@ public final static int END_PATH_LIST = 10002;
 		dirty = true;
 	}
 	public CCDrawPath(extra.io.DataStream in){
-		int temp = in.readInt();
-		if(temp != BEGIN_PATH_ITEM) return;
+//		int temp = in.readInt();
+//		if(temp != BEGIN_PATH_ITEM) return;
 		type = in.readInt();
 		in.readBoolean();//colorMode skip
 		wPen = in.readByte();
@@ -539,7 +566,7 @@ public final static int END_PATH_LIST = 10002;
 		gPen = in.readInt();
 		bPen = in.readInt();
 		currPos = in.readInt();
-		temp = in.readInt();
+		int temp = in.readInt();
 		if(temp > 0){
 		    points = new short[temp];
 		    for(int i = 0; i < points.length;i++){
@@ -547,14 +574,14 @@ public final static int END_PATH_LIST = 10002;
 		    }
 
 		}
-		temp = in.readInt();
-		if(temp == END_PATH_ITEM){
-			next = new CCDrawPath(in);
-		}
+//		temp = in.readInt();
+//		if(temp == END_PATH_ITEM){
+//			next = new CCDrawPath(in);
+//		}
 	}
 	
 	public void writeExternal(extra.io.DataStream out){
-		out.writeInt(BEGIN_PATH_ITEM);
+//		out.writeInt(BEGIN_PATH_ITEM);
 		out.writeInt(type);
 		out.writeBoolean(colorMode);
 		out.writeByte(wPen);
@@ -571,11 +598,13 @@ public final static int END_PATH_LIST = 10002;
 			    out.writeShort(points[i]);
 			}
 		}
+/*
 		if(next != null){
 			out.writeInt(END_PATH_ITEM);
 			next.writeExternal(out);
 		}
 		else	out.writeInt(END_PATH_LIST);
+*/
 	}
 	
 	public void 		setNext(CCDrawPath next){this.next = next;}
