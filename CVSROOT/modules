@@ -26,4 +26,4 @@
 # spread out over the entire source repository.
 CVSROOT         CVSROOT
 modules         CVSROOT modules
-BlockModel-all	&BlockModel &wgraph &ProbeSystem
+BlockModel-all	&BlockModel &wgraph &ProbeSystem &ReleaseSystem
