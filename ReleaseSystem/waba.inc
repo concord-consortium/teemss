@@ -16,6 +16,7 @@ PILA= $(CURDIR)/../palmtools/bin/pila
 PILRC= $(CURDIR)/../palmtools/bin/pilrc
 
 define POST_BUILD_CMDS
+-rm $(BIN_DIR)/$(MW_CLASS).tar.gz
 cd $(BIN_DIR); tar cvzf $(MW_CLASS).tar.gz *
 cp tag $(BIN_DIR)/Version.txt
 endef
