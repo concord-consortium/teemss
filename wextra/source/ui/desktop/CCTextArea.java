@@ -33,7 +33,7 @@ protected CCTextAreaState curState = new CCTextAreaState();
 		setText(str);//temporary
 	}
 	public void setText(String str){
-	
+		lines = null;
 		int determinedSystem = -1; //unix - 0; //mac - 1 dos - 2
 		if(str == null) return;
 		StringBuffer sb = new StringBuffer();
@@ -69,8 +69,19 @@ protected CCTextAreaState curState = new CCTextAreaState();
 				lines = newLines;
 				lines[nLines] = new CCStringWrapper(this,sb.toString(),lastRow);
 				lastRow += (lines[nLines].getRows());
+				sb.setLength(0);
 			}
 			i++;
+		}
+		if(lines == null){
+			lines = new CCStringWrapper[1];
+			lines[0] = new CCStringWrapper(this,sb.toString(),0);
+		}else{
+			int nLines = lines.length;
+			CCStringWrapper []newLines = new CCStringWrapper[nLines+1];
+			waba.sys.Vm.copyArray(lines,0,newLines,0,nLines);
+			lines = newLines;
+			lines[nLines] = new CCStringWrapper(this,sb.toString(),lastRow);
 		}
 		repaint();
 	}
@@ -81,13 +92,9 @@ protected CCTextAreaState curState = new CCTextAreaState();
 	}
 	public void gotFocus(){
 		hasCursor =  true;
-		caretTimer = addTimer(500);
-	//	checkScrolls();
+//		caretTimer = addTimer(500);
 	}
 	public void lostFocus(){
-//		clearSelection();
-//		if (homeCursorOnLostFocus) newCursorPos(0,0,false);
-//		checkScrolls();
 		clearCursor();
 		cursorOn = cursorOn = false;
 		removeTimer(caretTimer);
@@ -106,7 +113,7 @@ protected CCTextAreaState curState = new CCTextAreaState();
 				cursorOn = !cursorOn;
 			}
 */
-			g.drawCursor(10,10,1,8);
+//			g.drawCursor(10,10,1,8);
 			cursorOn = !cursorOn;
 		}
 		if (gr == null) g.free();
@@ -181,8 +188,8 @@ CCStringWrapper owner = null;
 class CCStringWrapper{
 String str;
 CCTextArea owner = null;
-int  	beginPos 	= 0;
-int		endPos 		= 166;
+int  	beginPos 	= 5;
+int		endPos 		= 50;
 
 int		beginRow	= -1;
 int		endRow		= -1;
@@ -190,16 +197,11 @@ String	[]strings = null;
 
 int inset = 5;
 
-	CCStringWrapper(CCTextArea owner){
-		str = "";
-		this.owner = owner;
-		Rect r = owner.getRect();
-		beginPos 	= r.x;
-		endPos 		= beginPos + r.width - inset;
-	}
-	
 	CCStringWrapper(CCTextArea owner,String str,int beginRow){
 		this.owner = owner;
+		Rect r = owner.getRect();
+		beginPos 	= r.x + inset;
+		endPos 		= beginPos + r.width - inset;
 		setStr(str,beginRow);
 	}
 	String getStr(){return str;}
@@ -213,23 +215,22 @@ int inset = 5;
 		FontMetrics fm = owner.getFontMetrics();
 		if(fm == null || str == null) return;
 		int x 			= beginPos;
-		int lastWord 	= beginPos;
+		int lastWord 	= 0;
 		int	blankWidth = fm.getCharWidth(' ');
+		int	delimiterIndex = 0;
 		int i = 0;
-		StringBuffer sb = new StringBuffer();
 		while(i < str.length()){
 			char c = str.charAt(i);
 			if(isWhiteSpace(c)){
 				if(c == '\n') break;
-				lastWord = x;
+				lastWord = i+1;
 			}
 			int w = fm.getCharWidth(c);
 			if(x + w > endPos){
-				if(lastWord == beginPos){
-					lastWord = x;
-					i = lastWord;
+				if(lastWord == delimiterIndex){
+					lastWord = i;
 				}else{
-					i = lastWord+1;
+					i = lastWord;
 				}
 				int nStrings = 0;
 				if(strings != null){
@@ -240,18 +241,27 @@ int inset = 5;
 					waba.sys.Vm.copyArray(strings,0,newStrings,0,nStrings);
 				}
 				strings = newStrings;
-				strings[nStrings] = sb.toString();
+				strings[nStrings] = str.substring(delimiterIndex,lastWord);
 				x = beginPos;
-				sb.setLength(0);
+				delimiterIndex = i;
 			}else{
-				sb.append(c);
+				x += w;
 			}
 			i++;
 		}
 		if(strings == null){
 			strings = new String[1];
-			strings[0] = sb.toString();
+			strings[0] = str;
+		}else{
+			if(delimiterIndex < str.length()){
+				int nStrings = strings.length;
+				String []newStrings = new String[nStrings + 1];
+				waba.sys.Vm.copyArray(strings,0,newStrings,0,nStrings);
+				strings = newStrings;
+				strings[nStrings] = str.substring(delimiterIndex,str.length());
+			}
 		}
+		this.endRow 	= this.beginRow + strings.length;
 	}
 	
 	public int getRows(){
@@ -277,7 +287,7 @@ int inset = 5;
 		for(int i = beginRow; i < endRow; i++){
 			int y = i*h;
 			if(i - beginRow < strings.length){
-				gr.drawText(strings[i-beginRow],y,beginPos);
+				gr.drawText(strings[i-beginRow],beginPos,y);
 			}
 		}
 	}
