@@ -76,7 +76,7 @@ public class TextLine extends Object {
 		font = f;
 		fontMet = MainWindow.getMainWindow().getFontMetrics(font);
 
-		setText(v, false);
+		setText(v);
 	}
 
 	public TextLine(float v){
@@ -90,7 +90,7 @@ public class TextLine extends Object {
 		font = f;
 		fontMet = MainWindow.getMainWindow().getFontMetrics(font);
 
-		setText(s, false);
+		setText(s);
     }
 
     public TextLine(String s){
@@ -113,12 +113,8 @@ public class TextLine extends Object {
     }
 
 	public TextLine(){
+		fontMet = MainWindow.getMainWindow().getFontMetrics(MainWindow.defaultFont);
 	}		
-
-	public TextLine(int d){
-		this();
-		direction = d;
-	}
 
     public void free()
     {
@@ -205,10 +201,6 @@ public class TextLine extends Object {
 
     public boolean  parseText()
     {
-		if(fontMet == null){
-			fontMet = MainWindow.getMainWindow().getFontMetrics(MainWindow.defaultFont);
-		}
-
 		textWidth = fontMet.getTextWidth(text);
 		textHeight = fontMet.getHeight();
 		textHeight -= 1;
@@ -228,15 +220,10 @@ public class TextLine extends Object {
 		return true;
     }
 
-	public void setText(float v)
-	{
-		setText(v, true);
-	}
-
 	float fVal = Maths.NaN;
 	int fMinDigits = -1;
 	int fMaxDigits = -1;
-	public void setText(float v, boolean update)
+	public void setText(float v)
 	{
 		if(v == fVal && fMinDigits == minDigits && 
 		   fMaxDigits == maxDigits){
@@ -245,26 +232,19 @@ public class TextLine extends Object {
 			fVal = v;
 			fMaxDigits = maxDigits;
 			fMinDigits = minDigits;
-			setText(fToString(v), update);
+			setText(fToString(v));
 		}
 	}
 
-	public void setText(String s)
-	{
-		setText(s, true);
-	}
-
-    public void setText(String s, boolean update)
+    public void setText(String s)
     {
 		if(text != null && text.equals(s)) return;
 		text = s;
 		parseText();
 		if(buffer != null) buffer.free();
-		if(bufG != null) bufG.free();
+		if(bufG != null)bufG.free();
 		buffer = null;
-		bufG = null;
-
-		if(update) updateBuffer();
+		updateBuffer();
     }
 
     /* Draw starting at the upper left hand corner
@@ -295,17 +275,11 @@ public class TextLine extends Object {
 		Graphics rotG = null;
 		Graphics g = null;
 
-		if(width <= 0 || height <= 0 || width > 160 || height > 160){
+		if(width <= 0 || height <= 0){
 			buffer = null;
 			return;
 		}
-
 		buffer = new Image(width, height);
-		if(buffer.getWidth() <= 0) {
-			// Don't have the memory to create this image 
-			buffer = null;
-			return;
-		}
 		g = bufG = new Graphics(buffer);
 
 		if(direction == RIGHT){
@@ -315,6 +289,9 @@ public class TextLine extends Object {
 
 		offsI = new Image(textWidth, textHeight);
 		offsG = new Graphics((ISurface)offsI);
+
+		if(font != null) offsG.setFont(font);
+		offsG.setColor(col[0],col[1],col[2]);
 
 		drawRight(offsG, 0, 0);
 
@@ -347,7 +324,7 @@ public class TextLine extends Object {
 
 		updateBuffer();
 
-		if(buffer != null) _g.copyRect(buffer, 0, 0, width, height, x, y);
+		_g.copyRect(buffer, 0, 0, width, height, x, y);
 
 
     }
