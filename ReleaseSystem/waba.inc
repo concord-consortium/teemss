@@ -9,8 +9,8 @@
 # RUN_PLATFORM  (the directory the main class is run from)
 # WARP_PLATFOrM  (probably nothing, palm, or other)
 
-JUMP_JAR = /home/scytacki/jump/jar/jump.jar
-export PILAINC=/home/scytacki/pila
+JUMP_JAR = $(CURDIR)/../wj_tools/jump.jar
+export PILAINC= $(CURDIR)/../wj_tools/pila
 
 WABA_DIR= $(CURDIR)/../wabasdk/classes
 WEXTRAS_DIR= $(CURDIR)/../wextra/classes/desktop
