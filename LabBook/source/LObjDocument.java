@@ -23,9 +23,6 @@ public LObjDocumentView view = null;
  			view = new LObjDocumentView(vc, this, edit);
  		}else if(view.container == null){
     		view.container = vc;
-    		if(view.menu == null/* && edit*/){
-    			view.addMenus(vc);
-    		}
     	}
 		return view;
     }

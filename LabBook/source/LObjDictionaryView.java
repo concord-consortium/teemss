@@ -52,9 +52,10 @@ public class LObjDictionaryView extends LabObjectView
 			if(waba.sys.Vm.getPlatform().equals("PalmOS")){
 				fileStrings = palmFileStrings;
 			}
-			vc.getMainView().addMenu(this, editMenu);
-			vc.getMainView().addMenu(this, viewMenu);
-			vc.getMainView().addFileMenuItems(fileStrings, this);
+			addMenus();
+//			vc.getMainView().addMenu(this, editMenu);
+//			vc.getMainView().addMenu(this, viewMenu);
+//			vc.getMainView().addFileMenuItems(fileStrings, this);
 		}
 
     }
@@ -312,21 +313,17 @@ public class LObjDictionaryView extends LabObjectView
 
 	public void showPage(LabObject obj, boolean edit, boolean property)
 	{
-		getMainView().delMenu(this, viewMenu);
-		getMainView().delMenu(this, editMenu);
-		getMainView().removeFileMenuItems(fileStrings, this);
-
+		delMenus();
 		editStatus = edit;
 		if(property){
 			lObjView = obj.getPropertyView(this, (LObjDictionary)treeControl.getSelectedParent());
 		}else{
 			lObjView = obj.getView(this, edit, (LObjDictionary)treeControl.getSelectedParent());
+			lObjView.addMenus();
 		}
 
 		if(lObjView == null){
-		    getMainView().addMenu(this, editMenu);
-		    getMainView().addMenu(this, viewMenu);
-			getMainView().addFileMenuItems(fileStrings, this);
+			addMenus();
 		    return;
 		}
 
@@ -339,6 +336,19 @@ public class LObjDictionaryView extends LabObjectView
 
     }
 
+	public void addMenus(){
+	    if(editMenu != null) getMainView().addMenu(this, editMenu);
+	    if(viewMenu != null) getMainView().addMenu(this, viewMenu);
+		getMainView().addFileMenuItems(fileStrings, this);
+	}
+	public void delMenus(){
+		if(container != null){
+			if(editMenu != null) container.getMainView().delMenu(this,editMenu);
+			if(viewMenu != null) container.getMainView().delMenu(this,viewMenu);
+			container.getMainView().removeFileMenuItems(fileStrings, this);
+		}
+	}
+
 	public MainView getMainView()
 	{
 		if(container != null) return container.getMainView();
@@ -348,6 +358,7 @@ public class LObjDictionaryView extends LabObjectView
     public void done(LabObjectView source)
     {
 		if(source == lObjView){
+			lObjView.delMenus();
 			lObjView.close();
 	    
 
@@ -365,9 +376,7 @@ public class LObjDictionaryView extends LabObjectView
 			remove(lObjView);
 			treeControl.reparse();
 			add(me);
-			getMainView().addMenu(this, editMenu);
-			getMainView().addMenu(this, viewMenu);
-			getMainView().addFileMenuItems(fileStrings, this);
+			addMenus();
 			lObjView = null;
 		}
 		//	System.gc();
@@ -390,11 +399,7 @@ public class LObjDictionaryView extends LabObjectView
     public void close()
     {
 	
-		if(container != null){
-			container.getMainView().delMenu(this,editMenu);
-			container.getMainView().delMenu(this,viewMenu);
-			container.getMainView().removeFileMenuItems(fileStrings, this);
-		}
+		delMenus();
 	
 		super.close();
 		// Commit ???

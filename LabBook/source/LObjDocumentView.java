@@ -21,8 +21,14 @@ Menu 					menu = null;
 		super(vc);
 		doc = d;
 		lObj = doc;
-		/*if(edit) */addMenus(vc);
 	}
+	public void delMenus(){
+		if(container != null) container.getMainView().delMenu(this, menu);
+	}
+	public void addMenus(){
+		addMenus(container);
+	}
+	
 	public void addMenus(ViewContainer vc){
 		
 		if(menu != null || vc == null) return;
@@ -96,9 +102,6 @@ Menu 					menu = null;
 			doc.name = nameEdit.getText();
 		}
 		doc.text = tArea.getText();
-		if(container != null && menu != null){
-		    container.getMainView().delMenu(this,menu);
-		}
 
 		super.close();
 	}

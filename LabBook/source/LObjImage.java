@@ -25,7 +25,6 @@ public LObjImageView view = null;
     	}else if(view.container == null){
     		view.container = vc;
     	}
-    	if(view != null) view.addMenus(vc);
 		return view;
     }
 
@@ -70,11 +69,17 @@ class LObjImageView extends LabObjectView implements ActionListener
 	
 	public LObjImageView(ViewContainer vc, LObjImage d,boolean edit){
 		super(vc);
-		if(edit) addMenus(vc);
 		lObj = d;	
 		if(waba.sys.Vm.getPlatform().equals("WinCE")) isWinCE = true;
 	}
 
+	public void delMenus(){
+		if(container != null) container.getMainView().delMenu(this, menu);
+	}
+	public void addMenus(){
+		addMenus(container);
+	}
+	
 	public void addMenus(ViewContainer vc){
 		
 		if(menu == null){
@@ -150,19 +155,23 @@ class LObjImageView extends LabObjectView implements ActionListener
      	needCreateImageAfterRead = true;
    }
     public void layout(boolean sDone){
+    
 		if(didLayout) return;
 		didLayout = true;
-
+		if(doneButton != null){
+			remove(doneButton);
+		}
+		
 		showDone = sDone;
 		if(showDone){
-			doneButton = new Button("Done");
+			if(doneButton == null) doneButton = new Button("Done");
 			add(doneButton);
 		}
 	}
 
 	public void setRect(int x, int y, int width, int height){
 		super.setRect(x,y,width,height);
-		if(!didLayout) layout(true);
+		if(!didLayout) layout(showDone);
 
 		if(doneButton != null){
 			doneButton.setRect(width/2 - 20, height - 17, 40, 15);
@@ -171,10 +180,9 @@ class LObjImageView extends LabObjectView implements ActionListener
 	}
 
     public void close(){
-		if(container != null && menu != null){
-		    container.getMainView().delMenu(this,menu);
-		}
 		if(imagePane != null) imagePane.freeImage();
+		imagePane = null;
+		needCreateImageAfterRead = true;
 		super.close();
     }
 

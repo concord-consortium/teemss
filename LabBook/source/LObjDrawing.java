@@ -23,7 +23,8 @@ public LObjDrawingView view = null;
     	}else if(view.container == null){
     		view.container = vc;
     	}
-	return view;
+    	view.didLayout = false;
+		return view;
     }
 
     public void writeExternal(DataStream out)
@@ -72,15 +73,17 @@ class LObjDrawingView extends LabObjectView
     }
     public void layout(boolean sDone)
     {
-	if(didLayout) return;
-	didLayout = true;
+		if(didLayout) return;
+		didLayout = true;
+		if(doneButton != null){
+			remove(doneButton);
+		}
+		showDone = sDone;
 
-	showDone = sDone;
-
-	if(showDone){
-	    doneButton = new Button("Done");
-	    add(doneButton);
-	} 
+		if(showDone){
+	    	doneButton = new Button("Done");
+	    	add(doneButton);
+		} 
     }
 
 

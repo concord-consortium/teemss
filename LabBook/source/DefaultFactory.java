@@ -20,6 +20,7 @@ public class DefaultFactory
     final public static int QUESTION 			= 8;
     final public static int DRAWING 			= 9;
     final public static int IMAGE 				= 11;
+    final public static int CCTEXTAREA 			= 0x100;
 
 	public LabObject constructObj(int objectType)
     {
@@ -46,6 +47,9 @@ public class DefaultFactory
 			case IMAGE:
 				obj= new LObjImage();
 				break;
+			case CCTEXTAREA:
+				obj = new LObjCCTextArea();
+				break;
 		}
 		return obj;
 	}
@@ -58,7 +62,8 @@ public class DefaultFactory
 		labBookObjDesc[3] = new LabObjDescriptor("OutputSet",OUTPUT_SET);
 		labBookObjDesc[4] = new LabObjDescriptor("Questions",QUESTION);
 		labBookObjDesc[5] = new LabObjDescriptor("Drawing",DRAWING);
-		labBookObjDesc[7] = new LabObjDescriptor("Image",IMAGE);
+		labBookObjDesc[6] = new LabObjDescriptor("Image",IMAGE);
+		labBookObjDesc[7] = new LabObjDescriptor("SuperNotes",CCTEXTAREA);
 	}
 
 	public static LabObject create(int objectType)
@@ -86,4 +91,9 @@ public class DefaultFactory
 	{
 		return (LObjDocument) create(DOCUMENT);
 	}
+	public static LObjCCTextArea createCCTextArea()
+	{
+		return (LObjCCTextArea) create(CCTEXTAREA);
+	}
+
 }

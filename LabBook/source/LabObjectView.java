@@ -35,4 +35,7 @@ public abstract class LabObjectView extends Container
 		if(lObj != null) return lObj.name;
 		else return null;
     }
+    
+    public void addMenus(){}
+	public void delMenus(){}
 }
