@@ -26,6 +26,8 @@ operations
 -Reduce memory consumed by storing data points for the graph (see
 wgraph/Bin)
 -Speed up graph zooming(again...)(slow on wince)
+-Bug in when zooming far on graph.  (due to end point of inner while loop in
+update and recalc)
 
 LabBook 
 @spec api for accessing "lab objects"
