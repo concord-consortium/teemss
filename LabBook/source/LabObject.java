@@ -12,6 +12,7 @@ public abstract class LabObject
     int objectType = -1;
 	public LabObjectFactory factory;
     public static LabBook lBook;
+	private int refCount = 0;
 
 	public LabObject(int type)
 	{
@@ -80,6 +81,20 @@ public abstract class LabObject
 		LabObjectPtr ptr = lBook.store(this);
 		if(ptr != null){
 			lBook.commit(ptr);
+		}
+	}
+
+	public int incRefCount(){ return ++refCount; }
+	public int getRefCount(){ return refCount; }
+	public int release()
+	{
+		if(refCount > 0){		   
+			refCount--;
+			if(refCount == 0) lBook.release(this);
+			return refCount;
+		} else {
+			// Error
+			return -1;
 		}
 	}
 

@@ -368,6 +368,7 @@ public class LabBook
 		DataStream dsIn = initPointer(lObjPtr);
 		if(dsIn == null){
 			// this object was already loaded
+			lObjPtr.obj.incRefCount();
 			return lObjPtr.obj;
 		}
 
@@ -385,6 +386,7 @@ public class LabBook
 		lObj.ptr = lObjPtr;
 		lObjPtr.obj = lObj;
 		lObj.setName(lObjPtr.name);
+		lObj.incRefCount();
 
 		// This might be recursive so add this object to the 
 		// loaded array so we don't load it again
@@ -449,6 +451,24 @@ public class LabBook
 		return true;
 	}
 
+	public void release(LabObject lObj)
+	{
+		LabObjectPtr curObjPtr = null;
+		LabObjectPtr lObjPtr = lObj;
+
+		int numLoaded = loaded.getCount();
+		// if this is true we have major problems
+		// if(lObjPtr.devId == -1 && lObjPtr.objId == -1) return null;
+		for(i=0; i<numLoaded; i++){
+			curObjPtr = (LabObjectPtr)loaded.get(i);
+			if(curObjPtr.equals(lObjPtr)){
+				// found it
+				commit(lObjPtr);
+				loaded.del(i);
+				return;
+			}
+		}		
+	}
 
 	public void export(LabObject lObj, LabBookDB db)
     {

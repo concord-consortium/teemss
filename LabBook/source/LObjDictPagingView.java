@@ -228,6 +228,11 @@ public class LObjDictPagingView extends LabObjectView
 			lObjView.close();
 			remove(lObjView);
 		}
+		if(curObj != null) { 
+			int objRefCount = curObj.release();
+			System.out.println("LODP: showObject: released old object new refC: " +
+							   objRefCount);
+		}
 		
 		objectChoice.setSelectedIndex(index);
 
