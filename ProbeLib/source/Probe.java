@@ -100,6 +100,7 @@ DataListener calibrationListener = null;
 		if(dataListeners.find(l) < 0) dataListeners.add(l);
 	}
 	public void removeDataListener(DataListener l){
+		if(dataListeners == null) return;
 		int index = dataListeners.find(l);
 		if(index >= 0) dataListeners.del(index);
 	}
