@@ -76,13 +76,21 @@ public class TreeControl extends Control implements TreeModelListener
 		    drawTwist(g, (line.depth)* indentSize, curY, line.expanded);
 		}
 		if(!line.selected){
-		    g.drawText(line.node.toString(), (line.depth+1)*indentSize, curY);
+		    if(line.node.toString() == null){
+			g.drawText("..no_name..", (line.depth+1)*indentSize, curY);
+		    } else {
+			g.drawText(line.node.toString(), (line.depth+1)*indentSize, curY);
+		    }
 		} else {
 		    int tWidth = myFM.getTextWidth(line.node.toString());
 		    g.setColor(0,0,0);
 		    g.fillRect((line.depth+1)*indentSize, curY, tWidth, textHeight);
 		    g.setColor(255,255,255);
-		    g.drawText(line.node.toString(), (line.depth+1)*indentSize, curY);
+		    if(line.node.toString() == null){
+			g.drawText("..no_name..", (line.depth+1)*indentSize, curY);
+		    } else {
+			g.drawText(line.node.toString(), (line.depth+1)*indentSize, curY);
+		    }
 		    g.setColor(0,0,0);
 		}
 	    }
@@ -223,7 +231,7 @@ public class TreeControl extends Control implements TreeModelListener
 	repaint();
     }
 
-    void reparse()
+    public void reparse()
     {
 	Vector newLines = new Vector();
 	int i, j;

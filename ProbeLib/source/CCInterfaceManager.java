@@ -43,7 +43,7 @@ protected ProbManager	pb = null;
 		gotChannel0 = false;
 		dDesc.setDt(timeStepSize);
 		dDesc.setChPerSample(2);
-		dEvent.setDataOffset(1);
+		dEvent.setDataOffset(0);
 		dEvent.setDataDesc(dDesc);
 		startTimer = Vm.getTimeStamp();
 		timer = addTimer(getRightMilliseconds());
@@ -61,11 +61,12 @@ protected ProbManager	pb = null;
 	}
 	
 	public static CCInterfaceManager getInterfaceManager(){
-		if(im == null) im = new CCInterfaceManager();
+		if(im == null) im = (CCInterfaceManager) new CCInterfaceManager2();
 		refCount++;
 		return im;
 	}
 	//we need optimization probably: dynamically calculate getRightMilliseconds
+    // This really needs to be figured out
 	public int getRightMilliseconds(){return 50;}
 	
 	public void onEvent(Event event){
@@ -99,10 +100,10 @@ protected ProbManager	pb = null;
 		
 		while(true){
 			curChannel = 0;
-			ret = port.readBytes(buf, bufOffset, readSize);
+			ret = port.readBytes(buf, bufOffset, readSize - bufOffset);
 			if(ret <= 0) break; // there are no bytes available
 			ret += bufOffset;	    
-			if(ret < 8){
+			if(ret < 16){
 				bufOffset = ret;//too few?
 				break;
 			}
@@ -110,7 +111,7 @@ protected ProbManager	pb = null;
 			int endPos = ret - 1;
 
 			curDataPos = 0;
-			valueData[0] = curStepTime;
+			dEvent.setTime(curStepTime);
 			while(curPos < endPos){
 						// Check if the buf has enough space
 						// if not this means a partial package was read
@@ -140,16 +141,15 @@ protected ProbManager	pb = null;
 					gotChannel0 = false;
 					curData[curChannel + 1] = rValue;
 					curData[0] = curStepTime;
-					valueData[1+(curDataPos++)] = curData[1];
-					valueData[1+(curDataPos++)] = curData[2];
+					valueData[curDataPos++] = curData[1];
+					valueData[curDataPos++] = curData[2];
 				} else {
 					curData[1] = rValue;
 					gotChannel0 = (curChannel == 0);
 				}
 			}
-			dEvent.setNumbData(curDataPos);
+			dEvent.setNumbData(curDataPos/2);
 			dEvent.setData(valueData);
-			dEvent.setTime(valueData[0]);
 			notifyProbManager(dEvent);
 			if((ret - curPos) > 0){
 				for(j=0; j<(ret-curPos); j++) buf[j] = buf[curPos + j];
@@ -191,7 +191,8 @@ protected ProbManager	pb = null;
 		int packEnd = 0;
 
 		curDataPos = 0;
-		valueData[0] = curStepTime;
+		dEvent.setTime(curStepTime);
+
 		boolean clearBufferOffset = true;
 		while(curPos < endPos){
 		    // Check if the buf has enough space
@@ -249,8 +250,8 @@ protected ProbManager	pb = null;
 					curData[0] = curStepTime;
 					curStepTime += timeStepSize;
 					gotChannel0 = false;
-					valueData[1+(curDataPos++)] = curData[1];
-					valueData[1+(curDataPos++)] = curData[2];
+					valueData[curDataPos++] = curData[1];
+					valueData[curDataPos++] = curData[2];
 				} else {
 					gotChannel0 = (curChannel == 0);
 				}
@@ -258,9 +259,8 @@ protected ProbManager	pb = null;
 //		    	convertValA2D(value);
 		}
 		if(curDataPos > 0){
-			dEvent.setNumbData(curDataPos);
+			dEvent.setNumbData(curDataPos/2);
 			dEvent.setData(valueData);
-			dEvent.setTime(valueData[0]);
 			notifyProbManager(dEvent);
 		}
 		if(clearBufferOffset) bufOffset = 0;

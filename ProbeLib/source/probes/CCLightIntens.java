@@ -3,7 +3,7 @@ import org.concord.waba.extra.event.DataListener;
 import org.concord.waba.extra.event.DataEvent;
 import extra.util.DataDesc;
 import org.concord.waba.extra.probware.*;
-
+import extra.util.*;
 
 public class CCLightIntens extends CCProb{
 float  			[]lightData = new float[1];
@@ -19,6 +19,12 @@ float  			dtChannel = 0.0f;
 		dEvent.setDataOffset(0);
 		dEvent.setNumbData(1);
 		dEvent.setData(lightData);
+
+		properties = new PropObject[1];
+		properties[0] = new PropObject(samplingModeString,samplingModes); 
+		setPropertyValue(0,samplingModes[CCProb.SAMPLING_10BIT_MODE]);
+
+		
 	}
 	public void setDataDescParam(int chPerSample,float dt){
 		dDesc.setDt(dt);

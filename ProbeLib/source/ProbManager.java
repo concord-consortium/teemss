@@ -127,6 +127,7 @@ protected 	static ProbManagerEvent   pmEvent = new ProbManagerEvent();
 	}
 	public void start(){
 		if(im == null) return;
+		syncModeWithProb();
 		notifyListeners(ProbManagerEvent.PM_START,null);
 		im.start();
 	}
