@@ -114,10 +114,6 @@ float FC = 0.0f;
 		dtChannel = dt / (float)chPerSample;
 	}
 	public boolean transform(DataEvent e){
-		if(e.getType() != DataEvent.DATA_RECEIVED){
-			notifyDataListeners(dEvent);
-			return true;
-		}
 		float t0 = e.getTime();
 		float[] data = e.getData();
 		int nOffset = e.getDataOffset();
@@ -133,7 +129,12 @@ float FC = 0.0f;
 			dDesc.setChPerSample(1);
 		}
 		dEvent.setNumbSamples(1);
+		dEvent.type = e.type;
 		
+		if(e.getType() != DataEvent.DATA_RECEIVED){
+			notifyDataListeners(dEvent);
+			return true;
+		}
 		for(int i = 0; i < ndata; i+=chPerSample){
 			dEvent.setTime(t0 + dtChannel*(float)i);
 			float ch1 = data[nOffset+i];
