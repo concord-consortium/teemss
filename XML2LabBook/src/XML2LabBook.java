@@ -2,8 +2,9 @@ package xml2labbook;
 
 import org.concord.LabBook.*;
 import org.concord.CCProbe.*;
-import org.concord.waba.extra.probware.probs.*;
-import extra.util.*;
+import org.concord.ProbeLib.*;
+import org.concord.ProbeLib.probes.*;
+import org.concord.waba.extra.util.*;
 import waba.fx.*;
 import waba.util.*;
 import graph.*;
@@ -569,11 +570,11 @@ public static QTManager qtManager = null;
 						int	prefWidth = -1;
 						int	prefHeight = -1;
 						if(embObjView != null){
-							extra.ui.Dimension dimPref = null;
+							org.concord.waba.extra.ui.Dimension dimPref = null;
 							try{
 								dimPref = embObjView.getPreferredSize();
 							}catch(Exception e){
-								dimPref = new extra.ui.Dimension((int)((double)embObject.getName().length()*5.5+0.5),12) ;
+								dimPref = new org.concord.waba.extra.ui.Dimension((int)((double)embObject.getName().length()*5.5+0.5),12) ;
 							}
 							if(dimPref != null){
 								prefWidth = dimPref.width;
@@ -783,7 +784,7 @@ public static QTManager qtManager = null;
 		}
 		session.storeNew(pds);
 
-		CCProb probe = pds.getProbe();
+		Probe probe = pds.getProbe();
 		if(probe == null){
 			System.out.println("X2L: error invalid probe");
 			return null;
