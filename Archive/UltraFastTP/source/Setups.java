@@ -24,6 +24,7 @@ public class Setups
 				    "24-bit Ch. 1",
 				    "10-bit Ch. 0",
 				    "10-bit Ch. 1",
+				    "10-bit Ch. 0 and 1",
 				    "About",
 				    "Exit"};
     static String logName = "data.txt";
@@ -55,20 +56,24 @@ public class Setups
 	    break;
 	case 5:
 	    pc = new PickChannel(0);
-	    uf.setup(100f, -30f, 100f, pc, pc, "mV", 2);
+	    uf.setup(100f, -30f, 3300f, pc, pc, "mV", 2);
 	    break;
 	case 6:
 	    pc = new PickChannel(1);
-	    uf.setup(100f, -30f, 100f, pc, pc, "mV", 2);
+	    uf.setup(100f, -30f, 3300f, pc, pc, "mV", 2);
 	    break;
 	case 7:
+	    CombineChannels cc = new CombineChannels(0.0025f);
+	    uf.setup(100f, -30f, 3300f, cc, cc, "mV", 2);
+	    break;
+	case 8:
 	    uf.removeAll();
 	    About about = new About(uf, 140, 140);
 	    about.setRect((uf.getRect().width-140)/2,
 			  (uf.getRect().height-140)/2,140,140);
 	    uf.add(about);
 	    break;
-	case 8:
+	case 9:
 	    uf.exit(1);
 	    break;
 	}
