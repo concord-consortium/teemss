@@ -321,7 +321,7 @@ protected void paintCursor(Graphics gr)
 			}
 			gi.fillRect(0,0,r.width,r.height);
 			gi.free();
-			g.setDrawOp(g.DRAW_XOR);
+//			g.setDrawOp(g.DRAW_XOR);
 			g.drawImage(i,r.x+spacing-curState.xShift,spacing+r.y-curState.firstLine*getItemHeight());
 			g.setDrawOp(g.DRAW_OVER);
 			i.free();
