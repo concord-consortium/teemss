@@ -73,6 +73,13 @@ public class Bin
 		reset();
     }
 
+	public void setXAxis(Axis xAx)
+	{
+		xaxis.removeActionListener(this);
+		xaxis = xAx;
+		xaxis.addActionListener(this);
+	}
+
 	public void free()
 	{
 		xaxis.removeActionListener(this);

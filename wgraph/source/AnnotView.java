@@ -92,7 +92,6 @@ public class AnnotView extends Container
     public void addBin(Bin curBin)
     {
 		lgBins[0] = curBin;
-		lgBins[0].label = "Probe";
 	
 		lgView.lGraph.addBin(lgBins[0]);
 		bGraph.addBar(0, lgBins[0]);
@@ -126,17 +125,7 @@ public class AnnotView extends Container
 		lgView.lGraph.reset();
 		bGraph.removeAllBars();
 		lgView.curChar = 'A';
-
-		if(lgBins[0] != null){
-			// This is a hack need to figure out
-			// about reseting the curBin
-			lgBins[0].reset();
-			lgBins[0].xaxis = xaxis.lastAxis;
-			lgBins[0].label = "Probe";
-			lGraph.addBin(lgBins[0]);
-
-			bGraph.addBar(0, lgBins[0]);
-		}
+		lgBins[0] = null;
 
 		// repaint
 		repaint();

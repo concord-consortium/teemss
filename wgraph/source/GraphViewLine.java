@@ -103,7 +103,9 @@ public class GraphViewLine extends GraphView
 		int myScrollStep = (int)(lGraph.dwWidth * scrollStepSize);
 		Axis xaxis = lGraph.xaxis.lastAxis;
 
-		if(autoScroll && 		   
+		if(autoScroll &&
+ 		   bin != null &&
+		   bin.xaxis == xaxis &&
 		   (bin.getNumVals() > 0) && 
 		   (bin.maxX > (xaxis.dispMin + (float)xaxis.dispLen / xaxis.scale ) ||
 			xaxis.drawnX == -1)){
