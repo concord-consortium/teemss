@@ -160,8 +160,7 @@ public class Dialog extends waba.ui.Container{
 		d.add(d.inpControl);
 	}else if(messageType == CHOICE_INP_DIALOG){
 		String []items = {"item1","item2","item3","item4","item5","item6"};
-//		d.inpControl = new Choice(items);
-		d.inpControl = new extra.ui.List(items);
+		d.inpControl = new Choice(items);
 		d.inpControl.setRect(10 + w/2 - editWidth/2,25 + mHeight ,messageWidth,mHeight+5);
 		d.add(d.inpControl);
 	}
@@ -251,17 +250,4 @@ public class Dialog extends waba.ui.Container{
 	  	wasDown = false;
 	}
   }
-}
-public class ImagePane extends waba.ui.Control{
-String imagePath = null;
-	public ImagePane(String path){
-		imagePath = path;
-	}
-	public void onPaint(waba.fx.Graphics g){
-     	try{
-		waba.fx.Image wImage = new waba.fx.Image(imagePath);
-		g.drawImage(wImage,0,0);
-		wImage.free();
-	}catch(Exception e){}
-	}
 }
