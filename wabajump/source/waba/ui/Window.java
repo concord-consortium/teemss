@@ -68,6 +68,7 @@ public void setFocus(Control c)
 		_controlEvent.type = ControlEvent.FOCUS_OUT;
 		_controlEvent.target = _focus;
 		_focus.postEvent(_controlEvent);
+        _controlEvent.target = null;
 		}
 	_focus = c;
 	if (c != null)
@@ -75,6 +76,7 @@ public void setFocus(Control c)
 		_controlEvent.type = ControlEvent.FOCUS_IN;
 		_controlEvent.target = c;
 		c.postEvent(_controlEvent);
+        _controlEvent.target = null;
 		}
 	}
 
