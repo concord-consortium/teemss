@@ -127,6 +127,20 @@ public class LineGraph extends Graph2D
 
     }
 
+    public void free()
+    {
+	if(yExpLabel != null)yExpLabel.free();
+	if(yaxis != null)yaxis.free();
+	if(xaxisArray != null){
+	    for(int i=0; i<xaxisArray.length; i++){
+		if(xaxisArray[i] != null){
+		    xaxisArray[i].free();
+		}
+	    }
+	}
+
+    }
+
     // need to find correct axis
     public Annotation addAnnot(String label, int pos)
     {
@@ -458,6 +472,12 @@ public class LineGraph extends Graph2D
 	    xaxis.max = curBin.maxX;
 
 	    if(numXaxis >= xaxisArray.length){
+		for(int i=0; i<xaxisArray.length; i++){
+		    if(xaxisArray[i] != null){
+			xaxisArray[i].free();
+		    }
+		}
+
 		Axis [] newAxis = new Axis[(numXaxis * 3)/ 2];
 		Vm.copyArray(xaxisArray, 0, newAxis, 0, numXaxis);
 		xaxisArray = newAxis;

@@ -31,4 +31,6 @@ public abstract class Graph2D
 
     public abstract void reset();
 
+    public abstract void free();
+
 }

@@ -77,4 +77,11 @@ public abstract class GraphView extends Container implements PropObject
 	drawn = true;
     }
 
+    public void free()
+    {
+	if(buffer != null) buffer.free();
+	if(bufG != null) bufG.free();
+	if(graph != null) graph.free();
+    }
+
 }

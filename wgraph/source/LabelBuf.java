@@ -37,6 +37,12 @@ public class LabelBuf extends Control
 	text = t;
     }
 
+    public void free()
+    {
+	if(buffer != null) buffer.free();
+	if(bufG != null)bufG.free();
+    }
+    
     public void draw()
     {
 	onPaint(createGraphics());

@@ -68,6 +68,12 @@ public class BarGraph extends Graph2D
 	
     }
 
+    public void free()
+    {
+	if(yaxis != null)yaxis.free();
+	if(barSet != null)barSet.free();	
+    }
+
     public void resize(int w, int h){}
 
     public void setXRange(float min, float range){}

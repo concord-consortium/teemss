@@ -95,6 +95,11 @@ public class TextLine extends Object {
 	direction = d;
     }
 
+    public void free()
+    {
+	if(buffer != null) buffer.free();
+	if(bufG != null)bufG.free();
+    }
     
 
       /**
@@ -187,6 +192,8 @@ public class TextLine extends Object {
     {
 	text = s;
 	parseText();
+	if(buffer != null) buffer.free();
+	if(bufG != null)bufG.free();
 	buffer = null;
     }
 
@@ -250,7 +257,8 @@ public class TextLine extends Object {
 	g.drawImage(rotImage, 0, 0);
 	rotImage.free();
 
-	_g.copyRect(buffer, 0, 0, width, height, x, y); 	    
+	_g.copyRect(buffer, 0, 0, width, height, x, y);
+
 
     }
 

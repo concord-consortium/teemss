@@ -69,6 +69,7 @@ public class BarSet extends Object
 	
 	label.maxDigits = 1;
 	label.minDigits = 1;
+
 	labels = new TextLine[num];
 	digitals = new TextLine[num];
 	for(int i=0; i<num; i++){
@@ -78,6 +79,28 @@ public class BarSet extends Object
 	    digitals[i].minDigits = 1;
 	    barSel[i] = false;
 	}
+    }
+
+    public void free()
+    {
+	int i;
+
+	if(label != null)label.free();
+	if(labels != null){
+	    for(i=0; i<labels.length; i++){
+		if(labels[i] != null){
+		    labels[i].free();
+		}
+	    }
+	}
+	if(digitals != null){
+	    for(i=0; i<digitals.length; i++){
+		if(digitals[i] != null){
+		    digitals[i].free();
+		}
+	    }
+	}
+
     }
 
     public void reset()

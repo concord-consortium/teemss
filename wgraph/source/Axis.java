@@ -139,6 +139,21 @@ public class Axis
 
     }
 
+    public void free()
+    {
+	int i;
+
+	if(label != null)label.free();
+	if(majTicLabels != null){
+	    for(i=0; i<majTicLabels.length; i++){
+		if(majTicLabels[i] != null){
+		    majTicLabels[i].free();
+		}
+	    }
+	}
+
+    }
+
     /**
      * SERC: this comes from the SpecialFunction class
      */
@@ -263,6 +278,8 @@ public class Axis
 
     void computeTicArrays()
     {
+	int i;
+
 	ticStep = majTicStep / (float)(numMinTics + 1);
 	float lTicStep = labelTicStep / (float) (numMinTics + 1);
 
@@ -278,12 +295,20 @@ public class Axis
 	// To be super efficient we should not reallocate
 	// if we don't have to
 	ticOffsets = new int[maxNumTics];
+
+	if(majTicLabels != null){
+	    for(i=0; i<majTicLabels.length; i++){
+		if(majTicLabels[i] != null){
+		    majTicLabels[i].free();
+		}
+	    }
+	}
 	majTicLabels = new TextLine[maxNumTics];
 
 	float curPos = firstTic;
 	float curLabelVal = firstLabelTic;
 	float max = min + range;
-	int i = 0;
+	i = 0;
 
 	int offset = i;
 	TextLine curLabel;

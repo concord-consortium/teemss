@@ -334,4 +334,10 @@ public class AnnotView extends Container implements PropObject
 	curView.plot();
     }
     
+    public void free()
+    {
+	if(lgView != null) lgView.free();
+	if(bgView != null) bgView.free();
+    }
+
 }
