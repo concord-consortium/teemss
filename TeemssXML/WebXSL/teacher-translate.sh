@@ -1,6 +1,6 @@
 #! /bin/bash
 
-CLASSPATH=../jars
+CLASSPATH=../../jars
 
 for XSL_FILE in skills.xsl teacher_intro.xsl teacher_discuss.xsl teacher_background.xsl teacher_timeline.xsl teacher_toc.xsl
  do
