@@ -86,11 +86,15 @@ public class TreeControl extends Control implements TreeModelListener
 
     public TreeNode getSelected()
     {
+	if(selected == null) return null;
+
 	return selected.node;
     }
 
     public TreeNode getSelectedParent()
     {
+	if(selected == null) return null;
+
 	return selected.parent;
     }
     

@@ -40,7 +40,7 @@ package org.concord.waba.extra.ui;
 
  */
 
-public class MenuBar
+public class MenuBar 
 
 {
 
@@ -53,7 +53,7 @@ public class MenuBar
   {
 
     menubar = new java.awt.MenuBar();
-
+    
   }
 
 

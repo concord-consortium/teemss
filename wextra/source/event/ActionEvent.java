@@ -14,36 +14,24 @@ public class ActionEvent extends Event
 
 {
 
-public Object source;
+    public Object source;    
+    String actionCommand;
 
-String actionCommand;
-
-	public ActionEvent(Object source, Control c,String actionCommand){
-
-		this.source = source;
-
-		this.actionCommand = actionCommand;
-
-		target = c;
-
-		timeStamp = Vm.getTimeStamp();
-
-	}
-
-	
+    public ActionEvent(Object source, Control c,String actionCommand){
+	this.source = source;
+	this.actionCommand = actionCommand;
+	target = c;
+	timeStamp = Vm.getTimeStamp();
+    }
 
     public Object getSource() {return source;}
 
     /**
-
      * Returns the command name associated with this action.
-
      */
 
     public String getActionCommand() {
-
         return actionCommand;
-
     }
 
 }

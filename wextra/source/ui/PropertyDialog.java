@@ -72,6 +72,8 @@ ExtraMainWindow owner = null;
 		int nProperties = prop.getCount();
  		if(propertiesPanes[currContainer] == null){
 			propertiesPanes[currContainer] = new Container();
+		}
+
 			int pHeight = contentRect.height - (25 + bHeight);
 			int pWidth = contentRect.width - 2*widthBorder;
 			propertiesPanes[currContainer].setRect(widthBorder,20, pWidth ,pHeight);
@@ -110,7 +112,7 @@ ExtraMainWindow owner = null;
 				propertiesPanes[currContainer].add(lName);
 				propertiesPanes[currContainer].add(c);
 			}
-		}
+		
 		getContentPane().add(propertiesPanes[currContainer]);
 		currentPane = propertiesPanes[currContainer];
  	}

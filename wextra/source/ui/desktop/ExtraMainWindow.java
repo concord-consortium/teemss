@@ -305,6 +305,7 @@ public abstract class  ExtraMainWindow extends MainWindow implements ActionListe
 	if(!awtMenubarWasInserted){
 	    java.awt.Frame awtFrame = (java.awt.Frame)waba.applet.Applet.currentApplet.getParent();
 	    if(awtFrame != null){
+		
 		awtFrame.setMenuBar(menubar.getAWTMenuBar());
 		awtMenubarWasInserted = true;
 	    }
