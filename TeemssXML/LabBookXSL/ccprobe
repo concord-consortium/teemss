@@ -1,4 +1,4 @@
 #! /bin/bash
-java -cp ../../CCProbe/bin/CCProbe.jar waba.applet.Applet /color /w 320 /h 300 CCProbe
+java -cp ../../CCProbe/bin/CCProbe.jar waba.applet.Applet /color /w 480 /h 480 CCProbe
 
 
