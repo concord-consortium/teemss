@@ -14,6 +14,7 @@ public class DataObjFactory
     final public static int UCONVERTOR 			= 10;
     final public static int PROBE_DATA_SOURCE 	= 12;
 	final public static int ANNOTATION          = 13;
+	final public static int CALCULUS_TRANS      = 14;
 
 	public DataObjFactory()
 	{
@@ -42,6 +43,9 @@ public class DataObjFactory
 			break;
 		case PROBE_DATA_SOURCE:
 			obj = new LObjProbeDataSource();
+			break;
+		case CALCULUS_TRANS:
+			obj = new LObjCalculusTrans();
 			break;
 		}
 
@@ -74,12 +78,12 @@ public class DataObjFactory
 	}
 
 	public void createLabBookObjDescriptors(){
-		labBookObjDesc = new LabObjDescriptor[5];
+		labBookObjDesc = new LabObjDescriptor[6];
 		labBookObjDesc[0] = new LabObjDescriptor("DataSet",DATA_SET);
 		labBookObjDesc[1] = new LabObjDescriptor("Graph",GRAPH);
 		labBookObjDesc[2] = new LabObjDescriptor("Data Collector",DATA_COLLECTOR);
 		labBookObjDesc[3] = new LabObjDescriptor("UnitConvertor",UCONVERTOR);
 		labBookObjDesc[4] = new LabObjDescriptor("ProbeDataSource",PROBE_DATA_SOURCE);
+		labBookObjDesc[5] = new LabObjDescriptor("CalculusTrans", CALCULUS_TRANS);
 	}
-
 }
