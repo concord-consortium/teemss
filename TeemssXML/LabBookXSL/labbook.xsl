@@ -7,7 +7,7 @@
 
 <xsl:output method="xml" indent="yes"
   doctype-public="-//Concord.ORG//DTD LabBook Description//EN" 
-  doctype-system="/Users/Stephen/Development/XML2LabBook/x2l/labbook.dtd"/>
+  doctype-system="../../DTD/labbook.dtd"/>
 
 
 <xsl:template match="/">

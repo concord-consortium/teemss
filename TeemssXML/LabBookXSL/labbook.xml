@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE LABBOOK PUBLIC "-//Concord.ORG//DTD LabBook Description//EN" "/Users/Stephen/Development/XML2LabBook/x2l/labbook.dtd">
+<!DOCTYPE LABBOOK PUBLIC "-//Concord.ORG//DTD LabBook Description//EN" "../../DTD/labbook.dtd">
 <LABBOOK>
 <FOLDER name="CCProbe" ID="folder-ccprobe"/>
 <FOLDER name="TEEMSS" ID="TEEMSS">
@@ -466,9 +466,21 @@
 <EMBOBJ>
 <IMAGE ID="Image_37" name="PALM_TINY_.bmp" url="../images/Motions_and_Forces/Tracker/03b_tr/PALM_TINY_03b_tr.bmp"/>
 </EMBOBJ>
-          <SNPARAGRAPH>5. Predict the resulting graphs for each of the following motions in Notes on your handheld computer. Observe how the acrobat responded during each motion.</SNPARAGRAPH>
+          <SNPARAGRAPH>5. </SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>6. Start the software and observe the position versus time graph as you make the following motions on the same graph. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
+<SNPARAGRAPH>Predict the resulting graphs for each of the following motions in Notes on your handheld computer. Observe how the acrobat responded during each motion.</SNPARAGRAPH>
+<SNPARAGRAPH/>
+                <SNPARAGRAPH>pulling the cart forward at a constant velocity</SNPARAGRAPH>
+<SNPARAGRAPH/>
+                <SNPARAGRAPH>pulling the cart at a slow constant velocity, then a faster constant velocity, then coasting</SNPARAGRAPH>
+<SNPARAGRAPH/>
+                <SNPARAGRAPH>gradually speeding up the cart, then coasting</SNPARAGRAPH>
+<SNPARAGRAPH/>
+                <SNPARAGRAPH>pulling the cart, then letting it bounce off a wall</SNPARAGRAPH>
+<SNPARAGRAPH/>
+              
+            
+          <SNPARAGRAPH>6. Start the software and observe the position versus time graph as you make the following motions on the same graph. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH indent="2">a. pulling the cart forward at a constant velocity</SNPARAGRAPH>
 <SNPARAGRAPH indent="2">b. pulling the cart at a slow constant velocity, then a faster constant velocity, then coasting</SNPARAGRAPH>
@@ -916,7 +928,7 @@
 <SNPARAGRAPH indent="2">a. What is the shape of the plot?</SNPARAGRAPH>
 <SNPARAGRAPH indent="2">b. How long did the collision take?</SNPARAGRAPH>
 <SNPARAGRAPH indent="2">c. What was the maximum force?</SNPARAGRAPH>
-<SNPARAGRAPH indent="2">d. What did the acrobatdo during the collision?</SNPARAGRAPH>
+<SNPARAGRAPH indent="2">d. What did the acrobat do during the collision?</SNPARAGRAPH>
 <SNPARAGRAPH/>
           
       <SNPARAGRAPH/>
@@ -1096,7 +1108,7 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH>2. Predict what the velocity graphs will look like if one cart is stationary and you roll the other cart against it. What will be the velocity for each cart before and after the collision? What will the velocity graph do just at the moment of collision? Record your predictions in Notes on the handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>3. Start the software to record a velocity versus time graph. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
+<SNPARAGRAPH>3. Start the software to record a velocity versus timegraph. Refer to Technical Hints to see how to use the software.</SNPARAGRAPH>
 <SNPARAGRAPH/>
 <SNPARAGRAPH>4. Start recording. Push one cart toward the other and let them bounce. Be sure the bumpers are lined up.</SNPARAGRAPH>
 <SNPARAGRAPH/>
@@ -1106,7 +1118,7 @@
 </EMBOBJ>
           <SNPARAGRAPH>5. Try this again several times. When you get a good run, save your data to the handheld.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>6. Look at the velocity graphs for both teams. Were theywhat you predicted? How much did each cart 's velocity change? How did the initial velocity of one cart compare with the final velocity of the other? How long did the collision take? Record your thoughts in Notes on your handheld computer.</SNPARAGRAPH>
+<SNPARAGRAPH>6. Look at the velocity graphs for both teams. Were they what you predicted? How much did each cart 's velocity change? How did the initial velocity of one cart compare with the final velocity of the other? How long did the collision take? Record your thoughts in Notes on your handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
       <SNPARAGRAPH/>
 </SUPERNOTES>
@@ -1432,7 +1444,7 @@
 <SNPARAGRAPH/>
 <SNPARAGRAPH>5. Stop the software immediately after a good roll and save your data to the handheld.</SNPARAGRAPH>
 <SNPARAGRAPH/>
-<SNPARAGRAPH>6. What is the greatest velocity of the cart? Where does this occur? When the cart is rolling, it has what's called kinetic energy, or energy of motion. Yet when the cart started, it had no kinetic energy because it was not moving. So where did the energy come from? Explain your reasoning in Notes on your handheld computer.</SNPARAGRAPH>
+<SNPARAGRAPH>6. What is the greatest velocity of the cart? Where does this occur? When the cart is rolling, it has what's called kinetic energy, or energy of motion. Yet when the cartstarted, it had no kinetic energy because it was not moving. So where did the energy come from? Explain your reasoning in Notes on your handheld computer.</SNPARAGRAPH>
 <SNPARAGRAPH/>
       <SNPARAGRAPH/>
 </SUPERNOTES>
