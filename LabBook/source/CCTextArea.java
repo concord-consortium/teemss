@@ -1319,6 +1319,7 @@ private CCStringWrapper textWasChosen = null;
 		}
 		return view;
 	}
+	
 	public static LObjDictionaryView getParentLObjDictionaryView(Object o){
 		if(!(o instanceof Control)) return null;
 		LObjDictionaryView view = null;

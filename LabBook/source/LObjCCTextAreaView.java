@@ -32,6 +32,7 @@ String [] fileStrings = {"Load Note..."};
 
 Edit 					nameEdit;
 Label					nameLabel;
+Label					nameEditAsLabel;
 boolean					nameEditWasAdded = false;
 
 
@@ -234,10 +235,15 @@ CCScrollBar				scrollBar;
 
 		showDone = sDone;
 		if(nameEdit == null) nameEdit = new Edit();
+		if(nameEditAsLabel == null) nameEditAsLabel = new Label(getLabObject().name);
 		nameEdit.setText(getLabObject().name);
 		if(nameLabel == null) nameLabel = new Label("Name");
 		add(nameLabel);
-		add(nameEdit);
+		if(getViewType() == LObjDictionary.TREE_VIEW){
+			add(nameEdit);
+		}else{
+			add(nameEditAsLabel);
+		}
 		nameEditWasAdded = true;
 
 		if(tArea == null){
@@ -297,7 +303,8 @@ CCScrollBar				scrollBar;
 
 		if(nameLabel != null) nameLabel.setRect(1,1,30,15);
 		int editW = (showDone)?width - 62:width - 32;
-		if(nameEdit != null) nameEdit.setRect(30, 1, editW, 15);
+		if(nameEdit != null) 		nameEdit.setRect(30, 1, editW, 15);
+		if(nameEditAsLabel != null) nameEditAsLabel.setRect(30, 1, editW, 15);
 
 
 
@@ -323,9 +330,18 @@ CCScrollBar				scrollBar;
 	public void close(){
 		Debug.println("Got close in document");
 		tArea.close();
-    	if(nameEdit != null){
-    		getLabObject().name = nameEdit.getText();
-    	}
+		if(getViewType() == LObjDictionary.TREE_VIEW){
+    		if(nameEdit != null){
+    			getLabObject().name = nameEdit.getText();
+    		}
+		}else{
+    		if(nameEditAsLabel != null){
+    			getLabObject().name = nameEditAsLabel.getText();
+    		}
+		}
+
+
+
 		if(scrollBar != null) scrollBar.close();
 		super.close();
 	}
@@ -426,4 +442,16 @@ CCScrollBar				scrollBar;
 		if(se.target != scrollBar) return;
 		if(tArea != null) tArea.setFirstLine(se.getScrollValue());
 	}
+
+
+	public int getViewType(){
+		int retValue = LObjDictionary.TREE_VIEW;
+		LabObject labObj =  getLabObject();
+		if(!(labObj instanceof LObjCCTextArea)) return retValue;
+//		PAGING_VIEW
+		LObjCCTextArea objTextArea = (LObjCCTextArea)labObj;
+		if(objTextArea.curDict == null) return retValue;
+		return objTextArea.curDict.viewType;
+	}	
+
 }
