@@ -1,10 +1,5 @@
 #! /bin/bash
 
-if [ $workingcopy ]
-then echo
-else echo "********please set \$workingcopy to ccprobe project root*****" ; exit 
-fi
-
-java -cp $workingcopy/CCProbe/bin/CCProbe.jar waba.applet.Applet /color /w 360 /h 300 CCProbe
+java -cp ..//bin/CCProbe.jar waba.applet.Applet /color /w 360 /h 300 CCProbe
 
 
