@@ -262,6 +262,15 @@ public class LObjImageView extends LabObjectView implements ActionListener
     	
     }
     
+    public void loadImage(byte []buffer){
+    	if(buffer == null) return;
+		createImage(buffer,false);
+    	if(imagePane != null){
+    		remove(imagePane);
+    		imagePane = null;
+    	}
+    }
+
     public void loadImage(String url){
     	if(url == null) return;
     	byte bytes[] = null;
