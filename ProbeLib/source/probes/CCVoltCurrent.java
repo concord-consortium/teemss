@@ -31,7 +31,7 @@ public class CCVoltCurrent extends Probe
 		1247.1	620.95	    2.02	-2.01	4.1%	    10.2%       "+/- 2A"
 	 */
 
-	float					zeroPointCurrent				= 125f;//	
+	float					zeroPointCurrent				= 1252.7f;//	
 	float					zeroPointVoltage				= 1247.1f;//	
 	//	float					currentResolution		= 271f; //       mV(reading)/A
 	//  float					voltageResolution		= 38f; //     mV(reading)/(true)V
