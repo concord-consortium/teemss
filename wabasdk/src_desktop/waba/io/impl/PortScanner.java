@@ -8,6 +8,7 @@ public class PortScanner{
 			if(osVersion.startsWith("10")) 	(new RXTXPortScanner()).scanPorts(v);
 			else 							(new MacPortScanner()).scanPorts(v);
 		}
-		else		(new NonMacPortScanner()).scanPorts(v);
+//		else		(new NonMacPortScanner()).scanPorts(v);
+		else		(new RXTXPortScanner()).scanPorts(v);
 	}
 }

@@ -28,6 +28,7 @@ public class SerialPortFactory
 			}
 			return new SerialPortImpl(number,baudRate,bits,parity,stopBits);//native lib requires in extensions
 		}
-		return new WinSerialPortImpl(number,baudRate,bits,parity,stopBits);
+//		return new WinSerialPortImpl(number,baudRate,bits,parity,stopBits);
+		return new RXTXSerialPortImpl(number,baudRate,bits,parity,stopBits);
 	}
 }

@@ -1,8 +1,8 @@
 package org.concord.ProbLib.transformers;
 
-import org.concord.ProbLib.*;
+import org.concord.ProbeLib.*;
 import org.concord.waba.extra.event.*;
-import extra.util.*;
+import org.concord.waba.extra.util.*;
 
 public class CCFFTTransformer extends CCTransformer
 {
@@ -21,7 +21,8 @@ public class CCFFTTransformer extends CCTransformer
 		dEvent.setData(dataFFT);
 		dEvent.setNumbSamples(dataDim/2);
 	}
-	public boolean dataArrived(org.concord.waba.extra.event.DataEvent dataEvent){
+
+	public boolean dataArrived(DataEvent dataEvent){
 		float[] data = dataEvent.getData();
 		if(data == null) return false;
 		float t0 = dataEvent.getTime();
@@ -54,12 +55,12 @@ public class CCFFTTransformer extends CCTransformer
 			for(int k = 0; k < dataDim; k++){
 				dataFFT[k] = dataFFT[k] - ave;
 			}
-			float disp = extra.util.Maths.sqrt(summ2/(float)dataDim - ave*ave)/ave;
+			float disp = Maths.sqrt(summ2/(float)dataDim - ave*ave)/ave;
 			org.concord.waba.extra.util.FFT.realft(dataFFT,dataDim,1);			
 			
 			//			float maxKoeff = 0.0f;
 			for(int k = 1; k <= dataDim;k+=2){
-				float nk = extra.util.Maths.sqrt(dataFFT[k]*dataFFT[k]+dataFFT[k+1]*dataFFT[k+1]);
+				float nk = Maths.sqrt(dataFFT[k]*dataFFT[k]+dataFFT[k+1]*dataFFT[k+1]);
 				if(k == 1) nk /= 2.0;
 				normKoeff[(k - 1)/2] = nk;
 				//				if(nk > maxKoeff) maxKoeff = nk;
@@ -71,10 +72,10 @@ public class CCFFTTransformer extends CCTransformer
 		
 		return true;
 	}
-	public boolean idle(org.concord.waba.extra.event.DataEvent e){
+	public boolean idle(DataEvent e){
 		return true;
 	}
-	public boolean startSampling(org.concord.waba.extra.event.DataEvent e){
+	public boolean startSampling(DataEvent e){
 		if(dataFFT == null){
 			dataFFT = new float[dataDim*2];
 		}

@@ -920,7 +920,7 @@ TextArea owner = null;
 		if(owner == null){
 			this.str = str;
 		}else{
-			FontMetrics fm = owner.getFontMetrics();
+			waba.fx.FontMetrics fm = owner.getFontMetrics();
 			if(fm == null) return;
 			int ww = fm.getTextWidth(str);
 			int wControl = owner.getTextAreaWidth();

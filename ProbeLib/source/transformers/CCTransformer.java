@@ -1,9 +1,9 @@
 package org.concord.ProbLib.transformers;
 
-import org.concord.ProbLib.*;
+import org.concord.ProbeLib.*;
 
 import org.concord.waba.extra.event.*;
-import extra.util.PropObject;
+import org.concord.waba.extra.util.PropObject;
 
 public abstract class CCTransformer 
 	implements Transform
