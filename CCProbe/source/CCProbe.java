@@ -338,26 +338,56 @@ public class CCProbe extends ExtraMainWindow
 
 	LabObjectView curFullView = null;
 
+	public void closeTopWindowView()
+	{
+		if(fullViews != null &&
+		   fullViews.getCount() > 0){
+			LabObjectView topView = (LabObjectView)fullViews.get(fullViews.getCount()-1);
+			// You'd think we'd want to hide the menus, but that is actually done by the View
+			// if it closed.  If it isn't closed then the menus should stick around
+			// I think ????
+			remove(topView);
+			fullViews.del(fullViews.getCount()-1);			
+
+			if(fullViews.getCount() > 0){
+				curFullView = (LabObjectView)fullViews.get(fullViews.getCount()-1);	
+				curFullView.setShowMenus(true);
+				add(curFullView);
+			} else {
+				curFullView = null;
+				lObjView.setShowMenus(true);
+				add(me);
+			}
+		}
+	}
+
+	Vector fullViews = new Vector();
 	/* Might want to keep a vector of active views
 	 */
 	public void showFullWindowView(LabObjectView view)
 	{
-
 		if(view == curFullView){
 			// the view isn't being changed
 			return;
 		}
 
 		if(view == null){
-			// the curFullView must not be null
+			// This used to be an valid call now it is 
+			// should not be used
+			/*
 			if(curFullView != null){
 				remove(curFullView);
 				curFullView = null;
 			}
 			add(me);
+			*/
 		} else {
-			if(curFullView == null) remove(me);
+			if(curFullView == null){
+				lObjView.setShowMenus(false);
+				remove(me);
+			}
 			else{
+				curFullView.setShowMenus(false);
 				remove(curFullView);
 			}
 
@@ -366,6 +396,7 @@ public class CCProbe extends ExtraMainWindow
 			view.setShowMenus(true);
 			add(view);
 			curFullView = view;
+			fullViews.add(view);
 		} 
 		return;
 	}
