@@ -388,13 +388,12 @@ private final static EmptyLabObject emptyObject = new EmptyLabObject();
 				int r = (strWrapper == null)?0:strWrapper.rColor;
 				int g = (strWrapper == null)?0:strWrapper.gColor;
 				int b = (strWrapper == null)?0:strWrapper.bColor;
-				boolean underline = (strWrapper == null)?false:strWrapper.underline;
 				boolean link = (strWrapper == null)?false:strWrapper.link;
 				int indexInDict = (strWrapper == null)?-1:strWrapper.indexInDict;
 				out.writeInt(r);
 				out.writeInt(g);
 				out.writeInt(b);
-				out.writeBoolean(underline);
+				out.writeBoolean(false);//reserved
 				out.writeBoolean(link);
 				out.writeInt(indexInDict);
 				out.writeInt(0);//reserved
@@ -435,7 +434,7 @@ private final static EmptyLabObject emptyObject = new EmptyLabObject();
 				int r = in.readInt();
 				int g = in.readInt();
 				int b = in.readInt();
-				boolean underline = in.readBoolean();
+				in.readBoolean();//reserved
 				boolean link = in.readBoolean();
 				int indexInDict = -1;
 				if(rVersion > 10){
@@ -451,7 +450,6 @@ private final static EmptyLabObject emptyObject = new EmptyLabObject();
 					strWrapper.gColor 		= g;
 					strWrapper.bColor 		= b;
 					strWrapper.link 		= link;
-					strWrapper.underline 	= underline;
 					strWrapper.indexInDict 	= indexInDict;
 				}
 			}
@@ -798,7 +796,6 @@ private final static EmptyLabObject emptyObject = new EmptyLabObject();
 			newWrapper.gColor = oldWrapper.gColor;
 			newWrapper.bColor = oldWrapper.bColor;
 			newWrapper.link = oldWrapper.link;
-			newWrapper.underline = oldWrapper.underline;
 			newWrapper.indexInDict = oldWrapper.indexInDict;
 		}
 	}
@@ -1503,7 +1500,6 @@ int		rColor = 0;
 int		gColor = 0;
 int		bColor = 0;
 
-boolean		underline 	= false;
 boolean		link 		= false;
 int			indexInDict = -1;
 
@@ -1649,7 +1645,7 @@ int			indexInDict = -1;
 				int x = (i >= numbTotalRows || owner.rows == null)?beginPos:((CCTARow)owner.rows.get(i)).beginPos;
 				int index = (i - beginRow)*2;
 				gr.drawText(chars,delimiters[index],delimiters[index+1] - delimiters[index],x,y);
-				if(underline || link){
+				if(link){
 					int xEnd = x;
 					FontMetrics fm = owner.getFontMetrics();
 					int lineY = h - 2;
@@ -1718,9 +1714,9 @@ class TextObjPropertyView extends LabObjectView{
 CCStringWrapper stringWrapper;
 public Edit		strEdit;
 public Button	doneButton;
+public Button	cancelButton;
 public Edit		colorEdit;
 public Label	colorLabel;
-public Check	underLineCheck;
 public Check	linkCheck;
 ExtraMainWindow owner;
 LObjDictionary dict;
@@ -1755,13 +1751,6 @@ LObjDictionaryView	view;
 			colorLabel = new Label("Color 0x");
 			add(colorLabel);
 		}
-		if(underLineCheck == null){
-			underLineCheck = new Check("Underline");
-			if(stringWrapper != null){
-				underLineCheck.setChecked(stringWrapper.underline);
-			}
-			add(underLineCheck);
-		}
 		if(linkCheck == null){
 			linkCheck = new Check("Link");
 			add(linkCheck);
@@ -1775,7 +1764,10 @@ LObjDictionaryView	view;
 			view.layout(false);
 			add(view);
 		}
-
+		if(cancelButton == null){
+			cancelButton = new Button("Cancel");
+			add(cancelButton);
+		}
 		if(doneButton == null){
 			doneButton = new Button("Done");
 			add(doneButton);
@@ -1785,7 +1777,7 @@ LObjDictionaryView	view;
 		super.setRect(x,y,width,height);
 		if(!didLayout) layout(false);
 		if(doneButton != null)	doneButton.setRect(width-31,height-15,30,15);
-
+		if(cancelButton != null) cancelButton.setRect(2,height-15,40,15);
 
 		if(strEdit != null){
 			strEdit.setRect(2,2, width - 4, 15);
@@ -1797,11 +1789,8 @@ LObjDictionaryView	view;
 		if(colorEdit != null){
 			colorEdit.setRect(40,20,40,15);
 		}
-		if(underLineCheck != null){
-			underLineCheck.setRect(2,40,60,15);
-		}
 		if(linkCheck != null){
-			linkCheck.setRect(65,40,50,15);
+			linkCheck.setRect(2,40,50,15);
 		}
 		if(view != null){
 			view.setRect(2,60,width - 4,height - 77);
@@ -1860,13 +1849,12 @@ LObjDictionaryView	view;
 	}
 
 	public void onEvent(Event e){
-		if(e.target == doneButton && e.type == ControlEvent.PRESSED){
+		if(e.target == cancelButton && e.type == ControlEvent.PRESSED){
+			if(container != null) container.done(this);
+		}else if(e.target == doneButton && e.type == ControlEvent.PRESSED){
 			if(container != null){
 				container.done(this);
 				if(stringWrapper == null) return;
-				if(underLineCheck != null){
-					stringWrapper.underline = underLineCheck.getChecked();
-				}
 				if(linkCheck != null){
 					stringWrapper.link = linkCheck.getChecked();
 				}
@@ -1883,10 +1871,13 @@ LObjDictionaryView	view;
 					stringWrapper.bColor = byteFromHexa(strColor.substring(4,6));
 					
 				}
+				int oldIndex = stringWrapper.indexInDict;
 				stringWrapper.indexInDict = -1;
 				if(stringWrapper.link && (view != null) && (stringWrapper.owner != null) && (stringWrapper.owner.objDictionary != null)){
 					TreeNode curNode = view.treeControl.getSelected();
-					if(curNode != null){
+					if(curNode == null){
+						stringWrapper.indexInDict = oldIndex;
+					}else{
 						LabObject obj = dict.getObj(curNode);
 						if(obj != null){
 							TreeNode objNode = LObjDictionary.getNode(obj);

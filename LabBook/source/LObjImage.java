@@ -103,15 +103,15 @@ class LObjImageView extends LabObjectView implements ActionListener
 				if(getEmbeddedState()){
 					if(nameEditWasAdded){
 						remove(nameEdit);
-						remove(nameLabel);
-						add(imagePane);
+						if(nameLabel != null) remove(nameLabel);
+						if(imagePane != null) add(imagePane);
 					}
 					nameEditWasAdded = false;
 				}else{
 					if(!nameEditWasAdded){
-						add(nameLabel);
+						if(nameLabel != null) add(nameLabel);
 						add(nameEdit);
-						add(imagePane);
+						if(imagePane != null) add(imagePane);
 					}
 					nameEditWasAdded = true;
 				}
