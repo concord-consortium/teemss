@@ -5,6 +5,7 @@
 # JAR_NAME
 # FORKS = superwaba
 # RUN_FORK = superwaba
+# PLATFORMS = palm wince desk other
 
 WARP_FORK= superwaba
 FORK_DIR= /home/scytacki/waba/myforks
@@ -30,18 +31,15 @@ FTP_COMMAND= echo $(IP_ADDRESS); $(patsubst %],% ; , $(FTP_FILES:[%=$(FTP_PRE) %
 
 first: all
 
-main: $(FORKS)
-
-$(FORKS): $(CLASSES_DIR) $(FORKS:%=$(CLASSES_DIR)/%)
-ifneq ($(EXT_CLASSES),)
-	cp  $(EXT_CLASSES) $(CLASSES_DIR)/$@
-endif
-	javac -classpath $(CLASSES_DIR)/$@:$(call COMPILE_CP,$@) -d $(CLASSES_DIR)/$@ -O $(wildcard source/*.java) $(wildcard source/$@/*.java)
-ifneq ($(EXT_FILES),)
-	cp $(EXT_FILES) $(CLASSES_DIR)/$@
+main: $(CLASSES_DIR) $(PLATFORMS)
+ifeq ($(PLATFORMS),)
+	javac -classpath $(call COMPILE_CP,waba) -d $(CLASSES_DIR) -O $(wildcard source/*.java)
 endif
 
-$(CLASSES_DIR) $(BIN_DIR) $(FORKS:%=$(CLASSES_DIR)/%) $(WJUMP_DIR):
+$(PLATFORMS): $(PLATFORMS:%=$(CLASSES_DIR)/%)
+	javac -classpath $(call COMPILE_CP,waba) -d $(CLASSES_DIR)/$@ -O $(wildcard source/*.java) $(wildcard source/$@/*.java)
+
+$(CLASSES_DIR) $(BIN_DIR) $(PLATFORMS:%=$(CLASSES_DIR)/%) $(WJUMP_DIR):
 	-mkdir $@
 
 warp: $(BIN_DIR) main
@@ -63,7 +61,7 @@ test:
 
 # this might need to have it's classpath twiddled with
 jar: $(BIN_DIR) main
-	cd $(CLASSES_DIR)/$(RUN_FORK); jar c0vf ../../$(BIN_DIR)/$(MW_CLASS).jar $(EXT_FILES) *.class -C $(FORK_DIR)/$(RUN_FORK)/classes_java waba $(JAR_EXTRAS)
+	cd $(CLASSES_DIR)/$(RUN_FORK); jar c0vf ../../$(BIN_DIR)/$(MW_CLASS).jar $(EXT_FILES) *.class -C $(FORK_DIR)/$(RUN_FORK)/classes_java waba/applet/*.class waba/fx/*.class waba/ui/*.class waba/io/*.class waba/sys/*.class waba/util/*.class $(JAR_EXTRAS)
 
 ftp: get-clients
 	@$(foreach IP_ADDRESS, $(CLIENT_IPS), $(FTP_COMMAND))
