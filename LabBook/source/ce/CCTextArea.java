@@ -17,30 +17,8 @@ EmbedObjectPropertyControl		objProperty;
 		super(owner,dict,viewContainer,l);
 	}
 	public void setContent(){
-//  		waba.fx.FontMetrics fm = getFontMetrics(getFont()); 
-//		boolean firstTime = (view == null);
 		Rect r = getContentPane().getRect();
-
 		super.setContent();
-/*
-		if(view == null && viewContainer != null && dict != null){
-			view = (LObjDictionaryView)dict.getView(viewContainer, true);
-		}
-		if(view != null){
-			if(firstTime){
-				view.viewFromExternal = true;
-				view.layout(false);
-				getContentPane().add(view);
-			}
-			view.setRect(0,0,r.width,r.height - 35);
-		}
-		
-		if(choiceButton == null){
-			choiceButton = new Button("Choose");
-			getContentPane().add(choiceButton);
-		}
-		choiceButton.setRect(r.width - 55,r.height - 18, 40, 16);
-*/
 		if(view != null) view.setRect(0,0,r.width,r.height - 30);
 		if(objProperty == null){
 			objProperty = new EmbedObjectPropertyControl(null);
@@ -54,6 +32,26 @@ EmbedObjectPropertyControl		objProperty;
     public void onEvent(Event e){
     	LabObject  obj = null;
     	boolean	   doNotify = false;
+    	if(e.type == EmbedObjectPropertyControl.NEED_DEFAULT_SIZE){
+			if(view == null) return;
+			TreeNode curNode = view.treeControl.getSelected();
+			obj = dict.getObj(curNode);	
+			if(obj == null) return;
+			LabObjectView objView = obj.getView(null,false);
+			if(objView == null) return;
+			extra.ui.Dimension d = objView.getPreferredSize();
+			if(d == null) return;
+			if(d.width > 0){
+				objProperty.widthEdit.setText(""+d.width);
+				objProperty.lastW = d.width;
+			}
+			if(d.height > 0){
+				objProperty.heightEdit.setText(""+d.height);
+				objProperty.lastH = d.height;
+			}
+    		return;
+    	}
+    	
 		if(e.type == TreeControl.DOUBLE_CLICK){
 			if(e.target instanceof TreeControl){
 				TreeControl tc = (TreeControl)e.target;
@@ -138,7 +136,7 @@ boolean		needNotifyAboutMenu = true;
 
 EmbedObjectPropertyControl currObjPropControl;
 
-ViewDialog 				currObjPropDialog = null;
+ObjPropertyViewDialog 	currObjPropDialog = null;
 
 String []dialogButtonTitles = {"Yes","No"};
 Dialog					confirmDialogClear = null;
@@ -658,12 +656,37 @@ public final static int	yTextBegin = 2;
 		repaint();
 	}
 	public void onControlEvent(ControlEvent ev){
+		if(ev.type == EmbedObjectPropertyControl.NEED_DEFAULT_SIZE && ev.target == currObjPropControl){
+			LabObjectView oView = null;
+			if(currObjPropDialog != null) oView = currObjPropDialog.getCheckView();
+			if(oView == null) return;
+			extra.ui.Dimension d = oView.getPreferredSize();
+			if(d == null) return;
+			if(d.width > 0){
+				currObjPropControl.widthEdit.setText(""+d.width);
+				currObjPropControl.lastW = d.width;
+			}
+			if(d.height > 0){
+				currObjPropControl.heightEdit.setText(""+d.height);
+				currObjPropControl.lastH = d.height;
+			}
+			return;
+		}
+
 		if (ev.type == ev.TIMER && hasCursor){
 			paintCursor(null);
 		}
 		else if (ev.type == ev.FOCUS_IN){
 			if(ev.target  == this){
 				gotFocus();
+				if(currObjectViewDesc != null){
+					Control cntrl = (Control)currObjectViewDesc.getObject();
+					if((cntrl != null) && (cntrl instanceof LabObjectView)){
+						LabObjectView object = (LabObjectView)cntrl;
+						object.close();
+					}
+	//				currObjectViewDesc = null;
+				}
 			}else if(components != null){
 				LBCompDesc cntrlDesc = findComponentDesc(ev.target);
 				if(cntrlDesc != null){
@@ -687,14 +710,24 @@ public final static int	yTextBegin = 2;
 		}else if (ev.type == ev.FOCUS_OUT){
 			if(ev.target  == this){
 				lostFocus();
-			}else if(currObjectViewDesc != null && currObjectViewDesc == ev.target){
-				Control cntrl = (Control)currObjectViewDesc.getObject();
-				if((cntrl != null) && (cntrl instanceof LabObjectView)){
-					LabObjectView object = (LabObjectView)cntrl;
-					object.close();
+			}/*else if(currObjectViewDesc != null){
+				if(ev.target instanceof Control){
+					Control c = (Control)ev.target;
+					while(c != null){
+						if(c == currObjectViewDesc.getObject()) break;
+						c = c.getParent();
+					}
+					if(c == currObjectViewDesc.getObject()){
+						System.out.println("ev.FOCUS_OUT 3 ");
+						Control cntrl = (Control)currObjectViewDesc.getObject();
+						if((cntrl != null) && (cntrl instanceof LabObjectView)){
+							LabObjectView object = (LabObjectView)cntrl;
+							object.close();
+						}
+		//				currObjectViewDesc = null;
+					}
 				}
-//				currObjectViewDesc = null;
-			}
+			}*/
 		}
 	}
 	public void gotFocus(){
@@ -735,7 +768,11 @@ public final static int	yTextBegin = 2;
 	}
 	
 	
-	void openCompProp(LBCompDesc compDesc, String name){
+	void openCompProp(LBCompDesc compDesc){
+		if(compDesc == null) return;
+		LabObjectView objView = (LabObjectView)compDesc.getObject();
+		if(objView == null) return;
+		String name = objView.getLabObject().name;
 		if(currObjPropControl == null){
 			currObjPropControl = new EmbedObjectPropertyControl(null,name);
 			currObjPropControl.layout(true);
@@ -749,7 +786,7 @@ public final static int	yTextBegin = 2;
 			EmbedObjectPropertyControl.lastH			= compDesc.h;
 			MainWindow mw = MainWindow.getMainWindow();
 			if(!(mw instanceof ExtraMainWindow)) return;
-			currObjPropDialog = new ViewDialog((ExtraMainWindow)mw, this, "Properties", currObjPropControl);
+			currObjPropDialog = new ObjPropertyViewDialog((ExtraMainWindow)mw, this, "Properties", currObjPropControl,objView);
 			currObjPropDialog.setRect(0,0,150,150);
 			currObjPropDialog.show();		
 		}
@@ -919,8 +956,7 @@ public final static int	yTextBegin = 2;
 			}
 			if(getPropertyMode()){
 				if(compDesc != null){
-					LabObjectView objView = (LabObjectView)compDesc.getObject();
-					openCompProp(compDesc,objView.getLabObject().name);
+					openCompProp(compDesc);
 				}
 				return;
 			}
@@ -1206,3 +1242,21 @@ private static char []wordDelimChars = {' ','\t',';','.',',','/','\\'};
 
 }
 
+
+class ObjPropertyViewDialog extends ViewDialog{
+CCTextArea		textArea;
+LabObjectView	checkView;
+	public 	ObjPropertyViewDialog(ExtraMainWindow owner,CCTextArea textArea,String title, 
+						  LabObjectView view,LabObjectView checkView){
+		super(owner,textArea,title,view);
+		this.textArea = textArea;
+		this.checkView = checkView;
+	}
+	public void onEvent(Event e){
+		if(textArea == null) return;
+		if(e instanceof ControlEvent && e.type == EmbedObjectPropertyControl.NEED_DEFAULT_SIZE){
+			textArea.onEvent(e);
+		}
+	}
+	public LabObjectView getCheckView(){return checkView;}
+}
