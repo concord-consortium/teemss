@@ -1,7 +1,8 @@
-package org.concord.LabBook;
+package org.concord.CCProbe;
 
 import extra.io.*;
 import extra.util.*;
+import org.concord.LabBook.*;
 
 public class LObjGraph extends LabObject
 {

@@ -1,4 +1,4 @@
-package org.concord.LabBook;
+package org.concord.CCProbe;
 
 import waba.util.*;
 import waba.ui.*;

@@ -1,4 +1,4 @@
-package org.concord.LabBook;
+package org.concord.CCProbe;
 
 import graph.*;
 import waba.ui.*;
@@ -10,7 +10,8 @@ import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
 import org.concord.waba.extra.probware.probs.*;
 import org.concord.waba.extra.probware.*;
-
+import org.concord.LabBook.*;
+	
 public class LObjDataCollectorView extends LabObjectView
     implements ActionListener, DialogListener, ViewContainer
 {
@@ -167,13 +168,14 @@ public class LObjDataCollectorView extends LabObjectView
 				Debug.println("Callllll");
 			} else if(e.getActionCommand().equals("Save Profile...")){
 				LObjDocument dProf = new LObjDocument();
-				dProf.text = "";
+				String text = "";
 				for(int i=0; i < gv.curPtime; i++){
 					for(int j=0; j < gv.pTimes[i].length; j++){
-						dProf.text += gv.pTimes[i][j] + " ";		
+						text += gv.pTimes[i][j] + " ";		
 					}
-					dProf.text += "\n";
+					text += "\n";
 				}
+				dProf.setText(text);
 				dProf.name = "Profile";
 		
 				if(dataDict != null){

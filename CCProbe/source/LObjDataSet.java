@@ -1,10 +1,11 @@
-package org.concord.LabBook;
+package org.concord.CCProbe;
 
 import extra.io.*;
 import extra.util.*;
 import waba.util.*;
 import graph.*;
 import org.concord.waba.extra.event.*;
+import org.concord.LabBook.*;
 
 public class LObjDataSet extends LObjSubDict
 	implements DataSource

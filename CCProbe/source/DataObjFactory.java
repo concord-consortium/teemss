@@ -1,4 +1,6 @@
-package org.concord.LabBook;
+package org.concord.CCProbe;
+
+import org.concord.LabBook.*;
 
 public class DataObjFactory
 	implements LabObjectFactory

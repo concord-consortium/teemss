@@ -1,4 +1,4 @@
-package org.concord.LabBook;
+package org.concord.CCProbe;
 
 import waba.ui.*;
 import waba.util.*;
@@ -8,6 +8,7 @@ import org.concord.waba.extra.probware.probs.*;
 import org.concord.waba.extra.probware.*;
 import extra.ui.*;
 import extra.util.*;
+import org.concord.LabBook.*;
 
 public class LObjDataCollectorProp extends LabObjectView
 {

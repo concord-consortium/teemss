@@ -3,6 +3,7 @@ import waba.util.*;
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
 import org.concord.LabBook.*;
+import org.concord.CCProbe.*;
 
 public class CCProbe extends ExtraMainWindow
     implements ViewContainer, MainView

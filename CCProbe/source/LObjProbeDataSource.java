@@ -1,4 +1,4 @@
-package org.concord.LabBook;
+package org.concord.CCProbe;
 
 import waba.util.*;
 import waba.ui.*;
@@ -10,6 +10,7 @@ import org.concord.waba.extra.event.*;
 import org.concord.waba.extra.probware.probs.*;
 import org.concord.waba.extra.probware.ProbManager;
 import org.concord.waba.extra.probware.CCInterfaceManager;
+import org.concord.LabBook.*;
 
 public class LObjProbeDataSource extends LObjSubDict
 	implements DataSource, DataListener, ProbListener
