@@ -72,11 +72,13 @@ public class WinCanvas extends java.awt.Canvas
 				break;
 			case java.awt.Event.KEY_PRESS:
 				type = KeyEvent.KEY_PRESS;
+				System.out.println("WC: key_press event.key: " + event.key);
 				key = keyValue(event.key, modifiers);
 				doPostEvent = true;
 				break;
 			case java.awt.Event.KEY_ACTION:
 				{
+					System.out.println("WC: key_action event.key: " + event.key);
 					key = actionKeyValue(event.key);
 					if (key != 0)
 						{
@@ -154,6 +156,7 @@ public class WinCanvas extends java.awt.Canvas
 		catch (NoSuchMethodError e) { r = g.getClipRect(); }
 		synchronized(Applet.uiLock)
 			{
+				System.out.println("WinC: paint");
 				win._doPaint(r.x, r.y, r.width, r.height);
 			}
 	}

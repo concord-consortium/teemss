@@ -135,7 +135,8 @@ public static boolean copyArray(Object srcArray, int srcStart,
 	catch (Exception e)
 
 		{
-
+			e.printStackTrace();
+			
 		return false;
 
 		}
@@ -359,7 +360,7 @@ public static int exec(String command, String args, int launchCode, boolean wait
 
 		}
 
-	catch (Exception e) {}
+	catch (Exception e) {e.printStackTrace(); }
 
 	return status;
 
@@ -413,7 +414,7 @@ public static void sleep(int millis)
 
 		}
 
-	catch (Exception e) {}
+	catch (Exception e) { e.printStackTrace(); }
 
 	}
 
@@ -459,6 +460,7 @@ public static java.io.InputStream openInputStream(String path)
 			   System.out.println("found zip entry");
 			   return zIn;
 		       } catch (Exception e){
+				   e.printStackTrace(); 
 			   // doh didn't find it in the jar thing
 		       }			       
 		   }

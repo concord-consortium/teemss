@@ -381,6 +381,13 @@ public boolean resizeRecord(int size)
 {
 	if (_recordPos == -1)
 		return false;
+
+	if(size > (1 << 16)){
+		System.err.println("Catalog: trying to resize record(" 
+						   +  _recordPos + ")larger than 64k");
+		return false;
+	}
+
 	byte oldRec[] = (byte[])_records.elementAt(_recordPos);
 	byte newRec[] = new byte[size];
 	int copyLen;
