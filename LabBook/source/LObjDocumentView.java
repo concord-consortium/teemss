@@ -1,6 +1,7 @@
 package org.concord.LabBook;
 
 import waba.ui.*;
+import waba.fx.*;
 import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
 import extra.ui.*;
@@ -8,6 +9,8 @@ import extra.ui.*;
 public class LObjDocumentView extends LabObjectView implements ActionListener{
 TextArea 				tArea;
 Edit 					nameEdit;
+Label					nameLabel;
+boolean					nameEditWasAdded = false;
 RelativeContainer 		edit = new RelativeContainer();
 
 LObjDocument 			doc;
@@ -39,6 +42,30 @@ Menu 					menu = null;
 		menu.addActionListener(this);
 		vc.getMainView().addMenu(this, menu);
 	}
+	public void setEmbeddedState(boolean embeddedState){
+		boolean oldState = getEmbeddedState();
+		super.setEmbeddedState(embeddedState);
+		if(oldState != getEmbeddedState()){
+			if(nameEdit != null){
+				if(tArea != null) edit.remove(tArea);
+				if(getEmbeddedState()){
+					if(nameEditWasAdded){
+						edit.remove(nameEdit);
+						edit.remove(nameLabel);
+						if(tArea != null) edit.add(tArea, 1, RelativeContainer.TOP,RelativeContainer.REST, RelativeContainer.REST);
+					}
+					nameEditWasAdded = false;
+				}else{
+					if(!nameEditWasAdded){
+						edit.add(nameLabel, 1, 1, 30, 15);
+						edit.add(nameEdit, 30, 1, 50, 15);
+						if(tArea != null) edit.add(tArea, 1, RelativeContainer.BELOW,RelativeContainer.REST, RelativeContainer.REST);
+					}
+					nameEditWasAdded = true;
+				}
+			}
+		}
+	}
 
     public void actionPerformed(ActionEvent e){
 		if(e.getActionCommand().equals("Load Note ...")){
@@ -57,18 +84,24 @@ Menu 					menu = null;
 	public void layout(boolean sDone){
 		if(didLayout) return;
 		didLayout = true;
-
 		showDone = sDone;
+
 
 		if(showName){
 			if(doc.name == null) doc.name = "";
-			nameEdit = new Edit();
+			if(nameEdit == null) nameEdit = new Edit();
 			nameEdit.setText(doc.name);
-			edit.add(new Label("Name"), 1, 1, 30, 15);
-			edit.add(nameEdit, 30, 1, 50, 15);
+			if(nameLabel == null) nameLabel = new Label("Name");
+			if(getEmbeddedState()){
+				nameEditWasAdded = false;
+			}else{
+				edit.add(nameLabel, 1, 1, 30, 15);
+				edit.add(nameEdit, 30, 1, 50, 15);
+				nameEditWasAdded = true;
+			}
 		} 
 
-		tArea = new TextArea();
+		if(tArea == null) tArea = new TextArea();
 		if(doc.text != null)  tArea.setText(doc.text);
 		edit.add(tArea, 1, RelativeContainer.BELOW, 
 		RelativeContainer.REST, RelativeContainer.REST);
@@ -86,7 +119,7 @@ Menu 					menu = null;
 
 	public void setRect(int x, int y, int width, int height){
 		super.setRect(x,y,width,height);
-		if(!didLayout) layout(false);
+		if(!didLayout) layout(showDone);
 
 		if(showDone){
 			edit.setRect(0,0,width,height-15);

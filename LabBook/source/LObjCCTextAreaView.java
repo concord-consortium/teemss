@@ -96,6 +96,7 @@ LabObjectView			addedLabObjectView		= null;
 			add(view);
 //			view.didLayout = false;
 			view.layout(false);
+			view.setEmbeddedState(false);
 			view.setRect(0,0,width,height - 15);
 			if(doneOutButton == null){
 				doneOutButton = new Button("Done");
@@ -171,9 +172,8 @@ LabObjectView			addedLabObjectView		= null;
 	public void onEvent(Event e){
 		if(e.type == ControlEvent.PRESSED && (addedLabObjectView != null)){
 			if(e.target == doneOutButton){
-				addedLabObjectView.delMenus();
-				addedLabObjectView.close();
-				
+				addedLabObjectView.setEmbeddedState(true);
+				addedLabObjectView.setShowMenus(false);
 				remove(addedLabObjectView);
 				remove(doneOutButton);
 				add(edit);

@@ -10,9 +10,12 @@ import extra.io.*;
 
 
 class CCTextAreaChooser extends LabBookChooser{
-Choice	alignmentChoice,wrapChoice;
+Choice	alignmentChoice;
+Check	wrapCheck,linkCheck;
 Edit	widthEdit,heightEdit;
 Label	alignmentLabel,wrapLabel,widthLabel,heightLabel;
+
+
 	public CCTextAreaChooser(LObjDictionary dict,ViewContainer viewContainer,DialogListener l){
 		super(dict,viewContainer,l);
 	}
@@ -35,7 +38,7 @@ Label	alignmentLabel,wrapLabel,widthLabel,heightLabel;
 		
 		
 		int xStart = 2;
-		int cLength = (fm == null)?40:(5 + fm.getTextWidth("Align"));
+		int cLength = (fm == null)?40:(2 + fm.getTextWidth("Align"));
 		if(alignmentLabel == null){
 			alignmentLabel = new Label("Align");
 			getContentPane().add(alignmentLabel);
@@ -49,36 +52,34 @@ Label	alignmentLabel,wrapLabel,widthLabel,heightLabel;
 		}
 		
 		xStart += (cLength);
-		cLength = 50;
+		cLength = 40;
 		alignmentChoice.setRect(xStart,r.height - 50, cLength, 15);
 		
-		if(wrapLabel == null){
-			wrapLabel = new Label("Wrap");
-			getContentPane().add(wrapLabel);
+		
+		if(wrapCheck == null){
+			wrapCheck = new Check("Wrap");
+			getContentPane().add(wrapCheck);
+			wrapCheck.setChecked(true);
 		}
-		xStart += (cLength);
-		cLength = (fm == null)?30:(5 + fm.getTextWidth("Wrap"));
-		wrapLabel.setRect(xStart,r.height - 50, cLength, 15);
-		
-		if(wrapChoice == null){
-			String choices[] = {"Yes","No"};
-			wrapChoice = new Choice(choices);
-			getContentPane().add(wrapChoice);
+		xStart += (5+cLength);
+		cLength = 40;
+		wrapCheck.setRect(xStart,r.height - 50, cLength, 15);
+
+
+		if(linkCheck == null){
+			linkCheck = new Check("Link ");
+			getContentPane().add(linkCheck);
 		}
-		
-		xStart += (cLength);
-		cLength = 50;
-		wrapChoice.setRect(xStart,r.height - 50, cLength, 15);
-		
-		
-		
+		xStart += (5+cLength);
+		linkCheck.setRect(xStart,r.height - 50, cLength, 15);
+
 		
 		if(widthLabel == null){
 			widthLabel = new Label("Width");
 			getContentPane().add(widthLabel);
 		}
 		xStart = 2;
-		cLength = (fm == null)?30:(5 + fm.getTextWidth("Width"));
+		cLength = (fm == null)?30:(2 + fm.getTextWidth("Width"));
 		widthLabel.setRect(xStart,r.height - 35, cLength, 15);
 
 		if(widthEdit == null){
@@ -96,7 +97,7 @@ Label	alignmentLabel,wrapLabel,widthLabel,heightLabel;
 			getContentPane().add(heightLabel);
 		}
 		xStart += (cLength);
-		cLength = (fm == null)?30:(5 + fm.getTextWidth("Height"));
+		cLength = (fm == null)?30:(2 + fm.getTextWidth("Height"));
 		heightLabel.setRect(xStart,r.height - 35, cLength, 15);
 
 		if(heightEdit == null){
@@ -108,12 +109,12 @@ Label	alignmentLabel,wrapLabel,widthLabel,heightLabel;
 		cLength = 30;
 		heightEdit.setRect(xStart,r.height - 35, cLength, 15);
 		
-		
 		if(choiceButton == null){
-			choiceButton = new Button("Choose LabObject");
+			choiceButton = new Button("Choose");
 			getContentPane().add(choiceButton);
 		}
-		choiceButton.setRect(r.width/2 - 45,r.height - 18, 90, 16);
+		choiceButton.setRect(r.width - 55,r.height - 18, 40, 16);
+		
 		
 	}
     public void onEvent(Event e){
@@ -138,7 +139,7 @@ Label	alignmentLabel,wrapLabel,widthLabel,heightLabel;
 		}
 		if(doNotify){
 			if(obj != null && listener != null){
-				boolean wrap = (wrapChoice != null)?(wrapChoice.getSelected().equals("Yes")):false;
+				boolean wrap = wrapCheck.getChecked();
 				int alighn = LBCompDesc.ALIGNMENT_LEFT;
 				if(alignmentChoice != null){
 					if(alignmentChoice.getSelected().equals("Right")) alighn = LBCompDesc.ALIGNMENT_RIGHT;
@@ -151,7 +152,7 @@ Label	alignmentLabel,wrapLabel,widthLabel,heightLabel;
 				if(heightEdit != null){
 					hc = Convert.toInt(heightEdit.getText());
 				}
-	 	  		LBCompDesc cdesc = new LBCompDesc(0,wc,hc,alighn,wrap);
+	 	  		LBCompDesc cdesc = new LBCompDesc(0,wc,hc,alighn,wrap,linkCheck.getChecked());
 	 	  		cdesc.setObject(obj);
 				listener.dialogClosed(new DialogEvent(this,null,null,cdesc,DialogEvent.OBJECT));
 			}
@@ -185,7 +186,8 @@ LBCompDesc			currObjectViewDesc = null;
 CCTextAreaChooser		labBookDialog = null;
 LObjSubDict				subDictionary;
 LObjCCTextAreaView		owner;
-int						startClick = 0;
+//int						startClick = 0;
+String				text;
 
 
 	public CCTextArea(LObjCCTextAreaView owner,MainView mainView,LObjDictionary dict,LObjSubDict subDictionary){
@@ -246,6 +248,7 @@ int						startClick = 0;
 		}
 		components = newComponents;
 		LabObjectView view = labObject.getView(this,false);
+		view.setEmbeddedState(true);
 		components[nComponents] = obj;
 		components[nComponents].setObject(view);
 		components[nComponents].lineBefore = getLineIndex(curState.cursorRow + firstLine);
@@ -293,7 +296,6 @@ int						startClick = 0;
 
     public void reload(LabObjectView source){
 		LabObject obj = source.getLabObject();
-		source.delMenus();
 		source.close();
 		remove(source);
 		LabObjectView replacement = obj.getView(this, true);
@@ -311,7 +313,6 @@ int						startClick = 0;
 		if(currObjectViewDesc != null){
 			if(currObjectViewDesc.getObject() instanceof LabObjectView){
 				LabObjectView objView = (LabObjectView)currObjectViewDesc.getObject();
-				objView.delMenus();
 				objView.close();
 			}
 			currObjectViewDesc = null;
@@ -335,7 +336,7 @@ int						startClick = 0;
 		if(currObjectViewDesc != null){
 			if(currObjectViewDesc.getObject() instanceof LabObjectView){
 				LabObjectView objView = (LabObjectView)currObjectViewDesc.getObject();
-				objView.delMenus();
+				objView.close();
 			}
 			if(components != null){
 				for(int i = 0; i < components.length; i++){
@@ -395,12 +396,13 @@ int						startClick = 0;
 	}
 	
 	public String getText(){
-		String retValue = "";
+/*		String retValue = "";
 		if(lines == null) return retValue;
 		for(int i = 0; i < lines.length; i++){
 			retValue += (lines[i].getStr() + "\n");
 		}
-		return retValue;
+		return retValue;*/
+		return text;
 	}
 	public void insertObject(){
 		if(labBookDialog != null){
@@ -428,6 +430,8 @@ int						startClick = 0;
 					LabObject lobj = subDictionary.getObj(i);
 					if(lobj != null){
 						cntrl = lobj.getView(this,false);
+						((LabObjectView)cntrl).setEmbeddedState(true);
+
 						c.setObject(cntrl);
 					}
 				}
@@ -463,6 +467,7 @@ int						startClick = 0;
 		rows = null;
 		int determinedSystem = -1; //unix - 0; //mac - 1 dos - 2
 		if(str == null) return;
+		text = str;
 		removeCursor();
 		Rect r = getRect();
 		StringBuffer sb = new StringBuffer();
@@ -574,10 +579,15 @@ int						startClick = 0;
 					Control cntrl = (Control)cntrlDesc.getObject();
 					if(cntrl instanceof LabObjectView){
 						LabObjectView object = (LabObjectView)cntrl;
-						object.addMenus();
+						object.setShowMenus(true);
 						currObjectViewDesc = cntrlDesc;
 						removeCursor();
-
+						if(cntrlDesc.link){
+							object.setShowMenus(true);
+							if(owner != null){
+								owner.addChoosenLabObjView(object);
+							}
+						}
 					}
 				}
 			}
@@ -588,7 +598,6 @@ int						startClick = 0;
 				Control cntrl = (Control)currObjectViewDesc.getObject();
 				if(cntrl instanceof LabObjectView){
 					LabObjectView object = (LabObjectView)cntrl;
-					object.delMenus();
 					object.close();
 					currObjectViewDesc = null;
 				}
@@ -790,6 +799,7 @@ int						startClick = 0;
 	
 	public void onPenEvent(PenEvent ev){
 		if(ev.type == PenEvent.PEN_DOWN){
+/*
 			if(startClick == 0){
 				startClick = waba.sys.Vm.getTimeStamp();
 			}else{
@@ -799,7 +809,7 @@ int						startClick = 0;
 						Control cntrl = (Control)currObjectViewDesc.getObject();
 						if(cntrl instanceof LabObjectView){
 							LabObjectView object = (LabObjectView)cntrl;
-							object.addMenus();
+							object.setShowMenus(true);
 							removeCursor();
 							if(owner != null){
 								owner.addChoosenLabObjView(object);
@@ -811,6 +821,7 @@ int						startClick = 0;
 					startClick = 0;
 				}
 			}
+*/
 			int x = 0;
 			int h = getItemHeight();
 			int row = 1 + firstLine + (ev.y / h);
