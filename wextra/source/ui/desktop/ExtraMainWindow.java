@@ -380,6 +380,7 @@ public boolean isControlHDialogOwned(Control c){
 	if(popupDialog != null){
 		if (type == PenEvent.PEN_DOWN){
 			Control c = findChild(x, y);
+			System.out.println(c);
 			if(!(c instanceof Choice)){
 				if(!isControlHDialogOwned(c)){
 					Sound.beep();
@@ -388,6 +389,7 @@ public boolean isControlHDialogOwned(Control c){
 			}
 		}
 	}
+
     super._postEvent(type,key,x,y,modifiers,timeStamp);
 
     if (doubleBuffered&&needsPaint)

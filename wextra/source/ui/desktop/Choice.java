@@ -84,7 +84,16 @@ public class Choice extends extra.ui.List{
 		g.drawText(getSelected(),4,3);
  	}
 	  public void doPopup(){
-	       popup=new extra.ui.Popup(this);
+		waba.ui.Control c = getParent();
+		waba.ui.Window w = null;
+		while(c != null){
+			if(c instanceof waba.ui.Window){
+				w = (waba.ui.Window)c;
+				break;
+			}
+			c = c.getParent();
+		}
+	      popup=new extra.ui.Popup(this,w);
 	       popup.popup(x,y,width,textHeight*numDisplayed+3+initialYOffset);
 	  }
 

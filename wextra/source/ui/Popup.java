@@ -86,7 +86,7 @@ public class Popup extends Container
 
   boolean poppedup=false;
 
-
+ Window mWindow = MainWindow.getMainWindow();
 
   /**
 
@@ -101,6 +101,16 @@ public class Popup extends Container
   {
 
     target=control;
+
+  }
+
+ public Popup(Control control,Window mWindow)
+
+  {
+
+    target=control;
+
+    this.mWindow=(mWindow != null)?mWindow:MainWindow.getMainWindow();
 
   }
 
@@ -160,7 +170,9 @@ public class Popup extends Container
 
 			Control c = targetsParent;
 
-			while (!(c instanceof MainWindow))
+//			while (!(c instanceof MainWindow))
+
+			while (!(c instanceof Window))
 
 			{
 
@@ -182,7 +194,9 @@ public class Popup extends Container
 
 		}
 
-		Rect r=MainWindow.getMainWindow().getRect();
+//		Rect r=MainWindow.getMainWindow().getRect();
+
+		Rect r=mWindow.getRect();
 
 		if (px<0)
 
@@ -206,7 +220,9 @@ public class Popup extends Container
 
     target.setRect(px,py,pw,ph);
 
-		MainWindow mw=MainWindow.getMainWindow();
+//		MainWindow mw=MainWindow.getMainWindow();
+
+		Window mw=mWindow;
 
     mw.add(target);
 

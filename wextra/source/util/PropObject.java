@@ -10,7 +10,7 @@ public class PropObject
 
 String 	name;
 
-String 	[]possibleValues;//default always first:  2,1,2,3 default value 2 possible 1 or 2 or 3
+String 	[]possibleValues;
 
 String 	value;
 
