@@ -22,4 +22,7 @@ public final static int		FILE_LOAD = 0;
     public String getFilePath(){
     	return null;
     }
+    public byte []getBytesFromFile(){
+    	return null;
+    }
 }

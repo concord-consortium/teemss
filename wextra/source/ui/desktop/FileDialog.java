@@ -42,6 +42,27 @@ java.awt.FileDialog 		fileDialog = null;
     	}
     	return retValue;
     }
+    
+    public byte []getBytesFromFile(){
+    	byte bytes[] = null;
+    	if(fileDialog == null) return bytes;
+    	String filePath = getFilePath();
+    	if(filePath == null) return bytes;
+    	waba.io.File wabaFile = new waba.io.File(filePath, waba.io.File.READ_ONLY);
+    	if(!wabaFile.exists()) return bytes;
+    	
+    	int length = wabaFile.getLength();
+    	if(length > 0){
+    		bytes = new byte[length];
+    		int nBytes = wabaFile.readBytes(bytes,0,length);
+    		if(nBytes != length){
+    			bytes = null;
+    		}
+    	}
+    	wabaFile.close();
+    	return bytes;
+    }
+    
 }
 class MyFilter implements java.io.FilenameFilter{
 	java.awt.FileDialog fd = null;

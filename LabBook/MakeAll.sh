@@ -34,7 +34,7 @@ echo "BUILDING DESKTOP"
 make other
 make jar
 echo "UPLOADING FILES"
-ncftpput -u dima -p logal99 web.concord.org /home/ftp/pub/ccprobeware/bin bin/CCProbe.* > /dev/null
+#ncftpput -u dima -p logal99 web.concord.org /home/ftp/pub/ccprobeware/bin bin/CCProbe.* > /dev/null
 
 
 
