@@ -267,7 +267,17 @@
 
     <FOLDER ID="folder-supernotes" name="SuperNotes" view="paging">
       <SUPERNOTES ID="supernotes0" name="SuperNote0">
-Positive or negative forces are applied to the free end of an aluminum beam which produce displacements proportional to applied force.  The displacement of a cylindrical magnet attached to the end of the beam is measured with a linear hall effect magnetic field sensor.  The long axis of the cylindrical magnet is oriented in parallel with the plane of the hall effect sensor and in line with the arc of displacement of the end of the beam.  The distance of the magnet from the active plane of the hall effect sensor should be 1/2 the length of the magnet for most linear response.  With this topology a linear relationship exists between displacement of the magnet and the voltage response of the hall effect sensor as long as the displacement is limited to prevent either end of the magnet from extending past the active area on the hall effect sensor.
+Positive or negative forces are applied to the free end of an aluminum beam which produce displacements proportional to applied force.<BR/>
+The displacement of a cylindrical magnet attached to the end of the beam is measured with a linear hall effect magnetic field sensor.  The long axis of the cylindrical magnet is oriented in parallel with the plane of the hall effect sensor and in line with the arc of displacement of the end of the beam. 
+<INDENT size="2" first-line-offset="-2">
+1. The distance of the magnet from the active plane of the hall<BR/>
+effect sensor should be 1/2<BR/>
+the length of the magnet for most linear response. 
+<INDENT size="2" first-line-offset="-2">
+a. testing tesing<BR/>
+again and again
+</INDENT>
+</INDENT> With this topology a linear relationship exists between displacement of the magnet and the voltage response of the hall effect sensor as long as the displacement is limited to prevent either end of the magnet from extending past the active area on the hall effect sensor.
       </SUPERNOTES>
 
       <SUPERNOTES ID="supernotes1" name="SuperNote1">
@@ -279,6 +289,7 @@ Positive or negative forces are applied to the free end of an aluminum beam whic
       </SUPERNOTES>
 
       <SUPERNOTES ID="supernotes2" name="SuperNote2">
+<EMBOBJ object="supernotes3" link="true"/>
 	<SNPARAGRAPH linkcolor="0000FF">
 Positive or negative forces are applied to the free end of an aluminum beam which produce displacements proportional to applied force.  The displacement of a cylindrical magnet attached to the end of the beam is measured with a linear hall effect magnetic field sensor.  The long axis of the cylindrical magnet is oriented in parallel with the plane of the hall effect sensor and in line with the arc of displacement of the end of the beam.  The distance of the magnet from the active plane of the hall effect sensor should be 1/2 the length of the magnet for most linear response.  With this topology a linear relationship exists between displacement of the magnet and the voltage response of the hall effect sensor as long as the displacement is limited to prevent either end of the magnet from extending past the active area on the hall effect sensor.
 </SNPARAGRAPH>
@@ -319,6 +330,7 @@ About our only hope is to call Clue Express with a Class One Code Red Clue Alert
         object="dc-finger-temp">
           Link to Temperature DataCollector embedded in SuperNote2
         </SNPARAGRAPH>
+        <EMBOBJ object="supernotes2" link="true"/>
       </SUPERNOTES>
 
 
@@ -353,6 +365,7 @@ About our only hope is to call Clue Express with a Class One Code Red Clue Alert
 
   <FOLDER ID="folder-tracker" name="Tracker" view="paging">
     <SUPERNOTES ID="tracker-introduction" name="Introduction">
+      <EMBOBJ object="tracker-thinking" link="true"/>
       <EMBOBJ w="158" h="12">
 	<IMAGE ID="palm-titlebar" name="image1" url="images/tracker-images/PALM_titleBar.bmp"/>
       </EMBOBJ>
@@ -372,6 +385,7 @@ In this activity you will generate and analyze simple, straight-line motions by 
 </SNPARAGRAPH>
     </SUPERNOTES>
     <SUPERNOTES ID="tracker-thinking" name="Thinking">
+      <EMBOBJ object="tracker-materials" link="true"/>
       <EMBOBJ object="palm-titlebar" w="158" h="12"/>
       <SNPARAGRAPH linkcolor="0000FF">
 Thinking About the Question
@@ -397,6 +411,7 @@ The following position versus time graph of a cart was made with a SmartWheel. D
       </EMBOBJ>
     </SUPERNOTES>
     <SUPERNOTES ID="tracker-materials" name="Materials">
+      <EMBOBJ object="tracker-Saftey" link="true"/>
       <EMBOBJ object="palm-titlebar" w="158" h="12"/>
       <SNPARAGRAPH linkcolor="0000FF">
 Tracker Materials
@@ -430,6 +445,7 @@ Tracker Materials
 - string (for pulling cart) </SNPARAGRAPH>
     </SUPERNOTES>
     <SUPERNOTES ID="tracker-Saftey" name="Safety">
+      <EMBOBJ object="sn-tracker-trial1" link="true"/>
       <EMBOBJ object="palm-titlebar" w="158" h="12"/>
       <SNPARAGRAPH linkcolor="0000FF">
 Tracker Safety
@@ -440,6 +456,7 @@ No specific safety features needed for this investigation.
 </SNPARAGRAPH>
     </SUPERNOTES>
     <SUPERNOTES ID="sn-tracker-trial1" name="Trial I">
+      <EMBOBJ object="sn-tracker-trial2" link="true"/>
       <EMBOBJ object="palm-titlebar" w="158" h="12"/>
       <SNPARAGRAPH linkcolor="0000FF">
 Tracker Trial I
@@ -506,6 +523,7 @@ Walking off distances
       </EMBOBJ>
     </SUPERNOTES>
     <SUPERNOTES ID="sn-tracker-trial2" name="Trial II">
+      <EMBOBJ object="sn-tracker-trial3" link="true"/>
       <EMBOBJ object="palm-titlebar" w="158" h="12"/>
       <SNPARAGRAPH linkcolor="0000FF">
 Tracker Trial II
@@ -575,6 +593,7 @@ Rolling cart
       <SNPARAGRAPH/>
     </SUPERNOTES>
     <SUPERNOTES ID="sn-tracker-trial3" name="Trial III">
+      <EMBOBJ object="tracker-technical-hints" link="true"/>
       <EMBOBJ object="palm-titlebar" w="158" h="12"/>
       <SNPARAGRAPH linkcolor="0000FF">
 Tracker Trial III
@@ -628,6 +647,7 @@ Rolling to a stop
       <SNPARAGRAPH/>
     </SUPERNOTES>
     <SUPERNOTES ID="tracker-technical-hints" name="Technical Hints">
+      <EMBOBJ object="tracker-analysis" link="true"/>
       <EMBOBJ object="palm-titlebar" w="158" h="12"/>
       <SNPARAGRAPH linkcolor="0000FF">
 Tracker Technical Hints
@@ -644,6 +664,7 @@ Tracker Technical Hints
 </SNPARAGRAPH>
     </SUPERNOTES>
     <SUPERNOTES ID="tracker-analysis" name="Analysis">
+      <EMBOBJ object="tracker-further-investigation" link="true"/>
       <EMBOBJ object="palm-titlebar" w="158" h="12"/>
       <SNPARAGRAPH linkcolor="0000FF">
 Tracker Analysis
