@@ -16,9 +16,7 @@
 
 <xsl:template match="project">
   <LABBOOK>
-    <FOLDER ID="folder-ccprobe1" name="CCProbe">
-      <xsl:copy-of select="document('ccprobe.xml')"/>
-    </FOLDER>
+    <xsl:copy-of select="document('ccprobe.xml')"/>
     <FOLDER ID="{title}" name="{title}">
       <xsl:copy-of select="document('about-teemss.xml')"/>
       <xsl:apply-templates select="unit"/>
@@ -291,7 +289,7 @@
       <xsl:attribute name="indent">4</xsl:attribute>
     </xsl:if>
     <xsl:number value="position()" format="{$format_label}"/>. <xsl:value-of select="normalize-space(text()[position()=1])"/>
-    <xsl:apply-templates select="query-description"/>    
+    <xsl:apply-templates select="query-description|datacollector-link"/>    
     <xsl:if test="@layout='paragraph'">
       <xsl:apply-templates select="querys" mode="paragraph"/>
     </xsl:if>
