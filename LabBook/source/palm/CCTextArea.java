@@ -348,7 +348,7 @@ public final static int	yTextBegin = 2;
 	}
 
 	public void requireClearingAll(){
-		confirmDialogClear = Dialog.showConfirmDialog(this,"","Are you sure? ",dialogButtonTitles,Dialog.QUEST_DIALOG);
+		confirmDialogClear = Dialog.showConfirmDialog(this,"Clearing All","Are you sure? ",dialogButtonTitles,Dialog.QUEST_DIALOG);
 	}
 	public void clearAll(){
 		setText("");
@@ -357,7 +357,7 @@ public final static int	yTextBegin = 2;
 	}
 	
 	public void requireDeleteCurrentObject(){
-		confirmDialogDeleteCurrent = Dialog.showConfirmDialog(this,"","Are you sure? ",dialogButtonTitles,Dialog.QUEST_DIALOG);
+		confirmDialogDeleteCurrent = Dialog.showConfirmDialog(this,"Delete Object","Are you sure? ",dialogButtonTitles,Dialog.QUEST_DIALOG);
 	}
 	
 	public void deleteCurrentObject(boolean doLayout){
@@ -402,7 +402,7 @@ public final static int	yTextBegin = 2;
 	}
 
 	public void requireDeleteAllObjects(){
-		confirmDialogDeleteAll = Dialog.showConfirmDialog(this,"","Are you sure? ",dialogButtonTitles,Dialog.QUEST_DIALOG);
+		confirmDialogDeleteAll = Dialog.showConfirmDialog(this,"Delete All Objects","Are you sure? ",dialogButtonTitles,Dialog.QUEST_DIALOG);
 	}
 	
 
