@@ -183,7 +183,7 @@ public class WinCanvas extends java.awt.Canvas
 	 *  to return.  Then the synchronized(Applet.uiLock) would block until
 	 *  the timer event was finished.  In some Vms the painting thread has the
 	 *  highest priority so it would never give up the lock to the timer 
-	 *  thread.  
+	 *  thread.  And hence there is a deadlock situation.  
 	 */
 	public void run()
 	{

@@ -434,7 +434,11 @@ public static java.io.InputStream openInputStream(String path)
 	try 
 	{	   
 	    if (isApplication){
-		   stream = new java.io.FileInputStream(path); 
+			try{
+				stream = new java.io.FileInputStream(path); 
+			} catch (java.io.FileNotFoundException e){
+				return null;
+			}
 	   } else {
 		   java.net.URL url;	
 		   // See if it is outside the jar file
