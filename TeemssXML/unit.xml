@@ -3101,7 +3101,7 @@
         <item>CC Fast Response Temperature probe</item>
         <item>handheld computer  </item>
         <item>CC LabBook software</item>
-        <item>Styrofoam cup</item>
+        <item>3 Styrofoam cups</item>
         <item>film canister (to measure water volume)</item>
         <item>small ball of clay (size of a large or shooter marble)</item>
         <item>paper towel (to dry off clay)</item>
@@ -3112,77 +3112,81 @@
       </safety>
       <trial title="Mixing the bath water just right">
         <steps>
-          <step>When you mix water at two temperatures (one is too hot
-            and the other too cold) to make a bath that&apos;s just
-            right for bathing, how much of each is needed? Connect the
-            Temperature probe with your handheld. Refer to Technical
-            Hints to see how to connect the Temperature probe. The
-            sensitive part is just the very tip, where two wires are
-            welded together.   <ext-image name="01_hf"/>
-          </step>
-          <step>What will happen when you touch the end of the probe and
-            then let go?             What happens when you put the probe
-            in water? Record your             thoughts in Notes on your
-            handheld computer.  </step>
-          <step>For heat to flow from one thing to another, they need
-            have different temperatures. In this trial you need to have
-            two samples of water at different temperatures. You can do
-            this by selecting two of the following:  <steps>
+          <step>When you mix water at two temperatures to make a bath
+            that&apos;s just right for bathing, one is usually too hot
+            and the other is too cold. How much of each is needed? In
+            this trial you need to have two samples of water at
+            different temperatures, but in equal amounts. In two
+            Stryofoam cups, measure out small equal volumes of any two
+            of the following, using the film canister as a standard
+            measure:   <steps>
               <step>water cooled with ice</step>
               <step>cold tap water</step>
               <step>room temperature water</step>
               <step>warm tap water</step>
             </steps>
           </step>
-          <query-response title="temp" type="describe">
+          <step>Connect the Temperature probe with your handheld. Refer
+            to Technical Hints to see how to connect the Temperature
+            probe. The sensitive part is just the very tip, where two
+            wires are welded together.  <ext-image name="01_hf"/>
+          </step>
+          <query-response title="water" type="predict">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">What
+                will happen when you touch the end of the probe and then
+                let go?</query>
+              <query drawing-response="false" note-response="true">What
+                happens when you put the probe in water? </query>
+            </querys>
+            <query-static-link>Record your thoughts in Notes on your
+              handheld computer. </query-static-link>
+          </query-response>
+          <query-response title="graph" type="describe">
             <query-description>Start the software and observe the
               temperature versus time graph as you test your two choices
               of water. Stop the software. Be sure the two samples are
-              at least 10 degrees Celsius different from each other.
-                <datacollector-link type="dc-temperature1"/>
-            </query-description>
+              at least 10 degrees Celsius different from each other. </query-description>
             <querys>
               <query drawing-response="false" note-response="true">What
-                are the two temperatures?  </query>
+                are the two temperatures? </query>
             </querys>
           </query-response>
-          <query-response title="mixing" type="describe">
+          <query-response title="two" type="predict">
             <query-description/>
             <querys>
               <query drawing-response="false"
                 note-response="true">Before mixing the two samples of
-                water together, predict the final temperature. </query>
+                water together, predict the final temperature.   </query>
             </querys>
           </query-response>
           <step>Make the temperature measurements one after another with
             the graph running. You will then have all of your data on
             one graph, and you can analyze it.  </step>
           <step>Restart the graph and retest the temperature of each
-            sample of water. </step>
-          <step>Fill the film canister with one of the samples of water
-            and pour it into the styrofoam cup. Quickly place the
-            Temperature probe in the stryofoam cup. Fill the canister
-            with the second sample and slowly add it to the Styrofoam
-            cup. Observe the graph.  </step>
-          <step>Stop when you think the temperature has come to a
-            relatively stable temperature (equilibrium). Save your data
-            to the handheld.<ext-image name="02_hf"/>
+            sample of water.   </step>
+          <step>Pour one water sample into a third Styrofoam cup.
+            Quickly place the Temperature probe in the water. Slowly add
+            the other water sample to the third cup. Observe the graph.</step>
+          <step>Stop recording when you think the temperature has come
+            to a relatively stable temperature (equilibrium). Save your
+            data to the handheld.  <ext-image name="02_hf"/>
           </step>
-          <query-response title="good" type="describe">
+          <query-response title="experiment" type="describe">
             <query-description/>
             <querys>
               <query drawing-response="false" note-response="true">How
-                many seconds did it take? </query>
+                many seconds did it take?</query>
               <query drawing-response="false" note-response="true">How
-                good was your prediction? </query>
+                good was your prediction?</query>
               <query drawing-response="false" note-response="true">Would
-                this be a good temperature for your bath water?</query>
-              <query drawing-response="false" note-response="true">If
-                not, how could you change the final temperature of the
+                this be a good temperature for your bath water? If not,
+                how could you change the final temperature of the
                 mixture? </query>
             </querys>
             <query-static-link>Record your reasoning in Notes on your
-              handheld computer.     </query-static-link>
+              handheld computer.</query-static-link>
           </query-response>
         </steps>
       </trial>
@@ -3640,35 +3644,32 @@
       </trial>
       <trial title="Changing the starting height of the cart">
         <steps>
-          <step>Connect the SmartWheel to your handheld computer. Refer
-            to Technical Hints to see how to connect the cables.</step>
+          <step>In this trial, compare starting the cart at different
+            heights. Connect the SmartWheel to your handheld computer.
+            Refer to Technical Hints to see how to connect the cables.  </step>
           <step>Set the ramp with a height of 10cm at the higher end.
-            Place the cart on the ramp with the back wheels halfway up
-            the ramp. Mark where the back wheels are so you can repeat
-            the experiment several times.<ext-image name="03_pk"/>
+            Mark two distances up the ramp, one twice as far as the
+            other. Place the cart on the ramp with the back wheels on
+            the upper mark.  <ext-image name="03_pk"/>
           </step>
-          <step>Start the software to read a velocity versus time graph.
-              <datacollector-link type="dc-smartwheel-vel2"/>
-          </step>
+          <step>Start the software to read a velocity versus time graph.</step>
           <step>Let the cart roll down the ramp and continue along the
-            floor or desk. If you have room, let it coast to a stop.  </step>
+            floor or desk. As soon as it leaves the ramp completely,
+            pick it up and place it with the back wheels on the lower
+            mark. Let the cart roll down the ramp.  </step>
           <step>Stop the software immediately after a good roll and save
-            your data. </step>
-          <query-response title="trial2" type="describe">
-            <query-description>When the cart is rolling, it has
-              what&apos;s called kinetic energy, or energy of motion.
-              Yet when the cart started, it had no kinetic energy
-              because it was not moving. </query-description>
+            your data.</step>
+          <query-response title="velocity" type="describe">
+            <query-description>The cart gained kinetic energy, or energy
+              of motion, as it went down the ramp.   </query-description>
             <querys>
-              <query drawing-response="false" note-response="true">So
-                where did the energy come from?</query>
               <query drawing-response="false" note-response="true">What
-                is the greatest velocity of the cart? </query>
-              <query drawing-response="false" note-response="true">Where
-                does this occur? </query>
+                is the maximum velocity for each of the two starting heights?</query>
+              <query drawing-response="false"
+                note-response="true">Calculate the ratio of two maximum
+                velocities. Compare it to the ratio of the two starting
+                heights of the cart. </query>
             </querys>
-            <query-static-link>Explain your reasoning in Notes on your
-              handheld computer.</query-static-link>
           </query-response>
         </steps>
       </trial>
@@ -3784,29 +3785,30 @@
           velocity? Do you think a heavier cart has more energy than a
           lighter cart, when they&apos;re going at the same speed? Where
           does the additional energy come from?  </item>
-        <item>Calculate the cart&apos;s potential energy (PE) and
-          kinetic energy (KE). Here&apos;s how:  <p>PE (joules) =
-            mass(kg) * 9.8(m/s*s) * height(m)</p>
-          <p>KE (joules) = 0.5 * mass(kg) * velocity(m/s) *
-            velocity(m/s) </p>
-          <p>Use the Force probe to measure the mass (weight/9.8 (m/s*s)
-            of the cart. The height of the cart is the distance up the
-            ramp times its slope (height of the ramp/length of the
-            ramp).  </p>
-        </item>
         <item>How are potential energy and kinetic energy related as the
           cart rolls down the ramp? To find out, place the cart with the
           back wheels at the bottom of the ramp and start recording both
           velocity and position. By hand, roll the cart up to the top of
           the ramp and let it roll back down the ramp. After collecting
-          your data, pick five times and mark both them on both the
+          your data, pick five times and mark them both on both the
           velocity and the position graphs. One mark should be at the
           top and one just as the cart reaches the bottom of the ramp.
-            <p>Calculate the PE and KE (refer to the above formulas) at
-            each of these times. In this case, the height of the cart in
-            the formula for PE is equal to the slope of the ramp times
-            the position reading. Add the PE and KE together. Does the
-            sum remain constant? Should it remain constant?  </p>
+          The others should be various times between these end points.   </item>
+        <item>Calculate the PE and KE (refer to the formulas below) at
+          each of these times. In this case, the height of the cart in
+          the formula for PE is the height straight up above the floor.
+          It is equal to the slope of the ramp times the position
+          reading. Add the PE and KE together. Does the sum remain
+          constant? Should it remain constant?  <p>To calculate the
+            cart&apos;s potential energy (PE) and kinetic energy (KE).
+            Use these formulas.  </p>
+          <p>PE (joules) = mass(kg) * 9.8(m/s*s) * height(m)  </p>
+          <p>KE (joules) = 0.5 * mass(kg) * velocity(m/s) *
+            velocity(m/s)  </p>
+          <p>Use the Force probe to measure the mass (weight/9.8 (m/s*s)
+            of the cart. The height of the cart is the distance up the
+            ramp times its slope (height of the ramp/length of the
+            ramp).  </p>
         </item>
       </further>
     </investigation>
