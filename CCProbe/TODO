@@ -49,6 +49,7 @@ to be abstracted but also customizable
 
 MAJOR
 
+- fix redisplay problems with 1.4 java vms
 - Question/Form object that handles multiple responses.
 - Palm Desktop conduit that only updates what needs to be updated 
 	on palm.
