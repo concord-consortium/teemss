@@ -13,7 +13,9 @@ import org.concord.waba.extra.event.*;
 * or distribution.
 */
 //##################################################################
-public class TextArea extends AdvControl {
+public class TextArea extends AdvControl 
+	implements TextControl
+{
 //##################################################################
 
 //protected String [] lines;
@@ -562,6 +564,29 @@ protected String getLine(int index)
 //------------------------------------------------------------------
 protected String getLine() {return getLine(curState.cursorLine);}
 //------------------------------------------------------------------
+
+/**
+ * Added by scott to support the keyboard control
+ */
+int savedLineNumber;
+public void saveLineIndex()
+{
+	savedLineNumber = curState.cursorLine;
+}
+
+public String getLineAtSavedIndex()
+{
+	return getLine(savedLineNumber);
+}
+
+public void setLineAtSavedIndex(String line)
+{
+	int index = savedLineNumber;
+	if (lines == null) return;
+	if (index < 0 || index >= lines.length) return;
+	lines[index].setStr(line);
+}	
+
 protected Point pressPoint = new Point(0,0);
 //==================================================================
 public void clearSelection()

@@ -46,7 +46,7 @@ public class Dialog extends waba.ui.Container{
 			add(contentPane);
 			doSetContent = true;
 		}
-		contentPane.setRect(widthBorder,15,width-widthBorder*2,height-15-heightBorder);
+		contentPane.setRect(widthBorder+1,17,width-1-(widthBorder)*2,height-17-heightBorder);
 		if(doSetContent) setContent();
 	}
 
