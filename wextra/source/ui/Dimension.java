@@ -1,25 +1,15 @@
 /*****************************************************************************
-
  *                                Waba Extras
-
  *
-
  * Version History
-
  * Date                Version  Programmer
-
  * ----------  -------  -------  ------------------------------------------
-
  * 20/11/2001  New      1.0.0    Dmitry Markman
-
  * Class created
-
  *
-
  ****************************************************************************/
 
-package extra.ui;
-
+package org.concord.waba.extra.ui;
 
 public class Dimension{
 public int width;

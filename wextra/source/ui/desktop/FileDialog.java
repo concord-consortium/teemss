@@ -3,12 +3,13 @@ package org.concord.waba.extra.ui;
 
 
 public class FileDialog{
-public final static int		FILE_LOAD = java.awt.FileDialog.LOAD;
+	public final static int		FILE_LOAD = java.awt.FileDialog.LOAD;
     public final static int     FILE_SAVE = java.awt.FileDialog.SAVE;
-java.awt.FileDialog 		fileDialog = null;
+	java.awt.FileDialog 		fileDialog = null;
 	private FileDialog(int type,String []extensions){
 		int tp = type;
-    	fileDialog = new java.awt.FileDialog((java.awt.Frame)waba.applet.Applet.currentApplet.getParent(),null,tp);
+    	fileDialog = new java.awt.FileDialog((java.awt.Frame)waba.applet.Applet.currentApplet.getParent(),
+											 null,tp);
     	MyFilter fl = new MyFilter(fileDialog,extensions);
     	fileDialog.setFilenameFilter(fl);
 	}
@@ -31,8 +32,8 @@ java.awt.FileDialog 		fileDialog = null;
     }
 
     public void setFile(String file){
-	if(fileDialog == null) return;
-	fileDialog.setFile(file);
+		if(fileDialog == null) return;
+		fileDialog.setFile(file);
     }
     public String getFilePath(){
     	if(fileDialog == null) return null;

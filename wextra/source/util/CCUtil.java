@@ -1,4 +1,4 @@
-package extra.util;
+package org.concord.waba.extra.util;
 import waba.fx.Rect;
 import waba.fx.Image;
 import waba.fx.Graphics;

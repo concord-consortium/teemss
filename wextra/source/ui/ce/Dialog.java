@@ -3,7 +3,7 @@ package org.concord.waba.extra.ui;
 
 
 public class Dialog extends waba.ui.Container{
-	extra.ui.Popup popup=null;
+	Popup popup=null;
 	boolean wasDown = false;
 	String title;
 	waba.fx.Font font;

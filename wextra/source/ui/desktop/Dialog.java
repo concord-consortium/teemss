@@ -3,7 +3,7 @@ package org.concord.waba.extra.ui;
 
 
 public class Dialog extends waba.ui.Window{
-  extra.ui.Popup popup=null;
+  Popup popup=null;
   boolean wasDown = false;
 String title;
  waba.fx.Font font;
@@ -372,11 +372,11 @@ private waba.ui.Container		contentPane;
  
 	public void showPopup(){
 		if(popup != null) return;
-		popup = new extra.ui.Popup(this);
+		popup = new Popup(this);
 		popup.popup();
 		waba.ui.MainWindow mw = waba.ui.MainWindow.getMainWindow();
-		if(mw instanceof org.concord.waba.extra.ui.ExtraMainWindow){
-			((org.concord.waba.extra.ui.ExtraMainWindow)mw).setDialog(this);
+		if(mw instanceof org.concord.waba.ExtraMainWindow){
+			((ExtraMainWindow)mw).setDialog(this);
 		}
 	}
 	public void hidePopup(){
@@ -384,8 +384,8 @@ private waba.ui.Container		contentPane;
 		popup.unpop();
 		popup = null;
 		waba.ui.MainWindow mw = waba.ui.MainWindow.getMainWindow();
-		if(mw instanceof org.concord.waba.extra.ui.ExtraMainWindow){
-			((org.concord.waba.extra.ui.ExtraMainWindow)mw).setDialog(null);
+		if(mw instanceof ExtraMainWindow){
+			((ExtraMainWindow)mw).setDialog(null);
 		}
 	}
   public void onEvent(waba.ui.Event event){
@@ -397,7 +397,7 @@ private waba.ui.Container		contentPane;
 
 			if(event.target instanceof waba.ui.Button){
 				message = ((waba.ui.Button)event.target).getText();
-			}else if(event.target instanceof extra.ui.List){
+			}else if(event.target instanceof List){
 				return;
 			}
 			if(inpControl != null){
@@ -405,7 +405,7 @@ private waba.ui.Container		contentPane;
 					info = ((waba.ui.Edit)inpControl).getText();
 					infoType = org.concord.waba.extra.event.DialogEvent.EDIT;
 				}else if(inpControl instanceof Choice){
-					info = ((extra.ui.List)inpControl).getSelected();
+					info = ((List)inpControl).getSelected();
 					infoType = org.concord.waba.extra.event.DialogEvent.CHOICE;
 				}
 			}

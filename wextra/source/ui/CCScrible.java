@@ -1,19 +1,19 @@
 package org.concord.waba.extra.ui;
 import waba.ui.*;
 import waba.fx.*;
-import extra.io.DataStream;
+import org.concord.waba.extra.io.DataStream;
 
 public class CCScrible extends Container{
-DrawArea drawArea;
-Button 			clearButton, modeButton,choosePenButton;
-CCColorChooser	colorChooser;
-CCPenChooser 	penChooser;
-Container  		scribbleChooser;
-boolean 		isChooserUp = false;
-MainWindow 		owner;
-static final 	int DATA_PEN		=	1;
-static final 	int DATA_PATH	=	2;
-private boolean  wasAddComponent = true;
+	DrawArea drawArea;
+	Button 			clearButton, modeButton,choosePenButton;
+	CCColorChooser	colorChooser;
+	CCPenChooser 	penChooser;
+	Container  		scribbleChooser;
+	boolean 		isChooserUp = false;
+	MainWindow 		owner;
+	static final 	int DATA_PEN		=	1;
+	static final 	int DATA_PATH	=	2;
+	private boolean  wasAddComponent = true;
 	public CCScrible(MainWindow owner){
 		this.owner = owner;
 		drawArea = new DrawArea();
@@ -94,7 +94,7 @@ private boolean  wasAddComponent = true;
 	
 	boolean embeddedState = false;
 	public void setEmbeddedState(boolean embeddedState){
-//		this.embeddedState = embeddedState;
+		//		this.embeddedState = embeddedState;
 		this.embeddedState = false;
 		if(drawArea != null) drawArea.setEmbeddedState(this.embeddedState);
 		Rect r = getRect();
@@ -205,22 +205,22 @@ private boolean  wasAddComponent = true;
 
 class DrawArea extends Control{
 
-int lastX, lastY;
-int lastMoveX, lastMoveY;
-org.concord.waba.extra.ui.CCPen	pen;
-public static final int MODE_NORMAL = 0;
-public static final int MODE_ERASE = 1;
+	int lastX, lastY;
+	int lastMoveX, lastMoveY;
+	org.concord.waba.extra.ui.CCPen	pen;
+	public static final int MODE_NORMAL = 0;
+	public static final int MODE_ERASE = 1;
 
-public int	mode = MODE_NORMAL;
+	public int	mode = MODE_NORMAL;
 
-boolean	wasFirstEraseRect = false;
+	boolean	wasFirstEraseRect = false;
 
-waba.fx.Image bufIm = null;
-CCDrawPath	pathList = null;
-CCDrawPath	currPath = null;
-static final 	int DATA_PEN		=	1;
-static final 	int DATA_PATH	=	2;
-boolean embeddedState = false;
+	waba.fx.Image bufIm = null;
+	CCDrawPath	pathList = null;
+	CCDrawPath	currPath = null;
+	static final 	int DATA_PEN		=	1;
+	static final 	int DATA_PATH	=	2;
+	boolean embeddedState = false;
 	public DrawArea(){
 		pen = new org.concord.waba.extra.ui.CCPen();
 		pen.setPenSize((byte)1,(byte)1);
@@ -248,7 +248,7 @@ boolean embeddedState = false;
 					out.writeInt(CCDrawPath.END_PATH_LIST);
 				}
 			}
-//			pathList.writeExternal(out);
+			//			pathList.writeExternal(out);
 		}
 		out.writeInt(DATA_PEN);
 		if(pen == null){
@@ -278,7 +278,7 @@ boolean embeddedState = false;
 				temp = in.readInt();			
 				doExit = (temp != CCDrawPath.END_PATH_ITEM);
 			}
-//			pathList = new CCDrawPath(in);
+			//			pathList = new CCDrawPath(in);
 		}
 		CCDrawPath path = pathList;
 		while(path != null){
@@ -393,9 +393,9 @@ boolean embeddedState = false;
 				drawLine(drawg,lastX,lastY,penEvent.x,penEvent.y);
 			}
 			CCDrawPath newPath = new CCDrawPath((mode == MODE_ERASE)?1:0,pen.w,pen.h,
-							(mode == MODE_ERASE)?255:pen.red,
-							(mode == MODE_ERASE)?255:pen.green,
-							(mode == MODE_ERASE)?255:pen.blue);
+												(mode == MODE_ERASE)?255:pen.red,
+												(mode == MODE_ERASE)?255:pen.green,
+												(mode == MODE_ERASE)?255:pen.blue);
 			if(currPath != null) currPath.setNext(newPath);
 			currPath = newPath;
 			if(pathList == null) pathList = currPath;
@@ -416,7 +416,7 @@ boolean embeddedState = false;
 				drawg.setColor(0,0,0);
 				drawg.setDrawOp(Graphics.DRAW_XOR);
 				drawg.drawRect(penEvent.x - 10,penEvent.y - 10,20,20);
-//				drawg.setColor(pen.red,pen.green,pen.blue);
+				//				drawg.setColor(pen.red,pen.green,pen.blue);
 				drawg.setDrawOp(Graphics.DRAW_OVER);
 			}
 			lastX = penEvent.x;
@@ -454,12 +454,12 @@ boolean embeddedState = false;
 		setMode(MODE_NORMAL, null);
 		currPath = null;
 		pathList = null;
-     		if(bufIm != null){
+		if(bufIm != null){
 			waba.fx.Graphics ig = new waba.fx.Graphics(bufIm);
 			ig.setColor(255, 255, 255);
 			ig.fillRect(0, 0, this.width, this.height);
-	     		ig.free();
-     		}
+			ig.free();
+		}
 		repaint();
 	}
 	public void createOffImage(){
@@ -474,12 +474,12 @@ boolean embeddedState = false;
 			ig.setColor(255, 255, 255);
 			ig.fillRect(0, 0, this.width, this.height);
 	     	ig.free();
-	     }
+		}
 	}
 
 	public void onPaint(Graphics g){
 		createOffImage();
-     		if(bufIm == null) return;
+		if(bufIm == null) return;
 		g.copyRect(bufIm,0,0,width,height,0,0);
 		waba.fx.Graphics ig = new waba.fx.Graphics(bufIm);
 		CCDrawPath path = pathList;
@@ -521,20 +521,20 @@ boolean embeddedState = false;
 }
 
 class CCDrawPath{
-CCDrawPath 	next = null;
-int			type;
-byte 			wPen = 1;
-byte 			hPen = 1;
-int			rPen = 0;
-int			gPen = 0;
-int			bPen = 0;
-short		[]points = null;
-int			currPos;
-boolean		dirty = true;
+	CCDrawPath 	next = null;
+	int			type;
+	byte 			wPen = 1;
+	byte 			hPen = 1;
+	int			rPen = 0;
+	int			gPen = 0;
+	int			bPen = 0;
+	short		[]points = null;
+	int			currPos;
+	boolean		dirty = true;
 	boolean     closed = false;
-public final static int BEGIN_PATH_ITEM = 10000;
-public final static int END_PATH_ITEM = 10001;
-public final static int END_PATH_LIST = 10002;
+	public final static int BEGIN_PATH_ITEM = 10000;
+	public final static int END_PATH_ITEM = 10001;
+	public final static int END_PATH_LIST = 10002;
 
 	public CCDrawPath(int type,byte wPen,byte hPen,int rPen,int gPen,int bPen){
 		this.type = type;
@@ -548,8 +548,8 @@ public final static int END_PATH_LIST = 10002;
 		dirty = true;
 	}
 	public CCDrawPath(extra.io.DataStream in){
-//		int temp = in.readInt();
-//		if(temp != BEGIN_PATH_ITEM) return;
+		//		int temp = in.readInt();
+		//		if(temp != BEGIN_PATH_ITEM) return;
 		type = in.readInt();
 		wPen = in.readByte();
 		hPen = in.readByte();
@@ -561,18 +561,18 @@ public final static int END_PATH_LIST = 10002;
 		if(temp > 0){
 		    points = new short[temp];
 		    for(int i = 0; i < points.length;i++){
-			points[i] = in.readShort();
+				points[i] = in.readShort();
 		    }
 
 		}
-//		temp = in.readInt();
-//		if(temp == END_PATH_ITEM){
-//			next = new CCDrawPath(in);
-//		}
+		//		temp = in.readInt();
+		//		if(temp == END_PATH_ITEM){
+		//			next = new CCDrawPath(in);
+		//		}
 	}
 	
 	public void writeExternal(extra.io.DataStream out){
-//		out.writeInt(BEGIN_PATH_ITEM);
+		//		out.writeInt(BEGIN_PATH_ITEM);
 		out.writeInt(type);
 		out.writeByte(wPen);
 		out.writeByte(hPen);
@@ -588,13 +588,13 @@ public final static int END_PATH_LIST = 10002;
 			    out.writeShort(points[i]);
 			}
 		}
-/*
-		if(next != null){
-			out.writeInt(END_PATH_ITEM);
-			next.writeExternal(out);
-		}
-		else	out.writeInt(END_PATH_LIST);
-*/
+		/*
+		  if(next != null){
+		  out.writeInt(END_PATH_ITEM);
+		  next.writeExternal(out);
+		  }
+		  else	out.writeInt(END_PATH_LIST);
+		*/
 	}
 	
 	public void 		setNext(CCDrawPath next){this.next = next;}

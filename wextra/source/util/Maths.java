@@ -20,7 +20,7 @@
  * equations as per suggestion from Jody Nickel.
  *
  ****************************************************************************/
-package extra.util;
+package org.concord.waba.extra.util;
 
 /**
  * The class <code>Math</code> contains methods for performing basic

@@ -1,9 +1,8 @@
-
 package org.concord.waba.extra.ui;
 
 
 public class FileDialog{
-public final static int		FILE_LOAD = 0;
+	public final static int		FILE_LOAD = 0;
     public final static int     FILE_SAVE = 1;
 	private FileDialog(int type,String []extensions){
 	}

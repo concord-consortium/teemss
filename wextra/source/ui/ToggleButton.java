@@ -15,7 +15,7 @@
  *
  ****************************************************************************/
 
-package extra.ui;
+package org.concord.waba.extra.ui;
 
 import waba.ui.*;
 import waba.fx.*;

@@ -9,7 +9,7 @@
  *
  ****************************************************************************/
 
-package extra.io;
+package org.concord.extra.io;
 
 import waba.io.*;
 import waba.util.*;

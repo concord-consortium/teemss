@@ -1,9 +1,5 @@
 package org.concord.waba.extra.ui;
 
-import java.awt.datatransfer.*;
-import java.awt.Toolkit;
-
-
 public class CCClipboard {
 
 	private CCClipboard(){}

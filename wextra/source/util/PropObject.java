@@ -1,5 +1,6 @@
-package extra.util;
+package org.concord.waba.extra.util;
 import waba.ui.Control;
+import org.concord.waba.extra.io.*;
 
 public class PropObject
 {
@@ -34,7 +35,7 @@ public class PropObject
 	int type = EDIT;
 	boolean radio = false;
 
-	public PropObject(extra.io.DataStream in){
+	public PropObject(DataStream in){
 		cookie = null;
 		readExternal(in);
 	}
@@ -282,7 +283,7 @@ public class PropObject
 	public String getLabel(){ return label;}
 	public int getId(){ return id;}
 	
-	public void writeExternal(extra.io.DataStream out){
+	public void writeExternal(DataStream out){
 		out.writeInt(id);
 		out.writeInt(type);
 		out.writeBoolean(value != null);
@@ -298,11 +299,11 @@ public class PropObject
 		}
 	}
 
-	public static int readExternalId(extra.io.DataStream in)
+	public static int readExternalId(DataStream in)
 	{
 		return in.readInt();
 	}
-	public void readExternalUpdate(extra.io.DataStream in)
+	public void readExternalUpdate(DataStream in)
 	{
 		type = in.readInt();
 		value = (in.readBoolean())?in.readString():null;
@@ -329,7 +330,7 @@ public class PropObject
 		if(possibleValues != null) type = CHOICE;
 	}
 
-	public void readExternal(extra.io.DataStream in){
+	public void readExternal(DataStream in){
 		id = in.readInt();
 		readExternalUpdate(in);
 	}

@@ -2,11 +2,11 @@ package org.concord.waba.extra.ui;
 import waba.ui.*;
 
 public class CCColorChooser extends waba.ui.Control{
-waba.fx.Color	[]colors = null;
-public int colorIndex = -1;
-waba.fx.Image bufIm = null;
-int dx = 8;
-int dy = 6;
+	waba.fx.Color	[]colors = null;
+	public int colorIndex = -1;
+	waba.fx.Image bufIm = null;
+	int dx = 8;
+	int dy = 6;
 	public CCColorChooser(){
 		colors = CCPalette.getPalette();
 	}
@@ -25,7 +25,7 @@ int dy = 6;
 	public void createOffImage(){
 		if(bufIm != null) return;
 		bufIm=new waba.fx.Image(width,height);
-		 waba.fx.Graphics ig = new waba.fx.Graphics(bufIm);
+		waba.fx.Graphics ig = new waba.fx.Graphics(bufIm);
 		int xx = 1;
 		int yy = 1;
 		ig.setColor(200,200,200);
@@ -53,7 +53,7 @@ int dy = 6;
 	public void onPaint(waba.fx.Graphics g){
 		if(colors == null) return;
 		createOffImage();
-     		g.copyRect(bufIm,0,0,width,height,0,0);
+		g.copyRect(bufIm,0,0,width,height,0,0);
 		int xCurr = dx * (colorIndex % 16);
 		int yCurr = dy * (colorIndex / 16);
 		drawChosenRectFrame(g,xCurr,yCurr);
@@ -62,10 +62,10 @@ int dy = 6;
 	public void drawChosenRectFrame(waba.fx.Graphics g, int x, int y){
 		if(x >= 0 && y >= 0){
 			g.setColor(255,255,255);
-//			g.drawRect(x-1,y-1,dx+2,dy+2);
+			//			g.drawRect(x-1,y-1,dx+2,dy+2);
 			g.drawRect(x,y,dx,dy);
 			g.setColor(0,0,0);
-//			g.drawRect(x,y,dx,dy);
+			//			g.drawRect(x,y,dx,dy);
 			g.drawRect(x+1,y+1,dx-2,dy-2);
 		}
 	}

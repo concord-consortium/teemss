@@ -1,4 +1,5 @@
 package org.concord.waba.extra.ui;
+
 import waba.ui.MainWindow;
 import waba.ui.Control;
 import waba.ui.Label;
@@ -6,12 +7,12 @@ import waba.fx.Font;
 
 public class CCLabel extends Control
 {
-String text;
-Font font;
-int align;
+	String text;
+	Font font;
+	int align;
 
-int bRed = 255,bGreen = 255,bBlue = 255;
-int tRed = 0,tGreen = 0,tBlue = 0;
+	int bRed = 255,bGreen = 255,bBlue = 255;
+	int tRed = 0,tGreen = 0,tBlue = 0;
 	public CCLabel(String text){
 		this(text, Label.LEFT);
 	}

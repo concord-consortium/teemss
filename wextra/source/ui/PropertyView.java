@@ -1,6 +1,6 @@
 package org.concord.waba.extra.ui;
 
-import extra.util.*;
+import org.concord.waba.extra.util.*;
 import org.concord.waba.extra.event.*;
 import waba.ui.*;
 import waba.util.*;

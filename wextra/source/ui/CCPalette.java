@@ -1,11 +1,11 @@
 package org.concord.waba.extra.ui;
 
-import extra.util.Maths;
+import org.concord.waba.extra.util.Maths;
 
 public class CCPalette{
-public static waba.fx.Color	[]colors = null;
-public static int CC_VERSION_PALETTE = 0xCC;
-int	paletteVersion = CC_VERSION_PALETTE;
+	public static waba.fx.Color	[]colors = null;
+	public static int CC_VERSION_PALETTE = 0xCC;
+	int	paletteVersion = CC_VERSION_PALETTE;
 	private CCPalette(){
 
 	}
@@ -81,14 +81,14 @@ int	paletteVersion = CC_VERSION_PALETTE;
 		int blue 	= (col & 0xFF);	
 		int green 	= ((col >> 8) & 0xFF);	
 		int red 	= ((col >> 16) & 0xFF);	
-//		System.out.println("red "+ red + " green " + green + " blue " + blue);
+		//		System.out.println("red "+ red + " green " + green + " blue " + blue);
 		
 		int index = findNearestColor(red, green, blue);
-/*
-		if(index >= 0){
-			System.out.println("red "+ colors[index].getRed() + " green " + colors[index].getGreen() + " blue " + colors[index].getBlue());
-		}
-*/
+		/*
+		  if(index >= 0){
+		  System.out.println("red "+ colors[index].getRed() + " green " + colors[index].getGreen() + " blue " + colors[index].getBlue());
+		  }
+		*/
 		return index;
 	}
 	

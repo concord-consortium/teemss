@@ -3,6 +3,6 @@ public class Icon extends ImagePane
 {
     public Icon(String path)
     {
-	imagePath = "icons/" + path;
+		imagePath = "icons/" + path;
     }
 }

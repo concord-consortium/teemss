@@ -1,42 +1,39 @@
 package org.concord.waba.extra.ui;
 
 import waba.ui.*;
-import extra.ui.*;
-import extra.util.CCUtil;
+import org.concord.waba.extra.ui.*;
+import org.concord.waba.extra.util.CCUtil;
 import org.concord.waba.extra.event.*;
 import waba.fx.Rect;
 import waba.fx.Image;
 import waba.fx.Graphics;
 
-
-
-
 public class CCScrollBar extends Control{
-Rect	rBody;
-Rect	rDecrement;
-Rect	rIncrement;
-Rect	rValue;
+	Rect	rBody;
+	Rect	rDecrement;
+	Rect	rIncrement;
+	Rect	rValue;
 
-Image	pattern;
-
-
-int	cValue = 0;
+	Image	pattern;
 
 
-int		minValue = 0;
-int		maxValue = 0;
-int		value;
+	int	cValue = 0;
 
-int		allAreaValue = 0;
-int		visAreaValue = 0;
-ScrollListener	listener;
 
-int	pressState = 0;
+	int		minValue = 0;
+	int		maxValue = 0;
+	int		value;
 
-int incValue 		= 0;
-int pageIncValue 	= 0;
-boolean	forceNotify = false;
-boolean isWinCE = false;
+	int		allAreaValue = 0;
+	int		visAreaValue = 0;
+	ScrollListener	listener;
+
+	int	pressState = 0;
+
+	int incValue 		= 0;
+	int pageIncValue 	= 0;
+	boolean	forceNotify = false;
+	boolean isWinCE = false;
 	public CCScrollBar(ScrollListener listener){
 		this.listener = listener;
 		rBody 		= new Rect(0,0,0,0);

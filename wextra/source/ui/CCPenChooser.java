@@ -1,9 +1,9 @@
 package org.concord.waba.extra.ui;
 
 public class CCPenChooser extends waba.ui.Control{
-public int penIndex = -1;
-int dh;
-int	nPens = 8;
+	public int penIndex = -1;
+	int dh;
+	int	nPens = 8;
 	public void setRect(int x,int y,int w,int h){
 		super.setRect(x,y,16,h);
 		dh = (int)((float)height / nPens + 0.5f);

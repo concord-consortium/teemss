@@ -3,14 +3,12 @@ import waba.ui.*;
 import waba.fx.*;
 import waba.sys.Vm;
 
-
-
 public class CCButton extends Control
 {
-boolean 	enabled = true;
-String 	text;
-Font 		font;
-boolean 	armed;
+	boolean 	enabled = true;
+	String 	text;
+	Font 		font;
+	boolean 	armed;
 	private static int style = -1;
 	final static int PALM_STYLE = 0;
 	final static int WIN_STYLE = 1;
@@ -71,7 +69,7 @@ boolean 	armed;
 		int x2 = width - 1;
 		int y2 = height - 1;
 		if (!isColor){
-		// draw top, bottom, left and right lines
+			// draw top, bottom, left and right lines
 			g.setColor(0, 0, 0);
 			g.drawLine(3, 0, x2 - 3, 0);
 			g.drawLine(3, y2, x2 - 3, y2);
@@ -79,35 +77,35 @@ boolean 	armed;
 			g.drawLine(x2, 3, x2, y2 - 3);
 			if (armed) g.fillRect(1, 1, width - 2, height - 2);
 			else{
-			// draw corners (tl, tr, bl, br)
+				// draw corners (tl, tr, bl, br)
 				g.drawLine(1, 1, 2, 1);
 				g.drawLine(x2 - 2, 1, x2 - 1, 1);
 				g.drawLine(1, y2 - 1, 2, y2 - 1);
 				g.drawLine(x2 - 2, y2 - 1, x2 - 1, y2 - 1);
-			// draw corner dots
+				// draw corner dots
 				g.drawLine(1, 2, 1, 2);
 				g.drawLine(x2 - 1, 2, x2 - 1, 2);
 				g.drawLine(1, y2 - 2, 1, y2 - 2);
 				g.drawLine(x2 - 1, y2 - 2, x2 - 1, y2 - 2);
 			}
 		}else{
-		// top, left
+			// top, left
 			if (armed)		g.setColor(0, 0, 0);
 			else			g.setColor(255, 255, 255);
 			g.drawLine(0, 0, x2 - 1, 0);
 			g.drawLine(0, 0, 0, y2 - 1);
-		// top, left shadow
+			// top, left shadow
 			if (armed){
 				g.setColor(130, 130, 130);
 				g.drawLine(1, 1, x2 - 1, 1);
 				g.drawLine(1, 1, 1, y2 - 1);
 			}
-		// bottom, right
+			// bottom, right
 			if (armed)		g.setColor(255, 255, 255);
 			else			g.setColor(0, 0, 0);
 			g.drawLine(0, y2, x2, y2);
 			g.drawLine(x2, y2, x2, 0);
-		// bottom, right shadow
+			// bottom, right shadow
 			if (!armed){
 				g.setColor(130, 130, 130);
 				g.drawLine(1, y2 - 1, x2 - 1, y2 - 1);

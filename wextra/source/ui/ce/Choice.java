@@ -2,7 +2,7 @@ package org.concord.waba.extra.ui;
 
 import waba.util.*;
 
-public class Choice extends extra.ui.List{
+public class Choice extends List{
 	String name = null;
 
 	public Choice(Vector options){

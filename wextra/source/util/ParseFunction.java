@@ -1,6 +1,4 @@
-package extra.util;
-import extra.util.Maths;
-
+package org.concord.waba.extra.util;
 
 /*
 **************************************************************************

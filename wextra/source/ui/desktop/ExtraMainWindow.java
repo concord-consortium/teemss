@@ -15,7 +15,6 @@ import org.concord.waba.extra.event.*;
 import waba.ui.*;
 import waba.fx.*;
 import waba.sys.Vm;
-import extra.ui.*;
 
 /**
  * A simple extension to MainWindow which adds a title if desired plus

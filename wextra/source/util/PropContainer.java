@@ -1,4 +1,4 @@
-package extra.util;
+package org.concord.waba.extra.util;
 import waba.util.Vector;
 
 public class PropContainer

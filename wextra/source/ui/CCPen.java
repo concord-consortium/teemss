@@ -1,14 +1,14 @@
 package org.concord.waba.extra.ui;
 
 public class CCPen{
-public byte w = 1;
-public byte h = 1;
-public int red = 0;
-public int green = 0;
-public int blue = 0;
+	public byte w = 1;
+	public byte h = 1;
+	public int red = 0;
+	public int green = 0;
+	public int blue = 0;
     public final static boolean isColor = true;
-public final static int BEGIN_PEN_ITEM = 10010;
-public final static int END_PEN_ITEM = 10011;
+	public final static int BEGIN_PEN_ITEM = 10010;
+	public final static int END_PEN_ITEM = 10011;
 
 	public CCPen(){
 		w = 1;

@@ -1,28 +1,28 @@
 package org.concord.waba.extra.ui;
 import waba.ui.*;
 import waba.fx.*;
-import extra.util.*;
+import org.concord.waba.extra.util.*;
 
 public class WTable extends Container{
-Image 		bufIm 	= null;
-Graphics 	ig		= null;
-int		startX;
-int		startY;
-int		startPenX;
-int		startPenY;
-boolean	startdrugging = false;
-int		selectIndex = 0;
+	Image 		bufIm 	= null;
+	Graphics 	ig		= null;
+	int		startX;
+	int		startY;
+	int		startPenX;
+	int		startPenY;
+	boolean	startdrugging = false;
+	int		selectIndex = 0;
 
-int needPosition = 0;
-int pos[] = {0,40};
-Column columns = null;
-Column currColumn = null;
-waba.ui.Edit		activeEditor = new waba.ui.Edit();
-boolean			editorActive = false;
-Window 		owner;
-boolean		columnMoveable = false;
-boolean		columnWidthChangeable = false;
-boolean		clickable = true;
+	int needPosition = 0;
+	int pos[] = {0,40};
+	Column columns = null;
+	Column currColumn = null;
+	waba.ui.Edit		activeEditor = new waba.ui.Edit();
+	boolean			editorActive = false;
+	Window 		owner;
+	boolean		columnMoveable = false;
+	boolean		columnWidthChangeable = false;
+	boolean		clickable = true;
 
 
 	public WTable(Window owner){
@@ -77,16 +77,16 @@ boolean		clickable = true;
 			c.setRect(rLast.x+rLast.width-1,0,40,height);
 			c.setEditable(editable);
 		}
-/*
-		System.out.println("addColumn begin");
-		Column c = columns;
-		do{
-			Rect r = c.getRect();
-			System.out.println("Column "+c+" name "+c.getText()+" x "+r.x+" y "+r.y+" w "+r.width+" h "+r.height);
-			c = c.next;
-		}while(c != null);
-		System.out.println("addColumn end");
-*/		
+		/*
+		  System.out.println("addColumn begin");
+		  Column c = columns;
+		  do{
+		  Rect r = c.getRect();
+		  System.out.println("Column "+c+" name "+c.getText()+" x "+r.x+" y "+r.y+" w "+r.width+" h "+r.height);
+		  c = c.next;
+		  }while(c != null);
+		  System.out.println("addColumn end");
+		*/		
 		
 	}
 	public boolean isColumnMoveable(){return columnMoveable;}
@@ -135,12 +135,12 @@ boolean		clickable = true;
 			c = c.next;
 		}while(c != null);
 		
-/*
-		if(currColumn != null){
-			Rect rDraggedCurrent = currColumn.getDraggedRect();
-			g.drawRect(rDraggedCurrent.x,rDraggedCurrent.y,rDraggedCurrent.width,rDraggedCurrent.height);
-		}
-*/
+		/*
+		  if(currColumn != null){
+		  Rect rDraggedCurrent = currColumn.getDraggedRect();
+		  g.drawRect(rDraggedCurrent.x,rDraggedCurrent.y,rDraggedCurrent.width,rDraggedCurrent.height);
+		  }
+		*/
 	}
 	
 	public Column findColumn(PenEvent e,boolean fixed){
@@ -151,7 +151,7 @@ boolean		clickable = true;
 				c = c.next;
 				continue;
 			}
-//			Rect r = (fixed)?c.getFixedRect():c.getRect();
+			//			Rect r = (fixed)?c.getFixedRect():c.getRect();
 			Rect r = c.getRect();
 			if(inRect(e,r)){
 				retValue = c;
@@ -189,9 +189,9 @@ boolean		clickable = true;
 			PenEvent penEvent = (PenEvent)event;
 			if(startdrugging && currColumn != null){
 				switch(dragOperation){
-					case DRAG_COLUMN_MOVE:
-						updateColumnRects();
-						break;
+				case DRAG_COLUMN_MOVE:
+					updateColumnRects();
+					break;
 				}
 				Graphics g = createGraphics();
 				onPaint(g);
@@ -225,7 +225,7 @@ boolean		clickable = true;
 				if(c.isEditable()){
 					owner.setFocus(activeEditor);
 				}
-//				activeEditor.onEvent(new ControlEvent(ControlEvent.FOCUS_IN,this));
+				//				activeEditor.onEvent(new ControlEvent(ControlEvent.FOCUS_IN,this));
 			}else if(rowIndex == 0){
 				if(isColumnWidthChangeable() && ((Maths.abs(rColumn.x - penEvent.x) < 4) || (Maths.abs(rColumn.x + rColumn.width - penEvent.x) < 4))){
 					if(c != columns || penEvent.x -  rColumn.x > 4){
@@ -253,43 +253,43 @@ boolean		clickable = true;
 			}
 		}else if (event.type == PenEvent.PEN_DRAG){
 			PenEvent penEvent = (PenEvent)event;
-//			System.out.println("PEN_DRAG  penEvent "+penEvent.x+" y "+penEvent.y);
+			//			System.out.println("PEN_DRAG  penEvent "+penEvent.x+" y "+penEvent.y);
 
 			if(startdrugging && currColumn != null){
 				Rect r = null;
 				switch(dragOperation){
-					case DRAG_COLUMN_SIZE:
-						Column cs = currColumn;
-						r = cs.getRect();
-						if(startX + penEvent.x - startPenX - r.x < 10) break;
-						int delta = startX + penEvent.x - startPenX - r.x - r.width;
-						if(getTotalColumWidth() + delta > width) break;
+				case DRAG_COLUMN_SIZE:
+					Column cs = currColumn;
+					r = cs.getRect();
+					if(startX + penEvent.x - startPenX - r.x < 10) break;
+					int delta = startX + penEvent.x - startPenX - r.x - r.width;
+					if(getTotalColumWidth() + delta > width) break;
 
-						cs.setRect(r.x,r.y,r.width + delta,r.height);
-						while(cs != null){
-							cs = cs.getNextColumn();
-							if(cs != null){
-								r = cs.getRect();
-								cs.setRect(r.x + delta,r.y,r.width,r.height);
-							}
+					cs.setRect(r.x,r.y,r.width + delta,r.height);
+					while(cs != null){
+						cs = cs.getNextColumn();
+						if(cs != null){
+							r = cs.getRect();
+							cs.setRect(r.x + delta,r.y,r.width,r.height);
 						}
-						break;
-					case DRAG_COLUMN_MOVE:
-						int xx = startX + penEvent.x - startPenX;
-						currColumn.setDraggedRect(xx,currColumn.getRect().y,currColumn.getRect().width,currColumn.getRect().height);
-						Column c = findColumn(penEvent,true);
+					}
+					break;
+				case DRAG_COLUMN_MOVE:
+					int xx = startX + penEvent.x - startPenX;
+					currColumn.setDraggedRect(xx,currColumn.getRect().y,currColumn.getRect().width,currColumn.getRect().height);
+					Column c = findColumn(penEvent,true);
 						
-						if(c != null && c != currColumn){
-							Rect rC = c.getRect();
-							Rect rCurr = currColumn.getRect();
-							if(rC.x + rCurr.width > penEvent.x){
-								changeColumns(currColumn,c);
-								updateColumnRects();
-							}
+					if(c != null && c != currColumn){
+						Rect rC = c.getRect();
+						Rect rCurr = currColumn.getRect();
+						if(rC.x + rCurr.width > penEvent.x){
+							changeColumns(currColumn,c);
+							updateColumnRects();
 						}
-						Rect rd = currColumn.getDraggedRect();
-						currColumn.setRect(rd.x,rd.y,rd.width,rd.height);
-						break;
+					}
+					Rect rd = currColumn.getDraggedRect();
+					currColumn.setRect(rd.x,rd.y,rd.width,rd.height);
+					break;
 				}
 				Graphics g = createGraphics();
 				onPaint(g);
@@ -366,15 +366,15 @@ boolean		clickable = true;
 	
 	public void setRect(int x,int y,int width,int height){
 		int y0 = 0;
-/*
-		if(header == null) y0 += header.getRect().height;
-		if(rows != null){
-			index i = rows.getCount() - 1;
-			if(i >= 0){
-				y0 += ((Control)rows.get(i)).getrect().height;
-			}
-		}
-*/
+		/*
+		  if(header == null) y0 += header.getRect().height;
+		  if(rows != null){
+		  index i = rows.getCount() - 1;
+		  if(i >= 0){
+		  y0 += ((Control)rows.get(i)).getrect().height;
+		  }
+		  }
+		*/
 		super.setRect(x,y,width,height);
 		if(bufIm != null){
 			bufIm.free();
@@ -406,13 +406,13 @@ boolean		clickable = true;
 	}
 	
 	public void onPaint(Graphics g){
-/*
-		g.setColor(255, 255, 255);
-		g.fillRect(0, 0, this.width, this.height);
-		drawColumns(g);
-*/
-      		if(bufIm == null) bufIm=new Image(width,height);
-//		Graphics ig = new Graphics(bufIm);
+		/*
+		  g.setColor(255, 255, 255);
+		  g.fillRect(0, 0, this.width, this.height);
+		  drawColumns(g);
+		*/
+		if(bufIm == null) bufIm=new Image(width,height);
+		//		Graphics ig = new Graphics(bufIm);
 		if(ig == null && bufIm != null){
 			ig = new Graphics(bufIm);
 		}
@@ -421,7 +421,7 @@ boolean		clickable = true;
 			ig.fillRect(0, 0, this.width, this.height);
 			drawColumns(ig);
      		g.copyRect(bufIm,0,0,width,height,0,0);
- //    		ig.free();
+			//    		ig.free();
 			if(editorActive){
 				Graphics ge = activeEditor.createGraphics();
 				activeEditor.onPaint(ge);

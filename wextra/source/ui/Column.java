@@ -1,24 +1,24 @@
 package org.concord.waba.extra.ui;
+
 import waba.ui.*;
 import waba.fx.*;
 
-
 public class Column extends Container{
-Column next = null;
-Column prev = null;
-public static Column	firstColumn = null;
-public static Column	lastColumn = null;
-Rect	draggedRect;
-CCLabel	header;
-waba.util.Vector	rows;	
-int		selectIndex = 0;
-Control			removedControl = null;
-boolean	editable = true;
+	Column next = null;
+	Column prev = null;
+	public static Column	firstColumn = null;
+	public static Column	lastColumn = null;
+	Rect	draggedRect;
+	CCLabel	header;
+	waba.util.Vector	rows;	
+	int		selectIndex = 0;
+	Control			removedControl = null;
+	boolean	editable = true;
 	public Column(String name){
 		this(name,null);
 	}
 	public Column(String name,Column next){
-//		super(name,Label.CENTER);
+		//		super(name,Label.CENTER);
 		super();
 		header = new CCLabel(name,Label.CENTER);
 		add(header);
