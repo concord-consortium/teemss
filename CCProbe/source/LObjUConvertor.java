@@ -184,15 +184,11 @@ class LObjUConvertorView extends LabObjectView
 		if(currChoiceTo != null){
 			remove(currChoiceTo);
 		}
-		currChoiceFrom = new Choice();
-		currChoiceTo   = new Choice();
-		for(int i = 0; i < CCUnit.unitTable.length; i++){
-			CCUnit u = CCUnit.unitTable[i];
-			if(u.unitCategory == index){
-				currChoiceFrom.add(u.abbreviation);
-				currChoiceTo.add(u.abbreviation);
-			}
-		}
+
+		Vector catAbbrevs = CCUnit.getCatUnitAbbrev(index);
+		currChoiceFrom = new Choice(catAbbrevs);
+		currChoiceTo   = new Choice(catAbbrevs);
+
 		add(currChoiceFrom);
 		add(currChoiceTo);
 		needCreateCurrCat = false;
@@ -384,8 +380,8 @@ class LObjUConvertorView extends LabObjectView
 		String	rightAbbr = currChoiceTo.getSelected();
 		CCUnit unitLeft = null;
 		CCUnit unitRight = null;
-		for(int i = 0; i < CCUnit.unitTable.length; i++){
-			CCUnit u = CCUnit.unitTable[i];
+		for(int i = 1; i < CCUnit.UNIT_TABLE_LENGTH; i++){
+			CCUnit u = CCUnit.getUnit(i);
 			if(u.abbreviation.equals(leftAbbr) && unitLeft == null){
 				unitLeft = u;
 			}

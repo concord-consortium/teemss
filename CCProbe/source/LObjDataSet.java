@@ -79,14 +79,17 @@ public class LObjDataSet extends LObjSubDict
 		first.store();
 		int ref = session.release(first);
 		first.chunkIndex = -1;
+		first = null;
 		numChunks++;
 
+		LObjDataSet curChunk = null;
 		for(int i=1; i<numBinChunks; i++){
-			LObjDataSet curChunk = makeSubChunk(b, i, session);
+			curChunk = makeSubChunk(b, i, session);
 			setObj(curChunk, numSubObjs++);
 			curChunk.store();
 			ref = session.release(curChunk);
 			curChunk.chunkIndex = -1;
+			curChunk = null;
 			numChunks++;
 		}
 
@@ -444,6 +447,7 @@ public class LObjDataSet extends LObjSubDict
 		   
 			if(myBin != null){
 				dEvent = null;
+				myBin = null;
 			}
 		} else {
 			ds.writeByte(3);

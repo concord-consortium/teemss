@@ -77,7 +77,6 @@ public class LObjDataCollectorView extends LabObjectView
 
 		this.dc = dc;
 		dataDict = curDict;
-
     }
 
 	public void addMenus()
@@ -89,15 +88,18 @@ public class LObjDataCollectorView extends LabObjectView
 			}
 			container.getMainView().addFileMenuItems(fileStrings, this);
 		}
+		
 	}
 
 	public void delMenus()
 	{
+	   
 		if(container != null){
 			container.getMainView().delMenu(this,menu);
 			menu.removeActionListener(this);
 			container.getMainView().removeFileMenuItems(fileStrings, this);
-		}		
+		}	
+	  	
 	}
 
 	public void setTitle1(String t1)
@@ -154,7 +156,7 @@ public class LObjDataCollectorView extends LabObjectView
     {
 		if(didLayout) return;
 		didLayout = true;
-
+		
 		showDone = sDone;
 
 		collectButton = new ToggleButton("Collect", false);
@@ -190,6 +192,7 @@ public class LObjDataCollectorView extends LabObjectView
 		}
 
 		add(gv);
+		
     }
 
 	public void labObjChanged(LabObjEvent e)
@@ -208,8 +211,8 @@ public class LObjDataCollectorView extends LabObjectView
 		super.setRect(x,y,width,height);
 		if(!didLayout) layout(false);
 
-		//		addTimer(100);
-	  
+		//		 addTimer(100);
+		 
 		int curY = 0;
 		int gHeight = height;
 
@@ -231,6 +234,7 @@ public class LObjDataCollectorView extends LabObjectView
 		doneB.setRect(width-27, 0, 27, gt_height/2);
 
 		setTitle1(dc.getName());		
+		
     }
 
     public void actionPerformed(ActionEvent e)
@@ -293,17 +297,16 @@ public class LObjDataCollectorView extends LabObjectView
 		super.close();
     }
 
-	//	int curMemPos = 0;
-	// byte [][] mem = new byte [200][];
+		int curMemPos = 0;
+	 byte [][] mem = new byte [200][];
     public void onEvent(Event e)
     {
-		/*
 		if(e.target == this && e.type == ControlEvent.TIMER){
 			mem[curMemPos] = new byte[1000];
 			curMemPos++;
-			repaint();
+			setTitle1("count: " + curMemPos);
 		}
-		*/
+		
 		if(e.target == gv){			
 			if(e.type == 1000){
 				// This must have come from the graph so
@@ -328,7 +331,11 @@ public class LObjDataCollectorView extends LabObjectView
 		} else if(e.target == title2Label && 
 				  e.type == PenEvent.PEN_DOWN){
 			graph.showProp(session);
+		} else if(e.target == title1Label &&
+				  e.type == PenEvent.PEN_DOWN){
+			addTimer(200);
 		}
+		
     }
 
 	/*
