@@ -99,31 +99,31 @@ public class LObjDictionaryView extends LabObjectView
 
     public void onEvent(Event e)
     {
-	if(e.type == ControlEvent.PRESSED){
-	    TreeNode curNode;
-	    TreeNode parent;	   
+		if(e.type == ControlEvent.PRESSED){
+		    TreeNode curNode;
+		    TreeNode parent;	   
 
-	    LabObject newObj;
-	    if(e.target == newButton){
-		String [] buttons = {"Cancel", "Create"};
-		newDialog = Dialog.showInputDialog(this, "Create", "Create a new Object",
-						      buttons,Dialog.CHOICE_INP_DIALOG, creationTypes);
+		    LabObject newObj;
+		    if(e.target == newButton){
+				String [] buttons = {"Cancel", "Create"};
+				newDialog = Dialog.showInputDialog( this, "Create", "Create a new Object",
+							      					buttons,Dialog.CHOICE_INP_DIALOG, creationTypes);
 
-	    } else if(e.target == delButton){
-		curNode = treeControl.getSelected();
-		if(curNode == null || curNode.toString().equals("..empty..")) return;
-		parent = treeControl.getSelectedParent();
-		treeModel.removeNodeFromParent(curNode, parent);
-	    } else if(e.target == openButton){
-		curNode = treeControl.getSelected();
-		if(curNode == null || curNode.toString().equals("..empty..")) return;
-		showPage(curNode, false);
-	    } else if(e.target == doneButton){
-		if(container != null){
-		    container.done(this);
+			} else if(e.target == delButton){
+				curNode = treeControl.getSelected();
+				if(curNode == null || curNode.toString().equals("..empty..")) return;
+				parent = treeControl.getSelectedParent();
+				treeModel.removeNodeFromParent(curNode, parent);
+			} else if(e.target == openButton){
+				curNode = treeControl.getSelected();
+				if(curNode == null || curNode.toString().equals("..empty..")) return;
+				showPage(curNode, false,false);
+		    } else if(e.target == doneButton){
+				if(container != null){
+			    	container.done(this);
+				}
+		    }	    
 		}
-	    }	    
-	}
     }
 
     public void insertAtSelected(TreeNode node)
@@ -185,7 +185,7 @@ public class LObjDictionaryView extends LabObjectView
 		    insertAtSelected(newNode);
 
 		    if(autoEdit){
-			showPage(newNode, true);
+				showPage(newNode, true, false);
 		    }
 		}
 
@@ -220,113 +220,117 @@ public class LObjDictionaryView extends LabObjectView
 
     public void actionPerformed(ActionEvent e)
     {
-	String command;
-	Debug.println("Got action: " + e.getActionCommand());
+		String command;
+		Debug.println("Got action: " + e.getActionCommand());
 
-	if(e.getSource() == lObjView){
-	    if(e.getActionCommand().equals("Done")){
-		done(lObjView);
-	    }
-	} else if(e.getSource() == viewMenu){
-	    if(e.getActionCommand().equals("Paging View")){
-		dict.viewType = dict.PAGING_VIEW;
-		if(container != null){
-		    container.reload(this);
-		}
-	    }
-	} else if(e.getSource() == editMenu){	    
-	    if(e.getActionCommand().equals("Rename...")){
-		TreeNode selObj = treeControl.getSelected();
-		String [] buttons = {"Cancel", "Ok"};
-		if(selObj != null){
-		    if(selObj.toString().equals("..empty..")) return;
-		    rnDialog = Dialog.showInputDialog(this, "Rename Object", "Old Name was " + selObj.toString(),
-						      buttons,Dialog.EDIT_INP_DIALOG);
-		} else {
-		    rnDialog = Dialog.showInputDialog(this, "Rename Parent", "Old Name was " + dict.name,
-						      buttons,Dialog.EDIT_INP_DIALOG);
-		}
-	    } else if(e.getActionCommand().equals("Cut")){
-		TreeNode curNode = treeControl.getSelected();
-		if(curNode == null || curNode.toString().equals("..empty..")) return;
-		TreeNode parent = treeControl.getSelectedParent();
-		clipboardNode = curNode;
-		treeModel.removeNodeFromParent(curNode, parent);
-	    } else if(e.getActionCommand().equals("Paste")){
-		if(clipboardNode != null){
-		    insertAtSelected(clipboardNode);		    
-		}
-	    } else if(e.getActionCommand().equals("Import")){
-		FileDialog fd = FileDialog.getFileDialog(FileDialog.FILE_LOAD, null);
+		if(e.getSource() == lObjView){
+	    	if(e.getActionCommand().equals("Done")){
+				done(lObjView);
+	    	}
+		} else if(e.getSource() == viewMenu){
+	    	if(e.getActionCommand().equals("Paging View")){
+				dict.viewType = dict.PAGING_VIEW;
+				if(container != null){
+		    		container.reload(this);
+				}
+	    	}
+		} else if(e.getSource() == editMenu){	    
+		    if(e.getActionCommand().equals("Rename...")){
+				TreeNode selObj = treeControl.getSelected();
+				String [] buttons = {"Cancel", "Ok"};
+				if(selObj != null){
+				    if(selObj.toString().equals("..empty..")) return;
+				    rnDialog = Dialog.showInputDialog(this, "Rename Object", "Old Name was " + selObj.toString(),
+								      buttons,Dialog.EDIT_INP_DIALOG);
+				} else {
+				    rnDialog = Dialog.showInputDialog(this, "Rename Parent", "Old Name was " + dict.name,
+								      buttons,Dialog.EDIT_INP_DIALOG);
+				}
+		    } else if(e.getActionCommand().equals("Cut")){
+				TreeNode curNode = treeControl.getSelected();
+				if(curNode == null || curNode.toString().equals("..empty..")) return;
+				TreeNode parent = treeControl.getSelectedParent();
+				clipboardNode = curNode;
+				treeModel.removeNodeFromParent(curNode, parent);
+		    } else if(e.getActionCommand().equals("Paste")){
+				if(clipboardNode != null){
+				    insertAtSelected(clipboardNode);		    
+				}
+		    } else if(e.getActionCommand().equals("Import")){
+				FileDialog fd = FileDialog.getFileDialog(FileDialog.FILE_LOAD, null);
 
-		fd.show();
-		LabBookFile imFile = new LabBookFile(fd.getFilePath());
+				fd.show();
+				LabBookFile imFile = new LabBookFile(fd.getFilePath());
 
-		LabObject newObj = dict.lBook.importDB(imFile);
-		imFile.close();
+				LabObject newObj = dict.lBook.importDB(imFile);
+				imFile.close();
 
-		if(newObj != null){
-		    TreeNode newNode = dict.getNode(newObj);
-		    insertAtSelected(newNode);
-		}
+				if(newObj != null){
+				    TreeNode newNode = dict.getNode(newObj);
+				    insertAtSelected(newNode);
+				}
 
-	    } else if(e.getActionCommand().equals("Export")){
-		if(waba.sys.Vm.getPlatform().equals("PalmOS")){
-		    dict.lBook.export(null, null);
-		} else {
-		    TreeNode curNode = treeControl.getSelected();
-		    LObjDictionary parent = (LObjDictionary)treeControl.getSelectedParent();
-		    if(parent == null) return;
-		    
-		    LabObject obj = parent.getObj(curNode);
-		    
-		    FileDialog fd = FileDialog.getFileDialog(FileDialog.FILE_SAVE, null);
-		    fd.setFile(obj.name);
-		    fd.show();
+		    } else if(e.getActionCommand().equals("Export")){
+				if(waba.sys.Vm.getPlatform().equals("PalmOS")){
+				    dict.lBook.export(null, null);
+				} else {
+				    TreeNode curNode = treeControl.getSelected();
+				    LObjDictionary parent = (LObjDictionary)treeControl.getSelectedParent();
+				    if(parent == null) return;
+				    
+				    LabObject obj = parent.getObj(curNode);
+				    
+				    FileDialog fd = FileDialog.getFileDialog(FileDialog.FILE_SAVE, null);
+				    fd.setFile(obj.name);
+				    fd.show();
 
-		    LabBookFile lbFile = new LabBookFile(fd.getFilePath());
-		    dict.lBook.export(obj.ptr, lbFile);
-		    lbFile.save();
-		    lbFile.close();
-		}
-	    } else if(e.getActionCommand().equals("Properties...")){
-		TreeNode curNode = treeControl.getSelected();
-		if(curNode == null || curNode.toString().equals("..empty..")) return;
-		showPage(curNode, true);
-	    } else if(e.getActionCommand().equals("Toggle hidden")){
-		LObjDictionary.globalHide = !LObjDictionary.globalHide;
-		if(container != null) container.reload(this);
+				    LabBookFile lbFile = new LabBookFile(fd.getFilePath());
+				    dict.lBook.export(obj.ptr, lbFile);
+				    lbFile.save();
+				    lbFile.close();
+				}
+		    } else if(e.getActionCommand().equals("Properties...")){
+				TreeNode curNode = treeControl.getSelected();
+				if(curNode == null || curNode.toString().equals("..empty..")) return;
+				showPage(curNode, true, true);
+		    } else if(e.getActionCommand().equals("Toggle hidden")){
+				LObjDictionary.globalHide = !LObjDictionary.globalHide;
+				if(container != null) container.reload(this);
 
-	    }
-	} 
+		    }
+		} 
     }
 
-    public void showPage(TreeNode curNode, boolean edit)
+    public void showPage(TreeNode curNode, boolean edit,boolean property)
     {
-	LabObject obj = null;
-	
-	obj = dict.getObj(curNode);
-	if(obj == null) Debug.println("showPage: object not in database: " +
-				      ((LabObjectPtr)curNode).debug());
+		LabObject obj = null;
+		
+		obj = dict.getObj(curNode);
+		if(obj == null) Debug.println("showPage: object not in database: " +
+					      ((LabObjectPtr)curNode).debug());
 
-	delMenu(this, viewMenu);
-	delMenu(this, editMenu);
+		delMenu(this, viewMenu);
+		delMenu(this, editMenu);
 
-	editStatus = edit;
-	lObjView = obj.getView(this, edit, (LObjDictionary)treeControl.getSelectedParent());
+		editStatus = edit;
+		if(property){
+			lObjView = obj.getPropertyView(this, (LObjDictionary)treeControl.getSelectedParent());
+		}else{
+			lObjView = obj.getView(this, edit, (LObjDictionary)treeControl.getSelectedParent());
+		}
 
-	if(lObjView == null){
-	    addMenu(this, editMenu);
-	    addMenu(this, viewMenu);
-	    return;
-	}
+		if(lObjView == null){
+		    addMenu(this, editMenu);
+		    addMenu(this, viewMenu);
+		    return;
+		}
 
-	dict.store();
+		dict.store();
 
-	remove(me);
-        lObjView.layout(true);
-	lObjView.setRect(x,y,width,height);
-	add(lObjView);
+		remove(me);
+	    lObjView.layout(true);
+		lObjView.setRect(x,y,width,height);
+		add(lObjView);
 
     }
 

@@ -805,11 +805,13 @@ TextArea owner = null;
 			if(fm == null) return;
 			int ww = fm.getTextWidth(str);
 			int wControl = owner.getTextAreaWidth();
+/*
 			if(wControl - 5 < ww){
 				System.out.println("need Split");
 			}else{
 				System.out.println("doesn't need Split");
 			}
+*/
 			this.str = str;
 		}
 	}

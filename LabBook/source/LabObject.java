@@ -94,12 +94,21 @@ public abstract class LabObject
 	  
     public LabObjectView getView(LObjViewContainer vc, boolean edit)    
     {
-	return getView(vc, edit, null);
+		return getView(vc, edit, null);
     }
 
     public LabObjectView getView(LObjViewContainer vc, boolean edit, 
-				 LObjDictionary curDict){
-	return null;
+				 				 LObjDictionary curDict){
+		return null;
+    }
+
+    public LabObjectView getPropertyView(LObjViewContainer vc)    
+    {
+		return getPropertyView(vc, null);
+    }
+
+    public LabObjectView getPropertyView(LObjViewContainer vc,LObjDictionary curDict){
+		return null;
     }
 
     public LabObject copy(){return null;}

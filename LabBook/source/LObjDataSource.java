@@ -8,14 +8,14 @@ import extra.ui.*;
 import extra.util.CCUnit;
 import org.concord.waba.extra.event.*;
 //LabObject implements Storable
-public class LObjDataSource extends LabObject
+public class LObjDataSource extends LObjSubDict
 {
 
 public LObjDataSourceView view = null;
 
     public LObjDataSource()
     {
-		objectType = IMAGEOBJ;
+		objectType = DATASOURCEOBJ;
 		
 
 

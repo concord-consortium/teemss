@@ -24,21 +24,31 @@ public class LObjDictionary extends LabObject
 
     }
 
+    public LabObjectView getPropertyView(LObjViewContainer vc, LObjDictionary curDict)
+    {
+		if(hasMainObject){
+	    	LObjSubDict mo = getMainObj();
+	   	 	if(mo != null){
+				return mo.getPropertyView(vc, curDict);
+	    	} else return null;
+		}
+		return null;
+    }
     public LabObjectView getView(LObjViewContainer vc, boolean edit, LObjDictionary curDict)
     {
-	if(hasMainObject){
-	    LObjSubDict mo = getMainObj();
-	    if(mo != null){
-		return mo.getView(vc, edit, curDict);
-	    } else return null;
-	}
+		if(hasMainObject){
+	    	LObjSubDict mo = getMainObj();
+	   	 	if(mo != null){
+				return mo.getView(vc, edit, curDict);
+	    	} else return null;
+		}
 
-	if(viewType == TREE_VIEW)
-	    return new LObjDictionaryView(vc, this);
-	if(viewType == PAGING_VIEW)
-	    return new LObjDictPagingView(vc, this, edit);
+		if(viewType == TREE_VIEW)
+			return new LObjDictionaryView(vc, this);
+		if(viewType == PAGING_VIEW)
+			return new LObjDictPagingView(vc, this, edit);
 
-	return null;
+		return null;
     }
 
     public LObjSubDict getMainObj()

@@ -44,13 +44,18 @@ public class LObjDataControl extends LObjSubDict
 
     public LabObjectView getView(LObjViewContainer vc, boolean edit, LObjDictionary curDict)
     {
-	if(edit){
-	    return new LObjDataControlEditView(vc, this, curDict);
-	} else {
-	    return new LObjDataControlView(vc, this, curDict);
-	}
+/*
+		if(edit){
+		    return new LObjDataControlEditView(vc, this, curDict);
+		} else {
+		    return new LObjDataControlView(vc, this, curDict);
+		}
+*/
+		return new LObjDataControlView(vc, this, curDict);
     }
-
+    public LabObjectView getPropertyView(LObjViewContainer vc, LObjDictionary curDict){
+		return new LObjDataControlEditView(vc, this, curDict);
+	}
     public void readExternal(DataStream ds)
     {
 	super.readExternal(ds);
