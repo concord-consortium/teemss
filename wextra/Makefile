@@ -4,12 +4,16 @@ SKIP_FILES =
 
 PLATFORMS = ce desktop palm
 
-main: $(PLATFORMS:%=classes/%) icons
+main:
+	$(foreach PLAT, $(PLATFORMS), $(MAKE) PLATFORM=$(PLAT) classes/$(PLAT);)
+	$(MAKE) icons
 
-$(PLATFORMS:%=classes/%): classes/% : $(wildcard $(subst _plat_,%,$(SRC_DIRS:%=%/*.java)))
+ifneq ($(PLATFORM),)
+classes/$(PLATFORM): $(wildcard $(subst _plat_,$(PLATFORM),$(SRC_DIRS:%=%/*.java)))
 	[ -d $@ ] || mkdir -p $@
 	javac -classpath $@:$(CLASSPATH):../wabasdk/classes -d $@ $(filter-out $(SKIP_FILES),$?)
 	touch $@
+endif
 
 icons: $(PLATFORMS:%=classes/%/icons)
 
