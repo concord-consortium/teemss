@@ -304,11 +304,8 @@ public class CCProbe extends MainView
 				mainSession = rootPtr.getSession();
 
 				LObjDictionary loDict = (LObjDictionary)mainSession.getObj(rootPtr);
-				System.out.println("CCP: exit start export");
 				labBook.export(loDict, lbCat);
-				System.out.println("CCP: exit start save");
 				lbCat.save();
-				System.out.println("CCP: exit start close");
 				lbCat.close();
 				labBook = null;
 			} else {
