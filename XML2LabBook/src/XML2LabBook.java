@@ -215,27 +215,6 @@ public static QTManager qtManager = null;
 		LabBook.registerFactory(new DataObjFactory());
 	}
 	
-	public static LabObject getLabBookObject(Element element){
-		if(labBook == null) return null;
-		if(!isElementLabBookObject(element)) return null;
-
-		String ID = element.getAttribute("ID");
-		if(validAttr(ID) &&
-		   docObjects.containsKey(ID)){
-			System.out.println("Object already loaded ref: " + ID);
-			return (LabObject)docObjects.get(ID);
-		}
-
-		LabObject labObject = createRegularObject(element);		
-				
-		if(labObject != null){
-			if(validAttr(ID)) docObjects.put(ID,labObject);
-			
-			labObject.store();
-		}
-		return labObject;
-	}
-
 	public static boolean validAttr(String value){
 		if(value == null || value.length() == 0) return false;
 		return true;
@@ -247,21 +226,12 @@ public static QTManager qtManager = null;
 			return null;
 		}
 
-		LabObject labObject = null;
-		if(docObjects.containsKey(idref)){
-			labObject = (LabObject)docObjects.get(idref);
-		} else {
-			Element linkElement =  (Element)currentDocument.getElementById(idref);
-			if(linkElement == null){
-				System.out.println("*********Can't find object ref: " + idref + "*************");
-				return null;
-			}
-			labObject = createRegularObject(linkElement);
-			if(labObject != null){
-				docObjects.put(idref, labObject);
-				labObject.store();
-			}
+		Element linkElement =  (Element)currentDocument.getElementById(idref);
+		if(linkElement == null){
+			System.out.println("*********Can't find object ref: " + idref + "*************");
+			return null;
 		}
+		LabObject labObject = getLabBookObject(linkElement);		
 		System.out.println("Linking Existing object ref: " + idref);
 		return labObject;
 	}
@@ -315,9 +285,16 @@ public static QTManager qtManager = null;
 		return url;
 	}
 		
-	public static LabObject createRegularObject(Element element)
+	public static LabObject getLabBookObject(Element element)
 	{
-		if(element == null) return null;
+		if(!isElementLabBookObject(element)) return null;
+
+		String ID = element.getAttribute("ID");
+		if(validAttr(ID) &&
+		   docObjects.containsKey(ID)){
+			System.out.println("Object already loaded ref: " + ID);
+			return (LabObject)docObjects.get(ID);
+		}
 
 		int id = getIdentifierFromElement(element);
 		LabObject labObject = null;
@@ -339,6 +316,7 @@ public static QTManager qtManager = null;
 				System.out.println("Adding Object to LabBook " + element.getTagName() + 
 								   " ID = "+element.getAttribute("ID"));
 				labObject = createObj(labBookObjectNames[id]);
+				
 				String nameObject = element.getAttribute("name");
 				if(nameObject != null){
 					labObject.setName(nameObject);
@@ -346,6 +324,9 @@ public static QTManager qtManager = null;
 					labObject.setName("");
 				}
 				if(labObject instanceof LObjDictionary){
+					// folders can contain objects that reference the parent folder
+					// so if we add the object here it will stop this recursion
+					if(validAttr(ID)) docObjects.put(ID,labObject);			
 					labObject = getFolder(element,(LObjDictionary)labObject);
 				}else if(labObject instanceof LObjDocument){
 					labObject = getNotes(element,(LObjDocument)labObject);
@@ -365,6 +346,14 @@ public static QTManager qtManager = null;
 
 				// note that Drawing and UnitConverter get created automatically
 			}
+		}
+
+		if(labObject != null){
+			// if it is a dictionary it has already been added to the hashtable
+			if(!(labObject instanceof LObjDictionary) &&  validAttr(ID)){
+				docObjects.put(ID,labObject);
+			}
+			labObject.store();
 		}
 
 		return labObject;
@@ -646,7 +635,13 @@ public static QTManager qtManager = null;
 			int type = node.getNodeType();
 			if(type == Node.ELEMENT_NODE) {
 				String tagName = ((Element)node).getTagName();
-				if(tagName.equals("XAXIS")){
+				if(tagName.equals("DATAFOLDER")){
+					String dataFolderStr = ((Element)node).getAttribute("object");
+					System.out.println("**setting data object**");
+					if(validAttr(dataFolderStr)) {
+						graph.setDataDict((LObjDictionary)getLabBookObjectFromId(dataFolderStr));
+					}
+				} else if(tagName.equals("XAXIS")){
 					setupAxis((Element)node, graph.addXAxis());
 				} else if(tagName.equals("YAXIS")){
 					setupAxis((Element)node, graph.addYAxis());
