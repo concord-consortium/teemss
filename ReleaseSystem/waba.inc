@@ -25,7 +25,7 @@ CLASSES_DIR= classes
 SRC_DIR ?= source
 BIN_DIR= bin
 JAR_NAME= $(MW_CLASS).jar
-WJUMP_DIR= wjump
+WJUMP_DIR= jump-resources
 JAR_BUILD = other
 
 WABA_CLASSES- = $(WABA_DIR)
