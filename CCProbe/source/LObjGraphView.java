@@ -261,6 +261,8 @@ public class LObjGraphView extends LabObjectView
 			yaxis.setMaxDigits(6);
 
 			// This is just a hack
+			if(gHeight < 1) gHeight = 1;
+			
 			av = new AnnotView(width, gHeight, xaxis, yaxis);
 			av.setPos(0,curY);
 
