@@ -219,7 +219,7 @@ private waba.ui.Container		contentPane;
 	int mHeight = fm.getHeight();
 	int h = bHeight + 10 + (15 + 2*mHeight);
 	if(choices != null &&
-	   choices.length > 2) h += mHeight*(choices.length-2);
+	   choices.length > 2) h += (mHeight+5)*(choices.length-2);
 
 	d.setRect(50,50,w,h);
 	waba.ui.Container cp = d.getContentPane();

@@ -12,6 +12,8 @@ public interface TreeNode
 
     boolean isLeaf();
 
+    public int getChildCount();
+
     void insert(TreeNode child, int index);
 
     void addParent(TreeNode parent);

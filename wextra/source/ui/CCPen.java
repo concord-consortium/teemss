@@ -6,7 +6,7 @@ public byte h = 1;
 public int red = 0;
 public int green = 0;
 public int blue = 0;
-
+    public final static boolean isColor = true;
 
 	public CCPen(){
 		w = 1;
@@ -22,7 +22,7 @@ public int blue = 0;
 		if(this.h < 1) this.h = 1;
 	}
 	public void setPenColor(int red,int green,int blue){
-		if(waba.sys.Vm.isColor()){
+		if(isColor){
 			this.red = red;
 			this.green = green;
 			this.blue = blue;
