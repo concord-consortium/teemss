@@ -167,11 +167,23 @@ public class BarGraph extends Graph2D
 		// DrawAxis
 		yaxis.draw(g,xOriginOff,yOriginOff-1);
 
+
+		DecoratedValue curBar = null;
+		if(g != null && numBars > 0){
+			// update data
+			for(int i=0; i < numBars; i++){
+				curBar = (DecoratedValue)bars.get(i);
+				barSet.labels[i].setText(curBar.getLabel());
+				curValues[i] = curBar.getValue();
+			}
+			g.setColor(0,0,0);
+		}
+	
 		barSet.draw(g,xOriginOff+1,yOriginOff,
 					dwWidth, dwHeight);
 	
-		plot(g);
-
+		if(numBars > 0) barSet.addColorPoint(g, 0, curValues);
+			
 		redraw = false;
     }
 

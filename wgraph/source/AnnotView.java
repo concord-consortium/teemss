@@ -271,7 +271,7 @@ public class AnnotView extends Container
 			add(curView);			
 		}
 
-			repaint();
+		repaint();
 	}
 
 	public void setViewMode(char mode)

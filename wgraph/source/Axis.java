@@ -122,6 +122,7 @@ public class Axis
 	Vector scaleListeners = new Vector();
 
 	public boolean autoLabel = false;
+	public int refCount = 0;
 
     public Axis(int type)
     {
@@ -157,6 +158,7 @@ public class Axis
 
 	public void init()
 	{
+		refCount++;
 		if(label == null){
 			label = new TextLine();
 			label.maxDigits = 2;
@@ -260,9 +262,19 @@ public class Axis
 		}
 	}
 
+	public void freeRef()
+	{
+		refCount--;
+		if(refCount < 0) {
+			// error sort of
+		}
+		if(refCount <= 0) free();
+	}
+
     public void free()
     {
 		int i;
+		refCount = 0;
 
 		if(label != null)label.free();
 		label = null;
@@ -300,6 +312,11 @@ public class Axis
 
 			return (pos - drawnX) / scale + dispMin;
 		}
+	}
+
+	public float getDispMin()
+	{
+		return dispMin;
 	}
 
 	public float getDispMax()
@@ -446,23 +463,25 @@ public class Axis
 		}
 		labelTicStep = exp10(majTicStep, -labelExp);
 		firstLabelTic = exp10(firstTic, -labelExp);
-		if(labelExp > labelTicStepRawExp){
-			int decDigits = labelExp - labelTicStepRawExp;
-			if(decDigits > (maxDigits - 1)) decDigits = maxDigits - 1;
-			label.minDigits = label.maxDigits = decDigits;
-		} else {
-			label.minDigits = 0;
-			label.maxDigits = 0;
-		}
-		if(majTicLabels != null){
-			for(int i=0; i<majTicLabels.length; i++){
-				if(majTicLabels[i] != null){
-					majTicLabels[i].minDigits = label.minDigits;
-					majTicLabels[i].maxDigits = label.maxDigits;
+
+		if(label != null){
+			if(labelExp > labelTicStepRawExp){
+				int decDigits = labelExp - labelTicStepRawExp;
+				if(decDigits > (maxDigits - 1)) decDigits = maxDigits - 1;
+				label.minDigits = label.maxDigits = decDigits;
+			} else {
+				label.minDigits = 0;
+				label.maxDigits = 0;
+			}
+			if(majTicLabels != null){
+				for(int i=0; i<majTicLabels.length; i++){
+					if(majTicLabels[i] != null){
+						majTicLabels[i].minDigits = label.minDigits;
+						majTicLabels[i].maxDigits = label.maxDigits;
+					}
 				}
 			}
 		}
-
     }
 	
     int maxLabelOff = 0;
