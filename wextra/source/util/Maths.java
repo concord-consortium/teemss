@@ -158,7 +158,21 @@ public class Maths
 
   // A lookup table for factorials from 0! to 16!. (used in exp)
 
-  private static float[] factorial = { 1f, 1f, 2f, 6f, 24f, 120f, 720f, 5040f, 40320f, 362880f, 3628800f, 39916800f, 479001600f, 6227020800f, 87178291200f, 1307674368000f, 20922789888000f};
+ 	private static float[] factorial = { 1f, 1f, 2f, 6f, 24f, 120f, 720f, 5040f, 40320f, 362880f, 3628800f, 39916800f, 479001600f, 6227020800f, 87178291200f, 1307674368000f, 20922789888000f};
+
+	final static float P1   =  1.66666666666666019037e-01f; /* 0x3FC55555, 0x5555553E */
+
+	final static float P2   = -2.77777777770155933842e-03f; /* 0xBF66C16C, 0x16BEBD93 */
+
+	final static float P3   =  6.61375632143793436117e-05f; /* 0x3F11566A, 0xAF25DE2C */
+
+	final static float P4   = -1.65339022054652515390e-06f; /* 0xBEBBBD41, 0xC5D26BF1 */
+
+	final static float P5   =  4.13813679705723846039e-08f; /* 0x3E663769, 0x72BEA4D0 */
+
+	final static float ln2 = 0.693147180559945f;
+
+	final static float invln2 = 1.44269504088896338700f;
 
 
 
@@ -294,7 +308,7 @@ public class Maths
 
   {
 
-    return (int)(x+0.5f);
+	return (x < 0.0f)?(int)(x - 0.5f):(int)(x+0.5f);
 
   }
 
@@ -390,23 +404,15 @@ public class Maths
 
   {
 
-    // normalize x
+	int sign = (x > 0) ? +1 : -1;
 
-    int sign = (x > 0) ? +1 : -1;
+	if (x < 0f) x = -x;
 
-      x = x % 1f;
+	if(x > 1.0f) x = x - (float)((int)x);
 
-    if (x < 0f)
+    	float phi=(((0.00864884f*x-0.03575663f)*x+0.08466649f)*x-0.21412453f)*x+1.57078786f;
 
-    {
-
-      x += 1f;
-
-    }
-
-    float phi=(((0.00864884f*x-0.03575663f)*x+0.08466649f)*x-0.21412453f)*x+1.57078786f;
-
-    return sign * (float)(PI/2f - sqrt(1f - x) * phi);
+	return sign * (float)(PI/2f - sqrt(1f - x) * phi);
 
   }
 
@@ -630,45 +636,161 @@ public class Maths
 
 
 
-  /**
+ /**
 
-   * Returns the exponential number <i>e</i> (i.e., 2.718...) raised to
+ * Returns the exponential number <i>e</i> (i.e., 2.718...) raised to
 
-   * the power of a <code>double</code> value.
+ * the power of a <code>double</code> value.
 
-   *
+ *
 
-   * @param   a   a <code>double</code> value.
+ * @param   a   a <code>double</code> value.
 
-   * @return  the value <i>e</i><sup>a</sup>, where <i>e</i> is the base of
+ * @return  the value <i>e</i><sup>a</sup>, where <i>e</i> is the base of
 
-   *          the natural logarithms.
+ *          the natural logarithms.
 
-   */
+ * Method: from __ieee754_exp(x) code NetBSD by 
+
+ * ====================================================
+
+ * Copyright (C) 1993 by Sun Microsystems, Inc. All rights reserved.
+
+ *
+
+ * Developed at SunPro, a Sun Microsystems, Inc. business.
+
+ * Permission to use, copy, modify, and distribute this
+
+ * software is freely granted, provided that this notice 
+
+ * is preserved.
+
+ * ====================================================
+
+ *   1. Argument reduction:
+
+ *      Reduce x to an r so that |r| <= 0.5*ln2 ~ 0.34658.
+
+ *	Given x, find r and integer k such that
+
+ *
+
+ *               x = k*ln2 + r,  |r| <= 0.5*ln2.  
+
+ *
+
+ *      Here r will be represented as r = hi-lo for better 
+
+ *	accuracy.
+
+ *
+
+ *   2. Approximation of exp(r) by a special rational function on
+
+ *	the interval [0,0.34658]:
+
+ *	Write
+
+ *	    R(r**2) = r*(exp(r)+1)/(exp(r)-1) = 2 + r*r/6 - r**4/360 + ...
+
+ *      We use a special Reme algorithm on [0,0.34658] to generate 
+
+ * 	a polynomial of degree 5 to approximate R. The maximum error 
+
+ *	of this polynomial approximation is bounded by 2**-59. In
+
+ *	other words,
+
+ *	    R(z) ~ 2.0 + P1*z + P2*z**2 + P3*z**3 + P4*z**4 + P5*z**5
+
+ *  	(where z=r*r, and the values of P1 to P5 are listed below)
+
+ *	and
+
+ *	    |                  5          |     -59
+
+ *	    | 2.0+P1*z+...+P5*z   -  R(z) | <= 2 
+
+ *	    |                             |
+
+ *	The computation of exp(r) thus becomes
+
+ *                             2*r
+
+ *		exp(r) = 1 + -------
+
+ *		              R - r
+
+ *                                 r*R1(r)	
+
+ *		       = 1 + r + ----------- (for better accuracy)
+
+ *		                  2 - R1(r)
+
+ *	where
+
+ *			                  2          4                10
+
+ *		R1(r) = r - (P1*r  + P2*r  + ... + P5*r   ).
+
+ *	
+
+ *   3. Scale back to obtain exp(x):
+
+ *	From step 1, we have
+
+ *	   exp(x) = 2^k * exp(r)
+
+ **/
 
   public static float exp(float x)
 
   {
 
-    // Calculate the first several terms of the Taylor expansion for e^x.
+		float huge	= 1.0e38f;
 
-    // e^x = sum(n=0 to infinity)(x^n)/n!
+		int hx = waba.sys.Convert.toIntBitwise(x);
 
-    float numerator= 1.0f;
+		int xsb = (hx>>31)&1;		// sign bit of x 
 
-    float result = 0.0f;
+		if(hx >= 0x42B17217) {			// if |x|>=88.72283
 
-    for(int n=0; n<factorial.length; n++)
+			return (xsb == 1)?-huge:huge;
 
-    {
+		}
 
-      result += numerator / factorial[n];
+		int exp = ((hx & 0x7f800000) >> 23) - 127;
 
-      numerator *= x;
+		if(exp < -30) return 1.0f + x;
 
-    }
+		int k = (x < 0)?(int)(x*invln2-0.5):(int)(int)(x*invln2+0.5);
 
-    return(result);
+		float r = x - k*ln2;
+
+		float r2  = r*r;
+
+		float R1 = r - r2*(P1+r2*(P2+r2*(P3+r2*(P4+r2*P5))));
+
+		float er = 1.0f + r + r*R1/(2.0f-R1);
+
+		int hy = waba.sys.Convert.toIntBitwise(er);
+
+		exp = ((hy & 0x7f800000) >> 23) - 127;
+
+		exp += k;
+
+		exp += 127;
+
+		exp &= 0xff;
+
+		exp <<= 23;
+
+		hy &= 0x807fffff;
+
+		hy |= exp;
+
+		return waba.sys.Convert.toFloatBitwise(hy);
 
   }
 
@@ -720,67 +842,59 @@ public class Maths
 
    *          <code>a</code>.
 
+   * Method: D. Knut The Art of Computing Programming Third Edition
+
+   * Vol. 1 Addison-Wesley 1998 p.1.2.2
+
    */
 
   public static float log(float x)
 
   {
 
-    // compute offset
+		int hx = waba.sys.Convert.toIntBitwise(x);
 
+		int exp = ((hx & 0x7f800000) >> 23) - 127;
 
+		int hy =  hx & 0x7fffff; //only mantissa
 
-    int radix = 0;
+		hy &= 0x807fffff;
 
+		hy |= 0x3f800000;
 
+		float x0 = waba.sys.Convert.toFloatBitwise(hy);
 
-    if (x == 0f)
+		int mask = 0x400000;
 
-    {
+		hy = 0;
 
-      return 0f; //NaN;
+		int c = 0;
 
-    }
+		while(c < 23){
 
-    else if (x < .1f)
+			x0 = x0*x0;
 
-    {
+			if(x0 > 2.0){
 
-      while(x < .1f)
+				x0 = x0/2.0f;
 
-      {
+				hy |= mask;
 
-        radix--;
+			}
 
-        x *= 10f;
+			mask >>= 1;
 
-      }
+			c++;
 
-    }
+		}
 
-    else
+		hy &= 0x807fffff;
 
-    {
+		hy |= 0x3f800000;
 
-      while (x > 10f)
+		float log2 = waba.sys.Convert.toFloatBitwise(hy);
 
-      {
-
-        radix++;
-
-        x /= 10f;
-
-      }
-
-    }
-
-    float r = (x - 3.1622776f)/(x + 3.1622776f);
-
-    float r2=r*r;
-
-    float mantissa = (((.21139497f*r2 +.15361371f)*r2+.29115068f)*r2+.86855434f)*r+.5f;
-
-    return (float)((radix + mantissa) / 0.43429448190f);
+		return ln2*(exp + log2 - 1);
 
   }
 
@@ -792,45 +906,49 @@ public class Maths
 
    *
 
-   * @param   a   an angle, in radians.
+   * @param   x   an angle, in radians.
 
    * @return  the sine of the argument.
 
    */
 
-  public static float sin(float radians)
+  public static float sin(float x)
 
   {
 
-    float deg = (float)(radians * 180f/PI);
+		int sign = (x > 0) ? +1 : -1;
 
-    deg = deg % 360f;
+		if (x < 0f) x = -x;
 
-    if (deg < 0f) deg = 360f + deg;
+		float deg = (float)(x * 180f/PI);
 
-    float tmpdeg = deg;
+		deg = deg % 360f;
 
-    if (deg >= 0f && deg < 90f)
 
-      tmpdeg = deg;
 
-    else if (deg >= 90f && deg < 180f)
+		float tmpdeg = deg;
 
-      tmpdeg = 180f - deg;
+		if (deg >= 0f && deg < 90f)
 
-    else if (deg >= 180f && deg < 270f)
+			tmpdeg = deg;
 
-      tmpdeg = 180f - deg;
+		else if (deg >= 90f && deg < 180f)
 
-    else if (deg >= 270f && deg < 360f)
+			tmpdeg = 180f - deg;
 
-      tmpdeg = -(360f - deg);
+		else if (deg >= 180f && deg < 270f)
 
-    float x = tmpdeg /90f;
+			tmpdeg = 180f - deg;
 
-    float x2=x*x;
+		else if (deg >= 270f && deg < 360f)
 
-    return (((-0.004362476f*x2+0.079487663f)*x2-0.645920978f)*x2+1.570794852f)*x;
+			tmpdeg = -(360f - deg);
+
+		float x1 = tmpdeg /90f;
+
+		float x2=x1*x1;
+
+		return sign*(((-0.004362476f*x2+0.079487663f)*x2-0.645920978f)*x2+1.570794852f)*x1;
 
   }
 
@@ -848,13 +966,13 @@ public class Maths
 
    */
 
-  static float cos(float radians)
+  public static float cos(float radians)
 
   {
 
-    float cos = asin((float)(PI/2 - radians));
+	float cos = sin((float)(PI/2 - radians));
 
-    return cos;
+    	return cos;
 
   }
 
