@@ -31,17 +31,35 @@ update and recalc)
 
 LabBook 
 @spec api for accessing "lab objects"
---Create a "java object" given a "lab object ptr"
---Store a "java object" and return a "lab object ptr"
---Might want read about object databases to see the standard
+-@Create a "java object" given a "lab object ptr"
+-@Store a "java object" and return a "lab object ptr"
+-@Might want read about object databases to see the standard
 (http://www.odmg.org/)
 --Do java instaniations of LabObjects need to contain a Vector of
 "Properties"? Or can a LabObject's "properties" be just fields in the
 specific java class representing that object.  The question here is size
 and and speed of lab objects.
--spec file format for systems with files (everything but palm)
--spec pdb(Palm DataBase) format for palm
--spec api to genericly access these two storage formats (file, pdb)
+*spec file format for systems with files (everything but palm)
+@spec pdb(Palm DataBase) format for palm
+*spec api to genericly access these two storage formats (file, pdb)
+
+LabObjects
+-Graph
+-DataSet
+-ObjectSet (This will cover activities, and QuestionSets)
+-Question
+-Answer
+-Image
+-Document
+-Collector
+-Calibration
+-Probe
+
+LabObjectEditors
+-PropertyView: (Graph, Collector, Calibration, Probe)
+-DrawingTool: (Image)
+-DocumentEditor: (Documents)
+-QuestionEditor: (Questions)
 
 Calibrations
 -support table and arbitrary function calibrations
