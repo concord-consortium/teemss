@@ -412,6 +412,7 @@ public class LineGraph extends Graph2D
 		int [] binPoints;
 		int curX, curMinY, curMaxY;
 		int minY, maxY;
+		float minYf, maxYf;
 		Bin bin;
 		Axis xa;
 		boolean setRanges = false;
@@ -447,8 +448,18 @@ public class LineGraph extends Graph2D
 				}		
 			}	    
 			
-			if(((float)minY / xa.scale + bin.refY) < minVisY) minVisY = ((float)minY / xa.scale + bin.refY);
-			if(((float)maxY / xa.scale + bin.refY) < maxVisY) maxVisY = ((float)maxY / xa.scale + bin.refY);
+			minYf = ((float)minY / yaxis.scale + bin.refY);
+			maxYf = ((float)maxY / yaxis.scale + bin.refY);
+			float temp;
+			if(minYf > maxYf){
+				temp = minYf;
+				minYf = maxYf;
+				maxYf = temp;
+			}
+
+			if(minYf < minVisY) minVisY = minYf;
+			if(maxYf > maxVisY) maxVisY = maxYf;
+
 			setRanges = true;
 		}		
 

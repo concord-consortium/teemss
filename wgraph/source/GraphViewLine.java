@@ -98,6 +98,7 @@ public class GraphViewLine extends GraphView
 				drawn = false;
 				super.plot();
 			}
+			postEvent(new ControlEvent(1006, this));
 		} else {	  
 			myG = createGraphics();
 			if(myG == null) return;
@@ -143,6 +144,7 @@ public class GraphViewLine extends GraphView
 		
 		selection = false;
 		draw();
+		postEvent(new ControlEvent(1006, this));
 	}
     
     int downX, downY, dragX, dragY;
@@ -256,6 +258,7 @@ public class GraphViewLine extends GraphView
 						case DRAG_MODE:
 							lGraph.scroll(-moveX, -moveY);
 							draw();
+							postEvent(new ControlEvent(1006, this));
 							break;
 						case ZOOM_MODE:
 							if(lGraph == lGraph.getObjAtPoint(pe.x, pe.y)){
@@ -301,6 +304,7 @@ public class GraphViewLine extends GraphView
 								lGraph.setYscaleEst(lGraph.yaxis.scale * yChange);
 							} else {
 								lGraph.setYscale(lGraph.yaxis.scale * yChange);
+								postEvent(new ControlEvent(1006, this));
 							}				
 							draw();
 						}else if(xAxisDown && graph == lGraph){
@@ -311,6 +315,7 @@ public class GraphViewLine extends GraphView
 								lGraph.setXscaleEst(lGraph.xScale * xChange);
 							} else {
 								lGraph.setXscale(lGraph.xScale * xChange);
+								postEvent(new ControlEvent(1006, this));
 							}
 							draw();
 						}
