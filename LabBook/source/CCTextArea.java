@@ -242,7 +242,20 @@ public final static int	yTextBegin = 2;
     			
 				if(currObjectViewDesc.getObject() instanceof LabObjectView){
 					LabObjectView objView = (LabObjectView)currObjectViewDesc.getObject();
+					boolean needChangeView = ((currObjectViewDesc.link && !(objView instanceof LObjMinimizedView)) ||
+											  (!currObjectViewDesc.link && (objView instanceof LObjMinimizedView)));					
+					LabObject lobj = null;
+					if(needChangeView){
+						lobj = objView.getLabObject();
+					}
 					objView.close();
+					if(lobj != null){
+						remove(objView);
+						objView = (currObjectViewDesc.link)?lobj.getMinimizedView():lobj.getView(this,false);
+						objView.setEmbeddedState(true);
+						currObjectViewDesc.setObject(objView);
+						add(objView);
+					}
 				}
  				layoutComponents();
 				setText(getText());
@@ -734,7 +747,14 @@ public final static int	yTextBegin = 2;
 			LabObjectView oView = null;
 			if(currObjPropDialog != null) oView = currObjPropDialog.getCheckView();
 			if(oView == null) return;
-			extra.ui.Dimension d = oView.getPreferredSize();
+
+
+			boolean isLink = currObjPropControl.linkCheck.getChecked();
+			LabObject obj = oView.getLabObject();
+			LabObjectView objView = (isLink)?obj.getMinimizedView():obj.getView(null,false);
+
+
+			extra.ui.Dimension d = objView.getPreferredSize();
 			if(d == null) return;
 			if(d.width > 0){
 				currObjPropControl.widthEdit.setText(""+d.width);
