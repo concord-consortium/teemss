@@ -505,6 +505,7 @@ private static int inGetUInt16(byte bytes[], int off)
 	
 
 	if(bpp == 8){
+		/*
 		int []pCol	= CCPalette.getPaletteAsInt();
 		if(pCol != null){
 			boolean []dirty = new boolean[pixels.length];
@@ -523,6 +524,7 @@ private static int inGetUInt16(byte bytes[], int off)
 			}
 			cmap = pCol;
 		}
+		*/
 	}	
 
 	imageHeight = height;
