@@ -24,11 +24,7 @@ public class UltraFastTP extends MainWindow
 
     	public UltraFastTP(){
 		if(Vm.getPlatform().equals("Java")){//dima
-		 	waba.io.impl.SerialManager.checkAvailableSerialPorts();
-			waba.io.impl.SerialPortDesc sPortDesc = waba.io.impl.SerialManager.getAssignedPort();
-			if(sPortDesc == null){
-				waba.io.impl.SerialManager.showSetupDialog();
-			}
+			(new SerialPort(0,9600)).close();
 		 }
 	}
     public void onStart()
