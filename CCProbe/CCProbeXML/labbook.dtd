@@ -44,7 +44,12 @@
 >
 
 <!-- SuperNotes related declarations -->
-<!ELEMENT SUPERNOTES (#PCDATA | SNPARAGRAPH | EMBOBJ)*>
+<!ENTITY % snchildren "#PCDATA | SNPARAGRAPH | EMBOBJ | INDENT | BR">
+<!ELEMENT SUPERNOTES (%snchildren;)*>
+<!ATTLIST SUPERNOTES
+	ID			ID			#REQUIRED
+	name		CDATA		#IMPLIED
+>
 <!ELEMENT EMBOBJ (%SNOBJECTS;)?>
 <!ATTLIST EMBOBJ
 	object 			IDREF 			#IMPLIED
@@ -56,23 +61,25 @@
 	linkcolor		CDATA			"0000FF"
 >
 <!ELEMENT SNPARAGRAPH (#PCDATA)>
-<!ATTLIST SUPERNOTES
-	ID			ID			#REQUIRED
-	name		CDATA		#IMPLIED
->
 <!ATTLIST SNPARAGRAPH
 	link   		%boolean; 	"false"
 	linkcolor  	CDATA 		"000000"
 	object 		IDREF 		#IMPLIED
 	indent   	CDATA 		#IMPLIED
 >
-
 <!ELEMENT EXPOBJECT EMPTY>
 <!ATTLIST EXPOBJECT
 	ID			ID			#REQUIRED
 	url 		CDATA 		#REQUIRED
 >
+<!ELEMENT BR EMPTY>
+<!ELEMENT INDENT (%snchildren;)*>
+<!ATTLIST INDENT
+    size                CDATA #IMPLIED
+    first-line-offset   CDATA #IMPLIED
+>
 
+<!-- DataCollector and Graph related declarations -->
 <!ELEMENT XAXIS EMPTY>
 <!ATTLIST XAXIS
     min        CDATA        #IMPLIED
