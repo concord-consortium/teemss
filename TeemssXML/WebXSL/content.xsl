@@ -77,14 +77,21 @@ width="158" height="140" border="1"/>
 </xsl:template>
 
 <xsl:template match="shared-image">
-<xsl:choose>
-<xsl:when test="@screenshot = 'true'">
-<img src="../../images/Technical_Hints/screenshot/{@name}/WEB_{@name}.gif"/>
-</xsl:when>
-<xsl:otherwise>
-<img src="../../images/Technical_Hints/pictures/{@name}/WEB_{@name}.gif"/>
-</xsl:otherwise>
-</xsl:choose>
+<p>
+<xsl:choose><xsl:when test="ancestor::investigation">
+<xsl:choose><xsl:when test="@screenshot = 'true'">
+<img src="../../images/Technical_Hints/screenshot/{@name}/WEB_{@name}.gif"  border="1"/>
+</xsl:when><xsl:otherwise>
+<img src="../../images/Technical_Hints/pictures/{@name}/WEB_{@name}.gif"  border="1"/>
+</xsl:otherwise></xsl:choose>
+</xsl:when><xsl:otherwise>
+<xsl:choose><xsl:when test="@screenshot = 'true'">
+<img src="../images/Technical_Hints/screenshot/{@name}/WEB_{@name}.gif"  border="1"/>
+</xsl:when><xsl:otherwise>
+<img src="../images/Technical_Hints/pictures/{@name}/WEB_{@name}.gif"  border="1"/>
+</xsl:otherwise></xsl:choose>
+</xsl:otherwise></xsl:choose>
+</p>
 </xsl:template>
 
 <xsl:template match="ext-image-sequence">
@@ -117,11 +124,6 @@ width="158" height="140" border="1"/>
 </xsl:choose>
 </xsl:template>
 
-
-<xsl:template match="steps">
-<xsl:call-template name="outline-parent"/>
-</xsl:template>
-
 <xsl:template name="outline-parent">
 <xsl:variable name="type_label">
 <xsl:call-template name="level_label"/>
@@ -137,10 +139,35 @@ width="158" height="140" border="1"/>
 
 <xsl:template match="instruction/title"/>
 
+<xsl:template match="steps">
+<xsl:call-template name="outline-parent"/>
+</xsl:template>
+
 <xsl:template match="step">
 <p>
 <xsl:apply-templates/>
 </p>
+</xsl:template>
+
+<xsl:template match="instructions">
+<xsl:variable name="instructions_num">
+<xsl:number value="position()"/>
+</xsl:variable>
+<ul>
+<xsl:for-each select="instruction">
+<li><a href="#instruction_{$instructions_num}_{position()}">
+<xsl:value-of select="@title"/></a></li>
+</xsl:for-each>
+</ul>
+<hr/>
+<ol TYPE="1" START="1">
+<xsl:for-each select="instruction">
+<li><a name="instruction_{$instructions_num}_{position()}">
+<b><xsl:value-of select="@title"/></b></a>
+<xsl:apply-templates/>
+</li>
+</xsl:for-each>
+</ol>
 </xsl:template>
 
 <xsl:template match="query-response">

@@ -48,25 +48,4 @@ Trial <xsl:number value="position()" format="I"/></h2>
 </redirect:write>
 </xsl:template>
 
-<xsl:template match="instructions">
-<xsl:variable name="instructions_num">
-<xsl:number value="position()"/>
-</xsl:variable>
-<ul>
-<xsl:for-each select="instruction">
-<li><a href="#instruction_{$instructions_num}_{position()}">
-<xsl:value-of select="@title"/></a></li>
-</xsl:for-each>
-</ul>
-<hr/>
-<ol TYPE="1" START="1">
-<xsl:for-each select="instruction">
-<li><a name="instruction_{$instructions_num}_{position()}">
-<b><xsl:value-of select="@title"/></b></a>
-<xsl:apply-templates/>
-</li>
-</xsl:for-each>
-</ol>
-</xsl:template>
-
 </xsl:stylesheet>

@@ -20,7 +20,9 @@ Technical Hints</title>
 </head>
 <body>
 <h3><xsl:value-of select="../title"/> Technical Hints</h3>
+<ul>
 <xsl:apply-templates select="tech-hint-ref"/>
+</ul>
 <xsl:call-template name="navigation">
 <xsl:with-param name="back-link">_trial_<xsl:number value="count(preceding-sibling::trial)"/></xsl:with-param>
 <xsl:with-param name="next-link">_analysis</xsl:with-param>
@@ -32,9 +34,11 @@ Technical Hints</title>
 <xsl:key name="tech-hint-def" match="tech-hint" use="@name"/>
 
 <xsl:template match="tech-hint-ref">
+<li><p>
 <a href="../tech_hint_{@ref}.html">
 <xsl:apply-templates select="key('tech-hint-def', @ref)"/>
 </a>
+</p></li>
 </xsl:template>
 
 <xsl:template match="tech-hint">

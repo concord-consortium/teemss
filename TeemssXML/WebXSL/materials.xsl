@@ -20,7 +20,7 @@ Materials</title>
 </head>
 <body>
 <h3><xsl:value-of select="../title"/> Materials</h3>
-<xsl:apply-templates select="ext_image"/>
+<xsl:apply-templates select="ext-image"/>
 <xsl:call-template name="items"/>
 <xsl:call-template name="navigation">
 <xsl:with-param name="back-link">_think</xsl:with-param>

@@ -14,7 +14,7 @@
 <xsl:template match="tech-hint">
 <redirect:write file="html/tech_hint_{@name}.html">
 <h3><xsl:value-of select="title"/></h3>
-<h4><xsl:value-of select="heading"/>:</h4>
+<h4><xsl:value-of select="heading"/></h4>
 <xsl:apply-templates select="tech-hint-body"/>
 </redirect:write>
 </xsl:template>
