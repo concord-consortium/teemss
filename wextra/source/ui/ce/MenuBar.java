@@ -140,6 +140,15 @@ public class MenuBar extends Control
 
   }
 
+    public void remove(Menu menu)
+    {
+	int mIndex = menus.find(menu);
+	if(mIndex < 0 || mIndex >= menus.getCount()) return;
+
+	menus.del(mIndex);
+
+    }
+
 
 
   /**

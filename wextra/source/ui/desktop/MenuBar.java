@@ -77,6 +77,12 @@ public class MenuBar
   }
 
 
+    public void remove(Menu menu)
+    {
+
+	menubar.remove(menu.getAWTMenu());
+    }
+
 
    public java.awt.MenuBar getAWTMenuBar() {return menubar;}
 
