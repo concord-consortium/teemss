@@ -410,11 +410,17 @@ public static QTManager qtManager = null;
 		if(textNode instanceof CharacterData){
 			tData = ((CharacterData)textNode).getData().trim();
 			if(tData.length() > 0){
+				java.util.StringTokenizer toks = new java.util.StringTokenizer(tData);
+				StringBuffer result = new StringBuffer();
+				while(toks.hasMoreTokens()){
+					result.append(toks.nextToken());
+					result.append(" ");
+				}
+				tData = result.toString();
+				tData.trim();
 				if(nSpaces > 0){
 					for(int p=0; p < nSpaces; p++) tData = "\t"+tData;
 				}
-				tData = tData.replace('\n',' ');
-				tData = tData.replace('\r',' ');
 			}
 		}
 		if(optional && tData.equals("")) return 0;
