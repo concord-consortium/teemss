@@ -535,9 +535,16 @@
      datacollector-link 
 -->
 <xsl:template match="datacollector-link">
-  <xsl:variable name="type"><xsl:value-of select="@type"/>
-  </xsl:variable>
   <EMBOBJ link="true" linkcolor="FF0000">
+	<xsl:call-template name="datacollector-ref">
+   	  <xsl:with-param name="type"><xsl:value-of select="@type"/>
+	  </xsl:with-param>
+    </xsl:call-template>
+   </EMBOBJ>
+</xsl:template>
+
+<xsl:template name="datacollector-ref">
+  <xsl:param name="type"/>
   <xsl:apply-templates 
     select="document('datacollectors.xml')/dc-list/DATACOLLECTOR[@ID=$type]"
     mode="dc-copy">
@@ -547,7 +554,6 @@
         <xsl:value-of select="ancestor::investigation/@name"/>-saved-datasets
      </xsl:with-param>
    </xsl:apply-templates>
-   </EMBOBJ>
 </xsl:template>
 
 <xsl:template match="*|@*" mode="dc-copy">

@@ -9,7 +9,6 @@
          <PROP name="Mode" value="C"/>
        </PROBE>
        <GRAPH current-line="0" title="">
-         <DATAFOLDER object="saved-datasets"/>
          <XAXIS min="0" max="60"/>
          <YAXIS min="10" max="40"/>
          <LINE xaxis="0" yaxis="0" datasource="dc-temp1"/>
@@ -94,7 +93,7 @@
          <PROP name="Speed" value="3 per second"/>
          <PROP name="Version" value="2.0"/>
        </PROBE>
-       <GRAPH current-line="2" title="">
+       <GRAPH current-line="0" title="">
          <XAXIS min="0" max="60"/>
          <YAXIS min="0" max="3"/>
          <YAXIS min="-1" max="1"/>
@@ -108,6 +107,29 @@
            <INTPROBETRANS quantity="Power" probe="dc-vi1"/></LINE>
          <LINE xaxis="0" yaxis="3">
            <INTPROBETRANS quantity="Energy" probe="dc-vi1"/></LINE>
+	</GRAPH>
+      </DATACOLLECTOR>
+
+ <DATACOLLECTOR ID="dc-voltage-current-current" name="Measure Current" >
+       <PROBE ID="dc-vi4" probe="VoltageCurrent">
+         <PROP name="Port" value="A"/>
+         <PROP name="Speed" value="3 per second"/>
+         <PROP name="Version" value="2.0"/>
+       </PROBE>
+       <GRAPH current-line="1" title="">
+         <XAXIS min="0" max="60"/>
+         <YAXIS min="0" max="2"/>
+         <YAXIS min="-0.1" max="0.5"/>
+         <YAXIS min="0" max="1"/>
+         <YAXIS min="0" max="5"/>
+         <LINE xaxis="0" yaxis="0">
+           <INTPROBETRANS quantity="Voltage" probe="dc-vi4"/></LINE>
+         <LINE xaxis="0" yaxis="1">
+           <INTPROBETRANS quantity="Current" probe="dc-vi4"/></LINE>
+         <LINE xaxis="0" yaxis="2">
+           <INTPROBETRANS quantity="Power" probe="dc-vi4"/></LINE>
+         <LINE xaxis="0" yaxis="3">
+           <INTPROBETRANS quantity="Energy" probe="dc-vi4"/></LINE>
 	</GRAPH>
       </DATACOLLECTOR>
 
@@ -154,29 +176,6 @@
            <INTPROBETRANS quantity="Power" probe="dc-vi3"/></LINE>
          <LINE xaxis="0" yaxis="3">
            <INTPROBETRANS quantity="Energy" probe="dc-vi3"/></LINE>
-	</GRAPH>
-      </DATACOLLECTOR>
-
- <DATACOLLECTOR ID="dc-voltage-current-current" name="Measure Current" >
-       <PROBE ID="dc-vi4" probe="VoltageCurrent">
-         <PROP name="Port" value="A"/>
-         <PROP name="Speed" value="3 per second"/>
-         <PROP name="Version" value="2.0"/>
-       </PROBE>
-       <GRAPH current-line="1" title="">
-         <XAXIS min="0" max="60"/>
-         <YAXIS min="0" max="2"/>
-         <YAXIS min="-0.1" max="0.5"/>
-         <YAXIS min="0" max="1"/>
-         <YAXIS min="0" max="5"/>
-         <LINE xaxis="0" yaxis="0">
-           <INTPROBETRANS quantity="Voltage" probe="dc-vi4"/></LINE>
-         <LINE xaxis="0" yaxis="1">
-           <INTPROBETRANS quantity="Current" probe="dc-vi4"/></LINE>
-         <LINE xaxis="0" yaxis="2">
-           <INTPROBETRANS quantity="Power" probe="dc-vi4"/></LINE>
-         <LINE xaxis="0" yaxis="3">
-           <INTPROBETRANS quantity="Energy" probe="dc-vi4"/></LINE>
 	</GRAPH>
       </DATACOLLECTOR>
 
