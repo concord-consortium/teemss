@@ -15,6 +15,7 @@ public final static String [] propNames = {"Port", "Num Channels","Channel #"};
 public int curChannel = 0;
 float	A = 0.01734f;
 float B = -25.31f;
+	private boolean 	fromConstructor = true;
 
 	CCForce(){
 		this("unknown");
@@ -42,7 +43,7 @@ float B = -25.31f;
 		calibrationDesc.addCalibrationParam(new CalibrationParam(0,A));
 		calibrationDesc.addCalibrationParam(new CalibrationParam(1,B));
 
-		
+		fromConstructor = false;
 	}
 	public void setDataDescParam(int chPerSample,float dt){
 		dDesc.setDt(dt);
@@ -53,6 +54,12 @@ float B = -25.31f;
 		if(p == null || value == null) return false;
 		String nameProperty = p.getName();
 		if(nameProperty == null) return false;
+		if(!fromConstructor && (nameProperty.equals(samplingModeString))){
+			if(value.equals(samplingModes[SAMPLING_DIG_MODE]))
+				return true;
+			else
+				return super.setPValue(p,value);
+		}
 		if(nameProperty.equals(propNames[0])){
 			if(value.equals("A")){
 				interfacePort = INTERFACE_PORT_A;
