@@ -418,4 +418,105 @@ public static void sleep(int millis)
 
 	}
 
+/** return true is the string is valid. */
+// added by guich@120
+public static boolean isOk(String s)
+{
+   return s != null && s.length() > 0;
+}
+
+/** used in some classes so they can correctly open files. */
+// added by guich@120
+public static java.io.InputStream openInputStream(String path)
+{
+	boolean isApp = Applet.currentApplet.isApplication;
+	java.io.InputStream stream = null;
+	try 
+	{	   
+	    if (isApp){
+		System.out.println("My isApp path: " + (path));
+		   stream = new java.io.FileInputStream(path); 
+	   } else
+	   {
+		   java.net.URL url;	
+		   // See if it is outside the jar file
+		   String archive = Applet.currentApplet.getParameter("archive");
+		   if(archive != null && archive != "" && !archive.equals("null")){
+		       if(archive.startsWith("null")){
+			   archive = archive.substring(4, archive.length());
+		       }
+		       System.out.println("My archive is: " + archive);
+		       url = new java.net.URL(archive);
+		       try{
+			   stream = url.openStream();
+			   java.util.zip.ZipInputStream zIn = new java.util.zip.ZipInputStream(stream);
+			   java.util.zip.ZipEntry zEntry = zIn.getNextEntry();
+			   while(!zEntry.getName().equals(path)){
+			       zEntry = zIn.getNextEntry();
+			       if(zEntry == null){
+					   throw new Exception("doh");
+			       }
+			   }
+			   System.out.println("found zip entry");
+			   return zIn;
+		       } catch (Exception e){
+			   // doh didn't find it in the jar thing
+		       }			       
+		   }
+		   java.net.URL codeBase = Applet.currentApplet.getCodeBase();
+		   String cb = codeBase.toString();
+		   System.out.println("My !isApp CodeBase: " + cb);
+		   char lastc = cb.charAt(cb.length() - 1);
+		   char firstc = path.charAt(0);
+		   if (lastc != '/' && firstc != '/')
+		       cb += "/";
+		   url = new java.net.URL(cb + path);	   
+		   
+		   stream = url.openStream();
+	   }
+	   
+   }
+   catch (Exception e) {System.out.println("error in Vm.openInputStream:"+e.getClass()+" "+e.getMessage());}; // guich@120
+	return stream;
+}
+
+/** used in some classes so they can correctly open files. */
+// added by guich@120
+public static java.io.OutputStream openOutputStream(String path)
+{
+	boolean isApp = Applet.currentApplet.isApplication;
+	java.io.OutputStream stream = null;
+	try 
+	{	   
+	   if (isApp) // output isnt supported by protocol file://
+		   stream = new java.io.FileOutputStream(path); 
+	   else
+	   {
+	      try
+	      {
+		      java.net.URL url;			   
+		      java.net.URL codeBase = Applet.currentApplet.getCodeBase();
+		      String cb = codeBase.toString();
+		      char lastc = cb.charAt(cb.length() - 1);
+		      char firstc = path.charAt(0);
+		      if (lastc != '/' && firstc != '/')
+			  cb += "/";
+		      url = new java.net.URL(cb + path);
+
+		      java.net.URLConnection con = url.openConnection();
+		      con.setUseCaches(false);
+		      con.setDoOutput(true);
+		      con.setDoInput(false);
+		      stream = con.getOutputStream();
+	      } 
+	      catch (java.net.UnknownServiceException u) // try another way
+		  {
+		      stream = new java.io.FileOutputStream(path); 
+		  }
+	   }
+	}
+	catch (Throwable e) {System.out.println("error in Vm.openOutputStream:"+e.getClass()+" "+e.getMessage());}; // guich@120
+	return stream;
+}
+
 }
