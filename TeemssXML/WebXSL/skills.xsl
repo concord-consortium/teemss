@@ -8,7 +8,8 @@
 <xsl:output method="html" indent="yes"/>
 
 <xsl:template match="/">
-<xsl:apply-templates select="project/skill-list"/></xsl:template>
+<xsl:apply-templates select="project/skill-list"/>
+</xsl:template>
 
 <xsl:template match="/project/skill-list">
 <redirect:write file="skills.html">
