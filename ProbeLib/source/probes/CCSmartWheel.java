@@ -6,15 +6,16 @@ import org.concord.waba.extra.probware.*;
 
 
 public class CCSmartWheel extends CCProb{
-float  			[]wheelData = new float[2];
+float  			[]wheelData = new float[CCInterfaceManager.BUF_SIZE*2];
 float  			dtChannel = 0.0f;
 int				nTicks = 400;
 float				radius = 0.0599f;
 float				koeff = 2f*Maths.PI;
 public final static String	wheelModeString = "Output Mode";
-public final static String	[]wheelModes =  {defaultModeName,"Ang. Vel.","Lin. Vel."};
+public final static String	[]wheelModes =  {defaultModeName,"Ang. Vel.","Lin. Vel.", "Lin. Pos."};
 public final static int		ANG_MODE_OUT 		= 1;
 public final static int		LINEAR_MODE_OUT 	= 2;
+    public final static int     LIN_POS_MODE_OUT        = 3;
 public final static int		DEFAULT_MODE_OUT   = ANG_MODE_OUT;
 int					outputMode = DEFAULT_MODE_OUT;
 	private boolean fromConstructor = true;
@@ -68,6 +69,9 @@ int					outputMode = DEFAULT_MODE_OUT;
 				case ANG_MODE_OUT:
 					unit = CCUnit.UNIT_CODE_ANG_VEL;
 					break;
+			case LIN_POS_MODE_OUT:
+			    unit = CCUnit.UNIT_CODE_METER;
+			    break;
 			}
 		}
 		return super.setPValue(p,value);
@@ -78,6 +82,7 @@ int					outputMode = DEFAULT_MODE_OUT;
 		dDesc.setChPerSample(chPerSample);
 		dtChannel = dt / (float)chPerSample;
 	}
+    float posOffset = 0f;
 	public boolean transform(DataEvent e){
 		dEvent.type = e.type;
 		if(e.getType() == DataEvent.DATA_READY_TO_START){
@@ -90,6 +95,7 @@ int					outputMode = DEFAULT_MODE_OUT;
 			}
 			dEvent.setNumbSamples(1);
 			dtChannel = dDesc.getDt() / (float)dDesc.getChPerSample();
+			posOffset = 0f;
 		}
 		if(e.getType() != DataEvent.DATA_RECEIVED){
 			notifyDataListeners(dEvent);
@@ -108,7 +114,7 @@ int					outputMode = DEFAULT_MODE_OUT;
 				
 		for(int i = 0; i < ndata; i+=chPerSample){
 			dEvent.setTime(t0 + dtChannel*(float)i);
-			wheelData[0] = data[nOffset+i];//row
+			wheelData[i] = data[nOffset+i];//row
 			float calibrated = wheelData[0]*koeff/(float)nTicks/dt;
 			if(calibrationListener != null){
 				wheelData[1] = wheelData[0] ;
@@ -116,15 +122,18 @@ int					outputMode = DEFAULT_MODE_OUT;
 			}else{
 				switch(outputMode){
 					case LINEAR_MODE_OUT:
-						wheelData[0] = calibrated * radius*koeff;
+						wheelData[i+1] = calibrated * radius*koeff;
 						break;
-					default:
-						wheelData[0] = calibrated;
+				case LIN_POS_MODE_OUT:
+				    wheelData[i+1] = posOffset = posOffset + calibrated * radius*koeff;
+				    break;
+				default:
+						wheelData[i+1] = calibrated;
 						break;
 				}
 			}
-			notifyDataListeners(dEvent);
 		}
+		notifyDataListeners(dEvent);
 		return true;
 	}
 	public void  calibrationDone(float []row1,float []row2,float []calibrated){

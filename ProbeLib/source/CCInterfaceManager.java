@@ -48,6 +48,7 @@ protected ProbManager	pb = null;
 		dEvent.setDataOffset(0);
 		dEvent.setDataDesc(dDesc);
 		char startC = getStartChar();
+		if(mode == A2D_10_MODE)  dEvent.setData(valueData);
 		dEvent.setType(DataEvent.DATA_READY_TO_START);
 		notifyProbManager(dEvent);
 		dEvent.setType(DataEvent.DATA_RECEIVED);

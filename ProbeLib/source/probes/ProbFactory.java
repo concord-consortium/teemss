@@ -42,7 +42,6 @@ public final static int Prob_Force        		= 4;
 
     public static String getName(int probIndex)
     {
-	probIndex--;
 	if(probIndex < 0 || probIndex >= probeNames.length) return null;
 
 	return probeNames[probIndex];	
@@ -52,7 +51,7 @@ public final static int Prob_Force        		= 4;
     {
 	for(int i=0; i<probeNames.length; i++){
 	    if(probeNames[i].equals(name)){
-		return i+1;
+		return i;
 	    }
 	}
 	return -1;

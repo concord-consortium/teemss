@@ -35,7 +35,7 @@ float B = -25.31f;
 		properties[3] = new PropObject(propNames[2], channelNames);
 		setPropertyValue(0,samplingModes[CCProb.SAMPLING_10BIT_MODE]);
 		setPropertyValue(1,portNames[0]);
-		setPropertyValue(2,numbChannels[0]);
+		setPropertyValue(2,numbChannels[1]);
 		setPropertyValue(3,channelNames[0]);
 		
 		calibrationDesc = new CalibrationDesc();
@@ -74,11 +74,15 @@ float B = -25.31f;
 		}
 		return  super.setPValue(p,value);
 	}
+
+    int chPerSample = 2;
+
 	public boolean transform(DataEvent e){
 		dEvent.type = e.type;
 		if(dEvent.type == DataEvent.DATA_READY_TO_START){
 			dDesc.setDt(e.getDataDesc().getDt());
 			dDesc.setChPerSample(e.getDataDesc().getChPerSample());
+			chPerSample = dDesc.chPerSample;
 			if(calibrationListener == null){
 				notifyDataListeners(e);
 			}
@@ -95,11 +99,20 @@ float B = -25.31f;
 			}else{
 				dEvent.numbSamples = e.numbSamples;
 				int ndata = dEvent.numbSamples*dDesc.chPerSample;
-				for(int i = 0; i < ndata; i++){
-					forceData[i] = A*e.data[e.dataOffset + i]+B;
+				int dOff = e.dataOffset;
+				float data [] = e.data;
+				for(int i = 0; i < ndata; i+= chPerSample){
+					forceData[i] = A*data[dOff + i]+B;
 				}
+				notifyDataListeners(dEvent);
 			}
+		} else if(dEvent.type == DataEvent.DATA_COLLECTING){
+		    if(calibrationListener != null){
+			dEvent.type = DataEvent.DATA_RECEIVED;
 			notifyDataListeners(dEvent);
+		    } else {
+			notifyDataListeners(dEvent);
+		    }
 		}
 		return true;
 	}
@@ -117,8 +130,8 @@ float B = -25.31f;
 			p = calibrationDesc.getCalibrationParam(1);
 			if(p != null) p.setValue(B);
 		}
-		System.out.println("A "+A);
-		System.out.println("B "+B);
+		//		System.out.println("A "+A);
+		// System.out.println("B "+B);
 	}
 	public void calibrationDescReady(){
 		if(calibrationDesc == null) return;

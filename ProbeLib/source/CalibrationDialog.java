@@ -326,7 +326,6 @@ DeviationControl	devControl;
 		}
 		if (event.type == waba.ui.ControlEvent.PRESSED){
 			if(event.target instanceof MyTab){
-				System.out.println("MYTAB");
 				String contName = ((MyTab)event.target).getText();
 		    		int index = -1;
 				for(int i = 0; i < nContainers; i++){
@@ -416,6 +415,7 @@ DeviationControl	devControl;
 		float dt = dataEvent.getDataDesc().getDt();
 		int    chPerSample = dataEvent.getDataDesc().getChPerSample();
 		Object cell = null;
+
 		if(data != null && calTable != null){
 			int selIndex = calTable.getSelectIndex();
 			
@@ -445,31 +445,31 @@ DeviationControl	devControl;
 		int nOffset = dataEvent.getDataOffset();
 		float  dtChannel = dt / (float)chPerSample;
 		boolean doFFT = false;
-		for(int i = 0; i < ndata; i+=chPerSample){
-			if(!doFFT) dataFFT[dataPointer++] = data[nOffset+i];
-			if(dataPointer >= dataDim) doFFT = true;
-			totalSumm += data[nOffset+i];
-			totalSamples++;
-			if(totalSamples > 1){
-				float av = (totalSumm/totalSamples);
-//				System.out.println("data[nOffset+i] "+data[nOffset+i]+" totalSumm "+ totalSumm + " av "+av+" totalSamples "+totalSamples);
-				deviation = 100.0f*(data[nOffset+i] - av)/av;
+		if(dataEvent.getNumbSamples() > 0){
+		    if(!doFFT) dataFFT[dataPointer++] = data[nOffset];
+		    if(dataPointer >= dataDim) doFFT = true;
+		    totalSumm += data[nOffset];
+		    totalSamples++;
+		    if(totalSamples > 1){
+			float av = (totalSumm/totalSamples);
+			//				System.out.println("data[nOffset+i] "+data[nOffset+i]+" totalSumm "+ totalSumm + " av "+av+" totalSamples "+totalSamples);
+			deviation = 100.0f*(data[nOffset] - av)/av;
 //				System.out.println("data["+i+"]="+data[nOffset+i]);
-				if(deviation > 100.0f) deviation = 100.0f;
-				if(totalSamples > 16){
-					totalSamples = 1;
-					totalSumm = av;
-				}
+			if(deviation > 100.0f) deviation = 100.0f;
+			if(totalSamples > 16){
+			    totalSamples = 1;
+			    totalSumm = av;
 			}
+		    }
 		}
 		
 //		System.out.println("deviation "+deviation);
 //		System.out.println("totalSamples "+totalSamples);
 //		System.out.println("av "+(totalSumm/totalSamples));
-		
+
 		devControl.setValue(deviation);
 		drawDeviation();
-		
+
 		if(doFFT){
 			dataPointer = 0;
 			
