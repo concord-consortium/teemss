@@ -6,30 +6,32 @@ import org.concord.waba.extra.probware.*;
 import extra.util.*;
 
 public class CCVoltCurrent extends CCProb{
-float  			[]data = new float[CCInterfaceManager.BUF_SIZE/2];
-int  			[]intData = new int[CCInterfaceManager.BUF_SIZE];
-float  			dtChannel = 0.0f;
-float				energy = 0.0f;
-public final static int		CURRENT_OUT 			= 0;
-public final static int		VOLTAGE_OUT 			= 1;
-public final static int		WATT_OUT 			= 2;
-public final static int		ENERGY_OUT 			= 3;
-public final static String [] propNames = {"Port", "Output mode"};
+	float  			[]data = new float[CCInterfaceManager.BUF_SIZE/2];
+	int  			[]intData = new int[CCInterfaceManager.BUF_SIZE];
+	float  			dtChannel = 0.0f;
+	float				energy = 0.0f;
+	public final static int		CURRENT_OUT 			= 0;
+	public final static int		VOLTAGE_OUT 			= 1;
+	public final static int		WATT_OUT 			= 2;
+	public final static int		ENERGY_OUT 			= 3;
+	public final static String [] propNames = {"Port", "Output mode", "Version"};
 
-float					zeroPointCurrent				= 1257f;//	
-float					zeroPointVoltage				= 1257f;//	
-float					currentResolution		= 700f; //       mV(reading)/A
-float					voltageResolution		= 650f/20; //     mV(reading)/(true)V
+	float					zeroPointCurrent				= 1257f;//	
+	float					zeroPointVoltage				= 1257f;//	
+	float					currentResolution		= 700f; //       mV(reading)/A
+	float					voltageResolution		= 650f/20; //     mV(reading)/(true)V
 
-int					outputMode 			= VOLTAGE_OUT;
+	int					outputMode 			= VOLTAGE_OUT;
     String [] portNames = {"A", "B"};
-public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
-
-   
-   
+	public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
+	String [] versionNames = {"1.0", "2.0"};
    
 	int 				curChannel = 0;
 	private boolean 	fromConstructor = true;
+
+	int version = 1;
+	int voltOff = 0;
+	int currentOff = 1;
 
 	CCVoltCurrent(){
 		this("unknown");
@@ -46,10 +48,11 @@ public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
 		dEvent.setData(data);
 		dEvent.setIntData(intData);
 
-		properties = new PropObject[3];
+		properties = new PropObject[4];
 		properties[0] = new PropObject(samplingModeString,samplingModes); 
 		properties[1] = new PropObject(propNames[0], portNames);
 		properties[2] = new PropObject(propNames[1], modelNames);
+		properties[3] = new PropObject(propNames[2], versionNames);
 		
 		calibrationDesc = new CalibrationDesc();
 		calibrationDesc.addCalibrationParam(new CalibrationParam(0,zeroPointCurrent));
@@ -59,6 +62,7 @@ public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
 		setPropertyValue(0,samplingModes[CCProb.SAMPLING_24BIT_MODE]);
 		setPropertyValue(1,portNames[0]);
 		setPropertyValue(2,modelNames[1]);
+		setPropertyValue(3,versionNames[0]);
 		unit = CCUnit.UNIT_CODE_VOLT;
 		fromConstructor = false;
 	}
@@ -93,18 +97,18 @@ public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
 				}
 			}
 			switch(outputMode){
-				case CURRENT_OUT:
-					unit = CCUnit.UNIT_CODE_AMPERE;
-					break;
-				case VOLTAGE_OUT:
-					unit = CCUnit.UNIT_CODE_VOLT;
-					break;
-				case WATT_OUT:
-					unit = CCUnit.UNIT_CODE_WATT;
-					break;
-				case ENERGY_OUT:
-					unit = CCUnit.UNIT_CODE_JOULE;
-					break;
+			case CURRENT_OUT:
+				unit = CCUnit.UNIT_CODE_AMPERE;
+				break;
+			case VOLTAGE_OUT:
+				unit = CCUnit.UNIT_CODE_VOLT;
+				break;
+			case WATT_OUT:
+				unit = CCUnit.UNIT_CODE_WATT;
+				break;
+			case ENERGY_OUT:
+				unit = CCUnit.UNIT_CODE_JOULE;
+				break;
 			}
 			CalibrationParam cp = calibrationDesc.getCalibrationParam(0);
 			if(cp != null) cp.setAvailable(outputMode == CURRENT_OUT);
@@ -114,6 +118,16 @@ public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
 			if(cp != null) cp.setAvailable(outputMode == VOLTAGE_OUT);
 			cp = calibrationDesc.getCalibrationParam(3);
 			if(cp != null) cp.setAvailable(outputMode == VOLTAGE_OUT);
+		} else if(nameProperty.equals(propNames[2])){
+			if(value.equals(versionNames[0])){
+				version = 1;
+				voltOff = 1;
+				currentOff = 0;
+			}else {
+				version = 2;
+				voltOff = 0;
+				currentOff = 1;
+			}
 		}
 		return  super.setPValue(p,value);
 	}
@@ -135,44 +149,44 @@ public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
 	}
     public boolean dataArrived(DataEvent e)
     {
-	dEvent.type 		= e.type;
-	int nOffset 		= e.getDataOffset();
-	int ndata 			= e.getNumbSamples()*e.dataDesc.getChPerSample();
-	float t0 			= e.getTime();
-	int[] dataEvent 	= e.getIntData();
-	if(calibrationListener != null){
-		float v = 0.0f;
-		switch(outputMode){
+		dEvent.type 		= e.type;
+		int nOffset 		= e.getDataOffset();
+		int ndata 			= e.getNumbSamples()*e.dataDesc.getChPerSample();
+		float t0 			= e.getTime();
+		int[] dataEvent 	= e.getIntData();
+		if(calibrationListener != null){
+			float v = 0.0f;
+			switch(outputMode){
 			case CURRENT_OUT:
-				v = (float)dataEvent[nOffset]*dDesc.tuneValue;
+				v = (float)dataEvent[nOffset + currentOff]*dDesc.tuneValue;
 				data[0] = (v - zeroPointCurrent)/currentResolution;
 				data[1] = v;
 				break;
 			case VOLTAGE_OUT:
-				v = (float)dataEvent[nOffset + 1]*dDesc.tuneValue;
+				v = (float)dataEvent[nOffset + voltOff]*dDesc.tuneValue;
 				data[0] = (v - zeroPointVoltage)/voltageResolution;
 				data[1] = v;
 				break;
-		}
-		dEvent.setNumbSamples(1);
-	}else{
-		int  	chPerSample = e.dataDesc.chPerSample;
-		int	dataIndex = 0;
-		dEvent.intTime = e.intTime;
-		for(int i = 0; i < ndata; i+=chPerSample){
-			intData[i] = dataEvent[nOffset+i];
-			intData[i+1] = dataEvent[nOffset+i+1];
-			switch(outputMode){
+			}
+			dEvent.setNumbSamples(1);
+		}else{
+			int  	chPerSample = e.dataDesc.chPerSample;
+			int	dataIndex = 0;
+			dEvent.intTime = e.intTime;
+			for(int i = 0; i < ndata; i+=chPerSample){
+				intData[i] = dataEvent[nOffset+i];
+				intData[i+1] = dataEvent[nOffset+i+1];
+				switch(outputMode){
 				case CURRENT_OUT:
-					data[dataIndex] = (intData[i]*dDesc.tuneValue - zeroPointCurrent)/currentResolution;
+					data[dataIndex] = (intData[i+currentOff]*dDesc.tuneValue - zeroPointCurrent)/currentResolution;
 					break;
 				case VOLTAGE_OUT:
-					data[dataIndex] = (intData[i+1]*dDesc.tuneValue - zeroPointVoltage)/voltageResolution;
+					data[dataIndex] = (intData[i+voltOff]*dDesc.tuneValue - zeroPointVoltage)/voltageResolution;
 					break;
 				case WATT_OUT:
 				case ENERGY_OUT:
-					float		amper = (intData[i]*dDesc.tuneValue - zeroPointCurrent)/currentResolution;
-					float		voltage = (intData[i+1]*dDesc.tuneValue - zeroPointVoltage)/voltageResolution;
+					float		amper = (intData[i+currentOff]*dDesc.tuneValue - zeroPointCurrent)/currentResolution;
+					float		voltage = (intData[i+voltOff]*dDesc.tuneValue - zeroPointVoltage)/voltageResolution;
 					data[dataIndex] = amper*voltage;
 					if(data[dataIndex] < 0f){
 					    data[dataIndex] = -data[dataIndex];
@@ -182,12 +196,12 @@ public static String [] modelNames = {"Current", "Voltage","Watt","Joule"};
 						data[dataIndex] 	= energy;
 					}
 					break;
+				}
+				dataIndex++;
 			}
-			dataIndex++;
+			dEvent.setNumbSamples(dataIndex);
 		}
-		dEvent.setNumbSamples(dataIndex);
-	}
-	return super.dataArrived(dEvent);
+		return super.dataArrived(dEvent);
     }
     
 	protected void writeInternal(extra.io.DataStream out){}
