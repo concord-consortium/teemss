@@ -818,15 +818,15 @@ public final static int	yTextBegin = 2;
 	//				currObjectViewDesc = null;
 				}
 			}else if(components != null){
+				if(currObjectViewDesc != null){
+					if(currObjectViewDesc.getObject() instanceof LabObjectView){
+						((LabObjectView)currObjectViewDesc.getObject()).setShowMenus(false);
+					}
+				}
 				LBCompDesc cntrlDesc = findComponentDesc(ev.target);
 				if(cntrlDesc != null){
 					Control cntrl = (Control)cntrlDesc.getObject();
 					if(cntrl instanceof LabObjectView){
-						if(currObjectViewDesc != null){
-							if(currObjectViewDesc.getObject() instanceof LabObjectView){
-								((LabObjectView)currObjectViewDesc.getObject()).setShowMenus(false);
-							}
-						}
 						LabObjectView object = (LabObjectView)cntrl;
 						object.setShowMenus(true);
 						currObjectViewDesc = cntrlDesc;
@@ -876,9 +876,10 @@ public final static int	yTextBegin = 2;
 	}
 	
 	LBCompDesc findComponentDesc(Object o){
+		if(o == this) return null;
 		if(components == null || components.length < 1) return null;
 		for(int i = 0; i < components.length; i++){
-			LabObjectView view = getParentLabObjectView(o);
+			LabObjectView view = getRelevantEmbeddedObject(o);
 			if(view == null) continue;
 			if(components[i].getObject() == view) return components[i];
 		}
@@ -962,15 +963,17 @@ public final static int	yTextBegin = 2;
 		}
 	}
 	
-	public static LabObjectView getParentLabObjectView(Object o){
+	public LabObjectView getRelevantEmbeddedObject(Object o){
 		if(!(o instanceof Control)) return null;
 		LabObjectView view = null;
 		Control c = (Control)o;
+		Control prevControl = null;
 		while(view == null && c != null){
-			if(c instanceof LabObjectView){
-				view = (LabObjectView)c;
+			if(c == this && (prevControl instanceof LabObjectView)){
+				view = (LabObjectView)prevControl;
 				break;
 			}
+			prevControl = c;
 			c = c.getParent();
 		}
 		return view;
