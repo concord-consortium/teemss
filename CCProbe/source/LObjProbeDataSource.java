@@ -24,7 +24,7 @@ public class LObjProbeDataSource extends LObjSubDict
 	// static int defaultInterfaceType = CCInterfaceManager.INTERFACE_0;
 
     // new CCA2D2v2 interface
-	static int defaultInterfaceType = CCInterfaceManager.INTERFACE_2;
+	 static int defaultInterfaceType = CCInterfaceManager.INTERFACE_2;
 
 	ProbManager pb = null;
 

@@ -1,0 +1,14 @@
+- Memory Errors on Palm with many lab objects 
+  - While saving data
+  - While collecting data
+- Corruptable DataCollectors
+  - Throws negative array size exception 
+- Units on DataCollectors 
+  - Specifically F and C in the temperature DCs the graph label changes but the
+	the calibration does not.
+- New annotations are not saved to DataSets.
+- Button scrolling in Tree View doesn't always work.  this is a focus problem 
+	I think.
+- Zero Force Probe doesn't always work this appears to be due to a
+	a warm up time with some of the probes
+- Exiting when the graph open sometimes causes problems.

@@ -1,0 +1,38 @@
+MINOR
+
+- Fix units in datacollectors
+- Use secondary storage in Graph Bins.  This should decrease out of memory
+  errors.
+- Add UI to check battery level.
+- Id probe cards
+- Check error codes from smart wheel 
+- Garbage Collect LabBook
+- Text box auto word wrap
+- Multi-depth paging view folders
+- One format of labbook on all systems.  Make palm catalogs work on 
+	CE.
+- Add tool to synchronized the temperatures of two or more temp probes
+- Add "title bar" to more of the palm objects.  This is trick because it
+	needs mainly handled by the MainView but also customizable
+to be abstracted but also customizable 
+- Show dialog while saving data and allow the user to change the name
+- Show the title correctly when displaying a saved data set.
+- Fix calibration dialog
+- Fix eraser in Drawing
+- Fix popup keyboard needs caps, and multiline.
+- Double collect should beep and or show dialog box.
+- Use unit prefixes instead of exponents when possible.
+- Fix digits on digital display.
+
+MAJOR
+
+- Question/Form object that handles multiple responses.
+- Palm Desktop conduit that only updates what needs to be updated 
+	on palm.
+- Editable SuperNotes.
+- Saving labbook in XML
+- Converting all labbook objects to new Portfolio API.
+- Add external DataBase links to Portfolio.
+- Add synchronized/cached objects from external DataBase.
+- Toggle between velocity and distance graphs.  This should convert
+	the current graph data.
