@@ -24,6 +24,13 @@ public class LObjDataCollector extends LObjSubDict
 		super(DataObjFactory.DATA_COLLECTOR);
     }
 
+    public void init(){
+    	super.init();
+		LObjGraph graph = new LObjGraph();
+		graph.name = "..auto_title..";
+		setGraph(graph);
+    }
+    
 	public static LObjSubDict makeNew()
     {
 		LObjDataCollector me = new LObjDataCollector();

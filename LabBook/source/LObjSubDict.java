@@ -15,6 +15,11 @@ public abstract class LObjSubDict extends LabObject
 	 * Only call this the first time the sub object is instantiated
 	 * if it is instanciated from the file 
 	 */
+    public void init(){
+    	super.init();
+    	initSubDict();
+    }
+    
     public void initSubDict()
     {
 		dict = new LObjDictionary();

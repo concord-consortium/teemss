@@ -17,6 +17,8 @@ public abstract class LabObject
 		objectType = type;
 	}
 
+	public void init(){}
+
     public void readExternal(DataStream in)
     {
 		name = in.readString();
