@@ -145,6 +145,9 @@ Dialog					confirmDialogClear = null;
 Dialog					confirmDialogDeleteAll = null;
 Dialog					confirmDialogDeleteCurrent = null;
 
+
+public final static int	yTextBegin = 2;
+
 	public CCTextArea(LObjCCTextAreaView owner,MainView mainView,LObjDictionary dict,LObjSubDict subDictionary){
 		super();
 		this.mainView = mainView;
@@ -473,7 +476,7 @@ Dialog					confirmDialogDeleteCurrent = null;
 				}
 				if(cntrl != null) add(cntrl);//?
 //				int yTop = y;
-				int yTop = 0;
+				int yTop = CCTextArea.yTextBegin;
 				int line = c.lineBefore;
 				if(line > 0){
 					if(lines != null && line < lines.getCount()){
@@ -769,7 +772,7 @@ Dialog					confirmDialogDeleteCurrent = null;
 		r.width 	= 1;
 		r.height 	= getItemHeight();
 		r.x = curState.cursorPos;
-		r.y = curState.cursorRow*getItemHeight();
+		r.y = CCTextArea.yTextBegin + curState.cursorRow*getItemHeight();
 		if(r.y > height){
 			removeCursor();
 			return false;
@@ -873,7 +876,8 @@ Dialog					confirmDialogDeleteCurrent = null;
 			if(compDesc != null) return;
 			int x = 0;
 			int h = getItemHeight();
-			int row = 1 + firstLine + (ev.y / h);
+			if(ev.y < CCTextArea.yTextBegin) ev.y = CCTextArea.yTextBegin;
+			int row = 1 + firstLine + ((ev.y - CCTextArea.yTextBegin) / h);
 			if(row > getRowsNumber()) row = getRowsNumber();
 			int lineIndex = getLineIndex(row - 1);
 			if(lines == null){
@@ -934,8 +938,8 @@ Dialog					confirmDialogDeleteCurrent = null;
 		g.setColor(255,255,255);
 		g.fillRect(0,0,r.width,r.height);
 		g.setColor(0,0,0);
-		g.drawRect(0,0,r.width,r.height);
 		doPaintData(g);
+//		g.drawRect(0,0,r.width,r.height);
 	}
 	public void doPaintData(Graphics g){
 		if(lines == null) return;
@@ -1114,7 +1118,7 @@ static int	[]charWidthMappers = null;
 		int limitRow = delimiters.length / 2;
 		for(int i = beginRow; i < endRow; i++){
 			if(i < firstRow) continue;
-			int y = (i - firstRow)*h;
+			int y = CCTextArea.yTextBegin + (i - firstRow)*h;
 			if(i - beginRow < limitRow ){
 				int x = (i >= numbTotalRows || owner.rows == null)?beginPos:((CCTARow)owner.rows.get(i)).beginPos;
 				int index = (i - beginRow)*2;

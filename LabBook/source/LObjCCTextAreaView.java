@@ -8,7 +8,8 @@ import extra.io.*;
 
 public class LObjCCTextAreaView extends LabObjectView implements ActionListener,DialogListener{
 CCTextArea 				tArea;
-RelativeContainer 		edit = new RelativeContainer();
+//RelativeContainer 		edit = new RelativeContainer();
+Container 				edit = new Container();
 
 LObjCCTextArea 			doc;
 Button 					doneButton,doneOutButton;
@@ -160,9 +161,9 @@ String [] fileStrings = {"Load Note..."};
 			tArea.dict 		= doc.curDict;
 			tArea.subDictionary = doc;
 		}
-
-		edit.add(tArea, 1, RelativeContainer.BELOW, 
-		RelativeContainer.REST, RelativeContainer.REST);
+		edit.add(tArea);
+//		edit.add(tArea, 1, RelativeContainer.BELOW, 
+//		RelativeContainer.REST, RelativeContainer.REST);
 		insertButton = new Button("Insert");
 		add(edit);
 		add(insertButton);
@@ -189,10 +190,14 @@ String [] fileStrings = {"Load Note..."};
 		if(!didLayout) layout(false);
 
 		if(showDone){
-			edit.setRect(0,15,width - 1,height);
+			edit.setRect(1,17,width - 2,height - 18);
 			doneButton.setRect(width-31,0,30,15);
 		} else {
-			edit.setRect(0,0,width - 1,height);
+			edit.setRect(1,1,width - 2,height - 2);
+		}
+		if(tArea != null){
+			waba.fx.Rect rEdit = edit.getRect();
+			tArea.setRect(1,1,rEdit.width - 2, rEdit.height - 2);
 		}
 		insertButton.setRect(1,1,30,15);
 		upButton.setRect(35,1,20,15);
@@ -208,6 +213,13 @@ String [] fileStrings = {"Load Note..."};
 		super.close();
 	}
 
+	public void onPaint(waba.fx.Graphics g){
+		if(g != null && edit != null){
+			waba.fx.Rect r = edit.getRect();
+			g.setColor(0,0,0);
+			g.drawRect(r.x, r.y, r.width, r.height);
+		}
+	}
 	public void onEvent(Event e){
 		if(e.type == ControlEvent.PRESSED && (addedLabObjectView != null)){
 			if(e.target == doneOutButton){
