@@ -101,7 +101,7 @@ public class FloatLabel extends Control
 
     public void onPaint(Graphics g)
     {
-		String text = fConvert.getString(curExponent);
+		String mantisa = fConvert.getMantisa(curExponent);
 
 		if(buffer == null){
 			Rect r = getRect();
@@ -109,7 +109,7 @@ public class FloatLabel extends Control
 			bufG = new Graphics(buffer);
 			fm = getFontMetrics(font);
 			fmHeight = fm.getHeight();
-			textY = (this.height - fmHeight) / 2;
+			textY = (height - fmHeight) / 2;
 		}
 
 		bufG.setColor(255,255,255);
@@ -118,13 +118,39 @@ public class FloatLabel extends Control
 
 		bufG.setFont(font);
 
-		int x = 0;
-		int y = (this.height - fmHeight) / 2;
-		if (align == CENTER)
-			x = (this.width - fm.getTextWidth(text)) / 2;
-		else if (align == RIGHT)
-			x = this.width - fm.getTextWidth(text);
-		bufG.drawText(text, x, y);
+		int y = (height - fmHeight) / 2;
+		
+		String expString;
+		String text;
+		if(curExponent != 0){
+			expString = "E" + curExponent;
+			text = mantisa + expString;
+		} else {
+			expString = "";
+			text = mantisa;
+		}
+
+		int textWidth = fm.getTextWidth(text);
+
+		if(textWidth <= width){
+			int x = 0;
+			if (align == CENTER)
+				x = (width - textWidth) / 2;
+			else if (align == RIGHT)
+				x = width - textWidth;
+			bufG.drawText(text, x, y);
+		} else if (curExponent != 0) {
+			bufG.drawText(mantisa, 0, y);
+			int expWidth = fm.getTextWidth(expString);
+			int expOffset = width - expWidth;
+			bufG.setColor(255,255,255);
+			bufG.fillRect(expOffset,0,expWidth,height);
+			bufG.setColor(0,0,0);
+			bufG.drawText(expString, width - expWidth, y);
+		} else {
+			bufG.drawText(text, 0, y);
+		}
+
 
 		if(g != null){
 			g.copyRect(buffer, 0, 0, width, height, 0, 0); 	    

@@ -118,6 +118,17 @@ public class FloatConvert
 
 	public String getString(int exp)
 	{
+		String retStr = getMantisa(exp);
+
+		if(exp != 0){
+			retStr += "E" + exp;
+		}
+
+		return retStr;
+	}
+
+	public String getMantisa(int exp)
+	{
 		if(intValue == 0 ||
 		   exponent < precision){
 			if(precision >= 0){ 
@@ -190,10 +201,6 @@ public class FloatConvert
 		String retStr = sign + intNumStr;
 		if(intFracStr != null){
 			retStr += "." + intFracStr;
-		}
-
-		if(exp != 0){
-			retStr += "E" + exp;
 		}
 
 		return retStr;
