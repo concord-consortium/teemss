@@ -22,6 +22,7 @@ public class LObjDataSet extends LObjSubDict
     DataEvent dEvent;
 	waba.sys.Time time;
 	String label;
+	CCUnit unit;
 
     public LObjDataSet()
     {
@@ -136,10 +137,11 @@ public class LObjDataSet extends LObjSubDict
 
 	public CCUnit 	getUnit()
 	{
-		return null;
+		return unit;
 	}
-	public boolean 	setUnit(CCUnit unit){
-		return false;
+	public boolean 	setUnit(CCUnit u){
+		unit = u;
+		return true;
 	}
 
 	public String getLabel(){return label;}
@@ -164,6 +166,7 @@ public class LObjDataSet extends LObjSubDict
 
 			numChunks = ds.readInt();
 			needReadChunks = true;
+			unit = CCUnit.getUnit(ds.readInt());
 
 		} else if(majorType == 1 || majorType == 2){
 			DataDesc dataDesc;
@@ -171,7 +174,7 @@ public class LObjDataSet extends LObjSubDict
 			if(majorType == 1){
 				chunkIndex = 0;
 				numBinChunks = ds.readInt();
-				label = ds.readString();
+				label = ds.readString();				
 			}  else {				
 				chunkIndex = ds.readInt();
 			}
@@ -219,6 +222,7 @@ public class LObjDataSet extends LObjSubDict
 				ds.writeByte(0);
 			}
 			ds.writeInt(numChunks);
+			ds.writeInt(unit.code);
 			
 			// probably want to write unit index here
 

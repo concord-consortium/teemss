@@ -72,6 +72,7 @@ public class CCProbe extends ExtraMainWindow
 			fileStrings[1] = "-";
 			fileStrings[2] = "Exit";
 		} else {
+			fileStrings = new String [1];
 			fileStrings[0] = aboutTitle;			
 		}
 		

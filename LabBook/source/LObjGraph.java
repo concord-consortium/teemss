@@ -60,4 +60,23 @@ public class LObjGraph extends LabObject
 		if(yUnit == null) ds.writeInt(-1);
 		else ds.writeInt(yUnit.code);
     }
+	
+	public LabObject copy()
+	{
+		LObjGraph g = new LObjGraph();
+
+		g.xmin = xmin;
+		g.ymin = ymin;
+		g.xmax = xmax;
+		g.ymax = ymax;
+		g.title = title;
+		g.xLabel = xLabel;
+		g.yLabel = yLabel;
+		g.xUnit = xUnit;
+		g.yUnit = yUnit;		
+
+		return g;
+	}
+
+
 }
