@@ -242,7 +242,7 @@ public class LObjDataSet extends LObjSubDict
 		// and idle events to make this work properly
 		//		dataListener.dataRecieved(dEvent);
 		
-		int objNum=1;
+		int objNum=2;
 		for(int i = 0; i < numChunks; i++){
 			LabObject obj = getObj(objNum++);
 			while(obj != null &&
@@ -368,13 +368,12 @@ public class LObjDataSet extends LObjSubDict
     
     public void writeExternal(DataStream ds)
     {
-		DataEvent dataEvent = null;
 		LObjDataSet child;
 		int chunkPos = 0;
 
 		super.writeExternal(ds);
 
-		if(myBin == null){
+		if(myBin == null && dEvent == null){
 			// header flag
 			if(hasDataView){
 				ds.writeByte(0x10);
@@ -389,11 +388,10 @@ public class LObjDataSet extends LObjSubDict
 
 			// probably want to write unit index here
 
-		} else if(myBin != null){
+		} else if(myBin != null || dEvent != null){
 			// not header flag
 			if(chunkIndex == 0){
 				ds.writeByte(1);      
-	 
 				ds.writeInt(numBinChunks);
 				ds.writeString(label);
 			} else if(chunkIndex > 0){
@@ -402,28 +400,33 @@ public class LObjDataSet extends LObjSubDict
 			} else {
 				return;
 			}
+			
+			if(myBin != null && dEvent == null){
+				dEvent = myBin.getDataChunk(chunkIndex);
+			}
 
-			dataEvent = myBin.getDataChunk(chunkIndex);
 			// Continuous data type
 			ds.writeByte(0);
 	
 			// Write dt
-			ds.writeFloat(dataEvent.getDataDesc().getDt());
+			ds.writeFloat(dEvent.getDataDesc().getDt());
 	    
 			// Write start time
-			ds.writeFloat(dataEvent.getTime());//dima
+			ds.writeFloat(dEvent.getTime());//dima
 	    
 			// Write numb data
-			ds.writeInt(dataEvent.numbSamples);
+			ds.writeInt(dEvent.numbSamples);
 	    
-			int sampSize = dataEvent.getDataDesc().getChPerSample();
-			int endPos = dataEvent.dataOffset + dataEvent.numbSamples*sampSize;
-			float [] data = dataEvent.data;
+			int sampSize = dEvent.getDataDesc().getChPerSample();
+			int endPos = dEvent.dataOffset + dEvent.numbSamples*sampSize;
+			float [] data = dEvent.data;
 	    
-			for(int i=dataEvent.dataOffset; i<endPos; i+=sampSize){
+			for(int i=dEvent.dataOffset; i<endPos; i+=sampSize){
 				ds.writeFloat(data[i]);
 			}	
-			dataEvent = null;
+			if(myBin != null){
+				dEvent = null;
+			}
 		} else {
 			ds.writeByte(3);
 		}
