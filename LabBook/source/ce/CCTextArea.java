@@ -15,6 +15,11 @@ Check	wrapCheck,linkCheck;
 Edit	widthEdit,heightEdit;
 Label	alignmentLabel,wrapLabel,widthLabel,heightLabel;
 
+static boolean lastAlighnLeft 	= true;
+static boolean lastWrap 		= true;
+static boolean lastLink 		= false;
+static int		lastW			= 10;
+static int		lastH			= 10;
 
 	public CCTextAreaChooser(LObjDictionary dict,ViewContainer viewContainer,DialogListener l){
 		super(dict,viewContainer,l);
@@ -49,6 +54,11 @@ Label	alignmentLabel,wrapLabel,widthLabel,heightLabel;
 			String choices[] = {"Left","Right"};
 			alignmentChoice = new Choice(choices);
 			getContentPane().add(alignmentChoice);
+			if(lastAlighnLeft){
+				alignmentChoice.setSelectedIndex("Left");
+			}else{
+				alignmentChoice.setSelectedIndex("Right");
+			}
 		}
 		
 		xStart += (cLength);
@@ -59,7 +69,7 @@ Label	alignmentLabel,wrapLabel,widthLabel,heightLabel;
 		if(wrapCheck == null){
 			wrapCheck = new Check("Wrap");
 			getContentPane().add(wrapCheck);
-			wrapCheck.setChecked(true);
+			wrapCheck.setChecked(lastWrap);
 		}
 		xStart += (5+cLength);
 		cLength = 40;
@@ -69,6 +79,8 @@ Label	alignmentLabel,wrapLabel,widthLabel,heightLabel;
 		if(linkCheck == null){
 			linkCheck = new Check("Link ");
 			getContentPane().add(linkCheck);
+			linkCheck.setChecked(lastLink);
+			
 		}
 		xStart += (5+cLength);
 		linkCheck.setRect(xStart,r.height - 50, cLength, 15);
@@ -84,7 +96,7 @@ Label	alignmentLabel,wrapLabel,widthLabel,heightLabel;
 
 		if(widthEdit == null){
 			widthEdit = new Edit();
-			widthEdit.setText("10");
+			widthEdit.setText(""+lastW);
 			getContentPane().add(widthEdit);
 		}
 		xStart += (cLength);
@@ -102,7 +114,7 @@ Label	alignmentLabel,wrapLabel,widthLabel,heightLabel;
 
 		if(heightEdit == null){
 			heightEdit = new Edit();
-			heightEdit.setText("10");
+			heightEdit.setText(""+lastH);
 			getContentPane().add(heightEdit);
 		}
 		xStart += (cLength);
@@ -142,19 +154,27 @@ Label	alignmentLabel,wrapLabel,widthLabel,heightLabel;
 		if(doNotify){
 			if(obj != null && listener != null){
 				boolean wrap = wrapCheck.getChecked();
+				lastWrap = wrap;
 				int alighn = LBCompDesc.ALIGNMENT_LEFT;
 				if(alignmentChoice != null){
-					if(alignmentChoice.getSelected().equals("Right")) alighn = LBCompDesc.ALIGNMENT_RIGHT;
+					lastAlighnLeft = true;
+					if(alignmentChoice.getSelected().equals("Right")){
+						lastAlighnLeft = false;
+						alighn = LBCompDesc.ALIGNMENT_RIGHT;
+					}
 				}
 				int wc = 10;
 				if(widthEdit != null){
 					wc = Convert.toInt(widthEdit.getText());
 				}
+				lastW = wc;
 				int hc = 10;
 				if(heightEdit != null){
 					hc = Convert.toInt(heightEdit.getText());
 				}
+				lastH = hc;
 	 	  		LBCompDesc cdesc = new LBCompDesc(0,wc,hc,alighn,wrap,linkCheck.getChecked());
+	 	  		lastLink = linkCheck.getChecked();
 	 	  		cdesc.setObject(obj);
 				listener.dialogClosed(new DialogEvent(this,null,null,cdesc,DialogEvent.OBJECT));
 			}
@@ -191,7 +211,7 @@ LObjSubDict				subDictionary;
 LObjCCTextAreaView		owner;
 String				text;
 
-
+boolean		needNotifyAboutMenu = true;
 	public CCTextArea(LObjCCTextAreaView owner,MainView mainView,LObjDictionary dict,LObjSubDict subDictionary){
 		super();
 		this.mainView = mainView;
@@ -261,6 +281,7 @@ String				text;
 		add(view);
 		layoutComponents();
 		setText(getText());
+		if(owner != null) owner.numbObjectChanged();
     }
     public void writeExternal(DataStream out){
     	out.writeString(getText());
@@ -461,6 +482,10 @@ String				text;
 						cntrl.setRect(x+insetLeft,yTop,c.w,c.h);
 					}
 				}
+			}
+			if(needNotifyAboutMenu){
+				if(owner != null) owner.numbObjectChanged();
+				needNotifyAboutMenu = false;
 			}
 		}
 	}
@@ -765,12 +790,20 @@ String				text;
 		}
 	}
 	
+/*
 	public int getRowsNumber(){
 		int retValue = 0;
 		if(lines == null || lines.getCount() < 1) return 0;
 		for(int i = 0; i < lines.getCount(); i++){
 			retValue += ((CCStringWrapper)lines.get(i)).getRows();
 		}
+		return retValue;
+	}
+*/
+	public int getRowsNumber(){
+		int retValue = 0;
+		if(lines == null || lines.getCount() < 1) return 0;
+		retValue = ((CCStringWrapper)lines.get(lines.getCount() - 1)).endRow + 1;
 		return retValue;
 	}
 	
