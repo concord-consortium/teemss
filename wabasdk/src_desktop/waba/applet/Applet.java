@@ -278,7 +278,7 @@ public static void main(String args[])
 
 //	frame.hide();
 
-//	frame.setResizable(false);//dima
+	frame.setResizable(false);//dima
 
 	java.awt.Insets insets;
 
