@@ -9,13 +9,12 @@ public class CCThermalCouple extends CCProb{
 float  			[]tempData 		= new float[3];
 int  			[]tempIntData 	= new int[3];
 float  			dtChannel = 0.0f;
-public final static int		CELSIUS_TEMP_OUT = 1;
-public final static int		FAHRENHEIT_TEMP_OUT = 2;
-public final static int		KELVIN_TEMP_OUT = 3;
-public final static int		DEFAULT_TEMP_OUT = CELSIUS_TEMP_OUT;
-int				outputMode = DEFAULT_TEMP_OUT;
+public final static int		CELSIUS_TEMP_OUT = 0;
+public final static int		FAHRENHEIT_TEMP_OUT = 1;
+public final static int		KELVIN_TEMP_OUT = 2;
+int				outputMode = CELSIUS_TEMP_OUT;
 public final static String	tempModeString = "Output Mode";
-public final static String	[]tempModes =  {defaultModeName,"C","F","K"};
+public final static String	[]tempModes =  {"C","F","K"};
 float AC = 17.084f;
 float BC = -0.25863f;
 float CC = 0.011012f;
@@ -47,13 +46,7 @@ float FC = 0.0f;
 	public int getUnit()
 	{
 		PropObject tempMode = getProperty(tempModeString);
-		int index = tempMode.getIndex();
-		int oMode;
-		if(index == 0){
-			oMode  = DEFAULT_TEMP_OUT;
-		} else {
-			oMode = index;
-		}
+		int oMode = tempMode.getIndex();
 		
 		switch(oMode){
 		case FAHRENHEIT_TEMP_OUT:
@@ -74,12 +67,7 @@ float FC = 0.0f;
 	public int getInterfaceMode()
 	{
 		PropObject tempMode = getProperty(tempModeString);
-		int index = tempMode.getIndex();
-		if(index == 0){
-			outputMode = DEFAULT_TEMP_OUT;
-		} else {
-			outputMode = index;
-		}
+		int outputMode = tempMode.getIndex();
 		return interfaceMode;
 	}
 

@@ -13,18 +13,18 @@ int				nTicks = 660;
 float				radius = 0.06f;
 float				koeff = 2f*Maths.PI;
 public final static String	wheelModeString = "Output Mode";
-public final static String	[]wheelModes =  {defaultModeName,"Ang. Vel.","Lin. Vel.", "Lin. Pos."};
-public final static int		ANG_MODE_OUT 		= 1;
-public final static int		LINEAR_MODE_OUT 	= 2;
-    public final static int     LIN_POS_MODE_OUT        = 3;
-public final static int		DEFAULT_MODE_OUT   = LIN_POS_MODE_OUT;
-int					outputMode = DEFAULT_MODE_OUT;
+public final static String	[]wheelModes =  {"Ang. Vel.","Lin. Vel.", "Lin. Pos."};
+public final static int		ANG_MODE_OUT 		= 0;
+public final static int		LINEAR_MODE_OUT 	= 1;
+    public final static int     LIN_POS_MODE_OUT        = 2;
+int					outputMode = LIN_POS_MODE_OUT;
 
 	CCSmartWheel(boolean init, String name, int interfaceT){
 		super(init, name, interfaceT);
 		probeType = ProbFactory.Prob_SmartWheel;
 
 		activeChannels = 1;
+		interfaceMode = CCInterfaceManager.DIG_COUNT_MODE;
 
 		dDesc.setChPerSample(1);
 		dDesc.setDt(0.01f);
@@ -45,13 +45,7 @@ int					outputMode = DEFAULT_MODE_OUT;
 	public int getUnit()
 	{
 		PropObject wheelMode = getProperty(wheelModeString);
-		int index = wheelMode.getIndex();
-		int oMode;
-		if(index == 0){
-		    oMode = DEFAULT_MODE_OUT;
-		} else {
-			oMode = index;
-		}
+		int oMode = wheelMode.getIndex();
 
 		switch(oMode){
 		case LINEAR_MODE_OUT:
@@ -73,12 +67,7 @@ int					outputMode = DEFAULT_MODE_OUT;
 	public int getInterfaceMode()
 	{
 		PropObject wheelMode = getProperty(wheelModeString);
-		int index = wheelMode.getIndex();
-		if(index == 0){
-		    outputMode = DEFAULT_MODE_OUT;
-		} else {
-			outputMode = index;
-		}
+		outputMode = wheelMode.getIndex();
 		return interfaceMode;
 	}
 
@@ -156,6 +145,7 @@ int					outputMode = DEFAULT_MODE_OUT;
 		// System.out.println("rad: " + radius + " koeff: " + koeff);
 		for(int i = 0; i < ndata; i+=chPerSample){
 		    wheelIntData[i] = data[nOffset+i];
+			System.out.println("CCSW: int data: " + wheelIntData[i]);
 		    switch(outputMode){
 			case LINEAR_MODE_OUT:
 				wheelData[i] = (float)wheelIntData[i]*calFactor;
