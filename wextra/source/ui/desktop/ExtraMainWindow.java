@@ -52,7 +52,7 @@ import extra.ui.*;
 
  */
 
-public abstract class ExtraMainWindow extends MainWindow implements java.awt.event.ActionListener
+public abstract class  ExtraMainWindow extends MainWindow implements java.awt.event.ActionListener
 
 {
 
@@ -125,7 +125,7 @@ public abstract class ExtraMainWindow extends MainWindow implements java.awt.eve
   protected RelativeContainer content;
 
 
-
+ protected static Dialog popupDialog = null;
 
 
 	/** the menubar, if any */
@@ -362,10 +362,30 @@ public abstract class ExtraMainWindow extends MainWindow implements java.awt.eve
 
    */
 
+public boolean isControlHDialogOwned(Control c){
+	boolean retValue = false;
+	if(c instanceof Dialog) return true;
+	Control cc = c.getParent();
+	while(cc != null){
+		if(cc instanceof Dialog) return true;
+		cc = cc.getParent();
+	}
+	return retValue;
+}
+
   public void _postEvent(int type, int key, int x, int y, int modifiers, int timeStamp)
 
   {
 
+	if(popupDialog != null){
+		if (type == PenEvent.PEN_DOWN){
+			Control c = findChild(x, y);
+			if(!isControlHDialogOwned(c)){
+				Sound.beep();
+				return;
+			}
+		}
+	}
     super._postEvent(type,key,x,y,modifiers,timeStamp);
 
     if (doubleBuffered&&needsPaint)
@@ -671,7 +691,10 @@ public abstract class ExtraMainWindow extends MainWindow implements java.awt.eve
       content.setRect(x,y,width,height);
 
   }
-
+  
+  public void setDialog(Dialog d){
+  	popupDialog = d;
+  }
 }
 
 

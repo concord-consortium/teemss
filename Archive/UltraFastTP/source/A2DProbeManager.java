@@ -411,7 +411,7 @@ public class A2DProbeManager extends ProbeManager
 
 	    if(port == null){
 		//		port = new SerialPort(0,9600, 8, false, 2);
-		port = new SerialPort(0,9600);
+		port = new SerialPort(1,9600);
 	    }
 	    
 	    if(!port.isOpen()){
@@ -450,7 +450,7 @@ public class A2DProbeManager extends ProbeManager
     boolean start(int id, Transform t)
     {
 	if(port == null){
-	    port = new SerialPort(0,9600);
+	    port = new SerialPort(1,9600);
 	    //		System.out.println("Opened serial port");
 	}
 	
@@ -459,7 +459,6 @@ public class A2DProbeManager extends ProbeManager
 	}
 
 	trans = t;
-
 	port.setFlowControl(false);
 
 	switch(id){

@@ -38,7 +38,7 @@ short		outputRefNumber = 0;
 		this.bits 		= bits;
 		this.parity 	= parity;
 		this.stopBits 	= stopBits;
-		System.out.println("JDirectSerialPort");
+//		System.out.println("JDirectSerialPort");
 		initPort(number,baudRate,bits,parity,stopBits);
 	}
 	public void initPort(int number, int baudRate, int bits, boolean parity, int stopBits){
@@ -64,7 +64,7 @@ short		outputRefNumber = 0;
 			errOut 	= jdirect.OpenDriver(JDirectImpl.toStr255(portPrefix+"Out"),outRef);
 			errInp 	= jdirect.OpenDriver(JDirectImpl.toStr255(portPrefix+"in"),inpRef);
 		}else{
-			System.out.println(sPort.inpName+" "+sPort.outName+" "+sPort.name);
+//			System.out.println(sPort.inpName+" "+sPort.outName+" "+sPort.name);
 			errOut 	= jdirect.OpenDriver(JDirectImpl.toStr255(sPort.outName),outRef);
 			errInp 	= jdirect.OpenDriver(JDirectImpl.toStr255(sPort.inpName),inpRef);
 		}
@@ -111,6 +111,7 @@ short		outputRefNumber = 0;
 	}
 
 	public int readBytes(byte buf[], int start, int count){
+//		System.out.println("timeOut "+timeOut+" count "+count+" buf "+buf.length+" start "+start);
 		if(!isOpen()) return -1;
 		if(buf == null) return -1;
     	int bufSize = buf.length;
@@ -159,9 +160,12 @@ short		outputRefNumber = 0;
 					pInBlock.setIoVRefNum((short)0);  //not used by the Serial Driver
 					pInBlock.setIoPosMode((short)0);  //not used by the Serial Driver
 					errInp = jdirect.PBReadSync(pInBlock);
-					if(errInp != JDirectImpl.noErr) break;
-					currBuffer 	+= needBytes;//??
-					readData 	+= needBytes;
+					int actReadBytes = pInBlock.getIoActCount();
+					if(errInp != JDirectImpl.noErr){
+						break;
+					}
+					currBuffer 	+= actReadBytes;
+					readData 		+= actReadBytes;
 				}
 			}
 	    }while((readData < actNeedData) && !doExit);
@@ -174,6 +178,7 @@ short		outputRefNumber = 0;
 	    
 		myBuffer.freePointer();
 		jdirect.DisposePtr(pointer);
+//		System.out.println("readData "+readData+" actNeedData "+actNeedData);
 		return readData;
 	}
 

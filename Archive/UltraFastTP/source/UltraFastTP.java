@@ -22,13 +22,21 @@ public class UltraFastTP extends MainWindow
     int gt_height = 40;
     int av_height = 0;
 
+    	public UltraFastTP(){
+		if(Vm.getPlatform().equals("Java")){//dima
+		 	waba.io.impl.SerialManager.checkAvailableSerialPorts();
+			waba.io.impl.SerialPortDesc sPortDesc = waba.io.impl.SerialManager.getAssignedPort();
+			if(sPortDesc == null){
+				waba.io.impl.SerialManager.showSetupDialog();
+			}
+		 }
+	}
     public void onStart()
     {
 	mysize = getRect();
 	if(mysize.height == mysize.width){
 	    gt_height = 20;
 	}
-
 
 
 	av_height = mysize.height-gt_height;
@@ -39,7 +47,7 @@ public class UltraFastTP extends MainWindow
 	if(Vm.getPlatform().equals("PalmOS")){
 	    Bin.START_DATA_SIZE = 2500;
 	}
-
+	
 	setupButtons = new Button[Setups.buttonNames.length];
 	int buttonY = (mysize.height - Setups.buttonNames.length * 16) / 2;
 	int buttonX = (mysize.width - 100) / 2;
@@ -81,6 +89,7 @@ public class UltraFastTP extends MainWindow
 	logger.next = digDisp;
 	digDisp.next = graphUp;
 	digDisp.units = units;
+
     }
 
     public void exit(int code)

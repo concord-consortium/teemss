@@ -42,6 +42,13 @@ private     static java.awt.Frame  mainFrame = null;
 		if(serialProp.exists()) serialProp.delete();
 	}
 	
+	public static void showSetupDialog(){
+		java.awt.Frame f = getMainFrame();
+		if(f != null){
+			SerialChoiceDialog dialog = new SerialChoiceDialog(f);
+		}
+	}
+	
 	public static int getNumbSerialPorts(){
 		if(availablePorts == null) return 0;
 		return availablePorts.size();
