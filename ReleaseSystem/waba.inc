@@ -10,7 +10,7 @@
 # WARP_PLATFOrM  (probably nothing, palm, or other)
 
 JUMP_JAR = $(CURDIR)/../wj_tools/jump.jar
-export PILAINC= $(CURDIR)/../wj_tools/pila
+export PILAINC= $(CURDIR)/../wj_tools
 
 WABA_DIR= $(CURDIR)/../wabasdk/classes
 WEXTRAS_DIR= $(CURDIR)/../wextra/classes/desktop
