@@ -97,8 +97,7 @@
     <xsl:attribute name="ID">
       <xsl:value-of select="../@name"/>_think_response</xsl:attribute>
     <xsl:attribute name="name">Think About Responses </xsl:attribute>
-<!--    <xsl:apply-templates select="query-response" mode="response"/>
--->
+    <xsl:apply-templates select="query-response" mode="response"/>
   </xsl:element>
 </xsl:template>
 
@@ -306,16 +305,18 @@
 <xsl:template match="query-response" mode="response">
   <xsl:element name="SUPERNOTES">
     <xsl:attribute name="ID">
-      <xsl:value-of select="../@name"/>_trial_<xsl:number value="position()" format="I"/>_response
+      <xsl:value-of select="../../@name"/>_<xsl:value-of select="../@name"/>_<xsl:number value="position()"/>
     </xsl:attribute>
 
-    <xsl:attribute name="name">Trial <xsl:number value="position()" format="I"/> Responses      
+    <xsl:attribute name="name">
+      <xsl:value-of select="../../@name"/>_<xsl:value-of select="../@name"/>_<xsl:number value="position()"/>
     </xsl:attribute>
     <EMBOBJ object="teemss_titlebar.bmp"/>
     <SNPARAGRAPH linkcolor="0000FF">
       <xsl:apply-templates select="query-description"/>
     </SNPARAGRAPH>
     <SNPARAGRAPH/>
+    <xsl:apply-templates select="querys" mode="response"/>
     <SNPARAGRAPH/>
   </xsl:element>
 </xsl:template>
@@ -332,6 +333,36 @@
 <xsl:template match="querys" mode="list">
   <xsl:apply-templates select="query" mode="list"/>
 </xsl:template>
+
+<xsl:template match="querys" mode="response">
+  <xsl:for-each select="query">
+    <SNPARAGRAPH>
+      <xsl:value-of select="normalize-space(.) "/>
+    </SNPARAGRAPH>
+    <xsl:if test="@drawing-response='true'">
+      <SNPARAGRAPH>drawing</SNPARAGRAPH><SNPARAGRAPH/>
+    </xsl:if>
+    <xsl:if test="@note-response='true'">
+      <SNPARAGRAPH/>
+        <xsl:element name="EMBOBJ">
+          <xsl:attribute name="w">140</xsl:attribute>
+          <xsl:attribute name="h">80</xsl:attribute>
+          <xsl:element name="NOTES">
+            <xsl:attribute name="ID">
+              <xsl:value-of select="ancestor::investigation/@name"/>_<xsl:value-of select="ancestor::think/@name"/>_<xsl:number value="ancestor::query-response[position()]"/>_<xsl:number value="position()"/>
+            </xsl:attribute>
+            <xsl:attribute name="name">
+              <xsl:value-of select="ancestor::investigation/@name"/>_<xsl:value-of select="ancestor::think/@name"/>_<xsl:number value="ancestor::query-response[position()]"/>_<xsl:number value="position()"/>
+            </xsl:attribute>
+          </xsl:element>
+        </xsl:element>
+      <SNPARAGRAPH/>
+    </xsl:if>
+    <SNPARAGRAPH>
+    </SNPARAGRAPH>
+  </xsl:for-each>
+</xsl:template>
+
 
 <xsl:template match="query" mode="paragraph">
     <xsl:value-of select="normalize-space(.)"/>

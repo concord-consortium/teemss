@@ -334,7 +334,7 @@
         <ext-image dir="images/AirCart" name="smallCart"/> In this
         activity you will build and test an air cart that operates with
         very little friction.</intro>
-      <think>
+      <think name="think">
         <p>Have you ever wondered why cars stay on the road when they
           round a corner? Why is it more difficult to round those
           corners when the road is wet or covered with ice? Besides the
@@ -908,7 +908,7 @@
         <ext-image name="smallSmartCart"/>In this activity you will
         explore the relationship between the movement of a cart and the
         shapes of the resulting position and velocity graphs.</intro>
-      <think>
+      <think name="think">
         <query-response layout="paragraph" title="motion" type="predict">
           <query-description>Think about how you would describe the
             motion of your cart to someone. </query-description>
@@ -1362,7 +1362,7 @@
         <ext-image name="propellerCartRev"/>In this activity you will
         investigate how friction and the driving force of a propeller
         mounted on an air cart oppose one another.  </intro>
-      <think>
+      <think name="think">
         <query-response layout="paragraph" title="astronaut" type="explain">
           <query-description>If you sneeze in a weightless environment,
             as some of the astronauts have done, your body would move
@@ -1824,7 +1824,7 @@
       <intro>
         <ext-image name="wallCollision"/>In this activity you will
         investigate what happens during a collision of a cart with a wall.</intro>
-      <think>Collisions happen so fast that it&apos;s hard to see what
+      <think name="think">Collisions happen so fast that it&apos;s hard to see what
         was going on during the event. You just see the results of a
         smashed car or a home run or a sore hand. Sometimes you want big
         forces, as with a baseball bat or a karate chop, and sometimes
@@ -2308,7 +2308,7 @@
       <intro>
         <ext-image name="2cartCollision"/>In this activity you will
         investigate what happens during a collision between two carts.  </intro>
-      <think>
+      <think name="think">
         <query-response title="balls" type="predict">
           <query-description>Suppose two identical balls bounce off of
             each other. </query-description>
@@ -2816,7 +2816,7 @@
       <intro>
         <ext-image name="bathtub"/>In this activity you will investigate
         how to alter heat flow.</intro>
-      <think>
+      <think name="think">
         <query-response title="cooking" type="predict">
           <query-description>We are constantly dealing with things at
             different temperatures. Sometimes we want the heat to flow
@@ -3314,7 +3314,7 @@
         <ext-image name="cartOnRamp"/>In this activity you will relate
         the movement and energy of a cart as it rolls up and down a
         ramp.  </intro>
-      <think>A basketball player going for a lay up is a good example of
+      <think name="think">A basketball player going for a lay up is a good example of
         an object in motion. Just as the player is ready to release the
         ball, the player exhibits both gravitational potential energy
         (how high the player jumps) and the kinetic energy of motion
@@ -3870,7 +3870,7 @@
       <intro>
         <ext-image name="lightningBolt"/>In this activity you will
         investigate heating with electrical devices.</intro>
-      <think>When electricity flows through a wire, some of its energy
+      <think name="think">When electricity flows through a wire, some of its energy
         goes into heating up the wire. Sometimes this is a problem. When
         electricity travels from a power station to the city, heat
         energy is wasted. But once the electricity arrives at your house
@@ -4533,7 +4533,7 @@
         <ext-image name="singleNRG"/>In this activity you will
         investigate the benefits of changing one form of energy into
         another form of energy.  </intro>
-      <think>Energy comes in many forms - electrical, mechanical,
+      <think name="think">Energy comes in many forms - electrical, mechanical,
         chemical, light, nuclear - and it can be stored in many ways -
         batteries, springs, water towers, gasoline, radioactive
         materials. To make use of energy, we often want to change it
@@ -5014,7 +5014,7 @@
         <ext-image name="multipleNRG"/>In this activity you investigate
         energy being transformed through several steps to obtain a
         useful form.  </intro>
-      <think>We use many devices that transform energy from one form to
+      <think name="think">We use many devices that transform energy from one form to
         another. Sometimes a whole chain of transformations takes place.
         They often do it so smoothly that we don&apos;t even realize
         what&apos;s happening. Each step usually involves some loss of

@@ -79,6 +79,8 @@
 <!ELEMENT question (#PCDATA)>
 <!ELEMENT intro    (%INVESTIGATION_TEXT;)*>
 <!ELEMENT think    (%INVESTIGATION_TEXT; | query-response)*>
+<!ATTLIST think name CDATA #REQUIRED >
+
 <!ELEMENT safety (item+)>
 <!ELEMENT materials (ext-image?,item+)>
 <!ELEMENT trial (%INVESTIGATION_TEXT; | instructions | steps)*>

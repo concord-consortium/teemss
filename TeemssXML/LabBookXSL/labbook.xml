@@ -1489,35 +1489,212 @@ projects contributing to the development of CCProbeware are:
 </FOLDER>
 <FOLDER name="Responses" ID="Motions_and_Forces_response">
 <FOLDER view="paging" name="Air Cart Responses" ID="Air_Cart-response">
-<FOLDER ID="Air_Cart_think_response" name="Think About Responses "/>
+<FOLDER ID="Air_Cart_think_response" name="Think About Responses ">
+<SUPERNOTES ID="Air_Cart_think_1" name="Air_Cart_think_1">
+<EMBOBJ object="teemss_titlebar.bmp"/>
+<SNPARAGRAPH linkcolor="0000FF">It's not that easy to make a vehicle move with almost no friction. But that's the goal of this investigation. We want a cart that's almost friction free so that we can study the forces on moving objects without being confused by the forces due to friction. Suppose a frictionless cart is pushed across the floor.</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>How far do you think the cart will go?</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="80">
+<NOTES ID="Air_Cart_think_0_1" name="Air_Cart_think_0_1"/>
+</EMBOBJ>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>What forces will affect the motion of a frictionless cart?</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="80">
+<NOTES ID="Air_Cart_think_0_2" name="Air_Cart_think_0_2"/>
+</EMBOBJ>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+</SUPERNOTES>
+</FOLDER>
 <FOLDER ID="Air_Cart_trial_I_response" name="Trial I Responses      &#10;    "/>
 <FOLDER ID="Air_Cart_trial_II_response" name="Trial II Responses      &#10;    "/>
 <FOLDER ID="Air_Cart_trial_III_response" name="Trial III Responses      &#10;    "/>
 <FOLDER ID="Air_Cart_analysis_response&#10;    " name="Analysis Responses "/>
 </FOLDER>
 <FOLDER view="paging" name="Tracker Responses" ID="Tracker-response">
-<FOLDER ID="Tracker_think_response" name="Think About Responses "/>
+<FOLDER ID="Tracker_think_response" name="Think About Responses ">
+<SUPERNOTES ID="Tracker_think_1" name="Tracker_think_1">
+<EMBOBJ object="teemss_titlebar.bmp"/>
+<SNPARAGRAPH linkcolor="0000FF">Think about how you would describe the motion of your cart to someone.</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>What is the simplest way to describe its motion?</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="80">
+<NOTES ID="Tracker_think_0_1" name="Tracker_think_0_1"/>
+</EMBOBJ>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>Would you need to know its position, or velocity, or both?</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="80">
+<NOTES ID="Tracker_think_0_2" name="Tracker_think_0_2"/>
+</EMBOBJ>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>What tools would you need to measure its motion?</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="80">
+<NOTES ID="Tracker_think_0_3" name="Tracker_think_0_3"/>
+</EMBOBJ>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+</SUPERNOTES>
+<SUPERNOTES ID="Tracker_think_2" name="Tracker_think_2">
+<EMBOBJ object="teemss_titlebar.bmp"/>
+<SNPARAGRAPH linkcolor="0000FF">The following position versus time graph of a cart was made with a SmartWheel. Discuss the motion shown with your group.</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>Did the cart appear to change velocity at anytime?</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="80">
+<NOTES ID="Tracker_think_0_1" name="Tracker_think_0_1"/>
+</EMBOBJ>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+</SUPERNOTES>
+</FOLDER>
 <FOLDER ID="Tracker_trial_I_response" name="Trial I Responses      &#10;    "/>
 <FOLDER ID="Tracker_trial_II_response" name="Trial II Responses      &#10;    "/>
 <FOLDER ID="Tracker_trial_III_response" name="Trial III Responses      &#10;    "/>
 <FOLDER ID="Tracker_analysis_response&#10;    " name="Analysis Responses "/>
 </FOLDER>
 <FOLDER view="paging" name="Propeller Responses" ID="Propeller-response">
-<FOLDER ID="Propeller_think_response" name="Think About Responses "/>
+<FOLDER ID="Propeller_think_response" name="Think About Responses ">
+<SUPERNOTES ID="Propeller_think_1" name="Propeller_think_1">
+<EMBOBJ object="teemss_titlebar.bmp"/>
+<SNPARAGRAPH linkcolor="0000FF">If you sneeze in a weightless environment, as some of the astronauts have done, your body would move backwards and upwards. In order for a motion to happen, a force is needed. So, why does an astronaut's body move when they sneeze?</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>What are the forces that occur during the sneeze?</SNPARAGRAPH>
+<SNPARAGRAPH>drawing</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="80">
+<NOTES ID="Propeller_think_0_1" name="Propeller_think_0_1"/>
+</EMBOBJ>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+</SUPERNOTES>
+<SUPERNOTES ID="Propeller_think_2" name="Propeller_think_2">
+<EMBOBJ object="teemss_titlebar.bmp"/>
+<SNPARAGRAPH linkcolor="0000FF">Picture a propeller or fan blowing air. Think about how the accelerating air from the propeller relates to your description of the forces found during a sneeze in space.</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>What is accelerating the air?</SNPARAGRAPH>
+<SNPARAGRAPH>drawing</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="80">
+<NOTES ID="Propeller_think_0_1" name="Propeller_think_0_1"/>
+</EMBOBJ>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>Will your almost frictionless cart move when the propeller is turned on?</SNPARAGRAPH>
+<SNPARAGRAPH>drawing</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="80">
+<NOTES ID="Propeller_think_0_2" name="Propeller_think_0_2"/>
+</EMBOBJ>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>Will it still move when you add more friction?</SNPARAGRAPH>
+<SNPARAGRAPH>drawing</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="80">
+<NOTES ID="Propeller_think_0_3" name="Propeller_think_0_3"/>
+</EMBOBJ>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>What are the forces that will make the cart move?</SNPARAGRAPH>
+<SNPARAGRAPH>drawing</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="80">
+<NOTES ID="Propeller_think_0_4" name="Propeller_think_0_4"/>
+</EMBOBJ>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+</SUPERNOTES>
+</FOLDER>
 <FOLDER ID="Propeller_trial_I_response" name="Trial I Responses      &#10;    "/>
 <FOLDER ID="Propeller_trial_II_response" name="Trial II Responses      &#10;    "/>
 <FOLDER ID="Propeller_trial_III_response" name="Trial III Responses      &#10;    "/>
 <FOLDER ID="Propeller_analysis_response&#10;    " name="Analysis Responses "/>
 </FOLDER>
 <FOLDER view="paging" name="Collision I Responses" ID="Collision_I-response">
-<FOLDER ID="Collision_I_think_response" name="Think About Responses "/>
+<FOLDER ID="Collision_I_think_response" name="Think About Responses ">
+<SUPERNOTES ID="Collision_I_think_1" name="Collision_I_think_1">
+<EMBOBJ object="teemss_titlebar.bmp"/>
+<SNPARAGRAPH linkcolor="0000FF">In this activity you will use the Force probe to actually measure what happens during a collision. How big are the forces? How long do they last? What features of the colliding objects make the forces bigger or smaller?</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>How would you increase or decrease the forces during a collision?</SNPARAGRAPH>
+<SNPARAGRAPH>drawing</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="80">
+<NOTES ID="Collision_I_think_0_1" name="Collision_I_think_0_1"/>
+</EMBOBJ>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+</SUPERNOTES>
+</FOLDER>
 <FOLDER ID="Collision_I_trial_I_response" name="Trial I Responses      &#10;    "/>
 <FOLDER ID="Collision_I_trial_II_response" name="Trial II Responses      &#10;    "/>
 <FOLDER ID="Collision_I_trial_III_response" name="Trial III Responses      &#10;    "/>
 <FOLDER ID="Collision_I_analysis_response&#10;    " name="Analysis Responses "/>
 </FOLDER>
 <FOLDER view="paging" name="Collision II Responses" ID="Collision_II-response">
-<FOLDER ID="Collision_II_think_response" name="Think About Responses "/>
+<FOLDER ID="Collision_II_think_response" name="Think About Responses ">
+<SUPERNOTES ID="Collision_II_think_1" name="Collision_II_think_1">
+<EMBOBJ object="teemss_titlebar.bmp"/>
+<SNPARAGRAPH linkcolor="0000FF">Suppose two identical balls bounce off of each other.</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>Does each one experience the same force?</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="80">
+<NOTES ID="Collision_II_think_0_1" name="Collision_II_think_0_1"/>
+</EMBOBJ>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>Will they each bounce off with the same velocity they started with?</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="80">
+<NOTES ID="Collision_II_think_0_2" name="Collision_II_think_0_2"/>
+</EMBOBJ>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+</SUPERNOTES>
+<SUPERNOTES ID="Collision_II_think_2" name="Collision_II_think_2">
+<EMBOBJ object="teemss_titlebar.bmp"/>
+<SNPARAGRAPH linkcolor="0000FF">In your group, predict and explain what happens when two objects with different masses, like a heavy and a light ball or a heavy truck and a small car collide.</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>Is the force on each one the same?</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="80">
+<NOTES ID="Collision_II_think_0_1" name="Collision_II_think_0_1"/>
+</EMBOBJ>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>What is the resulting motion of each object?</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="80">
+<NOTES ID="Collision_II_think_0_2" name="Collision_II_think_0_2"/>
+</EMBOBJ>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+</SUPERNOTES>
+</FOLDER>
 <FOLDER ID="Collision_II_trial_I_response" name="Trial I Responses      &#10;    "/>
 <FOLDER ID="Collision_II_trial_II_response" name="Trial II Responses      &#10;    "/>
 <FOLDER ID="Collision_II_trial_III_response" name="Trial III Responses      &#10;    "/>
@@ -2610,7 +2787,48 @@ projects contributing to the development of CCProbeware are:
 </FOLDER>
 <FOLDER name="Responses" ID="Energy_response">
 <FOLDER view="paging" name="Heat Flow Responses" ID="Heat_Flow-response">
-<FOLDER ID="Heat_Flow_think_response" name="Think About Responses "/>
+<FOLDER ID="Heat_Flow_think_response" name="Think About Responses ">
+<SUPERNOTES ID="Heat_Flow_think_1" name="Heat_Flow_think_1">
+<EMBOBJ object="teemss_titlebar.bmp"/>
+<SNPARAGRAPH linkcolor="0000FF">We are constantly dealing with things at different temperatures. Sometimes we want the heat to flow faster (cooking) and sometimes we want to prevent its flow (sleeping bags). In your group, discuss other situations when you would want to alter heat flow.</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>What are three such situations?</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="80">
+<NOTES ID="Heat_Flow_think_0_1" name="Heat_Flow_think_0_1"/>
+</EMBOBJ>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>How does energy flow change over time?</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="80">
+<NOTES ID="Heat_Flow_think_0_2" name="Heat_Flow_think_0_2"/>
+</EMBOBJ>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+</SUPERNOTES>
+<SUPERNOTES ID="Heat_Flow_think_2" name="Heat_Flow_think_2">
+<EMBOBJ object="teemss_titlebar.bmp"/>
+<SNPARAGRAPH linkcolor="0000FF">Sometimes we prefer uniform temperatures (a non-drafty room) and sometimes we prefer contrast (hot syrup on ice cream).</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>Can you think of other times when you want uniform or non-uniform temperatures?</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="80">
+<NOTES ID="Heat_Flow_think_0_1" name="Heat_Flow_think_0_1"/>
+</EMBOBJ>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<SNPARAGRAPH>Which condition (uniform or non-uniform) is easier to keep for the longest period of time?</SNPARAGRAPH>
+<SNPARAGRAPH/>
+<EMBOBJ w="140" h="80">
+<NOTES ID="Heat_Flow_think_0_2" name="Heat_Flow_think_0_2"/>
+</EMBOBJ>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+<SNPARAGRAPH/>
+</SUPERNOTES>
+</FOLDER>
 <FOLDER ID="Heat_Flow_trial_I_response" name="Trial I Responses      &#10;    "/>
 <FOLDER ID="Heat_Flow_trial_II_response" name="Trial II Responses      &#10;    "/>
 <FOLDER ID="Heat_Flow_trial_III_response" name="Trial III Responses      &#10;    "/>
