@@ -10,8 +10,7 @@ labbook=$workingcopy"/TeemssXML/LabBookXSL"
 rm -rf $destination/*
 rm -rf $download/*
 
-cp $bin/CCProbe.wrp  $destination
-cp $bin/CCProbe.lnk  $destination
+cp $bin/CCProbe.jar  $destination
 cp $doc/ccprobe-unix/* $destination
 cp $doc/all/* $destination
 cp $labbook/LabBook.PDB $destination

@@ -16,9 +16,11 @@ cp $bin/CCProbe.jar  $destination
 CpMac $doc/ccprobe-macos-classic/* $tempdir
 CpMac $doc/all/* $tempdir
 SetFile -c ttxt -t TEXT $tempdir/*
+SetFile -c 'CARO' -t 'PDF ' $tempdir/ccprobe-ref.pdf
 CpMac $tempdir/* $destination
 cp $labbook/LabBook.PDB $destination
 CpMac $components/CCProbe $components/CCProbe.properties $destination
+SetFile -c ttxt -t TEXT $destination/CCProbe.properties
 
 echo $destination
 ls -l $destination
@@ -29,10 +31,3 @@ rm -f $download/CCProbe.sea
 
 echo $download
 ls -l $download
-
-
-
-
-
-
-
