@@ -44,7 +44,8 @@ class ScreenWriter
 public class LObjDictionaryView extends LabObjectView 
     implements ActionListener, DialogListener, ScrollListener, TreeControlListener
 {
-	final static String beamCatName = "CCBeamTemp";
+	final static String beamCatNameOut = "CCBeamOutDB";
+	final static String beamCatNameIn = "CCBeamInDB";
 
 	public		boolean viewFromExternal = false;
     TreeControl treeControl;
@@ -71,7 +72,7 @@ public class LObjDictionaryView extends LabObjectView
 	//	String [] fileStrings = {"New..", "Open", "Rename..", "Send via FTP", "FTP settings..", 
 	// 						 "Import..", "Export..", "Delete"};
 	String [] fileStrings = {"New..", "Open", "Rename..", "Import..", "Export..", "Delete"};
-	String [] palmFileStrings = {"New..", "Open", "Beam", "Rename..", "Delete"};
+	String [] palmFileStrings = {"New..", "Open", "Beam selected", "Rename..", "Delete"};
 
 	CCScrollBar				scrollBar;
 	waba.util.Vector 		pathTree;
@@ -233,6 +234,12 @@ public class LObjDictionaryView extends LabObjectView
 		    }	    
 		} else if(e.type == TreeControl.DOUBLE_CLICK){
 			if(!viewFromExternal) openSelected();
+		} else if(e.type == ControlEvent.TIMER){
+			if(timer != null){
+				removeTimer(timer);
+				timer = null;
+				functionOnSelected(dialogFName, yieldID);
+			}
 		}
     }
 
@@ -371,15 +378,34 @@ public class LObjDictionaryView extends LabObjectView
 		String command;
 		Debug.println("Got action: " + e.getActionCommand());
 
-		if(e.getSource() == editMenu){	    
-			if(e.getActionCommand().equals("Cut")){
-				TreeNode curNode = treeControl.getSelected();
-				if(curNode == null || curNode.toString().equals("..empty..")) return;
-				TreeNode parent = treeControl.getSelectedParent();
-				clipboardNode = curNode;
-				treeModel.removeNodeFromParent(curNode, parent);
-			} else if(e.getActionCommand().equals("Copy")){
-				TreeNode curNode = treeControl.getSelected();
+		functionOnSelected(e.getActionCommand(), 0);
+	}
+
+	String dialogFName = null;
+	Timer timer = null;
+	int yieldID = 0;
+	public void yield(String fName, int id)
+	{
+		yieldID = id;
+		dialogFName = fName;
+		timer = addTimer(50);
+	}
+
+    public void functionOnSelected(String fName, int yieldID)
+    {
+		TreeNode curNode = treeControl.getSelected();
+		DictTreeNode parent = (DictTreeNode)treeControl.getSelectedParent();
+
+		if(fName.equals("Cut")){
+			if(curNode == null || curNode.toString().equals("..empty..")) return;
+
+			clipboardNode = curNode;
+			treeModel.removeNodeFromParent(curNode, parent);
+		} else if(fName.equals("Copy")){
+			if(yieldID == 0){
+				showWaitDialog("Copying selected");
+				yield(fName, 1);
+			} else {
 				LabObjectPtr curPtr = DictTreeNode.getPtr(curNode);
 				LabObjectPtr copyPtr = dict.lBook.copy(curPtr);
 				
@@ -388,167 +414,193 @@ public class LObjDictionaryView extends LabObjectView
 				} else {
 					clipboardNode = (TreeNode)copyPtr;
 				}
-		    } else if(e.getActionCommand().equals("Paste")){
-				if(clipboardNode != null){
-				    insertAtSelected(clipboardNode);		    
-				}
-		    } else if(e.getActionCommand().equals("Properties...")){
-				TreeNode curNode = treeControl.getSelected();
-				if(curNode == null || curNode.toString().equals("..empty..")) return;
-				showProperties(rootNode.getObj(curNode));
-		    } else if(e.getActionCommand().equals("Toggle hidden")){
-				LObjDictionary.globalHide = !LObjDictionary.globalHide;
-				if(container != null) container.reload(this);
+				hideWaitDialog();
+			}
+		} else if(fName.equals("Paste")){
+			if(clipboardNode != null){
+				insertAtSelected(clipboardNode);		    
+			}
+		} else if(fName.equals("Properties...")){
+			if(curNode == null || curNode.toString().equals("..empty..")) return;
+			showProperties(rootNode.getObj(curNode));
+		} else if(fName.equals("Toggle hidden")){
+			LObjDictionary.globalHide = !LObjDictionary.globalHide;
+			if(container != null) container.reload(this);
+		} else if(fName.equals("New..")){
+			newSelected();
+		} else if(fName.equals("Open")){
+			openSelected();
+		} else if(fName.equals("Beam selected")){
+			Catalog ccBeam = new Catalog("CCBeam.cCCB.appl", Catalog.READ_ONLY);
+			if(ccBeam.isOpen()){
+				ccBeam.close();
+			} else {
+				// This user doesn't have CCBeam installed
+				// if we could we should try to intall it for them
+				Dialog.showMessageDialog(null, "Beam Error",
+										 "You need to install CCBeam.",
+										 "Ok", Dialog.INFO_DIALOG);
+				return;
+			}
 
-		    }
-		} else {
-			// should be the file menu
-			if(e.getActionCommand().equals("New..")){
-				newSelected();
-			} else if(e.getActionCommand().equals("Open")){
-				openSelected();
-			} else if(e.getActionCommand().equals("Beam")){
-				Catalog ccBeam = new Catalog("CCBEAM.cCCB.appl", Catalog.READ_ONLY);
-				if(ccBeam.isOpen()){
-					ccBeam.close();
-				} else {
-					// This user doesn't have CCBeam installed
-					// if we could we should try to intall it for them
-					Dialog.showMessageDialog(null, "Beam Error",
-											 "You need to install CCBeam.",
-											 "Ok",
-											 Dialog.INFO_DIALOG);
-					return;
-				}
+			if(parent == null) return;
 
-
-				TreeNode curNode = treeControl.getSelected();
-				DictTreeNode parent = (DictTreeNode)treeControl.getSelectedParent();
-				if(parent == null) return;
-				
+			if(yieldID == 0){
+				showWaitDialog("Preparing to beam selected");
+				yield(fName, 1);
+				return;
+			} else {
 				LabObject obj = parent.getObj(curNode);
-				
-				LabBookCatalog lbCat = new LabBookCatalog(beamCatName);
-
+				LabBookCatalog lbCat = new LabBookCatalog(beamCatNameOut);
+			
 				dict.lBook.export(obj, lbCat);
+
 				lbCat.save();
 				lbCat.close();
 
-				waba.sys.Vm.exec("CCBEAM", beamCatName + "," + obj.getName(), 0, true);
-
-				Catalog beamCat = new Catalog(beamCatName + ".LaBk.DATA", Catalog.READ_WRITE);
+				hideWaitDialog();
+				waba.sys.Vm.exec("CCBeam", beamCatNameOut + "," +
+								 beamCatNameIn + "," +	
+								 "CCProbe," + 
+								 obj.getName(), 0, true);
+			
+				Catalog beamCat = new Catalog(beamCatNameOut + ".LaBk.DATA", Catalog.READ_WRITE);
 				if(beamCat.isOpen()){
 					beamCat.delete();
 				}
-			} else if(e.getActionCommand().equals("Receive")){
-				checkForBeam();
-		    } else if(e.getActionCommand().equals("Rename..")){
-				TreeNode selObj = treeControl.getSelected();
-				String [] buttons = {"Cancel", "Ok"};
-				if(selObj != null){
-				    if(selObj.toString().equals("..empty..")) return;
-				    rnDialog = Dialog.showInputDialog(this, "Rename Object", 
-													  "New Name:                ",
-													  buttons,Dialog.EDIT_INP_DIALOG,null,
-													  selObj.toString());
-				} else {
-					waba.fx.Sound.beep();
+			}
+		} else if(fName.equals("Receive")){
+			if(yieldID == 0){
+				showWaitDialog("Importing received beam");
+				yield(fName, 1);
+				return;
+			} else {				
+				LabBookCatalog bmCat = new LabBookCatalog(beamCatNameIn);				
+
+				LabObject newObj = dict.lBook.importDB(bmCat);
+				bmCat.close();
+
+				if(newObj != null){
+					TreeNode newNode = rootNode.getNode(newObj);
+					insertAtSelected(newNode);
+				}			
+				Catalog beamCat = new Catalog(beamCatNameIn + ".LaBk.DATA", Catalog.READ_WRITE);
+				if(beamCat.isOpen()){
+					beamCat.delete();
 				}
-			} else if(e.getActionCommand().equals("Send via FTP")){
-				/*
-				TreeNode curNode = treeControl.getSelected();
-				DictTreeNode parent = (DictTreeNode)treeControl.getSelectedParent();
+
+				hideWaitDialog();
+				return;
+			}
+		} else if(fName.equals("Rename..")){
+			if(curNode == null || curNode.toString().equals("..empty..")) return;
+
+			String [] buttons = {"Cancel", "Ok"};
+			rnDialog = Dialog.showInputDialog(this, "Rename Object", 
+											  "New Name:                ",
+											  buttons,Dialog.EDIT_INP_DIALOG,null,
+											  curNode.toString());
+		} else if(fName.equals("Send via FTP")){
+			/*
+			  TreeNode curNode = treeControl.getSelected();
+			  DictTreeNode parent = (DictTreeNode)treeControl.getSelectedParent();
+			  if(parent == null) return;
+			  
+			  LabObject obj = parent.getObj(curNode);
+			  
+			  LabBookFile lbFile = new LabBookFile("LabObj-" + username);
+			  
+			  dict.lBook.export(obj, lbFile);
+			  lbFile.save();
+			  lbFile.close();
+			  
+			  ftpSend("LabObj-" + username);
+			  
+			  File objFile = new File("LabObj-" + username, File.DONT_OPEN);
+			  if(objFile.exists()){
+			  objFile.delete();
+			  }
+			*/
+		} else if(fName.equals("FTP settings..")){
+
+		} else if(fName.equals("Import..")){
+			FileDialog fd = FileDialog.getFileDialog(FileDialog.FILE_LOAD, null);
+				
+			fd.show();
+
+			LabBookDB imDB = LObjDatabaseRef.getDatabase(fd.getFilePath());
+			
+			if(imDB == null) return;
+
+			LabObject newObj = dict.lBook.importDB(imDB);
+			imDB.close();
+			
+			if(newObj != null){
+				TreeNode newNode = rootNode.getNode(newObj);
+				insertAtSelected(newNode);
+			}
+
+		} else if(fName.equals("Export..")){
+			if(waba.sys.Vm.getPlatform().equals("PalmOS")){
+				dict.lBook.export(null, null);
+			} else {
 				if(parent == null) return;
 				
 				LabObject obj = parent.getObj(curNode);
 				
-				LabBookFile lbFile = new LabBookFile("LabObj-" + username);
-
+				FileDialog fd = FileDialog.getFileDialog(FileDialog.FILE_SAVE, null);
+				String fileName = null;
+				if(fd != null){
+					fd.setFile(obj.getName());
+					fd.show();
+					fileName = fd.getFilePath();
+				} else {
+					fileName = "LabObj-export";
+				}
+				
+				LabBookFile lbFile = new LabBookFile(fileName);
 				dict.lBook.export(obj, lbFile);
 				lbFile.save();
 				lbFile.close();
-				
-				ftpSend("LabObj-" + username);
-
-				File objFile = new File("LabObj-" + username, File.DONT_OPEN);
-				if(objFile.exists()){
-					objFile.delete();
-				}
-				*/
-			} else if(e.getActionCommand().equals("FTP settings..")){
-
-		    } else if(e.getActionCommand().equals("Import..")){
-				FileDialog fd = FileDialog.getFileDialog(FileDialog.FILE_LOAD, null);
-
-				fd.show();
-
-				LabBookDB imDB = LObjDatabaseRef.getDatabase(fd.getFilePath());
-
-				if(imDB == null) return;
-
-				LabObject newObj = dict.lBook.importDB(imDB);
-				imDB.close();
-
-				if(newObj != null){
-				    TreeNode newNode = rootNode.getNode(newObj);
-				    insertAtSelected(newNode);
-				}
-
-		    } else if(e.getActionCommand().equals("Export..")){
-				if(waba.sys.Vm.getPlatform().equals("PalmOS")){
-				    dict.lBook.export(null, null);
-				} else {
-				    TreeNode curNode = treeControl.getSelected();
-				    DictTreeNode parent = (DictTreeNode)treeControl.getSelectedParent();
-				    if(parent == null) return;
-				    
-				    LabObject obj = parent.getObj(curNode);
-				    
-				    FileDialog fd = FileDialog.getFileDialog(FileDialog.FILE_SAVE, null);
-					String fileName = null;
-					if(fd != null){
-						fd.setFile(obj.getName());
-						fd.show();
-						fileName = fd.getFilePath();
-					} else {
-						fileName = "LabObj-export";
-					}
-
-				    LabBookFile lbFile = new LabBookFile(fileName);
-				    dict.lBook.export(obj, lbFile);
-				    lbFile.save();
-				    lbFile.close();
-				}
-		    } else if(e.getActionCommand().equals("Delete")){
-				delSelected();
 			}
+		} else if(fName.equals("Delete")){
+			delSelected();
 		}
 	}
 
-	public boolean checkForBeam()
+	Dialog waitDialog = null;
+	public void showWaitDialog(String message)
 	{
-		Catalog beamCat = new Catalog(beamCatName + ".LaBk.DATA", Catalog.READ_ONLY);
+		waitDialog = Dialog.showMessageDialog(null, "Please Wait..",
+											  message,
+											  "Cancel", Dialog.INFO_DIALOG);
+	}
+	public void hideWaitDialog()
+	{
+		if(waitDialog != null) waitDialog.hide();
+		waitDialog = null;
+	}
+
+	public void checkForBeam()
+	{
+		// First see if we've got a bogus out db sitting around
+		Catalog beamCat = new Catalog(beamCatNameOut + ".LaBk.DATA", Catalog.READ_ONLY);
+		if(beamCat.isOpen()){
+			// cross our fingers and hope this helps.
+			// if we are here it means we crashed during export
+			// this means the LabBook was left open and so was
+			// this database.  I don't know if deleting it will help
+			beamCat.delete();
+		}
+		
+		beamCat = new Catalog(beamCatNameIn + ".LaBk.DATA", Catalog.READ_ONLY);
 		if(!beamCat.isOpen()){
-			return false;
+			return;
 		} else {
 			beamCat.close();
 		}
 		
-		LabBookCatalog bmCat = new LabBookCatalog(beamCatName);				
-
-		LabObject newObj = dict.lBook.importDB(bmCat);
-		bmCat.close();
-
-		if(newObj != null){
-			TreeNode newNode = rootNode.getNode(newObj);
-			insertAtSelected(newNode);
-		}			
-		beamCat = new Catalog(beamCatName + ".LaBk.DATA", Catalog.READ_WRITE);
-		if(beamCat.isOpen()){
-			beamCat.delete();
-		}
-
-		return true;
+		functionOnSelected("Receive", 0);
 	}
 
 	public void ftpSend(String fileName)
