@@ -195,7 +195,7 @@ DataListener calibrationListener = null;
 		cDialog.show();
 	}
 	public int getUnit(){return unit;}
-	public void setUnit(int unit){this.unit = unit;}
+	public boolean setUnit(int unit){this.unit = unit;return true;}
 	public void writeExternal(extra.io.DataStream out){
 		out.writeInt(CALIBRATION_PROB_START);
 		out.writeBoolean(calibrationDesc != null);

@@ -24,5 +24,6 @@ public interface DataSource
 	public void stopDataDelivery();
 
 	public CCUnit 	getUnit();
+	public boolean 	setUnit(CCUnit unit);
 
 }

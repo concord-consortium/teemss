@@ -138,6 +138,9 @@ public class LObjDataSet extends LObjSubDict
 	{
 		return null;
 	}
+	public boolean 	setUnit(CCUnit unit){
+		return false;
+	}
 
     int [] binInfo = null;
     int numBins = 0;
