@@ -42,7 +42,7 @@ public class DataStream extends Stream
   protected byte[] b=new byte[4];
 
   /** are we using big endian notation? */
-  protected boolean bigEndian=true;
+	//  protected boolean bigEndian=true;
 
   /**
    * Constructs a new DataStream which sits upon the given stream using
@@ -51,7 +51,7 @@ public class DataStream extends Stream
    */
   public DataStream(Stream stream)
   {
-    this(stream,true);
+    this.stream=stream;
   }
 
   /**
@@ -60,11 +60,13 @@ public class DataStream extends Stream
    * @param stream the base stream
    * @param bigEndian true for big endian, false for little endian
    */
+	/*
   public DataStream(Stream stream,boolean bigEndian)
   {
     this.stream=stream;
     this.bigEndian=bigEndian;
   }
+	*/
 
   /**
    * Sets whether numbers should be read and written in big endian format
@@ -76,20 +78,24 @@ public class DataStream extends Stream
    * assuming you set both the reading and writing ends the same.
    * @param bigEndian true for big endian, false for little endian
    */
+	/*
   public void setBigEndian(boolean bigEndian)
   {
     this.bigEndian=bigEndian;
   }
+	*/
 
   /**
    * Gets whether this DataStream is reading and writing numbers in
    * big endian format, or little endian format.
    * @return true for big endian, false for little endian
    */
+	/*
   public boolean isBigEndian()
   {
     return bigEndian;
   }
+	*/
 
   /**
 	 * Closes the stream. Returns true if the operation is successful
@@ -109,12 +115,8 @@ public class DataStream extends Stream
   {
     stream.readBytes(b,0,4);
 
-    if (bigEndian)
-      return (((b[0]&0xFF) << 24) | ((b[1]&0xFF) << 16) |
-        ((b[2]&0xFF) << 8) | (b[3]&0xFF));
-
-    return (((b[3]&0xFF) << 24) | ((b[2]&0xFF) << 16) |
-      ((b[1]&0xFF) << 8) | (b[0]&0xFF));
+	return (((b[0]&0xFF) << 24) | ((b[1]&0xFF) << 16) |
+			((b[2]&0xFF) << 8) | (b[3]&0xFF));
   }
 
   /**
@@ -123,13 +125,54 @@ public class DataStream extends Stream
    */
   public void writeInt(int i)
   {
-    for(int j=0;j<4;j++)
-    {
-      b[bigEndian?3-j:j]=(byte)(i&0xFF);
-      i>>=8;
-    }
+	  b[3] = (byte)(i & 0xFF);
+	  i>>=8;
+	  b[2] = (byte)(i & 0xFF);
+	  i>>=8;
+	  b[1] = (byte)(i & 0xFF);
+	  i>>=8;
+	  b[0] = (byte)(i & 0xFF);
+
     stream.writeBytes(b,0,4);
   }
+
+	public void readInts(int [] buf, int offset, int len)
+	{
+		if(offset < 0) return;
+		if(len + offset > buf.length) len = buf.length - offset;
+
+		int endPos = len*4;
+		byte [] bits = new byte [endPos];
+		stream.readBytes(bits,0,endPos);
+		int i=0;
+		for(;i<endPos;){
+			buf[offset++] = (((bits[i++]&0xFF) << 24) | ((bits[i++]&0xFF) << 16) |
+			((bits[i++]&0xFF) << 8) | (bits[i++]&0xFF));
+		}
+	}
+
+	public void writeInts(int [] buf, int offset, int len)
+	{
+		if(offset < 0) return;
+		if(len + offset > buf.length) len = buf.length - offset;
+
+		byte [] bits = new byte[len*4];
+		int i=3;
+		int endPos = len*4;
+		for(;i<endPos;){
+			int val = buf[offset++];
+			bits[i--] = (byte)(val & 0xFF);
+			val>>=8;
+			bits[i--] = (byte)(val & 0xFF);
+			val>>=8;
+			bits[i--] = (byte)(val & 0xFF);
+			val>>=8;
+			bits[i] = (byte)(val & 0xFF);
+			i+=7;
+		}
+		stream.writeBytes(bits,0,endPos);
+	}
+
 
   /**
    * Reads a short from the stream as two bytes.  The returned value will
@@ -150,12 +193,11 @@ public class DataStream extends Stream
    */
   public void writeShort(int i)
   {
-    for(int j=0;j<2;j++)
-    {
-      b[bigEndian?1-j:j]=(byte)(i&0xFF);
-      i>>=8;
-    }
-    stream.writeBytes(b,0,2);
+	  b[1] = (byte)(i & 0xFF);
+	  i>>=8;
+	  b[0] = (byte)(i & 0xFF);
+
+	  stream.writeBytes(b,0,2);
   }
 
   /**
@@ -166,10 +208,7 @@ public class DataStream extends Stream
   public int readUnsignedShort()
   {
     stream.readBytes(b,0,2);
-    if (bigEndian)
-      return (((b[0]&0xFF) << 8) | (b[1]&0xFF));
-
-    return (((b[1]&0xFF) << 8) | (b[0]&0xFF));
+	return (((b[0]&0xFF) << 8) | (b[1]&0xFF));
   }
 
   /**
