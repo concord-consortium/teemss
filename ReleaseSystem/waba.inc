@@ -13,9 +13,10 @@ JUMP_JAR = $(CURDIR)/../wj_tools/jump.jar
 export PILAINC= $(CURDIR)/../wj_tools
 
 define POST_BUILD_CMDS
-cd $(BIN_DIR); cp *.jar *.prc *.lnk *.wrp /home/ftp/pub/ccprobeware/bin
-cp tag /home/ftp/pub/ccprobeware/bin/Version.tag
+cd $(BIN_DIR); tar cvzf $(MW_CLASS).tar.gz *
+cp tag $(BIN_DIR)/Version.txt
 endef
+
 
 WABA_DIR= $(CURDIR)/../wabasdk/classes
 WEXTRAS_DIR= $(CURDIR)/../wextra/classes/desktop

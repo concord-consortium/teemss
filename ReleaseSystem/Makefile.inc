@@ -37,6 +37,9 @@ build-clean:
 build-local:
 	$(call MAKE_DEP, )
 	$(MAKE) 
+ifneq ($(POST_BUILD_CMDS),)
+	$(POST_BUILD_CMDS)
+endif
 
 build-tag:
 	rm $(basename $(VERSION_TEMPLATE))
@@ -55,6 +58,9 @@ build-tag:
 	$(MAKE) cvs-tag
 ifneq ($(POST_BUILD_CMDS),)
 	$(POST_BUILD_CMDS)
+endif
+ifneq ($(POST_BUILD_TAG_CMDS),)
+	$(POST_BUILD_TAG_CMDS)
 endif
 
 tag:
