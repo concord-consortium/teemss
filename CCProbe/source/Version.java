@@ -19,7 +19,7 @@ package 	org.concord.CCProbe;
 
 public class Version
 {
-static public int BUILD 	  = 88;
+static public int BUILD 	  = 89;
 static public int VERSION   = 0;
 static public int MVERSION1 = 6;
 static public int MVERSION2 = 5;
