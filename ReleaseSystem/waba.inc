@@ -67,7 +67,7 @@ main: $(CLASSES_DIR)
 ifeq ($(PLATFORMS),)
 $(CLASSES_DIR): $(wildcard $(SRC_DIR)/*.java)
 	[ -d $@ ] || mkdir $@
-	javac -classpath $@:$(CLASSPATH):$(call COMPILE_CP,other) -d $(CLASSES_DIR) -g $(filter-out $(SKIP_FILES),$?)
+	javac -target 1.1 -classpath $@:$(CLASSPATH):$(call COMPILE_CP,other) -d $(CLASSES_DIR) -g $(filter-out $(SKIP_FILES),$?)
 	touch $@
 else 
 FORCE:
@@ -86,7 +86,7 @@ else
 $(CLASSES_DIR)/$(PLATFORM): $(SRC_DIR)/*.java $(wildcard $(SRC_DIR)/$(PLATFORM)/*.java)
 	echo ---Updating $(PLATFORM) classes
 	[ -d $@ ] || mkdir -p $@
-	javac -classpath $@:$(call PLATFORM_CP,$(PLATFORM)):$(call COMPILE_CP,$(PLATFORM)) -d $@ -O $(filter-out $(SKIP_FILES),$?)
+	javac -target 1.1 -classpath $@:$(call PLATFORM_CP,$(PLATFORM)):$(call COMPILE_CP,$(PLATFORM)) -d $@ -O $(filter-out $(SKIP_FILES),$?)
 	touch $@
 
 $(patsubst %,$(CLASSES_DIR)/%,$(filter-out $(PLATFORM),$(PLATFORMS))):$(CLASSES_DIR)/%:
