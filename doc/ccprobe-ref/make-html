@@ -1,3 +1,0 @@
-#!/bin/sh
-java org.apache.xalan.xslt.Process -in ccprobe-ref.xml -xsl ../docbook-xsl-1.48/html/docbook.xsl -out ccprobe-ref.html
-
