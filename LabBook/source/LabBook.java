@@ -693,7 +693,7 @@ public class LabBook
 			destDict.hasMainObject = srcDict.hasMainObject;
 			destDict.hideChildren = srcDict.hideChildren;
 			destDict.setName(srcDict.getName());
-
+			destDict.ptr = (LabObjectPtr)dictionaries.get(curDict+1);
 			for(int i=0; i<srcDict.getChildCount(); i++){	
 				int oldTransCount = trans.getCount();
 
@@ -723,7 +723,7 @@ public class LabBook
 			bsOut.setBuffer(null);
 
 			if(buffer != null){
-				if(!destDB.writeObjectBytes((LabObjectPtr)dictionaries.get(curDict+1), 
+				if(!destDB.writeObjectBytes(destDict.ptr,
 											buffer, 0, buffer.length)){
 					return null;
 				}
