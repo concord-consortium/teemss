@@ -49,6 +49,14 @@ int dy = 6;
 		super.setRect(x,y,128,96);
 	}
 	
+    public void destroy()
+    {
+	if(bufIm != null){
+	    bufIm.free();
+	    bufIm = null;
+	}
+    }
+
 	public void createOffImage(){
 		if(bufIm != null) return;
 		bufIm=new waba.fx.Image(width,height);
