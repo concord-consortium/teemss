@@ -13,7 +13,6 @@ release-sub:
 	cvs checkout -r $(TAG) $(ALL_MODULE_NAME)
 # Tar all the sources
 	tar cvzf $(VER_MODULE).tar.gz $(ALL_MODULE_NAME)
-	mv $(VER_MODULE).tar.gz $(ALL_MODULE_NAME)/$(MODULE)/bin
 # Build it:  This means it must automatically build all 
 #   dependencies the return code is checked
 	cd $(ALL_MODULE_NAME)/$(MODULE) && $(MAKE)
@@ -21,8 +20,9 @@ release-sub:
 	@echo "The tag of this build is:" > $(BUILD_DOC) 
 	@echo "$(TAG)" >> $(BUILD_DOC) 
 # ftp the sources to the correct directory
+	mv $(VER_MODULE).tar.gz $(ALL_MODULE_NAME)/$(MODULE)/bin
 	ncftpput -u scytacki -m $(REMOTE_HOST) \
 $(REMOTE_ROOT)/$(VER_MODULE) \
-#$(ALL_MODULE_NAME)/$(MODULE)/bin/*
+$(ALL_MODULE_NAME)/$(MODULE)/bin/*
 
 include ../ReleaseSystem/cvs.inc

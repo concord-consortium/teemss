@@ -3,8 +3,6 @@
 # DEP_NAMES
 #
 
-export DEP_NAMES
-
 #should check for already built dependencies
 #need a list somehow
 #export EXP_DEP_NAME = $(EXP_DEP_NAME) $(foreach DEP,$(DEP_NAMES), $(if $(findstring $DEP, $EXP_DEP_NAME), , $(DEP))) 
