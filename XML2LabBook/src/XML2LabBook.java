@@ -76,7 +76,7 @@ public static QTManager qtManager = null;
 		}catch(Throwable t){
 			qtManager = null;
 			qtInstalled = false;
-			System.out.println("QuickTime is not installed");
+			System.out.println("Can't find QTManager");
 		}
 
 

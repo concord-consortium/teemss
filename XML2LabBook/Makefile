@@ -19,13 +19,13 @@ JAR_LIST:= -C $(CURDIR)/classes/other . \
 -C $(subst _CUR_PLATFORM_,other,$(LABBOOK_DIR)) org/concord/LabBook 
 
 SRC_DIR= src
-SKIP_FILES=src/QTManager.java
+#SKIP_FILES=src/QTManager.java
 
 include ../ReleaseSystem/waba.inc
 
 JAR_BUILD := other
 
-CLASSPATH := $(CLASSPATH):${WGRAPH_DIR}:${LABBOOK_DIR}:${CCPROBE_DIR}:${PROBELIB_DIR}:jars/QTManager.jar:jars/crimson.jar:jars/xalan.jar
+CLASSPATH := $(CLASSPATH):${WGRAPH_DIR}:${LABBOOK_DIR}:${CCPROBE_DIR}:${PROBELIB_DIR}:jars/QTJava.zip:jars/crimson.jar:jars/xalan.jar
 
 all: dependencies main
 test: dependencies main

@@ -24,7 +24,10 @@ public boolean qtInstalled = false;
 			QTSession.open();
 			qtInstalled = true;
 		}catch(Throwable t){
-			System.out.println("QuickTime is not installed");
+			System.out.println("Can't find QuickTime java library.  This isn't a fatal error.\n" +
+							   "It just means you can only load BMP images.\n" +
+							   "If you have QuickTime installed then you need to put QTJava.zip\n" +
+							   "on your classpath.");
 		}
 	}
 	
