@@ -23,23 +23,39 @@ private waba.ui.Container		contentPane;
 
     public static boolean showImages = true;
 
+	java.awt.Dialog javaDialog;
+
  public Dialog(String title){
  	super();
   	font = new waba.fx.Font("Helvetica", waba.fx.Font.BOLD, 12);
   	this.title = title;
 	java.awt.Window awtWindow = (java.awt.Window)getAWTCanvas().getParent();
 	if(awtWindow instanceof java.awt.Dialog){
-		((java.awt.Dialog)awtWindow).setTitle(title);
-		((java.awt.Dialog)awtWindow).setResizable(false);
+		javaDialog = ((java.awt.Dialog)awtWindow);
 	}else if(awtWindow instanceof java.awt.Frame){
-		((java.awt.Frame)awtWindow).setTitle(title);
-		((java.awt.Frame)awtWindow).setResizable(false);
+		System.out.println("Error Creating a dialog, got a Fraom parent not Dialog parent");
 	}
   }
   public Dialog(){
   	this("");
   }
   
+	public void show()
+	{
+		if(javaDialog != null){
+			javaDialog.show();
+			javaDialog.setResizable(false);
+		}
+	}
+
+	public void hide()
+	{
+		if(javaDialog != null){
+			javaDialog.hide();
+		}
+
+	}
+
   public void setRect(int x,int y,int width,int height){
     super.setRect(x,y,width,height);
     boolean doSetContent = false;
@@ -57,6 +73,7 @@ private waba.ui.Container		contentPane;
     }
 
   public void wasAWTAddNotify(){
+	  System.out.println("In wasAWTAddNotify:");
   	super.wasAWTAddNotify();
   	boolean doSetContent = false;
 	java.awt.Window awtWindow = (java.awt.Window)getAWTCanvas().getParent();
@@ -78,16 +95,13 @@ private waba.ui.Container		contentPane;
   public waba.ui.Container getContentPane(){return contentPane;}
   
  public waba.ui.Window getWabaWindow(){return this;}
+
   public void setTitle(String title){
   	this.title = title;
-	java.awt.Window awtWindow = (java.awt.Window)getAWTCanvas().getParent();
-	if(awtWindow instanceof java.awt.Dialog){
-		((java.awt.Dialog)awtWindow).setTitle(title);
-		((java.awt.Dialog)awtWindow).setResizable(false);
-	}else if(awtWindow instanceof java.awt.Frame){
-		((java.awt.Frame)awtWindow).setTitle(title);
-		((java.awt.Frame)awtWindow).setResizable(false);
+	if(javaDialog != null){
+		javaDialog.setTitle(title);
 	}
+
   	repaint();
   }
   public waba.fx.Font getFont(){return font;}
