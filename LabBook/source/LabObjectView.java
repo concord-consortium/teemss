@@ -12,6 +12,8 @@ public abstract class LabObjectView extends Container
     protected LabObject lObj = null;
 
     protected ViewContainer container = null;
+    
+    protected boolean embeddedState = false;
 
     public LabObjectView(ViewContainer vc)
     {
@@ -38,4 +40,9 @@ public abstract class LabObjectView extends Container
     
     public void addMenus(){}
 	public void delMenus(){}
+	
+	public void setEmbeddedState(boolean embeddedState){
+		this.embeddedState = embeddedState;
+	}
+	public boolean getEmbeddedState(){return embeddedState;}
 }

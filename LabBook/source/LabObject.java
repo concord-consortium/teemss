@@ -51,6 +51,13 @@ public abstract class LabObject
 
 	return false;
     }
+    public LabObjectView getView(ViewContainer vc, boolean edit, 
+				 				 LObjDictionary curDict, boolean embeddedState){
+		LabObjectView view = getView(vc,edit,curDict);
+		if(view != null) view.setEmbeddedState(embeddedState);
+		
+		return view;
+	}
 	  
     public LabObjectView getView(ViewContainer vc, boolean edit)    
     {
