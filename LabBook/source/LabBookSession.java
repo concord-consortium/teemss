@@ -109,6 +109,8 @@ public class LabBookSession
 		int refCount = obj.release();
 		if(refCount == 0){
 			// this object is no longer needed remove it from our list
+			// note it might have moved after the dictionary was deleted
+			index = labObjects.find(obj);
 			labObjects.del(index);
 		}
 		//		System.out.println("LBS: " + this + " release() " + 
