@@ -6,12 +6,16 @@ import waba.sys.*;
 import waba.util.Vector;
 
 
-public class CCTextArea{
+public class CCTextArea  extends Control{
 CCStringWrapper		[] lines;
 FontMetrics 		fm = null;
 			
 			
 	FontMetrics getFontMetrics(){return fm;}
+	public void insertObject(){}
+	public void insertText(String str){}
+	public void setText(String str){}
+	public String getText(){return null;}
 
 }
 

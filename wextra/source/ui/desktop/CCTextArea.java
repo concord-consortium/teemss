@@ -6,9 +6,11 @@ import waba.sys.*;
 import waba.util.Vector;
 
 
-public class CCTextArea  extends Control{
+public class CCTextArea  extends Container{
 CCStringWrapper		[] lines;
 FontMetrics 		fm = null;
+int 				insetLeft = 5;
+int 				insetRight = 10;
 protected Timer 	caretTimer = null;
 protected boolean 	hasCursor = false,cursorOn = false;
 protected Font font = new Font("Helvetica",Font.PLAIN,12);
@@ -17,7 +19,15 @@ protected	int firstLine = 0;
 
 protected CCTextAreaState curState = new CCTextAreaState();
 			
-			
+LBCompDesc	[]components = null;
+CCTARow		[]rows = null;		
+
+	public CCTextArea(){
+		super();
+		components = new LBCompDesc[1];
+		components[0] = new LBCompDesc(0,20,50,0,true);
+	}
+	
 	public FontMetrics getFontMetrics() {
 		if(fm == null){
 			fm = getFontMetrics(font);
@@ -46,12 +56,25 @@ protected CCTextAreaState curState = new CCTextAreaState();
 	public void insertObject(){
 		System.out.println("insertObject");
 	}
+	public void setRect(int x, int y, int width, int height){
+		super.setRect(x,y,width,height);
+		if(components != null){
+			for(int i = 0; i < components.length; i++){
+				LBCompDesc c = components[i];
+				Button b = new Button(""+i);
+				add(b);
+				b.setRect(x,0,c.w,c.h);
+			}
+		}
+	}
 	
 	public void setText(String str){
 		lines = null;
+		rows = null;
 		int determinedSystem = -1; //unix - 0; //mac - 1 dos - 2
 		if(str == null) return;
 		removeCursor();
+		Rect r = getRect();
 		StringBuffer sb = new StringBuffer();
 		int i = 0;
 		int lastRow = 0;
@@ -83,7 +106,42 @@ protected CCTextAreaState curState = new CCTextAreaState();
 					waba.sys.Vm.copyArray(lines,0,newLines,0,nLines);
 				}
 				lines = newLines;
+				LBCompDesc compDesc = null;
+				if(components != null){
+					for(int k = 0; k < components.length; k++){
+						LBCompDesc cDesc = components[k];
+						if(cDesc.lineBefore == nLines){
+							compDesc = components[k];
+						}
+					}
+				}
+				if(compDesc != null){
+					int addH = compDesc.h;
+					int addRows = 1 + (addH / getItemHeight());
+					int nRows = (rows == null)?0:rows.length;
+					CCTARow []newRows = new CCTARow[nRows + addRows];
+					if(addRows > 0){
+						waba.sys.Vm.copyArray(rows,0,newRows,0,nRows);
+						for(int k = nRows; k < nRows + addRows; k++){
+							newRows[k] = new CCTARow(lines[nLines]);
+							newRows[k].setMargins(r.x + insetLeft + compDesc.w,r.x + r.width - insetRight);
+						}
+					}
+					rows = newRows;
+				}
 				lines[nLines] = new CCStringWrapper(this,sb.toString(),lastRow);
+				int nRows = (rows == null)?0:rows.length;
+				int lastLineRow = lines[nLines].endRow;
+				int addRows = lastLineRow - nRows;
+				if(addRows > 0){
+					CCTARow []newRows = new CCTARow[nRows + addRows];
+					waba.sys.Vm.copyArray(rows,0,newRows,0,nRows);
+					for(int k = nRows; k < nRows + addRows; k++){
+						newRows[k] = new CCTARow(lines[nLines]);
+						newRows[k].setMargins(r.x + insetLeft,r.x + r.width - insetRight);
+					}
+					rows = newRows;
+				}				
 				lastRow += (lines[nLines].getRows());
 				sb.setLength(0);
 			}
@@ -258,18 +316,18 @@ protected CCTextAreaState curState = new CCTextAreaState();
 				if(rIndex >= 0 && rIndex < sw.strings.length){
 					String str = sw.strings[rIndex];
 					if(str != null){
-						int lastPos = sw.insetLeft + fm.getTextWidth(str);
-						if(ev.x < sw.insetLeft) x = sw.insetLeft;
+						int lastPos = insetLeft + fm.getTextWidth(str);
+						if(ev.x < insetLeft) x = insetLeft;
 						else if(ev.x > lastPos) x = lastPos;
 						else{
-							int xp = sw.insetLeft;
+							int xp = insetLeft;
 							x = ev.x;
 							for(int c = 0; c < str.length(); c++){
 								int cw = fm.getCharWidth(str.charAt(c));
 								if(x < xp + cw){
 									x = xp + cw;
 									row = sw.endRow + 1;
-									x = sw.insetLeft;
+									x = insetLeft;
 									break;
 								}
 								xp += cw;
@@ -328,6 +386,7 @@ public int	cursorChar = 0;
 
 class CCTARow{
 CCStringWrapper owner = null;
+int  	beginPos,endPos;
 	CCTARow(CCStringWrapper owner){
 		this.owner = owner;
 	}
@@ -336,6 +395,10 @@ CCStringWrapper owner = null;
 	}
 	public void setOwner(CCStringWrapper owner){
 		this.owner = owner;
+	}
+	public void setMargins(int beginPos,int endPos){
+		this.beginPos 	= beginPos;
+		this.endPos 	= endPos;
 	}
 }
 
@@ -349,14 +412,12 @@ int		beginRow	= -1;
 int		endRow		= -1;
 String	[]strings = null;
 
-int insetLeft = 5;
-int insetRight = 10;
 
 	CCStringWrapper(CCTextArea owner,String str,int beginRow){
 		this.owner = owner;
 		Rect r = owner.getRect();
-		beginPos 	= r.x + insetLeft;
-		endPos 		= r.x + r.width - insetRight;
+		beginPos 	= r.x + owner.insetLeft;
+		endPos 		= r.x + r.width - owner.insetRight;
 		setStr(str,beginRow);		
 	}
 	String getStr(){return str;}
@@ -366,10 +427,13 @@ int insetRight = 10;
 			this.str = null;
 			return;
 		}
+		
+		int    numbTotalRows = (owner.rows == null)?0:owner.rows.length;
 		this.str = str;
 		FontMetrics fm = owner.getFontMetrics();
 		if(fm == null || str == null) return;
-		int x 			= beginPos;
+		int currRow = beginRow;
+		int x 			= (currRow >= numbTotalRows || owner.rows == null)?beginPos:owner.rows[currRow].beginPos;
 		int lastWord 	= 0;
 		int	blankWidth = fm.getCharWidth(' ');
 		int	delimiterIndex = 0;
@@ -381,7 +445,8 @@ int insetRight = 10;
 				lastWord = i+1;
 			}
 			int w = fm.getCharWidth(c);
-			if(x + w > endPos){
+			int limitX = (currRow >= numbTotalRows || owner.rows == null)?endPos:owner.rows[currRow].endPos;
+			if(x + w > limitX){
 				if(lastWord == delimiterIndex){
 					lastWord = i;
 				}else{
@@ -397,7 +462,8 @@ int insetRight = 10;
 				}
 				strings = newStrings;
 				strings[nStrings] = str.substring(delimiterIndex,lastWord);
-				x = beginPos;
+				currRow++;
+				x = (currRow >= numbTotalRows || owner.rows == null)?beginPos:owner.rows[currRow].beginPos;
 				delimiterIndex = i;
 			}else{
 				x += w;
@@ -438,12 +504,14 @@ int insetRight = 10;
 	public void draw(Graphics gr,int firstRow){
 		if(gr == null || strings == null || owner == null) return;
 		gr.setColor(0,0,0);
+		int    numbTotalRows = (owner.rows == null)?0:owner.rows.length;
 		int h = owner.getItemHeight();
 		for(int i = beginRow; i < endRow; i++){
 			if(i < firstRow) continue;
 			int y = (i - firstRow)*h;
 			if(i - beginRow < strings.length){
-				gr.drawText(strings[i-beginRow],beginPos,y);
+				int x = (i >= numbTotalRows || owner.rows == null)?beginPos:owner.rows[i].beginPos;
+				gr.drawText(strings[i-beginRow],x,y);
 			}
 		}
 	}
@@ -459,8 +527,26 @@ int insetRight = 10;
 	}
 	
 
-private static char []whiteChars = {' ','\t','\n','\r'};	
+private static char []whiteChars = {' ','\t','\n','\r',':',';','.',','};	
 
 }
 
+class LBCompDesc{
+int 	lineBefore;
+int 	w, h;
+int 	alignment;
+boolean wrapping;
 
+final static int ALIGNMENT_LEFT = 0;
+final static int ALIGNMENT_RIGHT = 1;
+
+
+
+	LBCompDesc(int lineBefore,int w, int h,int alignment, boolean wrapping){
+		this.lineBefore		= lineBefore;
+		this.w				= w;
+		this.h				= h;
+		this.alignment		= alignment;
+		this.wrapping		= wrapping;
+	}
+}
