@@ -36,4 +36,4 @@ $(DEP_NAMES) ReleaseSystem : % : tag ../%/tag
 	#Tag the dependencies with our tag so we can get them back
 	cvs rtag -r $(shell cat ../$@/tag) $(shell cat tag) $@
 
-include cvs.inc
+include ../ReleaseSystem/cvs.inc
