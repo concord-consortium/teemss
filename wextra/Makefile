@@ -2,8 +2,7 @@ SRC_DIRS = source/ui source/ui/_plat_ source/util source/io source/event icons s
 SKIP_FILES = 
 
 PLATFORMS = ce desktop palm
-CLASSPATH += ../Projects/Macintosh/CodeWarrior/jars/MRJClasses.zip
-
+CLASSPATH += $(foreach jar, $(wildcard ../jars/*),:$(jar))
 
 main:
 	$(foreach PLAT, $(PLATFORMS), $(MAKE) PLATFORM=$(PLAT) classes/$(PLAT);)
