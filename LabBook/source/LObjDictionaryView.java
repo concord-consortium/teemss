@@ -30,7 +30,6 @@ public class LObjDictionaryView extends LabObjectView
     Choice  folderChoice;
 
     Menu editMenu = new Menu("Edit");
-    Menu viewMenu = new Menu("View");
 
     boolean editStatus = false;
 
@@ -51,9 +50,7 @@ public class LObjDictionaryView extends LabObjectView
 		editMenu.add("Paste");
 		editMenu.add("Properties...");
 		editMenu.add("Toggle hidden");
-		viewMenu.add("Paging View");
 		editMenu.addActionListener(this);
-		viewMenu.addActionListener(this);
     }
 
     public void layout(boolean sDone)
@@ -322,13 +319,6 @@ public class LObjDictionaryView extends LabObjectView
 	    	if(e.getActionCommand().equals("Done")){
 				done(lObjView);
 	    	}
-		} else if(e.getSource() == viewMenu){
-	    	if(e.getActionCommand().equals("Paging View")){
-				dict.viewType = dict.PAGING_VIEW;
-				if(container != null){
-		    		container.reload(this);
-				}
-	    	}
 		} else if(e.getSource() == editMenu){	    
 			if(e.getActionCommand().equals("Cut")){
 				TreeNode curNode = treeControl.getSelected();
@@ -522,7 +512,6 @@ public class LObjDictionaryView extends LabObjectView
 		}
 		
 		if(editMenu != null) getMainView().addMenu(this, editMenu);
-		if(viewMenu != null) getMainView().addMenu(this, viewMenu);
 		getMainView().addFileMenuItems(fileStrings, this);
 
 		addedMenus = true;
@@ -533,7 +522,6 @@ public class LObjDictionaryView extends LabObjectView
 		
 		
 		if(editMenu != null) getMainView().delMenu(this,editMenu);
-		if(viewMenu != null) getMainView().delMenu(this,viewMenu);
 		getMainView().removeFileMenuItems(fileStrings, this);
 		addedMenus = false;
 	}

@@ -7,7 +7,7 @@ import org.concord.waba.extra.event.*;
 import extra.ui.*;
 
 public class LObjDictPagingView extends LabObjectView 
-    implements ActionListener, ViewContainer
+    implements ViewContainer
 {
     LabObjectView lObjView = null;
 
@@ -30,8 +30,6 @@ public class LObjDictPagingView extends LabObjectView
     boolean editStatus = true;
     int defaultNewObjectType = -1;
 
-    org.concord.waba.extra.ui.Menu menu = new org.concord.waba.extra.ui.Menu("View");
-
     public LObjDictPagingView(ViewContainer vc, LObjDictionary d, boolean edit)
     {
 		super(vc);
@@ -40,43 +38,22 @@ public class LObjDictPagingView extends LabObjectView
 		lObj = dict;
 		childArray = dict.childArray();
 		index = 0;
-		menu.add("Tree View");
-		menu.addActionListener(this);
 		editStatus = edit;
 
 	
     }
 
-	boolean addedMenus = false;
 	public void setShowMenus(boolean state)
 	{
 		if(!showMenus && state){
 			// our container wants us to show our menus
 			showMenus = true;
 			if(lObjView != null) lObjView.setShowMenus(state);
-			addMenus();
 		} else if(showMenus && !state){
 			// out container wants us to remove our menus
 			showMenus = false;
-			if(addedMenus) delMenus();
 			if(lObjView != null) lObjView.setShowMenus(state);
 		}
-	}
-
-	public void addMenus()
-	{
-		if(container == null) return;
-		
-		container.getMainView().addMenu(this, menu);
-		addedMenus = true;
-	}
-
-	public void delMenus()
-	{
-		if(container != null){
-			container.getMainView().delMenu(this, menu);
-			addedMenus = false;
-		}		
 	}
 
 	Vector objList = new Vector();
@@ -127,14 +104,16 @@ public class LObjDictPagingView extends LabObjectView
 		curX += 27;
 		nextButton.setRect(curX, 0, 25, 15);
 		curX+=27;
-		int choiceWidth = width - curX - 2;
+		int doneWidth = 0;
+		if(showDone){
+			doneButton.setRect(width-25, 0, 25, 15);
+			doneWidth = 25;
+		}
+		int choiceWidth = width - curX - doneWidth - 2;
 		if(choiceWidth > 120) choiceWidth = 120;
 		objectChoice.setRect(curX, 0, choiceWidth, 15);
 		curX += choiceWidth;
 //		if(editStatus) delButton.setRect(width-50, 0, 25, 15);
-		if(showDone){
-			doneButton.setRect(width-25, 0, 25, 15);
-		}
 		if(lObjView != null){
 			lObjView.setRect(0,15,width, height-15);
 			Debug.println("Adding lObjView at: " + x + ", " + y +
@@ -173,25 +152,7 @@ public class LObjDictPagingView extends LabObjectView
 				}
 				showObject();
 		
-			}/* else if(e.target == delButton){
-				if(childArray == null) return;
-				if(childArray[index] == null) return;
-				dict.remove(childArray[index]);
-				childArray = dict.childArray();
-				if(index >= childArray.length) index = childArray.length - 1;
-
-				int numObjs = objList.getCount();
-				for(int i=0; i < numObjs; i++){
-					objList.del(0);
-				}
-				
-				if(childArray != null){
-					for(int i=0; i < childArray.length; i++){
-						objList.add(childArray[i].toString());
-					}
-				}
-				showObject();
-			} */else if(e.target == backButton){
+			}  else if(e.target == backButton){
 				index--;
 				if(index < 0) index = 0;
 				showObject();
@@ -208,18 +169,6 @@ public class LObjDictPagingView extends LabObjectView
 				showObject();
 			}
 		}
-    }
-
-    public void actionPerformed(ActionEvent e)
-    {
-		if(e.getSource() == menu){
-			if(e.getActionCommand().equals("Tree View") &&
-			   container != null){
-				dict.viewType = dict.TREE_VIEW;
-				container.reload(this);
-			}
-
-		}		
     }
 
 	public MainView getMainView()
@@ -292,9 +241,7 @@ public class LObjDictPagingView extends LabObjectView
 			Debug.println("Adding lObjView at: " + x + ", " + y +
 						  ", " + width + ", " + height);
 		}
-		if(container != null && menu != null) container.getMainView().delMenu(this, menu);
 		lObjView.setShowMenus(showMenus);
-		if(container != null && menu != null) container.getMainView().addMenu(this, menu);
 		add(lObjView);
 
 		// do I need this
