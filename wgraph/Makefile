@@ -1,7 +1,6 @@
 MODULE = wgraph
 
-FORKS=waba superwaba
-PLATFORMS= palm other
+PLATFORMS= palm other ce
 
 include ../ReleaseSystem/waba.inc
 

@@ -161,7 +161,7 @@ public class GraphViewLine extends GraphView
 		    xAxisDown = yAxisDown = graphDown = annotDown = false;
 		    Object obj = lGraph.getObjAtPoint(pe.x, pe.y);
 		    if(obj == lGraph.xaxis){
-			xAxisDown = true;
+			xAxisDown = true;			
 		    } else if(obj == lGraph.yaxis) {
 			yAxisDown = true;
 		    } else if(obj != null){
@@ -194,10 +194,10 @@ public class GraphViewLine extends GraphView
 			    if(oldAnnot != selAnnot) postEvent(new ControlEvent(1003, this));
 			}
 		    }
-
+		    /*
 		    if(timer == null)
 			timer = addTimer(750);
-		    
+		    */
 		    downX = pe.x;
 		    downY = pe.y;
 		    dragY = 0;

@@ -171,8 +171,6 @@ public class TextLine extends Object {
 
   }    
 
-
-
     public boolean  parseText()
     {
 	textWidth = fontMet.getTextWidth(text);
