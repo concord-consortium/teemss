@@ -89,7 +89,9 @@ public class GraphTool extends Container
 		convertor.maxDigits = 2;
 		this.dc = dc;
 		title1 = t1;
+		if(t1 == null) title1 = "";
 		title2 = t2;
+		if(t2 == null) title2 = "";
 
 
 		pm = ProbManager.getProbManager(dc.interfaceId);
@@ -161,7 +163,9 @@ public class GraphTool extends Container
 
 	public void setTitle(String t1, String t2)
 	{
+		if(t1 == null) t1 = "";
 		title1Label.setText(t1);
+		if(t2 == null) t2 = "";
 		title2Label.setText(t2);
 	}
 
