@@ -23,8 +23,6 @@ public class LObjDictionaryView extends LabObjectView
     Button doneButton = new Button("Done");
     Button newButton = new Button("New");
     Button openButton = new Button("Open");
-    Button editButton = new Button("Edit");
-    Button delButton = new Button("Del");
     
     Choice  folderChoice;
 
@@ -96,7 +94,6 @@ public class LObjDictionaryView extends LabObjectView
 		if(!viewFromExternal){
 			buttons.add(newButton);
 			buttons.add(openButton);
-			buttons.add(delButton);
 			
 			me.add(buttons);
 		}
@@ -117,7 +114,7 @@ public class LObjDictionaryView extends LabObjectView
 			treeControl.setRect(1,1,width-wsb-2, height-2);
 		}else{
 			int buttWidth = 35;
-			int choiceWidth = 40;
+			int choiceWidth = 65;
 			treeControl.setRect(1,19,width-wsb-2, height-20);
 			folderChoice.setRect(1,1,choiceWidth,17);
 			int buttonsWidth = width - 2 - choiceWidth - 1;
@@ -129,8 +126,6 @@ public class LObjDictionaryView extends LabObjectView
 			newButton.setRect(xStart,1,buttWidth - 10,15);
 			xStart += (buttWidth + 2 - 10);
 			openButton.setRect(xStart,1,buttWidth,15);
-			xStart += (buttWidth + 2);
-			delButton.setRect(xStart,1,buttWidth - 10,15);
 		}
 		if(scrollBar != null){
 			waba.fx.Rect rT = treeControl.getRect();
@@ -150,8 +145,6 @@ public class LObjDictionaryView extends LabObjectView
 		    LabObject newObj;
 		    if(e.target == newButton){
 				newSelected();
-			} else if(e.target == delButton){
-				delSelected();
 			} else if(e.target == openButton){
 				openSelected();
 		    } else if(e.target == doneButton){
