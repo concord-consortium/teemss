@@ -99,11 +99,11 @@ $(BIN_DIR)/$(MW_CLASS).lnk: $(BIN_DIR) Makefile
 	mv $(MW_CLASS).lnk $(BIN_DIR)
 	rm $(MW_CLASS).prc
 
-$(BIN_DIR)/$(MW_CLASS).prc: $(BIN_DIR) $(WJUMP_DIR)/$(MW_CLASS).asm $(WJUMP_DIR)/$(MW_CLASS).res 
+$(BIN_DIR)/$(MW_CLASS).prc: $(BIN_DIR) $(WJUMP_DIR)/$(MW_CLASS).asm 
 	cd $(WJUMP_DIR); pila $(MW_CLASS).asm
 	mv $(WJUMP_DIR)/$(MW_CLASS).prc $(BIN_DIR)
 
-$(WJUMP_DIR)/$(MW_CLASS).asm: $(CLASSES_DIR)/$(JUMP_PLATFORM)
+$(WJUMP_DIR)/$(MW_CLASS).asm: $(CLASSES_DIR)/$(JUMP_PLATFORM) $(WJUMP_DIR)/$(MW_CLASS).res
 	cd $(WJUMP_DIR);java -classpath \
 $(JUMP_JAR):$(call PLATFORM_CP,palm):$(call COMPILE_CP,palm):../$(CLASSES_DIR)/$(JUMP_PLATFORM) \
 Jump -mw $(MW_CLASS) 
