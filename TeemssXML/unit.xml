@@ -1045,7 +1045,7 @@
             </steps>
           </step>
           <step>Save your data to the handheld computer.</step>
-          <query-response layout="list" title="describemovements" type="describe">
+          <query-response layout="list" title="movements" type="describe">
             <query-description>Draw and describe a graph for each set of
               movements in Notes on your handheld computer.</query-description>
             <querys>

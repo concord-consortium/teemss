@@ -178,7 +178,14 @@
       <xsl:value-of select="normalize-space(@title)"/>
     </SNPARAGRAPH>
     <SNPARAGRAPH/>
-    <xsl:apply-templates select="steps" mode="investigate"/>
+    <xsl:for-each select="*|text()">
+      <xsl:if test="name()='steps'">
+           <xsl:apply-templates select="steps" mode="investigate"/>
+      </xsl:if>
+      <xsl:if test="name()!='steps'">
+           <xsl:apply-templates/>
+      </xsl:if>
+    </xsl:for-each>
     <SNPARAGRAPH/>
   </xsl:element>
 </xsl:template>
@@ -203,7 +210,7 @@
   <xsl:if test="position()=7">---aircart-insert-part4---</xsl:if>
   <SNPARAGRAPH linkcolor="0000FF"><xsl:value-of select="@title"/></SNPARAGRAPH>
   <SNPARAGRAPH/>
-  <xsl:apply-templates/>
+  <xsl:apply-templates select="steps" mode="investigate"/>
 </xsl:template>
 
 <xsl:template match="steps" mode="investigate">
@@ -265,7 +272,6 @@
     <xsl:number value="position()" format="{$format_label}"/>. <xsl:value-of select="normalize-space(text()[position()=1])"/>
     <xsl:apply-templates select="query-description"/>    
   </xsl:element>  
-
   <xsl:choose>
     <xsl:when test="@layout='paragraph'">
       <SNPARAGRAPH>
@@ -276,8 +282,6 @@
       <xsl:apply-templates select="querys" mode="list"/>
     </xsl:when>
   </xsl:choose>
-
-
   <xsl:if test="$format_depth='1'"><SNPARAGRAPH/></xsl:if>
   <xsl:if test="position()=last()">
     <xsl:if test="$format_depth!='1'">
@@ -291,7 +295,6 @@
     <xsl:attribute name="link">true</xsl:attribute>
     <xsl:attribute name="linkcolor">FF0000</xsl:attribute>
   </xsl:element>  
-
 </xsl:template>
 
 
@@ -329,7 +332,13 @@
       <xsl:value-of select="ancestor::investigation/@name"/>_<xsl:value-of select="name(ancestor::*[../../investigation])"/>_<xsl:number level="any"/>_<xsl:number value="position()"/>
     </xsl:attribute>
     <xsl:attribute name="name">
-      <xsl:value-of select="name(ancestor::investigation)"/><xsl:text> </xsl:text><xsl:value-of select="name(ancestor::*[../../investigation])"/> <xsl:number value="position()"/>
+
+      <xsl:value-of select="name(ancestor::*[../../investigation])"/> <xsl:number value="position()"/><xsl:text> </xsl:text><xsl:value-of select="@type"/><xsl:text> </xsl:text><xsl:value-of select="@title"/>
+
+<!--
+      <xsl:value-of select="ancestor::investigation/@name"/><xsl:text> </xsl:text><xsl:value-of select="name(ancestor::*[../../investigation])"/> <xsl:number value="position()"/>
+-->
+
     </xsl:attribute>
     <EMBOBJ object="teemss_titlebar.bmp"/>
     <SNPARAGRAPH linkcolor="0000FF">
@@ -343,7 +352,7 @@
 
 
 <xsl:template match="query-description">
-    <xsl:value-of select="normalize-space(.) "/>
+    <xsl:value-of select="normalize-space(.) "/><xsl:text> </xsl:text>
 </xsl:template>
 
 <xsl:template match="querys" mode="paragraph">
