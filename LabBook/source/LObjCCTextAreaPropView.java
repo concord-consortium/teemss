@@ -7,7 +7,6 @@ import extra.ui.*;
 import extra.io.*;
 
 public class LObjCCTextAreaPropView extends LabObjectView implements ActionListener{
-CCTextArea 				tArea;
 LObjCCTextArea 			doc;
 Button 					doneButton;
 
@@ -21,12 +20,6 @@ Check					editModeCheck;
     public void actionPerformed(ActionEvent e){
     }
 
-	public void setTextArea(CCTextArea tArea){
-		this.tArea = tArea;
-		if(tArea != null && editModeCheck != null){
-			setEditMode(tArea.getEditMode());
-		}
-	}
 	public void setEditMode(boolean state){
 		if(editModeCheck != null){
 			editModeCheck.setChecked(state);
@@ -40,6 +33,7 @@ Check					editModeCheck;
 		if(editModeCheck == null){
 			editModeCheck = new Check("Edit Mode");
 			add(editModeCheck);
+			if(doc != null) editModeCheck.setChecked(doc.editMode);
 		}
 		showDone = sDone;
 		if(showDone){
@@ -60,12 +54,13 @@ Check					editModeCheck;
 	}
 
 	public void close(){
+		if(editModeCheck != null) doc.editMode = editModeCheck.getChecked();   
 		super.close();
 	}
 
 	public void onEvent(Event e){
 		if(e.target == doneButton && e.type == ControlEvent.PRESSED){
-			if(tArea != null && editModeCheck != null) tArea.setEditMode(editModeCheck.getChecked());   
+			if(editModeCheck != null) doc.editMode = editModeCheck.getChecked();   
 			if(container != null){
 				container.done(this);
 			}	 

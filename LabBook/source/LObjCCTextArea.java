@@ -9,6 +9,7 @@ import extra.ui.*;
 public class LObjCCTextArea extends LObjSubDict{
 public LObjCCTextAreaView view = null;
 LObjDictionary			curDict = null;
+static public	boolean editMode = false;
     public LObjCCTextArea(){
 		super(DefaultFactory.CCTEXTAREA);
     }
@@ -27,7 +28,9 @@ LObjDictionary			curDict = null;
 		return view;
     }
     public LabObjectView getPropertyView(ViewContainer vc, LObjDictionary curDict){
- 		return new LObjCCTextAreaPropView(vc, this);
+    	LObjCCTextAreaPropView propView = new LObjCCTextAreaPropView(vc, this);
+    	propView.setEditMode(editMode);
+ 		return propView;
     }
 
     public void writeExternal(DataStream out){

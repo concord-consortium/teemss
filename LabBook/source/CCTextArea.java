@@ -214,11 +214,11 @@ private final static EmptyLabObject emptyObject = new EmptyLabObject();
 		}
 	}
 
-	static boolean editMode = false;
 
-
-	public void setEditMode(boolean editMode){this.editMode = editMode;}
-	public boolean getEditMode(){return editMode;}
+	public boolean getEditMode(){
+		if(owner != null && owner.doc != null) return owner.doc.editMode;
+		return false;
+	}
 
     public void dialogClosed(DialogEvent e){
     	if(e.getSource() == currObjPropDialog){

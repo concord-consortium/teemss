@@ -154,13 +154,12 @@ CCScrollBar				scrollBar;
 
 	public void showProperties(){
 		LObjCCTextAreaPropView propView = (LObjCCTextAreaPropView)doc.getPropertyView(null, null);
+		propView.setEditMode(doc.editMode);
 		if(propView == null) return;
-		propView.setTextArea(tArea);
 		MainWindow mw = MainWindow.getMainWindow();
 		if(!(mw instanceof ExtraMainWindow)) return;
 		ViewDialog vDialog = new ViewDialog((ExtraMainWindow)mw, this, "Properties", propView);
 		vDialog.setRect(0,0,150,150);
-		if(tArea != null) propView.setEditMode(tArea.getEditMode());
 		vDialog.addDialogListener(this);
 		vDialog.show();		
 	}
