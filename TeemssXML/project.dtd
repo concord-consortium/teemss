@@ -32,9 +32,11 @@
 <!ELEMENT teacher-background (%TEXT2;)*>
 <!ELEMENT teacher-timeline (time-period)*>
 <!ELEMENT time-period EMPTY>
-  <!ATTLIST time-period periods CDATA #REQUIRED>
-  <!ATTLIST time-period type (setup|wrap|trial) #REQUIRED>
-  <!ATTLIST time-period number CDATA #IMPLIED>
+<!ATTLIST time-period 
+     periods CDATA #REQUIRED
+     type (setup|wrap|trial) #REQUIRED
+     number CDATA #IMPLIED
+>
 
 <!ELEMENT summary (#PCDATA)>
 <!ELEMENT question (#PCDATA)>
@@ -45,9 +47,9 @@
 <!ELEMENT trial (instructions | steps)*>
   <!ATTLIST trial title   CDATA #REQUIRED>
 <!ELEMENT instructions (instruction+)>
-<!ELEMENT instruction (steps)*>
+<!ELEMENT instruction (%TEXT1; | steps)*>
 <!ATTLIST instruction title CDATA #REQUIRED>
-<!ELEMENT steps (step+ | query-reponse)>
+<!ELEMENT steps (step | query-reponse)+>
 <!ELEMENT step (%TEXT1; | steps)*>
 
 <!ELEMENT hints (hint+)>
