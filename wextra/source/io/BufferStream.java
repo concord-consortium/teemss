@@ -252,48 +252,115 @@ public class BufferStream extends Stream
 		haveWritten=false;
 	}
 
-  /**
+	/**
    * Reads bytes from the stream until the stream finishes or the given
    * byte is found.
    * @param b the byte to look for
    * @return a byte array containing all the bytes up to but not including
    * the wanted byte.
    */
-  public byte[] readBytesUntil(byte b)
-  {
+	public byte[] readBytesUntil(byte b)
+	{
 		if (closed)
-		  return null;
-    byte[] dummy=new byte[1];
-    byte[] ret=null;
-    int bytesAdded=0;
-    while(true)
-    {
-      // hack to fill the buffer if it is empty
-      if (readAvailable==0)
-      {
-        // if it's the end of the stream, return what we've got
-        if (readBytes(dummy,0,1)==0)
-          return ret;
+			return null;
+		byte[] dummy=new byte[1];
+		byte[] ret=null;
+		int bytesAdded=0;
+		while(true){
+			// hack to fill the buffer if it is empty
+			if (readAvailable==0){
+				// if it's the end of the stream, return what we've got
+				if (readBytes(dummy,0,1)==0)
+					return ret;
 
-        // backtrack that one byte
-        readPos--;
-        readAvailable++;
-      }
-      int i;
-      for(i=0;i<readAvailable&&rbuffer[readPos+i]!=b;i++);
-      if (ret==null)
-        ret=new byte[i];
-      else
-      {
-        byte[] temp=new byte[bytesAdded+i];
-        Vm.copyArray(ret,0,temp,0,bytesAdded);
-        ret=temp;
-      }
-      bytesAdded+=readBytes(ret,bytesAdded,i);
-      if (i<readAvailable)
-        return ret;
-    }
-  }
+				// backtrack that one byte
+				readPos--;
+				readAvailable++;
+			}
+			int i;
+			for(i=0;i<readAvailable&&rbuffer[readPos+i]!=b;i++);
+			if (ret==null) {
+				ret=new byte[i];
+			} else {
+				byte[] temp=new byte[bytesAdded+i];
+				Vm.copyArray(ret,0,temp,0,bytesAdded);
+				ret=temp;
+			}
+			bytesAdded+=readBytes(ret,bytesAdded,i);
+			if (i<readAvailable)
+				return ret;
+		}
+	}
+
+	private boolean lastCharSlashR = false;
+	/**
+	 * Reads a text line from the stream.  This is a '\r' or '\n' or
+	 * "\r\n" terminated series of characters.  
+	 * @returns the loaded String
+	 */
+	public String readLine()
+	{
+		if (closed)
+			return null;
+
+		byte[] dummy=new byte[1];
+		StringBuffer ret= new StringBuffer();
+
+		if(readAvailable == 1){
+			// probably we just have a lingering \n
+			// go ahead and read the rest
+		}
+
+
+		int bytesAdded=0;
+		while(true){
+			// hack to fill the buffer if it is empty
+			if (readAvailable==0){
+				// if it's the end of the stream, return what we've got
+				int numBytes = readBytes(dummy, 0, 1);
+				if (numBytes==0){
+					return ret.toString();
+				} else if(numBytes<0){
+					return ret.toString();
+				}
+
+				// backtrack that one byte
+				readPos--;
+				readAvailable++;
+			}
+			int i;
+			for(i=0;i<readAvailable;i++){
+				if (rbuffer[readPos+i] =='\r') {
+					if(i+1 < readAvailable){
+						// see if this is \n
+						if(rbuffer[readPos+i+1] == '\n'){
+							i++;
+							lastCharSlashR = false;
+							break;
+						} 
+					}
+					lastCharSlashR = true;
+					break;
+				} else if(rbuffer[readPos+i] == '\n'){
+					if(lastCharSlashR){
+						lastCharSlashR = false;						
+						continue;
+					}
+					break;
+				} else {
+					lastCharSlashR = false;
+					ret.append((char)rbuffer[readPos+i]);
+				}
+			}
+			readPos += i;
+			readAvailable -= i;
+			if(readAvailable > 0){
+				readPos++;
+				readAvailable--;
+				return ret.toString();
+			}
+		}
+	}
 
   /**
    * Reads bytes from the stream. Returns the
