@@ -47,17 +47,6 @@ public class LObjDictionaryView extends LabObjectView
 		viewMenu.add("Paging View");
 		editMenu.addActionListener(this);
 		viewMenu.addActionListener(this);
-
-		if(vc != null){
-			if(waba.sys.Vm.getPlatform().equals("PalmOS")){
-				fileStrings = palmFileStrings;
-			}
-			addMenus();
-//			vc.getMainView().addMenu(this, editMenu);
-//			vc.getMainView().addMenu(this, viewMenu);
-//			vc.getMainView().addFileMenuItems(fileStrings, this);
-		}
-
     }
 
     public void layout(boolean sDone)
@@ -313,40 +302,67 @@ public class LObjDictionaryView extends LabObjectView
 
 	public void showPage(LabObject obj, boolean edit, boolean property)
 	{
-		delMenus();
 		editStatus = edit;
 		if(property){
 			lObjView = obj.getPropertyView(this, (LObjDictionary)treeControl.getSelectedParent());
 		}else{
 			lObjView = obj.getView(this, edit, (LObjDictionary)treeControl.getSelectedParent());
-			lObjView.addMenus();
 		}
 
 		if(lObjView == null){
-			addMenus();
 		    return;
 		}
 
 		dict.store();
 
+		if(addedMenus) delMenus();
 		remove(me);
 	    lObjView.layout(true);
 		lObjView.setRect(x,y,width,height);
+		lObjView.setShowMenus(showMenus);
 		add(lObjView);
-
     }
 
-	public void addMenus(){
-	    if(editMenu != null) getMainView().addMenu(this, editMenu);
-	    if(viewMenu != null) getMainView().addMenu(this, viewMenu);
-		getMainView().addFileMenuItems(fileStrings, this);
+	boolean addedMenus = false;
+
+	public void setShowMenus(boolean state)
+	{
+		if(!showMenus && state){
+			// our container wants us to show our menus
+			showMenus = true;
+			addMenus();
+			if(lObjView != null) lObjView.setShowMenus(state);
+		} else if(showMenus && !state){
+			// out container wants us to remove our menus
+			showMenus = false;
+			if(addedMenus) delMenus();
+			if(lObjView != null) lObjView.setShowMenus(state);
+		}
 	}
-	public void delMenus(){
+
+	public void addMenus()
+	{
+		if(container == null) return;
+		
+		if(waba.sys.Vm.getPlatform().equals("PalmOS")){
+			fileStrings = palmFileStrings;
+		}
+		
+		if(editMenu != null) getMainView().addMenu(this, editMenu);
+		if(viewMenu != null) getMainView().addMenu(this, viewMenu);
+		getMainView().addFileMenuItems(fileStrings, this);
+
+		addedMenus = true;
+	}
+
+	public void delMenus()
+	{
 		if(container != null){
 			if(editMenu != null) container.getMainView().delMenu(this,editMenu);
 			if(viewMenu != null) container.getMainView().delMenu(this,viewMenu);
 			container.getMainView().removeFileMenuItems(fileStrings, this);
-		}
+			addedMenus = false;
+		}		
 	}
 
 	public MainView getMainView()
@@ -358,10 +374,8 @@ public class LObjDictionaryView extends LabObjectView
     public void done(LabObjectView source)
     {
 		if(source == lObjView){
-			lObjView.delMenus();
 			lObjView.close();
 	    
-
 			// I'm trying to have all objects be responsible for 
 			// their own storing now.
 			// dict.lBook.store(lObjView.lObj);
@@ -376,7 +390,7 @@ public class LObjDictionaryView extends LabObjectView
 			remove(lObjView);
 			treeControl.reparse();
 			add(me);
-			addMenus();
+			if(showMenus) addMenus();
 			lObjView = null;
 		}
 		//	System.gc();
@@ -386,21 +400,20 @@ public class LObjDictionaryView extends LabObjectView
     {
 		if(source == lObjView){
 			LabObject obj = source.getLabObject();
+			lObjView.setShowMenus(showMenus);
 			lObjView.close();
 			remove(lObjView);
 	    
 			lObjView = obj.getView(this, editStatus, (LObjDictionary)treeControl.getSelectedParent());
 			lObjView.layout(true);
 			lObjView.setRect(x,y,width,height);
+			lObjView.setShowMenus(showMenus);
 			add(lObjView);
 		}
     }
 
     public void close()
     {
-	
-		delMenus();
-	
 		super.close();
 		// Commit ???
 		// Store ??
