@@ -61,22 +61,23 @@ FORCE:
 
 $(CLASSES_DIR): FORCE
 	[ -d $@ ] || mkdir $@
-	$(foreach plat, $(PLATFORMS), $(MAKE) PLATFORM=$(plat) $(CLASSES_DIR)/$(plat);)
+	$(foreach plat, $(PLATFORMS), $(MAKE) --no-print-directory PLATFORM=$(plat) $(CLASSES_DIR)/$(plat);)
 endif
 
 ifeq ($(PLATFORM),)
 $(PLATFORMS:%=$(CLASSES_DIR)/%): $(CLASSES_DIR)/% : FORCE
-	$(MAKE) PLATFORM=$* $@
+	$(MAKE) --no-print-directory PLATFORM=$* $@
 
 else 
 
 $(CLASSES_DIR)/$(PLATFORM): source/*.java $(wildcard source/$(PLATFORM)/*.java)
+	echo ---Updating $(PLATFORM) classes
 	[ -d $@ ] || mkdir -p $@
 	javac -classpath $@:$(call PLATFORM_CP,$(PLATFORM)):$(call COMPILE_CP,$(PLATFORM)) -d $@ -O $?
 	touch $@
 
 $(patsubst %,$(CLASSES_DIR)/%,$(filter-out $(PLATFORM),$(PLATFORMS))):$(CLASSES_DIR)/%:
-	$(MAKE) PLATFORM=$* $@
+	$(MAKE) --no-print-directory PLATFORM=$* $@
 
 endif
 
