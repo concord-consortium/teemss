@@ -159,7 +159,7 @@ public class GraphSettings
 
     public void dataReceived(DataEvent dataEvent)
     {
-		if(curBin == null) System.out.println("GS: null bin why?");
+		if(curBin == null) return;
 		if(!curBin.dataReceived(dataEvent)){
 			stopGraph();
 			// av.curView.draw();
