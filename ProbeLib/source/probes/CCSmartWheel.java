@@ -91,7 +91,7 @@ int					outputMode = DEFAULT_MODE_OUT;
     float posOffset = 0f;
     float dt;
 
-
+	float calFactor = 1f;
 
     public boolean startSampling(DataEvent e){
 		dEvent.type = e.type;
@@ -109,6 +109,20 @@ int					outputMode = DEFAULT_MODE_OUT;
 		dt = dDesc.getDt();
 		dEvent.setData(wheelData);
 		dEvent.setIntData(wheelIntData);
+
+		switch(outputMode){
+		case LINEAR_MODE_OUT:
+			calFactor = (koeff/(float)nTicks/dt) * dDesc.tuneValue * radius;
+			break;
+		case LIN_POS_MODE_OUT:
+			calFactor = (koeff/(float)nTicks) * dDesc.tuneValue  * radius;
+			break;
+		default:
+			calFactor = (koeff/(float)nTicks/dt);
+			break;
+		}
+
+
 		return super.startSampling(dEvent);
 	}
     	
@@ -118,17 +132,16 @@ int					outputMode = DEFAULT_MODE_OUT;
 		float t0 = e.getTime();
 		int[] data = e.getIntData();
 		int nOffset = e.dataOffset;
-		float calibrated;
-		float calFactor = koeff/(float)nTicks/dt;
 		//System.out.println("Cal Factor: " + calFactor + " firstD: " + data[nOffset]);
 		
-
 		int ndata = e.getNumbSamples()*dDesc.getChPerSample();
 		int  	chPerSample = dDesc.getChPerSample();
 		if(ndata < chPerSample) return false;
 
 		if(calibrationListener != null){
 		    wheelData[0] = (float)data[nOffset]*dDesc.tuneValue;//row
+			float calibrated;
+			float calFactor = koeff/(float)nTicks/dt;
 		    calibrated = wheelData[0]*calFactor;
 		    wheelData[1] = wheelData[0] ;
 		    wheelData[0] = calibrated * radius*koeff;
@@ -142,17 +155,16 @@ int					outputMode = DEFAULT_MODE_OUT;
 		// System.out.println("rad: " + radius + " koeff: " + koeff);
 		for(int i = 0; i < ndata; i+=chPerSample){
 		    wheelIntData[i] = data[nOffset+i];
-		    calibrated = (float)wheelIntData[i]*calFactor*dDesc.tuneValue;
 		    switch(outputMode){
-		    	case LINEAR_MODE_OUT:
-					wheelData[i] = calibrated * radius;
-					break;
-		    	case LIN_POS_MODE_OUT:
-					wheelData[i] = posOffset = posOffset + calibrated * radius*dt;
-					break;
-		    	default:
-					wheelData[i] = calibrated;
-					break;
+			case LINEAR_MODE_OUT:
+				wheelData[i] = (float)wheelIntData[i]*calFactor;
+				break;
+			case LIN_POS_MODE_OUT:
+				wheelData[i] = posOffset = posOffset + (float)wheelIntData[i]*calFactor;				
+				break;
+			default:
+				wheelData[i] = (float)wheelIntData[i]*calFactor;
+				break;
 		    }
 			    
 		}
