@@ -1,9 +1,10 @@
 SRC_DIRS = fx io sys ui util
 
 all: classes
-	javac -deprecation -classpath $(CLASSPATH):../wj_tools/jump.jar:.. -d classes  $(wildcard $(SRC_DIRS:%=source/waba/%/*.java))
 
-classes: 
-	mkdir classes
+classes: $(wildcard $(SRC_DIR:%=src_desktop/%/*.java))
+	[ -d classes ] || mkdir classes
+	javac -classpath classes:$(CLASSPATH):../wj_tools/jump.jar -d classes $?)
+	touch classes
 
 include ../ReleaseSystem/Makefile.inc

@@ -46,21 +46,28 @@ FTP_COMMAND= echo $(IP_ADDRESS); $(patsubst %],% ; , $(FTP_FILES:[%=$(FTP_PRE) %
 
 first: all
 
-main: $(CLASSES_DIR) $(PLATFORMS)
+main: $(CLASSES_DIR) $(PLATFORMS:%=$(CLASSES_DIR)/%)
 ifeq ($(PLATFORMS),)
-	javac -classpath $(CLASSPATH):$(call COMPILE_CP,other) -d $(CLASSES_DIR) -g $(wildcard source/*.java)
+$(CLASSES_DIR): $(wildcard source/*.java)
+	[ -d $@ ] || mkdir $@
+	javac -classpath $@:$(CLASSPATH):$(call COMPILE_CP,other) -d $(CLASSES_DIR) -g $?
+	touch $@
+else 
+$(CLASSES_DIR): 
+	[ -d $@ ] || mkdir $@	
 endif
 
-$(PLATFORMS): $(PLATFORMS:%=$(CLASSES_DIR)/%)
-	javac -classpath $(call PLATFORM_CP,$(@)):$(call COMPILE_CP,$(@)) -d $(CLASSES_DIR)/$@ -O $(wildcard source/*.java) $(wildcard source/$@/*.java)
+$(CLASSES_DIR)/: $(CLASSES_DIR)
 
-$(CLASSES_DIR) $(BIN_DIR) $(WJUMP_DIR):
+$(PLATFORMS:%=$(CLASSES_DIR)/%): $(CLASSES_DIR)/% : source/*.java $(wildcard source/%/*.java)
+	[ -d $@ ] || mkdir $@
+	javac -classpath $@:$(call PLATFORM_CP,$*):$(call COMPILE_CP,$*) -d $@ -O $?
+	touch $@
+
+$(BIN_DIR) $(WJUMP_DIR):
 	mkdir $@
 
-$(PLATFORMS:%=$(CLASSES_DIR)/%): $(CLASSES_DIR)
-	[ -d $@ ] || mkdir $@
-
-warp: $(BIN_DIR) $(WARP_PLATFORM)
+warp: $(BIN_DIR) $(CLASSES_DIR)/$(WARP_PLATFORM)
 	cd $(CLASSES_DIR)/$(WARP_PLATFORM); java \
 -classpath .:$(call PLATFORM_CP,$(WARP_PLATFORM)):$(WEXTRA_CLASSES-ce):$(WEXTRA_CLASSES-other) \
 wababin.Warp c ../../$(BIN_DIR)/$(MW_CLASS) $(MW_CLASS).class
@@ -70,18 +77,8 @@ exegen: $(BIN_DIR)
 
 jump: $(BIN_DIR) $(CLASSES_DIR)/$(JUMP_PLATFORM)
 	cd $(WJUMP_DIR);pilrc -R $(MW_CLASS).res $(MW_CLASS).rcp
-ifeq ($(JUMP_PLATFORM),)
-	javac -classpath $(CLASSPATH):$(call ARCHIVE_CP,palm):$(WABAJUMP_DIR)  \
--d $(CLASSES_DIR)/$(JUMP_PLATFORM) \
--O $(wildcard source/*.java)
-	cd $(WJUMP_DIR);java -classpath $(JUMP_JAR):$(CLASSPATH):$(call ARCHIVE_CP,palm):$(WABAJUMP_DIR):../$(CLASSES_DIR) \
+	cd $(WJUMP_DIR);java -classpath $(JUMP_JAR):$(call PLATFORM_CP,palm):$(call COMPILE_CP,palm):../$(CLASSES_DIR)/$(JUMP_PLATFORM) \
  	   Jump -mw $(MW_CLASS) 
-else
-	javac -classpath $(call PLATFORM_CP,$(JUMP_PLATFORM)):$(call ARCHIVE_CP,palm):$(WABAJUMP_DIR)  \
--d $(CLASSES_DIR)/$(JUMP_PLATFORM) \
--O $(wildcard source/*.java) $(wildcard source/$(JUMP_PLATFORM)/*.java)
-	cd $(WJUMP_DIR);java -classpath $(call PLATFORM_CP,$(JUMP_PLATFORM)):$(JUMP_JAR):$(call ARCHIVE_CP,palm):$(WABAJUMP_DIR):../$(CLASSES_DIR)/$(JUMP_PLATFORM) Jump -mw $(MW_CLASS)
-endif
 	cd $(WJUMP_DIR); pila $(MW_CLASS).asm
 	mv $(WJUMP_DIR)/$(MW_CLASS).prc $(BIN_DIR)
 	cd $(WJUMP_DIR);rm *.res *.asm *.bin
@@ -104,10 +101,9 @@ jar_command=cd $(subst $(space),;jar c0vf $(CURDIR)/$(BIN_DIR)/$(MW_CLASS).jar ,
 
 # JAR_LIST:= $(WABA_DIR) .; $(WEXTRA_CLASSES-) .; $(JAR_LIST)
 # this might need to have it's classpath twiddled with
-jar: $(BIN_DIR) $(JAR_BUILD)
+jar: $(BIN_DIR) $(CLASSES_DIR)/$(JAR_BUILD)
 	cd $(CLASSES_DIR)/$(JAR_BUILD); jar c0vf ../../$(BIN_DIR)/$(MW_CLASS).jar $(EXT_FILES) *.class -C $(WABA_DIR) waba/ -C $(WEXTRA_CLASSES-) org/ -C $(WEXTRA_CLASSES-) wababin/ -C $(WEXTRA_CLASSES-) extra/ \
 $(JAR_LIST)
-#	$(call foreach_array, $(JAR_LIST), jar_command)
 
 ftp: get-clients
 	@$(foreach IP_ADDRESS, $(CLIENT_IPS), $(FTP_COMMAND))
@@ -116,16 +112,22 @@ get-clients:
 	@echo "Enter the ipaq numbers:"
 	@read; echo $$REPLY > clients
 
-RUN-FORMATS = palm wince desk
+RUN-FORMATS = palm wince other
 run-palm = 
 run-wince = /w 240 /h 300 /color
-run-desk =  /w 640 /h 480 /color
+run-other =  /w 640 /h 480 /color
 run-palm-fork=palm
 run-wince-fork=ce
-run-desk-fork=other
-run-fork=other
+ifeq ($(PLATFORMS),)
+run-other-fork=
+else 
+run-other-fork=other
+endif
 
-$(RUN-FORMATS:%=run-%) run:
+run: run-other
+run-desk: run-other
+
+$(RUN-FORMATS:%=run-%): run-% : $(CLASSES_DIR)/%
 	cd $(CLASSES_DIR)/$($(@)-fork); java -classpath .:$(call PLATFORM_CP,$(RUN_PLATFORM)):$(call RUN_CP,$($(@)-fork)) waba.applet.Applet \
 $($@) $(MW_CLASS) 
 

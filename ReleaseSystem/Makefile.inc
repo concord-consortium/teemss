@@ -19,7 +19,7 @@ TAG = $(shell cat tag)
 TAG_FILE = tag
 endif
 
-.PHONY: cvs-diff cvs-tag build-tag set-version
+.PHONY: cvs-diff cvs-tag build-tag build-local set-version
 
 dependencies: $(DEP_NAMES:%=../%)
 	
@@ -29,6 +29,10 @@ release: tag $(DEP_NAMES) ReleaseSystem
 	# all these files using our tag and try to build it and publish it
 	cd ../ReleaseSystem/ && $(MAKE) release-sub TAG=$(shell cat tag) MODULE=$(MODULE)
 
+build-local:
+	$(call MAKE_DEP, )
+	$(MAKE) 
+	
 build-tag:
 	rm $(basename $(VERSION_TEMPLATE))
 	cvs update $(basename $(VERSION_TEMPLATE))
