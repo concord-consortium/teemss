@@ -8,10 +8,22 @@ public class CCLightIntens extends Probe
 	float  			[]lightData = new float[CCInterfaceManager.BUF_SIZE/2];
 	int  			[]lightIntData = new int[CCInterfaceManager.BUF_SIZE/2];
 	float  			dtChannel = 0.0f;
-	float				AHigh = 45.7f;
-	float				BHigh = -234.0f;
-	float				ALow = 1.67f;
-	float				BLow = -4.0f;
+
+	/*
+	  Lux=(input(mV)-offset(mV))/sensitivity(mV/Lux)
+
+		                    calculated	standard	maximum	
+		offset	sensitivity	range	    deviation	deviation	
+		5.11	0.0206	    121209	    1.2%	     1.5%	   125k Lux Range
+		6.42	0.5655	      4409	    0.8%	     1.3%      4k Lux range
+	*/
+
+	// A = 1/sensitivity
+	// B = -offset/sensitivity
+	float AHigh  = 1f/0.0206f;
+	float BHigh  = -5.11f/0.0206f;
+	float ALow   = 1f/0.5655f;
+	float BLow   = -6.42f/0.5655f;
 
 	public final static int		HIGH_LIGHT_MODE 			= 0;
 	public final static int		LOW_LIGHT_MODE 			= 1;
