@@ -39,7 +39,7 @@ public class LineGraph extends Graph2D
     public int rightPadding = 8;
 
     int xOriginOff, yOriginOff;
-    int dwWidth, dwHeight;
+    public int dwWidth, dwHeight;
     public Axis xaxis = null;
     public Axis [] xaxisArray = new Axis [10];
     Axis firstXaxis = null;

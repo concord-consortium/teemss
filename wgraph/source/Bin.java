@@ -251,6 +251,52 @@ public class Bin
 	return true;
     }
 
+    public boolean addPoints(int num, int dOff, int size, float [] data, float sTime, float dT)
+    {
+	int offset = numValues*2;
+	int i;
+	float x, value;
+	int endPos = num*size;
+	float curX = sTime;
+
+	if(offset == 0){
+	    refY = data[dOff];
+	}
+
+	for(i=0; i<endPos; i+=size){
+	    offset= numValues*2;
+
+	    // should check the current config
+	    if(offset >= (values.length - 2)){
+		// x is out of bounds
+		// **Need to have calling funct do this*** 
+		// endCollection();
+		
+		return false;
+	    }
+	
+	    x = curX;
+	    curX += dT;
+	    if(maxX < x) maxX = x;
+	    if(minX > x) minX = x;
+	    values[offset] = x - refX;
+	    offset++;
+	
+	    value = data[i];
+	    values[offset] = value - refY;
+	    if(maxY < value) maxY = value;
+	    if(minY > value) minY = value;
+
+	    numValues++;
+	}
+
+	// Get the older values up to date.
+	update();
+
+	return true;
+    }
+
+
     void reset()
     {
 	int i;

@@ -73,6 +73,23 @@ public class AnnotView extends Container implements PropObject
 
     }
 
+    public float getXmin()
+    {
+	return lgView.lGraph.xaxis.dispMin;
+    }
+    public float getXmax()
+    {
+	return lgView.lGraph.xaxis.dispMin+lgView.lGraph.dwWidth/lgView.lGraph.xaxis.scale;
+    }
+    public float getYmin()
+    {
+	return lgView.lGraph.yaxis.dispMin;
+    }
+    public float getYmax()
+    {
+	return lgView.lGraph.yaxis.dispMin+lgView.lGraph.yaxis.dispLen/lgView.lGraph.yaxis.scale;
+    }
+
     float minX, maxX;
 
     public void setRange(float minX, float maxX, float minY, float maxY)
@@ -289,6 +306,28 @@ public class AnnotView extends Container implements PropObject
 	return true;
 	
     }
+
+    public boolean addPoints(int bin, int num, int dOff, int size, float [] data, float sTime, float dT)
+    {
+	int lastPos = (num -1)*size + dOff;
+
+	if(bin == 0){
+	    curY = data[lastPos];
+	    lastX = sTime + dT*(num-1);
+	}
+
+	bgView.bGraph.addPoint(bgBins[bin], lastX, curY);
+	
+	if(!lgBins[bin].addPoints(num, dOff, size, data, sTime, dT)){
+	    // If it returned false then we are out of space
+	    lgBins[bin] = lgView.lGraph.addBin(0, "Temp", true);
+	    return false;
+	}
+
+	return true;
+	
+    }
+
 
     public void update()
     {

@@ -56,7 +56,7 @@ public class Axis
     public int dispLen;
     
     // If the absolute min is at 0 in screen coordiates
-    // this is the value of dispMin 
+    // this is the position of dispMin 
     public int dispOffset;
 
     // (screen units)/(input units)
