@@ -18,7 +18,8 @@ public class LObjDictionaryView extends LabObjectView
     int newIndex = 0;
 
     LObjDictionary dict;
-    GridContainer buttons = null; 
+ //   GridContainer buttons = null; 
+    Container buttons = null; 
  
     Button doneButton = new Button("Done");
     Button newButton = new Button("New");
@@ -65,16 +66,28 @@ public class LObjDictionaryView extends LabObjectView
 		treeControl.showRoot(false);
 		me.add(treeControl);
 
+/*
 		if(showDone){
-			buttons = new GridContainer(4,1);
-			buttons.add(doneButton, 3, 0);
+			buttons = new GridContainer(6,1);
+			buttons.add(doneButton, 5, 0);
 		} else {
-			buttons = new GridContainer(3,1);
+			buttons = new GridContainer(5,1);
 		}
+*/
+		buttons = new Container();
+		if(showDone){
+			buttons.add(doneButton);
+		}
+
+
 		if(!viewFromExternal){
-			buttons.add(newButton, 0, 0);
-			buttons.add(openButton, 1, 0);
-			buttons.add(delButton, 2, 0);
+//			buttons.add(newButton, 0, 0);
+//			buttons.add(openButton, 1, 0);
+//			buttons.add(delButton, 2, 0);
+			buttons.add(newButton);
+			buttons.add(openButton);
+			buttons.add(delButton);
+			
 			me.add(buttons);
 		}
  		if(scrollBar == null)	scrollBar = new CCScrollBar(this);
@@ -91,8 +104,18 @@ public class LObjDictionaryView extends LabObjectView
 		if(viewFromExternal){
 			treeControl.setRect(1,1,width-9, height-2);
 		}else{
-			treeControl.setRect(1,24,width-9, height-25);
-			buttons.setRect(1,1,width - 2,22);
+			int buttWidth = 30;
+			treeControl.setRect(1,19,width-9, height-20);
+			buttons.setRect(1,1,width - 2,17);
+			if(showDone){
+				doneButton.setRect(width - 3 - buttWidth ,1,buttWidth,15);
+			}
+			int xStart = 1;
+			newButton.setRect(xStart,1,buttWidth,15);
+			xStart += (buttWidth + 2);
+			openButton.setRect(xStart,1,buttWidth,15);
+			xStart += (buttWidth + 2);
+			delButton.setRect(xStart,1,buttWidth,15);
 		}
 		if(scrollBar != null){
 			waba.fx.Rect rT = treeControl.getRect();

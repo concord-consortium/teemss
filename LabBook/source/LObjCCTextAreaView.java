@@ -6,7 +6,8 @@ import org.concord.waba.extra.event.*;
 import extra.ui.*;
 import extra.io.*;
 
-public class LObjCCTextAreaView extends LabObjectView implements ActionListener,DialogListener{
+public class LObjCCTextAreaView extends LabObjectView 
+								implements ActionListener,DialogListener, ScrollListener, TextAreaListener{
 CCTextArea 				tArea;
 //RelativeContainer 		edit = new RelativeContainer();
 Container 				edit = new Container();
@@ -14,8 +15,8 @@ Container 				edit = new Container();
 LObjCCTextArea 			doc;
 Button 					doneButton,doneOutButton;
 Button 					insertButton;
-TimerButton 			upButton;
-TimerButton 			downButton;
+//TimerButton 			upButton;
+//TimerButton 			downButton;
 
 
 Menu 					menu = null;
@@ -30,6 +31,8 @@ Edit 					nameEdit;
 Label					nameLabel;
 boolean					nameEditWasAdded = false;
 
+
+CCScrollBar				scrollBar;
 
 	public LObjCCTextAreaView(ViewContainer vc, LObjCCTextArea d,boolean edit){
 		super(vc);
@@ -138,8 +141,8 @@ boolean					nameEditWasAdded = false;
 		if(tArea != null){
 			remove(edit);
 			remove(insertButton);
-			remove(upButton);
-			remove(downButton);
+//			remove(upButton);
+//			remove(downButton);
 			if(showDone) remove(doneButton);
 			add(view);
 //			view.didLayout = false;
@@ -174,23 +177,24 @@ boolean					nameEditWasAdded = false;
 			tArea.dict 		= doc.curDict;
 			tArea.subDictionary = doc;
 		}
-//		edit.add(tArea, 1, RelativeContainer.BELOW, 
-//		RelativeContainer.REST, RelativeContainer.REST);
+		tArea.addTextAreaListener(this);
 		insertButton = new Button("Insert");
 		add(insertButton);
-		upButton = new TimerButton("Up");
-		downButton = new TimerButton("Down");
-		add(upButton);
-		add(downButton);
+//		upButton = new TimerButton("Up");
+//		downButton = new TimerButton("Down");
+//		add(upButton);
+//		add(downButton);
 
 		
-//		if(doc.text != null)  tArea.setText(doc.text);
 		if(showDone){
 			doneButton = new Button("Done");
 			add(doneButton);
 		} 
 		add(edit);
 		edit.add(tArea);
+		
+		if(scrollBar == null) scrollBar = new CCScrollBar(this);
+		edit.add(scrollBar);
 	}
 
 	public int getHeight(){
@@ -216,13 +220,18 @@ boolean					nameEditWasAdded = false;
 
 		if(tArea != null){
 			waba.fx.Rect rEdit = edit.getRect();
-			tArea.setRect(1,1,rEdit.width - 2, rEdit.height - 2);
+			int delta = (scrollBar != null)?7:0;
+			tArea.setRect(1,1,rEdit.width - 2 - delta, rEdit.height - 2);
+			if(scrollBar != null){
+				scrollBar.setRect(rEdit.width - 8,1,7, rEdit.height - 2);
+			}
 		}
 		insertButton.setRect(1,17,30,15);
-		upButton.setRect(35,17,20,15);
-		downButton.setRect(60,17,30,15);
+//		upButton.setRect(35,17,20,15);
+//		downButton.setRect(60,17,30,15);
 		tArea.setText(tArea.getText());
 		tArea.layoutComponents();
+		redesignScrollBar();
 	}
 
 	public void close(){
@@ -231,7 +240,7 @@ boolean					nameEditWasAdded = false;
     	if(nameEdit != null){
     		getLabObject().name = nameEdit.getText();
     	}
-
+		if(scrollBar != null) scrollBar.close();
 		super.close();
 	}
 
@@ -251,8 +260,8 @@ boolean					nameEditWasAdded = false;
 				remove(doneOutButton);
 				add(edit);
 				add(insertButton);
-				add(upButton);
-				add(downButton);
+//				add(upButton);
+//				add(downButton);
 				if(showDone) add(doneButton);
 				tArea.layoutComponents();
 				tArea.setText(tArea.getText());
@@ -262,6 +271,7 @@ boolean					nameEditWasAdded = false;
 			} 
 		}
 	
+/*
 		if(e instanceof ControlEvent && e.type == ControlEvent.TIMER){
 			if(e.target == upButton){
 				if(tArea != null)	tArea.moveUp();
@@ -269,13 +279,17 @@ boolean					nameEditWasAdded = false;
 				if(tArea != null)	tArea.moveDown();
 			}
 		}
-	
+*/	
 		if( e.type == ControlEvent.PRESSED){
-			if(e.target == doneButton){
+			if(e.target == insertButton){
+				if(tArea != null){
+					tArea.insertObject();
+				}	    
+			}else if(e.target == doneButton){
 				if(container != null){
 					container.done(this);
 				}	    
-			}else if(e.target == upButton){
+			}/*else if(e.target == upButton){
 				if(tArea != null){
 					tArea.moveUp();
 				}	    
@@ -283,11 +297,7 @@ boolean					nameEditWasAdded = false;
 				if(tArea != null){
 					tArea.moveDown();
 				}	    
-			}else if(e.target == insertButton){
-				if(tArea != null){
-					tArea.insertObject();
-				}	    
-			}
+			}*/ 
 		}
 	}
     public void openFileDialog(){
@@ -329,5 +339,35 @@ boolean					nameEditWasAdded = false;
 			preferrDimension.height = getPreferredHeight(null);
 		}
 		return preferrDimension;
+	}
+	
+	
+	public void textAreaWasChanged(TextAreaEvent textAreaEvent){
+		redesignScrollBar();
+	}
+	
+	public void redesignScrollBar(){
+		if(scrollBar == null) return;
+		if(tArea == null) return;
+		int allLines = tArea.getRowsNumber();
+		int maxVisLine = tArea.getVisRows();
+				
+		scrollBar.setMinMaxValues(0,allLines);
+		scrollBar.setAreaValues(allLines,maxVisLine);
+		scrollBar.setIncValue(1);
+		scrollBar.setPageIncValue((int)(0.8f*maxVisLine+0.5f));
+		scrollBar.setRValueRect();
+		if(allLines > maxVisLine){
+			scrollBar.setValue(tArea.firstLine);
+		}else{
+			tArea.setFirstLine(0,false);
+			scrollBar.setValue(0);
+		}
+		repaint();
+	}
+	
+	public void scrollValueChanged(ScrollEvent se){
+		if(se.target != scrollBar) return;
+		if(tArea != null) tArea.setFirstLine(se.getScrollValue());
 	}
 }

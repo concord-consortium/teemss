@@ -115,7 +115,7 @@ protected Timer 	caretTimer = null;
 protected boolean 	hasCursor = false,cursorOn = false;
 protected Font font = new Font("Helvetica",Font.PLAIN,12);
 
-protected	int firstLine = 0;
+public	int firstLine = 0;
 
 protected CCTextAreaState curState = new CCTextAreaState();
 			
@@ -144,6 +144,8 @@ Dialog					confirmDialogDeleteAll = null;
 Dialog					confirmDialogDeleteCurrent = null;
 
 
+Vector	listeners;
+
 public final static int	yTextBegin = 2;
 
 	public CCTextArea(LObjCCTextAreaView owner,MainView mainView,LObjDictionary dict,LObjSubDict subDictionary){
@@ -152,6 +154,30 @@ public final static int	yTextBegin = 2;
 		this.dict = dict;
 		this.subDictionary = subDictionary;
 		this.owner = owner;
+	}
+	
+	
+	public void addTextAreaListener(TextAreaListener l){
+		if(listeners == null){
+			listeners = new Vector();
+			listeners.add(l);
+		}else{
+			int index = listeners.find(l);
+			if(index < 0) listeners.add(l);
+		}
+	}
+	public void removeTextAreaListener(TextAreaListener l){
+		if(listeners == null) return;
+		int index = listeners.find(l);
+		if(index >= 0) listeners.del(index);
+	}
+	
+	public void notifyListeners(int  type){
+		if(listeners == null || listeners.getCount() < 1) return;
+		for(int i = 0; i < listeners.getCount(); i++){
+			TextAreaListener l = (TextAreaListener)listeners.get(i);
+			if(l != null) l.textAreaWasChanged(null);
+		}
 	}
 	
 	public FontMetrics getFontMetrics() {
@@ -233,6 +259,7 @@ public final static int	yTextBegin = 2;
  				layoutComponents();
 				setText(getText());
  				layoutComponents();
+				notifyListeners(0);
    			}
     		currObjPropDialog = null;
     		return;
@@ -260,19 +287,23 @@ public final static int	yTextBegin = 2;
 			add(view);
 			layoutComponents();
 			setText(getText());
+			notifyListeners(0);
 		}else if(e.getSource() == confirmDialogClear){
 			if(e.getActionCommand().equals("Yes")){
 				clearAll();
+				notifyListeners(0);
 			}
 			confirmDialogClear = null;
 		}else if(e.getSource() == confirmDialogDeleteCurrent){
 			if(e.getActionCommand().equals("Yes")){
 				deleteCurrentObject();
+				notifyListeners(0);
 			}
 			confirmDialogDeleteCurrent = null;
 		}else if(e.getSource() == confirmDialogDeleteAll){
 			if(e.getActionCommand().equals("Yes")){
 				deleteAllObjects();
+				notifyListeners(0);
 			}
 			confirmDialogDeleteAll = null;
 		}
@@ -345,6 +376,12 @@ public final static int	yTextBegin = 2;
 	protected int getItemHeight() {
 		FontMetrics fm = getFontMetrics(); 
 		return (fm == null)?0:fm.getHeight()+2;
+	}
+
+	public int getVisRows(){
+		int h = getItemHeight();
+		if(h == 0) return 0;
+		return height / h;
 	}
 
 	public void requireClearingAll(){
@@ -462,10 +499,11 @@ public final static int	yTextBegin = 2;
 		}
 */
 		layoutComponents();
+		notifyListeners(0);
 	}
 	public void insertEmptyLine(){
 		if(lines == null){
-			setText("\n");
+			setText("");
 		}else{
 			int lineIndex = getLineIndex(curState.cursorRow + firstLine);
 			String str = "";
@@ -476,6 +514,7 @@ public final static int	yTextBegin = 2;
 			setText(str);
 		}
 		layoutComponents();
+		notifyListeners(0);
 	}
 	
 	public String getText(){
@@ -651,7 +690,10 @@ public final static int	yTextBegin = 2;
 		if(lines.getCount() < 1){
 			lines.add(new CCStringWrapper(this,sb.toString(),0));
 		}else{
-			lines.add(new CCStringWrapper(this,sb.toString(),lastRow));
+			String s = sb.toString();
+			if(s.length() > 1){
+				lines.add(new CCStringWrapper(this,s,lastRow));
+			}
 		}
 		repaint();
 	}
@@ -896,12 +938,27 @@ public final static int	yTextBegin = 2;
 		}
 	}
 
+
+	public void setFirstLine(int fl){
+		setFirstLine(fl,true);
+	}
+	public void setFirstLine(int fl,boolean dorepaint){
+		int nRows = getRowsNumber();
+		if(lines != null && fl < nRows - 1 && fl >= 0){
+			removeCursor();
+			firstLine = fl;
+			layoutComponents();
+			if(dorepaint) repaint();
+		}
+	}
+
 	public void onKeyEvent(KeyEvent ev){
 		CCTextAreaState tas = curState;
+		if(ev.target != this) return;
 		if (ev.key == IKeys.BACKSPACE) {
 		}else if (ev.key == IKeys.DELETE){
 		}else if (ev.key == IKeys.ENTER){// && editable(this)){
-			if(ev.target == this) insertEmptyLine();
+			insertEmptyLine();
 		}else if (ev.key == IKeys.END){
 		}else if (ev.key == IKeys.HOME){
 			if(firstLine != 0){

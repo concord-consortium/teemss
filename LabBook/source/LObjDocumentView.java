@@ -6,23 +6,24 @@ import org.concord.waba.extra.ui.*;
 import org.concord.waba.extra.event.*;
 import extra.ui.*;
 
-public class LObjDocumentView extends LabObjectView implements ActionListener{
+public class LObjDocumentView extends LabObjectView implements ActionListener, ScrollListener, TextAreaListener{
 TextArea 				tArea;
 Edit 					nameEdit;
 Label					nameLabel;
 boolean					nameEditWasAdded = false;
-boolean					buttonsWasAdded = false;
+//boolean					buttonsWasAdded = false;
 boolean					doneButtonWasAdded = false;
 RelativeContainer 		edit = new RelativeContainer();
 
 LObjDocument 			doc;
 Button 					doneButton;
-TimerButton 			upButton,downButton;
+//TimerButton 			upButton,downButton;
 
 public boolean 			showName = true;
 
 Menu 					menu = null;
 
+CCScrollBar				scrollBar;
 
 	public LObjDocumentView(ViewContainer vc, LObjDocument d,boolean edit){
 		super(vc);
@@ -58,28 +59,32 @@ Menu 					menu = null;
 			if(nameEdit != null){
 				if(tArea != null) edit.remove(tArea);
 				if(getEmbeddedState()){
+/*
 					if(buttonsWasAdded){
 						remove(upButton);
 						remove(downButton);
 					}
+*/
 					if(nameEditWasAdded){
 						remove(nameEdit);
 						remove(nameLabel);
 						if(tArea != null) edit.add(tArea, 1, RelativeContainer.TOP,RelativeContainer.REST, RelativeContainer.REST);
 					}
 					nameEditWasAdded = false;
-					buttonsWasAdded = false;
+//					buttonsWasAdded = false;
 				}else{
+/*
 					if(!buttonsWasAdded){
 						add(upButton);
 						add(downButton);
 					}
+*/
 					if(!nameEditWasAdded){
 						add(nameLabel);
 						add(nameEdit);
 						if(tArea != null) edit.add(tArea, 1, RelativeContainer.TOP,RelativeContainer.REST, RelativeContainer.REST);
 					}
-					buttonsWasAdded = true;
+//					buttonsWasAdded = true;
 					nameEditWasAdded = true;
 				}
 			}
@@ -126,8 +131,8 @@ Menu 					menu = null;
 		if(didLayout) return;
 		didLayout = true;
 		showDone = sDone;
-		if(upButton == null) 	upButton 	= new TimerButton("Up");
-		if(downButton == null) 	downButton 	= new TimerButton("Down");
+//		if(upButton == null) 	upButton 	= new TimerButton("Up");
+//		if(downButton == null) 	downButton 	= new TimerButton("Down");
 
 
 		if(showName){
@@ -143,6 +148,7 @@ Menu 					menu = null;
 				nameEditWasAdded = true;
 			}
 		} 
+/*
 		if(getEmbeddedState()){
 			buttonsWasAdded = false;
 		}else{
@@ -150,8 +156,9 @@ Menu 					menu = null;
 			add(downButton);
 			buttonsWasAdded = true;
 		}
-
+*/
 		if(tArea == null) tArea = new TextArea();
+		tArea.addTextAreaListener(this);
 		if(doc.text != null)  tArea.setText(doc.text);
 		edit.add(tArea, 1, RelativeContainer.TOP, 
 		RelativeContainer.REST, RelativeContainer.REST);
@@ -163,6 +170,8 @@ Menu 					menu = null;
 			add(doneButton);
 			doneButtonWasAdded = true;
 		} 
+		if(scrollBar == null) scrollBar = new CCScrollBar(this);
+		add(scrollBar);
 	}
 
 	public int getHeight(){
@@ -179,15 +188,24 @@ Menu 					menu = null;
 		}
 		
 		if(getEmbeddedState()){
-			edit.setRect(0,0,width,height);
+			edit.setRect(0,0,width-8,height);
+			if(scrollBar != null){
+				scrollBar.setRect(width - 7,0,7, height);
+			}
 		}else{
-			edit.setRect(0,34,width,height-36);
-			if(upButton != null)    upButton.setRect(1,17,30,15);
-			if(downButton != null)  downButton.setRect(35,17,30,15);
+//			edit.setRect(0,34,width-8,height-36);
+			edit.setRect(0,17,width-8,height-19);
+			if(scrollBar != null){
+//				scrollBar.setRect(width - 7,34,7, height-36);
+				scrollBar.setRect(width - 7,17,7, height-19);
+			}
+//			if(upButton != null)    upButton.setRect(1,17,30,15);
+//			if(downButton != null)  downButton.setRect(35,17,30,15);
 			if(nameLabel != null) nameLabel.setRect(1,1,30,15);
 			int editW = (showDone)?width - 62:width - 32;
 			if(nameEdit != null) nameEdit.setRect(30, 1, editW, 15);
 		}
+		redesignScrollBar();
 	}
 
 	public void close(){
@@ -197,6 +215,7 @@ Menu 					menu = null;
 		}
 		doc.text = tArea.getText();
 
+		if(scrollBar != null) scrollBar.close();
 		super.close();
 	}
 
@@ -205,7 +224,7 @@ Menu 					menu = null;
 			if(container != null){
 				container.done(this);
 			}	    
-		}else if(e.target == upButton && e.type == ControlEvent.PRESSED){
+		}/*else if(e.target == upButton && e.type == ControlEvent.PRESSED){
 			if(tArea != null) tArea.scrollUp();
 		}else if(e.target == downButton && e.type == ControlEvent.PRESSED){
 			if(tArea != null) tArea.scrollDown();
@@ -215,7 +234,7 @@ Menu 					menu = null;
 			}else if(e.target == downButton){
 				if(tArea != null)	tArea.scrollDown();
 			}
-		}
+		}*/
 	}
     public void openFileDialog(){
     	String []extensions = {".txt",".TXT"};
@@ -241,11 +260,11 @@ Menu 					menu = null;
     }
 
 	public int getPreferredWidth(waba.fx.FontMetrics fm){
-		return 16;
+		return 100;
 	}
 
 	public int getPreferredHeight(waba.fx.FontMetrics fm){
-		return 16;
+		return 32;
 	}
 
 	private extra.ui.Dimension preferrDimension;
@@ -259,4 +278,32 @@ Menu 					menu = null;
 		return preferrDimension;
 	}
 
+	public void textAreaWasChanged(TextAreaEvent ev){
+		redesignScrollBar();
+	}
+	
+	public void redesignScrollBar(){
+		if(scrollBar == null) return;
+		if(tArea == null) return;
+		int allLines = tArea.getNumLines();
+		int maxVisLine = tArea.getScreenRows();
+				
+		scrollBar.setMinMaxValues(0,allLines);
+		scrollBar.setAreaValues(allLines,maxVisLine);
+		scrollBar.setIncValue(1);
+		scrollBar.setPageIncValue((int)(0.8f*maxVisLine+0.5f));
+		scrollBar.setRValueRect();
+		if(allLines > maxVisLine){
+			scrollBar.setValue(tArea.getFirstLine());
+		}else{
+			tArea.setFirstLine(0);
+			scrollBar.setValue(0);
+		}
+		repaint();
+	}
+	
+	public void scrollValueChanged(ScrollEvent se){
+		if(se.target != scrollBar) return;
+		if(tArea != null) tArea.setFirstLine(se.getScrollValue());
+	}
 }

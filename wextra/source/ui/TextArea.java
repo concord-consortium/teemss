@@ -4,6 +4,7 @@ import waba.ui.*;
 import waba.fx.*;
 import waba.sys.*;
 import waba.util.Vector;
+import org.concord.waba.extra.event.*;
 
 /**
 * TextArea by Michael L Brereton, November 1999.
@@ -40,6 +41,30 @@ public boolean homeCursorOnLostFocus = true;
 
 
 protected boolean forceClearCursor = false;
+
+Vector	listeners;
+	public void addTextAreaListener(TextAreaListener l){
+		if(listeners == null){
+			listeners = new Vector();
+			listeners.add(l);
+		}else{
+			int index = listeners.find(l);
+			if(index < 0) listeners.add(l);
+		}
+	}
+	public void removeTextAreaListener(TextAreaListener l){
+		if(listeners == null) return;
+		int index = listeners.find(l);
+		if(index >= 0) listeners.del(index);
+	}
+	
+	public void notifyListeners(int  type){
+		if(listeners == null || listeners.getCount() < 1) return;
+		for(int i = 0; i < listeners.getCount(); i++){
+			TextAreaListener l = (TextAreaListener)listeners.get(i);
+			if(l != null) l.textAreaWasChanged(null);
+		}
+	}
 
 
 public int	getTextAreaWidth(){
@@ -233,6 +258,7 @@ public boolean deleteSelection()
 		for (int i = curState.selStartLine+1; i<=curState.selEndLine && i<lines.length; i++) lines[i] = null;
 		curState.selStartLine = -1;
 		fixText();
+		notifyListeners(0);
 	}else {
 		String s = lines[sl].getStr();
 		lines[sl].setStr(s.substring(0,curState.selStartPos)+s.substring(curState.selEndPos,s.length()));
@@ -597,9 +623,18 @@ public void insertText(String str){//dima
 	String suffix = s.substring(cp);
 	lines[cl].setStr(s.substring(0,cp) + str + suffix);
 	fixText();
+	notifyListeners(0);
 }
 
-
+	public void setFirstLine(int fl){
+		curState.firstLine = fl;
+		if(curState.firstLine < 0) curState.firstLine = 0;
+		repaintDataNow();
+		updateScrolls();
+	}
+	
+	public int getFirstLine(){return curState.firstLine;}
+	
 	public void scrollUp(){
 		curState.firstLine -= (int)(0.8f*getScreenRows()+0.5f);
 		if(curState.firstLine < 0) curState.firstLine = 0;
@@ -618,6 +653,7 @@ public void insertText(String str){//dima
 public void onKeyEvent(KeyEvent ev)
 //==================================================================
 {
+	if(ev.target != this) return;
 	textAreaState tas = curState;
 	String s = getLine();
 	int sl = s.length();
@@ -638,6 +674,7 @@ public void onKeyEvent(KeyEvent ev)
 			curState.cursorPos = pl.length();
 			curState.cursorLine--;
 			fixText();
+			notifyListeners(0);
 		}
 	}else if (ev.key == IKeys.DELETE){
 			if (deleteSelection()) return;
@@ -648,6 +685,7 @@ public void onKeyEvent(KeyEvent ev)
 					lines[cl].setStr(lines[cl].getStr()+lines[cl+1].getStr());
 					lines[cl+1] = null;
 					fixText();
+					notifyListeners(0);
 				}
 			}
 	}else if (ev.key == IKeys.ENTER){// && editable(this)){
@@ -659,12 +697,15 @@ public void onKeyEvent(KeyEvent ev)
 		curState.cursorPos = 0;
 		curState.cursorLine++;
 		fixText();
+		notifyListeners(0);
 	}else if (ev.key == IKeys.END){
 		checkScrolls();
 		newCursorPos(getLine().length(),tas.cursorLine,false);
+		notifyListeners(0);
 	}else if (ev.key == IKeys.HOME){
 		checkScrolls();
 		newCursorPos(0,tas.cursorLine,false);
+		notifyListeners(0);
 	}else if (ev.key == IKeys.LEFT){
 		clearCursor();//dima
 		newCursorPos(tas.cursorPos-1,tas.cursorLine,false);
@@ -675,10 +716,12 @@ public void onKeyEvent(KeyEvent ev)
 		clearCursor();//dima
 		checkScrolls();
 		newCursorPos(tas.cursorPos,tas.cursorLine-1,false);
+		notifyListeners(0);
 	}else if (ev.key == IKeys.DOWN){
 		clearCursor();//dima
 		checkScrolls();
 		newCursorPos(tas.cursorPos,tas.cursorLine+1,false);
+		notifyListeners(0);
 	}else if (ev.key >= 32 && ev.key <= 255){
 		/*if (!editable(this)){
 			Sound.beep();
