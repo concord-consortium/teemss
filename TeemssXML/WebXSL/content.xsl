@@ -132,9 +132,9 @@ a
 <hr/>
 <table>
 <tr>
-<td><a href="{../../@name}_{../@name}{$back-link}.html">back</a></td>
-<td><a href="{../../@name}_{../@name}.html">investigation contents</a></td>
-<td><a href="{../../@name}_{../@name}{$next-link}.html">next</a></td>
+<td><a href="{../@name}{$back-link}.html">back</a></td>
+<td><a href="{../@name}.html">investigation contents</a></td>
+<td><a href="{../@name}{$next-link}.html">next</a></td>
 </tr></table>
 </xsl:template>
 

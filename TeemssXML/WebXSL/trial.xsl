@@ -16,7 +16,7 @@
 
 <xsl:text>outputing: </xsl:text>
 <xsl:value-of select="@title"/>
-<redirect:write file="html/{../../@name}_{../@name}_trial_{position()}.html">
+<redirect:write file="html/{../../@name}/{../@name}_trial_{position()}.html">
 
 <html>
 <head><title>TEEMSS: <xsl:value-of select="../title"/> 

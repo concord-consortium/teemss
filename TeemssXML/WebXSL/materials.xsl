@@ -13,7 +13,7 @@
 </xsl:template>
 
 <xsl:template match="materials">
-<redirect:write file="html/{../../@name}_{../@name}_materials.html">
+<redirect:write file="html/{../../@name}/{../@name}_materials.html">
 <html>
 <head><title>TEEMSS: <xsl:value-of select="../title"/> 
 Materials</title>

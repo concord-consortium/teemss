@@ -26,7 +26,7 @@
 format="I"/>: <xsl:value-of select="@title"/></li>
 </xsl:for-each>
 </ul></dd>
-<dd><a href="{../@name}_{@name}.html">Go to Investigation Contents</a></dd>
+<dd><a href="{../@name}/{@name}.html">Go to Investigation Contents</a></dd>
 </dl>
 <hr/>
 </xsl:template>
