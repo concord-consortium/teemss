@@ -104,6 +104,11 @@
     probe      IDREF         #IMPLIED
 >
 
+<!ELEMENT DATAFOLDER EMPTY>
+<!ATTLIST DATAFOLDER
+    object     IDREF       #REQUIRED
+>
+
 <!ELEMENT LINE (PROBE | INTPROBETRANS | EXPOBJECT | OBJ-REF)?>
 <!ATTLIST LINE
     xaxis      CDATA        #REQUIRED
@@ -111,7 +116,7 @@
     datasource IDREF        #IMPLIED
 >
 
-<!ELEMENT GRAPH (XAXIS | YAXIS | LINE)*>
+<!ELEMENT GRAPH (DATAFOLDER?, (XAXIS | YAXIS | LINE)*)>
 <!ATTLIST GRAPH
     current-line   CDATA    #IMPLIED
     title          CDATA    #IMPLIED
