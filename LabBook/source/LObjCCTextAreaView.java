@@ -288,11 +288,12 @@ CCScrollBar				scrollBar;
 			}
 		} 
 		add(edit);
-		edit.add(tArea);
-		tAreaWasAdded = true;
 		
 		if(scrollBar == null) scrollBar = new CCScrollBar(this);
 		edit.add(scrollBar);
+
+		edit.add(tArea);
+		tAreaWasAdded = true;
 	}
 
 	public int getHeight(){
@@ -337,12 +338,8 @@ CCScrollBar				scrollBar;
 			}
 		}
 		if(needInserButton)	insertButton.setRect(1,yStart - 17,30,15);
-//		upButton.setRect(35,17,20,15);
-//		downButton.setRect(60,17,30,15);
-		waba.util.Vector oldLines = tArea.lines;
-		tArea.setText(tArea.getText());
-		tArea.restoreTextProperty(oldLines);
-		tArea.layoutComponents();
+
+		tArea.initLines();
 		redesignScrollBar();
 	}
 
@@ -450,7 +447,7 @@ CCScrollBar				scrollBar;
 			tArea.setFirstLine(0,false);
 			scrollBar.setValue(0);
 		}
-		repaint();
+		tArea.repaint();
 	}
 	
 	public void scrollValueChanged(ScrollEvent se){

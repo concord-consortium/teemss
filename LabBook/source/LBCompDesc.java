@@ -16,7 +16,6 @@ public final static int ALIGNMENT_LEFT = 0;
 public final static int ALIGNMENT_RIGHT = 1;
 public int	linkColor = 0x0000FF;
 
-
 	public LBCompDesc(int lineBefore,int w, int h,int alignment, boolean wrapping,boolean link){
 		this.lineBefore		= lineBefore;
 		this.w				= w;
@@ -32,9 +31,6 @@ public int	linkColor = 0x0000FF;
 	
 	public void setObject(Object	control){this.control = control;}
 	public Object getObject(){return control;}
-//	public void setMenu(Menu	menu){this.menu = menu;}
-//	public Menu getMenu(){return menu;}
-
 
     public void writeExternal(DataStream out){
     	out.writeInt(lineBefore);
@@ -43,6 +39,7 @@ public int	linkColor = 0x0000FF;
     	out.writeInt(alignment);
     	out.writeBoolean(wrapping);
     	out.writeBoolean(link);
+		out.writeInt(linkColor);
     }
 
     public void readExternal(DataStream in){
@@ -52,6 +49,7 @@ public int	linkColor = 0x0000FF;
     	alignment = in.readInt();
     	wrapping = in.readBoolean();
     	link 	= in.readBoolean();
+		linkColor = in.readInt();
     }
 
 

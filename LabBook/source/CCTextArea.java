@@ -367,13 +367,8 @@ public class CCTextArea  extends Container
     public void addObject(LBCompDesc objDesc){
 		Object o = objDesc.getObject();
 
-		/*
-		if((o instanceof LObjCCTextArea) || (o instanceof LObjCCTextAreaView)){
-			return;
-		}
-		*/
-
 		if(o == null || !(o instanceof LabObject)) return;
+
 		LabObject labObject = (LabObject)o;
 		int nComponents = (components == null)?0:components.length;
 		LBCompDesc []newComponents = new LBCompDesc[nComponents+1];
@@ -444,131 +439,72 @@ public class CCTextArea  extends Container
 
     
     public void writeExternal(DataStream out){
-    	out.writeString(getText());
-		//   	out.writeBoolean(components != null);
-    	out.writeBoolean(true);//!!!!!!!!!!!!!!!!!!!!!!!
-    	if(components == null){
-    		out.writeInt(-1);
-    	}else{
-     		out.writeInt(-components.length - 1);//workaround for not breaking old SN
-   		}
-    	out.writeInt(version);//version
-    	if(lines == null){
-    		out.writeInt(0);
-    	}else{
-    		out.writeInt(lines.getCount());
-    		for(int l = 0; l < lines.getCount(); l++){
-				CCStringWrapper strWrapper = (CCStringWrapper)lines.get(l);
-				int r = (strWrapper == null)?0:strWrapper.rColor;
-				int g = (strWrapper == null)?0:strWrapper.gColor;
-				int b = (strWrapper == null)?0:strWrapper.bColor;
-				boolean link = (strWrapper == null)?false:strWrapper.link;
-				int indexInDict = (strWrapper == null)?-1:strWrapper.indexInDict;
-				out.writeInt(r);
-				out.writeInt(g);
-				out.writeInt(b);
-				out.writeBoolean(false);//reserved
-				out.writeBoolean(link);
-				out.writeInt(indexInDict);
-				out.writeInt(0);//reserved
-				out.writeInt(0);//reserved
-				out.writeInt(0);//reserved
-    		}
-    	}
-    	if(components != null){
-	    	for(int i = 0; i < components.length; i++){
-	    		LBCompDesc d = components[i];
-	    		out.writeBoolean(d != null);
-	    		if(d == null) continue;
-	    		d.writeExternal(out);
-	    		out.writeInt(d.linkColor);
-	    	}
-	    }
-    }
-
-    public void readExternal(DataStream in){
-    	String inStr = in.readString();
-		setText(inStr,false);
-		boolean wasComponents = in.readBoolean();
-		if(!wasComponents) return;
-		int nComp = in.readInt();
-		if(nComp == 0) return;
-		if(nComp < 0){
-			int rVersion = in.readInt();
-			if(rVersion <= 0) return;
-			nComp = -nComp - 1;			
-			wasComponents = (nComp > 0);
-			int nLines = in.readInt();
-			int realLines = (lines == null)?0:lines.getCount();
-			if(lines == null && nLines > 0){
-				lines = new Vector();
-				for(int i = 0; i < nLines; i++){
-					lines.add(new CCStringWrapper(this,"",0));
-				}
-				realLines = nLines;
-			}
-			boolean doRestore = (realLines == nLines);
-			for(int l = 0; l < nLines; l++){
-				int r = in.readInt();
-				int g = in.readInt();
-				int b = in.readInt();
-				in.readBoolean();//reserved
-				boolean link = in.readBoolean();
-				int indexInDict = -1;
-				if(rVersion > 10){
-					indexInDict = in.readInt();
-					in.readInt();//reserved
-					in.readInt();//reserved
-					in.readInt();//reserved
-				}
-				if(doRestore){
-					CCStringWrapper strWrapper = (CCStringWrapper)lines.get(l);
-					if(strWrapper == null) continue;
-					strWrapper.rColor 		= r;
-					strWrapper.gColor 		= g;
-					strWrapper.bColor 		= b;
-					strWrapper.link 		= link;
-					strWrapper.indexInDict 	= indexInDict;
+		if(lines == null){
+			out.writeInt(0);
+		} else {
+			out.writeInt(lines.getCount());
+		}
+		if(components == null){
+			out.writeInt(0);
+		} else {
+			out.writeInt(components.length);
+		}
+		if(lines != null){
+			for(int i=0; i<lines.getCount(); i++){
+				CCStringWrapper sWrap = (CCStringWrapper)lines.get(i);
+				if(sWrap == null){
+					out.writeBoolean(false);
+				} else {
+					out.writeBoolean(true);
+					sWrap.writeExternal(out);
 				}
 			}
 		}
-		if(!wasComponents) return;
+		if(components != null){
+			for(int i=0; i<components.length; i++){
+	    		LBCompDesc d = components[i];
+				if(d == null){
+					out.writeBoolean(false);
+				} else {
+					out.writeBoolean(true);
+					d.writeExternal(out);
+				}
+			}
+		}
+    }
+
+	boolean needInitLines = false;
+
+    public void readExternal(DataStream in){
+		int nLines = in.readInt();
+		int nComp = in.readInt();
+		lines = new Vector();
+		for(int i=0; i<nLines; i++){
+			if(in.readBoolean()){
+				lines.add(new CCStringWrapper(in));
+			} else {
+				lines.add(null);
+			}
+		}
 
 		components = new LBCompDesc[nComp];
 		for(int i = 0; i < nComp; i++){
 			boolean wasPart = in.readBoolean();
 			if(!wasPart) 	components[i] = null;
 			else			components[i] = new LBCompDesc(in);
-			if(version >= 12){
-				components[i].linkColor = in.readInt();
-			}
 		}
 
+		needInitLines = true;
     }
-
-
 
     public void done(LabObjectView source){
 		if(labBookDialog != null){
 			labBookDialog.hide();
 			labBookDialog = null;
-		}
-		
-		
+		}				
     }
 
-    public void reload(LabObjectView source){
-		/*
-		  LabObject obj = source.getLabObject();
-		  source.close();
-		  remove(source);
-		  LabObjectView replacement = obj.getView(this, true);
-		  //		replacement.setRect(x,y,width,myHeight);
-
-		  add(replacement);
-		  //		lObjView = replacement;
-		*/
-    }
+    public void reload(LabObjectView source){ }
 
 	public void close(){
 		textWasChosen = null;
@@ -726,7 +662,9 @@ public class CCTextArea  extends Container
 
 	}
 
-	public void setup(waba.util.Vector linesVector,waba.util.Vector linkComponents,waba.util.Vector embedComponents){
+	public void setup(waba.util.Vector linesVector,
+					  waba.util.Vector linkComponents,
+					  waba.util.Vector embedComponents){
 		if(linesVector == null) return;
 		int i;
 		textWasChosen = null;
@@ -1101,10 +1039,100 @@ public class CCTextArea  extends Container
 				}
 			}
 		}
-		repaint();
-		
-		
+		repaint();		
 	}
+
+	public void initLines()
+	{
+		needInitLines = false;
+
+		Rect r = getRect();
+		int lastRow = 0;
+		rows = new Vector();
+
+		for(int i=0; i<lines.getCount(); i++){
+			int nLines = i;
+			LBCompDesc compDesc = null;
+			if(components != null){
+				for(int k = 0; k < components.length; k++){
+					LBCompDesc cDesc = components[k];
+					if(cDesc != null && cDesc.lineBefore == nLines){
+						compDesc = components[k];
+					}
+				}
+			}
+			int leftMargin = r.x + insetLeft;
+			int rightMargin = r.x + r.width - insetRight;
+			int skipRows = 0;
+			CCStringWrapper curLine = (CCStringWrapper)lines.get(nLines); 
+			if(compDesc == null){
+				curLine.init(this, lastRow);
+			}else{
+				int addH = compDesc.h;
+				int addRows = 1 + (addH / getItemHeight());
+				if(compDesc.alignment == LBCompDesc.ALIGNMENT_LEFT){
+					leftMargin = r.x + insetLeft + compDesc.w;
+				}else{
+					rightMargin = r.x + r.width - insetRight - compDesc.w;
+				}
+				if(!compDesc.wrapping){
+					lastRow += addRows;
+				}
+					
+				int nRows = rows.getCount();
+				if(addRows > 0){
+					for(int k = nRows; k < nRows + addRows; k++){
+						CCTARow newRow = new CCTARow();
+						newRow.setMargins(leftMargin,rightMargin);
+						rows.add(newRow);
+					}
+				}
+				curLine.init(this, lastRow);
+			}
+			int nRows = rows.getCount();
+			int lastLineRow = curLine.endRow;
+			int addRows = lastLineRow - nRows;
+			if(addRows > 0){
+				for(int k = nRows; k < nRows + addRows; k++){
+					CCTARow newRow = new CCTARow();
+					newRow.setMargins(r.x + insetLeft,r.x + r.width - insetRight);
+					rows.add(newRow);
+				}
+			}				
+			lastRow += curLine.getRows();
+		}
+
+		if(lines.getCount() < 1){
+			lines.add(new CCStringWrapper(this,"",0));
+		}
+
+		if(components != null){
+			int nLines = (lines == null)?0:lines.getCount();
+			for(int k = 0; k < components.length; k++){
+				LBCompDesc cDesc = components[k];
+				if(cDesc != null && cDesc.lineBefore == nLines){
+					int addH = cDesc.h;
+					int addRows = 1 + (addH / getItemHeight());
+					int lastLineRow = (nLines < 1)?0:((CCStringWrapper)lines.get(nLines - 1)).endRow;
+					if(rows == null)  rows = new waba.util.Vector();
+					int nRows = rows.getCount();
+					if(addRows > 0){
+						for(int rw = nRows; rw < nRows + addRows; rw++){
+							CCTARow newRow = new CCTARow();
+							newRow.setMargins(r.x + insetLeft,r.x + r.width - insetRight);
+							rows.add(newRow);
+						}
+					}		
+					break;
+				}
+			}
+		}
+		layoutComponents();
+		notifyListeners(0);
+
+	}
+
+
 	public void onControlEvent(ControlEvent ev){
 		if(ev.type == EmbedObjectPropertyControl.NEED_DEFAULT_SIZE && ev.target == currObjPropControl){
 			LabObjectView oView = null;
@@ -1603,6 +1631,8 @@ public class CCTextArea  extends Container
 		//		g.drawRect(0,0,r.width,r.height);
 	}
 	public void doPaintData(Graphics g){
+		if(needInitLines) initLines();
+
 		if(lines == null) return;
 		for (int i = 0; i<lines.getCount(); i++){
 			((CCStringWrapper)lines.get(i)).draw(g,firstLine);
