@@ -358,7 +358,7 @@ public class LObjDictionaryView extends LabObjectView
 			treeControl.reparse();
 			treeControl.repaint();			
 		} else if(e.getSource() == confirmDialog){
-			if(command.equals("Yes")){
+			if(command.equals(confirmYesStr)){
 				functionOnSelected(dialogFName, yieldID);
 			}
 			confirmDialog = null;
@@ -562,7 +562,8 @@ public class LObjDictionaryView extends LabObjectView
 			if(yieldID == 0){
 				showConfirmDialog("Are you sure you| " +
 								  "want to delete:| " + 
-								  curNode.toString());
+								  curNode.toString(), 
+								  "Delete");
 				this.dialogFName = fName;
 				this.yieldID = 1;
 				return;
@@ -574,6 +575,7 @@ public class LObjDictionaryView extends LabObjectView
 
 	Dialog waitDialog = null;
 	Dialog confirmDialog = null;
+	String confirmYesStr = null;
 	public void showWaitDialog(String message)
 	{
 		waitDialog = Dialog.showMessageDialog(null, "Please Wait..",
@@ -586,9 +588,10 @@ public class LObjDictionaryView extends LabObjectView
 		waitDialog = null;
 	}
 
-	public void showConfirmDialog(String message)
+	public void showConfirmDialog(String message, String yesButton)
 	{
-		String [] buttons = {"Yes", "No"};
+		String [] buttons = {yesButton, "Cancel"};
+		confirmYesStr = yesButton;
 		confirmDialog = Dialog.showConfirmDialog(this, "Confirmation", message,
 												 buttons, Dialog.QUEST_DIALOG);
 	}
