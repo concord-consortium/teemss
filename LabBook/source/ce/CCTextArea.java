@@ -477,6 +477,8 @@ public final static int	yTextBegin = 2;
 	}
 
 	public void insertText(String iStr){
+	
+	
 		if(iStr == null) return;
 		int nStr = iStr.length();
 		if(nStr < 1){
@@ -496,13 +498,26 @@ public final static int	yTextBegin = 2;
 		int lineIndex = getLineIndex(curState.cursorRow + firstLine);
 		int oldLines = (lines == null)?0:lines.getCount();
 		String str = "";
-		if(lines != null){
-		for(int i = 0; i < lines.getCount(); i++){
-			if(i == lineIndex) str += iStr;
-			str += (((CCStringWrapper)lines.get(i)).getStr() + "\n");
+		if(lines == null){
+			str = iStr;
+		}else{
+			boolean wasAdded = false;
+			for(int i = 0; i < lines.getCount(); i++){
+				if(i == lineIndex){
+					wasAdded = true;
+					str += iStr;
+				}
+				str += (((CCStringWrapper)lines.get(i)).getStr() + "\n");
+			}
+			if(!wasAdded) str += iStr;
 		}
-		}
+		
+		int oldRows = getRowsNumber();
 		setText(str);//temporary
+		int newRows = getRowsNumber();
+		if(newRows > oldRows){
+			curState.cursorRow += (newRows - oldRows);
+		}
 /*
 		int newLines = (lines == null)?0:lines.getCount();
 		int addLines = newLines - oldLines;
@@ -1080,8 +1095,12 @@ public final static int	yTextBegin = 2;
 
 	public int getLineIndex(int row){
 		int retValue = 0;
-		if(lines == null || lines.getCount() < 1) return retValue;
-		if(row > getRowsNumber()) return lines.getCount() - 1;
+		if(lines == null || lines.getCount() < 1){
+			return retValue;
+		}
+		if(row >= getRowsNumber()){
+			return lines.getCount();
+		}
 		int ind = 0;
 		for(int i = 0; i < lines.getCount(); i++){
 			ind = ((CCStringWrapper)lines.get(i)).beginRow;
