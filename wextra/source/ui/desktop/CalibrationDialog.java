@@ -340,7 +340,7 @@ DeviationControl	devControl;
 					int infoType = org.concord.waba.extra.event.DialogEvent.OBJECT;
 					listener.dialogClosed(new org.concord.waba.extra.event.DialogEvent(this,null,message,info,infoType));
 				}
-				if((event.target == bClose) || (event.target == bApply)){
+				if((event.target == bClose) || (event.target == bApply)){				
 					doStop();
 					if(event.target == bClose){
 						hide();

@@ -42,14 +42,35 @@ private waba.ui.Container		contentPane;
   public void setRect(int x,int y,int width,int height){
     super.setRect(x,y,width,height);
     if(contentPane == null){
-  	contentPane = new waba.ui.Container();
+  		contentPane = new waba.ui.Container();
     }else{
     	remove(contentPane);
     }
+//    contentPane.setRect(0,0,width,height);
+
+	java.awt.Window awtWindow = (java.awt.Window)getAWTCanvas().getParent();
+
     contentPane.setRect(0,0,width,height);
     add(contentPane);
   }
-  
+  public void wasAWTAddNotify(){
+  	super.wasAWTAddNotify();
+	java.awt.Window awtWindow = (java.awt.Window)getAWTCanvas().getParent();
+  	java.awt.Insets insets 	= awtWindow.getInsets();
+  	java.awt.Dimension d 	= awtWindow.getSize();
+    if(contentPane == null){
+  		contentPane = new waba.ui.Container();
+    }else{
+    	remove(contentPane);
+    }
+    contentPane.setRect(0,0,d.width,d.height-insets.top - insets.bottom);
+    add(contentPane);
+    setContent();
+  }
+
+
+	public void setContent(){}
+	
   public waba.ui.Container getContentPane(){return contentPane;}
   
   public void setTitle(String title){

@@ -38,7 +38,10 @@ private waba.ui.Container		contentPane;
     	add(contentPane);
     }
     contentPane.setRect(0,15,width,height-15);
+    setContent();
   }
+
+	public void setContent(){}
   
   public waba.ui.Container getContentPane(){return contentPane;}
   
