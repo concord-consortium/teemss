@@ -438,7 +438,7 @@ public static QTManager qtManager = null;
 		LObjImageView view = null;
 		if(imageObject != null) view = (LObjImageView)imageObject.getView(null,false,null);
 		if(view == null) return null;
-		imageObject.setName(file.getName());
+		imageObject.setName("");
 		if(fileName.endsWith(".bmp") || fileName.endsWith(".BMP")){
 			view.loadImage(file.getAbsolutePath());
 		}else if(fileName.endsWith(".gif") || fileName.endsWith(".GIF") ||
@@ -683,6 +683,7 @@ public static QTManager qtManager = null;
 			if(tempFloat != Float.NaN) max = tempFloat;
 		}
 		axis.setRange(min, max-min);
+		axis.setDefaults();
 
 		System.out.println("X2L: adding axis: " + axis + " min: " + min +
 						   " max: " + max);
