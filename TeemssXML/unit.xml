@@ -59,7 +59,7 @@
       and chemical changes are produced;  </skill>
   </skill-list>
   <tech-hint-list>
-    <tech-hint name="connect smartwheel">
+    <tech-hint name="connectsmartwheel">
       <title>Connecting the SmartWheel</title>
       <heading>To connect the SmartWheel:</heading>
       <tech-hint-body>
@@ -82,9 +82,9 @@
         </steps>
       </tech-hint-body>
     </tech-hint>
-    <tech-hint name="attach smartwheel">
+    <tech-hint name="attachsmartwheel">
       <title>Attaching the SmartWheel to the air cart</title>
-      <heading>To attach the SmartWheel to the air cart:</heading>	  
+      <heading>To attach the SmartWheel to the air cart:</heading>
       <tech-hint-body>
         <steps>
           <step>Center the SmartWheel in the slot so that it
@@ -111,12 +111,12 @@
         </shared-image-sequence>
       </tech-hint-body>
     </tech-hint>
-    <tech-hint name="CC LabBook">
+    <tech-hint name="CCLabBook">
       <title>Using the CC LabBook software  </title>
       <heading>To use CC LabBook software:</heading>
       <tech-hint-body/>
     </tech-hint>
-    <tech-hint name="connect force">
+    <tech-hint name="connectforce">
       <title>Connecting the Force probe</title>
       <heading>To connect the Force probe:</heading>
       <tech-hint-body>
@@ -138,7 +138,7 @@
         </steps>
       </tech-hint-body>
     </tech-hint>
-    <tech-hint name="attach force">
+    <tech-hint name="attachforce">
       <title>Attaching the Force probe to the air cart </title>
       <heading>To attach the Force probe to the air cart:</heading>
       <tech-hint-body>
@@ -166,7 +166,7 @@
         </steps>
       </tech-hint-body>
     </tech-hint>
-    <tech-hint name="force zero">
+    <tech-hint name="forcezero">
       <title>Setting the Force probe to zero </title>
       <heading>To set the Force probe to zero:</heading>
       <tech-hint-body>
@@ -616,7 +616,7 @@
         <ext-image name="12_rampRace"/>
       </trial>
       <hints>
-        <tech-hint-ref ref="CC LabBook"/>
+        <tech-hint-ref ref="CCLabBook"/>
       </hints>
       <analysis>
         <steps>
@@ -876,7 +876,7 @@
             acceleration and velocity, power and energy, heat quantity
             and heat flow, population and birth rate), and this is also
             what calculus is all about.   </p>
-          <ext-image name="01_sw_detail"/>
+          <shared-image name="01_swDetail" screenshot="false"/>
           <p>Sophisticated electronics are used to sense the rotation of
             the SmartWheel and use that data to generate a graph on the
             computer. An invisible infrared beam is directed through the
@@ -1123,9 +1123,9 @@
         </steps>
       </trial>
       <hints>
-        <tech-hint-ref ref="connect smartwheel"/>
-        <tech-hint-ref ref="attach smartwheel"/>
-        <tech-hint-ref ref="CC LabBook"/>
+        <tech-hint-ref ref="connectsmartwheel"/>
+        <tech-hint-ref ref="attachsmartwheel"/>
+        <tech-hint-ref ref="CCLabBook"/>
       </hints>
       <analysis>
         <steps>
@@ -1323,7 +1323,7 @@
             identify a terminal velocity for a cart with a weighted
             sled? Yes, this is the point where the drag force just
             equals the driving force, and the velocity stops increasing.</p>
-          <ext-image name="01_sw_detail"/>
+          <shared-image name="01_swDetail" screenshot="false"/>
           <p>The SmartWheel is also used in this investigation. Some
             sophisticated electronics are used to sense the rotation of
             the wheel and use that to generate a graph on the computer.
@@ -1533,9 +1533,9 @@
         </steps>
       </trial>
       <hints>
-        <tech-hint-ref ref="connect smartwheel"/>
-        <tech-hint-ref ref="attach smartwheel"/>
-        <tech-hint-ref ref="CC LabBook"/>
+        <tech-hint-ref ref="connectsmartwheel"/>
+        <tech-hint-ref ref="attachsmartwheel"/>
+        <tech-hint-ref ref="CCLabBook"/>
       </hints>
       <analysis>
         <steps>
@@ -1787,14 +1787,14 @@
             because it takes less force to move the beam a certain
             amount. The lighter range is + or - 20N, and the heavier
             range is + or - 200N.  </p>
-          <ext-image name="01_forceProbe"/>
+          <shared-image name="01_forceProbe" screenshot="false"/>
           <p>The deflection of the beam is measured with a little chip
             called a Hall effect sensor, which measures magnetic field.
             A strong magnet is embedded in the end of the beam, and the
             Hall effect sensor is next to it. As the beam moves, the
             magnetic field changes and the sensor&apos;s output changes
             too.  </p>
-          <ext-image name="02_force_probe_det"/>
+          <shared-image name="02_forceProbeDet" screenshot="false"/>
           <p>If the sensor card is unscrewed from the Force probe, it
             can be used as a general-purpose magnetic field sensor. It
             can easily detect the Earth&apos;s magnetic field, which you
@@ -1913,6 +1913,9 @@
               <query drawing-response="false" note-response="true">Can
                 you get a steady reading?</query>
             </querys>
+            <query-static-link>
+              <ext-image name="01c_c1"/>
+            </query-static-link>
           </query-response>
           <query-response layout="paragraph" title="calculate" type="describe">
             <query-description>Calculate the mass, in kilograms, of your
@@ -2028,10 +2031,10 @@
         </steps>
       </trial>
       <hints>
-        <tech-hint-ref ref="connect force"/>
-        <tech-hint-ref ref="attach force"/>
-        <tech-hint-ref ref="force zero"/>
-        <tech-hint-ref ref="CC LabBook"/>
+        <tech-hint-ref ref="connectforce"/>
+        <tech-hint-ref ref="attachforce"/>
+        <tech-hint-ref ref="forcezero"/>
+        <tech-hint-ref ref="CCLabBook"/>
       </hints>
       <analysis>
         <steps>
@@ -2231,31 +2234,33 @@
             </teacher-questions>
           </teacher-wrap>
         </teacher-discuss>
-        <teacher-background>The Force probe works on the simple
-          principle that a rigid beam will bend an amount that is
-          proportional to the force exerted on it. Instead of trying to
-          define &quot;force&quot;, you can simply say that it is what
-          the force probe measures. In this case, the beam is aluminum,
-          it can be either pushed or pulled, and it has stops so that it
-          won&apos;t be bent beyond its elastic limit. There are two eye
-          bolts at different distances along the beam. The one that is
-          nearer the end gives a more sensitive reading, because it
-          takes less force to move the beam a certain amount. The
-          lighter range is +/- 20N, and the heavier range is +/- 200N.
-            <ext-image name="01_forceProbe"/>
+        <teacher-background>
+          <p>The Force probe works on the simple principle that a rigid
+            beam will bend an amount that is proportional to the force
+            exerted on it. Instead of trying to define
+            &quot;force&quot;, you can simply say that it is what the
+            force probe measures. In this case, the beam is aluminum, it
+            can be either pushed or pulled, and it has stops so that it
+            won&apos;t be bent beyond its elastic limit. There are two
+            eye bolts at different distances along the beam. The one
+            that is nearer the end gives a more sensitive reading,
+            because it takes less force to move the beam a certain
+            amount. The lighter range is +/- 20N, and the heavier range
+            is +/- 200N.  </p>
+          <shared-image name="01_forceProbe" screenshot="false"/>
           <p>The deflection of the beam is measured with a little chip
             called a Hall effect sensor, which measures magnetic field.
             A strong magnet is embedded in the end of the beam, and the
             Hall effect sensor is next to it. As the beamm moves, the
             magnetic field changes and the sensor changes its output.  </p>
-          <ext-image name="02_force_probe_det"/>
+          <shared-image name="02_forceProbeDet" screenshot="false"/>
           <p>If the sensor is unscrewed from the Force probe, it can be
             used as a general-purpose magnetic field sensor. It can
             easily detect the Earth&apos;s magnetic field, which you
             will notice if you rotate it and expand the graph. This also
             means, however, that the Force probe should be recalibrated
             to zero whenever its position or orientation is changed.  </p>
-          <ext-image name="01_sw_detail"/>
+          <shared-image name="01_swDetail" screenshot="false"/>
           <p>The SmartWheel is also used in this investigation. Some
             sophisticated electronics are used to sense the rotation of
             the wheel and use that to generate a graph on the computer.
@@ -2484,10 +2489,10 @@
         </steps>
       </trial>
       <hints>
-        <tech-hint-ref ref="connect force"/>
-        <tech-hint-ref ref="force zero"/>
-        <tech-hint-ref ref="connect smartwheel"/>
-        <tech-hint-ref ref="CC LabBook"/>
+        <tech-hint-ref ref="connectforce"/>
+        <tech-hint-ref ref="forcezero"/>
+        <tech-hint-ref ref="connectsmartwheel"/>
+        <tech-hint-ref ref="CCLabBook"/>
       </hints>
       <analysis>
         <steps>
@@ -2757,7 +2762,7 @@
             difference between the two temperatures decrease. This
             smooth curve, that becomes less steep as it approaches the
             final temperature, is called a cooling curve.  </p>
-          <ext-image name="cooling_curve" type="jpg"/>
+          <shared-image name="cooling curve?"/>
           <p>The Fast Response Temperature Probe uses a thermocouple to
             measure temperature. A thermocouple a made from two special
             wires, each of a different metal, with their ends twisted
@@ -2767,8 +2772,8 @@
             It comes from the way the two metals interact. Thermocouples
             are useful because they can work at very high temperatures.
             The CC Temperature probe can be put in a candle flame
-            without damage.  </p>
-          <ext-image name="05_tempProbe"/>
+            without damage.  <shared-image name="05_tempProbe" screenshot="false"/>
+          </p>
           <p>The only sensitive part is the tip where two special bare
             wires are twisted together. The wires produce a voltage
             depending on the temperature, and the program converts this
@@ -2790,24 +2795,42 @@
       <intro>
         <ext-image name="bathtub"/>In this activity you will investigate
         how to alter heat flow.</intro>
-      <think>We are constantly dealing with things at different
-        temperatures. Sometimes we want the heat to flow faster
-        (cooking) and sometimes we want to prevent its flow (sleeping
-        bags). In your group, discuss other situations when you would
-        want to alter heat flow. Write on your handheld computer these
-        situations and explain how the energy flow changes over time.
-          <p>Sometimes we prefer uniform temperatures (a non-drafty
-          room) and sometimes we prefer contrast (hot syrup on ice
-          cream). Can you think of other times when you want uniform or
-          non-uniform temperatures? Which condition (uniform or
-          non-uniform) is easier to keep for the longest period of time?
-          Describe these situations in Notes on your handheld computer
-          and explain how the energy flow changes over time. </p>
+      <think>
+        <query-response title="cooking" type="predict">
+          <query-description>We are constantly dealing with things at
+            different temperatures. Sometimes we want the heat to flow
+            faster (cooking) and sometimes we want to prevent its flow
+            (sleeping bags). In your group, discuss other situations
+            when you would want to alter heat flow. </query-description>
+          <querys>
+            <query drawing-response="false" note-response="true">What
+              are three such situations?</query>
+            <query drawing-response="false" note-response="true">How
+              does energy flow change over time? </query>
+          </querys>
+          <query-static-link>Write your thoughts in Notes on your
+            handheld computer. </query-static-link>
+        </query-response>
+        <query-response title="uniform" type="predict">
+          <query-description>Sometimes we prefer uniform temperatures (a
+            non-drafty room) and sometimes we prefer contrast (hot syrup
+            on ice cream). </query-description>
+          <querys>
+            <query drawing-response="false" note-response="true">Can you
+              think of other times when you want uniform or non-uniform
+              temperatures? </query>
+            <query drawing-response="false" note-response="true">Which
+              condition (uniform or non-uniform) is easier to keep for
+              the longest period of time? </query>
+          </querys>
+          <query-static-link>Describe these situations in Notes on your
+            handheld computer. </query-static-link>
+        </query-response>
       </think>
       <materials>
         <item>CC Fast Response Temperature probe</item>
         <item>handheld computer  </item>
-        <item>CC Lab Book software</item>
+        <item>CC LabBook software</item>
         <item>Styrofoam cup</item>
         <item>film canister (to measure water volume)</item>
         <item>small ball of clay (size of a large or shooter marble)</item>
@@ -2821,15 +2844,16 @@
         <steps>
           <step>When you mix water at two temperatures (one is too hot
             and the other too cold) to make a bath that&apos;s just
-            right for bathing, how much of each is needed? Set up the
+            right for bathing, how much of each is needed? Connect the
             Temperature probe with your handheld. Refer to Technical
-            Hints to see how to set up the Temperature probe. The
+            Hints to see how to connect the Temperature probe. The
             sensitive part is just the very tip, where two wires are
             welded together.   <ext-image name="01_hf"/>
           </step>
-          <step>What will happen when you touch the end of the probe?
-            What happens when you put the probe in water? Record your
-            thoughts in Notes on your handheld computer.  </step>
+          <step>What will happen when you touch the end of the probe and
+            then let go?             What happens when you put the probe
+            in water? Record your             thoughts in Notes on your
+            handheld computer.  </step>
           <step>For heat to flow from one thing to another, they need
             have different temperatures. In this trial you need to have
             two samples of water at different temperatures. You can do
@@ -2840,33 +2864,54 @@
               <step>warm tap water</step>
             </steps>
           </step>
-          <step>Start the software and observe the temperature versus
-            time graph as you test your two choices of water. Refer to
-            Technical Hints to see how to use the software.</step>
-          <step>Clear the graph and start again. Refer to Technical
-            Hints to see how to use the software.  </step>
-          <step>Make the following measurements one after another with
+          <query-response title="temp" type="describe">
+            <query-description>Start the software and observe the
+              temperature versus time graph as you test your two choices
+              of water. Stop the software. Be sure the two samples are
+              at least 10 degrees Celsius different from each other.</query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">What
+                are the two temperatures?  </query>
+            </querys>
+          </query-response>
+          <query-response title="mixing" type="describe">
+            <query-description/>
+            <querys>
+              <query drawing-response="false"
+                note-response="true">Before mixing the two samples of
+                water together, predict the final temperature. </query>
+            </querys>
+          </query-response>
+          <step>Make the temperature measurements one after another with
             the graph running. You will then have all of your data on
-            one graph, and you can analyze it. Before mixing the two
-            samples of water together, predict the final temperature in
-            Notes on your handheld computer. </step>
-          <step>Restart the graph and test the temperature of each
-            sample of water. Be sure the two samples are at least 10
-            degrees Celsius different from each other.  </step>
+            one graph, and you can analyze it.  </step>
+          <step>Restart the graph and retest the temperature of each
+            sample of water. </step>
           <step>Fill the film canister with one of the samples of water
             and pour it into the styrofoam cup. Quickly place the
             Temperature probe in the stryofoam cup. Fill the canister
             with the second sample and slowly add it to the Styrofoam
-            cup. Watch the graph.  </step>
+            cup. Observe the graph.  </step>
           <step>Stop when you think the temperature has come to a
             relatively stable temperature (equilibrium). Save your data
-            to the handheld.  <ext-image name="02_hf"/>
+            to the handheld.<ext-image name="02_hf"/>
           </step>
-          <step>How many seconds did it take? How good was your
-            prediction? Would this be a good temperature for your bath
-            water? If not, what could you do to change the final
-            temperature of the mixture? Record your reasoning in Notes
-            on your handheld computer.</step>
+          <query-response title="good" type="describe">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">How
+                many seconds did it take? </query>
+              <query drawing-response="false" note-response="true">How
+                good was your prediction? </query>
+              <query drawing-response="false" note-response="true">Would
+                this be a good temperature for your bath water?</query>
+              <query drawing-response="false" note-response="true">If
+                not, how could you change the final temperature of the
+                mixture? </query>
+            </querys>
+            <query-static-link>Record your reasoning in Notes on your
+              handheld computer.     </query-static-link>
+          </query-response>
         </steps>
       </trial>
       <trial title="Reaching equilibrium in temperature">
@@ -2874,14 +2919,12 @@
           <step>Make a small ball of clay, about the size of a large
             (shooter) marble.<ext-image name="03_hf"/>
           </step>
-          <step>Set up the Temperature probe with your handheld. Refer
-            to Technical Hints to see how set up the Temperature probe.
-            The sensitive part is just the very tip, where two wires are
-            welded together.  </step>
+          <step>Connect the Temperature probe with your handheld. Refer
+            to Technical Hints to see how to connect the Temperature
+            probe. The sensitive part is just the very tip, where two
+            wires are welded together.</step>
           <step>Start the temperature graph and run through this series
-            of measurements so that you get all of your data on one
-            graph. Refer to Technical Hints to see how to use the
-            software.  </step>
+            of measurements so that you get all of your data on one graph.</step>
           <step>Measure the air temperature.</step>
           <step>Use water from a non-room temperature source. It should
             be at least 10 degrees Celsius different from room
@@ -2892,58 +2935,80 @@
           </step>
           <step>Stick the probe into the center of the clay ball while
             the probe is still running.  </step>
-          <step>Is it about room temperature? If not, why not? Record
-            your thoughts in Notes on your handheld computer.
-              <ext-image name="05a_hf"/>
+          <step>With the probe in the clay ball,             immerse it
+            in the water. Watch the graph. Run it until you
+            think it has come to relatively stable temperature
+            (equilibrium).  <ext-image name="05a_hf"/>
           </step>
-          <step>With the probe in the clay ball, immerse it in the
-            water. Watch the graph. Run it until you think it has come
-            to relatively stable temperature (equilibrium).  <ext-image name="05b_hf"/>
+          <step>Pull the Temperature probe out of the clay ball and
+            measure the temperature of the water. Save your data to the
+            handheld.  <ext-image name="05b_hf"/>
           </step>
-          <step>While you&apos;re waiting, predict in Notes on your
-            handheld computer what you think the final temperature will
-            be. How can you tell when equilibrium has been reached? How
-            many seconds did it take?</step>
-          <step>Save your data to the handheld.  </step>
-          <step>What is the final temperature of the combination of
-            water and clay? How many degrees did the clay change? How
-            many degrees did the water change? Record your answers in
-            Notes on your handheld computer.  </step>
+          <query-response title="final" type="describe">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">What
+                is the final temperature of the combination of water and
+                clay? </query>
+              <query drawing-response="false" note-response="true">How
+                many degrees did the clay change? </query>
+              <query drawing-response="false" note-response="true">How
+                many degrees did the water change?</query>
+              <query drawing-response="false" note-response="true">How
+                did you decide when equilibrium was reached? </query>
+              <query drawing-response="false" note-response="true">How
+                many seconds did it take? </query>
+            </querys>
+            <query-static-link>Record your answers in Notes on your
+              handheld computer. </query-static-link>
+          </query-response>
         </steps>
       </trial>
       <trial title="Using insulation to prevent heat flow">
         <steps>
-          <step>Set up the Temperature probe with your handheld. Refer
-            to Technical Hints to see how set up the Temperature probe.
-            The sensitive part is just the very tip, where two wires are
-            welded together.  </step>
-          <step>Start the temperature graph and run through this series
-            of measurements so that you obtain all of your data on one
-            graph. Refer to Technical Hints to see how to use the
-            software.  </step>
-          <step>Measure the air temperature.</step>
+          <step>Connect the Temperature probe with your handheld. Refer
+            to Technical Hints to see how to connect the Temperature
+            probe. The sensitive part is just the very tip, where two
+            wires are welded together.</step>
           <step>Make a small ball of clay, about the size of a large
-            shooter marble. Stick the Temperature probe into the center
-            of the clay ball.  </step>
+            (shooter) marble.</step>
+          <query-response title="design" type="predict">
+            <query-description>Design an insulation to keep the clay at
+              this temperature. You can use any available materials. </query-description>
+            <querys>
+              <query drawing-response="false"
+                note-response="true">Record why you think your design is
+                good in Notes on your handheld computer. </query>
+            </querys>
+          </query-response>
+          <step>Start the temperature graph and run through the complete
+            series of measurements so that you obtain all of your data
+            on one graph.  </step>
+          <step>Measure the air temperature. Place the Temperature probe
+            into the center of the clay ball.  </step>
           <step>Place the clay ball and Temperature probe in the
             Stryfoam cup that contains water. Any amount of water will
             do that&apos;s NOT at room temperature. Let it come to a
             relatively stable temperature (equilibrium). It can be
             either colder or warmer than room temperature.  <ext-image name="05c_hf"/>
           </step>
-          <step>Design an insulation to keep the clay at this
-            temperature. You can use any available materials. Record why
-            you think your design is good in Notes on your handheld
-            computer. </step>
           <step>Leaving the temperature probe in the clay, pull the clay
             out of the water and quickly dry it off. Quickly wrap the
             clay and temperature probe in your insulation system.
               <ext-image name="06_hf"/>
           </step>
-          <step>Monitor the temperature of the clay. How long does it
-            take to reach equilibrium? Is that better or worse than you
-            thought it would be? Record your observations in Notes on
-            your handheld computer.  </step>
+          <query-response title="monitor" type="describe">
+            <query-description>Monitor the temperature of the clay until
+              it&apos;s near to equilibrium. Save your data to the handheld.</query-description>
+            <querys>
+              <query drawing-response="false" note-response="true">How
+                long does it take to reach equilibrium?</query>
+              <query drawing-response="false" note-response="true">Is
+                the time greater or less than you thought it would be? </query>
+            </querys>
+            <query-static-link>Record your observations in Notes on your
+              handheld computer. </query-static-link>
+          </query-response>
         </steps>
       </trial>
       <hints>
@@ -2956,22 +3021,60 @@
       </hints>
       <analysis>
         <steps>
-          <step>While mixing water at two temperatures, did the result
-            match your prediction? If they differed, why? Derive a
-            formula           for the final temperature of the mixed
-            water when you use           equal amounts of different
-            temperatures of water.  </step>
-          <step>Which exchanged heat faster, the water mixed together or
-            the clay in the water? Why?  </step>
-          <step>Describe the shape of the graph of the clay temperature
-            as           it approaches the temperature of the water. Why
-            do you think           it has that shape?  </step>
-          <step>Do you think the shape of the clay makes a difference?
-            Give examples of shapes besides a ball and how they would
-            behave differently.  </step>
-          <step>How did your method of insulation compare to other
-            methods           used in your group? Explain why the
-            differences occurred.  </step>
+          <query-response title="1" type="describe">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">While
+                mixing water at two temperatures, did the result match
+                your prediction?</query>
+              <query drawing-response="false" note-response="true">If
+                they differed, why? </query>
+              <query drawing-response="false"
+                note-response="true">Derive a formula for the final
+                temperature when you mix equal amounts of different
+                temperatures of water. </query>
+            </querys>
+          </query-response>
+          <query-response title="2" type="describe">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">Which
+                exchanged heat faster, the water mixed together or the
+                clay in the water? </query>
+              <query drawing-response="false" note-response="true">Why?</query>
+            </querys>
+          </query-response>
+          <query-response title="3" type="describe">
+            <query-description/>
+            <querys>
+              <query drawing-response="true" note-response="false">Draw
+                the resulting graph of the clay temperature as it
+                approaches the temperature of the water. </query>
+              <query drawing-response="false" note-response="true">Why
+                do you think it has that shape? </query>
+            </querys>
+          </query-response>
+          <query-response title="4">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">Do
+                you think the shape of the clay makes a difference in
+                the results? </query>
+              <query drawing-response="false" note-response="true">Give
+                examples of other shapes besides a ball that you could
+                use and how they would behave differently. </query>
+            </querys>
+          </query-response>
+          <query-response title="5">
+            <query-description/>
+            <querys>
+              <query drawing-response="false" note-response="true">How
+                did your method of insulation compare to methods used by
+                others? </query>
+              <query drawing-response="false"
+                note-response="true">Explain why the differences occurred.</query>
+            </querys>
+          </query-response>
         </steps>
       </analysis>
       <further>
@@ -3165,7 +3268,7 @@
             subtracts 1. The computer program interprets this
             information either as position (how many black lines go by)
             or as velocity (how fast the black lines go by).  </p>
-          <ext-image name="01_sw_detail"/>
+          <shared-image name="01_swDetail" screenshot="false"/>
         </teacher-background>
         <teacher-timeline>
           <time-period periods="1" type="setup"/>
@@ -3434,7 +3537,7 @@
             <p>Electrical energy requires both current and voltage. If
               you have current flowing but no voltage difference, then
               no energy is being transmitted. This actually happens in
-              superconductors√êhuge currents can flow with no voltage
+              superconductorsÃ∆huge currents can flow with no voltage
               drop. If there is a voltage drop but no current, then no
               energy is moving. A disconnected battery is a common
               example of this.   </p>
@@ -3594,7 +3697,7 @@
           <p>If the heat cell, without insulation, is connected to the
             Genecon that is cranked for 30s. The graph would look like
             this: </p>
-          <ext-image name="heat_cell-2" type="jpg"/>
+          <shared-image name="heatcell?" screenshot="true"/>
           <p>If the cranking rate is constant, the heating portion of
             the graph is a straight line with a positive slope. The
             power input (the slope of the line) is constant. </p>
@@ -3665,14 +3768,14 @@
             are useful because they can work at very high temperatures.
             The CC Temperature probe can be put in a candle flame
             without damage.  </p>
-          <ext-image name="05_tempProbe"/>
+          <shared-image name="05_tempProbe" screenshot="false"/>
           <p>The only sensitive part is the tip where two special bare
             wires are twisted together. The wires produce a voltage
             depending on the temperature, and the CCProbe software
             converts this to degrees (C or F). The response is very
             fast, because the two wires are small and easily heated or
             cooled by whatever they touch.  </p>
-          <ext-image name="VIProbe" type="jpg"/>
+          <shared-image name="07_VIProbe" screenshot="false"/>
           <p>The Voltage/Current Probe measures either voltage or
             current. It can also measure both at the same time. The
             CCProbe software can use these readings to calculate and
@@ -3688,7 +3791,7 @@
             and the black clip lead goes to the smaller, or negative (-)
             location. To measure voltage across a heat cell , the clips
             are placed on the two ends of the heat cell as shown.  </p>
-          <ext-image name="01_vi" type="jpg"/>
+          <shared-image name="01_vi" screenshot="false"/>
           <p>Current is the amount of electricity flowing, a bit like
             the current in a stream. Current can be pictured as the
             total number of electrons flowing per second through a wire
@@ -3706,7 +3809,7 @@
             measure current going through a heat cell attached to a
             battery. Note: positioning of the probe is different while
             measuring current then it when measuring voltage.  </p>
-          <ext-image name="02_vi" type="jpg"/>
+          <shared-image name="02_vi" screenshot="false"/>
           <p>Electrical power, the rate of using energy, is the voltage
             difference times current. It can be pictured as the number
             of electrons flowing per second, multiplied by the energy
@@ -3715,7 +3818,7 @@
             you must measure both voltage and current. The CCProbeware
             will calculate and display the power from these
             measurements.  </p>
-          <ext-image name="03_vi" type="jpg"/>
+          <shared-image name="03_vi" screenshot="false"/>
           <p>Electrical energy is the power accumulated over time. It
             can be pictured as the total number of electrons that flow,
             multiplied by the energy that each one gains (or loses).
@@ -4047,7 +4150,7 @@
             investigation is actually designed to increase the range of
             transformations with which students are familiar.  <p>This
               investigation introduces the idea that energy can be found
-              in many places√êin light, a capacitor, motion, heat, and
+              in many placesÃ∆in light, a capacitor, motion, heat, and
               sugar. One of the questions this raises is what defines
               energy. The easiest way to know if something has energy is
               to find a way to transform it into heat energy. If you can

@@ -228,8 +228,34 @@
 </LINE>
 </GRAPH>
 </DATACOLLECTOR>
+<DATACOLLECTOR ID="probes-voltage-current-j" name="VoltageCurrent - Joules">
+<PROBE ID="probes-probe12" probe="VoltageCurrent">
+<PROP name="Port" value="A"/>
+<PROP name="Speed" value="200 per second"/>
+<PROP name="Version" value="2.0"/>
+</PROBE>
+<GRAPH current-line="3" title="graph subtitle goes here">
+<XAXIS min="0" max="60"/>
+<YAXIS min="-10" max="10"/>
+<YAXIS min="-0.2" max="0.2"/>
+<YAXIS min="0" max="2"/>
+<YAXIS min="0" max="20"/>
+<LINE xaxis="0" yaxis="0">
+<INTPROBETRANS quantity="Voltage" probe="probes-probe12"/>
+</LINE>
+<LINE xaxis="0" yaxis="1">
+<INTPROBETRANS quantity="Current" probe="probes-probe12"/>
+</LINE>
+<LINE xaxis="0" yaxis="2">
+<INTPROBETRANS quantity="Power" probe="probes-probe12"/>
+</LINE>
+<LINE xaxis="0" yaxis="3">
+<INTPROBETRANS quantity="Energy" probe="probes-probe12"/>
+</LINE>
+</GRAPH>
+</DATACOLLECTOR>
 <DATACOLLECTOR ID="probes-rawdata-slow" name="Raw Data - slow">
-<PROBE ID="probes-probe12" probe="RawData">
+<PROBE ID="probes-probe13" probe="RawData">
 <PROP name="Port" value="A"/>
 <PROP name="Sampling" value="24 Bit"/>
 <PROP name="Channel" value="0"/>
@@ -238,11 +264,11 @@
 <GRAPH current-line="0" title="graph subtitle goes here">
 <XAXIS min="0" max="60"/>
 <YAXIS min="0" max="2.6"/>
-<LINE xaxis="0" yaxis="0" datasource="probes-probe12"/>
+<LINE xaxis="0" yaxis="0" datasource="probes-probe13"/>
 </GRAPH>
 </DATACOLLECTOR>
 <DATACOLLECTOR ID="probes-rawdata-fast" name="Raw Data - fast">
-<PROBE ID="probes-probe13" probe="RawData">
+<PROBE ID="probes-probe14" probe="RawData">
 <PROP name="Port" value="A"/>
 <PROP name="Sampling" value="10 Bit"/>
 <PROP name="Channel" value="0"/>
@@ -251,7 +277,7 @@
 <GRAPH current-line="0" title="graph subtitle goes here">
 <XAXIS min="0" max="60"/>
 <YAXIS min="0" max="2.6"/>
-<LINE xaxis="0" yaxis="0" datasource="probes-probe13"/>
+<LINE xaxis="0" yaxis="0" datasource="probes-probe14"/>
 </GRAPH>
 </DATACOLLECTOR>
 </FOLDER>
