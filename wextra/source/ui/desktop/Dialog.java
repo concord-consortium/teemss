@@ -292,6 +292,8 @@ private waba.ui.Container		contentPane;
 	    cp.add(ip);
 	}
 	d.addDialogListener(l);
+	
+	
 	d.show();
 	return d;
   }
