@@ -18,19 +18,6 @@ public class Choice extends extra.ui.List{
 		initialYOffset = 15;
 	}
 	
-	/*	
-	public void onEvent(waba.ui.Event event)
-	{
-		if (event instanceof waba.ui.PenEvent){
-			int px=((waba.ui.PenEvent)event).x;
-			int py=((waba.ui.PenEvent)event).y;
-			if(px < 0 || px > width) return;
-			if(py < 0 || py > height) return;
-	  	}
-	  	super.onEvent(event);
-	}
-	*/
-
 	public void onPaint(waba.fx.Graphics g)
 	{
 		if (fm==null)

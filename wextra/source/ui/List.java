@@ -239,7 +239,7 @@ public class List extends Control implements PreferredSize
 			switch (event.type){
 			case PenEvent.PEN_DOWN:
 			case PenEvent.PEN_DRAG:
-				if (popup!=null){
+				if (popup!=null){					
 					clicked=true;
 					int position=py/textHeight;
 					if ((py<=5&&scrollOffset>0)||(py + initialYOffset>=height-5&&scrollOffset<maxScrollOffset)){
@@ -280,19 +280,21 @@ public class List extends Control implements PreferredSize
 					oldselected=selected;
 					clicked=false;
 				} else {
+					
 					if (scrollTimer!=null) {
 						removeTimer(scrollTimer);
 						scrollTimer=null;
 					}
 					popup.unpop();
 					popup=null;
-					postEvent(new ControlEvent(ControlEvent.PRESSED,this));
+					postEvent(new ControlEvent(ControlEvent.PRESSED,this));				
 				}
 				break;
 			}
 		}
 	}
   
+
 	public void doPopup(){
 		popup=new Popup(this);
 		popup.popup(x,y,expandedWidth+10,textHeight*numDisplayed+3+initialYOffset);

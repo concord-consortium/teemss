@@ -1,5 +1,7 @@
 package org.concord.waba.extra.ui;
 
+import waba.ui.*;
+
 public class Choice extends extra.ui.List{
 	String name = null;
 
@@ -15,15 +17,52 @@ public class Choice extends extra.ui.List{
 	{
 		name = n;
 	}
-	
-	public void onEvent(waba.ui.Event event){
-		if (event instanceof waba.ui.PenEvent){
-			int px=((waba.ui.PenEvent)event).x;
-			int py=((waba.ui.PenEvent)event).y;
-			if(px < 0 || px > width) return;
-			if(py < 0 || py > height) return;
-	  	}
-	  	super.onEvent(event);
+
+	boolean justPopped = false;
+	boolean dragged = false;
+	int lastY, lastX;
+	/**
+	 * Process pen and key events to this component
+	 * @param event the event to process
+	 */
+	public void onEvent(Event event)
+	{
+		if (event instanceof PenEvent) {		   
+			int px=((PenEvent)event).x;
+			int py=((PenEvent)event).y - initialYOffset;
+			System.out.println("List: " + event.type + " (" + px + ", " + py + ")");
+			switch (event.type){
+			case PenEvent.PEN_DOWN:
+				if (popup==null){
+					justPopped = true;
+					lastX = px;
+					lastY = py;
+					event.type = PenEvent.PEN_UP;
+					super.onEvent(event);
+					event.type = PenEvent.PEN_DOWN;
+					break;
+				} 
+			case PenEvent.PEN_DRAG:
+				int diffX = lastX - px;
+				int diffY = lastY - py;
+				lastX = px;
+				lastY = py;
+				if(diffX > 3 || diffX < -3 ||
+				   diffY > 3 || diffY < -3) dragged = true;
+				super.onEvent(event);
+				break;
+			case PenEvent.PEN_UP:
+				if (justPopped){
+					justPopped = false;
+					if(!dragged) break;
+				}
+				dragged = false;
+				super.onEvent(event);
+				break;
+			}
+		} else {
+			super.onEvent(event);
+		}
 	}
 	
 	public void onPaint(waba.fx.Graphics g)
