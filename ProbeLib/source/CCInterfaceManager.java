@@ -567,8 +567,9 @@ protected ProbManager	pb = null;
 		    int numSamp = curDataPos/dDesc.chPerSample;
 		    dEvent.setNumbSamples(numSamp);
 		    curStepTime += timeStepSize*numSamp;
-
+		    
 		    dEvent.setData(valueData);
+
 		    notifyProbManager(dEvent);
 		}
 		if(clearBufferOffset) bufOffset = 0;
@@ -590,6 +591,11 @@ protected ProbManager	pb = null;
 //		response = OK;
 		while(port != null && port.isOpen()){
 			curChannel = 0;
+
+			dEvent.numPTimes = 0;
+			int startPTime = Vm.getTimeStamp();
+			dEvent.pTimes[dEvent.numPTimes++] = startPTime;
+
 			ret = port.readBytes(buf, bufOffset, readSize - bufOffset);
 			if(ret <= 0) break; // there are no bytes available
 			ret += bufOffset;	    
@@ -597,11 +603,14 @@ protected ProbManager	pb = null;
 				bufOffset = ret;//too few?
 				break;
 			}
+			dEvent.pTimes[dEvent.numPTimes++] = ret;
 			curPos = 0;
 			int endPos = ret - 1;
 
 			curDataPos = 0;
 			dEvent.setTime(curStepTime);
+			
+
 			while(curPos < endPos){
 						// Check if the buf has enough space
 						// if not this means a partial package was read
@@ -638,6 +647,8 @@ protected ProbManager	pb = null;
 			
 			dEvent.numbSamples = (curDataPos/activeChannels);
 			curStepTime += dEvent.numbSamples*timeStepSize;
+			dEvent.pTimes[dEvent.numPTimes++] = Vm.getTimeStamp() - startPTime;
+			
 			pb.dataArrived(dEvent);
 
 			if((ret - curPos) > 0){
@@ -666,6 +677,10 @@ protected ProbManager	pb = null;
 		int curChannel;
 
 		while(port != null && port.isOpen()){
+		    dEvent.numPTimes = 0;
+		    int startPTime = Vm.getTimeStamp();
+		    dEvent.pTimes[dEvent.numPTimes++] = startPTime;
+
 		    ret = port.readBytes(buf, bufOffset, readSize - bufOffset);
 		    if(ret <= 0) break; // there are no bytes available
 		    ret += bufOffset;	    
@@ -673,6 +688,9 @@ protected ProbManager	pb = null;
 			bufOffset = ret;//too few?
 			break;
 		    }
+		    dEvent.pTimes[dEvent.numPTimes++] = ret;
+
+
 		    curPos = 0;
 		    int endPos = ret - 1;
 
@@ -707,6 +725,7 @@ protected ProbManager	pb = null;
 		    }
 
 		    dEvent.numbSamples = curDataPos/dDesc.chPerSample;
+		    dEvent.pTimes[dEvent.numPTimes++] = Vm.getTimeStamp() - startPTime;
 		    curStepTime += dEvent.numbSamples*timeStepSize;
 			
 		    dEvent.setData(valueData);

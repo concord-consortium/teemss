@@ -125,6 +125,8 @@ float B = -25.31f;
 		}else{
 			dEvent.time = e.time;
 			dEvent.numbSamples = e.numbSamples;
+			dEvent.pTimes = e.pTimes;
+			dEvent.numPTimes = e.numPTimes;
 			int ndata = dEvent.numbSamples*e.dataDesc.chPerSample;
 			int dOff = e.dataOffset;
 			float data [] = e.data;

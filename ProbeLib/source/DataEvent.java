@@ -11,6 +11,9 @@ public int		numbSamples = 1;
 public int		dataOffset = 0;
 public float		time;
 
+    public int [] pTimes = new int [10];
+    public int numPTimes = 0;
+
 	public DataEvent(){
 		this(0.0f);
 	}

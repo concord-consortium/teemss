@@ -44,9 +44,11 @@ float  			dtChannel = 0.0f;
 	}
 
     public boolean idle(org.concord.waba.extra.event.DataEvent e){
+	notifyDataListeners(e);
 	return true;
     }
     public boolean startSampling(org.concord.waba.extra.event.DataEvent e){
+	notifyDataListeners(e);
  	return true;
    }
     public boolean dataArrived(DataEvent e)
