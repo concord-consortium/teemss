@@ -436,14 +436,14 @@ One and half class periods
 			<fo:block text-align="center" border="solid 0.5pt black" margin-left="2in"
 				padding-start="0.2in" margin-right="2in">
 			<fo:external-graphic  width="3in"	
-			src="file:/images/Technical_Hints/screenshots/{@name}/RAW_{@name}.tif"/>
+			src="file:../images/Technical_Hints/screenshots/{@name}/RAW_{@name}.tif"/>
 			</fo:block>
 		</xsl:when>
 		<xsl:otherwise>
 			<fo:block text-align="center" border="solid 0.5pt black" margin-left="2in"
 				padding-start="0.2in" margin-right="2in">
 			<fo:external-graphic height="2.658in" width="3in"	
-			src="file:/images/Technical_Hints/pictures/{@name}/RAW_{@name}.tif"/>
+			src="file:../images/Technical_Hints/pictures/{@name}/RAW_{@name}.tif"/>
 			</fo:block>
 		</xsl:otherwise> 
 	</xsl:choose> 
@@ -455,7 +455,7 @@ One and half class periods
 		padding-start="0.2in" margin-right="2in">
 
 	<fo:external-graphic  height="2.658in" width="3in"
-		src="file:images/{ancestor::unit/@name}/{ancestor::investigation/@name}/{@name}/RAW_{@name}.tif"/>
+		src="file:../images/{ancestor::unit/@name}/{ancestor::investigation/@name}/{@name}/RAW_{@name}.tif"/>
 	</fo:block>
       </xsl:template>
 
