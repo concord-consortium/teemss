@@ -332,9 +332,4 @@ public class LObjImage extends LabObject
 		imagePixels = new byte[len];
 		in.readBytes(imagePixels,0,len);
 	}
-
-    public boolean equals(TreeNode node){
-    	return super.equals(node);
-    }
-
 }

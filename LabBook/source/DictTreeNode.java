@@ -1,7 +1,7 @@
 package org.concord.LabBook;
 
 import waba.util.*;
-import org.concord.waba.extra.ui.*;
+import org.concord.waba.extra.util.*;
 
 public class DictTreeNode
 	implements TreeNode

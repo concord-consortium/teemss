@@ -1,8 +1,7 @@
 package org.concord.LabBook;
 
 import org.concord.waba.extra.io.*;
-import org.concord.waba.extra.ui.*;
-
+import org.concord.waba.extra.util.*;
 
 public class LabObjectPtr implements TreeNode
 {
