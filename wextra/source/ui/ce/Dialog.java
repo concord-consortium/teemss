@@ -167,11 +167,14 @@ private waba.ui.Container		contentPane;
 	int w = (messageWidth > titleWidth)?messageWidth:titleWidth;
 	if(w < bWidth) w = bWidth;
 	w += 20 + 20;//space + image
-	int bHeight = 20;
+
+	int bHeight = 15;
 	int mHeight = fm.getHeight();
-	int h = 15 + bHeight + 10 + (10 + mHeight);
+	int h = 15 + bHeight + 10 + (15 + 2*mHeight);
 	d.setRect(50,50,w,h);
 	waba.ui.Container cp = d.getContentPane();
+	h -= 15;
+
 	waba.ui.Button b = new waba.ui.Button(buttonTitle);
 	b.setRect(w/2 - bWidth/2,h - 5 - bHeight,bWidth,bHeight);
 	cp.add(b);

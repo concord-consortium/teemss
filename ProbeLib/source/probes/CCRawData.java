@@ -83,19 +83,23 @@ int				firstIndex,secondIndex;
 		int 	v = 0,v1 = 0;
 		dEvent.type = e.type;
 		dEvent.intTime = e.intTime;
-		for(int i = 0; i < ndata; i+=chPerSample){
+		int j=0;
+		for(int i = nOffset; i < ndata; i+=chPerSample){
 			if(activeChannels == 1){
-				v = data[nOffset+i];
-				rawIntData[i] = v;
-				rawData[i] = (float)v*dDesc.tuneValue;
+				v = data[i];
+				rawIntData[j] = v;
+				rawData[j] = (float)v*dDesc.tuneValue;
+				j++;
 			}else{
-				v = data[nOffset+i+firstIndex];
-				v1 = data[nOffset+i+secondIndex];
-				rawIntData[i] = v;
-				rawIntData[i+1] = v1;
-				rawData[i] = (float)v*dDesc.tuneValue;
-				rawData[i+1] = (float)v1*dDesc.tuneValue;
+				v = data[i+firstIndex];
+				rawIntData[j] = v;
+				rawData[j] = (float)v*dDesc.tuneValue;
+				j++;
 
+				v1 = data[i+secondIndex];
+				rawIntData[j] = v1;
+				rawData[j] = (float)v1*dDesc.tuneValue;
+				j++;
 			}
 		}
 		dEvent.setNumbSamples(nSamples);
