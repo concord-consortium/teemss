@@ -25,7 +25,7 @@ include ../ReleaseSystem/waba.inc
 
 JAR_BUILD := other
 
-CLASSPATH := $(CLASSPATH):${WGRAPH_DIR}:${LABBOOK_DIR}:${CCPROBE_DIR}:${PROBELIB_DIR}:jars/QTManager.jar:jars/crimson.jar:jars/xalan.jar
+CLASSPATH := $(CLASSPATH):${WGRAPH_DIR}:${LABBOOK_DIR}:${CCPROBE_DIR}:${PROBELIB_DIR}:jars/QTManager.jar:../jars/crimson.jar:../jars/xalan.jar
 
 all: dependencies main
 test: dependencies main
