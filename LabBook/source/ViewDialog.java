@@ -19,7 +19,6 @@ public class ViewDialog extends Dialog
 		this.view = view;
 		this.owner = owner;
 		addDialogListener(l);
-		owner.setDialog(this);
 		listener = l;
 		if(view != null) view.setContainer(this);
 	}
