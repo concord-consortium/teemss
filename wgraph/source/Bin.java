@@ -30,7 +30,7 @@ public class Bin
 {
     public static int START_DATA_SIZE = 10000;
 
-    int [] points;
+    int [] points = null;
     int numPoints;
     int lastPlottedPoint;
     int c;
@@ -57,7 +57,7 @@ public class Bin
 
 	// We store three ints for each point
 	// (x),(avgY),(maxOff << 16 | -minOff)
-	points = new int [START_DATA_SIZE*3];
+	// points = new int [START_DATA_SIZE*3];
 
 	// System.out.println("Creating bin with size:" + START_DATA_SIZE);
 
@@ -211,6 +211,9 @@ public class Bin
 	    refY = dataEvent.data[dataEvent.dataOffset];
 	    lfArray.ref = refY;
 	    minX = 0;
+	    if(points == null){
+	       points = new int [START_DATA_SIZE*3];
+	    }
 	}
 
 	float curX = dataEvent.time;

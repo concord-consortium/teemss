@@ -183,9 +183,12 @@ public class AnnotView extends Container implements PropObject
 	    lgView.curChar++;
 	    bGraph.addBar(bGraph.numBars - 1, a);
 	}
+	
+	//	  Hack to save memory on palm
 	bGraph.removeBar(lgBins[0]);
 	lgBins[0] = lGraph.addBin(0, "Probe", true);
 	bGraph.addBar(bGraph.numBars, lgBins[0]);
+	
 	curView.draw();
 
 	return lgBins[0];
