@@ -233,7 +233,7 @@ public class LObjDictionary extends LabObject
 			LObjSubDict newObj = (LObjSubDict)obj;
 			
 			// we'll assume this object has been initiaizled
-			return (TreeNode)newObj.dict;
+			return newObj.dict;
 		} else {
 			LabObjectPtr ptr = lBook.store(obj);
 			ptr.name = obj.name;

@@ -8,6 +8,8 @@ import extra.ui.*;
 import extra.util.CCUnit;
 import org.concord.waba.extra.event.*;
 import org.concord.waba.extra.probware.probs.*;
+import org.concord.waba.extra.probware.ProbManager;
+import org.concord.waba.extra.probware.CCInterfaceManager;
 
 public class LObjProbeDataSource extends LObjDataSource implements DataListener, ProbListener
 {
@@ -31,6 +33,20 @@ public 			waba.util.Vector 	probListeners = null;
     public LabObjectView getPropertyView(LObjViewContainer vc, boolean edit,LObjDictionary curDict){
     	return null;
     }
+
+
+	public void startDataDelivery(){
+		if(probe == null) return;
+		ProbManager pb = ProbManager.getProbManager(probe.getInterfacePort());
+		if(pb != null) pb.start();
+	}
+	
+	public void stopDataDelivery(){
+		if(probe == null) return;
+		ProbManager pb = ProbManager.getProbManager(probe.getInterfacePort());
+		if(pb != null) pb.stop();
+	}
+
 	
 	public void setCalibrationListener(DataListener calibrationListener){
 		if(probe != null){
@@ -50,6 +66,7 @@ public 			waba.util.Vector 	probListeners = null;
 
 	public CCProb 	getProbe(){return probe;}
 	public void		setProbe(CCProb probe){
+		unRegisterProbeWithPM();
 		if(this.probe != null){
 			this.probe.removeDataListener(this);
 			this.probe.removeProbListener(this);
@@ -58,9 +75,22 @@ public 			waba.util.Vector 	probListeners = null;
 		setUnit();
 		name = (probe == null)?null:probe.getName();
 		if(this.probe != null){
-			this.probe.addDataListener(this);
 			this.probe.addProbListener(this);
 		}
+		registerProbeWithPM();
+	}
+	
+	public void unRegisterProbeWithPM(){
+		if(probe == null) return;
+		ProbManager pb = ProbManager.getProbManager(probe.getInterfacePort());
+		pb.unRegisterProb(probe);
+	}
+	public void registerProbeWithPM(){
+		if(probe == null) return;
+		ProbManager pb = ProbManager.getProbManager(probe.getInterfacePort());
+		if(pb == null) return;
+		pb.registerProb(probe);
+		pb.addDataListenerToProb(probe.getName(),this);
 	}
 	
 	void setUnit(){

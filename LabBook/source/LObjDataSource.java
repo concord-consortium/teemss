@@ -5,6 +5,7 @@ import waba.ui.*;
 import extra.io.*;
 import extra.util.*;
 import org.concord.waba.extra.probware.Transform;
+import org.concord.waba.extra.probware.CCInterfaceManager;
 
 import org.concord.waba.extra.ui.*;
 import extra.ui.*;
