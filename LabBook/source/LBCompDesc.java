@@ -11,7 +11,7 @@ public int 	alignment;
 public boolean wrapping;
 public boolean link = false;
 public Object	control;
-//Control	control;
+	// Control	control;
 public final static int ALIGNMENT_LEFT = 0;
 public final static int ALIGNMENT_RIGHT = 1;
 public int	linkColor = 0x0000FF;

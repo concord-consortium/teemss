@@ -41,7 +41,12 @@ public class CCTextAreaChooser extends LabBookChooser
 			obj = ((DictTreeNode)view.treeControl.getRootNode()).getObj(curNode);	
 			if(obj == null) return;
 			boolean isLink = objProperty.linkCheck.getChecked();
-			LabObjectView objView = (isLink)?obj.getMinimizedView():obj.getView(null,false,session);
+			LabObjectView objView = null;
+			if(isLink){
+				objView = (LabObjectView)new LObjMinimizedView(obj.getVisiblePtr());
+			} else {
+				objView = obj.getView(null, false, session);
+			}
 			if(objView == null) return;
 			extra.ui.Dimension d = objView.getPreferredSize();
 			if(d == null) return;

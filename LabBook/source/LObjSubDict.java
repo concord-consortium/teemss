@@ -51,11 +51,6 @@ public abstract class LObjSubDict extends LabObject
 		}
 	}
 
-	public LabObjectView getMinimizedView()
-	{
-		return new LObjMinimizedView(this);
-	}
-
     public LabObjectView getPropertyView(ViewContainer vc,LObjDictionary curDict,
 										 LabBookSession session){
 		return null;
@@ -104,6 +99,12 @@ public abstract class LObjSubDict extends LabObject
 		}
 
     }
+
+	public LabObjectPtr getPtr(int id)
+	{
+		id++;
+		return dict.getChildAt(id);
+	}
 
     public LabObject getObj(int id, LabBookSession s)
     {

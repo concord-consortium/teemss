@@ -163,25 +163,18 @@ public class CCTextArea  extends Container
 					LabObjectView objView = (LabObjectView)currObjectViewDesc.getObject();
 					boolean needChangeView = ((currObjectViewDesc.link && !(objView instanceof LObjMinimizedView)) ||
 											  (!currObjectViewDesc.link && (objView instanceof LObjMinimizedView)));					
-					LabObject lobj = null;
 					if(needChangeView){
-						lobj = objView.getLabObject();
-					}
-					objView.close();
-					if(lobj != null){
+						LabObjectPtr lObjPtr = null;
+						if(objView instanceof LObjMinimizedView){
+							lObjPtr = ((LObjMinimizedView)objView).getPtr();
+						} else {
+							LabObject lobj = objView.getLabObject();
+							lObjPtr = lobj.getVisiblePtr();
+						} 							
+ 
+						objView.close();
 						remove(objView);
-						objView = (currObjectViewDesc.link)?lobj.getMinimizedView():lobj.getView(this,false, session);
-						if(currObjectViewDesc.link){
-							LObjMinimizedView minView = (LObjMinimizedView)objView;
-							minView.rColor = ((currObjectViewDesc.linkColor & 0xFF0000) >> 16);
-							minView.rColor &= 0xFF;
-							minView.gColor = ((currObjectViewDesc.linkColor & 0xFF00) >> 8);
-							minView.gColor &= 0xFF;
-							minView.bColor &= currObjectViewDesc.linkColor & 0xFF;
-						}
-						objView.setEmbeddedState(true);
-						currObjectViewDesc.setObject(objView);
-						objView.layout(false);
+						objView = setCompDescView(currObjectViewDesc, lObjPtr);
 						add(objView);
 					}
 				}
@@ -208,18 +201,9 @@ public class CCTextArea  extends Container
 				waba.sys.Vm.copyArray(components,0,newComponents,0,nComponents);
 			}
 			components = newComponents;
-			LabObjectView view = (obj.link)?labObject.getMinimizedView():labObject.getView(this,false, session);
-			if(obj.link){
-				LObjMinimizedView minView = (LObjMinimizedView)view;
-				minView.rColor = ((obj.linkColor & 0xFF0000) >> 16);
-				minView.rColor &= 0xFF;
-				minView.gColor = ((obj.linkColor & 0xFF00) >> 8);
-				minView.gColor &= 0xFF;
-				minView.bColor &= obj.linkColor & 0xFF;
-			}
-			view.setEmbeddedState(true);
+			LabObjectView view = setCompDescView(obj, labObject.getVisiblePtr());
+
 			components[nComponents] = obj;
-			components[nComponents].setObject(view);
 			components[nComponents].lineBefore = getLineIndex(curState.cursorRow + firstLine);
 			
 			setObj(labObject,nComponents);
@@ -265,18 +249,9 @@ public class CCTextArea  extends Container
 			waba.sys.Vm.copyArray(components,0,newComponents,0,nComponents);
 		}
 		components = newComponents;
-		LabObjectView view = (objDesc.link)?labObject.getMinimizedView():labObject.getView(this,false, session);
-		if(objDesc.link){
-			LObjMinimizedView minView = (LObjMinimizedView)view;
-			minView.rColor = ((objDesc.linkColor & 0xFF0000) >> 16);
-			minView.rColor &= 0xFF;
-			minView.gColor = ((objDesc.linkColor & 0xFF00) >> 8);
-			minView.gColor &= 0xFF;
-			minView.bColor &= objDesc.linkColor & 0xFF;
-		}
-		view.setEmbeddedState(true);
+		LabObjectView view = setCompDescView(objDesc, labObject.getVisiblePtr());
 		components[nComponents] = objDesc;
-		components[nComponents].setObject(view);
+
 		setObj(labObject,nComponents);
     }
     
@@ -326,7 +301,19 @@ public class CCTextArea  extends Container
     	return retObject;
     }
 
-    
+    public LabObjectPtr getPtr(int index){
+    	LabObjectPtr retPtr = null;
+    	if(subDictionary == null) return retPtr;
+    	LabObject zeroObject = subDictionary.getObj(0, session);
+    	if(zeroObject instanceof LObjDictionary){
+    		retPtr = subDictionary.getPtr(index + 1);
+    	}else{
+    		retPtr = subDictionary.getPtr(index);
+    	}
+    	return retPtr;
+	}
+
+
     public void writeExternal(DataStream out){
 		if(lines == null){
 			out.writeInt(0);
@@ -401,6 +388,15 @@ public class CCTextArea  extends Container
 			labBookDialog.hide();
 			labBookDialog = null;
 		}
+		if(caretTimer != null){
+			removeTimer(caretTimer);
+			caretTimer = null;
+		}
+		if(loadingTimer != null){
+			removeTimer(loadingTimer);
+			loadingTimer = null;
+		}
+
 		if(components == null || components.length < 1) return;
 		for(int i = 0; i < components.length; i++){
 			 LBCompDesc c = components[i];
@@ -409,8 +405,6 @@ public class CCTextArea  extends Container
 			 }
 		}
 	}
-
-
 
 	protected int getItemHeight() {
 		FontMetrics fm = getFontMetrics(); 
@@ -470,8 +464,16 @@ public class CCTextArea  extends Container
 						setObj(null,i);
 						for(int j = i; j < components.length - 1; j++){
 							components[j] = components[j+1];
-							LabObjectView 	oView = (LabObjectView)components[j].getObject();
-							LabObject 		tempObj = (oView == null)?null:oView.getLabObject();
+							LabObject 		tempObj = null;
+							if(components[j].getObject() instanceof LabObjectView){
+								LabObjectView 	oView = (LabObjectView)components[j].getObject();
+								if(oView instanceof LObjMinimizedView){
+									tempObj = session.load(((LObjMinimizedView)oView).getPtr());
+								} else if(oView != null){
+									tempObj = oView.getLabObject();
+								}
+									
+							}
 							setObj(tempObj,j);
 						}
 						int nComp = components.length - 1;
@@ -694,31 +696,18 @@ public class CCTextArea  extends Container
 				LBCompDesc c = components[i];
 				if(c == null) continue;
 				Control cntrl = (Control)c.getObject();
-				if(cntrl != null){//?
-					remove(cntrl);
-				}else{
-					LabObject lobj = getObj(i);
-					if(lobj != null){
-						cntrl = (c.link)?lobj.getMinimizedView():lobj.getView(this,false,session);
-						((LabObjectView)cntrl).setEmbeddedState(true);
-						if(c.link){
-							LObjMinimizedView minView = (LObjMinimizedView)cntrl;
-							minView.rColor = ((c.linkColor & 0xFF0000) >> 16);
-							minView.rColor &= 0xFF;
-							minView.gColor = ((c.linkColor & 0xFF00) >> 8);
-							minView.gColor &= 0xFF;
-							minView.bColor &= c.linkColor & 0xFF;
-						}
-						c.setObject(cntrl);
+				if(cntrl == null){
+					LabObjectPtr lObjPtr = getPtr(i);
+					if(lObjPtr != null){
+						cntrl = setCompDescView(c, lObjPtr);
+						if(cntrl != null) add(cntrl);
 					}
 				}
-				if(cntrl != null) add(cntrl);//?
-				//				int yTop = y;
+
 				int yTop = CCTextArea.yTextBegin;
 				int line = c.lineBefore;
 				if(line > 0){
 					if(lines != null && line < lines.getCount()){
-						//						yTop += (lines[line - 1].endRow - firstLine)*getItemHeight();
 						yTop += (((CCStringWrapper)lines.get(line - 1)).endRow - firstLine)*getItemHeight();
 					}else if(lines != null && line >= lines.getCount()){
 						yTop += (((CCStringWrapper)lines.get(lines.getCount() - 1)).endRow - firstLine)*getItemHeight();
@@ -1017,8 +1006,12 @@ public class CCTextArea  extends Container
 
 			boolean isLink = currObjPropControl.linkCheck.getChecked();
 			LabObject obj = oView.getLabObject();
-			LabObjectView objView = (isLink)?obj.getMinimizedView():obj.getView(null,false, session);
-
+			LabObjectView objView = null;
+			if(isLink){
+				objView = (LabObjectView)new LObjMinimizedView(obj.getVisiblePtr());
+			} else {
+				objView = obj.getView(null, false, session);
+			}
 
 			extra.ui.Dimension d = objView.getPreferredSize();
 			if(d == null) return;
@@ -1045,10 +1038,10 @@ public class CCTextArea  extends Container
 			if(hasCursor){
 				paintCursor(null);
 			}
-		}
-		else if (ev.type == ev.FOCUS_IN){
+		} else if (ev.type == ev.FOCUS_IN){
 			if(ev.target  == this){
 				gotFocus();
+				/*  I don't understand why we'd do this???
 				if(currObjectViewDesc != null){
 					Control cntrl = (Control)currObjectViewDesc.getObject();
 					if((cntrl != null) && (cntrl instanceof LabObjectView)){
@@ -1057,7 +1050,8 @@ public class CCTextArea  extends Container
 					}
 					//				currObjectViewDesc = null;
 				}
-			}else if(components != null){
+				*/
+			} else if(components != null){
 				textWasChosen = null;
 				if(currObjectViewDesc != null){
 					if(currObjectViewDesc.getObject() instanceof LabObjectView){
@@ -1072,16 +1066,6 @@ public class CCTextArea  extends Container
 						object.setShowMenus(true);
 						currObjectViewDesc = cntrlDesc;
 						removeCursor();
-						if(!getEditMode()){
-							if(cntrlDesc.link){
-								// need to fix this!!!
-								object.setShowMenus(false);
-								LabObject lobj = object.getLabObject();
-								if(owner != null){
-									owner.gotoChoosenLabObject(lobj.getVisiblePtr());
-								}
-							}
-						}
 						repaint();
 					}
 				}
@@ -1185,7 +1169,12 @@ public class CCTextArea  extends Container
 		}
 		LabObjectView objView = (LabObjectView)compDesc.getObject();
 		if(objView == null) return;
-		String name = objView.getLabObject().getName();
+		String name = "";
+		if(objView instanceof LObjMinimizedView){
+			name = ((LObjMinimizedView)objView).getPtr().toString();
+		} else {
+			name = objView.getLabObject().getName();
+		}
 		if(currObjPropControl == null){
 			currObjPropControl = new EmbedObjectPropertyControl(null,name);
 			currObjPropControl.layout(true);
@@ -1411,7 +1400,7 @@ public class CCTextArea  extends Container
 				currObjectViewDesc = null;
 				repaint();
 			}
-			if(compDesc != null) return;
+
 			int x = 0;
 			int h = getItemHeight();
 			if(ev.y < CCTextArea.yTextBegin) ev.y = CCTextArea.yTextBegin;
@@ -1465,6 +1454,30 @@ public class CCTextArea  extends Container
 			curState.cursorPos = x;
 			curState.cursorRow = row - 1 - firstLine;
 			paintCursor(null);
+		} else if(ev.type == PenEvent.PEN_UP){
+			LBCompDesc compDesc = findComponentDesc(ev.target);
+
+			if(compDesc != null){
+				Control cntrl = (Control)compDesc.getObject();
+				if(!getEditMode() && compDesc.link && cntrl instanceof LabObjectView){
+					
+					LabObjectView view = (LabObjectView)cntrl;
+					
+					// need to fix this!!!
+					view.setShowMenus(false);
+					LabObjectPtr lObjPtr = null;
+					if(view instanceof LObjMinimizedView){
+						lObjPtr = ((LObjMinimizedView)view).getPtr();
+					} else {
+						lObjPtr = view.getLabObject().getVisiblePtr();
+					}
+					if(owner != null){
+						owner.gotoChoosenLabObject(lObjPtr);
+					}
+				}
+				return;
+			}
+
 		}
 	}
 
@@ -1577,6 +1590,27 @@ public class CCTextArea  extends Container
 		}
 		
 		return charWidthMappers;
+	}
+
+	private LabObjectView setCompDescView(LBCompDesc compDesc, LabObjectPtr lObjPtr){
+		LabObjectView  objView = null;
+		if(compDesc.link){
+			LObjMinimizedView minView  = new LObjMinimizedView(lObjPtr);
+			minView.rColor = ((compDesc.linkColor & 0xFF0000) >> 16);
+			minView.rColor &= 0xFF;
+			minView.gColor = ((compDesc.linkColor & 0xFF00) >> 8);
+			minView.gColor &= 0xFF;
+			minView.bColor &= compDesc.linkColor & 0xFF;
+			objView = minView;
+		} else {
+			LabObject lobj = session.load(lObjPtr);
+			
+			objView = lobj.getView(this,false, session);
+			objView.setEmbeddedState(true);
+			objView.layout(false);
+		}
+		compDesc.setObject(objView);
+		return objView;
 	}
 }
 

@@ -126,6 +126,14 @@ public class LObjDictPagingView extends LabObjectView
 
     public void onEvent(Event e)
     {
+		if(e.type == ControlEvent.TIMER &&e.target == this){
+			if(showObjectTimer != null){
+				removeTimer(showObjectTimer);
+				showObjectTimer = null;
+				showObject();
+			}
+		}
+
 		if(e.type == ControlEvent.PRESSED){
 			TreeNode curNode;
 			TreeNode parent;
@@ -140,7 +148,7 @@ public class LObjDictPagingView extends LabObjectView
 					index = childLength - 1;
 					return;
 				} else if(index < childLength){
-					repaint();
+					// repaint();
 				} else {
 					if(dict.hasObjTemplate){
 						newObj = dict.getObjTemplate(session).copy();
@@ -207,17 +215,26 @@ public class LObjDictPagingView extends LabObjectView
 		}
     }
 
+	Timer showObjectTimer = null;
+
     public void showObject()
     {
 		if(dictNode == null) return;
 		int childLength = dictNode.getChildCount();
 		if(index < 0 || index >= childLength) return;
 
+
 		if(lObjView != null){
 			lObjView.close();
 			if(lObjSession != null) lObjSession.release();
 			remove(lObjView);
+			lObjView = null;
+			curObj = null;
+			lObjSession = null;
 			listSession.release();
+
+			showObjectTimer = addTimer(10);
+			return;
 		}
 
 		TreeNode curNode = dictNode.getChildAt(index);
@@ -246,6 +263,7 @@ public class LObjDictPagingView extends LabObjectView
        	if(obj == curObj) return;
 
 		objectChoice.setSelectedIndex(index);
+		objectChoice.repaint();
 
 		curObj = obj;
 
