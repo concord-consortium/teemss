@@ -510,6 +510,8 @@ public class LabBook
 		}
 
 		LabObject obj = load(ptr);
+		if(obj == null) return null;
+
 		// we are blasting the pointer from the import file
 		// and replacing it with a pointer from the "current" database
 		// "current == old"
@@ -539,7 +541,11 @@ public class LabBook
 			for(int i=0; i<dict.getChildCount(); i++){				
 				child = importPtr((LabObjectPtr)dict.objects.get(i), oldDB);
 				// this is weird I don't know if it is correct
-				dict.objects.set(i, child.ptr);
+				if(child == null){
+					dict.objects.set(i, nullLObjPtr);
+				} else {
+					dict.objects.set(i, child.ptr);
+				}
 				if(child instanceof LObjDictionary){
 					int oldIndex = dictionaries.find(child);
 					if(oldIndex < 0){
