@@ -45,12 +45,13 @@ public class PropertyView extends Container
 		listener = al;
 	}
 
-	public void addContainer(PropContainer pCont)
+	public PropertyPane addContainer(PropContainer pCont)
 	{
 		PropertyPane pane = 
 			new PropertyPane(pCont, this);
 		pane.setAlignment(align);
 		propPanes.add(pane);
+		return pane;
 	}
 
 	public void removeContainer(PropContainer pCont)

@@ -217,7 +217,7 @@ public class PropObject
 	}
 
 	public void setValue(String value){
-		if(value == null) return;
+		if(value == null) value = "";
 		boolean inPossibleValue = false;
 		if(possibleValues == null){
 			inPossibleValue = true;

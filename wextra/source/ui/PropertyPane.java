@@ -11,6 +11,7 @@ public class PropertyPane extends Container
 	PropertyView pView = null;
 	boolean forceSetup = false;
 	int align = PropertyView.ALIGN_CENTER;
+	Label topLabel = null;
 
 	public PropertyPane(PropertyView pV)
 	{
@@ -21,6 +22,11 @@ public class PropertyPane extends Container
 	{
 		this(pView);
 		propContainer = pCont;
+	}
+
+	public void addTopLabel(Label label)
+	{
+		topLabel = label;
 	}
 
 	public void setAlignment(int a)
@@ -174,6 +180,7 @@ public class PropertyPane extends Container
 
 		PropObject po;
 		int totalPropHeight = 0;
+		if(topLabel != null) totalPropHeight = 20;
 		for(int i=0; i< nProperties; i++){
 			po = (PropObject)prop.get(i);
 			if(po.getType() == po.MULTIPLE_SEL_LIST){
@@ -217,7 +224,13 @@ public class PropertyPane extends Container
 			else spaceSize = diff;
 			labelStartX = (width - (maxLabelWidth + spaceSize + maxPrefValWidth))/2; 
 		}
-							
+			
+		if(topLabel != null){
+			topLabel.setRect(labelStartX, y0, maxLabelWidth + 2 + maxPrefValWidth, 12);
+			add(topLabel);
+			y0+= 20;
+		}
+				
 		for(int i = 0; i < nProperties; i++){
 			po = (PropObject)prop.get(i);
 
