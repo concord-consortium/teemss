@@ -108,9 +108,11 @@ public class LObjGraphView extends LabObjectView
 		propXmin = new PropObject("Min", graph.xmin + "");
 		propXmax = new PropObject("Max", graph.xmax + "");
 		propXlabel = new PropObject("Label", graph.xLabel);
+		propXlabel.prefWidth = 100;
 		propYmin = new PropObject("Min", graph.ymin + "");
 		propYmax = new PropObject("Max", graph.ymax + "");
 		propYlabel = new PropObject("Label", graph.yLabel);
+		propYlabel.prefWidth = 100;
 
 		props.addProperty(propTitle, "Graph");
 
@@ -229,6 +231,10 @@ public class LObjGraphView extends LabObjectView
 	}
 
     public void showAxisProp()
+	{
+		showAxisProp(0);
+	}
+    public void showAxisProp(int index)
     {
 		MainWindow mw = MainWindow.getMainWindow();
 		if(mw instanceof ExtraMainWindow){
@@ -245,7 +251,7 @@ public class LObjGraphView extends LabObjectView
 			propYmax.setValue("" + graph.ymax);
 			propYlabel.setValue(graph.yLabel);
 
-			pDialog = new PropertyDialog((ExtraMainWindow)mw, this, "Properties", props);
+			pDialog = new PropertyDialog((ExtraMainWindow)mw, this, "Properties", props, index);
 			pDialog.setRect(0,0, 140,140);
 			pDialog.show();
 		}
@@ -427,7 +433,7 @@ public class LObjGraphView extends LabObjectView
 
 		addMark = new Button("Mark");
 
-		String [] toolsChoices = {"Delete Mark", "Toggle Scrolling", "Auto Resize"};
+		String [] toolsChoices = {"Delete Mark", "Toggle Scrolling", "Auto Resize", "Zoom"};
 		toolsChoice = new Choice(toolsChoices);
 		toolsChoice.setName("Tools");
 		add(toolsChoice);
@@ -582,6 +588,7 @@ public class LObjGraphView extends LabObjectView
 				av.setViewMode('D');
 				break;
 			case 1:
+				av.setViewMode('Z');
 				break;
 			case 2:
 				av.setViewMode('A');
@@ -622,6 +629,10 @@ public class LObjGraphView extends LabObjectView
 				// curVal.setText("");
 				// curTime.setText("");
 			}		
+		} else if(e.type == 1004){
+			showAxisProp(2);
+		} else if(e.type == 1005){
+			showAxisProp(1);
 		} else if(e.target == viewChoice){
 			if(e.type == ControlEvent.PRESSED){
 				int index = viewChoice.getSelectedIndex();
@@ -640,8 +651,27 @@ public class LObjGraphView extends LabObjectView
 					}
 				}
 			}
-		} else if(e.target == clear &&
-				  e.type == ControlEvent.PRESSED){
+		} else if(e.target == toolsChoice){
+			if(e.type == ControlEvent.PRESSED){
+				int index = toolsChoice.getSelectedIndex();
+				switch(index){
+				case 0:
+				case 1:
+					break;
+				case 2:
+					if(av.lGraph.calcVisibleRange()){
+						graph.ymin = av.lGraph.minVisY;
+						graph.ymax = av.lGraph.maxVisY;
+						updateProp();
+					}
+					break;
+				case 3:
+					av.lgView.zoomSelect();
+					break;
+				}
+			}
+		}else if(e.target == clear &&
+				 e.type == ControlEvent.PRESSED){
 			clear();
 		}
 

@@ -154,7 +154,8 @@ public class LObjDataCollectorView extends LabObjectView
 		if(e.getSource() == menu){
 			if(e.getActionCommand().equals("Properties...")){
 				stop();
-				
+
+				gv.updateAv2Graph();
 				if(dc.dataSources == null || dc.dataSources.getCount() < 1 ||
 				   !(dc.dataSources.get(0) instanceof LObjProbeDataSource)){
 					return;
