@@ -313,7 +313,7 @@ Further Investigations
 	<xsl:apply-templates select="ext-image"/>
 	<fo:list-block
 		space-before="0.25em" space-after="0.25em" >
-		<xsl:apply-templates/>
+		<xsl:apply-templates select="item"/>
 	</fo:list-block>
 	<fo:block break-after="page"/>
 </xsl:template>
