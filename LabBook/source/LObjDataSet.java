@@ -114,6 +114,9 @@ public class LObjDataSet extends LObjSubDict
 		binInfo[i*2 + 1] = ds.readInt();
 		curBin = new Bin(binInfo[i*2]);
 		bins.add(curBin);
+		//dima
+		curBin.time = new waba.sys.Time();
+		
 		curBin.label = ds.readString();
 	    }
 	} else if((type & 0x0f) == 1 && myBin != null){
