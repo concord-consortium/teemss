@@ -40,7 +40,7 @@ public class ModelPage extends Container
 	modelCanvas.addObject(new GarbageObject(), modelLayer, 10, 90);
 
 	// create the thermal plane
-	tp = new ThermalPlane(modelCanvas, 4, 7, 236, 146);
+	tp = new ThermalPlane(modelCanvas, 7, 7, 236, 146);
 	modelCanvas.tp = tp;
 	add(modelCanvas);
 
@@ -72,8 +72,8 @@ public class ModelPage extends Container
 
 	layer = addCanvas.getLayer(0);
 	ModelObject mo = new ModelObject(null, 14, 42);
-	mo.specHeat = 100000;
-	mo.conduct = 1;
+	mo.specHeat = (float)0.25;
+	mo.conduct = (float)0.25;
 	mo.initTemp = 25;
 	mo.dragAction = mo.EXT_DRAG_COPY;
 	// the order is important here that should be fixed

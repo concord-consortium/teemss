@@ -10,7 +10,6 @@ class ThermalPlane extends Container
     int step;
     int pWidth, pHeight;
     ThermalArea [] nextPlane;
-    float [] futTemp;
     Canvas canvas;
     GraphView graph = null;
     Vector objects = new Vector();
@@ -48,7 +47,6 @@ class ThermalPlane extends Container
 	pHeight = height+2;
 	plane = new ThermalArea [pWidth  * pHeight];
 	nextPlane = new ThermalArea [pWidth * pHeight];
-	futTemp = new float [pWidth * pHeight];
 	canvas = c;
 
     }
@@ -236,7 +234,7 @@ class ThermalPlane extends Container
     public void start()
     {
 	if(timer == null){
-	    timer = addTimer(50);
+	    timer = addTimer(25);
 	    pos = 0;
 	} 
     }
@@ -260,6 +258,8 @@ class ThermalPlane extends Container
 	    case 0:
 	    case 1:
 	    case 2:
+		step();
+		step();
 		step();
 		step();
 		step();
@@ -308,8 +308,6 @@ class ThermalPlane extends Container
     public void step()
     {
 	int i,j,m;
-	float [] qs = new float [4];
-	int [] nbrs = new int[4];
 	float myS, myC, myT, nextT;
 	float neiS, neiC, neiT;
 	ThermalArea tmp [];
@@ -318,13 +316,12 @@ class ThermalPlane extends Container
 	i = 1;
 	j = 1;
 	float sumT, sumWeights, weightedAvg;
-	float sumQ, avgC;
+	float sumQ, avgC, neibrTemp;
 	float newTemp, maxTemp, minTemp;
+	int totalT;
 
-	nbrs[0] = -1;
-	nbrs[1] = 1;
-	nbrs[2] = -pWidth;
-	nbrs[3] = pWidth;
+	maxTemp = 1000;
+	minTemp = -1000;
 
 	endIndex = pWidth-1 + pWidth*(pHeight-2); 
 	for(index=pWidth+1;index<endIndex; index++){
@@ -337,19 +334,35 @@ class ThermalPlane extends Container
 		myC = me.mo.conduct;
 		myT = me.temp;		    
 		next = nextPlane[index];
-		sumQ = (float)0.0;
-		maxTemp = myT;
-		minTemp = myT;
-		for(m=0; m<4; m++){
-		    neibr = plane[index + nbrs[m]];
-		    if(neibr != null){
-			if(neibr.temp > maxTemp) maxTemp = neibr.temp;
-			if(neibr.temp < minTemp) minTemp = neibr.temp;
-			avgC = (neibr.mo.conduct + myC)/(float)2.0;
-			sumQ += avgC * (neibr.temp - myT);
-		    }
+		sumT = (float)0.0;
+		totalT = 0;
+
+		neibr = plane[index -1 ];
+		if(neibr != null){
+		    //		    avgC = (neibr.mo.conduct + myC)/(float)2.0;
+		    sumT += neibr.temp;
+		    totalT++;
 		}
-		newTemp = sumQ * myS + myT; 
+		neibr = plane[index + 1];
+		if(neibr != null){
+		    // avgC = (neibr.mo.conduct + myC)/(float)2.0;
+		    sumT += neibr.temp;
+		    totalT++;
+		}
+		neibr = plane[index - pWidth];
+		if(neibr != null){
+		    // avgC = (neibr.mo.conduct + myC)/(float)2.0;
+		    sumT += neibr.temp;
+		    totalT++;
+		}
+		neibr = plane[index + pWidth];
+		if(neibr != null){
+		    // avgC = (neibr.mo.conduct + myC)/(float)2.0;
+		    sumT += neibr.temp;
+		    totalT++;
+		}
+
+		newTemp = myS * myC * (sumT - myT * (float)totalT) + myT;
 		if(newTemp > maxTemp)
 		    newTemp = maxTemp;
 		else if(newTemp < minTemp)
