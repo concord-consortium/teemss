@@ -19,6 +19,7 @@ JAR_LIST:= -C $(CURDIR)/classes/other . \
 -C $(subst _CUR_PLATFORM_,other,$(LABBOOK_DIR)) org/concord/LabBook 
 
 SRC_DIR= src
+SKIP_FILES=src/QTManager.java
 
 include ../ReleaseSystem/waba.inc
 
