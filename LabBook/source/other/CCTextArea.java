@@ -414,7 +414,8 @@ String				text;
 			labBookDialog = null;
 		}
 		if(dict != null){
-			labBookDialog = new CCTextAreaChooser(dict,this,this);
+//			labBookDialog = new CCTextAreaChooser(dict,this,this);
+			labBookDialog = new CCTextAreaChooser((LObjDictionary)LabObject.lBook.load(LabObject.lBook.getRoot()),this,this);
 			labBookDialog.show();
 		}
 
