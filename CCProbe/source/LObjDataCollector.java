@@ -31,17 +31,6 @@ public class LObjDataCollector extends LObjSubDict
 		setGraph(graph);
     }
     
-	public static LObjSubDict makeNew()
-    {
-		LObjDataCollector me = new LObjDataCollector();
-		me.initSubDict();
-
-		LObjGraph graph = new LObjGraph();
-		graph.name = "..auto_title..";
-		me.setGraph(graph);
-		return me;
-    }
-
 	public void store()
 	{
 		if(dataSources == null) return;

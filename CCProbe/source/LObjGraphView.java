@@ -351,7 +351,7 @@ public class LObjGraphView extends LabObjectView
 			}
 		} else {
 			if(e.getActionCommand().equals("Save Data..")){
-				LObjDataSet dSet = LObjDataSet.makeNewDataSet();
+				LObjDataSet dSet = DataObjFactory.createDataSet();
 				LObjGraph dsGraph = (LObjGraph)graph.copy();
 				dsGraph.name = "Graph";
 				dSet.setDataViewer(dsGraph);

@@ -38,19 +38,26 @@ public class LObjDataSet extends LObjSubDict
 		chunkIndex = xIndex;
     }
 
-    public static LObjDataSet makeNewDataSet()
-    {
-		LObjDataSet me = new LObjDataSet();
-		me.initSubDict();
-		me.name = "DataSet";
-		return me;	
-    }
-
+	public void init()
+	{
+		super.init();
+		name = "DataSet";
+	}
 	
+	public LObjDataSet makeSubChunk(Bin b, int xIndex)
+	{
+		LObjDataSet sub = (LObjDataSet)factory.makeNewObj(DataObjFactory.DATA_SET, false);
+		if(sub == null) return null;
+		sub.myBin = b;
+		sub.label = b.getLabel();
+		sub.chunkIndex = xIndex;
+		return sub;
+	}
+
     public void addBin(Bin b)
     {
 		int numBinChunks = b.numDataChunks();
-		LObjDataSet first = new LObjDataSet(b, 0);
+		LObjDataSet first = makeSubChunk(b, 0);
 		first.numBinChunks = numBinChunks;
 		setObj(first, numChunks + 1);
 		first.storeNow();
@@ -58,7 +65,7 @@ public class LObjDataSet extends LObjSubDict
 		numChunks++;
 
 		for(int i=1; i<numBinChunks; i++){
-			LObjDataSet curChunk = new LObjDataSet(b, i);
+			LObjDataSet curChunk = makeSubChunk(b, i);
 			setObj(curChunk, numChunks + 1);				
 			curChunk.storeNow();
 			curChunk.chunkIndex = -1;

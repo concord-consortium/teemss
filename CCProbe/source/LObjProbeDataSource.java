@@ -21,21 +21,6 @@ CCUnit		currentUnit = null;
 public 		waba.util.Vector 	dataListeners = null;
 	public waba.util.Vector probListeners = null;
 
-	public static LObjProbeDataSource makeNew()
-    {
-		LObjProbeDataSource me = new LObjProbeDataSource();
-		me.initSubDict();
-
-		return me;
-    }
-
-	public static LObjProbeDataSource makeNew(CCProb probe)
-	{
-		LObjProbeDataSource me = makeNew();
-		me.setProbe(probe);
-		return me;
-	}
-
     public LObjProbeDataSource()
     {
 		super(DataObjFactory.PROBE_DATA_SOURCE);
@@ -227,7 +212,9 @@ public 		waba.util.Vector 	dataListeners = null;
 		CCProb p = ProbFactory.createProb(probeID,interfacePort);
 		if(p == null) return null;
 		p.setInterfaceType(interfaceType);
-		return makeNew(p);
+		LObjProbeDataSource me = DataObjFactory.createProbeDataSource();
+		me.setProbe(p);
+		return me;
 	}
 
 }

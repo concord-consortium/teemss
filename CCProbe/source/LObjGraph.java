@@ -64,7 +64,7 @@ public class LObjGraph extends LabObject
 	
 	public LabObject copy()
 	{
-		LObjGraph g = new LObjGraph();
+		LObjGraph g = DataObjFactory.createGraph();
 
 		g.xmin = xmin;
 		g.ymin = ymin;
