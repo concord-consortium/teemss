@@ -39,11 +39,18 @@ public class AnnotView extends Container
 
     public boolean active = false;
 
+	SplitAxis xaxis = null;
+	ColorAxis yaxis = null;
+
     public AnnotView(int w, int h, int numYdigits)
     {
 		setRect(0,0,w,h);
 
-		curView = lgView = new GraphViewLine(w, h, numYdigits);
+		xaxis = new SplitAxis(Axis.BOTTOM);
+		yaxis = new ColorAxis(Axis.LEFT);
+ 		yaxis.setMaxDigits(numYdigits);
+
+		curView = lgView = new GraphViewLine(w, h, xaxis, yaxis);
 		bgView = new GraphViewBar(w, h);	
 		lgView.setPos(0,0);
 		bgView.setPos(0,0);
@@ -58,12 +65,12 @@ public class AnnotView extends Container
 
 	public void setYLabel(String label, CCUnit unit)
 	{
-		lGraph.setYLabel(label, unit);
+		lGraph.yaxis.setAxisLabel(label, unit);
 	}
 
 	public void setXLabel(String label, CCUnit unit)
 	{
-		lGraph.setXLabel(label, unit);
+		lGraph.xaxis.setAxisLabel(label, unit);
 	}
 
     public void addBin(Bin b)
@@ -101,8 +108,12 @@ public class AnnotView extends Container
 
     public void setRange(float minX, float maxX, float minY, float maxY)
     {
-		lgView.lGraph.setYRange(minY, maxY - minY);
-		lgView.lGraph.setXRange(0, minX, maxX - minX);
+		yaxis.setRange(minY, maxY - minY);
+		
+		// This is a hack hmmm :)  I need to figure out which axis I'm setting
+		// This probably won't work anyhow because I need to change the min in
+		// the SplitAxis
+		xaxis.setRange(minX, maxX - minX);
 
 		bGraph.setYRange(minY, maxY - minY);
 	
@@ -300,6 +311,8 @@ public class AnnotView extends Container
     
     public void free()
     {
+		if(yaxis != null)yaxis.free();
+		if(xaxis != null)xaxis.free();
 		if(lgView != null) lgView.free();
 		if(bgView != null) bgView.free();
     }

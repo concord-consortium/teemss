@@ -234,7 +234,7 @@ public class Bin
 
     public boolean dataReceived(DataEvent dataEvent)
     {
-		if(lfArray.getCount() == 0){
+		if(lfArray.getCount() == 0 && dataEvent.numbSamples > 0){
 			dT = dataEvent.getDataDesc().getDt();
 			sampSize = dataEvent.getDataDesc().getChPerSample();
 			refY = dataEvent.data[dataEvent.dataOffset];

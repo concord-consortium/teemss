@@ -51,17 +51,33 @@ public class GraphViewLine extends GraphView
 
     FloatConvert fConvert = new FloatConvert();
 
-    public GraphViewLine(int w, int h, int numYDigits)
-    {
+    public GraphViewLine(int w, int h, 
+						 SplitAxis xaxis, Axis yaxis)
+	{
 		super(w,h);
 
 		fConvert.minDigits = 2;
 		fConvert.maxDigits = 4;
 
-		graph = lGraph = new LineGraph(w, h, numYDigits);
+		int dwX, dwY;
+		if(yaxis.maxDigits <= 3){
+			dwX = 35;
+		} else {
+			if(waba.sys.Vm.getPlatform().equals("PalmOS")){
+				dwX = 10 + 5 + 5*yaxis.maxDigits;
+			} else {
+				dwX = 10 + 5 + 7*yaxis.maxDigits;
+			}
+		} 
+		dwY = 10;
 
-		lGraph.setYRange(minY, maxY - minY);
-		lGraph.setXRange(0, minX, maxX - minX);
+		graph = lGraph = new LineGraph(w, h, dwX, dwY, 
+									   xaxis, yaxis);
+
+		yaxis.setRange(minY, maxY - minY);
+
+		// This is a hack see setRange in AnnotView
+		xaxis.setRange(minX, maxX - minX);
     }
 
 	
@@ -76,24 +92,24 @@ public class GraphViewLine extends GraphView
 		float range;
 		float scrollEnd;
 		int myScrollStep = (int)(lGraph.dwWidth * scrollStepSize);
-
+		Axis xaxis = lGraph.xaxis.lastAxis;
 
 		if(autoScroll && 
 		   (bin.getNumVals() > 0) && 
-		   (bin.maxX > (lGraph.xaxis.dispMin + (float)lGraph.xaxis.dispLen / lGraph.xScale ) ||
-			lGraph.xaxis.drawnX == -1)){
+		   (bin.maxX > (xaxis.dispMin + (float)xaxis.dispLen / xaxis.scale ) ||
+			xaxis.drawnX == -1)){
 			// scroll
-			range = lGraph.xRange;
+			range = lGraph.xaxis.getRange();
 			scrollEnd = bin.maxX - range * scrollFract;
 			//		System.out.println("xRange: " + lGraph.xRange + ", scrollEnd: " + scrollEnd);
 			if(scrollEnd < (float)0)
 				scrollEnd = (float)0;
-			if((scrollEnd - lGraph.xaxis.dispMin) * lGraph.xScale > (10 * myScrollStep)){
-				myScrollStep = (int)((scrollEnd - lGraph.xaxis.dispMin) * lGraph.xScale + 2);
+			if((scrollEnd - xaxis.dispMin) * xaxis.scale > (10 * myScrollStep)){
+				myScrollStep = (int)((scrollEnd - xaxis.dispMin) * xaxis.scale + 2);
 			}
-			while((lGraph.xaxis.dispMin < scrollEnd) || 
-				  (lGraph.xaxis.drawnX > (lGraph.xOriginOff + 4)) ||
-				  (lGraph.xaxis.drawnX == -1)){
+			while((xaxis.dispMin < scrollEnd) || 
+				  (xaxis.drawnX > (lGraph.xOriginOff + 4)) ||
+				  (xaxis.drawnX == -1)){
 				lGraph.scroll(myScrollStep, 0);
 				drawn = false;
 				super.plot();
@@ -137,10 +153,10 @@ public class GraphViewLine extends GraphView
 		draw();
 
 		float yChange = (float)(lGraph.dwHeight)/(float)(selectBotY - selectTopY);
-		lGraph.setYscale(lGraph.yaxis.scale * yChange);
+		lGraph.yaxis.setScale(lGraph.yaxis.scale * yChange);
 
 		float xChange = (float)(lGraph.dwWidth)/(float)(selectRightX - selectLeftX);
-		lGraph.setXscale(lGraph.xScale * xChange);
+		lGraph.xaxis.setScale(lGraph.xaxis.scale * xChange);
 		
 		selection = false;
 		draw();
@@ -303,7 +319,7 @@ public class GraphViewLine extends GraphView
 							if(e.type == PenEvent.PEN_DRAG){
 								lGraph.setYscaleEst(lGraph.yaxis.scale * yChange);
 							} else {
-								lGraph.setYscale(lGraph.yaxis.scale * yChange);
+								lGraph.yaxis.setScale(lGraph.yaxis.scale * yChange);
 								postEvent(new ControlEvent(1006, this));
 							}				
 							draw();
@@ -312,9 +328,9 @@ public class GraphViewLine extends GraphView
 							xChange = (float)(lGraph.xOriginOff - pe.x)/ (float)(lGraph.xOriginOff - downX);
 
 							if(e.type == PenEvent.PEN_DRAG){
-								lGraph.setXscaleEst(lGraph.xScale * xChange);
+								lGraph.setXscaleEst(lGraph.xaxis.scale * xChange);
 							} else {
-								lGraph.setXscale(lGraph.xScale * xChange);
+								lGraph.xaxis.setScale(lGraph.xaxis.scale * xChange);
 								postEvent(new ControlEvent(1006, this));
 							}
 							draw();

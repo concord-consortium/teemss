@@ -22,9 +22,8 @@ import waba.ui.*;
 import waba.util.*;
 import waba.sys.*;
 import extra.util.Maths;
-
-
-
+import extra.util.*;    
+import org.concord.waba.extra.event.*;
 
 public class Axis
 {
@@ -103,25 +102,33 @@ public class Axis
 
     boolean nonNegative = true;
 
-    public Axis(float min, int len, float s, int type)
+	TextLine axisLabel;
+	String axisLabelStr;
+	CCUnit axisLabelUnit;
+
+	Vector scaleListeners = new Vector();
+
+    public Axis(int type)
     {
-		this.min = dispMin = min;
-		axisDir = 1;
-		if(s < (float)0) axisDir = -1;
-		length = dispLen = len;	
+		this.min = dispMin = 0f;
 		label.maxDigits = 2;
 		dispOffset = 0;	
 		needCalcTics = true;
 
 		switch(type){
 		case BOTTOM:
+			length = dispLen = 100;	
+			axisDir = 1;
 			ticDir = 1;
 			orient = Axis.X_SCREEN_AXIS;
 			labelOff = 7;
 			labelEdge = TextLine.TOP_EDGE;
 			minMajTicSpacing = 40;
+			axisLabel = new TextLine("", TextLine.RIGHT);
 			break;
 		case LEFT:
+			length = dispLen = -100;	
+			axisDir = -1;
 			ticDir = -1;
 			orient = Axis.Y_SCREEN_AXIS;
 			labelOff = -6;
@@ -129,21 +136,76 @@ public class Axis
 			axisDir = -1;
 			gridDir = 1;
 			nonNegative = false;
+			axisLabel = new TextLine("", TextLine.UP);
 			break;
 		}
 
-		setScale(s);
+		scale = 1f*(float)axisDir;
     }
 
-    public Axis(float min, float max, int len, int type)
-    {
-		this(min, len, (float)len / (max - min), type);
-
-    }
+	public void setLength(int len)
+	{
+		length = dispLen = len;	
+	}
 
 	public void setMaxDigits(int axisDigits)
 	{
 		maxDigits = axisDigits;
+	}
+
+	ActionEvent scaleEvent = new ActionEvent(this, null, null);
+	public final static int SCALE_CHANGE = 3000;
+
+	public void addActionListener(ActionListener al)
+	{
+		scaleListeners.add(al);
+	}
+
+    void notifyListeners()
+	{
+		scaleEvent.type = SCALE_CHANGE;
+		for(int i=0; i<scaleListeners.getCount(); i++){
+			ActionListener al = (ActionListener)scaleListeners.get(i);
+			al.actionPerformed(scaleEvent);
+		}
+	}
+
+	public void setAxisLabel(String label, CCUnit unit)
+	{
+		axisLabelStr = label;
+		axisLabelUnit = unit;
+	}
+
+    public void setRange(float min, float range)
+    {
+		setDispMin(min);
+		setRange(range);
+    }
+
+    public void setRange(float range)
+    {		
+		setScale((dispLen - axisDir) / range);
+    }
+
+	public void drawAxisLabel(Graphics g, int edgePos)
+	{
+		String unitStr;
+		if(axisLabelUnit != null){
+			unitStr = " (" + axisLabelUnit.abbreviation + ")";
+		} else {
+			unitStr = "";
+		}
+
+		if(labelExp != 0){
+			axisLabel.setText(axisLabelStr + unitStr + "  10^"+ labelExp);
+		} else {
+			axisLabel.setText(axisLabelStr + unitStr);
+		}
+		if(labelEdge == TextLine.RIGHT_EDGE){
+		   axisLabel.drawCenter(g, edgePos, drawnY + dispLen/2, TextLine.LEFT_EDGE);
+		} else if(labelEdge == TextLine.TOP_EDGE){
+			axisLabel.drawCenter(g, drawnX + dispLen/2, edgePos, TextLine.BOTTOM_EDGE);
+		}
 	}
 
     public void free()
@@ -158,8 +220,27 @@ public class Axis
 				}
 			}
 		}
-
+		if(axisLabel != null)axisLabel.free();
     }
+
+	public float getValue(int pos)
+	{
+		if(orient == Axis.Y_SCREEN_AXIS){
+			if(pos*axisDir > drawnY*axisDir &&
+			   pos*axisDir < axisDir*(drawnY + axisDir + dispLen)){
+				return Maths.NaN;
+			}
+
+			return (pos - drawnY) / scale + dispMin;
+		} else {
+			if(pos*axisDir > drawnX*axisDir && 
+			   pos*axisDir < axisDir*(drawnX + axisDir + dispLen)){
+				return Maths.NaN;
+			}
+
+			return (pos - drawnX) / scale + dispMin;
+		}
+	}
 
     /**
      * SERC: this comes from the SpecialFunction class
@@ -414,7 +495,8 @@ public class Axis
 		if(scale < (float)0) axisDir = -1;
 		setDispOffset(dispMin, 0);
 		setStepSize();
-		needCalcTics = true;       
+		needCalcTics = true;
+		notifyListeners();
     }
 
     public void setDispOffset(float startMin, int newDO)
