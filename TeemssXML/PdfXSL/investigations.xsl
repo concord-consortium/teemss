@@ -423,7 +423,6 @@ Further Investigations
 	</fo:list-block>
 </xsl:template>
 
-
 <xsl:template match="instructions">
 	<fo:list-block
 		space-before="0.25em" space-after="0.25em"
@@ -439,14 +438,15 @@ Further Investigations
   	</xsl:variable>
 		<fo:list-item space-after="0.5em">
 			<fo:list-item-label>
-				<fo:block>
-					<xsl:value-of select="$type_label"/>.
+				<fo:block font-size="14pt" font-family="san-serif"
+						font-weight="bold" color="black">
+					<xsl:number format="{$type_label}"/>.
 				</fo:block>
 			</fo:list-item-label>
 			<fo:list-item-body start-indent="body-start()">
 				<fo:block font-size="14pt" font-family="san-serif"
 						font-weight="bold" color="black"
-						space-before="6pt" space-after="6pt">	
+						space-after="6pt">	
 					<xsl:value-of select="@title"/>
 				</fo:block>
 				<fo:block>
@@ -545,7 +545,7 @@ Further Investigations
         	space-after.minimum="2pt"
         	space-after.maximum="6pt"
         	space-after.optimum="4pt" break-after="page">
-    	<xsl:apply-templates/>
+    	<xsl:apply-templates select="tech-hint-body"/>
     	</fo:block>
 </xsl:template>
 
