@@ -237,24 +237,6 @@ public class CCTextArea  extends Container
 		}
     }
     
-    public void addObject(LBCompDesc objDesc){
-		Object o = objDesc.getObject();
-
-		if(o == null || !(o instanceof LabObject)) return;
-
-		LabObject labObject = (LabObject)o;
-		int nComponents = (components == null)?0:components.length;
-		LBCompDesc []newComponents = new LBCompDesc[nComponents+1];
-		if(components != null){
-			waba.sys.Vm.copyArray(components,0,newComponents,0,nComponents);
-		}
-		components = newComponents;
-		LabObjectView view = setCompDescView(objDesc, labObject.getVisiblePtr());
-		components[nComponents] = objDesc;
-
-		setObj(labObject,nComponents);
-    }
-    
     public void initLineDictionary(){
     	if(subDictionary == null) return;
 
@@ -275,7 +257,6 @@ public class CCTextArea  extends Container
 				subDictionary.setObj(objDictionary,0);
 			}
 		}
-
     }
     
     public void setObj(LabObject lobj,int index){
@@ -575,7 +556,23 @@ public class CCTextArea  extends Container
 
 		if(embedComponents != null && embedComponents.getCount() > 0){
 			for(i = 0; i < embedComponents.getCount(); i++){
-				addObject((LBCompDesc)embedComponents.get(i));
+				LBCompDesc objDesc = (LBCompDesc)embedComponents.get(i);
+				Object o = objDesc.getObject();
+
+				if(o == null || !(o instanceof LabObject)) continue;
+
+				LabObject labObject = (LabObject)o;
+
+				int nComponents = (components == null)?0:components.length;
+				LBCompDesc []newComponents = new LBCompDesc[nComponents+1];
+				if(components != null){
+					waba.sys.Vm.copyArray(components,0,newComponents,0,nComponents);
+				}
+				components = newComponents;
+
+				components[nComponents] = objDesc;
+
+				setObj(labObject,nComponents);
 			}
 		}
 		needInitLines = true;

@@ -223,7 +223,8 @@ public class LObjImage extends LabObject
 		waba.fx.Image wi = null;
 		wi = new waba.fx.Image(imageWidth,imageHeight);
 		if(wi != null) wi.setPixels(imageBPP,tmpCmap,imageScanlen,imageHeight,0,imagePixels);
-		imageCMAP = null;
+		
+		imageCMAP = null;		
 		imagePixels = null;
 		return wi;
 	}
