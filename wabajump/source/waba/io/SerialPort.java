@@ -264,7 +264,7 @@ public int readBytes(byte buf[], int start, int count)
 
    int numBytes = readCheck();
    if(numBytes <= 0){
-       // This will return -1 or 0
+       // This will return -1 or 0       
        return numBytes;
    }
        
@@ -306,12 +306,17 @@ private boolean arrayRangeCheck(byte buf[], int start, int count)
 
 public int readCheck()
 {
+    int iNumRW=0;
+
    if(iRefNum==-1){
       return -1;
    }
    IntHolder iNumBytes=new IntHolder(0);
-   if(Palm.SerReceiveCheck(iRefNum, iNumBytes)!=0){
-      return -1;
+   if((iNumRW = Palm.SerReceiveCheck(iRefNum, iNumBytes))!=0){
+       errNum = Palm.SerGetStatus(iRefNum, new BoolHolder(), new BoolHolder());
+       errRet = iNumRW;
+       Palm.SerClearErr(iRefNum);
+       return -1;
    }
    return iNumBytes.value;
 }
@@ -341,7 +346,7 @@ public int writeBytes(byte buf[], int start, int count)
    iNumRW=Palm.SerSend(iRefNum, buf, start, count);
       
    if(iNumRW != 0){
-       Palm.SerClearErr(iRefNum);
+       //      Palm.SerClearErr(iRefNum);
        return -1;
    }
    return count;

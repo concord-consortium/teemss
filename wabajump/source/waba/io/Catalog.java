@@ -154,6 +154,22 @@ public Catalog(String name, int mode)
    }
 }
 
+    String errString = null;
+
+    public String getFunct()
+    {
+	if(errString != null)
+	    return errString;
+
+	return "";
+    }
+
+    public int getError()
+    {
+	return Palm.DmGetLastErr();
+    }
+
+
 //this function added by Peter Carroll
 private int openDB(String sName, int iCreator, int iType)
 {
@@ -228,12 +244,6 @@ public int addRecord(int size)
 	   return -1;
 	}
 	
-	iRecPtr=Palm.MemHandleLock(iRecH);
-	if(iRecPtr==0){
-	   Palm.DmDeleteRecord(iDmRef, (int)iPos.value);
-	   _recordPos=-1;
-	   return -1;
-	}
 	_recordPos=(int)iPos.value;
 	
 	iRecSize=size;
@@ -254,28 +264,68 @@ public int addRecord(int size)
 public boolean resizeRecord(int size)
 {
 	if (_recordPos == -1){
+	    errString = "-1 _recordPos";
 		return false;
 	}
 	if(size<0){
+	    errString = "negative size";
 	   return false;
 	}
 	if(iDmRef==0){
+	    errString = "iDmRef";
 	   return false;
 	}
    
 	int iRecPos=_recordPos;
 	recClose();
-	
+
+	iRecH=Palm.DmGetRecord(iDmRef, iRecPos);
+	if(iRecH==0){
+	    errString = "DmGetRecord";
+	   return false;
+	}
+
 	iRecH=Palm.DmResizeRecord(iDmRef, iRecPos, size);
 	if(iRecH==0){
+	    errString = "DmResizeRecord";
 	   return false;
 	}
-	iRecPtr=Palm.MemHandleLock(iRecH);
-	if(iRecPtr==0){
-	   return false;
+
+	_recordPos = iRecPos;
+	iRecSize=Palm.MemHandleSize(iRecH);
+
+	flgCurRecModified=true;
+
+	/*		
+	byte [] buf = new byte [Palm.MemHandleSize(iRecH)];	
+	int count = size;
+	if(size > Palm.MemHandleSize(iRecH)){
+	    count = Palm.MemHandleSize(iRecH);
 	}
+
+	readBytes(buf, 0, count);
 	
-	iRecSize=size;
+	Palm.DmReleaseRecord(iDmRef, iRecPos, false);
+
+	if(Palm.DmRemoveRecord(iDmRef, iRecPos) !=0){
+	    errString = "DmRemoveRecord";
+	   return false;
+	}
+
+	ShortHolder iPos=new ShortHolder((short)iRecPos);
+	iRecH=Palm.DmNewRecord(iDmRef, iPos, size);
+	if(iRecH==0){
+	    errString = "DmNewRecord";
+	   _recordPos=-1;
+	   return false;
+	}
+
+	_recordPos = iRecPos;
+	iRecSize=Palm.MemHandleSize(iRecH);
+
+	writeBytes(buf, 0, count);
+	*/
+
 	flgCurRecModified=true;
 	
 	return true;
@@ -286,8 +336,13 @@ private void recClose()
    if(_recordPos==-1){
       return;
    }
-   Palm.MemHandleUnlock(iRecH);
-   Palm.DmReleaseRecord(iDmRef, _recordPos, flgCurRecModified);
+   
+   if(iRecPtr != 0 && iRecH != 0){
+       Palm.MemHandleUnlock(iRecH);
+   }
+   if(iRecH != 0){
+       Palm.DmReleaseRecord(iDmRef, _recordPos, flgCurRecModified);
+   }
 
    _recordPos=-1;
    flgCurRecModified=false;
@@ -500,11 +555,13 @@ public boolean setRecordPos(int pos)
       return false;
    }
    if(iDmRef==0){
+       errString = "iDmRef";
       return false;
    }
 
    int iCount=Palm.DmNumRecords(iDmRef);
    if(pos>=iCount){
+       errString = "DmNumRecords";
       return false;
    }
 
@@ -515,12 +572,7 @@ public boolean setRecordPos(int pos)
 		iRecH=Palm.DmGetRecord(iDmRef, pos);
 	}
    if(iRecH==0){
-      return false;
-   }
-
-   iRecPtr=Palm.MemHandleLock(iRecH);
-   if(iRecPtr==0){
-      Palm.DmReleaseRecord(iDmRef, pos, false);
+       errString = "DmQuery/GetRecord";
       return false;
    }
 
@@ -564,6 +616,12 @@ private int _readWriteBytes(byte buf[], int start, int count, boolean isRead)
    }
 
    byte[] bBytes=new byte[count];
+
+   iRecPtr=Palm.MemHandleLock(iRecH);
+   if(iRecPtr==0){
+	   return -1;
+   }
+
    if(isRead){
      //this next line is counting on a new overloaded MemMove method
      //which should be available in Jump2a8 and higher
@@ -585,6 +643,9 @@ private int _readWriteBytes(byte buf[], int start, int count, boolean isRead)
       }
       flgCurRecModified=true;
    }
+
+   Palm.MemHandleUnlock(iRecH);
+   iRecPtr = 0;
 
    iRecOffset+=count;
    return count;
