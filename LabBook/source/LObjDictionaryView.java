@@ -314,7 +314,7 @@ public class LObjDictionaryView extends LabObjectView
 	public void showPage(LabObject obj, boolean edit)
 	{
 		editStatus = edit;
-		lObjView = obj.getPropertyView(this, (LObjDictionary)treeControl.getSelectedParent());
+		lObjView = obj.getView(this, edit, (LObjDictionary)treeControl.getSelectedParent());
 
 		if(lObjView == null){
 		    return;
