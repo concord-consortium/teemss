@@ -676,12 +676,8 @@ public class LabBook
     {	
 		LabObjectPtr retObjPtr = null;
 
-		boolean checkLoaded = false;
-		boolean localCopy = false;
-		if(srcDB == this.db){
-			checkLoaded = true;
-			localCopy = true;
-		}
+		boolean checkSrcLoaded = this.db == srcDB;
+		boolean localCopy = this.db == srcDB && this.db == destDB;
 
 		if(localCopy &&
 		   ((lObjPtr.flags & LabObject.FLAG_LOCKED) != 0)){
@@ -709,7 +705,7 @@ public class LabBook
 
 			// better than load would be to not save it in the loaded vect
 			// then we wouldn't have to release it
-			boolean newObj = getObj(dictPtr, srcDB, checkLoaded);
+			boolean newObj = getObj(dictPtr, srcDB, checkSrcLoaded);
 			LObjDictionary srcDict = (LObjDictionary)dictPtr.obj;
 			if(newObj) dictPtr.obj = null;
 

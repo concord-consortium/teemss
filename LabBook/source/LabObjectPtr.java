@@ -14,6 +14,7 @@ public class LabObjectPtr implements TreeNode
     short objType = -1;
 	short version = -1;
 	short flags = 0;
+	short recId = -1;
 
     LabObject obj = null;
 
