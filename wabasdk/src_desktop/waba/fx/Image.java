@@ -42,7 +42,7 @@ package waba.fx;
 
 import waba.applet.Applet;
 
-
+import ImageUtil;
 
 /**
 
@@ -58,9 +58,12 @@ import waba.applet.Applet;
 
  */
 
+
 public class Image implements ISurface
 
 {
+
+static ImageUtil imageUtil = null;
 
 int width;
 
@@ -83,7 +86,7 @@ java.awt.Image _awtImage;
 public Image(int width, int height)
 
 	{
-
+	if(imageUtil == null) imageUtil = new ImageUtil();
 	this.width = width;
 
 	this.height = height;
@@ -114,6 +117,7 @@ public Image(String path)
 
 	{
 
+	if(imageUtil == null) imageUtil = new ImageUtil();
 	width = 0;
 
 	height = 0;
@@ -390,7 +394,7 @@ private void readBMP(java.io.DataInputStream data, String name)
 
 		}
 
-	int numColors = 1 << bpp;
+	int numColors = 1 << bpp;// it's wrong
 
 	int scanlen = (width * bpp + 7) / 8; // # bytes
 
@@ -421,6 +425,10 @@ private void readBMP(java.io.DataInputStream data, String name)
 		return;
 
 		}
+
+//dima
+	numColors = cmapSize / 4; //4 is size of RGBQUAD structure
+//dima
 
 	int cmap[] = new int[numColors];
 
@@ -504,9 +512,19 @@ private void loadImage(String path)
 
 		{
 
-		try { stream = new java.io.FileInputStream(path); }
-
-		catch (Exception e) {};
+//try load it from jar
+			try{
+				stream = imageUtil.getClass().getResourceAsStream(path);//system icons should be in extra/sys/icons
+				//regular - from root
+			}catch(Exception e){
+				stream = null;
+			}
+			if(stream == null){
+				try { 
+					stream = new java.io.FileInputStream(path); 
+				}catch (Exception e) {}
+				System.out.println("STREAM11 "+stream);
+			}
 
 		}
 

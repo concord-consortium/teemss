@@ -10,6 +10,12 @@ public class Dialog extends waba.ui.Container{
  private int widthBorder = 3;
  private int heightBorder = 3;
  org.concord.waba.extra.event.ActionListener	listener;//dima
+ 
+ public final static  int  DEF_DIALOG = 0;
+ public final static  int  ERR_DIALOG = 1;
+ public final static  int  WARN_DIALOG = 2;
+ public final static  int  INFO_DIALOG = 3;
+ public final static  int  QUEST_DIALOG = 4;
 
  public Dialog(String title){
   	this.title = title;
@@ -30,8 +36,59 @@ public class Dialog extends waba.ui.Container{
 			listener = null;
 		}
 	}
+  public static void showConfirmDialog(org.concord.waba.extra.event.ActionListener l,String title,String message,String []buttonTitles,int messageType){
+  	if(buttonTitles == null) return;
+  	Dialog d = new Dialog(title);
+  	waba.fx.FontMetrics fm = d.getFontMetrics(d.getFont());
+	int messageWidth 	= fm.getTextWidth(message);
+	int titleWidth 		= fm.getTextWidth(title);
+	int bWidth = 0;
+	for(int i = 0; i < buttonTitles.length; i++){
+		bWidth += (fm.getTextWidth(buttonTitles[i]) + 12);
+	}
+	int w = (messageWidth > titleWidth)?messageWidth:titleWidth;
+	if(w < bWidth) w = bWidth;
+	w += 20 + 20;//space + image
+	int bHeight = 20;
+	int mHeight = fm.getHeight();
+	int h = 15 + bHeight + 10 + (10 + mHeight);
+	d.setRect(50,50,w,h);
+	int xButtonCurr = w/2 - bWidth/2;
+	for(int i = 0; i < buttonTitles.length; i++){
+		waba.ui.Button b = new waba.ui.Button(buttonTitles[i]);
+		int bW = fm.getTextWidth(buttonTitles[i]) + 6;
+		b.setRect(xButtonCurr+3,h - 5 - bHeight,bW ,bHeight);
+		xButtonCurr += (bW + 6);
+		d.add(b);
+	}
+	waba.ui.Label label = new waba.ui.Label(message,waba.ui.Label.CENTER);
+	label.setRect(10 + w/2 - messageWidth/2,20,messageWidth,mHeight);
+	d.add(label);
+	String imagePath = "cc_extra/icons/";
+	switch(messageType){
+		default:
+		case DEF_DIALOG:
+		case INFO_DIALOG:
+			imagePath += "InformSmall.bmp";
+			break;
+		case ERR_DIALOG:
+			imagePath += "ErrorSmall.bmp";
+			break;
+		case WARN_DIALOG:
+			imagePath += "WarnSmall.bmp";
+			break;
+		case QUEST_DIALOG:
+			imagePath += "QuestionSmall.bmp";
+			break;
+	}
+	ImagePane ip = new ImagePane(imagePath);
+	ip.setRect(d.widthBorder + 2,17,16,16);
+	d.add(ip);
+	d.addActionListener(l);
+	d.show();
+  }
  
-  public static void showMessageDialog(org.concord.waba.extra.event.ActionListener l,String title,String message,String buttonTitle){
+  public static void showMessageDialog(org.concord.waba.extra.event.ActionListener l,String title,String message,String buttonTitle,int messageType){
   	Dialog d = new Dialog(title);
   	waba.fx.FontMetrics fm = d.getFontMetrics(d.getFont());
 	int messageWidth 	= fm.getTextWidth(message);
@@ -39,7 +96,7 @@ public class Dialog extends waba.ui.Container{
 	int bWidth = fm.getTextWidth(buttonTitle) + 10;
 	int w = (messageWidth > titleWidth)?messageWidth:titleWidth;
 	if(w < bWidth) w = bWidth;
-	w += 20;
+	w += 20 + 20;//space + image
 	int bHeight = 20;
 	int mHeight = fm.getHeight();
 	int h = 15 + bHeight + 10 + (10 + mHeight);
@@ -48,8 +105,28 @@ public class Dialog extends waba.ui.Container{
 	b.setRect(w/2 - bWidth/2,h - 5 - bHeight,bWidth,bHeight);
 	d.add(b);
 	waba.ui.Label label = new waba.ui.Label(message,waba.ui.Label.CENTER);
-	label.setRect(w/2 - messageWidth/2,20,messageWidth,mHeight);
+	label.setRect(10 + w/2 - messageWidth/2,20,messageWidth,mHeight);
 	d.add(label);
+	String imagePath = "cc_extra/icons/";
+	switch(messageType){
+		default:
+		case DEF_DIALOG:
+		case INFO_DIALOG:
+			imagePath += "InformSmall.bmp";
+			break;
+		case ERR_DIALOG:
+			imagePath += "ErrorSmall.bmp";
+			break;
+		case WARN_DIALOG:
+			imagePath += "WarnSmall.bmp";
+			break;
+		case QUEST_DIALOG:
+			imagePath += "QuestionSmall.bmp";
+			break;
+	}
+	ImagePane ip = new ImagePane(imagePath);
+	ip.setRect(d.widthBorder + 2,17,16,16);
+	d.add(ip);
 	d.addActionListener(l);
 	d.show();
   }
@@ -85,7 +162,6 @@ public class Dialog extends waba.ui.Container{
 	g.fillRect(widthBorder,15,width-2*widthBorder,height - 15 - widthBorder);
   	drawBorder(g);
      	drawTitle(g);
-	
  }
  
 	public void show(){
@@ -121,4 +197,16 @@ public class Dialog extends waba.ui.Container{
 	}
   }
 }
-
+public class ImagePane extends waba.ui.Control{
+String imagePath = null;
+	public ImagePane(String path){
+		imagePath = path;
+	}
+	public void onPaint(waba.fx.Graphics g){
+     	try{
+		waba.fx.Image wImage = new waba.fx.Image(imagePath);
+		g.drawImage(wImage,0,0);
+		wImage.free();
+	}catch(Exception e){}
+	}
+}
